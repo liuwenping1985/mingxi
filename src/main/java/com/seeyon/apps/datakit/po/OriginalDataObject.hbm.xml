@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+    <!-- 业务管理配置表 -->
+    <class name="OriginalDataObject" table="OA_YS_enumerate">
+        <id
+                name="id"
+                type="string"
+                column="ID"
+                length="256"
+        >
+        </id>
+
+        <!-- 科目编号 -->
+        <property
+                name="no"
+                column="科目编号"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 科目名称 -->
+        <property
+                name="name"
+                column="科目名称"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 看板状态 -->
+        <property
+                name="level"
+                column="科目级次"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 父ID -->
+        <property
+                name="pId"
+                column="父ID"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 是否停用  -->
+        <property
+                name="enable"
+                column="启停状态"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 栏目 -->
+        <property
+                name="syncStatus"
+                column="同步状态"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 创建人 -->
+        <property
+                name="updateStatus"
+                column="修改状态"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+
+    </class>
+</hibernate-mapping>
