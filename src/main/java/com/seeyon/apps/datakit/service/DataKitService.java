@@ -52,6 +52,7 @@ public class DataKitService {
             Object enumManagerNew = AppContext.getBean("enumManagerNew");
             if (enumManagerNew instanceof EnumManagerImpl) {
                 ((EnumManagerImpl)enumManagerNew).init();
+                ((EnumManagerImpl)enumManagerNew).init();
                 return true;
             }
         } catch (Exception var8) {
@@ -62,6 +63,9 @@ public class DataKitService {
 
     public List<OriginalDataObject> getSourceList() {
         return this.dataKitDao.getOriginalDataList();
+    }
+    public List<OriginalDataObject> getAllSourceList() {
+        return this.dataKitDao.getAllOriginalDataList();
     }
 
     public CtpEnum getRootEnum() throws BusinessException {
@@ -107,7 +111,7 @@ public class DataKitService {
                 addItemList.add(transNew(data));
             }
             data.setSyncStatus("Y");
-            data.setUpdateStatus("Y");
+            data.setUpdateStatus("N");
         }
         //先处理新增加的
         if(!CollectionUtils.isEmpty(addItemList)){
@@ -166,6 +170,10 @@ public class DataKitService {
         List<CtpEnumItem> items = getAllCtpEnumItemList();
         Map<String,CtpEnumItem> itemMap = new HashMap<String, CtpEnumItem>();
         return retData;
+    }
+
+    private List<CtpEnumItem>  deleteAll(){
+        return DBAgent.find("from CtpEnumItem");
     }
 
 
@@ -289,12 +297,12 @@ public class DataKitService {
 
         if (!StringUtils.isEmpty(data.getLevel())) {
             try {
-                item.setLevelNum(Integer.parseInt(data.getLevel()));
-            } finally {
-                item.setLevelNum(1);
+                item.setLevelNum(Integer.parseInt(data.getLevel())-1);
+            } catch(Exception e) {
+                item.setLevelNum(0);
             }
         } else {
-            item.setLevelNum(1);
+            item.setLevelNum(0);
         }
         item.setMetadataId(this.metaId);
         item.setShowvalue(data.getName());

@@ -61,5 +61,28 @@ public class DataKitDao extends HibernateDaoSupport {
         }
         return new ArrayList<OriginalDataObject>();
     }
+    public List<OriginalDataObject> getAllOriginalDataList() {
+        if (!isSet && dataKitSessionFactory != null) {
+            setSessionFacotry(dataKitSessionFactory);
+        }
+        Session session = this.getSessionFactory().openSession();
+        try {
+            String hql = "from OriginalDataObject";
+            Query query = session.createQuery(hql);
+            List<OriginalDataObject> list = query.list();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                try {
+                    session.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return new ArrayList<OriginalDataObject>();
+    }
 }
 

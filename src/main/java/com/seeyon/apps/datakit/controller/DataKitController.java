@@ -31,6 +31,30 @@ public class DataKitController extends BaseController {
         return null;
     }
 
+    public ModelAndView clearAll(HttpServletRequest request, HttpServletResponse response){
+        //获取同步的数据
+        List<OriginalDataObject> dataList = dataKitService.getAllSourceList();
+        for(OriginalDataObject data:dataList){
+            data.setUpdateStatus("N");
+            data.setSyncStatus("N");
+        }
+        dataKitService.saveSourceList(dataList);
+        DataKitSupporter.responseJSON(dataList,response);
+        return null;
+    }
+    public ModelAndView fix(HttpServletRequest request, HttpServletResponse response){
+        //获取同步的数据
+        List<OriginalDataObject> dataList = dataKitService.getAllSourceList();
+        for(OriginalDataObject data:dataList){
+            data.setUpdateStatus("N");
+            data.setSyncStatus("Y");
+        }
+        dataKitService.saveSourceList(dataList);
+        DataKitSupporter.responseJSON(dataList,response);
+        return null;
+    }
+
+
     public ModelAndView showTwoData(HttpServletRequest request, HttpServletResponse response){
 
         try {
