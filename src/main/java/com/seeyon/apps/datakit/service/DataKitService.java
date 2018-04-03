@@ -31,10 +31,33 @@ public class DataKitService {
     private Long orgAccountId = -5511286172445225726L;
     private Long metaId = -4002724650540972121L;
 
+    private boolean isStop = false;
+
+    public boolean isStop() {
+        return isStop;
+    }
+
+    public void setStop(boolean stop) {
+        isStop = stop;
+    }
+
     public DataKitService() {
         ScheduleTread scheduleTread = new ScheduleTread();
         scheduleTread.setDataKitService(this);
-        scheduleTread.start();
+        scheduleTread.schedule();
+    }
+
+    public boolean refresh(){
+        try {
+            Object enumManagerNew = AppContext.getBean("enumManagerNew");
+            if (enumManagerNew instanceof EnumManagerImpl) {
+                ((EnumManagerImpl)enumManagerNew).init();
+                return true;
+            }
+        } catch (Exception var8) {
+            var8.printStackTrace();
+        }
+        return false;
     }
 
     public List<OriginalDataObject> getSourceList() {
@@ -45,6 +68,111 @@ public class DataKitService {
         return this.newEnumDAO.selectById(this.rootEnumId);
     }
 
+    public List<CtpEnumItem> getAllCtpEnumItemList(){
+        try {
+            List<CtpEnumItem> allItems =  newEnumItemDAO.findAll();
+            return allItems;
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<CtpEnumItem>();
+    }
+    public void autoSync(){
+        if(isStop){
+            return;
+        }
+        this.syncFromOutside();
+        this.syncFromOutsideBudge();
+    }
+
+    public Map syncFromOutside(){
+        Map retData = new HashMap();
+        List<OriginalDataObject> dataList = dataKitDao.getOriginalDataList();
+        if(CollectionUtils.isEmpty(dataList)){
+            retData.put("信息","没有数据需要更新");
+            return retData;
+        }
+        List<CtpEnumItem> items = getAllCtpEnumItemList();
+        Map<String,CtpEnumItem> itemValueMap = new HashMap<String, CtpEnumItem>();
+        Map<String,CtpEnumItem> itemOriginalIdMap = new HashMap<String, CtpEnumItem>();
+        initDataMap(items,itemValueMap,itemOriginalIdMap);
+        List<OriginalDataObject> updateDataList = new ArrayList<OriginalDataObject>();
+        List<CtpEnumItem> updateItemList = new ArrayList<CtpEnumItem>();
+        List<CtpEnumItem> addItemList = new ArrayList<CtpEnumItem>();
+        //transNew
+        for(OriginalDataObject data:dataList){
+            if("Y".equals(data.getUpdateStatus())){
+                updateDataList.add(data);
+            }else{
+                addItemList.add(transNew(data));
+            }
+            data.setSyncStatus("Y");
+            data.setUpdateStatus("Y");
+        }
+        //先处理新增加的
+        if(!CollectionUtils.isEmpty(addItemList)){
+            initDataMap(addItemList,itemValueMap,itemOriginalIdMap);
+            Iterator<CtpEnumItem> it = addItemList.iterator();
+            while(it.hasNext()) {
+                CtpEnumItem item = it.next();
+                String pid = "" + item.getExtraAttr("original-pid");
+                CtpEnumItem pid_ = itemOriginalIdMap.get(pid);
+                if (pid_ != null) {
+                    item.setParentId(pid_.getId());
+                }else{
+                    item.setParentId(0L);
+                }
+            }
+            DBAgent.saveAll(addItemList);
+        }
+
+        if(!CollectionUtils.isEmpty(updateDataList)){
+            for(OriginalDataObject data:updateDataList){
+                CtpEnumItem item = itemValueMap.get(data.getNo());
+                if(item == null){
+                    item =   itemOriginalIdMap.get(data.getId());
+                }
+                if(item == null){
+                    continue;
+                }
+                String pid = "" + item.getExtraAttr("original-pid");
+                CtpEnumItem pid_ = itemOriginalIdMap.get(pid);
+                if (pid_ != null) {
+                    item.setParentId(pid_.getId());
+                }else{
+                    item.setParentId(0L);
+                }
+                updateItemList.add(item);
+            }
+            DBAgent.updateAll(updateItemList);
+        }
+        this.saveSourceList(dataList);
+        return retData;
+    }
+    private void initDataMap(List<CtpEnumItem> items,Map<String,CtpEnumItem> itemValueMap,Map<String,CtpEnumItem> itemOriginalIdMap){
+        for(CtpEnumItem enumItem:items){
+            String value = enumItem.getEnumvalue();
+            if(!org.springframework.util.StringUtils.isEmpty(value)&&rootEnumId.equals(enumItem.getRefEnumid())){
+                Object id = enumItem.getExtraAttr("original-id");
+                if(id!=null){
+                    itemOriginalIdMap.put(String.valueOf(id),enumItem);
+                }
+                itemValueMap.put(enumItem.getEnumvalue(),enumItem);
+            }
+        }
+    }
+    public Map syncFromOutsideBudge(){
+        Map retData = new HashMap();
+        List<CtpEnumItem> items = getAllCtpEnumItemList();
+        Map<String,CtpEnumItem> itemMap = new HashMap<String, CtpEnumItem>();
+        return retData;
+    }
+
+
+
+
+
+//以下都是实验方法 不顶用的
     public List<CtpEnumItem> getExistCtpEnumItem() throws BusinessException {
         return this.mockDo();
     }
@@ -76,8 +204,10 @@ public class DataKitService {
                     String pid = "" + item.getExtraAttr("original-pid");
                     Long pid_ = (Long)sourceDataIdMap.get(pid);
                     if (pid != null) {
-                        System.out.println(String.valueOf(pid_));
+                       // System.out.println(String.valueOf(pid_));
                         item.setParentId(pid_);
+                    }else{
+                        item.setParentId(0L);
                     }
                 }
 
@@ -96,25 +226,22 @@ public class DataKitService {
             List<CtpEnumItem> ret = this.transList(dataList);
             Map<String, Long> sourceDataIdMap = new HashMap();
             Iterator var4 = dataList.iterator();
-
             while(var4.hasNext()) {
                 OriginalDataObject data = (OriginalDataObject)var4.next();
                 sourceDataIdMap.put(data.getId(), data.getOaId());
             }
-
             var4 = ret.iterator();
-
             while(var4.hasNext()) {
                 CtpEnumItem item = (CtpEnumItem)var4.next();
                 String pid = "" + item.getExtraAttr("original-pid");
                 Long pid_ = (Long)sourceDataIdMap.get(pid);
                 if (pid != null) {
                     item.setParentId(pid_);
+                }else{
+                    item.setParentId(0L);
                 }
             }
-
             DBAgent.saveAll(ret);
-
             try {
                 Object enumManagerNew = AppContext.getBean("enumManagerNew");
                 if (enumManagerNew instanceof EnumManagerImpl) {
@@ -133,14 +260,12 @@ public class DataKitService {
         List<CtpEnumItem> list = new ArrayList();
         if (!CollectionUtils.isEmpty(dataList)) {
             Iterator var3 = dataList.iterator();
-
             while(var3.hasNext()) {
                 OriginalDataObject data = (OriginalDataObject)var3.next();
-                CtpEnumItem item = this.trans(data);
+                CtpEnumItem item = this.transNew(data);
                 if (item != null) {
                     list.add(item);
                 }
-
                 data.setSyncStatus("Y");
                 if ("Y".equals(data.getUpdateStatus())) {
                     data.setUpdateStatus("N");
@@ -151,10 +276,10 @@ public class DataKitService {
         return list;
     }
 
-    public CtpEnumItem trans(OriginalDataObject data) {
+    public CtpEnumItem transNew(OriginalDataObject data) {
         CtpEnumItem item = new CtpEnumItem();
         item.setName(String.valueOf(this.metaId));
-        item.setDescription("AUTO-IMPORT");
+        //item.setDescription("AUTO-IMPORT");
         item.setEnumvalue(data.getNo());
         if (!"1".equals(data.getEnable()) && !"Y".equals(data.getEnable())) {
             item.setIfuse("N");
@@ -171,7 +296,6 @@ public class DataKitService {
         } else {
             item.setLevelNum(1);
         }
-
         item.setMetadataId(this.metaId);
         item.setShowvalue(data.getName());
         item.setIsRef(0);
@@ -194,16 +318,7 @@ public class DataKitService {
         item.setOrgAccountId(this.orgAccountId);
         item.setRootId(0L);
         item.setState(1);
-        if (data.getId() != null) {
-            try {
-                item.setSortnumber(Long.parseLong(data.getId()) + 10086L);
-            } finally {
-                item.setSortnumber(10086L);
-            }
-        } else {
-            item.setSortnumber(10086L);
-        }
-
+        item.setSortnumber(9998l);
         data.setOaId(item.getId());
         return item;
     }

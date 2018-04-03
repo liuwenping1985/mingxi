@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataKitController extends BaseController {
 
@@ -42,7 +44,6 @@ public class DataKitController extends BaseController {
     public ModelAndView showThreeData(HttpServletRequest request, HttpServletResponse response){
 
         try {
-            EnumManagerImpl impl;
             DataKitSupporter.responseJSON(dataKitService.getExistCtpEnumItem(),response);
         } catch (BusinessException e) {
             e.printStackTrace();
@@ -50,6 +51,34 @@ public class DataKitController extends BaseController {
         return null;
     }
 
+    public ModelAndView refresh(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        boolean ret= dataKitService.refresh();
+        Map<String,String> retData = new HashMap<String,String>();
+        retData.put("刷新结果:",ret?"成功":"失败");
+        DataKitSupporter.responseJSON(retData,response);
+        return null;
+    }
+
+    public ModelAndView syncEnum(HttpServletRequest request, HttpServletResponse response){
+       Map data =  dataKitService.syncFromOutside();
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
+    public ModelAndView stop(HttpServletRequest request, HttpServletResponse response){
+       dataKitService.setStop(true);
+        DataKitSupporter.responseJSON("Stopped",response);
+        return null;
+    }
+    public ModelAndView start(HttpServletRequest request, HttpServletResponse response){
+        dataKitService.setStop(false);
+        DataKitSupporter.responseJSON("Started",response);
+        return null;
+    }
+    public ModelAndView syncBudge(HttpServletRequest request, HttpServletResponse response){
+        Map data =  dataKitService.syncFromOutsideBudge();
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
 
     public ModelAndView gogogo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<CtpEnumItem> itemList = dataKitService.doWorkInOneStep();
