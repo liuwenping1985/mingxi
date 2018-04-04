@@ -74,9 +74,8 @@ public class DataKitDao extends HibernateDaoSupport {
         }
         Session session = this.getSessionFactory().openSession();
         try {
-            String hql = "from DepartmentDataObject where syncStatus = ?";
+            String hql = "from DepartmentDataObject";
             Query query = session.createQuery(hql);
-            query.setString(0, "N");
             List<DepartmentDataObject> list = query.list();
             return list;
         } catch (Exception e) {

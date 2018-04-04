@@ -1,10 +1,15 @@
 package com.seeyon.apps.datakit.po;
 
+
+
 public class BusGetAmountData {
 
-    private String year;
 
-    private String month;
+    private Integer id;
+
+    private Integer year;
+
+    private Integer month;
 
     private String accountId;
 
@@ -12,23 +17,23 @@ public class BusGetAmountData {
 
     private String itemNo;
 
-    private String amount;
+    private Float amount;
 
     private String syncStatus;
 
-    public String getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public String getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(Integer month) {
         this.month = month;
     }
 
@@ -56,11 +61,11 @@ public class BusGetAmountData {
         this.itemNo = itemNo;
     }
 
-    public String getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
@@ -70,5 +75,13 @@ public class BusGetAmountData {
 
     public void setSyncStatus(String syncStatus) {
         this.syncStatus = syncStatus;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

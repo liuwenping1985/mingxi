@@ -19,6 +19,7 @@ import com.seeyon.ctp.util.DBAgent;
 
 import java.util.*;
 
+import com.seeyon.ctp.util.UUIDLong;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -88,6 +89,12 @@ public class DataKitService {
         }
         this.syncFromOutside();
         this.syncFromOutsideBudge();
+    }
+
+    public List<Formmain0230Data> showFormmain0230(){
+
+        return DBAgent.find("from Formmain0230Data");
+
     }
 
     public Map syncFromOutside(){
@@ -191,7 +198,7 @@ public class DataKitService {
         List<Formmain0230Data>datalistall = new ArrayList<Formmain0230Data>();
         for (BusGetAmountData data:busgetList){
             Formmain0230Data formData = new Formmain0230Data();
-            formData.setIdIfNew();
+            formData.setId(UUIDLong.longUUID());
             String accountId = data.getAccountId();
             String deptId = data.getDepartmentId();
             if(StringUtils.isEmpty(accountId)||StringUtils.isEmpty(deptId)){
@@ -207,14 +214,14 @@ public class DataKitService {
             formData.setRatifyFlag(0);
             formData.setModifyDate(new Date());
             formData.setModifyMemberId("-1578261713210163012");
-            formData.setField0001(Integer.parseInt(data.getYear())+0d);
-            formData.setField0002(Integer.parseInt(data.getMonth())+0d);
+            formData.setField0001(data.getYear()+0d);
+            formData.setField0002(data.getMonth()+0d);
             CtpEnumItem item = itemMap.get(data.getItemNo());
             if(item == null){
                 continue;
             }
             formData.setField0003(String.valueOf(item.getId()));
-            formData.setField0008(Double.parseDouble(data.getAmount()));
+            formData.setField0008(data.getAmount()+0d);
             DepartmentDataObject account =  deptMap.get(data.getAccountId());
             if(account==null||StringUtils.isEmpty(account.getOaId())){
                 continue;

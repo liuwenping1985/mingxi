@@ -8,8 +8,9 @@
     <class name="Formmain0230Data" table="formmain_0230">
         <id
                 name="id"
-                type="java.lang.Long"
+                type="long"
                 column="ID"
+                length="20"
         >
         </id>
 
@@ -17,21 +18,23 @@
         <property
                 name="state"
                 column="state"
-                type="java.lang.Integer"
+                type="integer"
                 not-null="false"
+                length="11"
         />
         <!-- 月 -->
         <property
                 name="startMemberId"
                 column="start_member_id"
-                type="java.lang.String"
+                type="string"
                 not-null="false"
+                length="256"
         />
         <!-- 单位ID -->
         <property
                 name="startDate"
                 column="start_date"
-                type="date"
+                type="timestamp"
                 not-null="false"
                 length="256"
         />
@@ -46,20 +49,22 @@
         <property
                 name="approveDate"
                 column="approve_date"
-                type="date"
+                type="timestamp"
                 not-null="false"
         />
         <property
                 name="finishedFlag"
                 column="finishedflag"
-                type="java.lang.Integer"
+                type="integer"
                 not-null="false"
+                length="11"
         />
         <property
                 name="ratifyFlag"
                 column="ratifyflag"
-                type="java.lang.Integer"
+                type="integer"
                 not-null="false"
+                length="11"
         />
         <property
                 name="ratifyMemberId"
@@ -72,14 +77,15 @@
         <property
                 name="ratifyDate"
                 column="ratify_date"
-                type="date"
+                type="timestamp"
                 not-null="false"
         />
         <property
                 name="sort"
                 column="sort"
-                type="java.lang.Integer"
+                type="integer"
                 not-null="false"
+                length="11"
         />
         <property
                 name="modifyMemberId"
@@ -91,21 +97,23 @@
         <property
                 name="modifyDate"
                 column="modify_date"
-                type="date"
+                type="timestamp"
                 not-null="false"
         />
         <!-- 金额 -->
         <property
                 name="field0001"
                 column="field0001"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0002"
                 column="field0002"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0003"
@@ -117,52 +125,58 @@
         <property
                 name="field0004"
                 column="field0004"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0005"
                 column="field0005"
-                type="java.lang.String"
+                type="string"
                 not-null="false"
                 length="510"
         />
         <property
                 name="field0006"
                 column="field0006"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0007"
                 column="field0007"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0008"
                 column="field0008"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0009"
                 column="field0009"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
         <property
                 name="field0010"
                 column="field0010"
-                type="java.lang.String"
+                type="string"
                 not-null="false"
                 length="510"
         />
         <property
                 name="field0011"
                 column="field0011"
-                type="java.lang.Double"
+                type="double"
                 not-null="false"
+                length="11"
         />
 
     </class>
