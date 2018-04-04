@@ -5,67 +5,56 @@
 
 <hibernate-mapping package="com.seeyon.apps.datakit.po">
     <!-- 业务管理配置表 -->
-    <class name="BusGetAmountData" table="OA_YS_busget">
+    <class name="DepartmentDataObject" table="OA_YS_department">
         <id
                 name="id"
-                type="java.lang.Integer"
+                type="java.lang.String"
                 column="ID"
+                length="256"
         >
         </id>
 
         <!-- 年 -->
         <property
-                name="year"
-                column="年"
-                type="java.lang.Integer"
+                name="oaId"
+                column="OA_ID"
+                type="java.lang.String"
                 not-null="false"
+                length="256"
         />
         <!-- 月 -->
         <property
-                name="month"
-                column="月"
-                type="java.lang.Integer"
+                name="oaName"
+                column="OA_NAME"
+                type="java.lang.String"
                 not-null="false"
+                length="256"
         />
         <!-- 单位ID -->
         <property
-                name="accountId"
-                column="单位ID"
+                name="ysId"
+                column="YS_ID"
                 type="string"
                 not-null="false"
                 length="256"
         />
         <!-- 部门ID -->
         <property
-                name="departmentId"
-                column="部门ID"
+                name="ysName"
+                column="YS_NAME"
                 type="string"
                 not-null="false"
                 length="256"
         />
         <!-- 科目编号  -->
         <property
-                name="itemNO"
-                column="科目编号"
+                name="type"
+                column="TYPE"
                 type="string"
                 not-null="false"
                 length="256"
         />
-        <!-- 金额 -->
-        <property
-                name="amount"
-                column="月初预算金额"
-                type="java.lang.Double"
-                not-null="false"
-        />
-        <!-- 创建人 -->
-        <property
-                name="syncStatus"
-                column="同步状态"
-                type="string"
-                not-null="false"
-                length="256"
-        />
+
 
     </class>
 </hibernate-mapping>

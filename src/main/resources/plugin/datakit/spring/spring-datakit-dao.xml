@@ -29,6 +29,8 @@
 		<property name="mappingResources">
 			<list>
 				<value>com/seeyon/apps/datakit/po/OriginalDataObject.hbm.xml</value>
+				<value>com/seeyon/apps/datakit/po/BusGetAmountData.hbm.xml</value>
+				<value>com/seeyon/apps/datakit/po/DepartmentDataObject.hbm.xml</value>
 			</list>
 		</property>
 

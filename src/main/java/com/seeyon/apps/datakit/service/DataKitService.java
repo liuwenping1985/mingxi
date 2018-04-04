@@ -2,6 +2,9 @@
 package com.seeyon.apps.datakit.service;
 
 import com.seeyon.apps.datakit.dao.DataKitDao;
+import com.seeyon.apps.datakit.po.BusGetAmountData;
+import com.seeyon.apps.datakit.po.DepartmentDataObject;
+import com.seeyon.apps.datakit.po.Formmain0230Data;
 import com.seeyon.apps.datakit.po.OriginalDataObject;
 import com.seeyon.apps.datakit.vo.ScheduleTread;
 import com.seeyon.ctp.common.AppContext;
@@ -13,11 +16,9 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnum;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.util.DBAgent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -150,6 +151,8 @@ public class DataKitService {
             }
             DBAgent.updateAll(updateItemList);
         }
+        retData.put("新增:",addItemList);
+        retData.put("更新:",updateItemList);
         this.saveSourceList(dataList);
         return retData;
     }
@@ -167,11 +170,76 @@ public class DataKitService {
     }
     public Map syncFromOutsideBudge(){
         Map retData = new HashMap();
+        List<BusGetAmountData> busgetList = dataKitDao.getBusGetAmountData();
+        if(CollectionUtils.isEmpty(busgetList)){
+            return retData;
+        }
+        List<DepartmentDataObject> departmentDataObjectList = dataKitDao.getDepartmentData();
         List<CtpEnumItem> items = getAllCtpEnumItemList();
         Map<String,CtpEnumItem> itemMap = new HashMap<String, CtpEnumItem>();
+        for(CtpEnumItem item:items){
+            itemMap.put(item.getEnumvalue(),item);
+        }
+        Map<String,DepartmentDataObject> deptMap = new HashMap<String, DepartmentDataObject>();
+        for(DepartmentDataObject dept:departmentDataObjectList){
+            String ysId = dept.getYsId();
+            if(org.springframework.util.StringUtils.isEmpty(ysId)){
+                continue;
+            }
+            deptMap.put(dept.getYsId(),dept);
+        }
+        List<Formmain0230Data>datalistall = new ArrayList<Formmain0230Data>();
+        for (BusGetAmountData data:busgetList){
+            Formmain0230Data formData = new Formmain0230Data();
+            formData.setIdIfNew();
+            String accountId = data.getAccountId();
+            String deptId = data.getDepartmentId();
+            if(StringUtils.isEmpty(accountId)||StringUtils.isEmpty(deptId)){
+                continue;
+            }
+            formData.setStartMemberId("-1578261713210163012");
+            formData.setStartDate(new Date());
+            formData.setApproveMemberId("0");
+            formData.setApproveDate(new Date());
+            formData.setState(1);
+            formData.setFinishedFlag(0);
+            formData.setRatifyMemberId("0");
+            formData.setRatifyFlag(0);
+            formData.setModifyDate(new Date());
+            formData.setModifyMemberId("-1578261713210163012");
+            formData.setField0001(Integer.parseInt(data.getYear())+0d);
+            formData.setField0002(Integer.parseInt(data.getMonth())+0d);
+            CtpEnumItem item = itemMap.get(data.getItemNo());
+            if(item == null){
+                continue;
+            }
+            formData.setField0003(String.valueOf(item.getId()));
+            formData.setField0008(Double.parseDouble(data.getAmount()));
+            DepartmentDataObject account =  deptMap.get(data.getAccountId());
+            if(account==null||StringUtils.isEmpty(account.getOaId())){
+                continue;
+            }
+            formData.setField0005(account.getOaId());
+            DepartmentDataObject dept =  deptMap.get(data.getDepartmentId());
+            if(dept==null||StringUtils.isEmpty(dept.getOaId())){
+                continue;
+            }
+            formData.setField0010(dept.getOaId());
+            datalistall.add(formData);
+            data.setSyncStatus("Y");
+        }
+        DBAgent.saveAll(datalistall);
+        dataKitDao.saveOriginalDataObjectList2(busgetList);
         return retData;
     }
-
+    public Map getBuget(){
+        List<BusGetAmountData> busgetList = dataKitDao.getBusGetAmountData();
+        List<DepartmentDataObject> departmentDataObjectList = dataKitDao.getDepartmentData();
+        Map data = new HashMap();
+        data.put("busget",busgetList);
+        data.put("dept",departmentDataObjectList);
+        return data;
+    }
     private List<CtpEnumItem>  deleteAll(){
         return DBAgent.find("from CtpEnumItem");
     }

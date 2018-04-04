@@ -88,6 +88,16 @@ public class DataKitController extends BaseController {
         DataKitSupporter.responseJSON(data,response);
         return null;
     }
+    public ModelAndView syncBusget(HttpServletRequest request, HttpServletResponse response){
+        Map data =  dataKitService.syncFromOutsideBudge();
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
+    public ModelAndView info(HttpServletRequest request, HttpServletResponse response){
+        Map data =  dataKitService.getBuget();
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
     public ModelAndView stop(HttpServletRequest request, HttpServletResponse response){
        dataKitService.setStop(true);
         DataKitSupporter.responseJSON("Stopped",response);
