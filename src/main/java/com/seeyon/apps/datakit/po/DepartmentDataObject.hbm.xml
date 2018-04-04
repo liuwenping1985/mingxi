@@ -8,7 +8,7 @@
     <class name="DepartmentDataObject" table="OA_YS_department">
         <id
                 name="id"
-                type="java.lang.String"
+                type="string"
                 column="ID"
                 length="256"
         >
@@ -18,7 +18,7 @@
         <property
                 name="oaId"
                 column="OA_ID"
-                type="java.lang.String"
+                type="string"
                 not-null="false"
                 length="256"
         />
@@ -26,7 +26,7 @@
         <property
                 name="oaName"
                 column="OA_NAME"
-                type="java.lang.String"
+                type="string"
                 not-null="false"
                 length="256"
         />
@@ -48,7 +48,7 @@
         />
         <!-- 科目编号  -->
         <property
-                name="type"
+                name="unit"
                 column="TYPE"
                 type="string"
                 not-null="false"

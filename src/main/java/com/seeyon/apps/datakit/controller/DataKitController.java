@@ -98,6 +98,11 @@ public class DataKitController extends BaseController {
         DataKitSupporter.responseJSON(data,response);
         return null;
     }
+    public ModelAndView info2(HttpServletRequest request, HttpServletResponse response){
+        List data =  dataKitService.showFormmain0230();
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
     public ModelAndView stop(HttpServletRequest request, HttpServletResponse response){
        dataKitService.setStop(true);
         DataKitSupporter.responseJSON("Stopped",response);

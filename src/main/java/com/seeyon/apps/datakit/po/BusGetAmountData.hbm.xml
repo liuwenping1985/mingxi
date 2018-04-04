@@ -8,8 +8,9 @@
     <class name="BusGetAmountData" table="OA_YS_busget">
         <id
                 name="id"
-                type="java.lang.Integer"
+                type="integer"
                 column="ID"
+                length="11"
         >
         </id>
 
@@ -17,15 +18,17 @@
         <property
                 name="year"
                 column="年"
-                type="java.lang.Integer"
+                type="integer"
                 not-null="false"
+                length="11"
         />
         <!-- 月 -->
         <property
                 name="month"
                 column="月"
-                type="java.lang.Integer"
+                type="integer"
                 not-null="false"
+                length="11"
         />
         <!-- 单位ID -->
         <property
@@ -38,14 +41,14 @@
         <!-- 部门ID -->
         <property
                 name="departmentId"
-                column="部门ID"
+                column="部ID"
                 type="string"
                 not-null="false"
                 length="256"
         />
         <!-- 科目编号  -->
         <property
-                name="itemNO"
+                name="itemNo"
                 column="科目编号"
                 type="string"
                 not-null="false"
@@ -55,8 +58,9 @@
         <property
                 name="amount"
                 column="月初预算金额"
-                type="java.lang.Double"
+                type="float"
                 not-null="false"
+                length="11"
         />
         <!-- 创建人 -->
         <property

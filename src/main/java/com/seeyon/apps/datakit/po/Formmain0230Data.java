@@ -1,10 +1,8 @@
 package com.seeyon.apps.datakit.po;
 
-import com.seeyon.ctp.common.po.BasePO;
-
 import java.util.Date;
 
-public class Formmain0230Data extends BasePO implements Comparable<Formmain0230Data>  {
+public class Formmain0230Data {
 
     private Long id;
     private Integer state;
