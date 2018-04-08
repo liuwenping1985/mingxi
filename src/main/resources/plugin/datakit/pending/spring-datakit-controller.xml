@@ -6,6 +6,7 @@
 		<property name="dataKitAffairService" ref="dataKitAffairService" />
 		<property name="orgManager" ref="orgManager" />
 		<property name="memberManager" ref="memberManager" />
+		<property name="principalManager" ref="principalManager" />
 	</bean>
 	<!--<bean name="/edocDB.do" class="com.seeyon.apps.zdgjedoc.controller.EDocDBController">-->
 	<!--</bean>-->

@@ -7,7 +7,8 @@ public class AppsPendingData {
     //1、到期清除 2 点击后清除
     private int showMode;
     private String orgName;
-    private String userLoginName;
+    private String receiverName;
+    private String senderName;
     private String linkAddress;
 
     public String getSubject() {
@@ -34,12 +35,20 @@ public class AppsPendingData {
         this.orgName = orgName;
     }
 
-    public String getUserLoginName() {
-        return userLoginName;
+    public String getReceiverName() {
+        return receiverName;
     }
 
-    public void setUserLoginName(String userLoginName) {
-        this.userLoginName = userLoginName;
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 
     public String getLinkAddress() {
