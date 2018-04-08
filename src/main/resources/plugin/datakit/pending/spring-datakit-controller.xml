@@ -4,6 +4,8 @@
 <beans default-autowire="byName">
 	<bean name="/datakit/outaffair.do" class="com.seeyon.apps.datakit.controller.DataKitAffairController">
 		<property name="dataKitAffairService" ref="dataKitAffairService" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="memberManager" ref="memberManager" />
 	</bean>
 	<!--<bean name="/edocDB.do" class="com.seeyon.apps.zdgjedoc.controller.EDocDBController">-->
 	<!--</bean>-->
