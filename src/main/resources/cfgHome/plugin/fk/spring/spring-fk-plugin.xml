@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="dataSource-FK"
+		class="com.seeyon.v3x.dbpool.datasource.DataSourceConProvider"
+		abstract="false" singleton="true"
+		lazy-init="default" autowire="default" dependency-check="default">
+		<property name="configProperties">
+			<props>
+				<prop key="driverClassName">${fk.db.driverClassName}</prop>	             	
+				<prop key="url">${fk.db.url}</prop>
+				<prop key="username">${fk.db.username}</prop>
+				<prop key="password">${fk.db.password}</prop>
+				<prop key="minCount">0</prop>
+				<prop key="maxCount">100</prop>
+			</props>
+		</property>
+		<property name="name" value="FK" />
+	</bean>
+	<bean id="sessionFactory-FK"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource-FK" />
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/seeyon/ctp/common/po/affair/CtpAffair.hbm.xml</value>
+				<value>com/seeyon/apps/collaboration/po/ColSummary.hbm.xml</value>
+				<value>com/seeyon/ctp/common/po/comment/CtpCommentAll.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/ProcessInRunningDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/CaseRunDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/HisCaseRunDAO.hbm.xml</value>
+                <value>com/seeyon/ctp/workflow/po/HistoryCaseRunDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/WorkitemDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/HistoryWorkitemDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/ProcessInRunningBLOBDAO.hbm.xml</value>
+                <value>com/seeyon/ctp/workflow/po/CaseRunBLOBDAO.hbm.xml</value>
+                <value>com/seeyon/ctp/workflow/po/HisCaseRunBLOBDAO.hbm.xml</value>
+                <value>com/seeyon/ctp/workflow/po/HistoryCaseRunBLOBDAO.hbm.xml</value>
+                <value>com/seeyon/ctp/workflow/po/WorkitemBLOBDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/HistoryWorkitemBLOBDAO.hbm.xml</value>
+				<value>com/seeyon/ctp/workflow/po/SubProcessRunning.hbm.xml</value>
+				<value>com/seeyon/ctp/common/po/content/CtpContentAll.hbm.xml</value>
+				<value>com/seeyon/ctp/common/po/processlog/ProcessLog.hbm.xml</value>
+				<value>com/seeyon/ctp/common/po/processlog/his/HisProcessLog.hbm.xml</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${fk.db.hibernateDialect}
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="transactionManager-FK"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory-FK" />
+		</property>
+	</bean>
+
+	<bean id="baseTxService-FK"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		abstract="true">
+		<property name="transactionManager" ref="transactionManager-FK" />
+		<property name="proxyTargetClass" value="true" />
+
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/workflow/simulation.do" 
+        class="com.seeyon.ctp.workflow.simulation.controller.SimulationController" >
+    </bean>
+    <!-- <bean name="/workflow/simulationReport.do" 
+        class="com.seeyon.ctp.workflow.simulation.controller.SimulationReportController" >
+    </bean> -->
+</beans>

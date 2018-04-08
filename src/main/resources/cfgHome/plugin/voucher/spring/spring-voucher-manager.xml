@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="archivesMapperManager" class="com.seeyon.apps.voucher.manager.ArchivesMapperManagerImpl" ></bean>
+    <bean id="baseVoucherManager" class="com.seeyon.apps.voucher.manager.BaseVoucherManager"></bean>
+    <bean id="accountCfgManager" class="com.seeyon.apps.voucher.manager.AccountCfgManagerImpl" ></bean>
+    <bean id="deptMapperManager" class="com.seeyon.apps.voucher.manager.DeptMapperManagerImpl" ></bean>
+    <bean id="subjectMapperManager" class="com.seeyon.apps.voucher.manager.SubjectMapperManagerImpl" ></bean>
+    <bean id="memberMapperManager" class="com.seeyon.apps.voucher.manager.MemberMapperManagerImpl" ></bean>
+	<bean id="formDataMapperManager" class="com.seeyon.apps.voucher.manager.FormDataMapperManagerImpl"></bean>
+	<bean id="voucherManager" class="com.seeyon.apps.voucher.manager.VoucherManagerImpl"></bean>
+	<bean id="voucherLogManager" class="com.seeyon.apps.voucher.manager.VoucherLogManagerImpl"></bean>
+	<bean id="userMapperManager" class="com.seeyon.apps.voucher.manager.UserMapperManagerImpl"></bean>
+	<bean id="voucherInfoManager" class="com.seeyon.apps.voucher.manager.voucherInfoManagerImpl"></bean>
+</beans>

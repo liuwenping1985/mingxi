@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<!-- 全部采用@AjaxAccess注解方式，此内容废除
+	<bean>
+		<serviceName>showbarInfoManager</serviceName>
+		<operations>
+			<op>findShowbarCarouselList</op>
+			<op>checkName</op>
+		</operations>
+	</bean>
+	 <bean>
+        <serviceName>showpostInfoManager</serviceName>
+        <operations>
+            <op>getShowpostInfoId</op>
+        </operations>
+    </bean>
+    <bean>
+		<serviceName>showPostReplyManager</serviceName>
+		<operations>
+			<op>addNewReply</op>
+			<op>deleteReply</op>
+			<op>findReplyList</op>
+			<op>findDirectReply</op>
+			<op>getCurrentPageReplyById</op>
+			<op>getShowReplyNum</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>showPraiseManager</serviceName>
+		<operations>
+			<op>addNewPraise</op>
+			<op>findShowPraise</op>
+			<op>deletePraise</op>
+			<op>getShowPraise</op>
+			<op>getShowPraiseNum</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>showManager</serviceName>
+		<operations>
+			<op>deleteShowpostById</op>
+			<op>updateShowpostSettop</op>
+			<op>getShowpostVOById</op>
+		</operations>
+	</bean> 
+	-->
+</beans>

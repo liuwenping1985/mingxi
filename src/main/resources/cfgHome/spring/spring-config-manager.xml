@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="true">
+	<bean id="configDAO"  class="com.seeyon.ctp.common.config.dao.ConfigDAOImpl"/>
+	<bean id="configManager" class="com.seeyon.ctp.common.config.manager.ConfigManagerImpl" init-method="init">
+	   <property name="configDao" ref="configDAO" />
+	</bean>
+
+	<bean id="systemConfig" class="com.seeyon.ctp.common.config.SystemConfig" singleton="true"
+		init-method="init" depends-on="configManager">
+		<property name="defaultValue">
+			<map>
+				<entry key="verify_code" value="disable" />
+				<entry key="SMS_hint" value="enable" />
+				<entry key="attach_encrypt" value="no" />
+				<entry key="rss_enable" value="disable" />
+				<entry key="muchOrg_enable" value="disable" />
+				<entry key="edoc_enable" value="enable" />
+				<entry key="read_state_enable" value="disable" />
+				<entry key="level_state_enable" value="enable" />
+				<entry key="log_deadline_login" value="3" />
+				<entry key="log_deadline_app" value="12" />
+				<entry key="pwd_expiration_time" value="90" />
+				<entry key="user_login_count" value="5" />
+				<entry key="forbidden_login_time" value="24" />
+				<entry key="pwd_strength_validation_enable" value="enable" />
+				<entry key="card_enable" value="disable" />
+				<entry key="ip_control_enable" value="disable" />
+				<entry key="blog_enable" value="enable" />
+				<entry key="office_transform_enable" value="disable" />
+				<entry key="login_page" value="/login.jsp" />
+				<entry key="frame_page" value="/frame.jsp" />
+				<entry key="frame_page" value="/frame.jsp" />
+				<entry key="group_priv_type" value="false" />
+				<entry key="pwd_strong_require" value="weak" />
+				<entry key="pwdmodify_force_enable" value="disable" />
+				<entry key="pwdmodify_same_enable" value="enable" />
+				<entry key="initPassword" value="123456" />
+				<entry key="default_avatar" value="disable"/>
+				<entry key="allow_update_avatar" value="enable"/>
+				<entry key="allow_group_edit_account" value="enable"/>
+				<entry key="salary_enable" value="enable" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

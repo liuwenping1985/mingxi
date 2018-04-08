@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="rssChannelManager" class="com.seeyon.apps.rss.manager.RssChannelManagerImpl" init-method="initMethod" />
+	<bean id="rssManager" class="com.seeyon.apps.rss.manager.RssManagerImpl" />
+	<bean id="rssFontPageManager" class="com.seeyon.apps.rss.manager.RssFontPageManagerImpl" />
+</beans>

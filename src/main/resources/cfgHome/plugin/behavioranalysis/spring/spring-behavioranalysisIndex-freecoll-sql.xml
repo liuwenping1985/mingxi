@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!--自由协同部门指标 -->
+	<bean id="freeCollaborationDepartment" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="部门自由协同"></property>
+		<property name="po"
+			value="com.seeyon.apps.dashboard.po.RptFreeCollaborationIndex"></property>
+		<property name="type">
+			<map>
+				<entry key="orgType" value="department"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="发起数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												u.id as orgid,
+												r.sendnum as sendnum
+											FROM
+												org_unit u
+											LEFT JOIN (
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													COUNT(s.id)AS sendnum
+												FROM
+													col_summary s
+												LEFT JOIN ctp_affair a ON s.ID = a.OBJECT_ID
+												left join org_member m on m.id=s.start_member_id
+												WHERE
+													s.TEMPLETE_ID IS NULL
+												AND s.create_date BETWEEN :startTime AND :endTime
+												AND a.state IN(2)
+												and m.IS_DELETED = 0
+												AND m. state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+												and m.is_internal=1
+												GROUP BY
+													m.ORG_DEPARTMENT_ID
+											)r on u.id=r.orgid
+											where 
+												u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.orgDepartmentId as orgid,count(ca.id) as receivenum) FROM CtpAffair ca,OrgMember om,OrgUnit u WHERE u.id=om.orgDepartmentId and ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1 AND ca.state in (3,4)  AND ca.receiveTime BETWEEN :startTime AND :endTime and u.deleted=0	and u.enable=1 and u.internal=1 GROUP BY om.orgDepartmentId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="处理次数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+										SELECT new map(om.orgDepartmentId as orgid,count(ca.id) as handlenum) FROM CtpAffair ca,OrgMember om,OrgUnit u WHERE u.id=om.orgDepartmentId and ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4  AND ca.completeTime BETWEEN :startTime AND :endTime and u.deleted=0	and u.enable=1 and u.internal=1  GROUP BY om.orgDepartmentId
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="平均处理时长"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.orgDepartmentId as orgid,max(ca.runWorktime) as handlemaxtime,min(ca.runWorktime) as handlemintime,sum(ca.runWorktime) as handlesumtime,avg(ca.runWorktime) as handleavgtime ) FROM CtpAffair ca,OrgMember om,OrgUnit u WHERE u.id=om.orgDepartmentId and ca.memberId = om.id and om.deleted=0 and om.internal=1 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4 AND ca.completeTime BETWEEN :startTime AND :endTime and u.deleted=0	and u.enable=1 and u.internal=1 GROUP BY om.orgDepartmentId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="获得赞数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.orgDepartmentId as orgid,count(s.id) as receivelikenum) FROM ColSummary s,CtpCommentAll cca,OrgMember om,CtpAffair a,OrgUnit u WHERE u.id=om.orgDepartmentId and s.id = cca.moduleId and om.id=a.senderId and om.deleted=0 and om.internal=1 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and a.objectId=s.id and a.state in(2) AND s.templeteId is null AND cca.ctype = 0 AND cca.praiseToSummary = 1 AND s.createDate BETWEEN :startTime AND :endTime and u.deleted=0	and u.enable=1 and u.internal=1 GROUP BY om.orgDepartmentId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期处理次数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.orgDepartmentId as orgid,count(ca.id) as overhandlenum) FROM CtpAffair ca,OrgMember om,OrgUnit u WHERE u.id=om.orgDepartmentId and ca.memberId = om.id and om.deleted=0 and om.internal=1 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4 AND ca.coverTime = 1 AND ca.completeTime BETWEEN :startTime AND :endTime and u.deleted=0	and u.enable=1 and u.internal=1 GROUP BY om.orgDepartmentId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="平均超期时长"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.orgDepartmentId as orgid,max(ca.overWorktime) as overhandlemaxtime,min(ca.overWorktime) as overhandlemintime,sum(ca.overWorktime) as overhandlesumtime,avg(ca.overWorktime) as overhandleavgtime) FROM CtpAffair ca,OrgMember om,OrgUnit u WHERE u.id=om.orgDepartmentId and ca.memberId = om.id and om.deleted=0 and om.internal=1 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 AND ca.templeteId is null AND ca.app = 1 AND ca.state = 4 AND ca.coverTime = 1 AND ca.completeTime BETWEEN :startTime AND :endTime and u.deleted=0 and u.enable=1 and u.internal=1  GROUP BY om.orgDepartmentId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="未处理数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="paramNodes">
+						<list>
+							<value>endTime</value>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT
+												new map(
+													om.orgDepartmentId AS orgid,
+													COUNT(ca.id)AS pendingnum
+												)
+											FROM
+												CtpAffair ca,
+												OrgMember om,
+												OrgUnit u
+											WHERE
+												ca.memberId = om.id
+											and u.id=om.orgDepartmentId
+											AND ca.templeteId IS NULL
+											AND ca.app = 1
+											AND(
+												(
+													ca.receiveTime <=:endTime
+													AND ca.completeTime > :endTime
+												)
+												or(
+													ca.receiveTime <=:endTime
+													and ca.state = 3
+													AND ca.completeTime IS NULL
+												)
+											)
+											and om.deleted = 0
+											AND om.state=1
+											and om.assigned=1
+											and om.enable=1
+											and om.internal=1
+											AND om.orgDepartmentId != - 1
+											and u.deleted=0	
+											and u.enable=1 
+											and u.internal=1
+											GROUP BY
+												om.orgDepartmentId
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期未处理数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="paramNodes">
+						<list>
+							<value>endTime</value>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT
+												new map(
+													om.orgDepartmentId AS orgid,
+													COUNT(ca.id)AS overpendingnum
+												)
+											FROM
+												CtpAffair ca,
+												OrgMember om,
+												OrgUnit u
+											WHERE
+												ca.memberId = om.id
+											and u.id=om.orgDepartmentId
+											AND ca.templeteId IS NULL
+											AND ca.app = 1
+											AND ca.coverTime = 1
+											AND(
+												(
+													ca.receiveTime <=:endTime
+													AND ca.completeTime > :endTime
+												)
+												or(
+													ca.receiveTime <=:endTime
+													and ca.state = 3
+													AND ca.completeTime IS NULL
+												)
+											)
+											and om.deleted = 0
+											AND om.state=1
+											and om.assigned=1
+											and om.enable=1
+											AND om.orgDepartmentId != - 1
+											and u.deleted=0	
+											and u.enable=1 
+											and u.internal=1
+											GROUP BY
+												om.orgDepartmentId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!--自由协同人员指标 -->
+	<bean id="freeCollaborationMember" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="人员自由协同"></property>
+		<property name="po"
+			value="com.seeyon.apps.dashboard.po.RptFreeCollaborationIndex"></property>
+		<property name="type">
+			<map>
+				<entry key="orgType" value="member"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="发起数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT
+												m.id AS orgid,
+												r.sendnum AS sendnum
+											FROM
+												org_member m
+											LEFT JOIN(
+												SELECT
+													s.START_MEMBER_ID AS orgid,
+													COUNT(s.id)AS sendnum
+												FROM
+													col_summary s
+												LEFT JOIN ctp_affair a ON s.ID = a.OBJECT_ID
+												WHERE
+													s.TEMPLETE_ID IS NULL
+												AND s.create_date BETWEEN :startTime AND :endTime
+												AND a.state IN(2)
+												GROUP BY
+													s.START_MEMBER_ID
+											)r ON m.id = r.orgid
+											WHERE
+												m.IS_DELETED = 0
+											AND m. state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and m.is_internal=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.id as orgid,count(ca.id) as receivenum) FROM CtpAffair ca,OrgMember om WHERE ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1  AND ca.state in (3,4) AND ca.receiveTime BETWEEN :startTime AND :endTime GROUP BY om.id 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="处理量  "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.id as orgid,count(ca.id) as handlenum) FROM CtpAffair ca,OrgMember om WHERE ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4 AND ca.completeTime BETWEEN :startTime AND :endTime  GROUP BY om.id 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="平均处理时长  "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.id as orgid,max(ca.runWorktime) as handlemaxtime,min(ca.runWorktime) as handlemintime,sum(ca.runWorktime) as handlesumtime,avg(ca.runWorktime) as handleavgtime ) FROM CtpAffair ca,OrgMember om WHERE ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4 AND ca.completeTime BETWEEN :startTime AND :endTime  GROUP BY om.id 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期处理次数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.id as orgid,count(ca.id) as overhandlenum) FROM CtpAffair ca,OrgMember om WHERE ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4 AND ca.coverTime = 1 AND ca.completeTime BETWEEN :startTime AND :endTime  GROUP BY om.id 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="平均超期时长   "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(om.id as orgid,max(ca.overWorktime) as overhandlemaxtime,min(ca.overWorktime) as overhandlemintime,sum(ca.overWorktime) as overhandlesumtime,avg(ca.overWorktime) as overhandleavgtime) FROM CtpAffair ca,OrgMember om WHERE ca.memberId = om.id and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 AND ca.templeteId is null AND ca.app = 1  AND ca.state = 4 AND ca.coverTime = 1 AND ca.completeTime BETWEEN :startTime AND :endTime  GROUP BY om.id 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="获得赞数   "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT new map(s.startMemberId as orgid,count(s.id) as receivelikenum) FROM ColSummary s,CtpCommentAll cca,OrgMember om,CtpAffair a WHERE s.id = cca.moduleId and om.id=a.senderId and om.deleted=0 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and om.internal=1 and a.objectId=s.id and a.state in(2) AND s.templeteId is null AND cca.ctype = 0 AND cca.praiseToSummary = 1 AND cca.createDate BETWEEN :startTime AND :endTime GROUP BY s.startMemberId 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="点赞数   "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT
+												cca.create_id AS orgid,
+												count(a.id)AS collaborationlikenum
+											FROM
+												Ctp_Comment_All cca,
+												Ctp_Affair a,
+												org_member m
+											WHERE
+												a.object_Id = cca.module_Id
+											AND a.state IN(2)
+											and m.id=cca.create_id
+											and a.APP=1
+											AND a.templete_Id IS NULL
+											AND cca.ctype = 0
+											AND cca.praise_To_Summary = 1
+											AND cca.create_date BETWEEN :startTime AND :endTime
+											and m.IS_DELETED = 0
+											AND m. state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and m.is_internal=1
+											GROUP BY
+												cca.create_id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="未处理数  "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="paramNodes">
+						<list>
+							<value>endTime</value>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT
+												new map(
+													om.id AS orgid,
+													COUNT(ca.id)AS pendingnum
+												)
+											FROM
+												CtpAffair ca,
+												OrgMember om
+											WHERE
+												ca.memberId = om.id
+											AND ca.templeteId IS NULL
+											AND ca.app = 1
+											AND(
+												(
+													ca.receiveTime <=:endTime
+													AND ca.completeTime > :endTime
+												)
+												or(
+													ca.receiveTime <=:endTime
+													and ca.state = 3
+													AND ca.completeTime IS NULL
+												)
+											)
+											and om.deleted=0 
+											and om.state=1 
+											and om.assigned=1
+											and om.enable=1
+											and om.orgDepartmentId!=-1
+											and om.internal=1
+											GROUP BY
+												om.id 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期未处理数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgid"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="paramNodes">
+						<list>
+							<value>endTime</value>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[ 
+											SELECT
+												new map(
+													om.id AS orgid,
+													COUNT(ca.id)AS overpendingnum
+												)
+											FROM
+												CtpAffair ca,
+												OrgMember om
+											WHERE
+												ca.memberId = om.id
+											AND ca.templeteId IS NULL
+											AND ca.app = 1
+											AND ca.coverTime = 1
+											AND(
+												(
+													ca.receiveTime <=:endTime
+													AND ca.completeTime > :endTime
+												)
+												or(
+													ca.receiveTime <=:endTime
+													and ca.state = 3
+													AND ca.completeTime IS NULL
+												)
+											)
+											and om.deleted=0 
+											and om.state=1 
+											and om.assigned=1
+											and om.enable=1
+											and om.orgDepartmentId!=-1
+											and om.internal=1
+											GROUP BY
+												om.id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

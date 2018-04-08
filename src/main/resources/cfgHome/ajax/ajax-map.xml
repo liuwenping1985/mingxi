@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>lbsManager</serviceName>
+		<operations>
+			<op>transSaveAttendanceInfo</op>
+			<op>getAttendanceInfoById</op>
+			<op>modifyAttendanceInfo</op>
+		</operations>
+	</bean>
+</beans>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>formtalk</id>
+	<name>Formtalk集成插件</name>
+	<category>20160420</category>
+	<initializer>com.seeyon.apps.formtalk.FormtalkPluginDefintion</initializer>
+</plugin>

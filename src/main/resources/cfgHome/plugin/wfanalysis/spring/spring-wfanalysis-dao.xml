@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="rptWfAnalysisDao" class="com.seeyon.apps.wfanalysis.dao.RptWfAnalysisDaoImpl"></bean>
+	
+	<bean id="rptWfAnalysisNodeDao" class="com.seeyon.apps.wfanalysis.dao.RptWfAnalysisNodeDaoImpl"></bean>
+	
+	<bean id="rptWfAnalysisMemberDao" class="com.seeyon.apps.wfanalysis.dao.RptWfAnalysisMemberDaoImpl"></bean>
+	
+	<bean id="wfAnalysisDao" class="com.seeyon.apps.wfanalysis.dao.WfAnalysisDaoImpl"></bean>
+	
+	<bean id="wfAnalysisAuthDao" class="com.seeyon.apps.wfanalysis.dao.WfAnalysisAuthDaoImpl"></bean>
+	
+	<bean id="wfNodeAnalysisNodeDao" class="com.seeyon.apps.wfanalysis.dao.WfNodeAnalysisNodeDaoImpl"></bean>
+	
+	<bean id="wfMemberAnalysisDao" class="com.seeyon.apps.wfanalysis.dao.WfMemberAnalysisDaoImpl"></bean>
+	
+	<!-- 流程绩效详情页面 -->
+	<bean id="wfanalysisDetailDao" class="com.seeyon.apps.wfanalysis.dao.WfanalysisDetailDaoImpl"></bean>
+</beans>

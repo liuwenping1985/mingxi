@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+<bean>
+        <serviceName>ncBusiBindManager</serviceName>
+        <operations>
+            <op>showBusiBindList</op>
+            <op>viewBusiBind</op>
+            <op>deleteBusiBind</op>
+            <op>createBusiBind</op>
+            <op>addBusiBind</op>
+            <op>getBillTempList</op>
+        </operations>
+    </bean>
+</beans>    

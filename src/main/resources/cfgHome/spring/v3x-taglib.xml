@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/genericController.do" class="com.seeyon.v3x.common.controller.GenericController" />
+	<bean name="/v3xselectPeople.do"
+		class="com.seeyon.v3x.common.selectPeople.SelectPeopleController" />
+	<bean id="searchManager" class="com.seeyon.v3x.common.search.manager.SearchManagerImpl"/>
+	
+	
+    <bean id="securityCheck" class="com.seeyon.v3x.common.security.SecurityCheck">
+        <property name="securityCheckers">
+            <map>
+                <entry key="1">
+                    <bean parent="colSecurityControlManager" />
+                </entry>
+                <entry key="2">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlFormImpl"></bean>
+                </entry>
+                <entry key="4">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlEdocImpl"></bean>
+                </entry>
+            </map>
+        </property>
+    </bean>	
+    <bean id="colSecurityControlManager" class="com.seeyon.v3x.common.security.SecurityControlColImpl"/>
+
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<gke>
+		<host mark="{VE}" desc="GKE服务器地址，如：192.168.1.1"></host>
+		<post mark="{int}{VE}" desc="GKE服务器端口，如：8900">8900</post>
+		<timeOut mark="{int}{VE}" desc="GKE连接超时：单位毫秒">60000</timeOut>
+		<synTime desc="GKE定时初始时间">10</synTime>
+		<defaultSend mark="{boolean}{VE}" desc="默认是否发送，如果为false，则个人需要在“个人设置-消息提示设置”中进行配置">false</defaultSend>
+		<identification mark="{boolean}{VE}" desc="是否支持身份验证狗，默认为false，如果在启用身份验证狗插件的情况下，从GKE单点登录到OA需要支持身份验证狗时，则需要把此项设置为true">false</identification>
+		<modify>
+			<password mark="{boolean}{VE}" desc="是否允许同步修改GKE密码（包括个人修改，管理员修改），默认设置为修改，值为true">true</password>
+		</modify>
+	</gke>
+</ctpConfig>

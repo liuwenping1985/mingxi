@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="autoApplyDao" class="com.seeyon.apps.office.dao.AutoApplyDaoImpl" />
+	
+	<bean id="autoCategoryDao" class="com.seeyon.apps.office.dao.AutoCategoryDaoImpl" />
+	
+	<bean id="autoDriverDao" class="com.seeyon.apps.office.dao.AutoDriverDaoImpl" />
+	
+	<bean id="autoInfoDao" class="com.seeyon.apps.office.dao.AutoInfoDaoImpl" />
+	
+	<bean id="autoAuditDao" class="com.seeyon.apps.office.dao.AutoAuditDaoImpl" />
+	
+	<bean id="autoIllegalDao" class="com.seeyon.apps.office.dao.AutoIllegalDaoImpl"/>
+	
+	<bean id="autoRepairDao" class="com.seeyon.apps.office.dao.AutoRepairDaoImpl"/>
+	
+	<bean id="autoSafetyDao" class="com.seeyon.apps.office.dao.AutoSafetyDaoImpl"/>
+	
+	<bean id="autoInspectionDao" class="com.seeyon.apps.office.dao.AutoInspectionDaoImpl"/>
+	
+	<bean id="autoRemindDao" class="com.seeyon.apps.office.dao.AutoRemindDaoImpl"/>
+	
+	 <bean id="autoStcInfoDao" class="com.seeyon.apps.office.dao.AutoStcInfoDaoImpl"/>
+	
+</beans>

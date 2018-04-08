@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<VoiceDistinguish>
+		<config>
+			<!-- 给每个人员 android客户端授权的最大数 -->
+			<android>
+				<max>5</max>
+				<status>start</status> <!-- 未使用 -->
+			</android>
+			<!-- 给每个人员iphone客户端授权的最大数 -->
+			<iPhone>
+				<max>5</max>
+				<status>start</status> <!-- 未使用 -->
+			</iPhone>
+		</config>
+	</VoiceDistinguish>
+</ctpConfig>

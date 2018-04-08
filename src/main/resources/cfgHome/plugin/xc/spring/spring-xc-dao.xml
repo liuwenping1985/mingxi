@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+	<bean id="xcsyrecordDao" class="com.seeyon.apps.xc.dao.XCsyrecordDaoImp"/>
+	<bean id="synStateDao" class="com.seeyon.apps.xc.dao.SynStateDaoImp"/>
+	<bean id="xcOrgDao" class="com.seeyon.apps.xc.dao.XCOrgDaoImp" singleton="true"/>
+	<bean id="xcRelationShipDao" class="com.seeyon.apps.xc.dao.XCRelationShipDaoImp"/>
+	<bean id="xcChildNumDao" class="com.seeyon.apps.xc.dao.XCChildNumDaoImp"/>
+	<bean id="ctripDataDao" class="com.seeyon.apps.xc.dao.CtripDataDaoImpl" />
+</beans>

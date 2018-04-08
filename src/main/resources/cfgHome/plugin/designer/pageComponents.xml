@@ -1,0 +1,1061 @@
+<page>
+	<pageLayouts>
+		<pagelayout>
+			<id>layout001</id>
+			<name>A1(V56上下布局)</name>
+			<preImage>layout_pat_1</preImage>
+			<layoutSimpleTplName>layout001</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout001/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout001/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout001/frount_56_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout001/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout001/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout001/frount_56.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="harmony">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_red3">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+		<pagelayout>
+			<id>layout002</id>
+			<name>B1(V51左右布局)</name>
+			<preImage>layout_pat_2</preImage>
+			<layoutSimpleTplName>layout002</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout002/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout002/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout002/frount_51_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout002/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout002/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout002/frount_51.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="harmony">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_red3">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+		<pagelayout>
+			<id>layout003</id>
+			<name>C1布局</name>
+			<preImage>layout_pat_3</preImage>
+			<layoutSimpleTplName>layout003</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout003/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout003/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout003/frount_C1_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout003/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout003/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout003/frount_C1.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="tint60">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_blue2">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+		<pagelayout>
+			<id>layout004</id>
+			<name>A2布局</name>
+			<preImage>layout_pat_4</preImage>
+			<layoutSimpleTplName>layout004</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout004/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout004/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout004/frount_A2_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout004/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout004/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout004/frount_A2.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="tint60">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_blue2">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+		<pagelayout>
+			<id>layout005</id>
+			<name>B2布局</name>
+			<preImage>layout_pat_5</preImage>
+			<layoutSimpleTplName>layout005</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout005/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout005/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout005/frount_B2_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout005/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout005/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout005/frount_B2.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="tint60">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_blue2">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+		<pagelayout>
+			<id>layout006</id>
+			<name>C2布局</name>
+			<preImage>layout_pat_6</preImage>
+			<layoutSimpleTplName>layout006</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout006/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout006/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout006/frount_C2_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout006/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout006/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout006/frount_C2.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="tint60">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_blue2">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+		<pagelayout>
+			<id>layout007</id>
+			<name>A3布局</name>
+			<preImage>layout_pat_7</preImage>
+			<layoutSimpleTplName>layout007</layoutSimpleTplName>
+			<designerHtmlPath><![CDATA[/main/frames/pageLayout/layout007/index_designer.html]]></designerHtmlPath>
+			<designerCssPath><![CDATA[/main/frames/pageLayout/layout007/main.css]]></designerCssPath>
+			<designerJsPath><![CDATA[/main/frames/pageLayout/layout007/frount_A3_designer.js]]></designerJsPath>
+			<htmlPath><![CDATA[/main/frames/pageLayout/layout007/index.jsp]]></htmlPath>
+			<cssPath><![CDATA[/main/frames/pageLayout/layout007/main.css]]></cssPath>
+			<jsPath><![CDATA[/main/frames/pageLayout/layout007/frount_A3.js]]></jsPath>
+			<themePath><![CDATA[/main/skin/frame/default/]]></themePath>
+			<skins default="tint60">
+				<skin id="harmony" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/harmony/default.css]]></skin>
+				<skin id="peaceful" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/peaceful/default.css]]></skin>
+				<skin id="tint" name="portal.skin.tint" imagesrc="/main/skin/frame/default/images/recommend7.png"><![CDATA[/main/skin/frame/tint/default.css]]></skin>
+				<skin id="tint60" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/tint60/default.css]]></skin>
+				<skin id="wisdom" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/wisdom/default.css]]></skin>
+				<skin id="morning" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/morning/default.css]]></skin>
+				<skin id="material" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/material/default.css]]></skin>
+				<skin id="kind" name="portal.skin.kind" imagesrc="/main/skin/frame/default/images/recommend8.png"><![CDATA[/main/skin/frame/kind/default.css]]></skin>
+				<skin id="gorgeous" name="portal.skin.gorgeous" imagesrc="/main/skin/frame/default/images/recommend9.png"><![CDATA[/main/skin/frame/gorgeous/default.css]]></skin>
+			</skins>
+			<gov_skins default="GOV_blue2">
+				<skin id="GOV_red3" name="portal.skin.harmony" imagesrc="/main/skin/frame/default/images/recommend1.png"><![CDATA[/main/skin/frame/GOV_red3/default.css]]></skin>
+				<skin id="GOV_red2" name="portal.skin.peaceful" imagesrc="/main/skin/frame/default/images/recommend2.png"><![CDATA[/main/skin/frame/GOV_red2/default.css]]></skin>
+				<skin id="GOV_blue2" name="portal.skin.tint60" imagesrc="/main/skin/frame/default/images/recommend6.png"><![CDATA[/main/skin/frame/GOV_blue2/default.css]]></skin>
+				<skin id="GOV_red" name="portal.skin.wisdom" imagesrc="/main/skin/frame/default/images/recommend3.png"><![CDATA[/main/skin/frame/GOV_red/default.css]]></skin>
+				<skin id="GOV_blue3" name="portal.skin.morning" imagesrc="/main/skin/frame/default/images/recommend4.png"><![CDATA[/main/skin/frame/GOV_blue3/default.css]]></skin>
+				<skin id="GOV_blue" name="portal.skin.material" imagesrc="/main/skin/frame/default/images/recommend5.png"><![CDATA[/main/skin/frame/GOV_blue/default.css]]></skin>
+			</gov_skins>
+		</pagelayout>
+	</pageLayouts>
+	<pageComponents>
+		<pageComponent>
+			<id>PAGE_C001</id>
+			<name>公司Logo和公司名称</name>
+			<description>公司Logo和公司名称</description>
+			<belongLayout>layout001,layout002,layout003</belongLayout>
+			<zone>v5headerarea</zone>
+			<defaultstyle>default</defaultstyle>
+			<tplName>logoAndName</tplName>
+			<tplBeanId>logoAndNameTplBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">groupShortName</name>
+					<defaultValue></defaultValue>
+				</var>
+				<var>
+					<name type="value">groupSecondName</name>
+					<defaultValue></defaultValue>
+				</var>
+				<var>
+					<name type="value">accountShortName</name>
+					<defaultValue></defaultValue>
+				</var>
+				<var>
+					<name type="value">accountSecondName</name>
+					<defaultValue></defaultValue>
+				</var>
+				<var>
+					<name type="control" ref_hotspot_column="logoImg_display">isNotShowLogo</name>
+					<defaultValue>false</defaultValue>
+				</var>
+				<var>
+					<name type="control" ref_hotspot_column="logoImg_value">imagePath</name>
+					<defaultValue>/main/skin/frame/default/images/logo.jpg</defaultValue>
+				</var>
+				<var>
+					<name type="control" ref_hotspot_column="groupName_display">isNotShowGroup</name>
+					<defaultValue>false</defaultValue>
+				</var>
+				<var>
+					<name type="control" ref_hotspot_column="accountName_display">isNotShowAccount</name>
+					<defaultValue>false</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C001_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C001_G001_P005</id>
+							<name>头部高度</name>
+							<description>头部高度</description>
+							<roles>admin</roles>
+							<inputType>html</inputType>
+							<refStoreInput>topHeight</refStoreInput>
+							<propertyTplName>property_hearderHeight</propertyTplName>
+						</property>
+						<property>
+							<id>PAGE_C001_G001_P001</id>
+							<name>portal.design.home.uploadlogo</name>
+							<description>LOGO图片上传</description>
+							<roles>admin</roles>
+							<inputType>imageUpload</inputType>
+							<refStoreInput>logoImg</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c001_p001_onclick"/>
+								<script event="ondblclick" method="page_c001_p001_onclick"/>
+							</scripts>
+						</property>
+						<property>
+							<id>PAGE_C001_G001_P002</id>
+							<name>前端不显示Logo</name>
+							<description>前端不显示Logo</description>
+							<roles>admin</roles>
+							<inputType>html</inputType>
+							<refStoreInput>isNotShowLogo</refStoreInput>
+							<propertyTplName>property_logo</propertyTplName>
+						</property>
+						<property>
+							<id>PAGE_C001_G001_P003</id>
+							<name>前端不显示集团简称</name>
+							<description>前端不显示集团简称</description>
+							<roles>admin</roles>
+							<inputType>html</inputType>
+							<refStoreInput>isNotShowGroup</refStoreInput>
+							<propertyTplName>property_groupName</propertyTplName>
+						</property>
+						<property>
+							<id>PAGE_C001_G001_P004</id>
+							<name>前端不显示单位名称</name>
+							<description>前端不显示单位名称</description>
+							<roles>admin</roles>
+							<inputType>html</inputType>
+							<refStoreInput>isNotShowAccount</refStoreInput>
+							<propertyTplName>property_accountName</propertyTplName>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C002</id>
+			<name>空间链接入口</name>
+			<description>空间链接入口</description>
+			<belongLayout>layout001,layout002,layout003</belongLayout>
+			<tplName>spaceLinks</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5headerarea</zone>
+			<tplBeanId>spaceLinksBean</tplBeanId>
+			<tplVars>
+				<!-- <var>
+					<name type="value">spaceLinks</name>
+					<defaultValue></defaultValue>
+				</var> -->
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C002_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C002_P001</id>
+							<name>menu.space.navigationConfig</name>
+							<description>menu.space.navigationConfig</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>spaceLinks</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c002_p001_onclick" />
+								<script event="ondblclick" method="page_c002_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C003</id>
+			<name>首页按钮操作区</name>
+			<description>首页按钮操作区</description>
+			<belongLayout>layout001,layout002,layout003</belongLayout>
+			<tplName>righTopOperation</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5headerarea</zone>
+			<tplBeanId>righTopOperationBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="control">isShowCenter</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">appCenterName</name>
+					<defaultValue>应用中心</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowSearch</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">searchName</name>
+					<defaultValue>搜索</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowBack</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">backName</name>
+					<defaultValue>回退</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowForward</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">forwardName</name>
+					<defaultValue>前进</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowRefresh</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">refreshName</name>
+					<defaultValue>刷新</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowZhixin</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">zhixinName</name>
+					<defaultValue>致信</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowAbout</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">aboutName</name>
+					<defaultValue>关于A8</defaultValue>
+				</var>
+				<var>
+					<name type="control">isShowSetting</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="value">settingName</name>
+					<defaultValue>设置</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C003_G001</id>
+					<name>cannel.data.content</name>
+					<properties>
+						<property>
+							<id>PAGE_C003_P001</id>
+							<name>seeyon.top.forward.alt</name>
+							<description>seeyon.top.forward.alt</description>
+							<roles>admin,common</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>forwardBtn</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p001_onclick"/>
+								<script event="ondblclick" method="page_c003_p001_onclick"/>
+							</scripts>
+						</property>
+						<property>
+							<id>PAGE_C003_P002</id>
+							<name>seeyon.top.back.alt</name>
+							<description>seeyon.top.back.alt</description>
+							<roles>admin,common</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>backBtn</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p002_onclick"/>
+								<script event="ondblclick" method="page_c003_p002_onclick"/>
+							</scripts>
+						</property>
+						<property>
+							<id>PAGE_C003_P003</id>
+							<name>seeyon.top.reload.alt</name>
+							<description>seeyon.top.reload.alt</description>
+							<roles>admin,common</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>refreshBtn</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p003_onclick"/>
+								<script event="ondblclick" method="page_c003_p003_onclick"/>
+							</scripts>
+						</property>
+						<!-- <property>
+							<id>PAGE_C003_P004</id>
+							<name>是否显示消息图标</name>
+							<description>是否显示消息图标</description>
+							<roles>false</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>isShowZhixin</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p004_onclick"/>
+								<script event="ondblclick" method="page_c003_p004_onclick"/>
+							</scripts>
+						</property> -->
+						<!-- <property>
+							<id>PAGE_C003_P005</id>
+							<name>关于</name>
+							<description>关于</description>
+							<roles>admin</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>isShowAbout</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p005_onclick"/>
+								<script event="ondblclick" method="page_c003_p005_onclick"/>
+							</scripts>
+						</property> -->
+						<!-- <property>
+							<id>PAGE_C003_P006</id>
+							<name>是否显示应用中心</name>
+							<description>是否显示应用中心</description>
+							<roles>false</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>isShowCenter</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p006_onclick"/>
+								<script event="ondblclick" method="page_c003_p006_onclick"/>
+							</scripts>
+						</property> -->
+						<!-- <property>
+							<id>PAGE_C003_P007</id>
+							<name>是否显示搜索</name>
+							<description>是否显示搜索</description>
+							<roles>false</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>isShowSearch</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c003_p007_onclick"/>
+								<script event="ondblclick" method="page_c003_p007_onclick"/>
+							</scripts>
+						</property> -->
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C004</id>
+			<name>个人头像</name>
+			<description>个人头像</description>
+			<belongLayout>layout002,layout003</belongLayout>
+			<tplName>personHeadPic</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav,v5left</zone>
+			<tplBeanId>personHeadPicBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">onlineNum</name>
+					<defaultValue>0</defaultValue>
+				</var>
+				<var>
+					<name type="control">showOnlineNum</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="control">showStatus</name>
+					<defaultValue>true</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C004_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C004_P001</id>
+							<name>更改头像</name>
+							<description>更改头像</description>
+							<roles>common</roles>
+							<inputType>html</inputType>
+							<titleName>当前头像</titleName>
+							<refStoreInput></refStoreInput>
+							<propertyTplName>property_personHeadPic</propertyTplName>
+							<!-- <scripts>
+								<script event="onclick" method="page_c004_p003_onclick"/>
+								<script event="ondblclick" method="page_c004_p003_onclick"/>
+							</scripts> -->
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C010</id>
+			<name>个人头像1</name>
+			<description>个人头像1</description>
+			<belongLayout>layout001,layout003</belongLayout>
+			<tplName>smallPersonHeadPic</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav</zone>
+			<tplBeanId>personHeadPicBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">onlineNum</name>
+					<defaultValue>0</defaultValue>
+				</var>
+				<var>
+					<name type="control">showOnlineNum</name>
+					<defaultValue>true</defaultValue>
+				</var>
+				<var>
+					<name type="control">showStatus</name>
+					<defaultValue>true</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C010_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C010_P001</id>
+							<name>更改头像</name>
+							<description>更改头像</description>
+							<roles>common</roles>
+							<inputType>html</inputType>
+							<titleName>当前头像</titleName>
+							<refStoreInput></refStoreInput>
+							<propertyTplName>property_personHeadPic</propertyTplName>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+			<propertygroup>
+				<group>
+					<id>PAGE_C004_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C004_P001</id>
+							<name>更改头像</name>
+							<description>更改头像</description>
+							<roles>common</roles>
+							<inputType>imageUploadWithPreview</inputType>
+							<titleName>当前头像</titleName>
+							<refStoreInput></refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c004_p003_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C005</id>
+			<name>我的快捷</name>
+			<description>我的快捷</description>
+			<belongLayout>layout002,layout003</belongLayout>
+			<tplName>shortCut</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav,v5left</zone>
+			<tplBeanId>myShortCutBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">myShortCutName</name>
+					<defaultValue>我的快捷</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C005_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C005_P001</id>
+							<name>personalSetting.shortcut.label</name>
+							<description>personalSetting.shortcut.label</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>spaceLinks</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c005_p001_onclick" />
+								<script event="ondblclick" method="page_c005_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C011</id>
+			<name>我的快捷1</name>
+			<description>我的快捷1</description>
+			<belongLayout>layout001,layout003</belongLayout>
+			<tplName>smallShortCut</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav</zone>
+			<tplBeanId>myShortCutBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">myShortCutName</name>
+					<defaultValue>我的快捷</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C011_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C011_P001</id>
+							<name>personalSetting.shortcut.label</name>
+							<description>personalSetting.shortcut.label</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>spaceLinks</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c005_p001_onclick" />
+								<script event="ondblclick" method="page_c005_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C013</id>
+			<name>我的快捷2</name>
+			<description>我的快捷2</description>
+			<belongLayout>layout003</belongLayout>
+			<tplName>shortCut_V60</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav</zone>
+			<tplBeanId>myShortCutBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">myShortCutName</name>
+					<defaultValue>我的快捷</defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C011_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C011_P001</id>
+							<name>personalSetting.shortcut.label</name>
+							<description>personalSetting.shortcut.label</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>spaceLinks</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c005_p001_onclick" />
+								<script event="ondblclick" method="page_c005_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C006</id>
+			<name>菜单</name>
+			<description>菜单</description>
+			<belongLayout>layout002,layout003</belongLayout>
+			<tplName>menus</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav</zone>
+			<tplBeanId>menusBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">menus</name>
+					<defaultValue>all</defaultValue>
+				</var>
+				<var>
+					<name type="control">menuColor</name>
+					<defaultValue></defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C006_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C004_P002</id>
+							<name>personalSetting.menu.label</name>
+							<description>personalSetting.menu.label</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>menuColor</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c006_p001_onclick"/>
+								<script event="ondblclick" method="page_c006_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C012</id>
+			<name>菜单1</name>
+			<description>菜单1</description>
+			<belongLayout>layout001,layout003</belongLayout>
+			<tplName>smallMenus</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav,v5nav_menus</zone>
+			<tplBeanId>menusBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">menus</name>
+					<defaultValue>all</defaultValue>
+				</var>
+				<var>
+					<name type="control">menuColor</name>
+					<defaultValue></defaultValue>
+				</var>
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C006_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C004_P002</id>
+							<name>personalSetting.menu.label</name>
+							<description>personalSetting.menu.label</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>menuColor</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c006_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C007</id>
+			<name>时间线</name>
+			<description>时间线</description>
+			<belongLayout>layout001,layout002,layout003</belongLayout>
+			<tplName>timeline</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>nowLocation</zone>
+			<tplBeanId>timelineBean</tplBeanId>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C008</id>
+			<name>空间导航</name>
+			<description>空间导航</description>
+			<belongLayout>layout002,layout003</belongLayout>
+			<tplName>spacenav</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>nowLocation</zone>
+			<tplBeanId>spacenavBean</tplBeanId>
+			<tplVars>
+				<var>
+					<name type="value">imagePath</name>
+					<defaultValue></defaultValue>
+				</var>
+				<var>
+					<name type="control">fontColor</name>
+					<defaultValue>rgb(255, 255, 255)</defaultValue>
+				</var>
+				<var>
+					<name type="value">spaceName</name>
+					<defaultValue>空间名称</defaultValue>
+				</var>
+			</tplVars>
+			<!-- <propertygroup>
+				<group>
+					<id>PAGE_C008_G001</id>
+					<name>属性设置</name>
+					<properties>
+						<property>
+							<id>PAGE_C004_P002</id>
+							<name>导航字体颜色</name>
+							<description>导航字体颜色</description>
+							<roles>true</roles>
+							<inputType>button</inputType>
+							<refStoreInput>fontColor</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c006_p001_onclick"/>
+								<script event="ondblclick" method="page_c006_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup> -->
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C009</id>
+			<name>空间栏目</name>
+			<description>栏目</description>
+			<belongLayout>layout001,layout002,layout003</belongLayout>
+			<tplName>spaceSimpleSection</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5body</zone>
+			<tplBeanId>spaceSimpleSectionBean</tplBeanId>
+			<tplVars>
+<!-- 				<var>
+					<name type="control">sectionHeadColor</name>
+					<defaultValue>栏目头部颜色</defaultValue>
+				</var>
+				<var>
+					<name type="control">sectionContentColor</name>
+					<defaultValue>栏目头部颜色</defaultValue>
+				</var>
+				<var>
+					<name type="control">workContentColor</name>
+					<defaultValue>工作区背景色</defaultValue>
+				</var> -->
+				<var>
+					<name type="control">workWidth</name>
+					<defaultValue>false</defaultValue>
+				</var>
+				<var>
+					<name type="control">showSpaceNav</name>
+					<defaultValue>false</defaultValue>
+				</var>
+			</tplVars>
+			<!-- <propertygroup>
+				<group>
+					<id>PAGE_C009_G001</id>
+					<name>颜色设置</name>
+					<properties>
+						<property>
+							<id>PAGE_C009_P001</id>
+							<name>栏目头部颜色</name>
+							<description>栏目头部颜色</description>
+							<roles>true</roles>
+							<inputType>button</inputType>
+							<refStoreInput>sectionHeadColor</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c009_p001_onclick"/>
+								<script event="ondblclick" method="page_c009_p001_onclick"/>
+							</scripts>
+						</property>
+						<property>
+							<id>PAGE_C009_P002</id>
+							<name>栏目内容区颜色</name>
+							<description>栏目内容区颜色</description>
+							<roles>true</roles>
+							<inputType>button</inputType>
+							<refStoreInput>sectionContentColor</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c009_p002_onclick"/>
+								<script event="ondblclick" method="page_c009_p002_onclick"/>
+							</scripts>
+						</property>
+						<property>
+							<id>PAGE_C009_P003</id>
+							<name>工作区背景色</name>
+							<description>工作区背景色</description>
+							<roles>true</roles>
+							<inputType>button</inputType>
+							<refStoreInput>workContentColor</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c009_p003_onclick"/>
+								<script event="ondblclick" method="page_c009_p003_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+				<group>
+					<id>PAGE_C009_G002</id>
+					<name>其它设置</name>
+					<properties>
+						<property>
+							<id>PAGE_C009_P005</id>
+							<name>居中,两边留白,宽度80%</name>
+							<description>居中,两边留白,宽度80%</description>
+							<roles>false</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>workWidth</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c009_p005_onclick"/>
+								<script event="ondblclick" method="page_c009_p005_onclick"/>
+							</scripts>
+						</property>
+						<property>
+							<id>PAGE_C009_P006</id>
+							<name>是否显示面包屑</name>
+							<description>是否显示面包屑</description>
+							<roles>false</roles>
+							<inputType>checkbox</inputType>
+							<refStoreInput>showSpaceNav</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c009_p006_onclick"/>
+								<script event="ondblclick" method="page_c009_p006_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup> -->
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C014</id>
+			<name>空间链接入口1</name>
+			<description>空间链接入口1</description>
+			<belongLayout>layout003</belongLayout>
+			<tplName>cspaceLinks</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav,v5left</zone>
+			<tplBeanId>spaceLinksBean</tplBeanId>
+			<tplVars>
+				<!-- <var>
+					<name type="value">spaceLinks</name>
+					<defaultValue></defaultValue>
+				</var> -->
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C002_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C002_P001</id>
+							<name>menu.space.navigationConfig</name>
+							<description>menu.space.navigationConfig</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>spaceLinks</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c002_p001_onclick" />
+								<script event="ondblclick" method="page_c002_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+		<pageComponent>
+			<id>PAGE_C015</id>
+			<name>空间+菜单</name>
+			<description>空间、菜单一体化的入口</description>
+			<belongLayout>layout004</belongLayout>
+			<tplName>spaceLinksMenu_h</tplName>
+			<defaultstyle>default</defaultstyle>
+			<zone>v5nav</zone>
+			<tplBeanId>spaceLinksBean</tplBeanId>
+			<tplVars>
+				<!-- <var>
+					<name type="value">spaceLinks</name>
+					<defaultValue></defaultValue>
+				</var> -->
+			</tplVars>
+			<propertygroup>
+				<group>
+					<id>PAGE_C002_G001</id>
+					<name></name>
+					<properties>
+						<property>
+							<id>PAGE_C002_P001</id>
+							<name>menu.space.navigationConfig</name>
+							<description>menu.space.navigationConfig</description>
+							<roles>common</roles>
+							<inputType>button</inputType>
+							<refStoreInput>spaceLinks</refStoreInput>
+							<scripts>
+								<script event="onclick" method="page_c002_p001_onclick" />
+								<script event="ondblclick" method="page_c002_p001_onclick"/>
+							</scripts>
+						</property>
+					</properties>
+				</group>
+			</propertygroup>
+		</pageComponent>
+	</pageComponents>
+</page>

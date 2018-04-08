@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="sursenSendFileDao" class="com.seeyon.apps.sursenExchange.send.dao.SursenSendFileDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-sursenExchange" />
+	</bean>
+	<bean id="sursenSendDao" class="com.seeyon.apps.sursenExchange.send.dao.SursenSendDaoImpl" init-method="initDB">
+		<property name="sessionFactory" ref="sessionFactory-sursenExchange" />
+	</bean>
+	<bean id="sursenReceiveFileDao" class="com.seeyon.apps.sursenExchange.receive.dao.SursenReceiveFileDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-sursenExchange" />
+	</bean>
+	<bean id="sursenReceiveDao" class="com.seeyon.apps.sursenExchange.receive.dao.SursenReceiveDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-sursenExchange" />
+	</bean>
+	<bean name="/sursen.do" class="com.seeyon.apps.sursenExchange.bo.SursenTestController">
+	</bean>
+</beans>

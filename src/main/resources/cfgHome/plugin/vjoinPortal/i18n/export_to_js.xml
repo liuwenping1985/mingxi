@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<export>
+	<resKey>vjoinPortal.alert.saverightfirst</resKey>
+	<resKey>vjoinPortal.alert.savewithoutright</resKey>
+
+	<resKey>vjoinPortal.alert.savesuccess</resKey>
+	<resKey>vjoinPortal.alert.resetsuccess</resKey>
+	<resKey>vjoinPortal.btn.ok</resKey>
+	<resKey>vjoinPortal.btn.cancel</resKey>
+	<resKey>vjoinPortal.btn.save</resKey>
+	<resKey>vjoinPortal.alert.pleaseselectdata</resKey>
+	<resKey>vjoinPortal.alert.selecteddata</resKey>
+	<resKey>vjoinPortal.alert.pleaseselect</resKey>
+	<resKey>vjoinPortal.alert.sub-indicators3</resKey>
+	<resKey>vjoinPortal.alert.sub-indicators3alert</resKey>
+	<resKey>vjoinPortal.alert.sub-indicators10</resKey>
+	<resKey>vjoinPortal.validate.mustwrite</resKey>
+	<resKey>vjoinPortal.validate.notnull</resKey>
+	<resKey>vjoinPortal.validate.mustbenum</resKey>
+	<resKey>vjoinPortal.validate.hasspacial</resKey>
+	<resKey>vjoinPortal.validate.lessthan</resKey>
+	<resKey>vjoinPortal.validate.morethan</resKey>
+	<resKey>vjoinPortal.validate.words</resKey>
+	<resKey>vjoinPortal.validate.spacenameempty</resKey>
+	<resKey>vjoinPortal.validate.spacenamelessthen100</resKey>
+	<resKey>vjoinPortal.validate.spacenamespecial</resKey>
+	<resKey>vjoinPortal.validate.sortnumempty</resKey>
+	<resKey>vjoinPortal.validate.sortnumint</resKey>
+	<resKey>vjoinPortal.validate.sortnumlessthan9999</resKey>
+</export>

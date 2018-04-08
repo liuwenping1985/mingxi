@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>hr.sign.mobile.label</resKey>
+    <resKey>hr.sign.search.label</resKey>
+    <resKey>hr.sign.ok.label</resKey>
+    <resKey>hr.sign.cancle.label</resKey>
+    <resKey>hr.sign.export.label</resKey>
+    
+    <resKey>hr.name.label</resKey>
+    <resKey>hr.department.label</resKey>
+    <resKey>hr.time.label</resKey>
+    <resKey>hr.addres.label</resKey>
+    
+    <resKey>hr.sign.map.info</resKey>
+    <resKey>hr.sign.map.previous</resKey>
+    <resKey>hr.sign.map.next</resKey>
+    
+    <resKey>hr.sign.num.info</resKey>
+    <resKey>hr.sign.telnum.info</resKey>
+    <resKey>hr.sign.phonenum.info</resKey>
+    
+    <resKey>hr.sign.selectfile</resKey>
+    
+</export>

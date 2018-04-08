@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>edocFormManager</serviceName>
+		<operations>
+			<op>getFormIdByWorkflowId</op>
+		</operations>
+	</bean>
+	
+	<bean>
+       <serviceName>edocManager</serviceName>
+       <operations>
+           <op>getSendRegisterData</op>
+           <op>getRecRegisterData</op>
+           <op>isQuickSend</op>
+       </operations>
+    </bean>
+	<bean>
+		<serviceName>edocStatNewManager</serviceName>
+		<operations>
+			<op>getEdocStatVoList</op>
+			<op>getEdocVoList</op>
+			<op>getEdocEnumitemList</op>
+		</operations>
+	</bean>
+	
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 平台可视化首页 -->
+    <bean name="/platview.do" class="com.seeyon.ctp.view.controller.PlatViewController" >
+    </bean>
+    <!-- 服务日志 -->
+    <!--<bean id="systemlogsmanageController" name="/systemlogsmanage.do" class="com.seeyon.ctp.view.modules.operationcenter.servicelog.controller.SystemLogsManageController" >
+    </bean>-->
+    <!-- 国际化资源 -->
+    <bean id="i18NResourceController" name="/i18NResource.do" class="com.seeyon.ctp.view.modules.operationcenter.i18n.controller.I18NResourceController">
+    </bean>
+    <!-- 系统常量 -->
+    <bean id="constDefController" name="/constDef.do" class="com.seeyon.ctp.view.modules.operationcenter.constdef.controller.ConstDefController" >
+    </bean>
+    <!-- 资源监控 -->
+    <bean name="/ctp/sysmgr/monitor/gauge.do" class="com.seeyon.ctp.view.modules.operationcenter.resourcemonitor.controller.ResourceMonitorController" >
+    </bean>
+    <!--系统预警  -->
+    <bean name="/ctp/sysmgr/monitor/earlyWarning.do" class="com.seeyon.ctp.view.modules.operationcenter.systemwarning.controller.SystemWarningController" >
+    </bean>
+    <!-- 线程监控 -->
+    <bean name="/ctp/sysmgr/perflogcfg.do" class="com.seeyon.ctp.view.modules.operationcenter.threadmonitor.controller.ThreadMonitorController" >
+    </bean>
+    <!-- 业务引擎中 -->
+    <bean name="/busengine.do" class="com.seeyon.ctp.view.modules.busengine.controller.BusinessEngineController" ></bean>
+    <!-- 修改密码 -->
+    <!-- <bean name="/manager.do" class="com.seeyon.ctp.view.modules.operationcenter.modifypassword.controller.ManagerController" >
+    </bean> -->
+    <!-- Rest用户管理 -->
+    <!-- <bean name="/usersystem/restUser.do" class="com.seeyon.ctp.view.modules.developcenter.restusermanage.controller.RestUserController" >
+    </bean> -->
+</beans>

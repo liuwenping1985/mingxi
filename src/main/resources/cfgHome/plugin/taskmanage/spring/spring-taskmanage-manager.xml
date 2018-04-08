@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="taskInfoManager" class="com.seeyon.apps.taskmanage.manager.TaskInfoManagerImpl">
+		<property name="commentManager" ref="ctpCommentManager" />
+	</bean>
+	<bean id="taskRoleManager" class="com.seeyon.apps.taskmanage.manager.TaskRoleManagerImpl"/>
+	<bean id="taskCommentManager" class="com.seeyon.apps.taskmanage.manager.TaskCommentManagerImpl">
+		<property name="commentManager" ref="ctpCommentManager" />
+	</bean>
+	<bean id="taskFeedbackManager" class="com.seeyon.apps.taskmanage.manager.TaskFeedbackManagerImpl"/>
+	<bean id="taskAjaxManager" class="com.seeyon.apps.taskmanage.manager.TaskAjaxManagerImpl"/>
+    <bean id="userMessageFilterImplTaskManage" class="com.seeyon.apps.taskmanage.usermessage.filter.UserMessageFilterImplTaskManage"/>
+	<bean id="taskLogManager" class="com.seeyon.apps.taskmanage.log.manager.TaskLogManagerImpl"/>
+	<bean id="taskInfoReportManager" class="com.seeyon.apps.taskmanage.report.manager.TaskInfoReportManagerImpl"/>
+	<bean id="taskDetailTreeManager" class="com.seeyon.apps.taskmanage.manager.TaskDetailTreeManagerImpl"/>
+	<bean id="taskManager" class="com.seeyon.apps.taskmanage.manager.TaskManagerImpl"/>
+	<bean name="taskRoleConfigManager,taskAuthManager" class="com.seeyon.apps.taskmanage.manager.TaskRoleConfigManagerImpl"/>
+    
+	<bean id="taskInfoDao" class="com.seeyon.apps.taskmanage.dao.TaskInfoDaoImpl" />
+	<bean id="taskInfoBodyDao" class="com.seeyon.apps.taskmanage.dao.TaskInfoBodyDaoImpl" />
+	<bean id="taskRoleDao" class="com.seeyon.apps.taskmanage.dao.TaskRoleDaoImpl" />
+	<bean id="taskFeedbackDao" class="com.seeyon.apps.taskmanage.dao.TaskFeedbackDaoImpl" />
+	<bean id="taskRemind" class="com.seeyon.apps.taskmanage.util.TaskRemindJob" />
+	<bean id="taskLogDao" class="com.seeyon.apps.taskmanage.log.dao.TaskLogDaoImpl"/>
+	<bean id="taskReportTDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportTDaoImpl"/>
+	<bean id="taskReportPeopleDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportPeopleDaoImpl"/>
+	<bean id="taskReportOverDueDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportOverdueDaoImpl"/>
+	<bean id="taskReportOverViewDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportOverViewDaoImpl"/>
+	<bean id="taskReportStatusDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportStatusDaoImpl"/>
+	<bean id="taskDao" class="com.seeyon.apps.taskmanage.dao.TaskDaoImpl"/>
+	<bean id="taskRoleConfigDao" class="com.seeyon.apps.taskmanage.dao.TaskRoleConfigDaoImpl"/>
+	
+	<!-- 微信任务事件监听对象 -->
+	<!-- TODO 解耦 -->
+    <!-- <bean id="wechatTaskListener" class="com.seeyon.apps.taskmanage.listener.WechatTaskListener"></bean> -->
+    <bean id="securityControlTask" class="com.seeyon.v3x.common.security.SecurityControlTaskImpl"/>
+    
+    <!-- 表单触发    创建任务 -->
+    <bean name="/form/formTriggerCreateTask.do" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerCreateTaskController"/>
+    <bean id="formTriggerCreateTaskDesign" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerCreateTaskDesign"/>
+    <bean id="triggerCreateTaskAction" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerCreateTaskAction"/>
+    <bean id="formTriggerTaskManager" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerTaskManagerImpl"></bean>
+    <!-- 无流程表单 任务联动 -->
+    <bean id="formTriggerDesign4TaskLinkage" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerDesign4TaskLinkage"/>
+    <bean id="formTriggerAction4TaskLinkageGo" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerAction4TaskLinkageGo"/>
+    <bean id="formTriggerAction4TaskLinkageBack" class="com.seeyon.ctp.form.modules.trigger.task.FormTriggerAction4TaskLinkageBack"/>
+    
+</beans>

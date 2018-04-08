@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<WorkDailyStatistics>
+			<main>
+				<task>
+					<sql1>
+					<![CDATA[
+					SELECT 
+					a.name AS "管理范围", 
+					'任务' AS "类型", 
+					]]>
+					</sql1>
+					<type>
+						<sql1>
+						<![CDATA[
+						'已完成' AS "状态",
+						]]>
+						</sql1>
+						<sql2>
+						<![CDATA[
+						'进行中' AS "状态",
+						]]>
+						</sql2>
+						<sql3>
+						<![CDATA[
+						'已延期' AS "状态",
+						]]>
+						</sql3>
+						<sql4>
+						<![CDATA[
+						'未开始' AS "状态",
+						]]>
+						</sql4>
+						<sql5>
+						<![CDATA[
+						'已取消' AS "状态",
+						]]>
+						</sql5>
+						<sql6>
+						<![CDATA[
+						'已创建' AS "状态",
+						]]>
+						</sql6>
+						<sql7>
+						<![CDATA[
+						'未完成' AS '状态',
+						]]>
+						</sql7>
+					</type>
+					<time1>
+						<sql1>
+						<![CDATA[
+						'本日' AS "时间",
+						]]>
+						</sql1>
+						<sql2>
+						<![CDATA[
+						'本周' AS "时间",
+						]]>
+						</sql2>
+						<sql3>
+						<![CDATA[
+						'本月' AS "时间",
+						]]>
+						</sql3>
+						<sql4>
+						<![CDATA[
+						'累积' AS "时间",
+						]]>
+						</sql4>
+						<sql5>
+						<![CDATA[
+						'任意' AS "时间",
+						]]>
+						</sql5>
+					</time1>
+					<sql2>
+					<![CDATA[
+					(CASE WHEN b.total IS NULL THEN 0 ELSE b.total END) AS "数量",
+					(CASE WHEN c.dep_sum is null THEN 0 ELSE ROUND(c.dep_sum) END) AS "平均数",
+					'-' AS "超期数",
+					'-' AS "超期百分比",
+					a.member_id as member_id,:startTime as start_time,:endTime as end_time 
+					FROM (
+					(SELECT
+					o.ID                AS member_id,
+					o.NAME              AS NAME,
+					o.ORG_DEPARTMENT_ID AS dep_id
+					FROM org_member o
+					WHERE o.ID in(:users)) a
+					LEFT JOIN (
+					SELECT
+					tr.role_id AS member_id, 
+					]]>
+					</sql2>
+					<time2>
+						<sql1>
+						<![CDATA[
+						SUM(1) as total
+						]]>
+						</sql1>
+						<sql2>
+						<![CDATA[
+						count(*) AS total
+						]]>
+						</sql2>
+					</time2>
+					<sql3>
+					<![CDATA[
+					FROM task_info ti 
+					INNER JOIN task_role tr 
+					ON ti.id = tr.task_id 
+					WHERE tr.role_id in (:users)
+					]]>
+					</sql3>
+					<sql4>
+						<type1>
+						<![CDATA[
+						AND ti.status=4 
+						]]>
+						</type1>
+						<type2>
+						<![CDATA[
+						AND ti.status=2 
+						]]>
+						</type2>
+						<type3>
+						<![CDATA[
+						AND ti.status=3 
+						]]>
+						</type3>
+						<type4>
+						<![CDATA[
+						AND ti.status=1 
+						]]>
+						</type4>
+						<type5>
+						<![CDATA[
+						AND ti.status=5 
+						]]>
+						</type5>
+						<type6>
+						<![CDATA[
+						AND ti.status<5 
+						]]>
+						</type6>
+						<type7>
+						<![CDATA[
+						AND ti.status in(1,2,3) 
+						]]>
+						</type7>
+					</sql4>
+					<sql5>
+					<![CDATA[
+					group by tr.role_id
+					) b 
+					ON a.member_id=b.member_id 
+					LEFT JOIN 
+					(SELECT 
+						  middle.department_id AS dep_id, 
+						  sum(middle.total) AS dep_sum 
+						FROM rpt_task middle 
+						WHERE middle.status=:avgStatus AND (:time=3 OR (:time!=3 
+							AND :avgStart <= to_char(middle.query_time,'yyyy-mm-dd') 
+					   		AND to_char(middle.query_time,'yyyy-mm-dd') < :avgEnd))
+					   	GROUP BY middle.DEPARTMENT_ID) c 
+					   	ON a.dep_id=c.dep_id 
+					) order by a.name
+					]]>
+					</sql5>
+					<sql6>
+					<![CDATA[
+					AND ((to_char(ti.planned_start_time,'yyyy-mm-dd') <= :startTime AND to_char(ti.planned_end_time,'yyyy-mm-dd') >= :startTime) 
+				OR (to_char(ti.planned_start_time,'yyyy-mm-dd') >= :startTime AND to_char(ti.planned_end_time,'yyyy-mm-dd') <= :endTime) 
+				OR (to_char(ti.planned_start_time,'yyyy-mm-dd') < :endTime AND to_char(ti.planned_end_time,'yyyy-mm-dd') >= :endTime))
+					]]>
+					</sql6>
+					<sql7>
+					<![CDATA[
+					FROM task_info ti 
+					WHERE ti.create_user = :users
+					]]>
+					</sql7>
+					<sql8>
+					<![CDATA[
+					AND to_char(ti.create_time,'yyyy-mm-dd') >= :startTime AND to_char(ti.create_time,'yyyy-mm-dd') <= :endTime
+					]]>
+					</sql8>
+					<sql9>
+					<![CDATA[
+					AND tr.role_type > 0
+					]]>
+					</sql9>
+					<sql10>
+					<![CDATA[
+					AND tr.role_type = 0
+					]]>
+					</sql10>
+				</task>
+			</main>
+		</WorkDailyStatistics>
+	</report>
+</sqlcfg>

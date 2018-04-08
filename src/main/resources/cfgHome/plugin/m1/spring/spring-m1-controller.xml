@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<!-- controller begin-->
+	<!-- 移动授权Controller  -->
+	<bean id="mobileAuthController"  name="/m1/mobileAuthController.do" 
+		class="com.seeyon.apps.m1.authorization.mobileAuth.controller.MobileAuthController" autowire="byName" >
+		<property name="mobileAuthService" ref="mobileAuthService" />
+	</bean>
+	<!-- 硬件绑定Controller -->
+	<bean id="mClientBindController"  name="/m1/mClientBindController.do" 
+		class="com.seeyon.apps.m1.bind.controller.ClientBindController" autowire="byName" >
+		<property name="mMobileManageService" ref="mMobileManageService" />
+		<property name="mClientBindService" ref="mClientBindService"></property>
+	</bean>
+	<!-- controller end-->
+	<!-- 移动授权Service   --> 
+	<bean id="mobileAuthService"
+		class="com.seeyon.apps.m1.authorization.mobileAuth.service.impl.MobileAuthServiceImpl">
+		<property name="orgManager" ref="orgManager" />
+		<property name="mobileAuthDao" ref="mobileAuthDao" />
+	</bean>
+	<!-- 硬件绑定Service -->
+	<bean id="mClientBindService" class="com.seeyon.apps.m1.bind.service.impl.MClientBindServiceImpl">
+	    <property name="mClientBindDao" ref="mClientBindDao" />
+	    
+	</bean>
+	<!--  移动office 授权controller -->
+	<bean id = "mMobileOfficeAuth" name = "/m1/mobileOfficeAuth.do" class ="com.seeyon.apps.m1.mobileOffice.authorization.controller.MMobileOfficeAuthController">
+	
+	</bean>
+	<!-- 换肤Service  -->
+	<bean id = "mChangeImg" name="/m1/changeImgController.do" class = "com.seeyon.apps.m1.skin.controller.ChangeImgController">
+	    <property name="fileManager" ref = "fileManager"></property>
+	</bean>
+	<!--  MIsignature controller -->
+	<bean id = "msignature" name="/m1/msignature.do" class = "com.seeyon.apps.m1.signature.controller.MIsignatuerConfigController">
+	</bean>
+	<bean id = "mConnectSet" name="/m1/mConnectSet.do" class = "com.seeyon.apps.m1.connectSet.controller.ConnectSetController">
+	</bean>
+	<bean id = "m1RecordURL" name="/m1/lbsRecordController.do" class = "com.seeyon.apps.lbs.controller.MLbsRecordController">
+	</bean>
+</beans>

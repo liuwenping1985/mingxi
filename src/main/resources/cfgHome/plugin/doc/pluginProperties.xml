@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<doc>
+	    <!-- 创建文档 -->
+		<create name="create">10</create>
+        <!-- 推荐文档 -->
+        <recommend name="recommend">2</recommend>
+        <!-- 评论 -->
+        <comment name="comment">3</comment>
+        <!-- 评分 -->
+        <grade name="grade">3</grade>
+        <!-- 收藏文档 -->
+        <collect name="collect">2</collect>
+        <!-- 阅读文档 -->
+        <read name="read">2</read>
+        <!-- 发表博客 -->
+        <issueBlog name="issueBlog">1</issueBlog>
+        <!-- 被评分1分 -->
+        <gradeValue name="gradeValue">2</gradeValue>
+        <!-- 发送学习区 -->
+        <sendStudy name="sendStudy">1</sendStudy>
+        <!-- 文档被阅读 -->
+        <isReaded name="isReaded">3</isReaded>
+        <!-- 文档被推荐 -->
+        <isRecommended name="isRecommended">5</isRecommended>
+        <!-- 文档被评论 -->
+        <isCommented name="isCommented">5</isCommented>
+        <!-- 文档被下载 -->
+        <isDownload name="isDownload">3</isDownload>
+        
+        
+        <!-- 文档创建是否启用 0：不启用；1：启用 -->
+        <createEnabled name="createEnabled">1</createEnabled>
+        <!-- 推荐 -->
+        <recommendEnabled name="recommendEnabled">1</recommendEnabled>
+        <!-- 评论 -->
+        <commentEnabled name="commentEnabled">1</commentEnabled>
+        <!-- 评分 -->
+        <gradeEnabled name="gradeEnabled">1</gradeEnabled>
+        <!-- 收藏 -->
+        <collectEnabled name="collectEnabled">1</collectEnabled>
+        <!-- 点击阅读 -->
+        <readEnabled name="readEnabled">1</readEnabled>
+        <!-- 发表博客 -->
+        <issueBlogEnabled name="issueBlogEnabled">1</issueBlogEnabled>
+        <!-- 评分值1分 -->
+        <gradeValueEnabled name="gradeValueEnabled">1</gradeValueEnabled>
+        <!-- 发送学习区 -->
+        <sendStudyEnabled name="sendStudyEnabled">1</sendStudyEnabled>
+        <!-- 文档被阅读 -->
+        <isReadedEnabled name="isReadedEnabled">1</isReadedEnabled>
+        <!-- 文档被推荐 -->
+        <isRecommendedEnabled name="isRecommendedEnabled">1</isRecommendedEnabled>
+        <!-- 文档被评论 -->
+        <isCommentedEnabled name="isCommentedEnabled">1</isCommentedEnabled>
+        <!-- 文档被下载 -->
+        <isDownloadEnabled name="isDownloadEnabled">1</isDownloadEnabled>
+        
+        <!-- 不参与积分排行人员 -->
+        <excludePeople name="excludePeople">""</excludePeople>
+        
+        <security>
+            <!-- 需要做URL digest的URL注册，空格分隔1为uri地址，2为method（没有可以省略），3为digest参数名 -->
+            <digesturl>/doc.do rightNew resId,frType,docLibId,docLibType,isShareAndBorrowRoot,all,edit,add,readonly,browse,list,parentCommentEnabled,parentRecommendEnable,parentVersionEnabled,flag</digesturl>
+            <digesturl>/doc.do docPropertyIframe resId,docResId,frType,docLibId,docLibType,isShareAndBorrowRoot,all,edit,add,create,readonly,browse,read,list,parentCommentEnabled,parentRecommendEnable</digesturl>
+            <digesturl>/doc.do docProperty _resId,docResId,frType,docLibId,docLibType,isShareAndBorrowRoot,_all,_edit,_add,_create,_readonly,_browse,_read,_list,propEditValue,_parentCommentEnabled,isPerBorrow</digesturl>
+        	<digesturl>/doc.do knowledgeBrowse docResId,entranceType,openFrom,docVersionId</digesturl>
+        </security>
+	</doc>
+	
+	<!-- 
+	该例中可通过AppContext.getSystemProperty("doc.create.name")取得“create”，
+	AppContext.getSystemProperty("doc.create")取得“5” 
+	注意：属性key必须以插件id开始
+	-->
+</ctpConfig>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>indexResume</id>
+    <name>全文检索索引重建</name>
+    <category>18889</category>
+</plugin>

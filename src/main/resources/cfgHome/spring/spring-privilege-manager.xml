@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-lazy-init="true" default-autowire="byName">
+	<bean id="menuDao" class="com.seeyon.ctp.privilege.dao.MenuDaoImpl" singleton="true"></bean>
+	
+	<bean id="privilegeCache" class="com.seeyon.ctp.privilege.dao.PrivilegeCacheImpl" singleton="true" init-method="init"></bean>
+	
+	<bean id="roleMenuDao" class="com.seeyon.ctp.privilege.dao.RoleMenuDaoImpl" singleton="true"></bean>
+	
+	<bean id="menuManager" class="com.seeyon.ctp.privilege.manager.MenuManagerImpl" singleton="true" depends-on="privilegeCache"></bean>
+	
+	<bean id="privilegeMenuManager" class="com.seeyon.ctp.privilege.manager.PrivilegeMenuManagerImpl" singleton="true" depends-on="privilegeCache"></bean>
+	
+	<bean id="privilegeManager" class="com.seeyon.ctp.privilege.manager.PrivilegeManagerImpl"></bean>
+		
+	<bean id="menuCacheManager" class="com.seeyon.ctp.privilege.manager.MenuCacheManagerImpl"/>
+
+	<!-- 注解校验 -->
+	<bean id="privlegeSecurityManager" class="com.seeyon.ctp.privilege.manager.PrivlegeSecurityManagerImpl" init-method="initExtendCheck" />
+	
+</beans>

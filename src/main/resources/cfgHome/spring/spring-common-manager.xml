@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+    <!-- 电子签章Manager注册 -->
+    <bean id="htmSignetManager" class="com.seeyon.v3x.system.signet.manager.V3xHtmDocumentSignatManagerImpl"/>
+	<bean id="officeLockManager" class="com.seeyon.ctp.common.office.OfficeLockManagerImpl"/>
+ 	<bean id="quartzManager" class="com.seeyon.apps.collaboration.quartz.QuartzManagerImpl" init-method="init"/>
+ 	<bean id="overTimeCycleRemindJob" class="com.seeyon.apps.collaboration.quartz.OverTimeCycleRemindJob"/>
+ 	<bean id="mSignatureManagerforM3" class="com.seeyon.ctp.common.office.MSignatureManagerImpl"></bean>
+    <!-- 流程日志 -->
+    <bean id="detaillogManager" class="com.seeyon.ctp.common.detaillog.manager.DetaillogManagerImpl" init-method="init"></bean>
+    
+    <!-- 批处理 -->
+    <bean id="batchManager" class="com.seeyon.apps.collaboration.batch.manager.BatchManagerImpl" init-method="init"></bean>
+    
+    <!-- 待办数据处理 -->
+    <bean id="pendingManager" class="com.seeyon.apps.collaboration.manager.PendingManagerImpl"></bean>
+    
+	<!-- 栏目事项管理类 -->
+	<bean name="portalAffairManager" class="com.seeyon.apps.collaboration.manager.PortalAffairManagerImpl"></bean>    
+	
+	<bean id="collaborationPortlet" class="com.seeyon.ctp.portal.portlet.CollaborationPortlet"></bean>
+	
+	<!-- 磁贴（超期事项） -->
+	<bean id="collaborationOverPortlet" class="com.seeyon.ctp.portal.portlet.CollaborationOverPortlet" />
+    <!-- 表单模板磁帖 vjoin start-->
+    <bean name="templateCategory" class="com.seeyon.ctp.portal.portlet.TemplateCategory"/>
+    <bean name="templatePortlet" class="com.seeyon.ctp.portal.portlet.TemplatePortlet"/>
+    <!-- 业务菜单磁帖    end -->
+	<!-- 图片显示Manager -->
+	<bean id="imageManager" class="com.seeyon.apps.common.image.manager.ImageManagerImpl" />
+	<bean id="vjoinImageHandler" class="com.seeyon.apps.common.image.handler.VjoinImageHandler" />
+	<bean id="uploadImageHandler" class="com.seeyon.apps.common.image.handler.UploadImageHandler" />
+	
+    <!-- 扫描二维码 -->
+    <bean id="collBarCodeTypeManager" class="com.seeyon.apps.collaboration.manager.CollBarCodeTypeManagerImpl" />
+    <!-- 用户角色授权类 -->
+    <bean id="orgPrivAuthManager" class="com.seeyon.apps.common.organization.OrgPrivAuthManagerImpl"></bean>
+    <!-- 协同和公文相关的工作流程数据修复类 -->
+    <bean id="workFlowDataRepairManager" class="com.seeyon.ctp.workflow.repair.WorkFlowDataRepairManagerImpl"></bean>
+    
+    <bean id="officeBakFileManager" class="com.seeyon.ctp.common.office.manager.OfficeBakFileManagerImpl"></bean>
+</beans>

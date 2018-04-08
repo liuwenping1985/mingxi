@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+    <!-- 事务问题没有解决，这里暂时屏蔽掉 -->
+	<!-- 
+	<bean id="edocApi" parent="baseTxService">
+		<property name="target">
+			<bean class="com.seeyon.apps.edoc.api.EdocApiImpl" />
+		</property>
+	</bean> 
+	-->
+	<bean id="edocApi" class="com.seeyon.apps.edoc.api.EdocApiImpl"></bean>
+
+</beans>

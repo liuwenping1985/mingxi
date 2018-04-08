@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>nc</id>
+	<name>NC插件</name>
+	<category>101</category>
+	<initializer>com.seeyon.apps.nc.NCPluginDefintion</initializer>
+</plugin>
+<!--
+<initializer>com.seeyon.apps.nc.NCPluginDefintion</initializer>
+-->

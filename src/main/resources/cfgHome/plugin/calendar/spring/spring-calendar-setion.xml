@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	
+	<!-- 项目日程事件 -->
+	<bean class="com.seeyon.ctp.portal.section.ProjectCalEventSection" id="projectCalEventSection">
+		<property name="sortId" value="108"/>
+		<property name="sectionType" value="common,timeManagement"/>
+		<property name="spaceTypes" value="related_project_space"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<!-- 栏目名称 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="calendar.share.event.project" />
+								<property name="validateValue" value="notNull=true maxLength=2000"></property>
+							</bean>
+							<!-- 栏目显示行数-->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsCount" />
+								<property name="subject" value="collaboration.cannel.data.count" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="8" />
+								<property name="validate" value="isInteger"></property>
+								<property name="validateValue" value="isInteger=true max=50 min=1"></property>
+							</bean>
+							<!-- 栏目显示字段, 0-标题,1-创建时间,2-创建人,3-类型(此字段废弃),4-状态 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnProperty" />
+								<property name="subject" value="cannel.display.column.label" />
+								<property name="valueType" value="1" />
+								<property name="defaultValue" value="title,createTime,creator,state" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.project.event.subject" />
+											<property name="value" value="title" />
+											<property name="readOnly" value="true" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.project.event.create.time" />
+											<property name="value" value="createTime" />
+										</bean>
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.project.event.create.people" />
+											<property name="value" value="creator" />
+										</bean>
+										<!--此字段废弃 
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.project.event.type" />
+											<property name="value" value="type" />
+										</bean>
+										 -->
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.project.event.state" />
+											<property name="value" value="state" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="eventdepartMentSection" class="com.seeyon.ctp.portal.section.DepartMentSection"
+		init-method="init">
+		<property name="sectionType" value="common" />
+		<property name="spaceTypes" value="department" />
+		<property name="sortId" value="24"/>
+	</bean>
+	<bean id="timeViewcalendarForWeekOrMonthSetion"
+		class="com.seeyon.ctp.portal.section.TimeViewCalendarForWeekOrMonthSetion"
+		init-method="init">
+		<property name="sectionType" value="timeManagement" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="calendar.arrangeTime.title" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnstyle" />
+								<property name="subject" value="cannel.style.label" />
+								<property name="valueType" value="0" />
+								<property name="onChange" value="timeViewChange" />
+								<property name="defaultValue" value="0" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.week" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.month.view" />
+											<property name="value" value="1" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnHeight" />
+                                <property name="subject" value="calendar.show.height" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="208" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=768 min=208" /> 
+                            </bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	
+    <bean id="eventLeaderScheduleSection" class="com.seeyon.ctp.portal.section.LeaderScheduleSection">
+        <property name="calEventManager" ref="calEventManager" />
+        <property name="sectionType" value="timeManagement" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+        <property name="newLine2Column">
+            <map>
+                <entry key="2" value="1" />
+                <entry key="3" value="2" />
+                <entry key="4" value="3" />
+                <entry key="5" value="4" />
+                <entry key="8" value="6" />
+                <entry key="10" value="8" />
+            </map>
+        </property>
+        <property name="newLine2Column1">
+            <map>
+                <entry key="2" value="2" />
+                <entry key="3" value="3" />
+                <entry key="4" value="4" />
+                <entry key="5" value="5" />
+                <entry key="8" value="8" />
+                <entry key="10" value="10" />
+            </map>
+        </property>
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <!-- 栏目标题 -->
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="calendar.learder.label" />
+                            </bean>
+                            <!-- 维度 -->
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsDimension" />
+                                <property name="subject" value="calendar.dimension" />
+                                <property name="onChange" value="leaderScheduleChangeByDimension" />
+                                <property name="changeValue" value="timeCountD=8 memberCountD=32" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="time" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.time.label" />
+                                            <property name="value" value="time" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="org.member.label" />
+                                            <property name="value" value="member" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnstyle" />
+                                <property name="subject" value="cannel.style.label" />
+                                <property name="onChange" value="leaderScheduleChangeByStyle" />
+                                <property name="changeValue" value="listCountD=32 pictureCountD=10" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="list" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="imagenews.list.label" />
+                                            <property name="value" value="list" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="imagenews.head.label" />
+                                            <property name="value" value="picture" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnscount" />
+                                <property name="subject" value="collaboration.cannel.data.count" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="8" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1 maxLength=2" />
+                            </bean>
+                        
+                            <!-- 多选框 -->
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnproperty" />
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="0,1,2,5" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="online.date.label" />
+                                            <property name="value" value="0" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="common.member.name" />
+                                            <property name="value" value="1" />
+                                            <property name="readOnly" value="true" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="common.subject.label" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="org.account.label" />
+                                            <property name="value" value="3" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="org.department.label" />
+                                            <property name="value" value="4" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="calendar.level.label" />
+                                            <property name="value" value="5" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>                    
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="eventotherSection" class="com.seeyon.ctp.portal.section.OtherSection"
+		init-method="init">
+		<property name="sectionType" value="timeManagement" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="calendar.share.event.other" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnscount" />
+								<property name="subject" value="collaboration.cannel.data.count" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="8" />
+								<property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" /> 
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnproperty" />
+								<property name="subject" value="cannel.display.column.label" />
+								<property name="valueType" value="1" />
+								<property name="defaultValue" value="0,1,2,3" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="common.subject.label" />
+											<property name="value" value="0" />
+											<property name="readOnly" value="true" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.event.create.beginDate" />
+											<property name="value" value="1" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.event.create.createUserName" />
+											<property name="value" value="2" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="common.state.label" />
+											<property name="value" value="3" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.finishrate" />
+											<property name="value" value="4" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsource" />
+								<property name="subject" value="calendar.calEvent.source" />
+								<property name="valueType" value="5" />
+								<property name="defaultValue" value="0" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.all" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.designated.ersonnel" />
+											<property name="value" value="designatedPersonnel" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl"
+												value="SelectPeople&amp;amp;Panels=Department,Team,Post,Outworker,RelatePeople&amp;amp;SelectType=Member&amp;amp;ShowMe=false&amp;amp;id=portalSender&amp;amp;include=true" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 栏目名称：日程事件 -->
+	<bean id="eventCalViewSetion" class="com.seeyon.ctp.portal.section.CalEventViewSetion"
+		init-method="init">
+		<property name="sectionType" value="timeManagement" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="calendar.event.list.toexcel.title" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnstyle" />
+								<property name="subject" value="cannel.style.label" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="0" />
+								<property name="onChange" value="calEventViewChange" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.name" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.col" />
+											<property name="value" value="1" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnscount" />
+								<property name="subject" value="collaboration.cannel.data.count" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="8" />
+								<property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnproperty" />
+								<property name="subject" value="cannel.display.column.label" />
+								<property name="valueType" value="1" />
+								<property name="defaultValue" value="0,1,2,3" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="common.subject.label" />
+											<property name="readOnly" value="true" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.event.create.state.beginDate" />
+											<property name="value" value="1" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="common.state.label" />
+											<property name="value" value="2" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.finishrate" />
+											<property name="value" value="3" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsource" />
+								<property name="subject" value="calendar.view.source" />
+								<property name="valueType" value="1" />
+								<property name="defaultValue" value="0,1" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.myself.create" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="calendar.arrange.entrust.others" />
+											<property name="value" value="1" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

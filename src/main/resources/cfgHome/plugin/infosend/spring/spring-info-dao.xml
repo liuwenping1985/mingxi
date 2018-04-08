@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="infoDao" class="com.seeyon.apps.info.dao.impl.InfoDaoImpl"></bean>
+	<bean id="infoListDao" class="com.seeyon.apps.info.dao.impl.InfoListDaoImpl"></bean>
+	<bean id="infoScoreDao" class="com.seeyon.apps.info.dao.impl.InfoScoreDaoImpl"></bean>
+	<bean id="infoFormatDao" class="com.seeyon.apps.info.dao.impl.InfoFormatDaoImpl"></bean>
+	<bean id="infoOpinionDao" class="com.seeyon.apps.info.dao.impl.InfoOpinionDaoImp"></bean>
+	<bean id="magazineDao" class="com.seeyon.apps.info.dao.impl.MagazineDaoImpl"></bean>
+	<bean id="magazineListDao" class="com.seeyon.apps.info.dao.impl.MagazineListDaoImpl"></bean>
+	<bean id="infoStatDao" class="com.seeyon.apps.info.dao.impl.InfoStatDaoImpl"></bean>
+	<bean id="infoMagazinePublishDao" class="com.seeyon.apps.info.dao.impl.InfoMagazinePublishDaoImpl"></bean>
+	<bean id="infoPublishScoreDao" class="com.seeyon.apps.info.dao.impl.InfoPublishScoreDaoImpl"></bean>
+	<bean id="infoSearchDao" class="com.seeyon.apps.info.dao.impl.InfoSearchDaoImpl"></bean>
+</beans>

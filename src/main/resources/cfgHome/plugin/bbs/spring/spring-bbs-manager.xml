@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="bbsArticleManager" class="com.seeyon.v3x.bbs.manager.BbsArticleManagerImpl" init-method="init" />
+	<bean id="bbsBoardManager" class="com.seeyon.v3x.bbs.manager.BbsBoardManagerImpl" singleton="true" />
+	<bean id="validateBoardNameManager" class="com.seeyon.v3x.bbs.manager.ValidateBoardNameManager" />
+
+	<bean id="bbsArticleNotificationHandler" class="com.seeyon.v3x.bbs.cluster.BbsArticleNotificationHandler" />
+	<bean id="bbsNotificationHandler" class="com.seeyon.v3x.bbs.cluster.BbsNotificationHandler" />
+
+	<bean id="bbsDocFilingEnable" class="com.seeyon.v3x.bbs.doc.BbsDocFilingEnable" />
+
+	<bean id="bbsIndex" class="com.seeyon.v3x.bbs.index.BbsIndexImpl" />
+
+	<bean id="bbsManager4ISearch" class="com.seeyon.v3x.bbs.isearch.BbsManager4ISearch" init-method="init" />
+
+	<bean class="com.seeyon.v3x.bbs.organization.BbsOrganizationEventListener" />
+	<bean id="memberLeaveClearItemBbsRole" class="com.seeyon.v3x.bbs.organization.MemberLeaveClearItemBbsRoleImpl" />
+
+	<bean id="bbsPortlet" class="com.seeyon.v3x.bbs.portal.portlet.BbsPortlet" />
+	<bean id="bbsPortalEventListener" class="com.seeyon.v3x.bbs.portal.BbsPortalEventListener" />
+	<bean id="bbsPublicInfoSpaceOwnerMenuSelector" class="com.seeyon.v3x.bbs.portal.BbsPublicInfoSpaceOwnerMenuSelector">
+		<property name="spaceType" value="department,corporation,group,custom,public_custom,public_custom_group"></property>
+		<property name="sortId" value="3"></property>
+	</bean>
+
+	<bean id="bbsProjectEventListener" class="com.seeyon.v3x.bbs.project.BbsProjectEventListener" />
+
+	<bean id="securityControlBBS" class="com.seeyon.v3x.bbs.security.SecurityControlBBSImpl" />
+
+	<bean id="userMessageFilterImplBBS" class="com.seeyon.v3x.bbs.usermessage.UserMessageFilterImplBBS" />
+
+</beans>

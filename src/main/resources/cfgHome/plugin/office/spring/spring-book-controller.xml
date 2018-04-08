@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<!-- 基础设置 -->
+	<bean name="/office/bookSet.do" class="com.seeyon.apps.office.controller.BookSetController" />
+	<!-- 图书资料使用 -->
+	<bean name="/office/bookUse.do" class="com.seeyon.apps.office.controller.BookUseController" />
+	<!-- 图书资料统计 -->
+	<bean name="/office/bookStc.do" class="com.seeyon.apps.office.controller.BookStcController" />
+
+</beans>

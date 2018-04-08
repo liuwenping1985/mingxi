@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="dataRelationManager" class="com.seeyon.apps.datarelation.manager.DataRelationManagerImpl"></bean>
+	<alias name="dataRelationManager" alias="dataRelationApi"/>
+	<bean id="dataRelationListener" class="com.seeyon.apps.datarelation.listener.DataRelationListener"></bean>
+</beans>

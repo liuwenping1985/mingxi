@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<everybodyWork>
+		<enabled mark="{option,0,1} {VE}" desc="是否启用大家work集成 0--不启用  1--启用">0</enabled>
+		<codeLocation mark="{VE}" desc="Code服务器地址">https://oauth.dajiashequ.com/oauth/oauth/authorize</codeLocation>
+		<tokenLocation mark="{VE}" desc="Token服务器地址">https://oauth.dajiashequ.com/oauth/oauth/token</tokenLocation>
+		<clientId mark="{VE}" desc="客户端Id"></clientId>
+		<clientSecret mark="{VE}" desc="客户端密码"></clientSecret>
+		<everybwUrl mark="{VE}" desc="大家社区官网地址">http://www.dajiawork.com</everybwUrl>
+        <openApiUrl mark="{VE}" desc="大家社区Api调用接口地址">https://api.dajiashequ.com</openApiUrl>
+	</everybodyWork>
+</ctpConfig>

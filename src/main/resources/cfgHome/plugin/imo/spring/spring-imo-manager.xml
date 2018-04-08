@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="imoSynchronManager" class="com.seeyon.v3x.imo.manager.IMOSynchronManagerImpl" init-method="init" />
+	<bean id="imoSendMessage" class="com.seeyon.v3x.common.imo.manager.IMOSendMessageImp" />
+	<bean id="imoAutoSynTimer" class="com.seeyon.v3x.imo.manager.IMOAutoSynTimerImp" />
+	<bean id="imoAutoSynManager" class="com.seeyon.v3x.imo.manager.IMOAutoSynManagerImp" />
+	<bean id="imoMessagePipeline" class="com.seeyon.v3x.imo.message.IMOMessagePipeline">
+		<property name="defaultSend" value="${imo.defaultSend}" />
+	</bean>
+	<bean id="imoEventListener" class="com.seeyon.v3x.imo.listener.IMOEventListener" />
+	<bean id="imo" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+		<property name="name" value="imo" />
+		<property name="ticketName" value="ticket" />
+		<property name="handshake">
+			<bean class="com.seeyon.v3x.imo.sso.IMOA8SSOLoginImp" />
+		</property>
+	</bean>
+
+</beans>

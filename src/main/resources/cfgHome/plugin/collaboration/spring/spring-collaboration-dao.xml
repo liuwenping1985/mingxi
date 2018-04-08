@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="colDao"
+        class="com.seeyon.apps.collaboration.dao.ColDaoImpl">
+    </bean>
+    <bean id="col4WFAnalysisDao"
+        class="com.seeyon.apps.collaboration.dao.Col4WFAnalysisDaoImpl">
+    </bean>
+    <bean id="iSearchInterfaceColDao" class="com.seeyon.apps.collaboration.dao.ISearchInterfaceColDaoImpl"></bean>
+</beans>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="ncBusinessManager" class="com.seeyon.apps.ncbusiness.manager.NCBusinessManagerImpl">
+    </bean>
+    <bean id="ncBussinessServiceImpl" class="com.seeyon.apps.ncbusiness.services.NCBussinessServiceImpl">
+    </bean>
+    <bean id="ncBusinessBeforeEventImpl" class="com.seeyon.apps.ncbusiness.listener.NCBusinessBeforeEventImpl">
+    </bean>
+    <bean id="ncBusinessPendingEventListener" class="com.seeyon.apps.ncbusiness.listener.NCBusinessPendingEventListener">
+    </bean>
+    <bean id="quartDeal" class="com.seeyon.apps.ncbusiness.listener.NCBusinessQuartDeal">
+    </bean>
+     <bean id="ncBusinessDao" class="com.seeyon.apps.ncbusiness.dao.NCBusinessDaoImpl">
+    </bean>
+    <bean id="ncBusiBindManager" class="com.seeyon.apps.ncbusiness.manager.NCBusiBindManagerImpl">
+		<property name="ncMultiBDDao" ref="ncMultiBDDao" />
+		<property name="templateManager" ref="templateManager" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="formCacheManager" ref="formCacheManager" />
+	</bean>
+	<bean id="ncMutilBusinessManager" class="com.seeyon.apps.ncbusiness.manager.NCMutilBusinessManagerImpl">
+	</bean>
+    <bean id="ncBussinessErrorCode" class="com.seeyon.apps.ncbusiness.util.NCBussinessErrorCode">
+        <property name="errorCode">
+            <map>
+                <entry key="0" value="ERROR:没有OA授权信息:" />
+                <entry key="1" value="ERROR:从NC数据中获取OA发起人为空" />
+                <entry key="2" value="ERROR:NC流程实例ID为空"/>
+                <entry key="3" value="ERROR:其他错误:"/>
+                <entry key="4" value="ERROR:请检查OA中是否存在此表单或是否表单模板编号有误"/>
+                <entry key="5" value="ERROR:NC模板单据对应的OA表单模板未授权范围"/>
+                <entry key="6" value="ERROR:NC模板单据对应的OA表单已停用"/>
+                <entry key="7" value="ERROR:找不到NC系统配置"/>
+                <entry key="8" value="ERROR:没有授权的NC业务集成插件"/>
+                <entry key="9" value="ERROR:无模板访问权限，请在OA中授权"/>
+            </map>
+        </property>
+     </bean>
+     <bean id="ncBusinessAutoStop" class="com.seeyon.apps.ncbusiness.manager.NCBusinessAutoStopImpl">
+    </bean>
+</beans>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlets>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>infoSend</portletId>
+		<!-- 需要进行权限判断时使用的资源Id-->
+		<resourceCode>F18_infoReport</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id-->
+		<pluginId>infosend</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>已上报</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>infosend.label.reportSent</displayName>
+		<!-- Portlet分类 -->
+		<!-- 
+				space,//空间
+				common, //常用
+				collaboration,//协同工作
+				formbizconfigs, //表单应用
+				edoc,//公文管理
+				timeManagement, //目标管理
+				meeting,//会议管理
+				doc, //知识社区
+				performanceAnalysis,//协同驾驶舱
+				integratedoffice,//综合办公
+				publicInformation, //文化建设
+				hrmanage,//HR管理
+				uccenter,//UC中心
+				info,//信息报送
+				businessfactory,//业务生成器
+				business,//业务
+				mytool,//我的工具
+		 -->
+		<category>info</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/info/infomain.do?method=infoReport&listType=listInfoReported]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>1</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				<!-- 图片路径 -->
+				<imageUrl><![CDATA[d_xxbsysb.png]]></imageUrl>
+				<!-- 图片名称 -->
+				<imageName>infosend.label.reportSent</imageName>
+				<!-- 图片内容标题 -->
+				<imageTitle></imageTitle>
+				<!-- 图片内容摘要 -->
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>infoCreate</portletId>
+		<!-- 需要进行权限判断时使用的资源Id-->
+		<resourceCode>F18_infoCreate</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id-->
+		<pluginId>infosend</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>信息新建</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>infosend.label.reportCreate</displayName>
+		<!-- Portlet分类 -->
+		<category>info</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/info/infomain.do?method=infoReport&listType=listCreateInfo]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>2</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				<!-- 图片路径 -->
+				<imageUrl><![CDATA[d_xxbsysb.png]]></imageUrl>
+				<!-- 图片名称 -->
+				<imageName>infosend.label.reportCreate</imageName>
+				<!-- 图片内容标题 -->
+				<imageTitle></imageTitle>
+				<!-- 图片内容摘要 -->
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>infoDone</portletId>
+		<!-- 需要进行权限判断时使用的资源Id-->
+		<resourceCode>F18_infoAudit</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id-->
+		<pluginId>infosend</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>已审核信息</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>infosend.label.Audited</displayName>
+		<!-- Portlet分类 -->
+		<category>info</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/info/infomain.do?method=infoAudit&listType=listInfoDone]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>3</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				<!-- 图片路径 -->
+				<imageUrl><![CDATA[d_xxbsyshxx.png]]></imageUrl>
+				<!-- 图片名称 -->
+				<imageName>infosend.label.Audited</imageName>
+				<!-- 图片内容标题 -->
+				<imageTitle></imageTitle>
+				<!-- 图片内容摘要 -->
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>infoMagazineManager</portletId>
+		<!-- 需要进行权限判断时使用的资源Id-->
+		<resourceCode>F18_magazineManager</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id-->
+		<pluginId>infosend</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>期刊管理</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>infosend.label.magazineManager</displayName>
+		<!-- Portlet分类 -->
+		<category>info</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/info/infomain.do?method=magazineAudit&listType=listMagazineManager]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>4</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				<!-- 图片路径 -->
+				<imageUrl><![CDATA[d_xxbsqkgl.png]]></imageUrl>
+				<!-- 图片名称 -->
+				<imageName>infosend.label.magazineManager</imageName>
+				<!-- 图片内容标题 -->
+				<imageTitle></imageTitle>
+				<!-- 图片内容摘要 -->
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+	<portlet>
+        <!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+        <portletId>infoMagazineDone</portletId>
+        <!-- 需要进行权限判断时使用的资源Id-->
+        <resourceCode>F18_magazinePublish</resourceCode>
+        <!-- 需要进行权限判断时使用的插件Id-->
+        <pluginId>infosend</pluginId>
+        <!-- Portlet名称,可以为空 -->
+        <portletName>已审核期刊</portletName>
+        <!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+        <displayName>infosend.label.magazineAudited</displayName>
+        <!-- Portlet分类 -->
+        <category>info</category>
+        <!-- Portlet点击响应地址 -->
+        <portletUrl><![CDATA[/info/infomain.do?method=magazineAudit&listType=listMagazineAuditDone]]></portletUrl>
+        <!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+        <portletUrlType>workspace</portletUrlType>
+        <!-- Portlet大小,0:中,1:大 -->
+        <size>0</size>
+        <!-- Portlet排序 -->
+        <order>6</order>
+        <!-- Portlet展示图片 -->
+        <imageLayouts>
+            <imageLayout>
+                <!-- 图片路径 -->
+                <imageUrl><![CDATA[d_xxbsyshqk.png]]></imageUrl>
+                <!-- 图片名称 -->
+                <imageName>infosend.label.magazineAudited</imageName>
+                <!-- 图片内容标题 -->
+                <imageTitle></imageTitle>
+                <!-- 图片内容摘要 -->
+                <summary></summary>
+            </imageLayout>
+        </imageLayouts>
+    </portlet>
+    <portlet>
+        <!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+        <portletId>infomagazinePublish</portletId>
+        <!-- 需要进行权限判断时使用的资源Id-->
+        <resourceCode>F18_magazinePublish</resourceCode>
+        <!-- 需要进行权限判断时使用的插件Id-->
+        <pluginId>infosend</pluginId>
+        <!-- Portlet名称,可以为空 -->
+        <portletName>已发布期刊</portletName>
+        <!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+        <displayName>infosend.label.magazinePublished</displayName>
+        <!-- Portlet分类 -->
+        <category>info</category>
+        <!-- Portlet点击响应地址 -->
+        <portletUrl><![CDATA[/info/infomain.do?method=magazineAudit&listType=listMagazinePublishDone]]></portletUrl>
+        <!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+        <portletUrlType>workspace</portletUrlType>
+        <!-- Portlet大小,0:中,1:大 -->
+        <size>0</size>
+        <!-- Portlet排序 -->
+        <order>8</order>
+        <!-- Portlet展示图片 -->
+        <imageLayouts>
+            <imageLayout>
+                <!-- 图片路径 -->
+                <imageUrl><![CDATA[d_xxbsyfbqk.png]]></imageUrl>
+                <!-- 图片名称 -->
+                <imageName>infosend.label.magazinePublished</imageName>
+                <!-- 图片内容标题 -->
+                <imageTitle></imageTitle>
+                <!-- 图片内容摘要 -->
+                <summary></summary>
+            </imageLayout>
+        </imageLayouts>
+    </portlet>
+    <portlet>
+        <!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+        <portletId>infoSocreTable</portletId>
+        <!-- 需要进行权限判断时使用的资源Id-->
+        <resourceCode>F18_magazineCheck</resourceCode>
+        <!-- 需要进行权限判断时使用的插件Id-->
+        <pluginId>infosend</pluginId>
+        <!-- Portlet名称,可以为空 -->
+        <portletName>信息积分表</portletName>
+        <!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+        <displayName>infosend.label.infoScore</displayName>
+        <!-- Portlet分类 -->
+        <category>info</category>
+        <!-- Portlet点击响应地址 -->
+        <portletUrl><![CDATA[/info/infomain.do?method=magazineAudit&listType=listInfoPublishScoreDetail]]></portletUrl>
+        <!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+        <portletUrlType>workspace</portletUrlType>
+        <!-- Portlet大小,0:中,1:大 -->
+        <size>0</size>
+        <!-- Portlet排序 -->
+        <order>9</order>
+        <!-- Portlet展示图片 -->
+        <imageLayouts>
+            <imageLayout>
+                <!-- 图片路径 -->
+                <imageUrl><![CDATA[d_xxbsxxjfb.png]]></imageUrl>
+                <!-- 图片名称 -->
+                <imageName>infosend.label.infoScore</imageName>
+                <!-- 图片内容标题 -->
+                <imageTitle></imageTitle>
+                <!-- 图片内容摘要 -->
+                <summary></summary>
+            </imageLayout>
+        </imageLayouts>
+    </portlet>
+    <portlet>
+        <!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+        <portletId>infoQuery</portletId>
+        <!-- 需要进行权限判断时使用的资源Id-->
+        <resourceCode>F18_infoQuery</resourceCode>
+        <!-- 需要进行权限判断时使用的插件Id-->
+        <pluginId>infosend</pluginId>
+        <!-- Portlet名称,可以为空 -->
+        <portletName>信息查询</portletName>
+        <!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+        <displayName>infosend.label.infoQuery</displayName>
+        <!-- Portlet分类 -->
+        <category>info</category>
+        <!-- Portlet点击响应地址 -->
+        <portletUrl><![CDATA[/info/infomain.do?method=infoQueryAndStat&listType=infoQuery]]></portletUrl>
+        <!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+        <portletUrlType>workspace</portletUrlType>
+        <!-- Portlet大小,0:中,1:大 -->
+        <size>0</size>
+        <!-- Portlet排序 -->
+        <order>10</order>
+        <!-- Portlet展示图片 -->
+        <imageLayouts>
+            <imageLayout>
+                <!-- 图片路径 -->
+                <imageUrl><![CDATA[d_xxbsxxcx.png]]></imageUrl>
+                <!-- 图片名称 -->
+                <imageName>infosend.label.infoQuery</imageName>
+                <!-- 图片内容标题 -->
+                <imageTitle></imageTitle>
+                <!-- 图片内容摘要 -->
+                <summary></summary>
+            </imageLayout>
+        </imageLayouts>
+    </portlet>
+    <portlet>
+        <!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+        <portletId>infoStat</portletId>
+        <!-- 需要进行权限判断时使用的资源Id-->
+        <resourceCode>F18_infoStat</resourceCode>
+        <!-- 需要进行权限判断时使用的插件Id-->
+        <pluginId>infosend</pluginId>
+        <!-- Portlet名称,可以为空 -->
+        <portletName>信息统计</portletName>
+        <!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+        <displayName>infosend.label.statInfo</displayName>
+        <!-- Portlet分类 -->
+        <category>info</category>
+        <!-- Portlet点击响应地址 -->
+        <portletUrl><![CDATA[/info/infomain.do?method=infoQueryAndStat&listType=infoStat]]></portletUrl>
+        <!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+        <portletUrlType>workspace</portletUrlType>
+        <!-- Portlet大小,0:中,1:大 -->
+        <size>0</size>
+        <!-- Portlet排序 -->
+        <order>11</order>
+        <!-- Portlet展示图片 -->
+        <imageLayouts>
+            <imageLayout>
+                <!-- 图片路径 -->
+                <imageUrl><![CDATA[d_xxbsxxtj.png]]></imageUrl>
+                <!-- 图片名称 -->
+                <imageName>infosend.label.statInfo</imageName>
+                <!-- 图片内容标题 -->
+                <imageTitle></imageTitle>
+                <!-- 图片内容摘要 -->
+                <summary></summary>
+            </imageLayout>
+        </imageLayouts>
+    </portlet>
+</portlets>

@@ -1,0 +1,1116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	
+	<!--公告部门-->
+	<bean id="bulDepartment" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="部门公告"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptBulIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="department"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到数"></property>
+					<property name="name" value="receiveNum"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT DISTINCT
+														M.id AS orgid,
+														m.org_department_id as department_id,
+														r.bul_id AS bul_id
+													FROM
+														ORG_MEMBER M
+													LEFT JOIN(
+														SELECT
+															u2. ID AS pid,
+															u1. ID AS SID
+														FROM
+															org_unit u1,
+															org_unit u2
+														WHERE
+															u1. PATH LIKE u2.PATH+'%'
+														AND u1. TYPE = 'Department'
+														AND u2. TYPE = 'Department'
+														AND u1.is_internal = 1
+													)U ON M .ORG_DEPARTMENT_ID = U . SID
+													INNER JOIN(
+														SELECT
+															s.user_id,
+															b. ID AS bul_id
+														FROM
+															bul_data b
+														LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+														WHERE
+															s.user_type = 'Department'
+														AND b.state IN(30, 100)
+														AND b.DELETED_FLAG = 0
+														AND b.publish_date BETWEEN :startTime AND :endTime
+													)r ON U .pid = r.user_id
+													WHERE
+														M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT DISTINCT
+														M.id AS orgid,
+														m.org_department_id as department_id,
+														r.bul_id AS bul_id
+													FROM
+														ORG_MEMBER M
+													LEFT JOIN(
+														SELECT
+															u2. ID AS pid,
+															u1. ID AS SID
+														FROM
+															org_unit u1,
+															org_unit u2
+														WHERE
+															u1. PATH LIKE u2.PATH+'%'
+														AND u1. TYPE = 'Account'
+														AND u2. TYPE = 'Account'
+														AND u1.is_internal = 1
+													)U ON M .ORG_ACCOUNT_ID = U . SID
+													INNER JOIN(
+														SELECT
+															s.user_id,
+															b. ID AS bul_id
+														FROM
+															bul_data b
+														LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+														WHERE
+															s.user_type = 'Account'
+														AND b.state IN(30, 100)
+														AND b.DELETED_FLAG = 0
+														AND b.publish_date BETWEEN :startTime AND :endTime
+													)r ON U .pid = r.user_id
+													WHERE
+														M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+											<!-- SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT DISTINCT
+														M.id AS orgid,
+														m.org_department_id as department_id,
+														r.bul_id AS bul_id
+													FROM
+														ORG_MEMBER M
+													LEFT JOIN(
+														SELECT
+															u2. ID AS pid,
+															u1. ID AS SID
+														FROM
+															org_unit u1,
+															org_unit u2
+														WHERE
+															u1. PATH LIKE CONCAT(u2.PATH, '%')
+														AND u1. TYPE = 'Department'
+														AND u2. TYPE = 'Department'
+														AND u1.is_internal = 1
+													)U ON M .ORG_DEPARTMENT_ID = U . SID
+													INNER JOIN(
+														SELECT
+															s.user_id,
+															b. ID AS bul_id
+														FROM
+															bul_data b
+														LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+														WHERE
+															s.user_type = 'Department'
+														AND b.state IN(30, 100)
+														AND b.DELETED_FLAG = 0
+														AND b.publish_date BETWEEN :startTime AND :endTime
+													)r ON U .pid = r.user_id
+													WHERE
+														M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1 -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT DISTINCT
+														M.id AS orgid,
+														m.org_department_id as department_id,
+														r.bul_id AS bul_id
+													FROM
+														ORG_MEMBER M
+													LEFT JOIN(
+														SELECT
+															u2. ID AS pid,
+															u1. ID AS SID
+														FROM
+															org_unit u1,
+															org_unit u2
+														WHERE
+															u1. PATH LIKE CONCAT(u2.PATH, '%')
+														AND u1. TYPE = 'Account'
+														AND u2. TYPE = 'Account'
+														AND u1.is_internal = 1
+													)U ON M .ORG_ACCOUNT_ID = U . SID
+													INNER JOIN(
+														SELECT
+															s.user_id,
+															b. ID AS bul_id
+														FROM
+															bul_data b
+														LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+														WHERE
+															s.user_type = 'Account'
+														AND b.state IN(30, 100)
+														AND b.DELETED_FLAG = 0
+														AND b.publish_date BETWEEN :startTime AND :endTime
+													)r ON U .pid = r.user_id
+													WHERE
+														M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT DISTINCT
+														M.id AS orgid,
+														m.org_department_id as department_id,
+														r.bul_id AS bul_id
+													FROM
+														ORG_MEMBER M
+													LEFT JOIN(
+														SELECT
+															u2. ID AS pid,
+															u1. ID AS SID
+														FROM
+															org_unit u1,
+															org_unit u2
+														WHERE
+															u1. PATH LIKE u2. PATH || '%'
+														AND u1. TYPE = 'Department'
+														AND u2. TYPE = 'Department'
+														AND u1.is_internal = 1
+													)U ON M .ORG_DEPARTMENT_ID = U . SID
+													INNER JOIN(
+														SELECT
+															s.user_id,
+															b. ID AS bul_id
+														FROM
+															bul_data b
+														LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+														WHERE
+															s.user_type = 'Department'
+														AND b.state IN(30, 100)
+														AND b.DELETED_FLAG = 0
+														AND b.publish_date BETWEEN :startTime AND :endTime
+													)r ON U .pid = r.user_id
+													WHERE
+														M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT DISTINCT
+														M.id AS orgid,
+														m.org_department_id as department_id,
+														r.bul_id AS bul_id
+													FROM
+														ORG_MEMBER M
+													LEFT JOIN(
+														SELECT
+															u2. ID AS pid,
+															u1. ID AS SID
+														FROM
+															org_unit u1,
+															org_unit u2
+														WHERE
+															u1. PATH LIKE u2. PATH || '%'
+														AND u1. TYPE = 'Account'
+														AND u2. TYPE = 'Account'
+														AND u1.is_internal = 1
+													)U ON M .ORG_ACCOUNT_ID = U . SID
+													INNER JOIN(
+														SELECT
+															s.user_id,
+															b. ID AS bul_id
+														FROM
+															bul_data b
+														LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+														WHERE
+															s.user_type = 'Account'
+														AND b.state IN(30, 100)
+														AND b.DELETED_FLAG = 0
+														AND b.publish_date BETWEEN :startTime AND :endTime
+													)r ON U .pid = r.user_id
+													WHERE
+														M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server,mysql,postgreSQL,oracle,dm"></property>
+								<property name="sqlText">
+									<value>
+											<!-- SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT
+														m.id AS orgid,
+														m.org_department_id as department_id,
+														b. ID AS bul_id
+													FROM
+														BUL_DATA b
+													LEFT JOIN BUL_PUBLISH_SCOPE s ON b. ID = s.BUL_DATA_ID
+													LEFT JOIN org_member M ON(
+														M .ORG_POST_ID = s.USER_ID
+														AND s.USER_TYPE = 'Post'
+													)
+													OR(
+														M .ORG_LEVEL_ID = s.USER_ID
+														AND s.USER_TYPE = 'Level'
+													)
+													OR(
+														M . ID = s.user_id
+														AND s.USER_TYPE = 'Member'
+													)
+													WHERE
+														b.state IN(30, 100)
+													AND b.DELETED_FLAG = 0
+													AND b.publish_date BETWEEN :startTime AND :endTime
+													AND M .IS_DELETED = 0
+													AND M .is_internal = 1
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1 -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server,mysql,postgreSQL,oracle,dm"></property>
+								<property name="sqlText">
+									<value>
+										<!-- SELECT
+												r.orgid as memid,
+												r.department_id AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												(
+													SELECT
+														m.id AS orgid,
+														m.org_department_id as department_id,
+														b. ID AS bul_id
+													FROM
+														BUL_DATA b
+													LEFT JOIN BUL_PUBLISH_SCOPE s ON b. ID = s.BUL_DATA_ID
+													LEFT JOIN ORG_TEAM T ON T . ID = s.USER_ID
+													LEFT JOIN ORG_RELATIONSHIP r ON T . ID = r.source_id
+													LEFT JOIN ORG_MEMBER M ON r.OBJECTIVE0_ID = M . ID
+													WHERE
+														s.USER_TYPE = 'Team'
+													AND b.state IN(30, 100)
+													AND b.DELETED_FLAG = 0
+													AND b.publish_date BETWEEN :startTime AND :endTime
+													AND M . ID IS NOT NULL
+													AND M .IS_DELETED = 0
+													AND M .state = 1
+													AND M .IS_ASSIGNED = 1
+													AND M .IS_ENABLE = 1
+													AND M .is_internal = 1
+													AND M .ORG_DEPARTMENT_ID != - 1
+												)r
+											LEFT JOIN org_unit U ON U . ID = r.department_id
+											WHERE
+												U .IS_DELETED = 0
+											AND U .IS_ENABLE = 1
+											AND U .IS_INTERNAL = 1 -->
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												u.id AS orgid,
+												r.readnum AS readnum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													r.org_department_id AS orgid,
+													count(r.bul_id)AS readnum
+												FROM
+													(
+														SELECT
+															m.org_department_id,
+															n.bul_id
+														FROM
+															(
+																SELECT
+																	b.MANAGER_ID AS orgid,
+																	b.BULLETIN_ID AS bul_id
+																FROM
+																	bul_read b,
+																	bul_data n
+																WHERE
+																	b.read_date BETWEEN :startTime AND :endTime
+																AND n.publish_date BETWEEN :startTime AND :endTime
+																and n.id=b.bulletin_id
+																AND n.state IN(30, 100)
+																and n.DELETED_FLAG=0
+
+															)n
+														LEFT JOIN org_member m ON n.orgid = m.ID
+														WHERE
+															m.IS_DELETED = 0
+														AND m. state=1
+														and m.IS_ASSIGNED=1
+														and m.IS_ENABLE=1
+														and m.is_internal=1
+														AND m.ORG_DEPARTMENT_ID != - 1
+													)r
+												GROUP BY
+													r.org_department_id
+											)r ON u.id = r.orgid
+											where 
+												u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读总时间"></property>
+					<property name="name" value="readRatio"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m.ORG_DEPARTMENT_ID as orgid,
+												r.READ_DATE as read_date,
+												n.PUBLISH_DATE as publish_date
+											FROM
+												BUL_READ r
+											left join BUL_DATA n on r.BULLETIN_ID=n.id
+											left join ORG_MEMBER m on r.MANAGER_ID=m.id
+											left join org_unit u on u.id=m.ORG_DEPARTMENT_ID
+											where 
+												n.state in (30,100)
+											and	m.IS_DELETED = 0
+											AND m. state=1
+											AND n.state IN(30, 100)
+											and n.DELETED_FLAG=0
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											and m.is_internal=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											AND n.publish_date BETWEEN :startTime AND :endTime
+											and r.read_date between :startTime and :endTime
+											and u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="reportPointHander">
+			<bean class="com.seeyon.apps.dashboard.bo.ReportPointHandler">
+				<property name="managerName" value="com.seeyon.apps.dashboard.BulIndexHandler"></property>
+				<property name="methodName">
+					<map>
+						<entry key="readRatio" value="getReadRatio"></entry>
+						<entry key="receiveNum" value="getDeptReceiveNum"></entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!--公告人员-->
+	<bean id="bulMember" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="人员公告"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptBulIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="member"></entry> 
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到数"></property>
+					<property name="name" value="receiveNum"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												M . ID AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												ORG_MEMBER M
+											LEFT JOIN(
+												SELECT
+													u2. ID AS pid,
+													u1. ID AS SID
+												FROM
+													org_unit u1,
+													org_unit u2
+												WHERE
+													u1. PATH LIKE u2. PATH + '%'
+												AND u1. TYPE = 'Department'
+												AND u2. TYPE = 'Department'
+												AND u1.is_internal = 1
+											)U ON M .ORG_DEPARTMENT_ID = U . SID
+											LEFT JOIN(
+												SELECT
+													s.user_id,
+													b. ID AS bul_id
+												FROM
+													bul_data b
+												LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+												WHERE
+													s.user_type = 'Department'
+												AND b.state IN(30, 100)
+												AND b.DELETED_FLAG = 0
+												AND b.publish_date BETWEEN :startTime AND :endTime
+											)r ON U .pid = r.user_id
+											WHERE
+												M .IS_DELETED = 0
+											AND M .state = 1
+											AND M .IS_ASSIGNED = 1
+											AND M .IS_ENABLE = 1
+											AND M .is_internal = 1
+											AND M .ORG_DEPARTMENT_ID != - 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												M.ID AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												ORG_MEMBER M
+											LEFT JOIN(
+												SELECT
+													u2.ID AS pid,
+													u1.ID AS SID
+												FROM
+													org_unit u1,
+													org_unit u2
+												WHERE
+													u1.PATH LIKE u2.PATH + '%'
+												AND u1.TYPE = 'Account'
+												AND u2.TYPE = 'Account'
+												AND u1.is_internal = 1
+											)U ON M.ORG_ACCOUNT_ID = U.SID
+											LEFT JOIN(
+												SELECT
+													s.user_id,
+													b.ID AS bul_id
+												FROM
+													bul_data b
+												LEFT JOIN bul_publish_scope s ON b.ID = s.bul_data_id
+												WHERE
+													s.user_type = 'Account'
+												AND b.state IN(30, 100)
+												AND b.DELETED_FLAG = 0
+												AND b.publish_date BETWEEN :startTime
+												AND :endTime
+											)r ON U.pid = r.user_id
+											WHERE
+												M.IS_DELETED = 0
+											AND M.state = 1
+											AND M.IS_ASSIGNED = 1
+											AND M.IS_ENABLE = 1
+											AND M.is_internal = 1
+											AND M.ORG_DEPARTMENT_ID != - 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+										<!-- SELECT
+											M . ID AS orgid,
+											r.bul_id AS bul_id
+										FROM
+											ORG_MEMBER M
+										LEFT JOIN(
+											SELECT
+												u2. ID AS pid,
+												u1. ID AS SID
+											FROM
+												org_unit u1,
+												org_unit u2
+											WHERE
+												u1. PATH LIKE CONCAT(u2.PATH, '%')
+											AND u1. TYPE = 'Department'
+											AND u2. TYPE = 'Department'
+											AND u1.is_internal = 1
+										)U ON M .ORG_DEPARTMENT_ID = U . SID
+										LEFT JOIN(
+											SELECT
+												s.user_id,
+												b. ID AS bul_id
+											FROM
+												bul_data b
+											LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+											WHERE
+												s.user_type = 'Department'
+											AND b.state IN(30, 100)
+											AND b.DELETED_FLAG = 0
+											AND b.publish_date BETWEEN :startTime AND :endTime
+										)r ON U .pid = r.user_id
+										WHERE
+											M .IS_DELETED = 0
+										AND M .state = 1
+										AND M .IS_ASSIGNED = 1
+										AND M .IS_ENABLE = 1
+										AND M .is_internal = 1
+										AND M .ORG_DEPARTMENT_ID != - 1 -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												M.ID AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												ORG_MEMBER M
+											LEFT JOIN(
+												SELECT
+													u2.ID AS pid,
+													u1.ID AS SID
+												FROM
+													org_unit u1,
+													org_unit u2
+												WHERE
+													u1.PATH LIKE CONCAT(u2.PATH, '%')
+												AND u1.TYPE = 'Account'
+												AND u2.TYPE = 'Account'
+												AND u1.is_internal = 1
+											)U ON M.ORG_ACCOUNT_ID = U.SID
+											LEFT JOIN(
+												SELECT
+													s.user_id,
+													b.ID AS bul_id
+												FROM
+													bul_data b
+												LEFT JOIN bul_publish_scope s ON b.ID = s.bul_data_id
+												WHERE
+													s.user_type = 'Account'
+												AND b.state IN(30, 100)
+												AND b.DELETED_FLAG = 0
+												AND b.publish_date BETWEEN :startTime
+												AND :endTime
+											)r ON U.pid = r.user_id
+											WHERE
+												M.IS_DELETED = 0
+											AND M.state = 1
+											AND M.IS_ASSIGNED = 1
+											AND M.IS_ENABLE = 1
+											AND M.is_internal = 1
+											AND M.ORG_DEPARTMENT_ID != - 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												M . ID AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												ORG_MEMBER M
+											LEFT JOIN(
+												SELECT
+													u2. ID AS pid,
+													u1. ID AS SID
+												FROM
+													org_unit u1,
+													org_unit u2
+												WHERE
+													u1. PATH LIKE u2.PATH||'%'
+												AND u1. TYPE = 'Department'
+												AND u2. TYPE = 'Department'
+												AND u1.is_internal = 1
+											)U ON M .ORG_DEPARTMENT_ID = U . SID
+											LEFT JOIN(
+												SELECT
+													s.user_id,
+													b. ID AS bul_id
+												FROM
+													bul_data b
+												LEFT JOIN bul_publish_scope s ON b. ID = s.bul_data_id
+												WHERE
+													s.user_type = 'Department'
+												AND b.state IN(30, 100)
+												AND b.DELETED_FLAG = 0
+												AND b.publish_date BETWEEN :startTime AND :endTime
+											)r ON U .pid = r.user_id
+											WHERE
+												M .IS_DELETED = 0
+											AND M .state = 1
+											AND M .IS_ASSIGNED = 1
+											AND M .IS_ENABLE = 1
+											AND M .is_internal = 1
+											AND M .ORG_DEPARTMENT_ID != - 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"/>
+								<property name="sqlText">
+									<value>
+										<!-- <![CDATA[
+											SELECT
+												M.ID AS orgid,
+												r.bul_id AS bul_id
+											FROM
+												ORG_MEMBER M
+											LEFT JOIN(
+												SELECT
+													u2.ID AS pid,
+													u1.ID AS SID
+												FROM
+													org_unit u1,
+													org_unit u2
+												WHERE
+													u1.PATH LIKE u2.PATH||'%'
+												AND u1.TYPE = 'Account'
+												AND u2.TYPE = 'Account'
+												AND u1.is_internal = 1
+											)U ON M.ORG_ACCOUNT_ID = U.SID
+											LEFT JOIN(
+												SELECT
+													s.user_id,
+													b.ID AS bul_id
+												FROM
+													bul_data b
+												LEFT JOIN bul_publish_scope s ON b.ID = s.bul_data_id
+												WHERE
+													s.user_type = 'Account'
+												AND b.state IN(30, 100)
+												AND b.DELETED_FLAG = 0
+												AND b.publish_date BETWEEN :startTime
+												AND :endTime
+											)r ON U.pid = r.user_id
+											WHERE
+												M.IS_DELETED = 0
+											AND M.state = 1
+											AND M.IS_ASSIGNED = 1
+											AND M.IS_ENABLE = 1
+											AND M.is_internal = 1
+											AND M.ORG_DEPARTMENT_ID != - 1
+										]]> -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server,mysql,postgreSQL,oracle,dm"></property>
+								<property name="sqlText">
+									<value>
+										<!-- SELECT
+											m.id AS orgid,
+											b.ID AS bul_id
+										FROM
+											BUL_DATA b
+										LEFT JOIN BUL_PUBLISH_SCOPE s ON b.ID = s.BUL_DATA_ID
+										LEFT JOIN org_member M ON(
+											M.ORG_POST_ID = s.USER_ID
+											AND s.USER_TYPE = 'Post'
+										)
+										OR(
+											M.ORG_LEVEL_ID = s.USER_ID
+											AND s.USER_TYPE = 'Level'
+										)
+										OR(
+											M.ID = s.user_id
+											AND s.USER_TYPE = 'Member'
+										)
+										WHERE
+											b.state IN(30, 100)
+										AND b.DELETED_FLAG = 0
+										AND b.publish_date BETWEEN :startTime
+										AND :endTime
+										AND M.IS_DELETED = 0
+										AND M.is_internal = 1
+										AND M.state = 1
+										AND M.IS_ASSIGNED = 1
+										AND M.IS_ENABLE = 1
+										AND M.ORG_DEPARTMENT_ID != - 1 -->
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server,mysql,postgreSQL,oracle,dm"></property>
+								<property name="sqlText">
+									<value>
+										<!-- SELECT
+											m.id AS orgid,
+											b.ID AS bul_id
+										FROM
+											BUL_DATA b
+										LEFT JOIN BUL_PUBLISH_SCOPE s ON b. ID = s.BUL_DATA_ID
+										LEFT JOIN ORG_TEAM T ON T . ID = s.USER_ID
+										LEFT JOIN ORG_RELATIONSHIP r ON T . ID = r.source_id
+										LEFT JOIN ORG_MEMBER M ON r.OBJECTIVE0_ID = M . ID
+										WHERE
+											s.USER_TYPE = 'Team'
+										AND b.state IN(30, 100)
+										AND b.DELETED_FLAG = 0
+										AND b.publish_date BETWEEN :startTime AND :endTime
+										AND M . ID IS NOT NULL
+										AND M .IS_DELETED = 0
+										AND M .state = 1
+										AND M .IS_ASSIGNED = 1
+										AND M .IS_ENABLE = 1
+										AND M .is_internal = 1
+										AND M .ORG_DEPARTMENT_ID != - 1 -->
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+										SELECT
+											b.MANAGER_ID AS orgid,
+											count(b.id) AS readnum
+										FROM
+											bul_read b
+										left join org_member m on m.id=b.MANAGER_ID
+										left join bul_data n on n.id=b.bulletin_id
+										where b.read_date between :startTime and :endTime
+										AND n.publish_date BETWEEN :startTime AND :endTime
+										AND n.state IN(30, 100)
+										and n.DELETED_FLAG=0
+										and m.IS_DELETED = 0
+										and m.state=1
+										and m.IS_ASSIGNED=1
+										and m.IS_ENABLE=1
+										and m.is_internal=1
+										and m.ORG_DEPARTMENT_ID != - 1 
+										group by 
+											b.MANAGER_ID
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读总时间"></property>
+					<property name="name" value="readRatio"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+										SELECT
+											r.MANAGER_ID as orgid,
+											r.READ_DATE as read_date,
+											n.PUBLISH_DATE as publish_date
+										FROM
+											BUL_READ r
+										left join BUL_DATA n on r.BULLETIN_ID=n.id
+										left join org_member m on m.id=r.MANAGER_ID
+										where 
+											n.state in (30,100)
+										and r.read_date between :startTime and :endTime
+										AND n.publish_date BETWEEN :startTime AND :endTime
+										AND n.state IN(30, 100)
+										and n.DELETED_FLAG=0
+										and m.IS_DELETED = 0
+										and m.state=1
+										and m.IS_ASSIGNED=1
+										and m.IS_ENABLE=1
+										and m.is_internal=1
+										and m.ORG_DEPARTMENT_ID != - 1 
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="reportPointHander">
+			<bean class="com.seeyon.apps.dashboard.bo.ReportPointHandler">
+				<property name="managerName" value="com.seeyon.apps.dashboard.BulIndexHandler"></property>
+				<property name="methodName">
+					<map>
+						<entry key="readRatio" value="getReadRatio"></entry>
+						<entry key="receiveNum" value="getMemReceiveNum"></entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

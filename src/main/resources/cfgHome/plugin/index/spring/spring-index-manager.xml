@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="indexHandler" class="com.seeyon.ctp.cluster.listener.IndexHandler"/>
+    
+    <bean id="convertor" class="com.seeyon.apps.index.util.Convertor"/>
+    
+    <bean id="configHolder" class="com.seeyon.apps.index.bo.ConfigHolder"/>
+    
+    <bean id="indexContext" class="com.seeyon.apps.index.util.IndexContext"  init-method="initialize" depends-on="configHolder" >
+     <property name="indexAllAppName">
+            <list>
+                <value>collaboration</value>
+                <value>form</value>
+                <value>edoc</value>
+                <value>plan</value>
+                <value>meeting</value>
+                <value>calendar</value>
+                <value>taskManage</value>
+                <value>news</value>
+                <value>bulletin</value>
+                <value>inquiry</value>
+                <value>bbs</value>
+                <value>doc</value>
+                <value>ThirdPartyIntegration</value>
+            </list>
+        </property>
+    </bean>
+    
+      <bean id="extPropertiesConfig" class="com.seeyon.apps.index.bo.IndexExtPropertiesConfig">
+        <property name="field">
+            <map>
+                <entry key="edoc" value="secretLevel,edocType,sendType,docMark,serialNo,edocKeyword,sendUnit,issuer,signingDate,sendTo,copyTo,reportTo,edocCustomInfo" />
+                <entry key="doc" value="docLibId,folderId,spaceId,changeUserName,changeTime,fileSize,docPath,docType,desc,docReview,docCustomInfo,fileId" />
+                <entry key="organization" value="officePhoto,telePhoto,email,department,post,level,memo"/>
+            </map>
+        </property>
+        </bean>
+    <bean id="indexManager" class="com.seeyon.apps.index.manager.ProxyManagerImpl" />
+    
+    <bean id="realManager" class="com.seeyon.apps.index.manager.IndexManagerImpl" />
+    <bean id="indexSearchHelper" class="com.seeyon.apps.index.util.IndexSearchHelper" />
+</beans>

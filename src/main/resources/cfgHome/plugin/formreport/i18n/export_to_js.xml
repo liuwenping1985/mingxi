@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>report.reportDesign.set.errorCheckValue</resKey>
+    <resKey>report.reportDesign.set.errorFieldNotInOneTable</resKey>
+    <resKey>report.reportResult.Browser.too.low</resKey>
+</export>

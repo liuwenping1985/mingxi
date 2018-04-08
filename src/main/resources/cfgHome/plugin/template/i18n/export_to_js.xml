@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>template.cannot.use</resKey>
+    <!-- add by libing templateSysMgr-->
+    <resKey>template.templateSysMana.workTogether</resKey>
+    <resKey>template.templateSysMana.label1</resKey>
+    <resKey>template.templateSysMana.label2</resKey>
+    <resKey>template.categorytree.senddoctemplate.label</resKey>
+    <resKey>template.categorytree.recidoctemplate.label</resKey>
+    <resKey>template.categorytree.signdoctemplate.label</resKey>
+    <resKey>template.category.onlyoneupdate.info</resKey>
+    <resKey>template.category.chooseoneedit.info</resKey>
+    <resKey>template.category.onlyoneupdate.info</resKey>
+    <resKey>template.category.chooseoneedit.info</resKey>
+    <resKey>template.category.chooseonedele.info</resKey>
+    <resKey>template.category.chooseonedele.info</resKey>
+    <resKey>template.categorylist.name.label</resKey>
+    <resKey>template.categorylist.modifytime.label</resKey>
+    <resKey>template.categorylist.type.label</resKey>
+    <resKey>template.categorylist.auth.label</resKey>
+    <resKey>template.categorylist.state.label</resKey>
+    <resKey>template.wrongdate.info</resKey>
+    <resKey>template.category.choosecategory.info</resKey>
+    <resKey>template.category.create.title</resKey>
+    <resKey>template.category.submit.label</resKey>
+    <resKey>template.category.createsuccess.info</resKey>
+    <resKey>template.category.dulipname.info</resKey>
+    <resKey>template.category.cancel.label</resKey>
+    <resKey>template.category.modify.title</resKey>
+    <resKey>template.category.submit.label</resKey>
+    <resKey>template.category.updatesuccess.info</resKey>
+    <resKey>template.category.cantdeletelast.info</resKey>
+    <resKey>template.category.deletesuccess.info</resKey>
+    <resKey>template.category.confirmdelete.info</resKey>
+    <resKey>template.deletesuccess.info</resKey>
+    <resKey>template.confirmdelete.info</resKey>
+    <resKey>template.needchoose.info</resKey>
+    <resKey>template.category.move.title</resKey>
+    
+    
+    
+    <resKey>template.systemNewTem.lable1</resKey>
+    <resKey>template.systemNewTem.bodyType</resKey>
+
+    <resKey>template.systemNewTem.selectSourceTemplate</resKey>
+    <resKey>template.systemNewTem.selectOneTemplate</resKey>
+    <resKey>template.choose.template</resKey>
+	<resKey>template.templatePub.noSetFlow</resKey>
+    <resKey>template.categorylist.createUnit.label</resKey>
+    <resKey>template.alert.del</resKey>
+    <resKey>template.templateChooseM.pleaseFormTemplate</resKey>
+    <resKey>template.templateChooseM.pleaseTemplate</resKey>
+    <resKey>template.templateChooseM.selectFormTemplateOk</resKey>
+    <resKey>template.templateChooseM.selectTemplateCategoryThis</resKey>
+    <resKey>template.templateChooseM.selectTemplateThis</resKey>
+    <resKey>template.templateChooseM.selectTemplateCategoryContainSelected</resKey>
+    <resKey>template.templateChooseM.selectTemplateCategoryInSelected</resKey>
+    <resKey>template.templateChooseM.notemplateincategory</resKey>
+    <resKey>template.templateChooseM.notSelectRootCategory</resKey>
+    <resKey>template.edoc.label</resKey>
+    <resKey>template.public.label</resKey>
+    <resKey>template.tip.archive.attachment</resKey>
+</export>

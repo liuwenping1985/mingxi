@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!--讨论部门-->
+	<bean id="bbsDepartment" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="部门讨论"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptBbsIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="department"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="发起讨论数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											select 
+												u.id as orgId,
+												r.sendNum as sendNum
+											 from org_unit u 
+											left join(
+												SELECT
+													m.org_department_id AS orgId,
+													COUNT(b.id)AS sendNum
+												FROM
+													bbs_article b,
+													org_member m
+												WHERE
+													m.ID=b.ISSUE_USER_ID
+												and b.ISSUE_TIME BETWEEN :startTime AND :endTime
+												AND b.state IN(0,2,100)
+												AND m.IS_DELETED = 0
+												AND m. state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+												and m.is_internal=1
+												GROUP BY
+													m.org_department_id
+											)r on r.orgId=u.id
+											where u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="评论数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m.ORG_DEPARTMENT_ID AS orgId,
+												COUNT(r.id)AS commentNum
+											FROM
+												BBS_ARTICLE_REPLY r
+											LEFT JOIN ORG_MEMBER m ON r.REPLY_USER_ID = m.ID
+											left join org_unit u on u.id=m.ORG_DEPARTMENT_ID
+											WHERE
+												r.reply_time BETWEEN :startTime AND :endTime
+												and r.STATE in(0)
+												and m.IS_DELETED = 0
+									     		AND m.state=1
+									     		and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+									     		AND m.ORG_DEPARTMENT_ID != - 1
+									     		and m.is_internal=1
+									     		and u.IS_DELETED = 0
+												AND u.IS_ENABLE = 1
+												AND u.IS_INTERNAL = 1
+											GROUP BY
+												m.ORG_DEPARTMENT_ID
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!--讨论人员-->
+	<bean id="bbsMember" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="人员讨论"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptBbsIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="member"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="发起讨论数 "></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m. ID AS orgId,
+												r2.sendNum AS sendNum
+											FROM
+												org_member m
+											LEFT JOIN(
+												SELECT
+													b.ISSUE_USER_ID AS orgId,
+													COUNT(b. ID)AS sendNum
+												FROM
+													bbs_article b
+												WHERE
+													b.ISSUE_TIME BETWEEN :startTime AND :endTime
+												AND b.state IN(0,2,100)
+												GROUP BY
+													b.ISSUE_USER_ID
+											)r2 ON m. ID = r2.orgId
+											WHERE
+												m.IS_DELETED = 0
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and m.is_internal=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="评论数  "></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m. ID AS orgId,
+												r2.commentNum AS commentNum
+											FROM
+												org_member m
+											LEFT JOIN(
+												SELECT
+													r.REPLY_USER_ID AS orgId,
+													COUNT(r. ID)AS commentNum
+												FROM
+													BBS_ARTICLE_REPLY r
+												WHERE
+													r.reply_time BETWEEN :startTime AND :endTime
+												AND r.STATE IN(0)
+												GROUP BY
+													r.REPLY_USER_ID
+											)r2 ON m. ID = r2.orgId
+											WHERE
+												m.IS_DELETED = 0
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and m.is_internal=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

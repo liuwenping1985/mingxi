@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="stockHouseDao" class="com.seeyon.apps.office.dao.StockHouseDaoImpl" />
+	<bean id="stockInfoDao" class="com.seeyon.apps.office.dao.StockInfoDaoImpl" />
+	<bean id="stockRecordDao" class="com.seeyon.apps.office.dao.StockRecordDaoImpl" />
+	<bean id="stockApplyDao" class="com.seeyon.apps.office.dao.StockApplyDaoImpl" />
+	<bean id="stockAuditDao" class="com.seeyon.apps.office.dao.StockAuditDaoImpl" />
+	<bean id="stockStcInfoDao" class="com.seeyon.apps.office.dao.StockStcInfoDaoImpl" />
+</beans>

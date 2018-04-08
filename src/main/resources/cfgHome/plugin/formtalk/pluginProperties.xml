@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<formtalk>
+		<enabled mark="{option,0,1} {VE}" desc="是否启用formtalk集成插件 0--不启用  1--启用">0</enabled>
+		<cloud>
+			<purl mark="{VE}" desc="Formtalk个人版服务地址">https://www.formtalk.net</purl>
+			<eurl mark="{VE}" desc="Formtalk企业版服务地址">https://pro.formtalk.net</eurl>
+		</cloud>
+		<qrcode>
+			 <name mark="{VE}" desc="formtalk数据二维码固定表头字段名)">二维码</name>
+		</qrcode>
+		<dev>
+			<account mark="{VE}" desc="formtalk企业版开发者账号"></account>
+			<password mark="{password} {VE}" desc="formtalk企业版开发者账号密码"></password>
+			<username mark="{VE}" desc="formtalk个人版账号"></username>
+			<userpwd mark="{password} {VE}" desc="formtalk个人版账号密码"></userpwd>
+		</dev>
+	</formtalk>
+</ctpConfig>

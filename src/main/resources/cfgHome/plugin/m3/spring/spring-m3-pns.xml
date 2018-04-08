@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="m3PusMessageEventListener" class="com.seeyon.apps.m3.message.listener.M3PusMessageEventListener"></bean>
+	<bean id="pnsMessageLogWorker" class="com.seeyon.apps.m3.message.worker.PnsMessageLogWorker">
+		<property name="intervalTime" value="30"/>
+	</bean>
+	<bean id="newPnsMessageWorker" class="com.seeyon.apps.m3.message.worker.NewPnsMessageWorker">
+		<property name="pnsMessageLogWorker" ref="pnsMessageLogWorker"/>
+		<property name="intervalTime" value="30"/>
+	</bean>
+	
+	<bean id="m3PnsMessageLogManager" class="com.seeyon.apps.m3.message.manager.impl.M3PnsMessageLogManagerImpl"></bean>
+	<bean id="m3PnsMessageLogDao" class="com.seeyon.apps.m3.message.dao.impl.M3PnsMessageLogDaoImpl"></bean>
+	<bean id="pnsMessageLogClearJob" class="com.seeyon.apps.m3.message.job.PnsMessageLogClearJob"></bean>
+</beans>

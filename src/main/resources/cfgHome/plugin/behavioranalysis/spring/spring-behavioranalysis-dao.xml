@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 指标采集dao -->
+	<bean id="reportIndexCollectorDao" class="com.seeyon.apps.dashboard.dao.ReportIndexCollectorDaoImpl"></bean>
+	<!-- 行为绩效dao -->
+	<bean id="behavioranalysisDataDao" class="com.seeyon.apps.behavioranalysis.dao.BehavioranalysisDataDaoImpl"></bean>
+	<!-- 自由协同dao -->
+	<bean id="behaviorFreeCollIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorFreeCollIndexDaoImpl"></bean>
+	<!-- 模板dao -->
+	<bean id="behaviorTempleteIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorTempleteIndexDaoImpl"></bean>
+	<!-- 文档dao -->
+	<bean id="behaviorDocIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorDocIndexDaoImpl"></bean>
+	<!-- 讨论和秀dao -->
+	<bean id="behaviorBbsAndShowIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorBbsAndShowIndexDaoImpl"></bean>
+	<!-- 调查dao -->
+	<bean id="behaviorInquiryIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorInquiryIndexDaoImpl"></bean>
+	<!-- 会议dao -->
+	<bean id="behaviorMeetingIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorMeetingIndexDaoImpl"></bean>
+	<!-- 新闻和公告dao -->
+	<bean id="behaviorNewsAndBulIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorNewsAndBulIndexDaoImpl"></bean>
+	<!-- 计划dao -->
+	<bean id="behaviorPlanIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorPlanIndexDaoImpl"></bean>
+	<!-- 项目dao -->
+	<bean id="behaviorProjectIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorProjectIndexDaoImpl"></bean>
+	<!-- 任务dao -->
+	<bean id="behaviorTaskIndexDao" class="com.seeyon.apps.behavioranalysis.dao.BehaviorTaskIndexDaoImpl"></bean>
+	<!-- 行为积分表Dao -->
+	<bean id="rptIndexScoreDao" class="com.seeyon.apps.dashboard.dao.RptIndexScoreDaoImpl"></bean>
+	<!--  行为积分权重设置  -->
+	<bean id="indexScoreSetDao" class="com.seeyon.apps.dashboard.dao.IndexScoreSetDaoImpl"></bean>
+</beans>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>fk</id>
+	<name>分库插件</name>
+	<category>222</category>
+	<initializer>com.seeyon.apps.fk.FKPluginDefintion</initializer>
+</plugin>

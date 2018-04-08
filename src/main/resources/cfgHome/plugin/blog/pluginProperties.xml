@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<blog>
+		<test name="博客模块">博客模块</test>
+		<security>
+            <!-- 需要做URL digest的URL注册，空格分隔1为uri地址，2为method（没有可以省略），3为digest参数名 -->
+            <digesturl>/blog.do showPostIframe articleId,familyId,resourceMethod,flag,where</digesturl>
+            <digesturl>/blog.do showPost articleId,familyId,resourceMethod,where,fromFlag,from</digesturl>
+            <digesturl>/blog.do showPostPro articleId,familyId,resourceMethod,from</digesturl>
+    	</security>
+	</blog>
+	
+	<!-- 
+	该例中可通过AppContext.getSystemProperty("doc.test.name")取得“知识社区”，
+	AppContext.getSystemProperty("doc.test")取得“知识社区模块” 
+	注意：属性key必须以插件id开始
+	-->	
+</ctpConfig>

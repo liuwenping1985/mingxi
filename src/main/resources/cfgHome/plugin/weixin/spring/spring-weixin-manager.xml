@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="weixinSetManager" class="com.seeyon.apps.weixin.manager.WeixinSetManagerImpl" />
+	<bean id="weixinLoginManager" class="com.seeyon.apps.weixin.manager.WeixinLoginManagerImpl" />
+	<bean id="weixinPasswordDeliver" class="com.seeyon.apps.weixin.usersystem.WeixinPasswordDeliver" />
+	<bean id="weixin" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+        <property name="name" value="weixin"/>
+        <!-- 单点登录成功是否跳转到首页 -->
+        <property name="forward" value="false"/>
+        <!-- 握手配置 -->
+        <property name="handshake">
+            <bean class="com.seeyon.apps.weixin.portal.WeixinSSOLogin" />
+        </property>
+    </bean>
+    <bean id="weixinMessagePipeline" class="com.seeyon.apps.weixin.usermessage.WeixinMessagePipeline"/>
+    <bean id="weixinOrganizationListener" class="com.seeyon.apps.weixin.listener.WeixinOrganizationListener" />
+    <!--应用配置-->
+    <bean id="wechatAppManager" class="com.seeyon.apps.weixin.manager.WechatAppManagerImpl" init-method="init"/>
+    <!--轮播图-->
+    <bean id="wechatBannerManager" class="com.seeyon.apps.weixin.manager.WechatBannerManagerImpl"/>
+</beans>

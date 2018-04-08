@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+<!-- 	<bean id="performanceSectionSelector" class="com.seeyon.apps.performancereport.section.PerformanceSectionSelector"> -->
+<!-- 		<property name="sectionType" value="performanceAnalysis" /> -->
+<!-- 	</bean> -->
+	<!-- 过程绩效 
+	<bean id="ProcessPerformanceSection"
+		class="com.seeyon.apps.performancereport.section.StanderSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	-->
+	<!-- 结果绩效
+	<bean id="ResultPerformanceSection"
+		class="com.seeyon.apps.performancereport.section.ComprehensiveSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	 -->
+	<!-- 流程绩效
+	<bean id="FlowsPerformanceSection"
+		class="com.seeyon.apps.performancereport.section.ProcessPerformanceSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	 -->
+	<!-- 目标管理
+	<bean id="ResultManageSection"
+		class="com.seeyon.apps.performancereport.section.ResultManageSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	 -->
+	<!-- 会议管理 
+	<bean id="MeetingManageSection"
+		class="com.seeyon.apps.performancereport.section.MeetingManageSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	-->
+	<!-- 行为特征
+	<bean id="BehaviorCharacteristicsSection"
+		class="com.seeyon.apps.performancereport.section.BehaviorCharacteristicsSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	 -->
+	<!-- 知识社区 
+	<bean id="KnowledgeCommunitySection"
+		class="com.seeyon.apps.performancereport.section.KnowledgeCommunitySection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,department" />
+	</bean>
+	-->
+	<!-- 基础报表和综合报表栏目 -->
+	<bean id="performanceSection"
+		class="com.seeyon.apps.performancereport.section.PerformanceSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="validate" value="" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="notice" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="performanceReport.section.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" />
+								<property name="defaultValue" value="208" />
+							</bean>				
+							 <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="showContent" />
+                                <property name="subject" value="performanceReport.section.showContent" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="0" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.chartResult" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.tableResult" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="conditionSet" />
+								<property name="subject" value="performanceReport.section.conditionSet" />
+								<property name="defaultValue" value="url" />
+								<property name="valueType" value="9" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="performanceReport.section.conditionSet" />
+											<property name="value" value="url" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/performanceReport/performanceQuery.do?method=queryMainPortal"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 流程绩效栏目
+	<bean id="performanceProcessSection"
+		class="com.seeyon.apps.performancereport.section.PerformanceProcessSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"/>
+		<property name="performanceReportManager" ref="performanceReportManager"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="notice" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="performanceReport.section.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" />
+								<property name="defaultValue" value="208" />
+							</bean>		
+							 <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="showContent" />
+                                <property name="subject" value="performanceReport.section.showContent" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="0" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.chartResult" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.tableResult" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="conditionSet" />
+								<property name="subject" value="performanceReport.section.conditionSet" />
+								<property name="defaultValue" value="url" />
+								<property name="valueType" value="9" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="performanceReport.section.conditionSet" />
+											<property name="value" value="url" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/performanceReport/performanceQuery.do?method=queryMainPortal"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	 -->
+	<!-- 项目进度栏目 
+	<bean id="processSection"
+		class="com.seeyon.apps.performancereport.section.ProcessSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="notice" />
+							</bean>
+							 <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="showContent" />
+                                <property name="subject" value="performanceReport.section.showContent" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="0" />
+                                <property name="OnChange" value="gChange"/>
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.chartResult" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.tableResult" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="showNumber" />
+								<property name="subject" value="performanceReport.section.showNum" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="8" />
+								<property name="validate" value="isInteger"></property>
+								<property name="validateValue" value="isInteger=true max=30 min=1" />
+							</bean>		
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="conditionSet" />
+								<property name="subject" value="performanceReport.section.conditionSet" />
+								<property name="defaultValue" value="url" />
+								<property name="valueType" value="9" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="performanceReport.section.conditionSet" />
+											<property name="value" value="url" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/performanceReport/performanceQuery.do?method=queryMainPortal"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	-->
+	<!-- 会议参加情况统计栏目
+	<bean id="meetingJoinSection"
+		class="com.seeyon.apps.performancereport.section.MeetingJoinSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="validate" value="" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="notice" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="performanceReport.section.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" />
+								<property name="defaultValue" value="400" />
+							</bean>				
+							 <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="showContent" />
+                                <property name="subject" value="performanceReport.section.showContent" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="0" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.chartResult" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.tableResult" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="conditionSet" />
+								<property name="subject" value="performanceReport.section.conditionSet" />
+								<property name="defaultValue" value="url" />
+								<property name="valueType" value="9" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="performanceReport.section.conditionSet" />
+											<property name="value" value="url" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/performanceReport/performanceQuery.do?method=queryMainPortal"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	 -->
+	<!-- 综合分析栏目
+	<bean id="comprehensiveAnalysisSection"
+		class="com.seeyon.apps.performancereport.section.ComprehensiveAnalysisSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"/>
+		<property name="performanceReportManager" ref="performanceReportManager"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="notice" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="performanceReport.section.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" />
+								<property name="defaultValue" value="400" />
+							</bean>		
+							 <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="showContent" />
+                                <property name="subject" value="performanceReport.section.showContent" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="0" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.chartResult" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.queryMain.result.tableResult" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="conditionSet" />
+								<property name="subject" value="performanceReport.section.conditionSet" />
+								<property name="defaultValue" value="url" />
+								<property name="valueType" value="9" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="performanceReport.section.conditionSet" />
+											<property name="value" value="url" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/performanceReport/performanceQuery.do?method=queryMainPortal"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	 -->
+	<!-- 数据表格
+	<bean id="dataReportSection"
+		class="com.seeyon.apps.performancereport.section.DataReportSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="notice" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="performanceReport.section.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" />
+								<property name="defaultValue" value="400" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="choosePeople" />
+								<property name="subject" value="performanceReport.queryMainHtml.selectePerson" />
+								<property name="valueType" value="9" />
+								<property name="defaultValue" value="url" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="performanceReport.queryMainHtml.selectePerson" />
+											<property name="value" value="url" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/colCube/colCube.do?method=goCollCubePortal"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="dateType" />
+                                <property name="subject" value="performanceReport.queryMainHtml.getTime" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="4" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="colCube.common.dateSelect.month" />
+                                            <property name="value" value="4" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="colCube.common.dateSelect.season" />
+                                            <property name="value" value="5" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="colCube.common.dateSelect.year" />
+                                            <property name="value" value="7" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="colCube.common.dateSelect.all" />
+                                            <property name="value" value="8" />
+                                        </bean>
+                                        
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="statNum" />
+                                <property name="subject" value="performanceReport.section.personNum" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="10" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.section.tenPeople" />
+                                            <property name="value" value="10" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.section.twentyPeople" />
+                                            <property name="value" value="20" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+						</list>
+					</property>		
+				</bean>
+			</list>
+		</property>
+	</bean>
+	 -->
+</beans>

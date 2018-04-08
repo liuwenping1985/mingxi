@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+  <bean id="assetInfoDao" class="com.seeyon.apps.office.dao.AssetInfoDaoImpl"></bean>
+  <bean id="assetHouseDao" class="com.seeyon.apps.office.dao.AssetHouseDaoImpl" />
+  <bean id="assetApplyDaoN" class="com.seeyon.apps.office.dao.AssetApplyDaoImpl" />
+  <bean id="assetAuditDaoN" class="com.seeyon.apps.office.dao.AssetAuditDaoImpl" />
+  <bean id="assetStcInfoDao" class="com.seeyon.apps.office.dao.AssetStcInfoDaoImpl"></bean>
+</beans>

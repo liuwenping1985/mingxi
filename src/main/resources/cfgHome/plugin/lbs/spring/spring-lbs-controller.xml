@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!--  lbs -->
+	<bean  name = "/m1/lbsAuthorController.do" class = "com.seeyon.apps.lbs.controller.MLbsAuthorController"></bean>
+	<bean  name =  "/m1/lbsSupplierController.do" class = "com.seeyon.apps.lbs.controller.MLbsSupplierController"></bean>
+	 <bean  name = "/m1/lbsRecordController.do" class = "com.seeyon.apps.lbs.controller.MLbsRecordController">
+	    <property name="mLbsRecordManager" ref = "mLbsRecordManager"></property>
+	 </bean>
+	
+	
+</beans>

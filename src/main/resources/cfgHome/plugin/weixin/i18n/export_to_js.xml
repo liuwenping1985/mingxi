@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<export>
+	<resKey>weixin.set.success</resKey>
+	<resKey>weixin.set.success1</resKey>
+	<resKey>weixin.set.fail</resKey>
+	<resKey>weixin.set.fail1</resKey>
+	<resKey>weixin.set.fail2</resKey>
+	<resKey>weixin.set.fail3</resKey>
+	<resKey>weixin.set.fail4</resKey>
+	<resKey>weixin.set.ok</resKey>
+	<resKey>weixin.set.cancel</resKey>
+	<resKey>weixin.check.oaurl</resKey>
+	<resKey>weixin.check.wechaturl</resKey>
+
+	<resKey>weixin.workbench.copydone</resKey>
+	<resKey>weixin.workbench.copy</resKey>
+
+	<resKey>weixin.navigation.unnamed</resKey>
+	<resKey>weixin.navigation.menuempty</resKey>
+	<resKey>weixin.navigation.alertfive</resKey>
+	<resKey>weixin.navigation.alertsave</resKey>
+	<resKey>weixin.navigation.btn1</resKey>
+	<resKey>weixin.navigation.btn2</resKey>
+	<resKey>weixin.navigation.corpid</resKey>
+	<resKey>weixin.navigation.noaccount</resKey>
+	<resKey>weixin.navigation.noconfig</resKey>
+	<resKey>weixin.navigation.nomenu</resKey>
+    <resKey>weixin.navigation.delconfirm</resKey>
+    <resKey>weixin.navigation.pos1alert</resKey>
+    <resKey>weixin.navigation.pos2alert</resKey>
+    <resKey>weixin.navigation.poslimit</resKey>
+
+	<resKey>weixin.org.synchronization.inputCorpId</resKey>
+	<resKey>weixin.org.synchronization.selectAccount</resKey>
+	<resKey>weixin.org.synchronization.ready</resKey>
+	<resKey>weixin.org.synchronization.syning</resKey>
+	<resKey>weixin.org.synchronization.fail</resKey>
+	<resKey>weixin.org.synchronization.deptfail</resKey>
+	<resKey>weixin.org.synchronization.memberfail</resKey>
+	<resKey>weixin.org.synchronization.syningDept</resKey>
+	<resKey>weixin.org.synchronization.syningMember</resKey>
+	<resKey>weixin.org.synchronization.synMember</resKey>
+	<resKey>weixin.org.synchronization.finish</resKey>
+	<resKey>weixin.org.synchronization.department.upload</resKey>
+	<resKey>weixin.org.synchronization.member.upload</resKey>
+	<resKey>weixin.org.synchronization.failure</resKey>
+	<resKey>weixin.org.synchronization.corpId.unavailable</resKey>
+
+	<resKey>weixin.function.col</resKey>
+	<resKey>weixin.function.meeting</resKey>
+	<resKey>weixin.function.bul</resKey>
+	<resKey>weixin.function.news</resKey>
+	<resKey>weixin.function.checkin</resKey>
+	<resKey>weixin.function.myfav</resKey>
+	<resKey>weixin.function.timeline</resKey>
+	<resKey>weixin.function.edoc</resKey>
+	<resKey>weixin.function.worktask</resKey>
+	<resKey>weixin.function.doc</resKey>
+	<resKey>weixin.function.survey</resKey>
+	<resKey>weixin.function.bbs</resKey>
+	<resKey>weixin.function.bigshow</resKey>
+	<resKey>weixin.function.performance</resKey>
+	<resKey>weixin.function.salary</resKey>
+	<resKey>weixin.function.newform</resKey>
+	<resKey>weixin.function.newcol</resKey>
+	<resKey>weixin.function.newtask</resKey>
+	<resKey>weixin.function.addressbook</resKey>
+	<resKey>weixin.function.query</resKey>
+	<resKey>weixin.function.newmeeting</resKey>
+
+	<resKey>weixin.app.message.success.save</resKey>
+	<resKey>weixin.app.label.setBanner</resKey>
+	<resKey>weixin.app.label.confirm</resKey>
+	<resKey>weixin.app.label.cancel</resKey>
+	<resKey>weixin.app.message.uploadBgImg</resKey>
+	<resKey>weixin.app.label.clickToUpload</resKey>
+	<resKey>weixin.app.message.imageAtMost</resKey>
+	<resKey>weixin.app.message.imageAtLeast</resKey>
+</export>

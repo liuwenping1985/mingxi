@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>workflowProcess.queryMain_js.pageTotal</resKey>
+	<resKey>workflowProcess.queryMain_js.statisticsRange.label</resKey>
+	<resKey>workflowProcess.queryMain.errorAYear</resKey>
+	<resKey>workflowProcess.queryMain.errorEarly</resKey>
+	<resKey>workflowProcess.业务类型</resKey>
+	<resKey>workflowProcess.queryMain.chooseTemplate</resKey>
+	<resKey>workflowProcess.queryMain.reports.click</resKey>
+	<resKey>workflowProcess.queryMain.errorStartTime</resKey>
+	<resKey>workflowProcess.queryMain.remindMsg</resKey>
+	<resKey>workflowProcess.流程统计</resKey>
+	<resKey>workflowProcess.queryMain.noData</resKey>
+	<resKey>workflowProcess.queryMain_js.statisticsRange.label</resKey>
+	<resKey>workflowProcess.queryMain_js.unitTotal</resKey>
+	<resKey>workflowProcess.queryMain_js.errorNoDataToExcel</resKey>
+	<resKey>workflowProcess.queryMain_js.reportType.printTitle</resKey>
+	<resKey>workflowProcess.workFlowAnalysis.timeValidate</resKey>
+</export>

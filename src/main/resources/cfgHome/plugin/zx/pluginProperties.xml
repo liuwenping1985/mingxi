@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<zx>
+		<set>
+			<run
+					mark="{option,1,2} {VE}"
+					desc="选择运行环境。1:测试环境;2：生产环境">2</run>
+			<channel
+					mark="{option,rong} {VE}"
+					desc="选择致信通道服务器。rong：融云服务">rong</channel>
+			<client>
+				<version mark=" {VE}" desc="致信客户端版本">3</version>
+				<forceupdate mark="{option,yes,no} {VE}"
+					desc="是否强制升级。yes:是;no:否">no</forceupdate>
+			</client>
+			
+			<development
+					mark="{option,private,public} {VE}"
+					desc="致信服务部署方式。private:私有云部署;public:公有云部署">public</development>
+			<service>
+					<host
+						mark="{VE}"
+						desc="私有部署地址（公有云部署，无需填写！）"></host>
+					<port>
+						<navi
+							mark="{VE}"
+							desc="私有部署navi端口（公有云部署，无需填写！）"></navi>
+						<api
+							mark="{VE}"
+							desc="私有部署api端口（公有云部署，无需填写！）"></api>	
+					</port>	
+					
+					<groupsize mark="{VE}"
+					desc="群组人数限制，默认为500人/群，最大可开启1000人/群">500</groupsize>
+			</service>
+		</set>
+	</zx>
+</ctpConfig>

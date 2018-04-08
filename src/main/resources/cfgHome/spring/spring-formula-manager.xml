@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="true">
+	<bean id="formulasDao"  class="com.seeyon.ctp.common.formula.dao.FormulasDaoImpl"/>
+	<bean id="formulaManager" class="com.seeyon.ctp.common.formula.manager.FormulaManagerImpl">
+	   <property name="formulasDao" ref="formulasDao" />
+	</bean>
+</beans>

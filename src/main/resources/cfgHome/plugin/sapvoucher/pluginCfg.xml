@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>sapvoucher</id>
+	<name>SAP凭证集成插件</name>
+	<category>10110</category>
+	<initializer>com.seeyon.apps.sapvoucher.SAPVoucherPluginInitializer</initializer>
+</plugin>

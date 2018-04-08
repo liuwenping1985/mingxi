@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<LogOnTimes>
+			<main>
+				<subjectReport>
+				<![CDATA[
+					SELECT
+						sum(tmp.times_per_quantum)AS times,
+						date(tmp.logon_time)AS logon_time,
+						tmp.quantum AS time_quantum
+					FROM
+						(
+							SELECT
+								count(lg.id)AS times_per_quantum,
+								date(lg.logon_time) as logon_time,
+								HOUR(lg.logon_time),
+								max(CASE HOUR(lg.logon_time)
+							WHEN 0 THEN
+								0
+							WHEN 1 THEN
+								0
+							WHEN 2 THEN
+								2
+							WHEN 3 THEN
+								2
+							WHEN 4 THEN
+								4
+							WHEN 5 THEN
+								4
+							WHEN 6 THEN
+								6
+							WHEN 7 THEN
+								6
+							WHEN 8 THEN
+								8
+							WHEN 9 THEN
+								8
+							WHEN 10 THEN
+								10
+							WHEN 11 THEN
+								10
+							WHEN 12 THEN
+								12
+							WHEN 13 THEN
+								12
+							WHEN 14 THEN
+								14
+							WHEN 15 THEN
+								14
+							WHEN 16 THEN
+								16
+							WHEN 17 THEN
+								16
+							WHEN 18 THEN
+								18
+							WHEN 19 THEN
+								18
+							WHEN 20 THEN
+								20
+							WHEN 21 THEN
+								20
+							WHEN 22 THEN
+								22
+							WHEN 23 THEN
+								22
+							ELSE
+								- 1
+							END) AS quantum
+							FROM
+								logon_log lg
+							LEFT JOIN org_member mem ON mem.id = lg.member_id
+							WHERE
+								date(lg.logon_time)=:time
+							AND mem. STATUS = 1
+							AND mem.is_admin = 0
+							AND mem.is_internal = 1
+							GROUP BY
+								date(lg.logon_time),
+								HOUR(lg.logon_time)
+						)tmp
+					GROUP BY
+						date(tmp.logon_time),
+						tmp.quantum        
+				]]>
+				</subjectReport>
+			</main>
+		</LogOnTimes>
+		<LogOnPersonNum>
+			<main>
+				<subjectReport>
+				<![CDATA[
+				select a.logontime as '日期',count(*)as '登录人数' from(                     
+				select distinct mem.id, date(lg.logon_time) as logontime 
+				from logon_log lg left join org_member mem on mem.id=lg.member_id           
+				where mem.status=1 and mem.is_admin=0 and mem.is_internal=1 and lg.logon_time>=:start_day and date(lg.logon_time)<=:end_day ) a                    
+				group by a.logontime order by a.logontime                                     		                             	
+				]]>
+				</subjectReport>
+			</main>
+		</LogOnPersonNum>
+		<OnlinePeakByMonth>
+			<main>
+				<![CDATA[
+				select max(peak_value) as max_peak,date(record_date) as record_date from rpt_online_peak 
+				where date(record_date)>=:start_day and date(record_date)<=:end_day      
+				group by date(record_date) order by record_date
+				]]>
+			</main>
+		</OnlinePeakByMonth>
+		<LogOutTimes>
+			<main>
+				<subjectReport>
+				<![CDATA[
+				SELECT
+					sum(tmp.times_per_quantum)AS times,
+					date(tmp.logout_time)AS logout_time,
+					tmp.quantum AS time_quantum
+				FROM
+					(
+						SELECT
+							count(lg.id)AS times_per_quantum,
+							date(lg.logout_time)AS logout_time,
+							HOUR(lg.logout_time),
+							max(
+								CASE HOUR(lg.logout_time)
+								WHEN 0 THEN
+									0
+								WHEN 1 THEN
+									0
+								WHEN 2 THEN
+									2
+								WHEN 3 THEN
+									2
+								WHEN 4 THEN
+									4
+								WHEN 5 THEN
+									4
+								WHEN 6 THEN
+									6
+								WHEN 7 THEN
+									6
+								WHEN 8 THEN
+									8
+								WHEN 9 THEN
+									8
+								WHEN 10 THEN
+									10
+								WHEN 11 THEN
+									10
+								WHEN 12 THEN
+									12
+								WHEN 13 THEN
+									12
+								WHEN 14 THEN
+									14
+								WHEN 15 THEN
+									14
+								WHEN 16 THEN
+									16
+								WHEN 17 THEN
+									16
+								WHEN 18 THEN
+									18
+								WHEN 19 THEN
+									18
+								WHEN 20 THEN
+									20
+								WHEN 21 THEN
+									20
+								WHEN 22 THEN
+									22
+								WHEN 23 THEN
+									22
+								ELSE
+									- 1
+								END
+							)AS quantum
+						FROM
+							logon_log lg
+						LEFT JOIN org_member mem ON mem.id = lg.member_id
+						WHERE
+							date(lg.logout_time)=:time
+						AND mem. STATUS = 1
+						AND mem.is_admin = 0
+						AND mem.is_internal = 1
+						GROUP BY
+							date(lg.logout_time),
+							HOUR(lg.logout_time)
+					)tmp
+				GROUP BY
+					date(tmp.logout_time),
+					tmp.quantum                    
+				]]>
+				</subjectReport>
+			</main>
+		</LogOutTimes>
+		<OnlineStatistics>
+			<main>
+				<subjectReport>
+				<![CDATA[
+				select date(rpt_online_peak.record_date) as record_date, rpt_online_peak.time_quantum, max(rpt_online_peak.peak_value) as peak_value from rpt_online_peak 
+				where date(rpt_online_peak.record_date)=:time 	  
+				group by date(rpt_online_peak.record_date), rpt_online_peak.time_quantum  
+				]]>
+				</subjectReport>
+			</main>
+		</OnlineStatistics>
+		<OnlineTimeStatistics>
+			<main>
+				<![CDATA[
+					select mem.name as '人员',unit.name as '部门',a.ontime as '登录时间',a.outtime as '退出时间',a.online as '时长(小时)',
+					0 as '部门平均时长(小时)',case a.logon_type when 0 then 'PC' else '移动端' end as '登录方式',a.ip_address as '登录IP' from
+					(select log.member_id,
+					(case when date(log.logon_time)<date(log.logout_time) then timestampdiff(minute,log.logon_time,adddate(date(log.logon_time),1)) 
+					when date(log.logon_time)=date(log.logout_time) and date(logon_time)=(case when :loginDate='' then log.logon_time else :loginDate end) then timestampdiff(minute,log.logon_time,:nowDate)
+					else log.online_time                                                                                                           
+					end) as online,                                                                                                                
+					cast(log.logon_time as char) as ontime,                                                                                                      
+					cast( case when date(log.logon_time)<date(log.logout_time) or log.logon_time = log.logout_time then '-'                                                                 
+					else log.logout_time                                                                                                           
+					end as char) as outtime,                                                                                                                
+					log.logon_type,log.ip_address,
+					log.LOGON_TIME as logonTime                                                                                                  
+					from logon_log log                                                                                                             
+					where log.member_id=(:user_id) and                                                                                                 
+				 	date(log.logon_time) >= :start_time and date(log.logon_time) <= :end_time        
+					                                                                                                                    
+					                                                                                                                               
+					union                                                                                                                          
+					                                                                                                                               
+					select log.member_id, timestampdiff(minute,date(log.logout_time),log.logout_time) as online,                                   
+					cast( case when date(log.logon_time)<date(log.logout_time) then '-'                                                                  
+					else log.logon_time                                                                                                            
+					end as char) as ontime,                                                                                                             
+					cast(log.logout_time as char) as outtime,
+					log.logon_type,log.ip_address,
+					log.LOGON_TIME as logonTime                                                                                  
+					from logon_log log                                                                                                             
+					where date(log.logon_time)<date(log.logout_time) and log.member_id=(:user_id) and 											
+					 date(log.logon_time) >= :start_time and date(log.logon_time) <= :end_time and date(log.logout_time) <= :end_time        
+					                                                                                                                            
+					union                                                                                                                          
+					                                                                                                                               
+					select log.member_id, timestampdiff(minute,date(log.logout_time),log.logout_time) as online,                                   
+					cast( case when date(log.logon_time)<date(log.logout_time) then '-'                                                                  
+					else log.logon_time                                                                                                            
+					end as char) as ontime,                                                                                                             
+					cast(log.logout_time as char) as outtime,
+					log.logon_type,log.ip_address,
+					log.LOGON_TIME as logonTime                                                                                  
+					from logon_log log                                                                                                             
+					where date(log.logon_time)<date(log.logout_time) and log.member_id=(:user_id) and 											
+					date(log.logout_time) >= :start_time and date(log.logout_time) <= :end_time  and date(log.logon_time) <= :start_time        
+					) a                                                                           											
+					left join org_member mem on a.member_id=mem.id left join org_unit unit on unit.id=mem.org_department_id                        
+					order by a.logonTime,a.outtime
+				]]>
+			</main>
+			<depAverage>
+				<![CDATA[
+				SELECT
+					sum(r.TOTAL) as total,
+					r.DEPARTMENT_ID as department_id,
+					r.QUERY_TIME as query_time,
+					max(r.NAME) as name
+				from (
+					select sum((case when date(lg.logon_time)<date(lg.logout_time) then timestampdiff(minute,lg.logon_time,adddate(date(lg.logon_time),1)) 	  
+					else lg.online_time end)) as total,																									 
+					u.id as department_id,u.name,date(lg.logon_time) as query_time																							
+					from logon_log lg left join org_member mem on mem.id=lg.member_id  																		
+					left join org_unit u on u.id=mem.org_department_id                 																		
+					where 
+					u.id is not null and
+					lg.logon_time > :start_time and lg.logon_time <= :end_time        	                                                                                                                   					
+					group by u.id,date(lg.logon_time)
+					UNION
+					select sum(timestampdiff(minute,date(lg.logout_time),lg.logout_time)) as total,																									 
+					u.id as department_id,u.name,date(lg.logout_time) as query_time																							
+					from logon_log lg left join org_member mem on mem.id=lg.member_id  																		
+					left join org_unit u on u.id=mem.org_department_id                 																		
+					where 
+					u.id is not null and date(lg.logon_time)<date(lg.logout_time) AND
+					lg.logout_time > :start_time and lg.logout_time <= :end_time        	                                                                                                                   					
+					group by u.id,date(lg.logout_time) 
+				) r
+				GROUP BY
+					r.DEPARTMENT_ID,
+					r.QUERY_TIME
+				]]>
+			</depAverage>
+			<rptOnlineTime>
+				<![CDATA[
+				select DEPARTMENT_ID, QUERY_TIME, AVERAGE from RPT_ONLINE_TIME 
+				where DEPARTMENT_ID=:dep_id and 
+				case when 0=:time then date(QUERY_TIME) >= :start_time and date(QUERY_TIME) < :end_time   										 
+				when (1=:time or 2=:time or 4=:time or 5=:time) then date(QUERY_TIME) >= :start_time and date(QUERY_TIME) <= :end_time
+				else true 
+				end
+				]]>
+			</rptOnlineTime>
+		</OnlineTimeStatistics>
+	</report>
+</sqlcfg>

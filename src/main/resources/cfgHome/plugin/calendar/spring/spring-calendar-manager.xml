@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="calContentManager" class="com.seeyon.apps.calendar.manager.CalContentManagerImpl"></bean>
+	<bean id="calEventPeriodicalInfoManager" class="com.seeyon.apps.calendar.manager.CalEventPeriodicalInfoManagerImpl"></bean>
+	<bean id="calEventTranManager" class="com.seeyon.apps.calendar.manager.CalEventTranManagerImpl"></bean>
+	<bean id="calReplyManager" class="com.seeyon.apps.calendar.manager.CalReplyManagerImpl"></bean>
+	<bean id="calEventManager" class="com.seeyon.apps.calendar.manager.CalEventManagerImpl"></bean>
+	<bean id="calEventManager4ISearch" init-method="init" class="com.seeyon.apps.calendar.manager.CalEventManager4ISearch"></bean>
+	<bean id="calendarNotifier" class="com.seeyon.apps.calendar.util.CalendarNotifier"></bean>
+	<bean id="eventRemind" class="com.seeyon.apps.calendar.util.EventRemind"></bean>
+	<bean id="calTimeLineManager" class="com.seeyon.apps.calendar.manager.CalTimeLineManagerImpl"></bean>
+	
+	<bean id="securityControlCalendar" class="com.seeyon.v3x.common.security.SecurityControlCalendarImpl"></bean>
+	<bean id="userMessageFilterImplCalendar" class="com.seeyon.ctp.common.usermessage.UserMessageFilterImplCalendar"></bean>
+	
+	<!-- 时间线 -->
+	<bean id="timeLineManager" class="com.seeyon.ctp.portal.timeline.TimeLineManagerImpl"></bean>
+	<!-- 时间安排（主要是时间视图、时间线取数据使用） -->
+	<bean id="timeArrangeManager" class="com.seeyon.apps.calendar.manager.TimeArrangeManagerImpl"></bean>
+	<bean id="calendarListener" class="com.seeyon.apps.calendar.listener.CalendarListener"></bean>
+	
+	<bean id="calEventUtil" class="com.seeyon.apps.calendar.util.CalEventUtil"></bean>
+</beans>

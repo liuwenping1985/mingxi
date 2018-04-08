@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="ldapBindingMgr" class="com.seeyon.apps.ldap.manager.LdapBindingMgrImp">
+		<property name="userMapperDao" ref="userMapperDao" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="orgManagerDirect" ref="orgManagerDirect" />
+	</bean>
+	<bean id="verifyConnection" class="com.seeyon.apps.ldap.manager.VerifyConnectionImp">
+	</bean>
+
+	<bean id="adDao" class="com.seeyon.apps.ldap.dao.AdDaoImp" />
+	<bean id="openldapDao" class="com.seeyon.apps.ldap.dao.OpenLdapDaoImp" />
+	<bean id="organizationLdapEvent" class="com.seeyon.apps.ldap.event.OrganizationLdapEvent">
+		<property name="ldapBindingMgr" ref="ldapBindingMgr" />
+		<property name="userMapperDao" ref="userMapperDao" />
+	</bean>
+
+
+	<!-- ldapLoginBean -->
+	<bean id="ldapLoginAuthentication" class="com.seeyon.apps.ldap.login.LDAPLoginAuthentication">
+	</bean>
+
+</beans>

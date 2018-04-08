@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>multiCallManager</serviceName>
+		<operations>
+			<op>showConfigs</op>
+			<op>saveConfig</op>
+			<op>viewConfig</op>
+			<op>deleteConfigs</op>
+			<op>getAccountById</op>
+		</operations>
+	</bean>
+</beans>
