@@ -113,7 +113,7 @@ public class DataKitAffairController  extends BaseController {
     private CtpAffair genAffair(AppsPendingData data,Map<String,Long>orgAccountId,Map<String,Long>userPricipalMap){
         CtpAffair affair = new CtpAffair();
         affair.setImportantLevel(ImportantLevelEnums.general.ordinal());
-        affair.setState(StateEnum.col_pending.ordinal());
+        affair.setState(StateEnum.col_pending.key());
         Long accountId =  orgAccountId.get(data.getOrgName());
         if(accountId!=null){
             affair.setOrgAccountId(accountId);
@@ -140,6 +140,7 @@ public class DataKitAffairController  extends BaseController {
         affair.setDealTermType(0);
         affair.setDealTermUserid(-1L);
         affair.setSubApp(0);
+       // affair.setState();
       //  affair.setMemberId();
        // affair.setOrgAccountId();
         return affair;

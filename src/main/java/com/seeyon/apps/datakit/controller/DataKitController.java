@@ -7,6 +7,8 @@ import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManagerImpl;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
+import com.seeyon.ctp.portal.section.PendingController;
+import com.seeyon.ctp.portal.section.PendingSection;
 import com.seeyon.ctp.util.DBAgent;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +28,8 @@ public class DataKitController extends BaseController {
         //枚举的父 -3545157928521216088
 
         // acount 3271769283932670093
-
+        //PendingController.class;
+        //apps/collaboration/pendingMain
         DataKitSupporter.responseJSON(dataList,response);
         return null;
     }
@@ -58,7 +61,6 @@ public class DataKitController extends BaseController {
     public ModelAndView showTwoData(HttpServletRequest request, HttpServletResponse response){
 
         try {
-
             DataKitSupporter.responseJSON(dataKitService.getRootEnum(),response);
         } catch (BusinessException e) {
             e.printStackTrace();
