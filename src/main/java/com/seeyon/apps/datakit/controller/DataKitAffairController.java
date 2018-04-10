@@ -122,6 +122,7 @@ public class DataKitAffairController  extends BaseController {
         affair.setAddition(data.getLinkAddress());
         affair.putExtraAttr("linkAddress",data.getLinkAddress());
         affair.setAutoRun(false);
+        affair.setSubject(data.getSubject());
         affair.setCreateDate(new Date());
         affair.setUpdateDate(new Date());
         affair.setReceiveTime(new Date());
@@ -132,8 +133,13 @@ public class DataKitAffairController  extends BaseController {
         affair.setAutoRun(false);
         affair.setActivityId(0l);
         affair.setIdIfNew();
-        affair.setNodePolicy("");
-        affair.setBodyType("");
+        affair.setIdentifier("00000000000000000000");
+        affair.setNodePolicy("collaboration");
+        affair.setBodyType("10");
+        affair.setTrack(0);
+        affair.setDealTermType(0);
+        affair.setDealTermUserid(-1L);
+        affair.setSubApp(0);
       //  affair.setMemberId();
        // affair.setOrgAccountId();
         return affair;
