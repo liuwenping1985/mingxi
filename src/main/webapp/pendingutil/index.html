@@ -20,9 +20,27 @@
         <p></p>
         <label for="linkAddress"> 跳转:</label>
         <input type="text" name="linkAddress" value="http://www.google.com" />
+      
     </form>
     <p></p>
+    <label for="extParam"> 待办本系统标识（ID或者唯一能标识该条待办的都可以，用于待办完成时传回OA）:</label>
+    <input type="text" name="extParam" id="extParam" value="" />
+    <p></p>
+
     <button id="submit_btn">发 送</button>
+
+<div style="margin-top:50px;width:100%;height:2px;background:black"></div>
+
+<p>待办处理完上报OA测试</p>
+
+<p>方式1：传入待办本系统标识</p>
+<label for="bizId"> 待办本系统标识:</label>
+<input type="text" name="bizId" id="bizId"  value="" />
+<button id="submit_btn_4_biz">发送待办完成biz</button>
+<p>方式2：传入OA系统待办标识（在推送完成后OA会返回给业务系统 就是id）</p>
+<label for="oaId"> oa系统待办标识:</label>
+<input type="text" name="oaId" id="oaId" value="" />
+<button id="submit_btn_4_oa">发送待办完成OA</button>
 
     <script>
         $.fn.serializeJSON = function () {
@@ -41,10 +59,25 @@
             return ooo;
         };
         $(document).ready(function () {
+            $("#extParam").change(function(){
+                $("#bizId").val($("#extParam").val());
+            })
             function submit() {
                 var affair = $("#form_params").serializeJSON();
                 console.log(affair);
-            
+                //新增的扩展参数
+                var bizId=$("#extParam").val();
+                affair.extParam={};
+                //参数结构是固定的 不要改，这里用到了扩展参数
+                /**
+                * {
+                    ...
+                    extParam:{
+                        "bizId":"xxxx"
+                    }
+                }
+                */
+                affair.extParam.bizId=bizId;
                 $.ajax({
                     type: "POST",
                     url: "http://47.100.181.195:8080/seeyon/datakit/outaffair.do?method=postAffair",
@@ -63,6 +96,8 @@
 
                         if (data instanceof Array && data.length > 0) {
                             console.log(data);
+                            //回填回去方便测试
+                            $("#oaId").val(data[0]["id"]);
                         } else {
                             console.log("error");
                         }
@@ -73,10 +108,49 @@
                 });
             }
 
+            function sendAffairDone(type){
+                var param = "";
+                if("biz"== type){
+                    var bizId = $("#bizId").val();
+                    if(!bizId){
+                        alert("填入bizId");
+                        return;
+                    }
+                    
+                    param="&bizId="+bizId;
+                }else{
+                    var affairId = $("#oaId").val();
+                    if(!affairId){
+                        alert("填入oaId");
+                        return;
+                    }
+                    param="&affairId="+affairId;
+                }
+                var url = "http://47.100.181.195:8080/seeyon/datakit/outaffair.do?method=affairDone"+param;
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (data) {
+
+                        console.log(data);
+                    },
+                    error: function () {
+
+                    }
+                });
+
+            }
+
             $("#submit_btn").click(function () {
                 submit();
             })
-
+            //submit_btn_4_biz
+            $("#submit_btn_4_biz").click(function () {
+                sendAffairDone("biz");
+            })
+            $("#submit_btn_4_oa").click(function () {
+                sendAffairDone("oa");
+            })
         });
     </script>
 
