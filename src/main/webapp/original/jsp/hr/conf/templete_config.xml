@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TempleteProfile>
+	<TempleteConfig>
+		<key>1</key>
+		<name>请假申请单</name>
+		<fName>请假申请表单</fName>
+	</TempleteConfig>
+	<TempleteConfig>
+		<key>2</key>
+		<name>加班申请单</name>
+		<fName>加班申请表单</fName>
+	</TempleteConfig>
+	<TempleteConfig>
+		<key>3</key>
+		<name>出差申请单</name>
+		<fName>出差申请表单</fName>
+	</TempleteConfig>
+	<TempleteConfig>
+		<key>4</key>
+		<name>调配申请</name>
+		<fName>调配申请单</fName>
+	</TempleteConfig>	
+</TempleteProfile>

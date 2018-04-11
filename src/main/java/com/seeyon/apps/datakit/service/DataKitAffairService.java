@@ -7,6 +7,10 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.DBAgent;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -46,6 +50,27 @@ public class DataKitAffairService {
     public CtpAffair saveCtpAffair(CtpAffair affair) throws BusinessException {
          affairManager.save(affair);
          return affair;
+    }
+
+    public CtpAffair getCtpAffairByBizId(String bizId){
+        DetachedCriteria cri = DetachedCriteria.forClass(CtpAffair.class);
+        cri.add(Restrictions.eq("identifier",bizId));
+        cri.add(Restrictions.eq("objectId",0L));
+        List<CtpAffair> list = DBAgent.findByCriteria(cri);
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public CtpAffair getCtpAffairById(Long affId){
+        DetachedCriteria cri = DetachedCriteria.forClass(CtpAffair.class);
+        cri.add(Restrictions.eq("id",affId));
+        List<CtpAffair> list = DBAgent.findByCriteria(cri);
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+        return list.get(0);
     }
 
 

@@ -1,0 +1,104 @@
+&&&&&&&&  xsl_start  &&&&&&&&
+Url=view1.xsl
+&&&&&&&&  data_start  &&&&&&&&
+<?xml version="1.0" encoding="UTF-8"?>
+<my:myFields xmlns:my="www.seeyon.com/form/2007">
+	<my:shenhe>同意</my:shenhe>
+	<my:printer>张华</my:printer>
+	<my:keyword>工资上调15%</my:keyword>
+	<my:print_unit>工商银行</my:print_unit>
+	<my:copies>10</my:copies>
+	<my:issuer>张总</my:issuer>
+	<my:send_unit>新华社</my:send_unit>
+	<my:copy_to>用友上海公司</my:copy_to>
+	<my:report_to>用友北京公司</my:report_to>
+	<my:create_user>张华</my:create_user>
+	<my:urgent_level/>
+	<my:secret_level/>
+	<my:doc_mark/>
+	<my:serial_no/>
+	<my:send_type/>
+	<my:doc_type/>
+	<my:subject>关于工资上调的通知</my:subject>
+	<my:send_to>新华社</my:send_to>
+	<my:keep_period/>
+</my:myFields>
+&&&&&&&&  input_start  &&&&&&&&
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldInputList>
+	<FieldInput name="my:subject" type="text" access="browse" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:doc_type" type="select" access="edit" allowprint="true" allowtransmit="true">
+		<Input display="公报" value="1"/>
+		<Input display="决议" value="2"/>
+		<Input display="决定" value="3"/>
+		<Input display="指示" value="4"/>
+		<Input display="条例" value="5"/>
+		<Input display="规定" value="6"/>
+		<Input display="通知" value="7"/>
+		<Input display="通报" value="8"/>
+		<Input display="请示" value="9"/>
+		<Input display="报告" value="11"/>
+		<Input display="批复" value="12"/>
+		<Input display="会议记要" value="13"/>
+		<Input display="函" value="14"/>
+		<Input display="签报" value="15"/>
+		<Input display="电传明文" value="16"/>
+	</FieldInput>
+	<FieldInput name="my:send_type" type="select" access="edit" allowprint="true" allowtransmit="true">
+		<Input display="上行文" value="1"/>
+		<Input display="下行文" value="2"/>
+		<Input display="平行文" value="3"/>
+		<Input display="内部行文" value="4"/>
+		<Input display="外部行文" value="5"/>
+	</FieldInput>
+	<FieldInput name="my:doc_mark" type="select" access="edit" allowprint="true" allowtransmit="true">
+			<Input display="请选择公文文号" value=""/>
+	</FieldInput>
+	<FieldInput name="my:serial_no" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:secret_level" type="select" access="edit" allowprint="true" allowtransmit="true">
+		<Input display="普通" value="1"/>
+		<Input display="秘密" value="2"/>
+		<Input display="机密" value="3"/>
+		<Input display="绝密" value="4"/>
+	</FieldInput>
+	<FieldInput name="my:urgent_level" type="select" access="edit" allowprint="true" allowtransmit="true">
+		<Input display="普通" value="1"/>
+		<Input display="紧急" value="2"/>
+		<Input display="特急" value="3"/>
+	</FieldInput>
+	<FieldInput name="my:create_user" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:keep_period" type="select" access="edit" allowprint="true" allowtransmit="true">
+		<Input display="无期限" value="1"/>
+		<Input display="1天" value="2"/>
+		<Input display="3天" value="3"/>
+		<Input display="5天" value="5"/>
+		<Input display="7天" value="7"/>
+		<Input display="10天" value="10"/>
+		<Input display="15天" value="15"/>
+		<Input display="1月" value="30"/>
+		<Input display="2月" value="60"/>
+		<Input display="3月" value="90"/>
+		<Input display="6月" value="180"/>
+		<Input display="9月" value="270"/>
+		<Input display="1年" value="365"/>
+		<Input display="2年" value="730"/>
+		<Input display="3年" value="1095"/>
+		<Input display="5年" value="1825"/>
+		<Input display="8年" value="2920"/>
+		<Input display="10年" value="3650"/>
+		<Input display="15年" value="5475"/>
+		<Input display="20年" value="7300"/>
+		<Input display="30年" value="10950"/>
+	</FieldInput>
+	<FieldInput name="my:send_to" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:report_to" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:copy_to" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:send_unit" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:issuer" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:print_unit" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:print_unit" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:keyword" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:printer" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:shenhe" type="text" access="edit" allowprint="true" allowtransmit="true" />
+	<FieldInput name="my:copies" type="text" access="edit" allowprint="true" allowtransmit="true" />
+</FieldInputList>

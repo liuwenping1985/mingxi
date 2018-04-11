@@ -1,5 +1,7 @@
 package com.seeyon.apps.datakit.vo;
 
+import java.util.HashMap;
+
 public class AppsPendingData {
 
     //标题
@@ -10,6 +12,7 @@ public class AppsPendingData {
     private String receiverName;
     private String senderName;
     private String linkAddress;
+    private HashMap extParam;
 
     public String getSubject() {
         return subject;
@@ -53,6 +56,14 @@ public class AppsPendingData {
 
     public String getLinkAddress() {
         return linkAddress;
+    }
+
+    public HashMap getExtParam() {
+        return extParam;
+    }
+
+    public void setExtParam(HashMap extParam) {
+        this.extParam = extParam;
     }
 
     public void setLinkAddress(String linkAddress) {

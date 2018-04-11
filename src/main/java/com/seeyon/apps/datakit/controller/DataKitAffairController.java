@@ -46,7 +46,29 @@ public class DataKitAffairController  extends BaseController {
         view.addObject("url", url);
         return view;
     }
+    @NeedlessCheckLogin
+    public ModelAndView affairDone(HttpServletRequest req, HttpServletResponse response) throws BusinessException {
 
+        String bizId =  req.getParameter("bizId");
+        String affid =  req.getParameter("affairId");
+        if(!StringUtils.isEmpty(affid)){
+            CtpAffair ctpAffair = dataKitAffairService.getCtpAffairById(Long.parseLong(affid));
+            if(ctpAffair!=null){
+                DBAgent.delete(ctpAffair);
+                DataKitSupporter.responseJSON(ctpAffair,response);
+                return null;
+            }
+        }
+        if(!StringUtils.isEmpty(bizId)){
+            CtpAffair ctpAffair = dataKitAffairService.getCtpAffairByBizId(bizId);
+            if(ctpAffair!=null){
+                DBAgent.delete(ctpAffair);
+                DataKitSupporter.responseJSON(ctpAffair,response);
+                return null;
+            }
+        }
+        throw new BusinessException("无法找到待办，请确认参数是否正确");
+    }
     @NeedlessCheckLogin
     public ModelAndView postAffair(HttpServletRequest request, HttpServletResponse response) throws IOException, BusinessException, NoSuchPrincipalException {
        response.setHeader("Access-Control-Allow-Origin", "*");
@@ -134,6 +156,7 @@ public class DataKitAffairController  extends BaseController {
         }
         affair.setApp(AppInfoVO.AppTypeEnums.integration_remote_url.ordinal());
         affair.setAddition(data.getLinkAddress());
+
         affair.putExtraAttr("linkAddress",data.getLinkAddress());
         affair.putExtraAttr("outside_affair","YES");
         affair.setAutoRun(false);
@@ -148,7 +171,15 @@ public class DataKitAffairController  extends BaseController {
         affair.setAutoRun(false);
         affair.setActivityId(0l);
         affair.setIdIfNew();
-        affair.setIdentifier("00000000000000000000");
+        if(data.getExtParam()!=null&&data.getExtParam().size()>0){
+            String bizId = (String)data.getExtParam().get("bizId");
+            if (StringUtils.isEmpty(bizId)) {
+                bizId="00000000000000000000";
+            }
+            affair.setIdentifier(bizId);
+        }else{
+            affair.setIdentifier("00000000000000000000");
+        }
         affair.setNodePolicy("collaboration");
         affair.setBodyType("10");
         affair.setTrack(0);
