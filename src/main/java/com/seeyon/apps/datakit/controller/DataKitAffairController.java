@@ -84,7 +84,7 @@ public class DataKitAffairController  extends BaseController {
         }else{
             items = (List)JSON.parseArray((String)obj,HashMap.class);
         }
-        if(items == null||items.size()==0){
+        if(items == null||items.size ()==0){
             throw new BusinessException("无法找到数据，请确认数据结构是否正确");
         }
         Map<String,Long> accountMap = new HashMap<String, Long>();
