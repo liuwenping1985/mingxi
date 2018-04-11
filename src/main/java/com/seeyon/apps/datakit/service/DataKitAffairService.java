@@ -53,7 +53,7 @@ public class DataKitAffairService {
     public void deleteImportAffair() throws BusinessException {
        List<CtpAffair> affairs =  affairManager.getAffairs(0L, StateEnum.col_pending);
        for(CtpAffair affair:affairs){
-           String outSide = (String)affair.getExtraAttr("outside");
+           String outSide = (String)affair.getExtraAttr("outside_affair");
            if("YES".equals(outSide)){
                affairManager.deletePhysical(affair.getId());
            }

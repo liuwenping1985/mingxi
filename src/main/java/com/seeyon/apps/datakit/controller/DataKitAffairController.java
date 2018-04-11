@@ -8,26 +8,22 @@ import com.seeyon.apps.m3.app.vo.AppInfoVO;
 import com.seeyon.apps.taskmanage.enums.ImportantLevelEnums;
 import com.seeyon.ctp.common.content.affair.constants.StateEnum;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.common.detaillog.vo.CtpAffairVO;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
-import com.seeyon.ctp.organization.bo.V3xOrgMember;
-import com.seeyon.ctp.organization.bo.V3xOrgPrincipal;
 import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.portal.section.PendingController;
-import com.seeyon.ctp.rest.util.CtpAffairUntil;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
 
@@ -42,12 +38,30 @@ public class DataKitAffairController  extends BaseController {
     private MemberManager memberManager;
     private PrincipalManager principalManager;
 
+    public ModelAndView openPending(HttpServletRequest req, HttpServletResponse response){
+        ModelAndView view = new ModelAndView("apps/datakit/redirect");
+        String affid =  req.getParameter("affId");
+        String url =  req.getParameter("url");
+        view.addObject("affid", affid);
+        view.addObject("url", url);
+        return view;
+    }
+
     @NeedlessCheckLogin
     public ModelAndView postAffair(HttpServletRequest request, HttpServletResponse response) throws IOException, BusinessException, NoSuchPrincipalException {
-        CtpAffair affair = new CtpAffair();
+       response.setHeader("Access-Control-Allow-Origin", "*");
         String param = DataKitSupporter.getPostDataAsString(request);
+        if(StringUtils.isEmpty(param)){
+            throw new BusinessException("无法找到数据，请确认数据结构是否正确");
+        }
         Map data = (Map)JSON.parse(param);
-        List<Map> items = (List)data.get("items");
+        Object obj = data.get("items");
+        List<Map> items = null;
+        if(obj instanceof List){
+            items = (List)data.get("items");
+        }else{
+            items = (List)JSON.parseArray((String)obj,HashMap.class);
+        }
         if(items == null||items.size()==0){
             throw new BusinessException("无法找到数据，请确认数据结构是否正确");
         }
@@ -86,7 +100,7 @@ public class DataKitAffairController  extends BaseController {
                 }
                 userPricipalMap.put(receiverName,receiverId);
             }
-
+            //com.seeyon.apps.collaboration.controller.CollaborationController.class;
             accountMap.put(orgAccount.getName(),orgAccount.getId());
             appList.add(pData);
         }
@@ -112,7 +126,7 @@ public class DataKitAffairController  extends BaseController {
     }
     private CtpAffair genAffair(AppsPendingData data,Map<String,Long>orgAccountId,Map<String,Long>userPricipalMap){
         CtpAffair affair = new CtpAffair();
-        affair.setImportantLevel(ImportantLevelEnums.general.ordinal());
+        affair.setImportantLevel(ImportantLevelEnums.general.getKey());
         affair.setState(StateEnum.col_pending.key());
         Long accountId =  orgAccountId.get(data.getOrgName());
         if(accountId!=null){
@@ -121,6 +135,7 @@ public class DataKitAffairController  extends BaseController {
         affair.setApp(AppInfoVO.AppTypeEnums.integration_remote_url.ordinal());
         affair.setAddition(data.getLinkAddress());
         affair.putExtraAttr("linkAddress",data.getLinkAddress());
+        affair.putExtraAttr("outside_affair","YES");
         affair.setAutoRun(false);
         affair.setSubject(data.getSubject());
         affair.setCreateDate(new Date());
@@ -140,6 +155,7 @@ public class DataKitAffairController  extends BaseController {
         affair.setDealTermType(0);
         affair.setDealTermUserid(-1L);
         affair.setSubApp(0);
+
        // affair.setState();
       //  affair.setMemberId();
        // affair.setOrgAccountId();
