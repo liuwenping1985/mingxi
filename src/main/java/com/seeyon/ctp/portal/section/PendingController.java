@@ -20,6 +20,9 @@ import com.seeyon.ctp.portal.section.util.SectionUtils;
 import com.seeyon.ctp.portal.space.manager.PortletEntityPropertyManager;
 import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
+
+import java.net.URI;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -180,7 +183,7 @@ public class PendingController
             }
             CtpAffair affair = outSideAffair.get(String.valueOf(id));
             if(affair!=null){
-                row.setLink("/datakit/outaffair.do?method=openPending&affId="+affair.getId()+"&url="+affair.getAddition());
+                row.setLink("/datakit/outaffair.do?method=openPending&affId="+affair.getId()+"&url="+ URLEncoder.encode(affair.getAddition(),"utf-8"));
             }
         }
 
