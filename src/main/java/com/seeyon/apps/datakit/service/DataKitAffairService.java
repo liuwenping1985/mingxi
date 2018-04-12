@@ -52,7 +52,7 @@ public class DataKitAffairService {
          return affair;
     }
 
-    public CtpAffair getCtpAffairByBizId(String bizId){
+    public List<CtpAffair> getCtpAffairByBizId(String bizId){
         DetachedCriteria cri = DetachedCriteria.forClass(CtpAffair.class);
         cri.add(Restrictions.eq("identifier",bizId));
         cri.add(Restrictions.eq("objectId",0L));
@@ -60,7 +60,7 @@ public class DataKitAffairService {
         if(CollectionUtils.isEmpty(list)){
             return null;
         }
-        return list.get(0);
+        return list;
     }
 
     public CtpAffair getCtpAffairById(Long affId){

@@ -137,31 +137,31 @@ public class PendingController
         }
         else
         {
-            System.out.println("test1");
-            System.out.println("test:"+this.pendingManager==null);
-            System.out.println("memberId:"+memberId);
-            System.out.println("fragmentId:"+fragmentId);
-            System.out.println("ordinal:"+ordinal);
+            //System.out.println("test1");
+           // System.out.println("test:"+this.pendingManager==null);
+           // System.out.println("memberId:"+memberId);
+          //  System.out.println("fragmentId:"+fragmentId);
+           // System.out.println("ordinal:"+ordinal);
             affairs = getPendingList222(memberId, fragmentId, ordinal);
-            System.out.println("test2");
+           // System.out.println("test2");
         }
         Object rowList = this.pendingManager.affairList2PendingRowList((List)affairs, false, false, user, currentPanel, true, rowStr);
-        System.out.println("test2");
+       // System.out.println("test2");
         PendingRow pr1 = new PendingRow();
         int count = pageSize - ((List)rowList).size();
         for (int j = 0; j < count; j++) {
             ((List)rowList).add(pr1);
         }
-        System.out.println("((List)rowList).size():"+((List)rowList).size());
+       // System.out.println("((List)rowList).size():"+((List)rowList).size());
         Map<String,CtpAffair> outSideAffair = new HashMap<String,CtpAffair>();
 
         if(affairs!=null) {
             List<CtpAffair> affairList=(List<CtpAffair>)affairs;
-            System.out.println("((List)affairList).size():"+affairList.size());
+            //System.out.println("((List)affairList).size():"+affairList.size());
             for (int k = 0; k < affairList.size(); k++) {
                 CtpAffair affair = (CtpAffair)affairList.get(k);
-                System.out.println("affair.getExtraMap()"+JSON.toJSONString(affair.getExtraMap()));
-                System.out.println("affair.getExtraAttr(outside_affair):"+affair.getExtraAttr("outside_affair"));
+               // System.out.println("affair.getExtraMap()"+JSON.toJSONString(affair.getExtraMap()));
+               // System.out.println("affair.getExtraAttr(outside_affair):"+affair.getExtraAttr("outside_affair"));
                 if("YES".equals(affair.getExtraAttr("outside_affair"))){
                     outSideAffair.put(String.valueOf(affair.getId()),affair);
                 }else{

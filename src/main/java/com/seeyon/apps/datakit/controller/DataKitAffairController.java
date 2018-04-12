@@ -60,10 +60,11 @@ public class DataKitAffairController  extends BaseController {
             }
         }
         if(!StringUtils.isEmpty(bizId)){
-            CtpAffair ctpAffair = dataKitAffairService.getCtpAffairByBizId(bizId);
-            if(ctpAffair!=null){
-                DBAgent.delete(ctpAffair);
-                DataKitSupporter.responseJSON(ctpAffair,response);
+            List<CtpAffair> ctpAffairs = dataKitAffairService.getCtpAffairByBizId(bizId);
+            if(ctpAffairs!=null&&ctpAffairs.size()>0){
+                //DBAgent.delete(ctpAffairs);
+                DBAgent.deleteAll(ctpAffairs);
+                DataKitSupporter.responseJSON(ctpAffairs.get(0),response);
                 return null;
             }
         }
