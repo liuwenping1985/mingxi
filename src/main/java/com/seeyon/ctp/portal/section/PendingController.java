@@ -197,7 +197,8 @@ public class PendingController
         modelAndView.addObject("fragmentId", fragmentId);
         modelAndView.addObject("ordinal", ordinal);
         modelAndView.addObject("width", Integer.valueOf(width));
-
+        modelAndView.addObject("memberId", memberId);
+        modelAndView.addObject("orgId", user.getAccountId());
         return modelAndView;
     }
 

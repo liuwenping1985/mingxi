@@ -158,6 +158,49 @@ var iframeWidth=$("#contentDiv").width();
 var iframeHeight=$("#contentDiv").height();
 var graphicalListStr="${graphicalList}";
 var hasMeetingPlug = "${ctp:hasPlugin('meeting')}";
+var freshUserIds = ["2288753711787560895",];
+
+var isAutoFresh = true;
+
+var curUserId = "${memberId}";
+
+function autoFreshPending(){
+    //console.log("flag1");
+    if($){
+     var  sps = $(window.parent.document).find("[title='待办事项']");
+      //   console.log(window.parent);
+      //   console.log(window.parent.document);
+      if(sps.length>0){
+        $(sps).each(function(index,item){
+         if(item["tagName"]=="SPAN"){
+            $($(item).parent().parent()).trigger("click");
+         }
+        });
+      }
+
+       setTimeout(autoFreshPending,15000);
+
+    }
+
+}
+if(isAutoFresh){
+var freshFlag = false;
+for(var p=0;p<freshUserIds.length;p++){
+    if(curUserId ==freshUserIds[p]){
+        freshFlag= true;
+        break;
+    }
+}
+freshFlag=true;
+ if(freshFlag){
+    if($){
+       setTimeout(autoFreshPending,15000);
+    }
+
+ }
+
+}
+
 </script>
 <script type="text/javascript" charset="UTF-8" src="${path}/apps_res/collaboration/js/channel-debug.js${ctp:resSuffix()}"></script>
 <script type="text/javascript" charset="UTF-8" src="${path}/apps_res/collaboration/js/pendingMain.js${ctp:resSuffix()}"></script>
