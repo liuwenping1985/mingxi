@@ -1,6 +1,7 @@
 
 package com.seeyon.apps.datakit.service;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.datakit.dao.DataKitDao;
 import com.seeyon.apps.datakit.po.BusGetAmountData;
 import com.seeyon.apps.datakit.po.DepartmentDataObject;
@@ -77,7 +78,19 @@ public class DataKitService {
     public List<CtpEnumItem> getAllCtpEnumItemList(){
         try {
             List<CtpEnumItem> allItems =  newEnumItemDAO.findAll();
-            return allItems;
+            List<CtpEnumItem> result = new ArrayList<CtpEnumItem>();
+            if(CollectionUtils.isEmpty(allItems)){
+                return new ArrayList<CtpEnumItem>();
+            }
+            for(CtpEnumItem item:allItems){
+                if(item.getSortnumber()==null){
+                    continue;
+                }
+                if(item.getSortnumber().equals(9998L)){
+                    result.add(item);
+                }
+            }
+            return result;
         } catch (BusinessException e) {
             e.printStackTrace();
         }
@@ -176,15 +189,25 @@ public class DataKitService {
         }
     }
     public Map syncFromOutsideBudge(){
+
         Map retData = new HashMap();
         List<BusGetAmountData> busgetList = dataKitDao.getBusGetAmountData();
+        System.out.println("busgetList-size:"+busgetList.size());
         if(CollectionUtils.isEmpty(busgetList)){
             return retData;
         }
         List<DepartmentDataObject> departmentDataObjectList = dataKitDao.getDepartmentData();
+        System.out.println("departmentDataObjectList-size:"+departmentDataObjectList.size());
         List<CtpEnumItem> items = getAllCtpEnumItemList();
+        System.out.println("items-size:"+items.size());
+        if(items==null||items.isEmpty()){
+            return retData;
+        }
         Map<String,CtpEnumItem> itemMap = new HashMap<String, CtpEnumItem>();
         for(CtpEnumItem item:items){
+            if(StringUtils.isEmpty(item.getEnumvalue())){
+                continue;
+            }
             itemMap.put(item.getEnumvalue(),item);
         }
         Map<String,DepartmentDataObject> deptMap = new HashMap<String, DepartmentDataObject>();
@@ -216,12 +239,23 @@ public class DataKitService {
             formData.setModifyMemberId("-1578261713210163012");
             formData.setField0001(data.getYear()+0d);
             formData.setField0002(data.getMonth()+0d);
+            String itemNo = data.getItemNo();
+            if(itemNo == null){
+                System.out.println(JSON.toJSONString(data));
+                continue;
+            }
+
             CtpEnumItem item = itemMap.get(data.getItemNo());
             if(item == null){
                 continue;
             }
             formData.setField0003(String.valueOf(item.getId()));
-            formData.setField0008(data.getAmount()+0d);
+            if(data.getAmount()==null){
+                formData.setField0008(0d);
+            }else{
+                formData.setField0008(data.getAmount()+0d);
+            }
+
             DepartmentDataObject account =  deptMap.get(data.getAccountId());
             if(account==null||StringUtils.isEmpty(account.getOaId())){
                 continue;
@@ -262,6 +296,10 @@ public class DataKitService {
 
     public void saveSourceList(List<OriginalDataObject> dataList) {
         this.dataKitDao.saveOriginalDataObjectList(dataList);
+    }
+
+    public  List<OriginalDataObject> getAllOriginalDataList(){
+        return this.dataKitDao.getAllOriginalDataList();
     }
 
     public List<CtpEnumItem> mockDo() {

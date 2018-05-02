@@ -91,6 +91,7 @@ public class DataKitDao extends HibernateDaoSupport {
         }
         return new ArrayList<DepartmentDataObject>();
     }
+
     public List<OriginalDataObject> getOriginalDataList() {
         if (!isSet && dataKitSessionFactory != null) {
             setSessionFacotry(dataKitSessionFactory);

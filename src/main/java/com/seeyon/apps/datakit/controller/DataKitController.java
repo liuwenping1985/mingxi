@@ -6,10 +6,14 @@ import com.seeyon.apps.datakit.util.DataKitSupporter;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
+import com.seeyon.ctp.util.DBAgent;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,82 @@ public class DataKitController extends BaseController {
         DataKitSupporter.responseJSON(dataList,response);
         return null;
     }
+
+    public ModelAndView showysenum(HttpServletRequest request, HttpServletResponse response){
+        List<OriginalDataObject> dataList = dataKitService.getAllOriginalDataList();
+        DataKitSupporter.responseJSON(dataList,response);
+        return null;
+    }
+    public ModelAndView showoaenum(HttpServletRequest request, HttpServletResponse response){
+        List<CtpEnumItem> dataList = dataKitService.getAllCtpEnumItemList();
+        DataKitSupporter.responseJSON(dataList,response);
+        return null;
+    }
+    public ModelAndView hasExitEnumValue(HttpServletRequest request, HttpServletResponse response){
+        List<CtpEnumItem> dataList = dataKitService.getAllCtpEnumItemList();
+        DataKitSupporter.responseJSON(dataList,response);
+        return null;
+    }
+    public ModelAndView fixData(HttpServletRequest request, HttpServletResponse response){
+        List<OriginalDataObject> dataList = dataKitService.getAllSourceList();
+        List<CtpEnumItem> itemDataList = dataKitService.getAllCtpEnumItemList();
+        Map<String,String>ysIdMap = new HashMap<String, String>();
+        Map<String,OriginalDataObject>ysDataMap = new HashMap<String, OriginalDataObject>();
+        Map<String,String>ysPidMapByNo = new HashMap<String, String>();
+        for(OriginalDataObject data:dataList){
+            String id = data.getId();
+            if(StringUtils.isEmpty(id)){
+                continue;
+            }
+            String no = data.getNo();
+            if(StringUtils.isEmpty(no)){
+                continue;
+            }
+            String pid = data.getpId();
+            if(StringUtils.isEmpty(pid)){
+                pid="NO";
+            }
+            ysIdMap.put(id,no);
+            ysPidMapByNo.put(no,pid);
+            ysDataMap.put(no,data);
+        }
+        List<CtpEnumItem> fixedData = new ArrayList<CtpEnumItem>();
+        Map<String,Long> oaValueIdMap = new HashMap<String, Long>();
+        for(CtpEnumItem item:itemDataList){
+            String value = item.getEnumvalue();
+            OriginalDataObject data =  ysDataMap.get(value);
+            if(data == null){
+                continue;
+            }
+            oaValueIdMap.put(value,item.getId());
+            fixedData.add(item);
+        }
+        for(CtpEnumItem item:fixedData){
+            String value = item.getEnumvalue();
+            //现在去找他的pid的value是多少
+            String pid = ysPidMapByNo.get(value);
+            if("NO".equals(pid)){
+                item.setParentId(0l);
+            }else{
+                String no = ysIdMap.get(pid);
+                if(no!=null){
+                    Long pidOa = oaValueIdMap.get(no);
+                    if(pidOa!=null){
+                        item.setParentId(pidOa);
+                    }
+                }
+            }
+        }
+
+        if(!fixedData.isEmpty()){
+            DBAgent.updateAll(fixedData);
+        }
+
+        DataKitSupporter.responseJSON(fixedData,response);
+        return null;
+    }
+
+
 
     public ModelAndView clearAll(HttpServletRequest request, HttpServletResponse response){
         //获取同步的数据
@@ -112,8 +192,14 @@ public class DataKitController extends BaseController {
         return null;
     }
     public ModelAndView syncBudge(HttpServletRequest request, HttpServletResponse response){
-        Map data =  dataKitService.syncFromOutsideBudge();
-        DataKitSupporter.responseJSON(data,response);
+        try {
+            Map data = dataKitService.syncFromOutsideBudge();
+            DataKitSupporter.responseJSON(data,response);
+        }catch(Exception e){
+            e.printStackTrace();
+            DataKitSupporter.responseJSON("error-----error",response);
+        }
+
         return null;
     }
 
