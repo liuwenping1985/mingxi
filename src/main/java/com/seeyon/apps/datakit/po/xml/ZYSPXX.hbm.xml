@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+ 
+<class name="ZYSPXX" table="ZYSPXX_TMP">
+ <id
+name="ID"
+column="ID"
+type="long"
+length="20"
+></id>
+<property
+name="SPXX04"
+column="SPXX04"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="PPB01"
+column="PPB01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="SPFL01"
+column="SPFL01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="ZBBJ"
+column="ZBBJ"
+type="integer"
+not-null="false"
+ length="16"
+ />
+<property
+name="SPXX71"
+column="SPXX71"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="JQJX01"
+column="JQJX01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="SPXX08"
+column="SPXX08"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="JLDW01"
+column="JLDW01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="SPXX70"
+column="SPXX70"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="SPXX42"
+column="SPXX42"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="SPXX43"
+column="SPXX43"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="SPXX44"
+column="SPXX44"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="SPXX63"
+column="SPXX63"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="SPXX68"
+column="SPXX68"
+type="float"
+not-null="false"
+length="16"
+ />
+<property
+name="SPXX61"
+column="SPXX61"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="TBBJ"
+column="TBBJ"
+type="integer"
+not-null="false"
+ length="16"
+ />
+<property
+name="BTOBTS01"
+column="BTOBTS01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="BTOBTS02"
+column="BTOBTS02"
+type="string"
+not-null="false"
+ length="256"
+ />
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+ 
+<class name="ZYPPB" table="ZYPPB_TMP">
+ <id
+name="ID"
+column="ID"
+type="long"
+length="20"
+ ></id>
+<property
+name="PPB02"
+column="PPB02"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="TBBJ"
+column="TBBJ"
+type="integer"
+not-null="false"
+ length="16"
+ />
+<property
+name="BTOBTS01"
+column="BTOBTS01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="BTOBTS02"
+column="BTOBTS02"
+type="string"
+not-null="false"
+ length="256"
+ />
+    </class>
+</hibernate-mapping>
