@@ -71,14 +71,6 @@ public class DataKitNanjingDao extends HibernateDaoSupport {
         checkSession();
         Session session = this.getSessionFactory().openSession();
         try {
-//           int size =  getCountByTableName(tableName);
-//           if(size == 0){
-//               return new ArrayList<T>();
-//           }
-//
-//           if(size>5000){
-//               //分页
-//           }else{
                String hql = "from "+tableName;
                Query query = session.createQuery(hql);
                List<T> list = query.list();

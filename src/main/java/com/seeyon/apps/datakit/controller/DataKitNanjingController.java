@@ -41,7 +41,7 @@ public class DataKitNanjingController extends BaseController {
             data.setField0001(jqjx.getJQJX01());
             data.setField0002(jqjx.getJQJX02());
             data.setId(UUIDLong.longUUID());
-            data.setStartMemberId("");
+            data.setStartMemberId("7622275802860113274");
             data.setStartDate(new java.util.Date());
             data.setApproveMemberId("0");
             data.setApproveDate(new java.util.Date());
@@ -50,7 +50,7 @@ public class DataKitNanjingController extends BaseController {
             data.setRatifyMemberId("0");
             data.setRatifyFlag(0);
             data.setModifyDate(new Date());
-            data.setModifyMemberId("");
+            data.setModifyMemberId("7622275802860113274");
             saveList.add(data);
         }
         try {
@@ -73,7 +73,7 @@ public class DataKitNanjingController extends BaseController {
         for(SPFL spfl:dataList){
             Formmain0248 data = new Formmain0248();
             data.setId(UUIDLong.longUUID());
-            data.setStartMemberId("");
+            data.setStartMemberId("7622275802860113274");
             data.setStartDate(new java.util.Date());
             data.setApproveMemberId("0");
             data.setApproveDate(new java.util.Date());
@@ -82,7 +82,7 @@ public class DataKitNanjingController extends BaseController {
             data.setRatifyMemberId("0");
             data.setRatifyFlag(0);
             data.setModifyDate(new Date());
-            data.setModifyMemberId("");
+            data.setModifyMemberId("7622275802860113274");
             data.setField0001(String.valueOf(spfl.getSPFL03()));
             data.setField0002(spfl.getSPFL01());
             data.setField0003(spfl.getSPF_SPFL01());
@@ -105,7 +105,7 @@ public class DataKitNanjingController extends BaseController {
         for(PPB ppb:dataList){
             Formmain0247 data = new Formmain0247();
             data.setId(UUIDLong.longUUID());
-            data.setStartMemberId("");
+            data.setStartMemberId("7622275802860113274");
             data.setStartDate(new java.util.Date());
             data.setApproveMemberId("0");
             data.setApproveDate(new java.util.Date());
@@ -114,7 +114,7 @@ public class DataKitNanjingController extends BaseController {
             data.setRatifyMemberId("0");
             data.setRatifyFlag(0);
             data.setModifyDate(new Date());
-            data.setModifyMemberId("");
+            data.setModifyMemberId("7622275802860113274");
             data.setField0001(ppb.getPPB01());
             data.setField0002(ppb.getPPB02());
             saveList.add(data);
@@ -134,7 +134,7 @@ public class DataKitNanjingController extends BaseController {
         for(DQXX dqxx:dataList){
             Formmain0250 data = new Formmain0250();
             data.setId(UUIDLong.longUUID());
-            data.setStartMemberId("");
+            data.setStartMemberId("7622275802860113274");
             data.setStartDate(new java.util.Date());
             data.setApproveMemberId("0");
             data.setApproveDate(new java.util.Date());
@@ -143,7 +143,7 @@ public class DataKitNanjingController extends BaseController {
             data.setRatifyMemberId("0");
             data.setRatifyFlag(0);
             data.setModifyDate(new Date());
-            data.setModifyMemberId("");
+            data.setModifyMemberId("7622275802860113274");
             data.setField0001(dqxx.getDQXX02());
             data.setField0002(dqxx.getDQXX01());
             data.setField0003(dqxx.getDQX_DQXX01());

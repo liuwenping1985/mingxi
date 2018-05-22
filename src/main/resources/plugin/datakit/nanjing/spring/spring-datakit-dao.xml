@@ -29,7 +29,6 @@
 		<property name="mappingResources">
 			<list>
 				<value>com/seeyon/apps/datakit/po/xml/ZYPPB.hbm.xml</value>
-
 				<value>com/seeyon/apps/datakit/po/xml/ZYSPXX.hbm.xml</value>
 				<value>com/seeyon/apps/datakit/po/xml/ZYWLDW.hbm.xml</value>
 				<value>com/seeyon/apps/datakit/po/xml/DQXX.hbm.xml</value>
