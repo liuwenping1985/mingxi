@@ -1,7 +1,7 @@
 package com.seeyon.apps.datakit.po;
 
-public class Formson0068 {
-    private static String TABLENAME="formson_0068";
+public class Formson0064 {
+    private static String TABLENAME="formson_0064";
     private Long ID;
     private Long formainId;
     private Integer sort;
@@ -16,6 +16,14 @@ public class Formson0068 {
     private String field0016;
     private String field0017;
     private String field0018;
+    private String field0019;
+    private String field0020;
+    private String field0021;
+    private String field0022;
+    private String field0023;
+    private String field0024;
+    private String field0025;
+    private String field0026;
 
     /**
      * ID
@@ -141,6 +149,70 @@ public class Formson0068 {
 
     public String getField0018() {
         return field0018;
+    }
+
+    public String getField0019() {
+        return field0019;
+    }
+
+    public void setField0019(String field0019) {
+        this.field0019 = field0019;
+    }
+
+    public String getField0020() {
+        return field0020;
+    }
+
+    public void setField0020(String field0020) {
+        this.field0020 = field0020;
+    }
+
+    public String getField0021() {
+        return field0021;
+    }
+
+    public void setField0021(String field0021) {
+        this.field0021 = field0021;
+    }
+
+    public String getField0022() {
+        return field0022;
+    }
+
+    public void setField0022(String field0022) {
+        this.field0022 = field0022;
+    }
+
+    public String getField0023() {
+        return field0023;
+    }
+
+    public void setField0023(String field0023) {
+        this.field0023 = field0023;
+    }
+
+    public String getField0024() {
+        return field0024;
+    }
+
+    public void setField0024(String field0024) {
+        this.field0024 = field0024;
+    }
+
+    public String getField0025() {
+        return field0025;
+    }
+
+    public void setField0025(String field0025) {
+        this.field0025 = field0025;
+    }
+
+    public String getField0026() {
+        return field0026;
+    }
+
+    public void setField0026(String field0026) {
+        this.field0026 = field0026;
     }
 
     public void setField0018(String field0018) {

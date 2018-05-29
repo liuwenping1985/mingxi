@@ -24,8 +24,6 @@ public class DataKitDao extends HibernateDaoSupport {
     }
 
     public SessionFactory getDataKitSessionFactory() {
-
-
         return dataKitSessionFactory;
     }
 

@@ -5,4 +5,8 @@
 	<bean name="/datakit.do" class="com.seeyon.apps.datakit.controller.DataKitNanjingController">
 		<property name="dataKitNanjingDao" ref="dataNanjingKitDao" />
 	</bean>
+	<bean id="dataKitNanjingService" class="com.seeyon.apps.datakit.service.DataKitNanJingService"
+		  autowire="byName">
+		<property name="dataKitNanjingDao" ref="dataNanjingKitDao" />
+	</bean>
 </beans>

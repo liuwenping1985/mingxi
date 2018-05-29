@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.seeyon.apps.datakit.po">
  
-<class name="Formson0068" table="formson_0068"><id
+<class name="Formson0064" table="formson_0064"><id
 name="ID"
 column="ID"
 type="long"
@@ -97,6 +97,62 @@ not-null="false"
  <property
          name="field0018"
          column="field0018"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0019"
+         column="field0019"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0020"
+         column="field0020"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0021"
+         column="field0021"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0022"
+         column="field0022"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0023"
+         column="field0023"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0024"
+         column="field0024"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0025"
+         column="field0025"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0026"
+         column="field0026"
          type="string"
          not-null="false"
          length="256"
