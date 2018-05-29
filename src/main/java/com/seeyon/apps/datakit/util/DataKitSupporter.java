@@ -90,17 +90,8 @@ public class DataKitSupporter {
         return wholeStr;
     }
     public static void main(String[] arhs){
-        DataKitAffairController con;
-        System.out.println("show me the body");
-        org.apache.commons.codec.binary.Base64 base64 = new org.apache.commons.codec.binary.Base64();
-         String text = "liuman";
-         try {
-             byte[] textByte = text.getBytes("UTF-8");
-//编码
-             String encodedText = new String(base64.encode(textByte));
-             System.out.println(encodedText);
-         }catch(Exception e){
 
-         }
+        System.out.println("show me the body");
+
     }
 }

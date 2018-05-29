@@ -42,8 +42,8 @@ public class CassoLoginImpl implements SSOLoginHandshakeInterface {
     }
 
     public  String getToUrl(HttpServletRequest paramHttpServletRequest, SSOLoginContext paramSSOLoginContext, String paramString){
-
-        return paramString;
+        System.out.print("paramString");
+        return "main.do?method=main";
 
     }
     public static void main(String[] args) throws Exception {
