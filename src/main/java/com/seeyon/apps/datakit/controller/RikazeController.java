@@ -10,5 +10,15 @@ public class RikazeController extends BaseController {
 
     private RikazeService rikazeService;
 
-    
+    public RikazeService getRikazeService() {
+        return rikazeService;
+    }
+
+    public void setRikazeService(RikazeService rikazeService) {
+        this.rikazeService = rikazeService;
+    }
+
+
+
+
 }
