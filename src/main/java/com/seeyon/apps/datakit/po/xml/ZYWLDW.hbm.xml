@@ -36,9 +36,8 @@ not-null="false"
 <property
 name="JXSL01"
 column="JXSL01"
-type="double"
+type="float"
 not-null="false"
- length="32"
  />
 <property
 name="WLDW11"
@@ -71,7 +70,7 @@ not-null="false"
 <property
 name="WLDW20"
 column="WLDW20"
-type="double"
+type="integer"
 not-null="false"
  length="32"
  />
@@ -99,7 +98,7 @@ not-null="false"
 <property
 name="TBBJ"
 column="TBBJ"
-type="double"
+type="integer"
 not-null="false"
  length="32"
  />

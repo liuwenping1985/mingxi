@@ -37,14 +37,12 @@ name="ZBBJ"
 column="ZBBJ"
 type="integer"
 not-null="false"
- length="16"
  />
 <property
 name="SPXX71"
 column="SPXX71"
-type="float"
+type="integer"
 not-null="false"
-length="16"
  />
 <property
 name="JQJX01"

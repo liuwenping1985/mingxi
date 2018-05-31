@@ -13,7 +13,7 @@ public class ZYWLDW {
     //地址（中文）
     private String WLDW06;
     //进项税
-    private Double JXSL01;
+    private Float JXSL01;
     //开户银行
     private String WLDW11;
     //银行账号
@@ -24,14 +24,14 @@ public class ZYWLDW {
     //开票户头
     private String	WLDW14;
     //开票户头
-    private Double	WLDW20;
+    private Integer	WLDW20;
     //保证金账户
     private String WLDW43;
     //联系人
     private String DWQT06;
     //联系人电话
     private String DWQT08;
-    private Double TBBJ;
+    private Integer TBBJ;
     private String BTOBTS01;
     private String BTOBTS02;
 
@@ -83,13 +83,7 @@ public class ZYWLDW {
         this.WLDW06 = WLDW06;
     }
 
-    public Double getJXSL01() {
-        return JXSL01;
-    }
 
-    public void setJXSL01(Double JXSL01) {
-        this.JXSL01 = JXSL01;
-    }
 
     public String getWLDW11() {
         return WLDW11;
@@ -131,19 +125,27 @@ public class ZYWLDW {
         this.DWQT08 = DWQT08;
     }
 
-    public Double getWLDW20() {
+    public Float getJXSL01() {
+        return JXSL01;
+    }
+
+    public void setJXSL01(Float JXSL01) {
+        this.JXSL01 = JXSL01;
+    }
+
+    public Integer getWLDW20() {
         return WLDW20;
     }
 
-    public void setWLDW20(Double WLDW20) {
+    public void setWLDW20(Integer WLDW20) {
         this.WLDW20 = WLDW20;
     }
 
-    public Double getTBBJ() {
+    public Integer getTBBJ() {
         return TBBJ;
     }
 
-    public void setTBBJ(Double TBBJ) {
+    public void setTBBJ(Integer TBBJ) {
         this.TBBJ = TBBJ;
     }
 

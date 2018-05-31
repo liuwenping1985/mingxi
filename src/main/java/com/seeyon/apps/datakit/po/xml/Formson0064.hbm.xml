@@ -12,7 +12,7 @@ length="20"
 ></id>
 <property
 name="formainId"
-column="formain_id"
+column="formmain_id"
 type="long"
 not-null="false"
  length="20"
@@ -69,9 +69,8 @@ not-null="false"
 <property
 name="field0014"
 column="field0014"
-type="string"
+type="float"
 not-null="false"
- length="256"
  />
 <property
 name="field0015"

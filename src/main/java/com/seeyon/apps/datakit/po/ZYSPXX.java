@@ -7,7 +7,7 @@ public class ZYSPXX {
     private String PPB01;
     private String SPFL01;
     private Integer ZBBJ;
-    private Float SPXX71;
+    private Integer SPXX71;
     private String JQJX01;
     private Float SPXX08;
     private String JLDW01;
@@ -62,11 +62,11 @@ public class ZYSPXX {
         this.ZBBJ = ZBBJ;
     }
 
-    public Float getSPXX71() {
+    public Integer getSPXX71() {
         return SPXX71;
     }
 
-    public void setSPXX71(Float SPXX71) {
+    public void setSPXX71(Integer SPXX71) {
         this.SPXX71 = SPXX71;
     }
 

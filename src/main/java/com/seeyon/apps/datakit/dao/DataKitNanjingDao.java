@@ -21,6 +21,14 @@ public class DataKitNanjingDao extends HibernateDaoSupport {
         isSet = true;
     }
 
+    public String getMaxTime(String tableName){
+        checkSession();
+        Session session = this.getSessionFactory().openSession();
+       // session.get
+        return "";
+
+    }
+
     public SessionFactory getDataKitSessionFactory() {
         return dataKitSessionFactory;
     }

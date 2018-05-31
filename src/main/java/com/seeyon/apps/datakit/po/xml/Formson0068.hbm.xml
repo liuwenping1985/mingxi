@@ -12,7 +12,7 @@ length="20"
 ></id>
 <property
 name="formainId"
-column="formain_id"
+column="formmain_id"
 type="long"
 not-null="false"
  length="20"
