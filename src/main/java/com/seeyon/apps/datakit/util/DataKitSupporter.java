@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DataKitSupporter {
@@ -246,6 +247,9 @@ public class DataKitSupporter {
 
     public static void main(String[] arhs) throws IOException {
        // System.out.println(genHbmXML());
-        System.out.println("hello world");
+        Date dt = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
+
+        System.out.println(format.format(dt));
     }
 }

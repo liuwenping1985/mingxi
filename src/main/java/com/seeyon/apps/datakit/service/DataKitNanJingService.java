@@ -9,7 +9,9 @@ import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.springframework.util.CollectionUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataKitNanJingService {
@@ -30,6 +32,7 @@ public class DataKitNanJingService {
        // ListenerRegistry.getInstance().getListener
 
     }
+    private static SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
 
     @ListenEvent(event = CollaborationFinishEvent.class,async = true)
     public void onProcess(CollaborationFinishEvent event) {
@@ -67,6 +70,7 @@ public class DataKitNanJingService {
                     dw.setDQXX01(fs.getField0018());
                     dw.setWLDW02(fs.getField0009());
                     dw.setTBBJ(0);
+                    dw.setBTOBTS01(format.format(new Date()));
                     zywldwList.add(dw);
                 }
                 dataKitNanjingDao.saveOrUpdateZYWLDW(zywldwList);
@@ -91,6 +95,7 @@ public class DataKitNanJingService {
                     dw.setWLDW14(son70.getField0018());
                     dw.setWLDW43(son70.getField0019());
                     dw.setTBBJ(0);
+                    dw.setBTOBTS01(format.format(new Date()));
                     zywldwList.add(dw);
                 }
                 dataKitNanjingDao.saveOrUpdateZYWLDW(zywldwList);
@@ -107,6 +112,7 @@ public class DataKitNanJingService {
                     //ppb.setID(UUIDLong.longUUID());
                     ppb.setPPB02(main0061.getField0001());
                     ppb.setTBBJ(0);
+                    ppb.setBTOBTS01(format.format(new Date()));
                     zyppbs.add(ppb);
                 }
                 dataKitNanjingDao.saveOrUpdateZYPPB(zyppbs);
@@ -136,6 +142,7 @@ public class DataKitNanJingService {
                     dw.setSPXX68(son70.getField0021() == null ? null : Float.parseFloat(son70.getField0021()));
                     dw.setSPXX61(son70.getField0022());
                     dw.setTBBJ(0);
+                    dw.setBTOBTS01(format.format(new Date()));
                     zywldwList.add(dw);
                 }
                 dataKitNanjingDao.saveOrUpdateZYSPXX(zywldwList);
