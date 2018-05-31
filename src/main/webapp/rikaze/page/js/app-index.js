@@ -91,7 +91,7 @@
                 alert("请先登录");
                 return;
             }
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&app=4&sub_app=1&_resourceCode=F20_newSend");
+            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=6589483643434978648&app=4&sub_app=1");
         });
         $("#btn-banwen").click(function () {
             if (!$_$) {
@@ -99,13 +99,13 @@
                 return;
             }
             ///seeyon/collaboration/pending.do?method=morePending&fragmentId=-7771288622128478783&ordinal=0&currentPanel=sources&rowStr=subject,deadLine,edocMark,sendUnit,sendUser&columnsName=待办公文
-            window.open("/seeyon/collaboration/pending.do?method=morePending&fragmentId=-7771288622128478783&ordinal=0&currentPanel=sources&rowStr=subject,deadLine,edocMark,sendUnit,sendUser&columnsName=待办公文");
+            window.open("/seeyon/main.do?method=main&fragmentId=-7771288622128478783&from=menhu&type=banwen");
         });
         $("#btn-shouwen").click(function () {
             if (!$_$) {
                 alert("请先登录");
             }
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&app=4&sub_app=2&_resourceCode=F20_newDengji");
+            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=-2592679227520888888&app=4&sub_app=2");
             ///seeyon/govDoc/govDocController.do?method=govDocSend&amp;_resourceCode=F20_govDocSendManage
 
         });
@@ -114,8 +114,34 @@
                 alert("请先登录");
                 return;
             }
-            window.open("/seeyon/govDoc/govDocController.do?method=govDocReceive&_resourceCode=F20_receiveManage");
+            window.open("/seeyon/main.do?method=main&fragmentId=-7771288622128478783&from=menhu&type=yuewen");
         });
+
+        function checkLogin(){
+        $.get("/seeyon/rikaze.do?method=checkLogin",function(data){
+
+        console.log(data);
+		if(data.user=="no-body"){
+			$_$=false;
+		}else{
+
+                     $("#login_info").html("欢迎您," + data.user);
+                                        $("#login-btn").hide();
+                                        $_$ = true;
+                                        $("#login_info").show();
+                                        $('.theme-popover-mask').fadeOut(100);
+                                        $('.theme-popover').slideUp(200);
+                                        $("#logout-btn").show();
+		}
+
+        });
+
+
+
+
+
+        }
+        checkLogin();
     });
 
 
