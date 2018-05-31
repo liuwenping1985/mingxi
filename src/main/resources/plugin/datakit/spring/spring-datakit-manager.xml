@@ -4,9 +4,7 @@
 	
 
 	<bean id="dataKitService" class="com.seeyon.apps.datakit.service.DataKitService">
-		<property name="dataKitDao" ref="dataKitDao" />
-		<property name="newEnumDAO" ref="newEnumDAO" />
-		<property name="newEnumItemDAO" ref="newEnumItemDAO" />
+
 	</bean>
 </beans>
 
