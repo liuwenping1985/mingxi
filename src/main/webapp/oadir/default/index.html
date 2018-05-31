@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html class="h100b over_hidden">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>layout</title>
+	<script src="../scriptes/jquery.js"> </script>
+	<script src="frount-debug.js"> </script>
+	<link rel="stylesheet" type="text/css" href="frount.css" />
+	<script type="text/javascript" src="../ctp/misc/Moo-debug.js"></script>
+	<script type="text/javascript" src="../ctp/misc/jsonGateway-debug.js"></script>
+	<script type="text/javascript" src="../ctp/jquery.hotkeys-debug.js"></script>
+	<script type="text/javascript" src="../ctp/jquery.json-debug.js"></script>
+	<script type="text/javascript" src="../ctp/jquery.fillform-debug.js"></script>
+	<script type="text/javascript" src="../ctp/jquery.jsonsubmit-debug.js"></script>
+	<script type="text/javascript" src="../ctp/jquery.code-debug.js"></script>
+	<script type="text/javascript" src="../ctp/common-debug.js"></script>
+	<script type="text/javascript" src="../ctp/i18n-debug.js"></script>
+	<script type="text/javascript" src="../ctp/v3x-debug.js"></script>
+	<script type="text/javascript" src="../ctp/jquery.comp-debug.js"></script>
+	<script type="text/javascript" src="../controls/seeyon.ui.dialog-debug.js"></script>
+	<script type="text/javascript" src="../controls/seeyon.ui.progress-debug.js"></script>
+	<script type="text/javascript" src="../controls/searchBox-debug.js"> </script>
+	<script type="text/javascript" src="../controls/seeyon.ui.tooltip-debug.js"> </script>
+	<script type="text/javascript" src="../controls/seeyon.ui.timeLine-debug.js"> </script>
+	
+	<script type="text/javascript" src="../controls/seeyon.ui.scrollbar-debug.js"> </script>
+	
+	<script type="text/javascript">
+    	var _ctxPath = "";
+        $(document).ready(function () {
+            $.autoInitDiv();
+			
+			$.initSearch();
+				var customize = [{id:'newMenus',name:'新建'},{name:'时间安排',cls:'time_plan_24'},{name:'在线消息',cls:'online_msg_24'},{name:'通讯录',cls:'address_book_24'},{name:'综合查询',cls:'isearch_24'},{name:'我的邮件',cls:'email_24'},{name:'我的邮件',cls:'email_24'}]
+                var shortcut = customize;
+                if (shortcut) {
+                    var shortcutArray = shortcut, cut;
+                    for (var i = 0; i < shortcutArray.length; i++) {
+                        cut = shortcutArray[i];
+                        $("#shortcut").append('<a id="' + cut.id + '" class="shortItem"><em class="ico24 ' + (cut.cls ? cut.cls : '') +
+                        '"> </em><span class="margin_l_5" onclick="showSpace(' + cut.url + ')">' +
+                        cut.name +
+                        '</span></a>');
+						$("#shortcut").append("<div class='frount_nav_seprater'></div>");
+                    }
+                }
+                var newmenus = [{
+                    "menu_id": "item1",
+                    "menus_name": [{
+                        "menu_name": "新建事项",
+                        "id": "newCol",
+                        "url": "http://www.baidu.com"
+                    }, {
+                        "menu_name": "新建计划",
+                        "id": "newPlan",
+                        "url": "http://www.baidu.com"
+                    }]
+                }, {
+                    "menu_id": "item2",
+                    "menus_name": [{
+                        "menu_name": "新建任务",
+                        "id": "newTask",
+                        "url": "http://www.baidu.com"
+                    }, {
+                        "menu_name": "新建日程",
+                        "id": "newSchedule",
+                        "url": "http://www.baidu.com"
+                    }, {
+                        "menu_name": "新建会议",
+                        "id": "newMeeting",
+                        "url": "http://www.baidu.com"
+                    }]
+                }, {
+                    "menu_id": "item3",
+                    "menus_name": [{
+                        "menu_name": "新建新闻",
+                        "id": "newNews",
+                        "url": "http://www.baidu.com"
+                    }, {
+                        "menu_name": "新建公告",
+                        "id": "newNotice",
+                        "url": "http://www.baidu.com"
+                    }, {
+                        "menu_name": "新建调查",
+                        "id": "newSurvey",
+                        "url": "http://www.baidu.com"
+                    }, {
+                        "menu_name": "新建讨论",
+                        "id": "newTalk",
+                        "url": "http://www.baidu.com"
+                    }]
+                }];
+				
+				
+			 $.resizeAll();
+			 
+			 $("#newMenus").getMenu(newmenus); //初始化新建菜单
+			 
+			
+			
+			var timeLineObj = new MxtTimeLine({
+				id:'11111111111',
+				height:$('#content_layout_body_right').height(),
+				render:'content_layout_body_right',
+				date:[2012,12,25],
+				//paddingTop:55,
+				timeStep:['8:00','18:00'],
+				searchClick:function(){
+					//{'year':_year,'mounth':_mounth,'day':_day,'fromTime':_ftime,'toTime':_ttime};
+					var sss = timeLineObj.getDate();
+					alert(sss.day)
+				},
+				editClick:function(){
+					alert('edit')
+				},
+				maxClick:function(){
+					alert('max')
+				},
+				action:'testAction',
+				items:[{
+					type:'plan',
+					dateTime:'8:00',
+					childItems:[{
+						id:'plan1',
+						title:'计划一',
+						type:'plan',
+						content:'计划内容计划内容计划内容计划内容计划内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'task',
+					dateTime:'12:00',
+					childItems:[{
+						id:'task1',
+						title:'任务一',
+						type:'task',
+						content:'任务内容任务内容任务内容任务内容任务内容任务内容任务内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'meeting',
+					dateTime:'13:00',
+					childItems:[{
+						id:'meeting1',
+						title:'会议一',
+						type:'meeting',
+						content:'会议内容会议内容会议内容会议内容会议内容会议内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'event',
+					dateTime:'14:00',
+					childItems:[{
+						id:'event1',
+						title:'事件一',
+						type:'event',
+						content:'事件内容事件内容事件内容事件内容事件内容事件内容事件内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'collaboration',
+					dateTime:'15:00',
+					childItems:[{
+						id:'collaboration1',
+						title:'协同一',
+						type:'collaboration',
+						content:'协同内容协同内容协同内容协同内容协同内容协同内容协同内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'edoc',
+					dateTime:'16:00',
+					childItems:[{
+						id:'edoc1',
+						title:'公文一',
+						type:'edoc',
+						content:'公文内容公文内容公文内容公文内容公文内容公文内容公文内容公文内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'mix',
+					dateTime:'17:00',
+					childItems:[{
+						id:'edoc1',
+						title:'公文一',
+						type:'edoc',
+						content:'公文内容公文内容公文内容公文内容公文内容公文内容公文内容公文内容',
+						dateTime:'8:00'
+					},{
+						id:'collaboration1',
+						title:'协同一',
+						type:'collaboration',
+						content:'协同内容协同内容协同内容协同内容协同内容协同内容协同内容',
+						dateTime:'8:00'
+					},{
+						id:'event1',
+						title:'事件一',
+						type:'event',
+						content:'事件内容事件内容事件内容事件内容事件内容事件内容事件内容',
+						dateTime:'8:00'
+					},{
+						id:'meeting1',
+						title:'会议一',
+						type:'meeting',
+						content:'会议内容会议内容会议内容会议内容会议内容会议内容',
+						dateTime:'8:00'
+					}]
+				},{
+					type:'plan',
+					dateTime:'18:00',
+					childItems:[{
+						id:'plan1',
+						title:'计划一',
+						type:'plan',
+						content:'计划内容计划内容计划内容计划内容计划内容',
+						dateTime:'8:00'
+					}]
+				}]
+			});
+			
+			var spaces = [
+				["http://www.baidu.com", "个人空间", "0", "1"], 
+				["http://www.baidu.com", "部门空间", "0", "2"], 
+				["http://www.baidu.com", "集团空间", "0", "3"], 
+				["http://www.baidu.com", "自定义空间", "0", "4"], 
+				["http://www.baidu.com", "集团空间", "0", "5"], 
+				["http://www.baidu.com", "自定义空间", "0", "6"], 
+				["http://www.baidu.com", "集团空间", "0", "7"], 
+				["http://www.baidu.com", "自定义空间", "0", "8"], 
+				["http://www.baidu.com", "集团空间", "0", "9"], 
+				["http://www.baidu.com", "自定义空间", "0", "10"], 
+				["http://www.baidu.com", "集团空间", "0", "11"], 
+				["/seeyon/custom/default-page.psml", "自定义空间", "0", "12"], 
+				["/seeyon/custom/default-page.psml", "集团空间", "0", "13"], 
+				["/seeyon/custom/default-page.psml", "自定义空间", "0", "14"], 
+				["/seeyon/custom/default-page.psml", "集团空间", "0", "15"], 
+				["/seeyon/custom/default-page.psml", "自定义空间", "0", "16"], 
+				["/seeyon/custom/default-page.psml", "集团空间", "0", "17"], 
+				["/seeyon/custom/default-page.psml", "自定义空间", "0", "18"], 
+				["/seeyon/custom/default-page.psml", "集团空间", "0", "19"], 
+				["/seeyon/custom/default-page.psml", "自定义空间", "0", "20"]
+			];
+            var defaultSpace = 3;
+            var _spaceArray = [];
+			
+			
+			
+            for (var t = 0; t < spaces.length; t++) {
+				var _space = spaces[t];
+                if (t > defaultSpace) {
+                    _spaceArray.push(_space);
+                    continue;
+                }
+                if (t == 0) {
+                    $("#space").append($("<li class='selected'><span onclick=\"showSpace(' + _space[0] + ')\">" +_space[1] +"</span></li>"));
+                }
+                else {
+                    $("#space").append($("<li><span onclick=\"showSpace(' + _space[0] + ')\">" +_space[1] +"</span></li>"));
+                }
+            }
+			
+            if (_spaceArray.length > 0) {
+                $("#spaceMoreBtn").showSpaceMore({
+                    data: _spaceArray
+                });
+            }
+			
+			var menus = [{
+                    "name": "测试菜单1",
+                    "id": "1",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单001001",
+                        "id": "11",
+                        "icon": "ico2",
+                        "url": null,
+						'items':[{
+							"name": "测试菜单001001",
+	                        "id": "111",
+	                        "icon": "ico2",
+	                        "url": null
+						},{
+							"name": "测试菜单001001",
+	                        "id": "111",
+	                        "icon": "ico2",
+	                        "url": null
+						}]
+                    }, {
+                        "name": "测试菜单001002",
+                        "id": "12",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单2",
+                    "id": "2",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单002001",
+                        "id": "21",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单002002",
+                        "id": "22",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单3",
+                    "id": "3",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单003001",
+                        "id": "31",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单003002",
+                        "id": "32",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单4",
+                    "id": "4",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单004001",
+                        "id": "41",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单002002",
+                        "id": "42",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单5",
+                    "id": "5",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单005001",
+                        "id": "51",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单005002",
+                        "id": "52",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单005003",
+                        "id": "53",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005004",
+                        "id": "54",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005005",
+                        "id": "55",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005006",
+                        "id": "56",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005007",
+                        "id": "57",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005008",
+                        "id": "58",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005009",
+                        "id": "59",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005010",
+                        "id": "510",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005011",
+                        "id": "511",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005012",
+                        "id": "512",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }, {
+                        "name": "测试菜单005013",
+                        "id": "513",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单6",
+                    "id": "6",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单006001",
+                        "id": "61",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单006002",
+                        "id": "62",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单006003",
+                        "id": "63",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单7",
+                    "id": "7",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单007001",
+                        "id": "71",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单007002",
+                        "id": "72",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单007003",
+                        "id": "73",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单8",
+                    "id": "8",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单008001",
+                        "id": "81",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单008002",
+                        "id": "82",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单008003",
+                        "id": "83",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单9",
+                    "id": "9",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单009001",
+                        "id": "91",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单009002",
+                        "id": "92",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单10",
+                    "id": "10",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0010001",
+                        "id": "101",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0010002",
+                        "id": "102",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0010003",
+                        "id": "103",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单11",
+                    "id": "11",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0011001",
+                        "id": "111",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0011002",
+                        "id": "112",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0011003",
+                        "id": "113",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单12",
+                    "id": "12",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0012001",
+                        "id": "121",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0012002",
+                        "id": "122",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0012003",
+                        "id": "123",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单13",
+                    "id": "13",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0013001",
+                        "id": "131",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0013002",
+                        "id": "132",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0013003",
+                        "id": "133",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单14",
+                    "id": "14",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0014001",
+                        "id": "141",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0014002",
+                        "id": "142",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单00142003",
+                        "id": "143",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单15",
+                    "id": "15",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0015001",
+                        "id": "151",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0015002",
+                        "id": "152",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0015003",
+                        "id": "153",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单16",
+                    "id": "16",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0016001",
+                        "id": "161",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0016002",
+                        "id": "162",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0016003",
+                        "id": "163",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单17",
+                    "id": "17",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0017001",
+                        "id": "171",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0017002",
+                        "id": "172",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0017003",
+                        "id": "173",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单18",
+                    "id": "18",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0018001",
+                        "id": "181",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0018002",
+                        "id": "182",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0018003",
+                        "id": "183",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单19",
+                    "id": "19",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0019001",
+                        "id": "191",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0019002",
+                        "id": "192",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0019003",
+                        "id": "193",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单20",
+                    "id": "20",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0020001",
+                        "id": "201",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0020002",
+                        "id": "202",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0020003",
+                        "id": "203",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单21",
+                    "id": "21",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0021001",
+                        "id": "211",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0021002",
+                        "id": "212",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0021003",
+                        "id": "213",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单22",
+                    "id": "22",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0022001",
+                        "id": "221",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0022002",
+                        "id": "222",
+                        "icon": "ico2",
+                        "url": null
+                    }, {
+                        "name": "测试菜单0022003",
+                        "id": "223",
+                        "icon": "ico2",
+                        "url": "/samples/test.do?method=testAjax",
+                        "target": "mainfrm"
+                    }]
+                }, {
+                    "name": "测试菜单23",
+                    "id": "23",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0023001",
+                        "id": "231",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单24",
+                    "id": "24",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0024001",
+                        "id": "241",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单25",
+                    "id": "25",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0025001",
+                        "id": "251",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单26",
+                    "id": "26",
+                    "icon": "ico1",
+                    "url": null,
+                    "items": [{
+                        "name": "测试菜单0026001",
+                        "id": "261",
+                        "icon": "ico2",
+                        "url": null
+                    }]
+                }, {
+                    "name": "测试菜单27",
+                    "id": "27",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单28",
+                    "id": "28",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单29",
+                    "id": "29",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单30",
+                    "id": "30",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单31",
+                    "id": "31",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单32",
+                    "id": "32",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单33",
+                    "id": "33",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单34",
+                    "id": "34",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单35",
+                    "id": "35",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单36",
+                    "id": "36",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单37",
+                    "id": "37",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单38",
+                    "id": "38",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单39",
+                    "id": "39",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单40",
+                    "id": "40",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单41",
+                    "id": "41",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单42",
+                    "id": "42",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单43",
+                    "id": "43",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单44",
+                    "id": "44",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单45",
+                    "id": "45",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单46",
+                    "id": "46",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单47",
+                    "id": "47",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单48",
+                    "id": "48",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单49",
+                    "id": "49",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单50",
+                    "id": "50",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单51",
+                    "id": "51",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单52",
+                    "id": "52",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单53",
+                    "id": "53",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单54",
+                    "id": "54",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单55",
+                    "id": "55",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单56",
+                    "id": "56",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单57",
+                    "id": "57",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单58",
+                    "id": "58",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单59",
+                    "id": "59",
+                    "icon": "ico1",
+                    "url": null
+                }, {
+                    "name": "测试菜单60",
+                    "id": "60",
+                    "icon": "ico1",
+                    "url": null
+                }];
+                $.initNavigation(menus);
+				
+				
+				$("#collapse_banner").toggle(
+				  function () {
+				    $(this).removeClass('collapse_icon').addClass("unfold_icon");
+					$('#logo').css({
+						'height':37
+					});
+					$('#accountNameDiv').css({
+						'marginTop':8
+					});
+					$('#accountSecondNameDiv').hide();
+					$('#area_l').css({
+						'height':37
+					});
+					$('#area_r').css({
+						height:34,
+						'paddingTop':3
+					});
+					$('#stadic_layout_head').height(50);
+					$('#stadic_layout_body').css({
+						'top':52
+					});
+					timeLineObj.reset({
+						autoHeight:-30
+					});
+					$.autoInitDiv();
+				  },
+				  function () {
+				    $(this).removeClass("unfold_icon").addClass('collapse_icon');
+					$('#logo').css({
+						'height':67
+					});
+					$('#accountNameDiv').css({
+						'marginTop':15
+					});
+					$('#accountSecondNameDiv').show();
+					$('#area_l').css({
+						'height':67
+					});
+					$('#area_r').css({
+						height:44,
+						'paddingTop':24
+					});
+					$('#stadic_layout_head').height(80);
+					$('#stadic_layout_body').css({
+						'top':82
+					});
+					timeLineObj.reset({
+						autoHeight:0
+					});
+					$.autoInitDiv();
+				  }
+				);
+        });
+	    function showSpace(path){
+            $("#main").attr("src", path);
+        }
+		function testAction(id,type,title,content,dateTime,account){
+			alert(type)
+		}
+    </script>
+</head>
+<body class="h100b over_hidden frount">
+    <div id="stadic_layout">
+        <div id="stadic_layout_head">
+			<div class="area">
+				<div class="banner clearfix">
+					<div class="area_l clearfix" id="area_l">
+						<div class="left logoDiv">
+							<img src="images/logo.png" id="logo" height="67" border="0" />
+						</div>
+						<div class="left comDiv">
+							<div id="accountNameDiv" class="companyLabel">
+								北京致远协创软件有限公司
+							</div>
+							<div id="accountSecondNameDiv" class="companyLabel2">
+								Beijing Seeyon software Co.,Ltd.
+							</div>
+						</div>
+					</div>
+					<div class="area_r" id="area_r">
+						<div class="handle_icons">
+		                    <a href="#" class="right"><em class="ico24 close_icon" title="关闭"></em></a>
+							<a href="#" class="right"><em id="collapse_banner" class="ico24 collapse_icon" title="收缩"></em></a>
+		                    <a href="#" class="right"><em class="ico24 minimize_icon" title="最小化"></em></a>
+		                    <a href="#" class="right"><em class="ico24 refresh_icon" title="刷新"></em></a>
+		                    <a href="#" class="right"><em class="ico24 back_icon" title="前进"></em></a>
+		                    <a href="#" class="right"><em class="ico24 front_icon" title="后退"></em></a>
+	                        <a href="#" id="searchIcon" class="right"><em class="ico24 seach_icon" title="搜索"></em></a>
+						</div>
+						<div class="right">
+			            	<div class="common_drop_list common_drop_list_dropdown" id="account_dropdown">
+								<div class="common_drop_list_title" id="account_dropdown_title">
+									<a class="common_drop_list_select common_button common_button_gray " href="javascript:void(0)">
+										<table width="100%" height="100%" cellspacing="0" cellpadding="0">
+											<tbody>
+												<tr>
+													<td class="common_drop_list_text" id="ssss_dropdown_text">北京致远协创软件有限公司</td>
+													<td class="align_right"><em></em></td>
+												</tr>
+											</tbody>
+										</table>
+									</a>
+								</div>
+							</div>	
+						</div>
+	                </div>
+				</div>
+			</div>
+        </div>
+        <div id="stadic_layout_body">
+            <div id="main_layout">
+                <div id="main_layout_left" class="relative">
+                    <div class="frount_nav h100b">
+                    	<div class="vst">
+                            <img src="images/vst.jpg" width="105" height="105">
+                        </div>
+						<div class="vst_online">
+                            <em class="ico16 online_16 margin_l_5"></em><span class="margin_l_5 display_inline-block">在线143人</span>
+                        </div>
+						<div class="frount_nav_seprater"></div>
+						<div class="short_cut color_gray ">我的快捷</div>
+						<div class="frount_nav_seprater"></div>
+						<div class="short_cut_content" id="shortcut"></div>
+						<a id="my_agent" class="shortItem">
+                            <em class="ico24 set_24"> </em>代理
+                        </a>
+						<div class="frount_nav_seprater"></div>
+						<a id="my_set" class="shortItem">
+                            <em class="ico24 set_24"> </em>个人事务
+                        </a>
+						<div class="frount_nav_seprater"></div>
+						<div class="remind_msg">
+                            <a href="javascript:void(0)"><em class="ico24 email_24 msg_24 margin_r_5"></em>消 息</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="main_layout_right" class='clearfix'>
+                    <div class="area">
+                        <ul class="list" id="space">
+                        </ul>
+                        <div id="space_area">
+                            <div id="spaceMoreBtn" class="spaceMoreBtn">
+                            	 <span class="spaceMoreBtn_span"></span>
+							</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="content_layout" class="page_color">
+                	<div id="second_menu" class="second_menu"></div>
+					<div id="second_menu_copy" class="second_menu second_menu_copy"></div>
+					<div id="third_menu" class="third_menu "></div>
+                    <div id="content_layout_top">
+                    	<div class="clearfix" id="menuDiv">
+                            <ul class="main_menu clearfix" id="menuUL">
+                               <li class="main_menu_li main_menu_li_home" id="menu_home">
+	                               	<a id="home_a" class="main_menu_a" href="javascript:void(0);">
+	                               		<em class="main_menu_em_home_space"></em>
+									</a>
+								</li>
+								<li class='main_menu_separate_li'><em class="main_menu_separate"></em></li>
+                            </ul>
+						</div>
+                    </div>
+                    <div id="content_layout_body">
+						<div id="content_layout_body_left">
+	            			<div id="content_layout_body_left_content">
+								<iframe src="../controls/html/portal/portal.html" id="main" frameborder="0"  class="w100b h100b"></iframe>
+	            			</div>
+						</div>
+						<div id="content_layout_body_right">
+							
+						</div>	
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
