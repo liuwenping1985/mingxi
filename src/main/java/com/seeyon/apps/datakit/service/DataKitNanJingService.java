@@ -47,6 +47,9 @@ public class DataKitNanJingService {
 
             Long formId = affair.getFormRecordid();
             System.out.println("-------------process affair---------form--id:" + affair.getFormId());
+            if(formId == null){
+                return;
+            }
             List<Formson0068> formson68List = DBAgent.find("from Formson0068 where formainId=" + formId);
             //System.out.println("-------------process affair---------formson68List:"+formson68List);
             if (!CollectionUtils.isEmpty(formson68List)) {
@@ -54,7 +57,7 @@ public class DataKitNanJingService {
                 for (Formson0068 fs : formson68List) {
                     ZYWLDW dw = new ZYWLDW();
                     Long id = UUIDLong.longUUID();
-                    dw.setID(0L+id.shortValue());
+                    dw.setID(0L+id.intValue());
                     dw.setWLDW06(fs.getField0011());
                     try {
                         dw.setJXSL01(fs.getField0012() == null ? null : Float.parseFloat(fs.getField0012()));
@@ -79,11 +82,12 @@ public class DataKitNanJingService {
             }
             List<Formson0070> formson70List = DBAgent.find("from Formson0070 where formainId=" + formId);
             if (!CollectionUtils.isEmpty(formson70List)) {
+                System.out.println("data will push 2 ZYWLDW-tmp");
                 List<ZYWLDW> zywldwList = new ArrayList<ZYWLDW>();
                 for (Formson0070 son70 : formson70List) {
                     ZYWLDW dw = new ZYWLDW();
                     Long id = UUIDLong.longUUID();
-                    dw.setID(0L+id.shortValue());
+                    dw.setID(0L+id.intValue());
                     dw.setWLDW02(son70.getField0008());
                     dw.setWLDW20(1);
                     dw.setDQXX01(son70.getField0020());
@@ -108,7 +112,7 @@ public class DataKitNanJingService {
                 for (Formmain0061 main0061 : formmain61List) {
                     ZYPPB ppb = new ZYPPB();
                     Long id = UUIDLong.longUUID();
-                    ppb.setID(0L+id.shortValue());
+                    ppb.setID(0L+id.intValue());
                     //ppb.setID(UUIDLong.longUUID());
                     ppb.setPPB02(main0061.getField0001());
                     ppb.setTBBJ(0);
@@ -125,7 +129,7 @@ public class DataKitNanJingService {
                 for (Formson0064 son70 : formson64List) {
                     ZYSPXX dw = new ZYSPXX();
                     Long id = UUIDLong.longUUID();
-                    dw.setID(0L+id.shortValue());
+                    dw.setID(0L+id.intValue());
                     dw.setSPXX04(son70.getField0008());
                     dw.setPPB01(son70.getField0023());
                     dw.setSPFL01(son70.getField0024());
