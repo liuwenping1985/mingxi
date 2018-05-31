@@ -2,8 +2,8 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans default-autowire="byName">
-	<bean name="/datakit.do" class="com.seeyon.apps.datakit.controller.DataKitController">
-		<property name="dataKitService" ref="dataKitService" />
+	<bean name="/doc.link" class="com.seeyon.apps.datakit.controller.RikazeController">
+		<property name="rikazeService" ref="rikazeService" />
 	</bean>
 	<!--<bean name="/edocDB.do" class="com.seeyon.apps.zdgjedoc.controller.EDocDBController">-->
 	<!--</bean>-->
