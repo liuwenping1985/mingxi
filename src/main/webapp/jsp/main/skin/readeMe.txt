@@ -1,0 +1,12 @@
+本文件夹用于存储首页风格样式（换肤需要用到的样式）
+deskTop - 文件夹用于放置工作桌面的样式
+frame - 文件夹用于放置默认首页的样式
+login - 文件夹用于放置登陆页的样式
+*/default - 换肤的根级
+*/default/menuIcon  -  菜单图标单独存储
+
+harmony  -- 和谐之美
+peaceful -- 宁静之韵
+wisdom   -- 智慧之美
+
+

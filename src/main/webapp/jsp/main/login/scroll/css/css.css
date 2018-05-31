@@ -1,0 +1,347 @@
+﻿/**公共部分 Start**/
+.overflow_login{
+	overflow-x:hidden;
+}
+.left{
+	float: left;
+}
+.clear{
+	clear: both;
+}
+/**公共部分 End**/
+
+/**外层DIV定义 Start**/
+.login_header{
+	width: 100%;
+	height: 60px;
+	position: relative;
+	overflow:hidden;
+}
+.login_content{
+	width: 100%;
+	height: 490px;
+	position: relative;
+}
+.login_footer{
+	width: 100%;
+	height: 90px;
+}
+/**外层DIV定义 End**/
+
+/**设置背景色 Start**/
+.header_bgcolor{
+	background: #ffffff;
+}
+.footer_bgcolor{
+	background: #e3e3e3;
+}
+/**设置背景色 End**/
+
+.center_div{
+	width: 100%;
+
+	position: relative;
+}
+
+/**header部分 Start**/
+.header_logo{
+	width: 500px;
+	height: 60px;
+	vertical-align: middle;
+	position: absolute;
+	bottom: 0;
+}
+/**header部分End**/
+
+/**contnet部分 Start**/
+	
+/**滚动图部分 Start**/
+.scroll_div{
+	width: 960px;
+	height: 490px;
+	overflow: hidden;
+	position: relative;
+}
+.scroll_div_width{
+	width: 99999px;
+	height: 490px;
+}
+.scroll_div_box{
+	width: 960px;
+	height: 490px;
+	text-align: center;
+}
+.scroll_div_box_bgimage{
+	background: url(../css/images/banner.jpg?V=5_0_5_23) repeat;
+}
+.scroll_radio_box{
+	height: 10px;
+	position: absolute;
+	top: 455px;
+	left: 0;
+	overflow: hidden;
+}
+.scroll_radio_box_img{
+	width: 10px;
+	height: 18px;
+	margin-right: 10px;
+}
+.scroll_radio_box_img img{
+	cursor: pointer;
+}
+/**滚动图部分 End**/
+
+/**LOGIN部分 Start**/
+.login_box{
+	padding-top:30px;
+	width: 310px;
+	height: 260px;
+	position: absolute;
+	top: -380px;
+	right: 0px;
+	font-size: 12px;
+	z-index:1000;
+	background: url(../css/images/touming_white.png?V=5_0_5_23) no-repeat;
+	_background: #f6f6f6;
+	-moz-box-shadow:0px 0px 8px #b6b6b6; -webkit-box-shadow:0px 0px 8px #b6b6b6; box-shadow:0px 0px 8px #b6b6b6;
+}
+.login_box_nobg{
+	width: 310px;
+	height: 260px;
+	position: absolute;
+	top: -250px;
+	right: 0px;
+	font-size: 12px;
+}
+.login_box_title{
+	width: 250px;
+	height: 15px;
+	position: absolute;
+	top: 15px;
+	left: 40px;
+	font-size: 12px;
+	text-align: right;
+	color: #555454;
+}
+.login_box_admin{
+	width: 270px;
+	height: 40px;
+	position: absolute;
+	top: 35px;
+	left: 20px;
+	background: url(../css/images/login_admin_box.png?V=5_0_5_23) no-repeat;
+	_background: url(../css/images/login_admin_box.gif?V=5_0_5_23) no-repeat;
+	_border: 1px #b6b6b6 solid;
+}
+.login_box_admin input{
+	width: 200px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 16px;
+	position: absolute;
+	top: 10px;
+	left: 45px;
+	border: 0;
+	background: #fff;
+}
+.login_box_password{
+	width: 270px;
+	height: 40px;
+	position: absolute;
+	top: 85px;
+	left: 20px;
+	background: url(../css/images/login_password_box.png?V=5_0_5_23) no-repeat;
+	_background: url(../css/images/login_password_box.gif?V=5_0_5_23) no-repeat;
+	_border: 1px #b6b6b6 solid;
+}
+.login_box_password input{
+	width: 200px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 16px;
+	position: absolute;
+	top: 10px;
+	left: 45px;
+	border: 0;
+	background: #fff;
+}
+.login_box_yanzheng{
+	width: 140px;
+	height: 40px;
+	position: absolute;
+	top: 135px;
+	left: 20px;
+	background: url(../css/images/login_yanzheng_box.png?V=5_0_5_23) no-repeat;
+	_background: url(../css/images/login_yanzheng_box.gif?V=5_0_5_23) no-repeat;
+	_border: 1px #b6b6b6 solid;
+}
+.login_box_yanzheng input{
+	width: 120px;
+	height: 20px;
+	line-height: 20px;
+	font-size: 16px;
+	position: absolute;
+	top: 12px;
+	left: 15px;
+	border: 0;
+	background: #fff;
+}
+.login_box_yanzheng_font{
+	width: 40px;
+	height: 150px;
+	position: absolute;
+	top: 150px;
+	left: 255px;
+	font-size: 12px;
+	color: #000000;
+}
+.login_box_yanzhengk{
+	width: 120px;
+	height: 40px;
+	position: absolute;
+	top: 135px;
+	left: 175px;
+}
+.captcha{
+	width: 270px;
+	height: 48px;
+	line-height: 24px;
+	font-size: 16px;
+	position: absolute;
+	top: 135px;
+	left: 20px;
+	border: 0;
+}
+.captcha_box{
+	float: left;
+	margin-right: 10px;
+	width: 165px;
+	height: 48px;
+	background: #FFF;
+}
+.captcha input {
+	margin-left: 10px;
+	margin-top: 12px;
+	width: 145px;
+	height: 24px;
+	vertical-align:
+	top; border: 0;
+}
+.login_button{
+	width: 270px;
+	height: 42px;
+	position: absolute;
+	top: 197px;
+	left: 20px;
+}
+.login_error{
+	width: 230px;
+	position: absolute;
+	top: -60px;
+	left: 0px;
+	padding: 15px 10px 15px 70px;
+    font-size:12px;
+    color:#f00;
+    vertical-align:middle;
+    border:1px #f00 solid;
+    background:url(../../default/images/error.png) 35px 13px no-repeat #fffbc7;
+}
+.common_drop_list_content_action a{
+	text-align: left;
+}
+/**LOGIN部分 End**/
+
+/**contnet部分 End**/
+
+/**分割线**/
+.dividing_line{
+	display: none;
+	width: 100%;
+	height:1px;
+	background: url(../css/images/dividing_line.jpg?V=5_0_5_23) repeat center;
+
+}
+
+/**footer部分 Start**/
+.fuzhu_area{
+	width: 310px;
+	height: 54px;
+	position: absolute;
+	top: -75px;
+	right: 0px;
+	font-size: 12px;
+	z-index: 1001;
+}
+.fuzhu_area_bg{
+	width: 310px;
+	height: 54px;
+	position: absolute;
+	top: -90px;
+	right: 0px;
+	font-size: 12px;
+	z-index: 1000;
+	background: url(images/fuzhu_area_bg.png) repeat center;
+}
+.footer_anzh{
+	position: absolute;
+	top: 5px;
+	left: 12px;
+	width: 195px;
+	height: 15px;
+	color: #EEE;
+	font-size: 12px;
+}
+.footer_anzh a{
+	color: #EEE;
+	white-space:nowrap;
+	text-decoration:none;
+}
+.footer_anzh a:hover{
+	color: #274fa8;
+	white-space:nowrap;
+	text-decoration:underline;
+}
+.footer_select{
+	width: 172px;
+	height: 15px;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	color: #274fa8;
+	font-size: 12px;
+	color: #EEE;
+}
+	.footer_anzh .zhixin{margin-right: 5px;}
+	.footer_anzh .zhixin a{color: #fff;}
+/**footer部分 End**/
+
+.point{
+	cursor: pointer;
+}
+
+.smsLogin_area { position: absolute; top: 135px;}
+.smsLogin_area .smsLogin_textbox { float: left; margin-left: 20px; height: 40px; background: #FFF; border-radius: 3px;}
+.smsLogin_area .smsLogin_textbox input { margin-left: 10px; margin-top: 8px; width: 114px; height: 24px; line-height: 24px; font-size: 16px; vertical-align: top; border: 0;}
+.smsLogin_area .smsLogin_btn { float: left; margin-left: 10px; width: 133px; height: 38px; line-height: 38px; text-align: center; font-size: 14px; border-radius: 5px; background: #f6f6f6; border: solid 1px #BFBFBF; cursor: pointer;}
+.smsLogin_area .smsLogin_btn_disable { border: solid 1px #DEDEDE; color: #B1B1B1;}
+	
+
+/*--2015.4月修改：扫码登录改为两种--*/
+	.pwd_area{padding-bottom: 20px;}	
+	.qrCodeBtn{ position:absolute; top:0; right:0; width:59px; height:59px; background:url(../images/qrCodeBtn.png); cursor:pointer;}
+	.pwdBtn{ display:none; position:absolute; top:0; right:0; width:59px; height:59px; background:url(../images/pwdBtn.png); cursor:pointer;}
+	.qrCode_area{ display:none; margin:0 auto; padding-bottom:15px; width:100%;height:181px;padding-top: 30px;  color:#000; font-size:12px; text-align:center; overflow: hidden;}
+	.qrCode_area #qrcode1{ margin-left:35px; margin-right:65px; padding:20px 0; width:88px;height:88px;float: left;}
+	.qrCode_area #qrcode2{padding:20px 0; width:88px;height: 88px;float: left; }
+	#qrcode1 .qrcode{width:57px;height: 57px;overflow: hidden;padding:15px 16px 16px 15px;background:#fff;margin-bottom:5px;}
+	#qrcode2 .qrcode{width:88px;height: 88px;overflow: hidden;margin-bottom: 5px;}
+	.qrCode_area .qrbootom{clear:both;height:auto;overflow:hidden;text-align: right;padding-top:70px;color:#8d8d8d;}
+	.qrCode_area img{width:100%;}
+	.qrCode_area a{ color:#8d8d8d;}
+	.pwd_area{ position:relative;}
+
+/*--V5.6全新特性--*/
+.showArea_v56 { position: absolute; left: 47%; bottom: 50px; z-index: 9; width: 185px; height: 35px; background:url(../images/loginArea-v5.6.png) 0 0 no-repeat; font-size:0; text-indent:-9999em;display:none;}
+.showArea_v56 a{width: 185px; height: 35px; display:block;}
+.showArea_v56:hover{background-position:0 -35px;}
+.showArea_v56:active{background-position:1px -34px;}

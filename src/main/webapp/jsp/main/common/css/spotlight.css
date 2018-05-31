@@ -1,0 +1,9 @@
+.spotlight { position: absolute; z-index: 10000; left: 50%; top: 100px; margin-left: -150px; width: 300px; font-size: 14px; text-shadow: 0 0 2px #f0f0f3; border: solid 1px #f0f0f3; background: #eff2f6; box-shadow: 0 0 5px #000;}
+.spotlight .search_textbox { padding: 3px 5px; background: #ffffff;  }
+.spotlight .search_textbox input { width: auto; height: 20px; line-height: 20px; border: 0; background: #fffff;  }
+
+.spotlight .group { padding: 3px 10px; font-size: 10px; color: #737373; background: #e8eaef;}
+.spotlight li { padding: 3px 15px; overflow: hidden; text-overflow: ellipsis; word-break: keep-all; white-space: nowrap; -webkit-user-select: none;}
+.spotlight li.current { color: #FFFFFF; text-shadow: none; background: #1376f7; }
+.spotlight li .ico16 { margin-right: 5px; }
+.spotlight_mask { position: fixed; z-index: 9999; top: 0; right: 0; bottom: 0; left: 0; background: #000000; opacity: 0.4;}
