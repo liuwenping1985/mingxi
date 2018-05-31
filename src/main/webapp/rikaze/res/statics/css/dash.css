@@ -1,0 +1,114 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+.body {
+    padding-top: 3.5rem;
+}
+
+/*
+ * Typography
+ */
+
+h1 {
+    margin-bottom: 20px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+    position: absolute;
+    top: 3.5rem;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    border-right: 1px solid #eee;
+}
+
+/* Sidebar navigation */
+.sidebar {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sidebar .nav {
+    margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+    width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+    margin-left: 0;
+}
+
+.sidebar .nav-link {
+    border-radius: 0;
+}
+
+/*
+ * Dashboard
+ */
+
+/* Placeholders */
+.placeholders {
+    padding-bottom: 3rem;
+}
+
+.placeholder img {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.table td, .table th{
+  padding: 9px;
+  color: #777;
+}
+
+.table > thead > tr > td, .table > thead > tr > th{
+  border-bottom-width: 2px;
+  color: #000;
+}
+
+.search_table td{
+  padding: 9px;
+}
+
+.labelPanel label{
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.labelPanelTips label{
+  display:block;
+  width: 155px;
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.input-group-addon{
+  cursor: pointer;
+}
+.input-group-addon:hover{
+  background: #ddd;
+}
+
+.detail_label label{
+  margin-right: 30px;
+}
+
+.close, .btn{
+  cursor: pointer;
+}
+/*# sourceMappingURL=dashboard.css.map */

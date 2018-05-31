@@ -1,0 +1,58 @@
+/* 
+* @Author: panni
+* @Date:   2015-05-25 15:22:55
+* @Last Modified time: 2015-06-09 16:44:33
+*/
+
+
+/* 关于按钮 */
+.btn {
+    height: 35px;
+    color:#fff;
+    border:none;
+    font-size:16px;
+    outline: none;
+    cursor:pointer;
+    font-family: "Microsoft YaHei";
+}
+.btn-default {
+    background: #fff;
+    border:1px solid #ccc;
+    color: #bdbdbd;
+}
+.btn-primary {
+    background: #15aaf0;
+}
+.btn-success {
+    background: #5cb85c;
+}
+.btn-info {
+    background: #5bc0de;
+}
+.btn-warning {
+    background: #f0ad4e;
+}
+.btn-danger {
+    background: #d9534f;
+}
+.btn-link {
+    color: #337ab7;
+}
+.btn-blue {
+    background: #15aaf0;
+}
+.btn-padding20{padding: 0px 20px}
+
+
+/*.btn-white {
+    height: 33px;
+    padding:0 19px;
+    background: #fff;
+    color: #000;
+    border:1px solid #ccc;
+}
+.btn-large {
+    width:538px;
+}*/
+
+/* 关于按钮end */
