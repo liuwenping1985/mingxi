@@ -3,8 +3,5 @@
 <beans default-autowire="byName">
 	
 
-	<bean id="rikazeService" class="com.seeyon.apps.datakit.service.RikazeService">
-
-	</bean>
 </beans>
 
