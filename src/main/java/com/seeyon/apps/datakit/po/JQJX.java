@@ -2,7 +2,9 @@ package com.seeyon.apps.datakit.po;
 
 public class JQJX {
 
+    //update field JQJX01
     private String JQJX01;
+
     private String JQJX02;
 
     public String getJQJX01() {

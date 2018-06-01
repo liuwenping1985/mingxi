@@ -2,6 +2,7 @@ package com.seeyon.apps.datakit.po;
 
 public class SPFL {
 
+    //UPDATE --- SPFL01
     private String SPFL01;
     private String SPF_SPFL01;
     private String SPFL02;

@@ -10,6 +10,7 @@ public class PPB {
      * BTOBTS02
      * BTOBZT01
      */
+    //update field PPB01
    private String PPB01;
    private String PPB02;
     private String PPB03;

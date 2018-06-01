@@ -17,6 +17,7 @@ public class DQXX {
     private String RYXX01;
     private String RYXX02;
     private String DQXX02;
+    //update field DQXX01
     private String DQXX01;
     private String DQX_DQXX01;
     private Double  DQXX03;
