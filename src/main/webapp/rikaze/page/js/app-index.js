@@ -1,6 +1,6 @@
 ;
 (function () {
-    $(".nav-link").click(function(e){
+    $(".nav-link").click(function (e) {
         $(".nav-link").removeClass("active");
         $(e.target).addClass("active");
     });
@@ -24,8 +24,8 @@
         var timer = setInterval(goLeft, 20);
         //设置鼠标经过时滚动停止
         $(".box").hover(function () {
-                clearInterval(timer);
-            },
+            clearInterval(timer);
+        },
             function () {
                 timer = setInterval(goLeft, 20);
             })
@@ -75,7 +75,7 @@
 
                     },
                     error: function (errorInfo) {
-                       window.location.href="index.html"
+                        window.location.href = "index.html"
                     }
                 });
             }
@@ -117,29 +117,24 @@
             window.open("/seeyon/main.do?method=main&fragmentId=-7771288622128478783&from=menhu&type=yuewen");
         });
 
-        function checkLogin(){
-        $.get("/seeyon/rikaze.do?method=checkLogin",function(data){
+        function checkLogin() {
+            $.get("/seeyon/rikaze.do?method=checkLogin", function (data) {
 
-        console.log(data);
-		if(data.user=="no-body"){
-			$_$=false;
-		}else{
+                console.log(data);
+                if (data.user == "no-body") {
+                    $_$ = false;
+                } else {
 
-                     $("#login_info").html("欢迎您," + data.user);
-                                        $("#login-btn").hide();
-                                        $_$ = true;
-                                        $("#login_info").show();
-                                        $('.theme-popover-mask').fadeOut(100);
-                                        $('.theme-popover').slideUp(200);
-                                        $("#logout-btn").show();
-		}
+                    $("#login_info").html("欢迎您," + data.user);
+                    $("#login-btn").hide();
+                    $_$ = true;
+                    $("#login_info").show();
+                    $('.theme-popover-mask').fadeOut(100);
+                    $('.theme-popover').slideUp(200);
+                    $("#logout-btn").show();
+                }
 
-        });
-
-
-
-
-
+            });
         }
         checkLogin();
     });
