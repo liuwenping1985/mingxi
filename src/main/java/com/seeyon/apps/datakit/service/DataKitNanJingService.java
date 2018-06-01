@@ -1,5 +1,6 @@
 package com.seeyon.apps.datakit.service;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
 import com.seeyon.apps.datakit.dao.DataKitNanjingDao;
 import com.seeyon.apps.datakit.po.*;
@@ -46,43 +47,82 @@ public class DataKitNanJingService {
             CtpAffair affair = affairList.get(0);
 
             Long formId = affair.getFormRecordid();
-            System.out.println("-------------process affair---------form--id:" + affair.getFormId());
+            System.out.println("-------------process affair---------form--id:" + formId);
             if(formId == null){
                 return;
             }
             List<Formson0068> formson68List = DBAgent.find("from Formson0068 where formainId=" + formId);
-            //System.out.println("-------------process affair---------formson68List:"+formson68List);
+            System.out.println("formson68List:"+formson68List==null?"null":JSON.toJSONString(formson68List));
             if (!CollectionUtils.isEmpty(formson68List)) {
-                List<ZYWLDW> zywldwList = new ArrayList<ZYWLDW>();
+                List<ZYWLDW> zywldw68List = new ArrayList<ZYWLDW>();
+                System.out.println("find record!!!!");
+                System.out.println("data will push 2 ZYWLDW-tmp");
                 for (Formson0068 fs : formson68List) {
+                    System.out.println("data:"+JSON.toJSONString(fs));
                     ZYWLDW dw = new ZYWLDW();
                     Long id = UUIDLong.longUUID();
+                    System.out.println("step:1");
                     dw.setID(0L+id.intValue());
-                    dw.setWLDW06(fs.getField0011());
+                    System.out.println("step:2");
                     try {
-                        dw.setJXSL01(fs.getField0012() == null ? null : Float.parseFloat(fs.getField0012()));
-                    } catch (Exception e) {
+                        System.out.println("step:2.1");
+                        dw.setWLDW06(fs.getField0011());
+                    }catch(Exception e){
+                        System.out.println("step:2.2");
                         e.printStackTrace();
                     }
+                    try {
+
+                        System.out.println("step:2.3");
+                        Float fval = fs.getField0012();
+                        System.out.println("step:2.3.1");
+                        if(fval== null){
+                            fval=0.0f;
+                        }
+                        System.out.println("step:2.3.2");
+                        dw.setJXSL01(fval.floatValue());
+                        System.out.println("step:2.3.3");
+                    } catch (Exception e) {
+                        System.out.println("step:2.4");
+                        e.printStackTrace();
+                    }catch(Error error){
+                        error.printStackTrace();
+                    }
+                    System.out.println("step:3");
                     dw.setWLDW20(0);
+                    System.out.println("step:4");
                     dw.setWLDW11(fs.getField0013());
+                    System.out.println("step:5");
                     dw.setWLDW12(fs.getField0014());
+                    System.out.println("step:6");
                     dw.setWLDW13(fs.getField0015());
+                    System.out.println("step:7");
                     dw.setDWQT06(fs.getField0016());
+                    System.out.println("step:8");
                     dw.setDWQT08(fs.getField0017());
+                    System.out.println("step:9");
                     dw.setDQXX01(fs.getField0018());
+                    System.out.println("step:10");
                     dw.setWLDW02(fs.getField0009());
+                    System.out.println("step:11");
                     dw.setTBBJ(0);
-                    dw.setBTOBTS01(format.format(new Date()));
-                    zywldwList.add(dw);
+                    try {
+                        System.out.println("step:12");
+                        dw.setBTOBTS01(format.format(new Date()));
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    System.out.println("step:13");
+                    zywldw68List.add(dw);
                 }
-                dataKitNanjingDao.saveOrUpdateZYWLDW(zywldwList);
+                System.out.println("save record:"+ JSON.toJSONString(zywldw68List));
+                dataKitNanjingDao.saveOrUpdateZYWLDW(zywldw68List);
                 //dataKitNanjingDao.getHibernateTemplate().saveOrUpdateAll(zywldwList);
                 return;
             }
             List<Formson0070> formson70List = DBAgent.find("from Formson0070 where formainId=" + formId);
             if (!CollectionUtils.isEmpty(formson70List)) {
-                System.out.println("data will push 2 ZYWLDW-tmp");
+
                 List<ZYWLDW> zywldwList = new ArrayList<ZYWLDW>();
                 for (Formson0070 son70 : formson70List) {
                     ZYWLDW dw = new ZYWLDW();

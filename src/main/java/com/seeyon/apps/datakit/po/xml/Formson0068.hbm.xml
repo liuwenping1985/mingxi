@@ -55,9 +55,8 @@ not-null="false"
 <property
 name="field0012"
 column="field0012"
-type="string"
+type="float"
 not-null="false"
- length="256"
  />
 <property
 name="field0013"

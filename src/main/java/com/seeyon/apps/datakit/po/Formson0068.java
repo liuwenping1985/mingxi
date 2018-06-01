@@ -9,7 +9,7 @@ public class Formson0068 {
     private String field0009;
     private String field0010;
     private String field0011;
-    private String field0012;
+    private Float field0012;
     private String field0013;
     private String field0014;
     private String field0015;
@@ -43,11 +43,11 @@ public class Formson0068 {
         this.field0011 = field0011;
     }
 
-    public String getField0012() {
+    public Float getField0012() {
         return field0012;
     }
 
-    public void setField0012(String field0012) {
+    public void setField0012(Float field0012) {
         this.field0012 = field0012;
     }
 
