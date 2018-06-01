@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>u8business</id>
+	<name>U8业务集成-通用业务插件</name>
+	<category>10200</category>
+	<initializer>com.seeyon.apps.u8business.U8BusinessInit</initializer>
+</plugin>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="mtContentTemplateDao" class="com.seeyon.v3x.meeting.dao.MtContentTemplateDao"></bean>
+    <bean id="mtSummaryTemplateDao" class="com.seeyon.v3x.meeting.dao.MtSummaryTemplateDao"></bean>
+    <bean id="meetingDao" class="com.seeyon.v3x.meeting.dao.MeetingDao"></bean>
+    <bean id="meetingSummaryDao" class="com.seeyon.v3x.meeting.dao.MeetingSummaryDao"></bean>
+    <bean id="mtMeetingDao" class="com.seeyon.v3x.meeting.dao.MtMeetingDao"></bean>
+    <bean id="mtConfereeDao" class="com.seeyon.v3x.meeting.dao.MtConfereeDao"></bean>
+    <bean id="mtReplyDao" class="com.seeyon.v3x.meeting.dao.MtReplyDao"></bean>
+    <bean id="mtAppPermDao" class="com.seeyon.v3x.meeting.dao.MtAppPermDao"></bean>
+    <bean id="mtResourcesDao" class="com.seeyon.v3x.meeting.dao.MtResourcesDao"></bean>
+    <bean id="mtTemplateDao" class="com.seeyon.v3x.meeting.dao.MtTemplateDao"></bean>
+    <bean id="mtTemplateUserDao" class="com.seeyon.v3x.meeting.dao.MtTemplateUserDao"></bean>
+    <bean id="mtAppMeetingDao" class="com.seeyon.v3x.meeting.dao.MtAppMeetingDao"></bean>
+    <bean id="meetingTypeDao" class="com.seeyon.v3x.meeting.dao.MeetingTypeDao"></bean>
+    <bean id="meetingRoomDao" class="com.seeyon.v3x.meetingroom.dao.MeetingRoomDaoImpl"></bean>
+    <bean id="mtSummaryDao" class="com.seeyon.v3x.meetingsummary.dao.MtSummaryDao"></bean>
+    <bean id="mtSummaryAuditorDao" class="com.seeyon.v3x.meetingsummary.dao.MtSummaryAuditorDao"></bean>
+    <bean id="mtSummaryScopeDao" class="com.seeyon.v3x.meetingsummary.dao.MtSummaryScopeDao"></bean>
+    <bean id="meetingRoomAdminSettingDAO" class="com.seeyon.v3x.meetingroom.dao.MeetingRoomAdminSettingDAOImpl"></bean>
+    <bean id="mtPeriodicityInfoDao" class="com.seeyon.v3x.meeting.dao.MtPeriodicityInfoDao"></bean>
+    <bean id="meetingTypeContentHistoryDao" class="com.seeyon.v3x.meeting.dao.MeetingTypeContentHistoryDao"></bean>
+</beans>

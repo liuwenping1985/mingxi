@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="S2S_AccountEventListener" class="com.seeyon.apps.uc.listener.AccountEventListener" />
+	<bean id="S2S_DepartmentEventListener" class="com.seeyon.apps.uc.listener.DepartmentEventListener" />
+	<bean id="S2S_MemberEventListener" class="com.seeyon.apps.uc.listener.MemberEventListener" />
+	<bean id="S2S_BatchMemberEventListener" class="com.seeyon.apps.uc.listener.BatchMemberEventListener" />
+	<bean id="S2S_LevelEventListener" class="com.seeyon.apps.uc.listener.LevelEventListener" />
+	<bean id="S2S_PostEventListener" class="com.seeyon.apps.uc.listener.PostEventListener" />
+	<bean id="S2S_TeamEventListener" class="com.seeyon.apps.uc.listener.TeamEventListener" />
+	<bean id="S2S_RelateEventListener" class="com.seeyon.apps.uc.listener.RelateEventListener" />
+	<bean id="S2S_ConCurrentPostEventListener" class="com.seeyon.apps.uc.listener.ConCurrentPostEventListener" />
+	<bean id="UC_OnlineEventListener" class="com.seeyon.apps.uc.listener.OnlineEventListener" />
+	<bean id="s2sUtil" class="com.seeyon.apps.uc.util.S2SUtil" />
+	<bean id="s2sManager" class="com.seeyon.apps.uc.manager.S2SManagerImpl" />
+	<bean id="ucSSOManager" class="com.seeyon.apps.uc.manager.UCSSOManagerImpl" />
+	<bean id="ucConfigManager" class="com.seeyon.apps.uc.manager.UCConfigManagerImpl" />
+	<bean id="ucExpandJspForHomePage" class="com.seeyon.ctp.portal.expansion.UCExpandJspForHomePage" />
+	
+	<bean id="ucPcMessagePipeline" class="com.seeyon.apps.uc.manager.UcPcMessagePipeline"></bean>
+	
+	<bean id="ucpc" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+        <property name="name" value="ucpc" />
+        <!-- 单点登录成功是否跳转到首页 -->
+		<property name="forward" value="true" />
+        <property name="handshake">
+            <bean class="com.seeyon.ctp.portal.sso.UCSSOLoginHandshakeServletImpl" />
+        </property>
+    </bean>
+</beans>

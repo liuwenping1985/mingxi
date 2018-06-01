@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+    <colCube>
+        <security>
+            <digesturl>/colCube/colCube.do goColAllRoundAccess userId</digesturl>
+            <digesturl>/colCube/colCube.do goColCubeAccess userId</digesturl>
+        </security>
+    </colCube>
+</ctpConfig>

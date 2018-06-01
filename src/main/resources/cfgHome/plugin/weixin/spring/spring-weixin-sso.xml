@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="weixin" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+	    <property name="name" value="weixin"/>
+	    <!-- 单点登录成功是否跳转到首页 -->
+	    <property name="forward" value="false"/>
+	    <!-- 握手配置 -->
+	    <property name="handshake">
+	        <bean class="com.seeyon.ctp.portal.sso.WeiXinSSOLogin" />
+	    </property>
+	</bean>
+
+	<bean id="wechatMessagePipeline" class="com.seeyon.ctp.portal.sso.WechatMessagePipeline"/>
+	<bean id="wechatListener" class="com.seeyon.ctp.wechat.listener.WechatListener" />
+</beans>

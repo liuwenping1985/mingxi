@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	
+    <!--   lbs manager -->
+     <bean id="mLbsManager" class="com.seeyon.apps.lbs.manager.impl.MLbsManagerImpl" >
+         <property name="attachmentManager" ref="attachmentManager" />
+         <property name="orgManager" ref="orgManager" />
+         <property name="cmpLBSBaseDao" ref="cmpLBSBaseDao" />
+         <property name="mLbsAuthorManager" ref="mLbsAuthorManager" />
+         <property name="userMessageManager" ref="userMessageManager" />
+         <property name="mLbsAuthorDao" ref="mLbsAuthorDao" />
+       
+     </bean>
+  
+     <bean id = "mLbsAuthorManager" class = "com.seeyon.apps.lbs.manager.impl.MLbsAuthorManagerImpl"> </bean>
+     <bean id = "mLbsRecordManager" class = "com.seeyon.apps.lbs.manager.impl.MLbsRecordManagerImpl"> 
+    	 <property name="orgManager" ref="orgManager" />
+         <property name="mLbsAuthorDao" ref="mLbsAuthorDao" />
+    </bean> 
+     <bean id = "mLbsSupplierManager" class = "com.seeyon.apps.lbs.manager.impl.MLbsSupplierManagerImpl"> </bean>
+     
+    
+</beans>

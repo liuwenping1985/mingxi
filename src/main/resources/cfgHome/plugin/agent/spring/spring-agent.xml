@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- 代理设置 -->
+<beans default-autowire="byName">
+	<bean name="/agent.do" class="com.seeyon.apps.agent.controller.AgentIntercalateController" />
+    <bean id="agentIntercalateDAO" class="com.seeyon.apps.agent.dao.AgentIntercalateDAOImpl" />
+    <bean id="agentIntercalateManager" class="com.seeyon.apps.agent.manager.AgentIntercalateManagerImpl" init-method="init" singleton="true" />
+    <bean class="com.seeyon.apps.agent.listener.AgentOrganizationEventListener" />
+    <bean id="agentPortlet" class="com.seeyon.apps.agent.portal.portlet.AgentPortlet"/>
+</beans>

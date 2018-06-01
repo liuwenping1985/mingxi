@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="false">
+	<!-- 我的模板 -->
+	<bean id="templeteSection" class="com.seeyon.ctp.portal.section.MyTempleteSection" init-method="init">
+	    <property name="collaborationTemplateManager" ref="collaborationTemplateManager"></property>
+		<property name="sectionType" value="collaboration,edoc" />
+		<property name="sortId" value="25" />
+		<property name="spaceTypes" value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+		<property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" /><!-- 栏目名称 -->
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="common.my.template" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="count" /><!-- 显示条数 -->
+								<property name="subject" value="cannel.data.count" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=50 min=1" />
+								<property name="defaultValue" value="16" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="recent" />
+                                <property name="subject" value="显示最近使用模板" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="10" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="0" />
+                                            <property name="value" value="0" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="1" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="2" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="3" />
+                                            <property name="value" value="3" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="4" />
+                                            <property name="value" value="4" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="5" />
+                                            <property name="value" value="5" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="6" />
+                                            <property name="value" value="6" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="7" />
+                                            <property name="value" value="7" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="8" />
+                                            <property name="value" value="8" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="9" />
+                                            <property name="value" value="9" />
+                                        </bean>
+	                                    <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+	                                        <property name="subject" value="10" />
+	                                        <property name="value" value="10" />
+	                                    </bean>
+	                                    <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="11" />
+                                            <property name="value" value="11" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="12" />
+                                            <property name="value" value="12" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="13" />
+                                            <property name="value" value="13" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="14" />
+                                            <property name="value" value="14" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="15" />
+                                            <property name="value" value="15" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="16" />
+                                            <property name="value" value="16" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="17" />
+                                            <property name="value" value="17" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="18" />
+                                            <property name="value" value="18" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="19" />
+                                            <property name="value" value="19" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="20" />
+                                            <property name="value" value="20" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" /><!-- 模板来源 -->
+                                <property name="subject" value="cannel.panel.templ.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.panel.all.label" />
+                                            <property name="value" value="all" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.templete.category.label" />
+                                            <property name="value" value="track_catagory" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/collaboration/collaboration.do?method=showPortalCatagory&amp;amp;openFrom=other&amp;amp;category=myTemplate"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 部门模板 -->
+    <bean id="departmentTempleteSection" class=" com.seeyon.ctp.portal.section.DepartmentTempleteSection" init-method="init">
+        <property name="sectionType" value="common" />
+        <property name="sortId" value="13" />
+        <property name="spaceTypes" value="department" />
+        <property name="newLine2Column">
+            <map>
+                <entry key="2" value="1" />
+                <entry key="4" value="2" />
+                <entry key="5" value="2" />
+                <entry key="8" value="3" />
+                <entry key="10" value="5" />
+            </map>
+        </property>
+        <property name="count" value="16" />
+    </bean>
+</beans>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean name="/meetingNavigation.do" class="com.seeyon.v3x.meeting.controller.MeetingNavigationController"></bean>
+
+    <bean name="/meeting.do" class="com.seeyon.v3x.meeting.controller.MeetingController"></bean>
+     
+    <bean name="/mtMeeting.do" class="com.seeyon.v3x.meeting.controller.MtMeetingController">
+    	<property name="metadataManager" ref="v3xmetadataManager"/>
+    </bean>
+    
+    <bean name="/meetingDetail.do" class="com.seeyon.v3x.meeting.controller.MeetingDetailController"></bean>
+    
+    <bean name="/mtTemplate.do" class="com.seeyon.v3x.meeting.controller.MtTemplateController">
+        <property name="metadataManager" ref="v3xmetadataManager"/>
+    </bean>
+    <bean name="/mtContentTemplate.do" class="com.seeyon.v3x.meeting.controller.MtContentTemplateController"></bean>
+    
+    <bean name="/mtAppMeetingController.do" class="com.seeyon.v3x.meeting.controller.MtAppMeetingController">
+        <property name="metadataManager" ref="v3xmetadataManager"/>
+    </bean>
+    
+    <bean name="/mtSummary.do" class="com.seeyon.v3x.meetingsummary.controller.MtSummaryController"></bean>
+    <bean name="/meetingSummary.do" class="com.seeyon.v3x.meeting.controller.MeetingSummaryController"></bean>
+    <bean name="/mtSummaryTemplate.do" class="com.seeyon.v3x.meeting.controller.MtSummaryTemplateController"></bean>
+
+	<bean name="/meetingroom.do" class="com.seeyon.v3x.meetingroom.controller.MeetingRoomController"></bean>
+
+    <bean name="/mtAdminController.do" class="com.seeyon.v3x.meeting.controller.MtAdminController"></bean>
+    
+    <bean name="/meetingView.do" class="com.seeyon.v3x.meeting.controller.MeetingViewController"></bean>
+    
+    <bean name="/publicResource.do" class="com.seeyon.v3x.pubResource.controller.PublicResourceController"/>
+    
+    <bean id="meetingAssDoc" class="com.seeyon.ctp.common.assdoc.AssdocDefinition">
+        <property name="appId" value="6" />
+        <property name="url" value="/meeting.do?method=list6Quote" />
+    </bean>
+    
+</beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<usersystem>
+        <dynamicpassword>
+            <users>wechat</users>
+        </dynamicpassword>
+        <wechat>
+            <handshake>
+                <url>http://weixin.seeyon.com/restAccount/receiveRestAccount</url>
+            </handshake>
+        </wechat>       
+	</usersystem>
+</ctpConfig>

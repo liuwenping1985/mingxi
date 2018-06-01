@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="inquiryDao" class="com.seeyon.v3x.inquiry.impl.InquiryImpl">
+	</bean>
+	
+	<bean id="inquiryTypeDao" class="com.seeyon.v3x.inquiry.impl.InquiryTypeImpl">
+	</bean>
+	
+	<bean id="inquiryBasicDao" class="com.seeyon.v3x.inquiry.impl.InquiryBasicImpl">
+	</bean>
+	
+	<bean id="inquiryAuthDao" class="com.seeyon.v3x.inquiry.impl.InquiryAuthImpl">
+	</bean>
+	
+	<bean id="inquiryScopeDAO" class="com.seeyon.v3x.inquiry.impl.InquiryScopeImpl">
+	</bean>
+	
+	<bean id="inquiryitemDao" class="com.seeyon.v3x.inquiry.impl.InquiryItemImpl">
+	</bean>
+	
+</beans>

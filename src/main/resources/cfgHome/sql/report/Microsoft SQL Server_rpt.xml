@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<WorkDailyStatistics>
+			<main>
+				<rpt>
+					<!-- *******协同******* -->
+					<!-- 已办 -->
+					<collaboration1>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  0 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND ca.state = 4
+					         AND ca.complete_time >= :startTime
+					         AND ca.complete_time < :endTime
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration1>
+					<!-- 已发 -->
+					<collaboration2>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  1 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND (ca.state = 2
+					         AND ca.create_date >= :startTime
+					         AND ca.create_date < :endTime)
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration2>
+					<!-- 待办 -->
+					<collaboration3>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  2 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND (ca.state = 3  AND CA.OBJECT_ID!=-1 AND CA.SUB_OBJECT_ID!=-1 
+					         AND ca.archive_id IS NULL
+					         AND ca.receive_time >= :startTime
+					         AND ca.receive_time < :endTime)
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration3>
+					<!-- 暂存待办 -->
+					<collaboration4>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  3 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND (ca.state = 3 AND CA.OBJECT_ID!=-1 AND CA.SUB_OBJECT_ID!=-1 
+					         AND ca.receive_time >= :startTime
+					         AND ca.receive_time < :endTime)
+					    AND ca.sub_state = 13
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration4>
+					<!-- 已归档 -->
+					<collaboration5>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  16 AS states,
+					  :startTime AS queryTime,
+					  COUNT(DISTINCT doc.ID) AS numbers
+					FROM doc_resources doc 
+					 INNER JOIN ctp_affair ca 
+					 ON  (CASE WHEN ca.APP=1 AND ca.id=doc.SOURCE_ID THEN 1
+							WHEN ca.APP in(19,20,21) AND ca.OBJECT_ID=doc.SOURCE_ID THEN 1
+							ELSE 0 END)=1
+					 INNER JOIN org_member m
+					 ON doc.create_user_id=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE doc.mime_type_id in (1,2)
+					    AND doc.create_time < :endTime
+					    AND doc.create_time >= :startTime
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration5>
+					<!-- ********会议******** -->
+					<!-- 已发 -->
+					<meeting1>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  0 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM meeting m INNER JOIN org_member om
+					 ON  m.create_user=om.ID
+					 AND om.IS_DELETED = 0
+					 AND om.IS_ENABLE = 1
+					 AND om.IS_ADMIN = 0
+					 AND om.IS_ASSIGNED = 1
+					 AND om.IS_VIRTUAL = 0
+					 AND om.IS_LOGINABLE = 1
+					 AND om.IS_INTERNAL = 1
+					WHERE (CASE 
+							WHEN update_date IS NULL AND m.create_date >= :startTime AND m.create_date < :endTime
+							THEN 1
+					        WHEN m.update_date >= :startTime AND m.update_date < :endTime
+					        THEN 1
+					        ELSE 0
+					      END)=1
+					    AND m.state != 0 AND m.room_state !=0 AND m.room_state!=2
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting1>
+					<!-- 已办 -->
+					<meeting2>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  1 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair AS m
+					  INNER JOIN meeting mt
+					    ON mt.id = m.object_id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND m.state = 4
+					    AND mt.state in (30, -10) 
+					    AND mt.end_date >= :startTime
+					    AND mt.end_date < :endTime
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting2>
+					<!-- 待开-->
+					<meeting3>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  2 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair m
+					  INNER JOIN meeting mt
+					    ON mt.id = m.object_id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND (m.state = 3
+					         AND m.sub_state != 32)
+					    AND ((mt.begin_date >= :startTime
+					          AND mt.end_date <= :endTime)
+					          OR (mt.begin_date <= :startTime
+					              AND mt.end_date >= :startTime)
+					          OR (mt.begin_date < :endTime
+					              AND mt.end_date >= :endTime))
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting3>
+					<!-- 已归档 -->
+					<meeting4>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  3 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM meeting m
+					  JOIN doc_resources doc
+					    ON m.id = doc.source_id
+					  INNER JOIN org_member om
+					    ON m.create_user = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.state =  - 10
+					    AND doc.create_time >= :startTime
+					    AND doc.create_time < :endTime
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting4>
+					<!-- 未回执 -->
+					<meeting5>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  4 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair m
+					  INNER JOIN meeting mt
+					    ON m.object_id = mt.id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND (m.sub_state = 11
+					          OR m.sub_state = 12)
+					    AND mt.end_date >= :startTime
+					    AND mt.end_date < :endTime
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting5>
+					<!-- 已回执 -->
+					<meeting6>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  5 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_affair AS m
+					  INNER JOIN meeting mt
+					    ON m.object_id = mt.id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND (m.sub_state = 31
+					          OR m.sub_state = 32
+					          OR m.sub_state = 33)
+					    AND mt.end_date >= :startTime
+					    AND mt.end_date < :endTime
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting6>
+					<!-- ********计划******** -->
+					<!-- 已发布 -->
+					<plan1>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  0 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM plan_info p INNER JOIN org_member m
+					 ON p.create_user_id=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE p.status != 1
+					    AND p.create_time >= :startTime
+					    AND p.create_time < :endTime
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan1>
+					<!-- 已接收 -->
+					<plan2>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  1 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM plan_info p
+					  INNER JOIN plan_relevant_user pu
+					    ON p.id = pu.ref_plan_id
+					  INNER JOIN org_member m
+					    ON pu.ref_user_id = m.ID
+					      AND m.IS_DELETED = 0
+					      AND m.IS_ENABLE = 1
+					      AND m.IS_ADMIN = 0
+					      AND m.IS_ASSIGNED = 1
+					      AND m.IS_VIRTUAL = 0
+					      AND m.IS_LOGINABLE = 1
+					      AND m.IS_INTERNAL = 1
+					WHERE p.status != 1
+					    AND pu.type != 4
+					    AND p.create_time >= :startTime
+					    AND p.create_time < :endTime
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan2>
+					<!-- 已回复 -->
+					<plan3>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  2 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM ctp_comment_all a
+					  INNER JOIN plan_info p
+					    ON a.module_id = p.id
+					  INNER JOIN org_member m
+					    ON a.create_id = m.ID
+					      AND m.IS_DELETED = 0
+					      AND m.IS_ENABLE = 1
+					      AND m.IS_ADMIN = 0
+					      AND m.IS_ASSIGNED = 1
+					      AND m.IS_VIRTUAL = 0
+					      AND m.IS_LOGINABLE = 1
+					      AND m.IS_INTERNAL = 1
+					WHERE a.module_type = 5
+					    AND p.status != 1 and a.pid=0 
+					    AND a.create_date >= :startTime
+					    AND a.create_date < :endTime
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan3>
+					<!-- 未回复 -->
+					<plan4>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  3 AS states,
+					  :startTime AS queryTime,
+					  COUNT(*) AS numbers
+					FROM plan_info p
+					  INNER JOIN plan_relevant_user pu
+					    ON p.id = pu.ref_plan_id
+					  INNER JOIN org_member m
+					    ON pu.ref_user_id = m.ID
+					      AND m.IS_DELETED = 0
+					      AND m.IS_ENABLE = 1
+					      AND m.IS_ADMIN = 0
+					      AND m.IS_ASSIGNED = 1
+					      AND m.IS_VIRTUAL = 0
+					      AND m.IS_LOGINABLE = 1
+					      AND m.IS_INTERNAL = 1
+					WHERE p.status != 1
+					    AND pu.process != 1
+					    AND pu.type = 1
+					    AND p.create_time >= :startTime
+					    AND p.create_time < :endTime
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan4>
+					<task>
+					<![CDATA[
+					SELECT
+					m.ORG_DEPARTMENT_ID,
+					ti.STATUS,
+					:startTime AS queryTime,
+					COUNT(DISTINCT TI.id) AS numbers
+					FROM task_info ti
+					INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					INNER JOIN org_member m
+										ON m.ID=tr.ROLE_ID
+											AND m.IS_DELETED = 0
+											AND m.IS_ENABLE = 1
+											AND m.IS_ADMIN = 0
+											AND m.IS_ASSIGNED = 1
+											AND m.IS_VIRTUAL = 0
+											AND m.IS_LOGINABLE = 1
+											AND m.IS_INTERNAL = 1
+					WHERE tr.role_type > 0
+					AND ((ti.planned_start_time <= :startTime AND ti.planned_end_time >= :startTime)
+											OR (ti.planned_start_time >= :startTime AND ti.planned_end_time <= :endTime)
+											OR (ti.planned_start_time < :endTime AND ti.planned_end_time >= :endTime))
+					GROUP BY m.ORG_DEPARTMENT_ID,ti.STATUS
+					]]>
+					</task>
+					<task1>
+					<![CDATA[
+					SELECT
+					aa.ORG_DEPARTMENT_ID,
+					aa.STATUS
+					:startTime AS queryTime,
+					COUNT(DISTINCT TI.id) AS numbers
+					FROM (
+					SELECT 
+					feedback.task_id AS id,
+					m.ORG_DEPARTMENT_ID AS ORG_DEPARTMENT_ID,
+					ti.STATUS AS STATUS
+					FROM task_info ti
+					INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					INNER JOIN task_feedback feedback
+					ON feedback.TASK_ID=ti.ID
+					INNER JOIN org_member m
+										ON m.ID=tr.ROLE_ID
+											AND m.IS_DELETED = 0
+											AND m.IS_ENABLE = 1
+											AND m.IS_ADMIN = 0
+											AND m.IS_ASSIGNED = 1
+											AND m.IS_VIRTUAL = 0
+											AND m.IS_LOGINABLE = 1
+											AND m.IS_INTERNAL = 1
+					WHERE tr.role_type > 0
+					GROUP BY feedback.task_id,m.ORG_DEPARTMENT_ID,ti.STATUS
+					HAVING MAX(feedback.create_time)>=:startTime AND MAX(feedback.create_time)<:endTime
+					) aa
+					GROUP BY aa.ORG_DEPARTMENT_ID,aa.STATUS
+					]]>
+					</task1>
+					<task2>
+					<![CDATA[
+					SELECT
+					m.ORG_DEPARTMENT_ID,
+					6,
+					:startTime AS queryTime,
+					COUNT(DISTINCT TI.id) AS numbers
+					FROM task_info ti INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					INNER JOIN org_member m
+										ON m.ID=ti.create_user
+											AND m.IS_DELETED = 0
+											AND m.IS_ENABLE = 1
+											AND m.IS_ADMIN = 0
+											AND m.IS_ASSIGNED = 1
+											AND m.IS_VIRTUAL = 0
+											AND m.IS_LOGINABLE = 1
+											AND m.IS_INTERNAL = 1
+					WHERE ti.STATUS<5 AND tr.role_type = 0
+					GROUP BY m.ORG_DEPARTMENT_ID
+					HAVING MAX(ti.create_time)>=:startTime AND MAX(ti.create_time)<:endTime
+					]]>
+					</task2>
+					<task3>
+					<![CDATA[
+					SELECT
+					m.ORG_DEPARTMENT_ID,
+					7,
+					:startTime AS queryTime,
+					COUNT(DISTINCT TI.id) AS numbers
+					FROM task_info ti INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					INNER JOIN org_member m
+										ON m.ID=ti.create_user
+											AND m.IS_DELETED = 0
+											AND m.IS_ENABLE = 1
+											AND m.IS_ADMIN = 0
+											AND m.IS_ASSIGNED = 1
+											AND m.IS_VIRTUAL = 0
+											AND m.IS_LOGINABLE = 1
+											AND m.IS_INTERNAL = 1
+					WHERE ti.STATUS in(1,2,3) AND tr.role_type > 0 
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</task3>
+				</rpt>
+			</main>
+		</WorkDailyStatistics>
+		<EventStatistics>
+			<main>
+				<rpt2>
+				<![CDATA[
+				SELECT
+				m.NAME AS NAME,u.NAME AS depName,m.id,m.ORG_DEPARTMENT_ID,
+				SUM(a.number1) AS number1,SUM(a.number2) AS number2,SUM(a.number3) AS number3,SUM(a.number4) AS number4,
+				SUM(a.number1)+SUM(a.number2)+SUM(a.number3)+SUM(a.number4) AS total,
+				:startTime AS queryTime
+				FROM  
+				org_member m INNER JOIN org_unit u
+				ON m.ORG_DEPARTMENT_ID=u.ID
+				INNER JOIN
+				(
+					(SELECT
+					p.CREATE_USER_ID as id,
+					COUNT(*) AS number1,
+					0 AS number2,0 AS number3,0 AS number4
+					FROM plan_info p 
+					WHERE p.STATUS!=1 AND p.plan_status!=4
+					AND ((p.START_TIME >= :startTime AND p.END_TIME < :endTime) 
+					OR (p.START_TIME<=:startTime AND p.END_TIME>=:startTime)
+					OR (p.START_TIME<:endTime AND p.END_TIME>=:endTime))
+					AND CONVERT(VARCHAR(20), p.START_TIME, 23)>=CONVERT(VARCHAR(20), p.create_Time, 23)
+					GROUP BY p.CREATE_USER_ID
+					)
+					UNION
+					(SELECT 
+					tr.role_id AS id,0,
+					count(DISTINCT TI.id) AS numbers,0,0
+					FROM task_info ti
+					INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					WHERE ti.status IN (1,2,3,4)
+					AND tr.role_type > 0
+					AND ((ti.planned_start_time <= :startTime AND ti.planned_end_time >= :startTime) 
+					OR (ti.planned_start_time >= :startTime AND ti.planned_end_time <= :endTime) 
+					OR (ti.planned_start_time < :endTime AND ti.planned_end_time >= :endTime))
+					AND CONVERT(VARCHAR(20), ti.planned_start_time, 23)>=CONVERT(VARCHAR(20), ti.create_Time, 23)
+					GROUP BY tr.role_id
+					)
+					UNION
+					(SELECT
+					member.id AS ID,0,0,
+					COUNT(*) AS numbers,0
+					FROM cal_event calEvent INNER JOIN ORG_MEMBER member
+					ON (calEvent.create_user_id = member.id 
+					or calEvent.RECEIVE_MEMBER_ID like '%'+CAST(member.id AS nvarchar(32))+'%')
+					WHERE ((calEvent.BEGIN_DATE <= :startTime AND calEvent.END_DATE >= :startTime) 
+					OR (calEvent.BEGIN_DATE >= :startTime AND calEvent.END_DATE <= :endTime)
+					OR (calEvent.BEGIN_DATE < :endTime AND calEvent.END_DATE >= :endTime))
+					AND CONVERT(VARCHAR(20), calEvent.BEGIN_DATE, 23)>=CONVERT(VARCHAR(20), calEvent.create_date, 23)
+					GROUP BY member.id
+					)
+					UNION
+					(SELECT
+					a.MEMBER_ID AS id,0,0,0,
+					COUNT(*) AS numbers
+					FROM ctp_affair AS a inner join meeting mt on mt.id=a.object_id
+					WHERE a.APP = 6
+					AND a.SUB_APP = 5 AND a.is_delete=0
+					AND (a.state = 3 OR a.state = 2 OR a.state=4 AND a.sub_state!=32)
+					AND ((mt.BEGIN_DATE>=:startTime AND mt.END_DATE<=:endTime)  
+					OR (mt.BEGIN_DATE<=:startTime AND mt.END_DATE>=:startTime)
+					OR (mt.BEGIN_DATE<:endTime AND mt.END_DATE>=:endTime))
+					AND CONVERT(VARCHAR(20), mt.BEGIN_DATE, 23)>=CONVERT(VARCHAR(20), mt.create_date, 23)
+					GROUP BY a.MEMBER_ID
+					) 
+				) a 
+				ON a.id=m.id
+				GROUP BY m.id,m.ORG_DEPARTMENT_ID,m.NAME,u.NAME
+				]]>	
+				</rpt2>
+			</main>
+		</EventStatistics>
+	</report>
+</sqlcfg>

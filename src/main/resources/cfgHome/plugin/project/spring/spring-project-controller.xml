@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- controller -->
+    <bean name="/project.do" class="com.seeyon.v3x.project.controller.ProjectController">
+<!--         <property name="projectManager" ref="projectManager"></property> -->
+<!--         <property name="attachmentManager" ref="attachmentManager"></property> -->
+<!--         <property name="calEventManager" ref="calEventManager"></property>  -->
+<!--         <property name="orgManager" ref="orgManager"></property> -->
+<!--         <property name="orgManagerDirect" ref="orgManagerDirect"></property> -->
+<!--         <property name="enumManager" ref="enumManager"></property> -->
+<!--         <property name="appLogManager" ref="appLogManager"></property> -->
+<!--         <property name="taskInfoManager" ref="taskInfoManager"></property> -->
+<!--         <property name="portletEntityPropertyManager" ref="portletEntityPropertyManager"></property> -->
+    </bean>
+    <bean name="/project/project.do" class="com.seeyon.apps.project.controller.ProjectController"/>
+</beans>

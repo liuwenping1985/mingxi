@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<qwqp>
+		<aip>
+			<enabled mark="{option,0,1} {VE}" desc="是否启用AIP全文签批插件 0--不启用  1--启用">1</enabled>
+			<validateUrl mark="{VE}" desc="移动端验证全文签批权限的url，如：http://www.dianju.cn:9239">http://www.dianju.cn:9239</validateUrl>
+			<validateName mark="{VE}" desc="移动端验证全文签批权限的账号"></validateName>
+		</aip>
+	</qwqp>
+</ctpConfig>

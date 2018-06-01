@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+     <bean id="reportAuthDao" class="com.seeyon.ctp.report.auth.dao.ReportAuthDaoImpl"></bean>
+	 
+	 <bean id="reportAuthDetailDao" class="com.seeyon.ctp.report.auth.dao.ReportAuthDetailDaoImpl"></bean>
+     
+     <bean id="reportSourceManager" class="com.seeyon.ctp.report.data.manager.SourceManagerImpl"></bean>
+     
+     <bean id="reportDesignManager" class="com.seeyon.ctp.report.design.manager.DesignManagerImpl"></bean>
+     
+     <bean id="reportPresentManager" class="com.seeyon.ctp.report.presentation.manager.PresentManagerImpl"></bean>
+     
+     <bean id="anyChartManager" class="com.seeyon.ctp.report.chart.manager.AnyChartManagerImpl"></bean>
+    
+     <bean id="drawChartManager" class="com.seeyon.ctp.report.chart.manager.DrawChartManagerImpl"></bean>
+     
+     <bean id="schedule4ReportManager" class="com.seeyon.ctp.report.schedule.manager.Schedule4ReportManagerImpl"></bean>
+     
+     <bean id="schedule4ReportDao" class="com.seeyon.ctp.report.schedule.dao.Schedule4ReportDaoImpl"></bean>
+     
+     <bean id="schedule4ReportQuartz" class="com.seeyon.ctp.report.schedule.quartz.Schedule4ReportQuartz"></bean>
+     
+     <!-- 中间表调度 -->
+     <!-- <bean id="Schedule2TableInitializer" class="com.seeyon.ctp.report.schedule.Schedule4ReportInitializer"></bean> -->
+     <!-- 表单统计穿透 -->
+     <bean id="formReportPenetrateManager" class="com.seeyon.ctp.form.formreport.data.manager.FormReportDataManagerImpl"></bean>
+ 	 <!-- 报表引擎xml解析类 -->
+	 <bean id="reportXmlDesignManager" class="com.seeyon.ctp.reportengine.data.po.grid.design.ReportXmlDesignManagerImpl"/>
+	 <!-- 报表前端数据转换器 -->
+	 <bean id="reportBuildGrid" class="com.seeyon.ctp.reportengine.build.impl.ReportBuildGrid"></bean>
+	 <bean id="reportBuildECharts" class="com.seeyon.ctp.reportengine.build.impl.ReportBuildECharts"></bean>
+	 <bean id="reportBuildExcel" class="com.seeyon.ctp.reportengine.build.impl.ReportBuildExcel"></bean>
+	 
+	 <!-- 图表组件2.0 -->
+	 <!-- <bean id="chartManager" class="com.seeyon.ctp.report.chart2.manager.ChartManagerImpl">
+	   <property name="chartRender" ref="chartRender" />
+	   <property name="chartBaseImgDao" ref="chartBaseImgDao" />
+	 </bean>
+	 <bean id="chartRender" class="com.seeyon.ctp.report.chart2.core.ChartRenderImpl">
+       <property name="chartRenderStrategy" ref="chartRenderStrategy" />
+       <property name="chartTemplateLoader" ref="chartTemplateLoader" />
+       <property name="chartTemplateReplacer" ref="chartTemplateReplacer" />
+     </bean>
+	 <bean id = "chartRenderStrategy" class="com.seeyon.ctp.report.chart2.core.ChartRenderStrategyImpl"></bean>
+	 <bean id = "chartTemplateLoader" class="com.seeyon.ctp.report.chart2.core.ChartTemplateLoaderImpl" init-method="init">
+	   <property name="capacity" value="10" />
+	   <property name="directory" value="chartTemplate" />
+	   <property name="type" value="echarts" />
+	 </bean>
+	 <bean id = "chartTemplateReplacer" class="com.seeyon.ctp.report.chart2.core.ChartTemplateReplacerImpl"></bean> 
+	 -->
+	 
+	 <!-- 图表组件3.0 -->
+	 <bean id="chartRender" class="com.seeyon.ctp.report.chart2.core.ChartRenderImpl">
+       <property name="chartTemplateLoader" ref="chartTemplateLoader" />
+       <property name="chartTemplateReplacer" ref="chartTemplateReplacer" />
+     </bean>
+	 <bean id = "chartTemplateLoader" class="com.seeyon.ctp.report.chart2.core.ChartTemplateLoaderImpl" init-method="init">
+	   <property name="capacity" value="10" />
+	   <property name="directory" value="chartTemplate" />
+	   <property name="type" value="echarts" />
+	 </bean>
+	 <bean id = "chartTemplateReplacer" class="com.seeyon.ctp.report.chart2.core.ChartTemplateReplacerImpl"></bean>
+	 <!-- 报表引擎3.0 demo2-->
+	<!--  <bean id="reportManager" class="com.seeyon.ctp.report.demo3.core.ReportManagerImpl">
+	 	<property name="chartRender" ref="chartRender" />
+	 </bean> -->
+</beans>

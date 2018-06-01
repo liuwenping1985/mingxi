@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+	<!-- lbs -->
+	<resKey>cmp.lbs.label.marker</resKey>
+	<resKey>cmp.lbs.label.sign</resKey>
+	<resKey>cmp.lbs.label.positionLocation</resKey>
+	<resKey>cmp.lbs.label.photoLocation</resKey>
+	<resKey>cmp.lbs.warn.notSupport</resKey>
+	
+</export>

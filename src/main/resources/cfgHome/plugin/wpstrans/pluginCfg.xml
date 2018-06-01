@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>wpstrans</id>
+	<name>Wps后台转版</name>
+	<category>50000</category>
+	<initializer>com.seeyon.apps.wpstrans.WpsTransPluginInitializer</initializer>
+</plugin>

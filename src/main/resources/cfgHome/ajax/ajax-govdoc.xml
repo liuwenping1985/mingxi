@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>govdocExchangeManager</serviceName>
+		<operations>
+			<op>getGovdocExchangeDetail</op>
+			<op>getGovdocExchangeDetailLogByDetailId</op>
+			<op>validateDocMark</op>
+			<op>validateExistAccount</op>
+			<op>changeOrgId</op>
+			<op>validateExistAccountOrDepartment</op>
+			<op>validateExistAccountOrDepartment2</op>
+			<op>validateReissueeRepeat</op>
+			<op>validateFenban</op>
+			<op>validateOfdContent</op>
+			<op>getExchangeAccount</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>edocManager</serviceName>
+		<operations>
+			<op>isGovdocMarkUsed</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>edocDocTemplateManager</serviceName>
+		<operations>
+			<op>findGrantedListForTaoHong</op>
+		</operations>
+	</bean>
+</beans>

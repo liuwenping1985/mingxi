@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<seeyonreport>
+		<host>
+			<ip mark="{VE}" desc="报表服务部署的主机IP"></ip>
+			<port mark="{VE}" desc="报表服务部署的主机端口"></port>
+		</host>
+		<oahost>
+			<ip mark="{VE}" desc="A8服务部署的主机IP"></ip>
+			<port mark="{VE}" desc="A8服务部署的主机端口"></port>
+		</oahost>
+	</seeyonreport>
+</ctpConfig>

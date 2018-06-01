@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>elementManager</serviceName>
+		<operations>
+			<op>getElementList</op>
+			<op>checkElementCount</op>
+			<op>updateElementStatus</op>
+		</operations>
+	</bean>
+</beans>

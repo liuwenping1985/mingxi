@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+	<info>
+		<useWorkflow>true</useWorkflow>
+		<contentType>all</contentType>
+		<commentTemplate>default</commentTemplate>
+		<contentDealTemplate>default</contentDealTemplate>
+		<getMainbodyList>default</getMainbodyList>
+		<mainbodyType>html,officeWord,officeExcel,wpsWord,wpsExcel</mainbodyType>
+		<contentInterface>com.seeyon.apps.collaboration.util.ColContentInterfaceImpl</contentInterface>
+	</info>
+</content>

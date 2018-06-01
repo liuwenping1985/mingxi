@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<wpstrans>
+		<enable mark="{boolean} {VE}" desc="是否启用OFD后台转版插件。true：启用；false：不启用。">false</enable>
+		<file>
+			<service>
+				<url mark="{VE}" desc="文件服务地址">http://127.0.0.1:8080/fileupload/servlet/upload</url>
+				<operation>
+					<upload>upload</upload>
+					<download>download</download>
+					<handshake>handshake</handshake>
+				</operation>
+			</service>
+		</file>
+		<trans>
+			<service>
+				<ip mark="{VE}" desc="OFD转版服务IP（与文件服务IP一致）">127.0.0.1</ip>
+				<port mark="{VE}" desc="OFD转版服务端口">8888</port>
+				<path mark="{VE}" desc="OFD转版存放路径">/seeyon/wpstrans</path>
+				<cron mark="{VE}" desc="清除wps临时文件时间表达式">0 0 0 * * ?</cron>
+			</service>
+		</trans>
+	</wpstrans>
+</ctpConfig>

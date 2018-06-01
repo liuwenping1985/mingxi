@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 基础设置、办公用品管理 -->
+	<bean name="/office/stockSet.do" class="com.seeyon.apps.office.controller.StockSetController" />
+	<!-- 办公用品申请 -->
+	<bean name="/office/stockUse.do" class="com.seeyon.apps.office.controller.StockUseController" />
+	<!-- 办公用品统计 -->
+	<bean name="/office/stockStc.do" class="com.seeyon.apps.office.controller.StockStcController" />
+</beans>

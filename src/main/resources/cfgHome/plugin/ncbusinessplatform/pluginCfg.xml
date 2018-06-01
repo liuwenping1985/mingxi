@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>ncbusinessplatform</id>
+	<name>NC业务集成-基础插件</name>
+	<category>11100</category>
+	<initializer>com.seeyon.apps.ncbusiness.NCBusinessInit</initializer>
+</plugin>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+	<taskmanage>
+		<useWorkflow>false</useWorkflow>
+		<commentTemplate>taskCommentTpl</commentTemplate>
+		<commentListByCreateDateDesc>true</commentListByCreateDateDesc>
+		<contentInterface>com.seeyon.apps.taskmanage.util.TaskContentInterfaceImpl</contentInterface>
+	</taskmanage>
+</content>

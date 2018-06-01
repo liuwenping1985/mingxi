@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="u8Integration1" class="com.seeyon.apps.u8.space.U8ThirdpartySpace" init-method="initAll">
+	<property name="name" value="u8.space.label"></property>
+	<property name="pluginId" value="u8" />
+	<property name="u8PageURLBuilder" ref="u8PageURLBuilder" />
+	<property name="resourceBundle" value="com.seeyon.apps.u8.i18n.U8Resources"/>
+	<property name="openType" value="open" />
+	<property name="hiddenA8Menu" value="true" />
+	<property name="index" value="1" />
+	<property name="u8ThirdpartyAccessCheck" ref="u8ThirdpartyAccessCheck" />
+    </bean>
+	<bean id="u8ThirdpartyAccessCheck"
+		class="com.seeyon.apps.u8.space.U8ThirdpartyAccessCheck">
+	</bean>
+	<bean id="u8PageURLBuilder" class="com.seeyon.apps.u8.space.U8PageURLBuilder">
+	    <property name="loginURL" value="/seeyon/u8PortalController.do?method=u8SSOLogin"/>
+	    <property name="orgManager" ref="orgManager"></property>
+		<property name="languageMapping">
+			<map>
+				<entry key="zh_CN" value="simpchn" />
+				<entry key="zh_TW" value="tradchn" />
+				<entry key="en" value="english" />
+			</map>
+		</property>
+	</bean>
+</beans>

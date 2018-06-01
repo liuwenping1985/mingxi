@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>publishInfoStcManager</serviceName>
+		<operations>
+			<op>newsStc</op>
+			<op>bbsStc</op>
+			<op>publishInfoStc</op>
+			<op>bulletinStc</op>
+			<op>inquiryStc</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>pubInfoManager</serviceName>
+		<operations>
+			<op>getPubTrees</op>
+			<op>getPubInfos</op>
+		</operations>
+	</bean>
+</beans>

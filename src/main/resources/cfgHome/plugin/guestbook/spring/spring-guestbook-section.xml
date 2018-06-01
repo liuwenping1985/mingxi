@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="false">
+	<bean class="com.seeyon.ctp.portal.section.GuestbookSection" id="guestbookSection">
+		<property name="sectionType" value="common" />
+		<property name="sortId" value="15" />
+		<property name="spaceTypes" value="department,custom" />
+	</bean>
+</beans>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>seeyonReportManager</serviceName>
+		<operations>
+			<op>getFormDataList</op>
+			<op>saveReportFormDataset</op>
+			<op>getReporletsList</op>
+			<op>getReportDataset</op>
+			<op>deleteReportDataset</op>
+			<op>updateReportDatasetState</op>
+			<op>getFormConditionHTML</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>seeyonReportTemplateManager</serviceName>
+		<operations>
+			<op>saveReportTemplateCategoryForAjax</op>
+			<op>getReportTemplateCategoryForAjax</op>
+			<op>updateReportTemplateCategoryForAjax</op>
+			<op>getReportTemplateExists</op>
+			<op>saveReportTemplateForAjax</op>
+			<op>getReportTemplates</op>
+			<op>deleteReportTemplateForAjax</op>
+			<op>deleteReportTemplateCategory</op>
+			<op>updateReportTemplateAuth</op>
+			<op>checkTargetHasDupName</op>
+			<op>updateReportTemplatePath</op>
+			<op>updateReportTemplateState</op>
+			<op>updateReportTemplateForAjax</op>
+			
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>seeyonReportAdminManager</serviceName>
+		<operations>
+			<op>getReportAdmin</op>
+			<op>checkReportAdminExists</op>
+			<op>saveReportAdminForAjax</op>
+			<op>deleteReportAdminForAjax</op>
+			<op>updateReportAdminForAjax</op>
+			<op>getMemberLoginName</op>
+			<op>checkReportAdminWorkspaceExists</op>
+			<op>checkReportAdminDbUserExists</op>
+			<op>checkCptExists</op>
+			<op>checkLoginStatus</op>
+		</operations>
+	</bean>
+</beans>

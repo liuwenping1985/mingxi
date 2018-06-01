@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="calContentManager" class="com.seeyon.apps.calendar.manager.CalContentManagerImpl">
+
+	</bean>
+	<bean id="calEventPeriodicalInfoManager"
+		class="com.seeyon.apps.calendar.manager.CalEventPeriodicalInfoManagerImpl">
+
+	</bean>
+	<bean id="calEventTranManager"
+		class="com.seeyon.apps.calendar.manager.CalEventTranManagerImpl">
+
+	</bean>
+	<bean id="calReplyManager" class="com.seeyon.apps.calendar.manager.CalReplyManagerImpl">
+
+	</bean>
+	<bean id="calTimeLineManager" class="com.seeyon.apps.calendar.manager.CalTimeLineManagerImpl">
+
+	</bean>
+	<bean id="calEventManager" class="com.seeyon.apps.calendar.manager.CalEventManagerImpl">
+
+	</bean>
+    <bean id="timeLineManager" class="com.seeyon.ctp.portal.timeline.TimeLineManagerImpl">
+
+    </bean>
+	<bean id="calEventManager4ISearch" init-method="init"
+		class="com.seeyon.apps.calendar.manager.CalEventManager4ISearch">
+
+	</bean>
+	<bean id="calendarNotifier" class="com.seeyon.apps.calendar.util.CalendarNotifier">
+
+	</bean>
+	<bean id="eventRemind" class="com.seeyon.apps.calendar.util.EventRemind">
+
+	</bean>	
+	<bean id="userMessageFilterImplCalendar" class="com.seeyon.apps.calendar.usermessage.filter.UserMessageFilterImplCalendar">
+
+	</bean>
+</beans>

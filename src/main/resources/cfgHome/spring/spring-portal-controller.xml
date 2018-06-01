@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/portal/everybodyWork.do" class="com.seeyon.ctp.portal.controller.EverybodyWorkController">
+    </bean>
+	<bean name="/portal/spaceController.do" class="com.seeyon.ctp.portal.space.controller.SpaceController">
+		<!-- <property name="orgManager" ref="OrgManager" /> -->
+		<property name="spaceManager" ref="spaceManager" />
+		<property name="pageManager" ref="pageManager" />
+		<property name="portletEntityPropertyManager" ref="portletEntityPropertyManager"></property>
+	</bean>
+	<bean name="/portal/portalTemplateController.do" class="com.seeyon.ctp.portal.portaltemplate.controller.PortalTemplateController">
+		<!-- <property name="orgManager" ref="OrgManager" /> -->
+		<property name="portalTemplateManager" ref="portalTemplateManager" />
+		<property name="portalTemplateAclManager" ref="portalTemplateAclManager" />
+	</bean>
+	<bean name="/portal/loginTemplateController.do" class="com.seeyon.ctp.portal.logintemplate.controller.LoginTemplateController">
+		<property name="orgManager" ref="orgManager" />
+		<property name="loginTemplateManager" ref="loginTemplateManager" />
+	</bean>
+	<bean name="/portal/portalController.do" class="com.seeyon.ctp.portal.controller.PortalController">
+	    <property name="spaceManager" ref="spaceManager" />
+		<property name="appDataManager" ref="appDataManager" />
+	</bean>
+	<bean name="/portal/linkSystemController.do" class="com.seeyon.ctp.portal.link.controller.LinkSystemController">
+	    <property name="linkSystemManager" ref="linkSystemManager" />
+	    <property name="fileManager" ref="fileManager" />
+	    <property name="orgManager" ref="orgManager" />
+	    <property name="fileToExcelManager" ref="fileToExcelManager" />
+	    <property name="linkSectionManager" ref="linkSectionManager" />
+	    <property name="linkOptionManager" ref="linkOptionManager" />
+	    <property name="linkSpaceManager" ref="linkSpaceManager" />
+	    <property name="linkCategoryManager" ref="linkCategoryManager" />
+	    <property name="linkMenuManager" ref="linkMenuManager" />
+	</bean>
+	<bean name="/portal/deskTopController.do" class="com.seeyon.ctp.portal.portlet.controller.DeskTopController">
+	    <property name="deskManager" ref="deskManager" />
+	    <property name="deskCollaborationManager" ref="deskCollaborationManager" />
+	</bean>
+	
+	<bean name="/portal/leaderwindow.do" class="com.seeyon.ctp.portal.controller.LeaderWindowController"></bean>
+	
+</beans>

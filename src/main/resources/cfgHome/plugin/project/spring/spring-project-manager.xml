@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- Manager -->
+	<bean id="projectManager" class="com.seeyon.v3x.project.manager.ProjectManagerImpl" init-method="init">
+<!-- 	   <property name="projectDao" ref="projectDao"></property> -->
+<!-- 	   <property name="projectLogDao" ref="projectLogDao"></property> -->
+<!-- 	   <property name="projectPhaseDao" ref="projectPhaseDao"></property> -->
+<!-- 	   <property name="orgManager" ref="orgManager"></property> -->
+	</bean>
+	<bean id="projectPhaseEventManager"  class="com.seeyon.v3x.project.manager.ProjectPhaseEventManagerImpl">
+<!-- 	   <property name="projectPhaseEventDao" ref="projectPhaseEventDao"></property> -->
+	</bean>
+	<bean id="projectPhaseManager"  class="com.seeyon.v3x.project.manager.ProjectPhaseManagerImpl">
+<!-- 	   <property name="projectPhaseDao" ref="projectPhaseDao"></property> -->
+	</bean>
+	<bean id="projectQueryManager"  class="com.seeyon.apps.project.manager.ProjectQueryManagerImpl">
+	   <property name="projectSummaryQueryDao" ref="projectSummaryQueryDao"></property>
+	   <property name="projectTypeQueryDao" ref="projectTypeQueryDao"></property>
+	</bean>
+	<bean id="projectAjaxManager"  class="com.seeyon.apps.project.manager.ProjectAjaxManagerImpl">
+	   <property name="projectQueryManager" ref="projectQueryManager"></property>
+	   <property name="projectTypeQueryDao" ref="projectTypeQueryDao"></property>
+	   <property name="projectSummaryQueryDao" ref="projectSummaryQueryDao"></property>
+	   <property name="projectMarkSaveManager" ref="projectMarkSaveManager"></property>
+	   <property name="projectUpdateManager" ref="projectUpdateManager"></property>
+	</bean>
+	<bean id="projectMarkSaveManager"  class="com.seeyon.apps.project.manager.ProjectMarkSaveManagerImpl">
+		<property name="projectMarkSaveDao" ref="projectMarkSaveDao"></property>
+	</bean>
+	<bean id="projectConfigManager"  class="com.seeyon.apps.project.manager.ProjectConfigManagerImpl">
+		<property name="projectConfigDao" ref="projectConfigDao"></property>
+		<property name="projectQueryManager" ref="projectQueryManager"></property>
+	   	<property name="projectTypeQueryDao" ref="projectTypeQueryDao"></property>
+	   	<property name="projectInfoLogDao" ref="projectInfoLogDao"></property>
+	   	<property name="projectInfoPhaseDao" ref="projectInfoPhaseDao"></property>
+	   	<property name="templateManager" ref="templateManager"></property>
+	   	<property name="calEventManager" ref="calEventManager"></property>
+	   	<property name="bbsBoardManager" ref="bbsBoardManager"></property>
+	   	<property name="projectManager" ref="projectManager"></property>
+	   	<property name="attachmentManager" ref="attachmentManager"></property>
+	   	<property name="projectMarkDeleteDao" ref="projectMarkDeleteDao"></property>
+	</bean>
+	<bean id="projectUpdateManager"  class="com.seeyon.apps.project.manager.ProjectUpdateManagerImpl"></bean>
+	<bean id="projectMemberTopManager"  class="com.seeyon.apps.project.manager.ProjectMemberTopManagerImpl">
+		<property name="projectMemberTopDao" ref="projectMemberTopDao"></property>
+	</bean>
+	<!-- Dao -->
+	<bean id="projectDao"  class="com.seeyon.v3x.project.dao.ProjectDaoImpl"></bean>
+	<bean id="projectLogDao"  class="com.seeyon.v3x.project.dao.ProjectLogDaoImpl"></bean>
+	<bean id="projectPhaseDao"  class="com.seeyon.v3x.project.dao.ProjectPhaseDaoImpl"></bean>
+	<bean id="projectPhaseEventDao"  class="com.seeyon.v3x.project.dao.ProjectPhaseEventDaoImpl"></bean>
+    <bean id="projectSummaryQueryDao"  class="com.seeyon.apps.project.dao.ProjectSummaryQueryDaoImpl"></bean>
+    <bean id="projectTypeQueryDao"  class="com.seeyon.apps.project.dao.ProjectTypeQueryDaoImpl"></bean>
+    <bean id="projectMarkSaveDao"  class="com.seeyon.apps.project.dao.ProjectMarkSaveDaoImpl"></bean>
+    <bean id="projectMarkDeleteDao"  class="com.seeyon.apps.project.dao.ProjectMarkDeleteDaoImpl"></bean>
+    <bean id="projectConfigDao"  class="com.seeyon.apps.project.dao.ProjectConfigDaoImpl"></bean>
+    <bean id="projectMemberTopDao"  class="com.seeyon.apps.project.dao.ProjectMemberTopDaoImpl"></bean>
+    
+    <!-- Listenner -->
+    <bean id="projectOrganizationEventListener" class="com.seeyon.v3x.project.listener.ProjectOrganizationEventListener">
+<!--         <property name="projectManager" ref="projectManager"></property> -->
+    </bean>
+    
+    <!-- 离职管理 -->
+    <bean id="MemberLeaveClearItemProject" class="com.seeyon.v3x.project.manager.MemberLeaveClearItemProjectImpl"></bean>
+    
+    <!-- 阶段提醒 -->
+    <bean id="phaseRemindJob" class="com.seeyon.v3x.project.util.PhaseRemindJob"></bean>
+    <!-- 项目协同 -->
+    <bean id="projectPortalManager" class="com.seeyon.apps.project.manager.ProjectPortalManagerImpl"/>
+    <!-- 项目日志持久层 -->
+    <bean id="projectInfoLogDao" class="com.seeyon.apps.project.dao.ProjectInfoLogDaoImpl"></bean>
+    <!-- 项目阶段持久层 -->
+    <bean id="projectInfoPhaseDao" class="com.seeyon.apps.project.dao.ProjectInfoPhaseDaoImpl"></bean>
+    <!-- 项目阶段 业务层-->
+    <bean id="projectInfoPhaseManager" class="com.seeyon.apps.project.manager.ProjectInfoPhaseManagerImpl"></bean>
+</beans>

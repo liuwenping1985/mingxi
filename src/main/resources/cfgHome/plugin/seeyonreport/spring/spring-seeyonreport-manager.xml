@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="seeyonReportManager"
+        class="com.seeyon.ctp.seeyonreport.manager.SeeyonReportManagerImpl">
+        <property name="noFormFieldCom">
+            <list>
+                <value>attachment</value><!-- 附件 -->
+                <value>image</value><!-- 图片 -->
+                <value>handwrite</value><!-- 签章 -->
+                <value>document</value><!-- 关联文档 -->
+                <value>exchangetask</value> <!-- 交换任务 -->
+                <value>querytask</value> <!-- 查询控件交换引擎 -->
+                <value>mapmarked</value> <!-- 地图标注 -->
+                <value>maplocate</value> <!-- 位置定位 -->
+                <value>mapphoto</value> <!-- 拍照定位 -->
+            </list>
+        </property>
+    </bean>
+    <bean id="seeyonReportTemplateManager" class="com.seeyon.ctp.seeyonreport.manager.SeeyonReportTemplateManagerImpl"/>
+    
+    <bean id="seeyonReportTemplateAuthManager" class="com.seeyon.ctp.seeyonreport.manager.SeeyonReportTemplateAuthManagerImpl"/>
+    
+    <bean id="seeyonReportTemplateListener" class="com.seeyon.ctp.seeyonreport.listener.SeeyonReportTemplateListener" />
+    <bean id="seeyonReportOrgListener" class="com.seeyon.ctp.seeyonreport.listener.SeeyonReportOrgListener" />
+    <bean id="seeyonReportEnumManager" class="com.seeyon.ctp.seeyonreport.manager.SeeyonReportEnumManagerImpl"/>
+    <bean id="seeyonReportAdminManager" class="com.seeyon.ctp.seeyonreport.manager.SeeyonReportAdminManagerImpl"/>
+    <!-- 报表业务生成器 -->
+    <bean id="businessSourceType4SeeyonReport" class="com.seeyon.ctp.seeyonreport.manager.BusinessSourceType4SeeyonReport">
+    	<property name="sort" value="4"/>
+    </bean>
+    <!-- 业务导图接口实现 -->
+    <bean id="bizMapLinkType4SeeyonReport" class="com.seeyon.ctp.form.modules.bizmap.BizMapLinkType4SeeyonReport" />
+</beans>

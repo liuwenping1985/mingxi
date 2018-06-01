@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>performanceReport.queryMain_js.unitTotal</resKey>
+    <resKey>performanceReport.queryMain_js.pageTotal</resKey>
+    <resKey>performanceReport.queryMain_js.errorCheckInputString</resKey>
+    <resKey>performanceReport.queryMain.reports.click</resKey>
+    <resKey>performanceReport.authorize.person.totals</resKey>
+    <resKey>performanceReport.queryMain_js.average</resKey>
+    <resKey>performanceReport.queryMain_js.referenceLength</resKey>
+    <resKey>performanceReport.queryMain_js.timeout</resKey>
+    <resKey>performanceReport.queryMain_js.belowRadio</resKey>
+    <resKey>performanceReport.queryMain_js.resultsOfComparison</resKey>
+    <resKey>performanceReport.queryMain_js.totalOfCalls</resKey>
+    <resKey>performanceReport.queryMain_js.times</resKey>
+    <resKey>performanceReport.queryMain_js.timeout</resKey>
+    <resKey>performanceReport.portal.selectOvercrowding</resKey>
+    <resKey>performanceReport.queryMain_js.throughQueryDialog.title</resKey>
+    <resKey>performanceReport.queryMain_js.button.close</resKey>
+    <resKey>performanceReport.queryMain.task.content</resKey>
+    <resKey>performanceReport.workFlowAnalysis.chartUseRadio</resKey>
+    <resKey>performanceReport.workFlowAnalysis.chartOverTimeRatio</resKey>
+    <resKey>performanceReport.workFlowAnalysis.charEfficiency</resKey>
+    <resKey>performanceReport.section.notSupportCharts</resKey>
+    <resKey>performanceReport.queryMain_js.processPerformanceAnalysis.through.title</resKey>
+</export>

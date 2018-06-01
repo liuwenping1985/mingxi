@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<WorkDailyStatistics>
+			<main>
+				<rpt>
+					<collaboration1>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  0,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND ca.state = 4
+					         AND ca.complete_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					         AND ca.complete_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP	
+					]]>
+					</collaboration1>
+					<collaboration2>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  1,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND (ca.state = 2
+					         AND ca.create_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					         AND ca.create_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration2>
+					<collaboration3>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  0,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND (ca.state = 3 AND CA.OBJECT_ID!=-1 AND CA.SUB_OBJECT_ID!=-1 
+					    	 AND ca.archive_id IS NULL
+					         AND ca.receive_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					         AND ca.receive_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration3>
+					<collaboration4>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  3,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair ca INNER JOIN org_member m
+					 ON ca.MEMBER_ID=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE ca.app IN(1,4,19,20,21)
+					    AND (ca.state = 3
+					         AND ca.receive_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					         AND ca.receive_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+					    AND ca.sub_state = 13
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration4>
+					<collaboration5>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  ca.APP,
+					  16,
+					  :startTime querytime,
+					  COUNT(DISTINCT doc.ID)
+					FROM doc_resources doc 
+					 INNER JOIN ctp_affair ca 
+					 ON  (CASE WHEN ca.APP=1 AND ca.id=doc.SOURCE_ID THEN 1
+							WHEN ca.APP in(19,20,21) AND ca.OBJECT_ID=doc.SOURCE_ID THEN 1
+							ELSE 0 END)=1
+					 INNER JOIN org_member m
+					 ON doc.create_user_id=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE doc.mime_type_id in (1,2)
+							AND ca.app IN(1,4,19,20,21)
+					    AND doc.create_time < TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND doc.create_time >= TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID,ca.APP
+					]]>
+					</collaboration5>
+					<meeting1>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  0,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM meeting m INNER JOIN org_member om
+					 ON  m.create_user=om.ID
+					 AND om.IS_DELETED = 0
+					 AND om.IS_ENABLE = 1
+					 AND om.IS_ADMIN = 0
+					 AND om.IS_ASSIGNED = 1
+					 AND om.IS_VIRTUAL = 0
+					 AND om.IS_LOGINABLE = 1
+					 AND om.IS_INTERNAL = 1
+					WHERE (CASE 
+							WHEN update_date IS NULL AND m.create_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss') AND m.create_date < :endTime THEN 1
+					        WHEN m.update_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss') AND m.update_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss') THEN 1
+							ELSE 0
+					      END)=1
+					    AND m.state != 0 AND m.room_state !=0 AND m.room_state!=2
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting1>
+					<meeting2>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  1,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair m
+					  INNER JOIN meeting mt
+					    ON mt.id = m.object_id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND m.state = 4
+					    AND mt.state in (30, -10)
+					    AND mt.end_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND mt.end_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting2>
+					<meeting3>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  2,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair m
+					  INNER JOIN meeting mt
+					    ON mt.id = m.object_id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND (m.state = 3
+					         AND m.sub_state != 32)
+					    AND ((mt.begin_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					          AND mt.end_date <= TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+					          OR (mt.begin_date <= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					              AND mt.end_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss'))
+					          OR (mt.begin_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					              AND mt.end_date >= TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')))
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting3>
+					<meeting4>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  3,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM meeting m
+					  JOIN doc_resources doc
+					    ON m.id = doc.source_id
+					  INNER JOIN org_member om
+					    ON m.create_user = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.state =  - 10
+					    AND doc.create_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND doc.create_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting4>
+					<meeting5>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  4,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair m
+					  INNER JOIN meeting mt
+					    ON m.object_id = mt.id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND (m.sub_state = 11
+					          OR m.sub_state = 12)
+					    AND mt.end_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND mt.end_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting5>
+					<meeting6>
+					<![CDATA[
+					SELECT
+					  om.ORG_DEPARTMENT_ID,
+					  5,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_affair m
+					  INNER JOIN meeting mt
+					    ON m.object_id = mt.id
+					  INNER JOIN org_member om
+					    ON m.member_id = om.ID
+					      AND om.IS_DELETED = 0
+					      AND om.IS_ENABLE = 1
+					      AND om.IS_ADMIN = 0
+					      AND om.IS_ASSIGNED = 1
+					      AND om.IS_VIRTUAL = 0
+					      AND om.IS_LOGINABLE = 1
+					      AND om.IS_INTERNAL = 1
+					WHERE m.app = 6
+					    AND m.sub_app = 5
+					    AND (m.sub_state = 31
+					          OR m.sub_state = 32
+					          OR m.sub_state = 33)
+					    AND mt.end_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND mt.end_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY om.ORG_DEPARTMENT_ID
+					]]>
+					</meeting6>
+					<plan1>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  0,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM plan_info p INNER JOIN org_member m
+					 ON p.create_user_id=m.ID
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					WHERE p.status != 1
+					    AND p.create_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND p.create_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan1>
+					<plan2>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  1,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM plan_info p
+					  INNER JOIN plan_relevant_user pu
+					    ON p.id = pu.ref_plan_id
+					  INNER JOIN org_member m
+					    ON pu.ref_user_id = m.ID
+					      AND m.IS_DELETED = 0
+					      AND m.IS_ENABLE = 1
+					      AND m.IS_ADMIN = 0
+					      AND m.IS_ASSIGNED = 1
+					      AND m.IS_VIRTUAL = 0
+					      AND m.IS_LOGINABLE = 1
+					      AND m.IS_INTERNAL = 1
+					WHERE p.status != 1
+					    AND pu.type != 4
+					    AND p.create_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND p.create_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan2>
+					<plan3>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  2,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM ctp_comment_all a
+					  INNER JOIN plan_info p
+					    ON a.module_id = p.id
+					  INNER JOIN org_member m
+					    ON a.create_id = m.ID
+					      AND m.IS_DELETED = 0
+					      AND m.IS_ENABLE = 1
+					      AND m.IS_ADMIN = 0
+					      AND m.IS_ASSIGNED = 1
+					      AND m.IS_VIRTUAL = 0
+					      AND m.IS_LOGINABLE = 1
+					      AND m.IS_INTERNAL = 1
+					WHERE a.module_type = 5
+					    AND p.status != 1 and a.pid=0 
+					    AND a.create_date >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND a.create_date < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan3>
+					<plan4>
+					<![CDATA[
+					SELECT
+					  m.ORG_DEPARTMENT_ID,
+					  3,
+					  :startTime querytime,
+					  COUNT(*)
+					FROM plan_info p
+					  INNER JOIN plan_relevant_user pu
+					    ON p.id = pu.ref_plan_id
+					  INNER JOIN org_member m
+					    ON pu.ref_user_id = m.ID
+					      AND m.IS_DELETED = 0
+					      AND m.IS_ENABLE = 1
+					      AND m.IS_ADMIN = 0
+					      AND m.IS_ASSIGNED = 1
+					      AND m.IS_VIRTUAL = 0
+					      AND m.IS_LOGINABLE = 1
+					      AND m.IS_INTERNAL = 1
+					WHERE p.status != 1
+					    AND pu.process != 1
+					    AND pu.type = 1
+					    AND p.create_time >= TO_DATE(:startTime,'yyyy-mm-dd hh24:mi:ss')
+					    AND p.create_time < TO_DATE(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</plan4>
+					<task>
+					<![CDATA[
+					select
+					m.ORG_DEPARTMENT_ID,
+					ti.status,
+					:startTime querytime,
+						count(DISTINCT TI.id) as total
+					from task_info ti 
+					inner join task_role tr 
+					on ti.id = tr.task_id 
+					INNER JOIN ORG_MEMBER m
+					ON tr.role_id=m.id
+						AND m.IS_DELETED = 0
+						AND m.IS_ENABLE = 1
+						AND m.IS_ADMIN = 0
+						AND m.IS_ASSIGNED = 1
+						AND m.IS_VIRTUAL = 0
+						AND m.IS_LOGINABLE = 1
+						AND m.IS_INTERNAL = 1
+					where tr.role_type > 0 
+					AND (
+						(ti.planned_start_time <= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND ti.planned_end_time >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss'))
+						OR (ti.planned_start_time >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND ti.planned_end_time <= to_date(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+						OR (ti.planned_start_time < to_date(:endTime,'yyyy-mm-dd hh24:mi:ss') AND ti.planned_end_time >= to_date(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+						)
+					GROUP BY TI.STATUS,m.ORG_DEPARTMENT_ID
+					]]>
+					</task>
+					<task2>
+					<![CDATA[
+					SELECT
+					m.ORG_DEPARTMENT_ID,
+					6,
+					:startTime AS queryTime,
+					COUNT(DISTINCT TI.id) AS numbers
+					FROM task_info ti INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					INNER JOIN org_member m
+										ON m.ID=ti.create_user
+											AND m.IS_DELETED = 0
+											AND m.IS_ENABLE = 1
+											AND m.IS_ADMIN = 0
+											AND m.IS_ASSIGNED = 1
+											AND m.IS_VIRTUAL = 0
+											AND m.IS_LOGINABLE = 1
+											AND m.IS_INTERNAL = 1
+					WHERE ti.STATUS<5 AND tr.role_type = 0
+					and ti.create_time>=to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND ti.create_time<to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</task2>
+					<task3>
+					<![CDATA[
+					SELECT
+					m.ORG_DEPARTMENT_ID,
+					7,
+					:startTime AS queryTime,
+					COUNT(DISTINCT TI.id) AS numbers
+					FROM task_info ti INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					INNER JOIN org_member m
+										ON m.ID=ti.create_user
+											AND m.IS_DELETED = 0
+											AND m.IS_ENABLE = 1
+											AND m.IS_ADMIN = 0
+											AND m.IS_ASSIGNED = 1
+											AND m.IS_VIRTUAL = 0
+											AND m.IS_LOGINABLE = 1
+											AND m.IS_INTERNAL = 1
+					WHERE ti.STATUS in(1,2,3) AND tr.role_type > 0 
+					GROUP BY m.ORG_DEPARTMENT_ID
+					]]>
+					</task3>
+				</rpt>
+			</main>
+		</WorkDailyStatistics>
+		<EventStatistics>
+			<main>
+				<rpt2>
+				<![CDATA[
+				SELECT
+				m.NAME AS NAME,u.NAME AS depName,m.id,m.ORG_DEPARTMENT_ID,
+				SUM(a.number1) AS number1,SUM(a.number2) AS number2,SUM(a.number3) AS number3,SUM(a.number4) AS number4,
+				SUM(a.number1)+SUM(a.number2)+SUM(a.number3)+SUM(a.number4) AS total,
+				:startTime AS queryTime
+				FROM  
+				org_member m INNER JOIN org_unit u
+				ON m.ORG_DEPARTMENT_ID=u.ID
+				INNER JOIN
+				(
+					(SELECT
+					p.CREATE_USER_ID as id,
+					COUNT(*) AS number1,
+					0 AS number2,0 AS number3,0 AS number4
+					FROM plan_info p 
+					WHERE p.STATUS!=1 AND p.plan_status!=4
+					AND ((p.START_TIME >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND p.END_TIME < to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')) 
+					OR (p.START_TIME<=to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND p.END_TIME>=to_date(:startTime,'yyyy-mm-dd hh24:mi:ss'))
+					OR (p.START_TIME<to_date(:endTime,'yyyy-mm-dd hh24:mi:ss') AND p.END_TIME>=to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')))
+					AND to_char(p.START_TIME,'yyyy-mm-dd') >= to_char(p.create_time,'yyyy-mm-dd')
+					GROUP BY p.CREATE_USER_ID
+					) 
+					UNION
+					(SELECT
+					tr.role_id AS id,0,
+					count(DISTINCT TI.id) AS numbers,0,0
+					FROM task_info ti
+					INNER JOIN task_role tr
+					ON ti.id = tr.task_id
+					WHERE ti.status in (1,2,3,4)
+					AND tr.role_type > 0
+					AND ((ti.planned_start_time <= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND ti.planned_end_time >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss')) 
+					OR (ti.planned_start_time >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND ti.planned_end_time <= to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')) 
+					OR (ti.planned_start_time < to_date(:endTime,'yyyy-mm-dd hh24:mi:ss') AND ti.planned_end_time >= to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')))
+					AND to_char(ti.planned_start_time,'yyyy-mm-dd') >= to_char(ti.create_time,'yyyy-mm-dd')
+					GROUP BY tr.role_id
+					) 
+					UNION
+					(SELECT
+					_member.id AS ID,0,0,
+					COUNT(*) AS numbers,0
+					FROM cal_event calEvent INNER JOIN ORG_MEMBER _member
+					ON (calEvent.create_user_id = _member.ID
+					or calEvent.RECEIVE_MEMBER_ID like CONCAT('%',CONCAT(CAST(_member.id AS VARCHAR2(32)),'%')) )
+					WHERE ((calEvent.BEGIN_DATE <= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND calEvent.END_DATE >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss')) 
+					OR (calEvent.BEGIN_DATE >= to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND calEvent.END_DATE <= to_date(:endTime,'yyyy-mm-dd hh24:mi:ss'))
+					OR (calEvent.BEGIN_DATE < to_date(:endTime,'yyyy-mm-dd hh24:mi:ss') AND calEvent.END_DATE >= to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')))
+					AND to_char(calEvent.BEGIN_DATE,'yyyy-mm-dd') >= to_char(calEvent.create_date,'yyyy-mm-dd')
+					GROUP BY _member.id
+					) 
+					UNION
+					(SELECT
+					a.MEMBER_ID AS id,0,0,0,
+					COUNT(*) AS numbers
+					FROM ctp_affair a inner join meeting mt on mt.id=a.object_id
+					WHERE a.APP = 6
+					AND a.SUB_APP = 5 AND a.is_delete=0
+					AND (a.state = 3 OR a.state = 2 OR a.state=4 AND a.sub_state!=32)
+					AND ((mt.BEGIN_DATE>=to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND mt.END_DATE<=to_date(:endTime,'yyyy-mm-dd hh24:mi:ss'))  
+					OR (mt.BEGIN_DATE<=to_date(:startTime,'yyyy-mm-dd hh24:mi:ss') AND mt.END_DATE>=to_date(:startTime,'yyyy-mm-dd hh24:mi:ss'))
+					OR (mt.BEGIN_DATE<to_date(:endTime,'yyyy-mm-dd hh24:mi:ss') AND mt.END_DATE>=to_date(:endTime,'yyyy-mm-dd hh24:mi:ss')))
+					AND to_char(mt.BEGIN_DATE,'yyyy-mm-dd') >= to_char(mt.create_date,'yyyy-mm-dd')
+					GROUP BY a.MEMBER_ID
+					) 
+				) a 
+				ON a.id=m.id
+				GROUP BY m.id,m.ORG_DEPARTMENT_ID,m.NAME,u.NAME
+				]]>
+				</rpt2>
+			</main>
+		</EventStatistics>
+	</report>
+</sqlcfg>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<template>
+		<test name="test配置">协同模板配置测试</test>
+	</template>
+</ctpConfig>

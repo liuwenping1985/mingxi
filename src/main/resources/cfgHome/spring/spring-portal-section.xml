@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="false">
+
+	<!-- 首页栏目 1、属性：spaceTypes: 所属空间类型 personal,personal_custom,leader,outer // 个人空间 department, // 部门空间 custom, // 自定义空间 corporation, 
+		// 单位空间 public_custom,//公共空间-自定义公共空间-单位 group, // 集团空间 public_custom_group, //公共空间-自定义公共空间-集团 不设置表示不限制 5.0版本不再设置该属性 -->
+	<bean id="sectionRegisterManager" class="com.seeyon.ctp.portal.section.SectionRegisterManagerImpl" init-method="init"
+		singleton="true">
+	</bean>
+	<bean id="sectionManager" class="com.seeyon.ctp.portal.section.SectionManagerImpl">
+	   <property name="pageManager" ref="pageManager"></property>
+	   <property name="selectorFactory" ref="selectorFactory"></property>
+	</bean>
+	<bean class="com.seeyon.ctp.portal.section.util.SectionUtils">
+		<property name="dataPattern">
+			<map>
+				<entry key="2" value="MM-dd" />
+				<entry key="4" value="MM-dd HH:mm" />
+				<entry key="5" value="MM-dd HH:mm" />
+				<entry key="8" value="yyyy-MM-dd HH:mm" />
+			</map>
+		</property>
+		<property name="maxLength" value="100" />
+	</bean>
+	<bean id="portalDecorationManager" class="com.seeyon.ctp.portal.space.decorations.PortalDecorationManager" init-method="init">
+		<property name="layoutTypes">
+			<list>
+				<value>OneColumn</value>
+				<value>TwoColumn</value>
+				<value>ThreeColumn</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 基本配置 -->
+	<bean id="generProperty" class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+		<property name="reference">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+					<property name="name" value="columnsName" />
+					<property name="subject" value="cannel.name.label" />
+					<property name="valueType" value="2" />
+					<property name="defaultValue" value="pending" />
+				</bean>
+				<ref bean="DataCounterSectionReferenceBean" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DataCounterSectionReferenceBean" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+		<property name="name" value="count" />
+		<property name="subject" value="cannel.data.count" />
+		<property name="valueType" value="2" />
+		<property name="validate" value="isInteger" />
+		<property name="validateValue" value="max=50 min=8" />
+		<property name="defaultValue" value="8" />
+	</bean>
+	<bean id="DataCounterSectionReferenceBean1" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+        <property name="name" value="count" />
+        <property name="subject" value="cannel.data.count" />
+        <property name="valueType" value="2" />
+        <property name="validate" value="isInteger" />
+        <property name="validateValue" value="max=50 min=1" />
+        <property name="defaultValue" value="8" />
+    </bean>
+    <!-- 关联系统 -->
+    <bean id="newLinkSystemSection" class="com.seeyon.ctp.portal.section.NewLinkSystemSection" init-method="init">
+        <property name="sectionType" value="forum" />
+        <property name="delay" value="0" />
+        <property name="sortId" value="101" />
+        <property name="newLine2Column">
+            <map>
+                <entry key="2" value="1" />
+                <entry key="3" value="2" />
+                <entry key="4" value="3" />
+                <entry key="5" value="4" />
+                <entry key="8" value="6" />
+                <entry key="10" value="8" />
+            </map>
+        </property>
+        <property name="newLine2Column1">
+            <map>
+                <entry key="2" value="2" />
+                <entry key="3" value="3" />
+                <entry key="4" value="4" />
+                <entry key="5" value="5" />
+                <entry key="8" value="8" />
+                <entry key="10" value="10" />
+            </map>
+        </property>
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="space.section.newLinkSystemSection" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsStyle" />
+                                <property name="subject" value="cannel.style.label" />
+                                <property name="onChange" value="changeDefaultValue4LinkSystem" />
+                                <property name="changeValue" value="listCountD=32 pictureCountD=15" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="list" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="imagenews.list.label" />
+                                            <property name="value" value="list" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="imagenews.picture.label" />
+                                            <property name="value" value="picture" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" />
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="32" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="linkSystemManager" ref="linkSystemManager" />
+    </bean>
+    <!-- 单版块关联系统 -->
+    <bean id="singleBoardLinkSection" class="com.seeyon.ctp.portal.section.SingleBoardLinkSection" init-method="init">
+        <property name="sectionType" value="forum" />
+        <property name="sortId" value="102" />
+        <property name="newLine2Column">
+            <map>
+                <entry key="2" value="1" />
+                <entry key="3" value="2" />
+                <entry key="4" value="3" />
+                <entry key="5" value="4" />
+                <entry key="8" value="6" />
+                <entry key="10" value="8" />
+            </map>
+        </property>
+        <property name="newLine2Column1">
+            <map>
+                <entry key="2" value="2" />
+                <entry key="3" value="3" />
+                <entry key="4" value="4" />
+                <entry key="5" value="5" />
+                <entry key="8" value="8" />
+                <entry key="10" value="10" />
+            </map>
+        </property>
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="maxLength" />
+                                <property name="validateValue" value="maxSize=100" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsStyle" />
+                                <property name="subject" value="cannel.style.label" />
+                                <property name="onChange" value="changeDefaultValue4LinkSystem" />
+                                <property name="changeValue" value="listCountD=32 pictureCountD=15" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="list" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="imagenews.list.label" />
+                                            <property name="value" value="list" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="imagenews.picture.label" />
+                                            <property name="value" value="picture" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" />
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="15" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="linkSystemManager" ref="linkSystemManager" />
+    </bean>
+    <bean id="iframeSection" class="com.seeyon.ctp.portal.section.bridge.IframeSection" init-method="init">
+        <property name="sectionType" value="forum" />
+        <property name="sortId" value="103" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="linkSectionManager" ref="linkSectionManager" />
+    </bean>
+    <bean id="ssoIframeSection" class="com.seeyon.ctp.portal.section.bridge.SSOIframeSection" init-method="init">
+        <property name="sectionType" value="forum" />
+        <property name="sortId" value="104" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="linkSystemManager" ref="linkSystemManager" />
+        <property name="linkSectionManager" ref="linkSectionManager" />
+    </bean>
+    <bean id="ssoWebcontentSection" class="com.seeyon.ctp.portal.section.bridge.SSOWebcontentSection" init-method="init">
+        <property name="sectionType" value="forum" />
+        <property name="sortId" value="105" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="linkSectionManager" ref="linkSectionManager" />
+        <property name="linkSystemManager" ref="linkSystemManager" />
+    </bean>
+    <bean id="ssoXMLSection" class="com.seeyon.ctp.portal.section.bridge.SSOXMLSection" init-method="init">
+        <property name="sectionType" value="forum" />
+        <property name="sortId" value="106" />
+        <property name="ssoManager" ref="ssoManager" />
+        <property name="linkSectionManager" ref="linkSectionManager" />
+    </bean>
+    
+	<bean id="banner" class="com.seeyon.ctp.portal.section.BannerSection" init-method="init">
+		<property name="sectionType" value="common" />
+		<property name="sortId" value="1" />
+		<property name="resourceBundle"
+			value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="height" />
+								<property name="subject" value="cannel.data.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=300 min=10" />
+								<property name="defaultValue" value="60" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="slogan" />
+								<property name="subject" value="cannel.data.word" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="maxLength" />
+								<property name="validateValue" value="maxSize=600" />
+								<property name="editSuffix" value="EditionSuffix" />
+								<property name="defaultValue" value="space.label.slogan.default" />
+								<property name="hiddenValue">
+									<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+										<property name="name" value="slogan" />
+										<property name="editSuffix" value="EditionSuffix" />
+										<property name="defaultValue" value="space.label.slogan.default" />
+									</bean>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsStyle" />
+                                <property name="subject" value="cannel.wordstyle.label" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="0" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean
+                                            class=" com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="columnsStyle.0.label" />
+                                            <property name="value" value="0" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="columnsStyle.3.label" />
+                                            <property name="value" value="3" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="columnsStyle.4.label" />
+                                            <property name="value" value="4" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="columnsStyle.1.label" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                        <bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="columnsStyle.2.label" />
+                                            <property name="value" value="2" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="fontSize" />
+								<property name="subject" value="cannel.data.fontSize" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="4" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontSize.0.label" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontSize.1.label" />
+											<property name="value" value="1" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontSize.2.label" />
+											<property name="value" value="2" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontSize.3.label" />
+											<property name="value" value="3" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontSize.4.label" />
+											<property name="value" value="4" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="fontStyle" />
+								<property name="subject" value="cannel.data.fontStyle" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="1" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontStyle.0.label" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontStyle.1.label" />
+											<property name="value" value="1" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="fontColor" />
+								<property name="subject" value="cannel.data.fontColor" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="0" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.0.label" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.1.label" />
+											<property name="value" value="1" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.2.label" />
+											<property name="value" value="2" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.3.label" />
+											<property name="value" value="3" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.4.label" />
+											<property name="value" value="4" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.5.label" />
+											<property name="value" value="5" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.6.label" />
+											<property name="value" value="6" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.7.label" />
+											<property name="value" value="7" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.8.label" />
+											<property name="value" value="8" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="fontColor.9.label" />
+											<property name="value" value="9" />
+										</bean>
+										<bean
+                                            class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="fontColor.10.label" />
+                                            <property name="value" value="10" />
+                                        </bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="background" />
+								<property name="subject" value="section.name.banner.background" />
+								<property name="valueType" value="4" />
+								<property name="defaultValue"
+									value="/apps_res/v3xmain/images/banner/space_banner.gif" />
+								<property name="hiddenValue">
+									<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+										<property name="name" value="bannerFileName" />
+										<property name="defaultValue"
+											value="/apps_res/v3xmain/images/banner/space_banner.gif" />
+									</bean>
+								</property>
+							</bean>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="backgroundTile" />
+                                <property name="subject" value="cannel.background.image" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="inherit" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.background.tile" />
+                                            <property name="readOnly" value="false" />
+                                            <property name="value" value="inherit" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.background.notile" />
+                                            <property name="readOnly" value="false" />
+                                            <property name="value" value="no-repeat" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 天气预报 -->
+	<!-- 妈妈不要你了，再见 -->
+	<!-- <bean id="weatherSection" class="com.seeyon.ctp.portal.section.WeatherSection" init-method="init">
+		<property name="sectionType" value="common" />
+		<property name="spaceTypes" value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application"></property>
+		<property name="sortId" value="10" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="section.name.weather.label" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="height" />
+								<property name="subject" value="cannel.data.height" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=600 min=60" />
+								<property name="defaultValue" value="60" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="showDatas" />
+								<property name="subject" value="section.weather.showDatas.label" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=5 min=1" />
+								<property name="defaultValue" value="3" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean> -->
+	<!-- 应用磁贴 -->
+	<bean id="shortCutSection" class="com.seeyon.ctp.portal.section.ShortCutSection" init-method="init">
+		<property name="sectionType" value="common" />
+		<property name="spaceTypes" value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application"></property>
+		<property name="sortId" value="11" />
+		<property name="properties">
+			<list>
+				<!-- 磁贴来源 -->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="shortcut_source" />
+                                <property name="subject" value="section.property.shorcutsource.label" />
+                                <property name="valueType" value="9" />
+                                <property name="defaultValue" value="source" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="value" value="source" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/portal/deskTopController.do?method=shortcutSectionAdd" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="iframeViewLeaderWindowSection" class="com.seeyon.ctp.portal.section.ViewLeaderWindowSection">
+		<property name="sectionType" value="common" />
+		<property name="spaceTypes" value="corporation,group,public_custom" />
+		<property name="sortId" value="20"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="edoc.leader.window.section.name" />
+							</bean>							
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="height" />
+								<property name="subject" value="cannel.data.height" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="208" />
+                                <property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" /> 
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+    <!-- 第三方产品portlet -->
+    <bean id="thirdPartyProductsPortlet" class="com.seeyon.ctp.portal.portlet.ThirdPartyProductsPortlet"></bean>
+    <bean id="interconnectedSystemsPortlet" class="com.seeyon.ctp.portal.portlet.InterconnectedSystemsPortlet"></bean>
+</beans>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>dataDump</id>
+	<name>数据转储插件</name>
+	<category>19872</category>
+</plugin>

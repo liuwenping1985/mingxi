@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portal-cfg-list>
+	<portal-cfg>
+		<column-id>cmp_portal_extend_000001</column-id>
+		<title>cmp.portal.menuName.ncPending</title>
+		<resource-type>303</resource-type>
+		<show-type>1</show-type>
+		<server-services>
+			<service-manager>mNCPendingManager</service-manager>
+			<service-method>getPortalColumns</service-method>
+		</server-services>
+		<client-services>
+			<version>1.0</version>
+			<base-directory>../../../apps/portal/nc_pending/</base-directory>
+			<load-data-function></load-data-function>
+			<view-more-addr>
+				<ipad>authentication/bulletin/list</ipad>
+				<iphone>authentication/bulletin/list</iphone>
+				<androidpad>authentication/bulletin/list</androidpad>
+				<androidphone>authentication/bulletin/list</androidphone>
+			</view-more-addr>
+			<view-more-type>1</view-more-type>
+
+			<template-package></template-package>
+			<template-container-path>
+				<ipad>pad/tpl/nc_pending_container_tpl.html</ipad>
+				<iphone>phone/tpl/nc_pending_container_tpl.html</iphone>
+			</template-container-path>
+			<template-content-path>
+				<ipad>pad/tpl/nc_pending_content_tpl.html</ipad>
+				<iphone>phone/tpl/nc_pending_content_tpl.html</iphone>
+			</template-content-path>
+			<ref-res-links></ref-res-links>
+			<service-url>mNCPendingManager#getPortalNcList</service-url>
+			<service-type>1</service-type>
+			<page-size>
+				<iphone>5</iphone>
+				 <ipad>5</ipad>
+				 <androidphone>5</androidphone>
+				 <androidpad>5</androidpad>
+			</page-size>
+		</client-services>
+	</portal-cfg>
+</portal-cfg-list>

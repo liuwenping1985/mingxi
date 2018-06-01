@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/collaboration/collaboration.do" 
+        class="com.seeyon.apps.collaboration.controller.CollaborationController" >
+        <property name="colManager" ref="colManager"></property>
+    </bean>
+    <bean id="collaborationAssDoc" class="com.seeyon.ctp.common.assdoc.AssdocDefinition">
+        <property name="appId" value="1" />
+        <property name="url" value="/collaboration/collaboration.do?method=list4Quote" />
+    </bean>
+    <bean name="/collaboration/batchController.do" class="com.seeyon.apps.collaboration.batch.controller.BatchController">
+    </bean>
+    <bean name="/detaillog/detaillog.do" class="com.seeyon.apps.collaboration.controller.DetaillogController">
+    </bean>
+    <bean name="/trace/traceWorkflow.do" class="com.seeyon.apps.collaboration.trace.controller.TrackWorkflowController">
+    </bean>
+    <bean name="/signatPicController.do" class="com.seeyon.ctp.common.office.SignatPicController">
+    </bean>
+    <bean name="/collaboration/wechatCollaboration.do" 
+        class="com.seeyon.apps.collaboration.controller.WechatCollaborationController" >
+        <property name="colManager" ref="colManager"></property>
+    </bean>
+</beans>

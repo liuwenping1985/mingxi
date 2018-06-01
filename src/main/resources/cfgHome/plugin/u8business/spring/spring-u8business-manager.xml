@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="u8BusinessQuartDeal" class="com.seeyon.apps.u8business.listener.U8BusinessQuartDeal">
+	</bean>
+	<bean id="pendingU8BusinessEventListener" class="com.seeyon.apps.u8business.listener.PendingU8BusinessEventListener" init-method="init">
+		<property name="orgManager" ref="orgManager"></property>
+	</bean>	
+	<bean id="u8BusinessManager" class="com.seeyon.apps.u8business.manager.U8BusinessManagerImpl">
+	</bean>
+    <bean id="userBusinessMapper" class="com.seeyon.apps.u8business.manager.U8BusinessBindingManagerImpl">
+        <property name="userMapperDao" ref="u8BusinessUserMapperDao"></property>
+    </bean>
+    <!--材料出库单主表默认值 -->
+	<bean id="recordOutMainMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="brdflag" value="0" />
+				<entry key="cvouchtype" value="11" />
+				<entry key="csource" value="库存" />
+				<entry key="cbustype" value="领料" />
+				<entry key="bisstqc" value="0" />
+				<entry key="bpufirst" value="0" />
+				<entry key="biafirst" value="0" />
+				<entry key="bomfirst" value="0" />
+				<entry key="bmotran" value="0" />
+				<entry key="ccode" value="00001" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<!--材料出库单子表默认值 -->
+	<bean id="recordOutSubMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="isotype" value="0" />
+				<entry key="iordertype" value="0" />
+				<entry key="bcosting" value="1" />
+				<entry key="bvmiused" value="0" />
+				<entry key="ipesotype" value="0" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<!--付款申请单主表默认值-->
+	<bean id="applyPaysMainMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="PID" value="0000000001" />
+				<entry key="ctypename" value="付款申请单" />
+				<entry key="cVouchType" value="AP40" />
+				<entry key="cFlag" value="AP" />
+				<entry key="VT_ID" value="30978" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<!--付款申请单子表默认值-->
+	<bean id="applyPaysSubMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="PID" value="0000000001" />
+				<entry key="AutoID" value="0000000001" />										
+			</map>
+		</constructor-arg>
+	</bean>
+	<!--凭证主表字段名默认值-->
+	<bean id="headString" class="java.lang.String">
+        <constructor-arg>
+           <value>company,voucher_type,fiscal_year,accounting_period,voucher_id,attachment_number,date,enter,cashier,signature,checker,posting_date,posting_person,voucher_making_system,memo1,memo2,reserve1,reserve2,revokeflag</value>
+        </constructor-arg>
+    </bean>
+    <!--凭证子表字段名默认值-->
+    <bean id="bodyString" class="java.lang.String">
+        <constructor-arg>
+           <value>entry_id,account_code,abstract,settlement,document_id,document_date,currency,unit_price,exchange_rate1,exchange_rate2,debit_quantity,primary_debit_amount,secondary_debit_amount,natural_debit_currency,credit_quantity,primary_credit_amount,secondary_credit_amount,natural_credit_currency,bill_type,bill_id,bill_date,auxiliary_accounting,detail</value>
+        </constructor-arg>
+    </bean>
+    <bean id="u8DataSourceManager" class="com.seeyon.apps.u8business.manager.U8DataSourceManagerImpl">
+	</bean>
+	<bean id="u8BussinessServiceImpl" class="com.seeyon.apps.u8business.services.U8BussinessServiceImpl">
+		<property name="colManager" ref="colManager"></property>
+		<property name="affairManager" ref="affairManager"></property>
+		<property name="principalManager" ref="principalManager"></property>
+		<property name="flowFactory" ref="flowFactory"></property>
+		<property name="userMapperDao" ref="u8BusinessUserMapperDao"></property>
+	</bean>
+	
+</beans>

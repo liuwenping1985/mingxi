@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/fileUpload.do"
+        class="com.seeyon.ctp.common.fileupload.FileUploadController">
+        <property name="clientAbortExceptionName" value="ClientAbortException" />
+        <property name="htmlSuffix" value="htm|html|shtm|shtml|xhtml|hta|htc|mht|wml|xml|xslt|xsl|jsp|asp|php|css|js|sql" />
+    </bean>
+    <bean name="/fileDownload.do"
+        class="com.seeyon.ctp.common.fileupload.FileUploadController">
+        <property name="clientAbortExceptionName" value="ClientAbortException" />
+        <property name="htmlSuffix" value="htm|html|shtm|shtml|xhtml|hta|htc|mht|wml|xml|xslt|xsl|jsp|asp|php|css|js|sql" />
+    </bean>
+	<bean id="test1" class="com.seeyon.ctp.common.assdoc.AssdocDefinition">
+		<property name="appId" value="1" />
+		<property name="url" value="/ctp/common/associateddoc/assContentExample.do" />
+	</bean>
+	<bean name="/ctp/common/associateddoc/assContentExample.do" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+    
+	<bean name="/ctp/common/associateddoc/assdocFrame.do" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+	
+	<bean name="/ctp/common/imagecutUpload.do" class="com.seeyon.ctp.common.fileupload.ImagecutUploadController" />
+	 
+</beans>

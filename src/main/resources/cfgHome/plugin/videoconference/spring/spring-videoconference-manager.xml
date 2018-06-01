@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<!-- manager -->
+	<bean id="videoConferenceManager" class="com.seeyon.apps.videoconference.manager.VideoConferenceManagerImpl"
+		init-method="init">
+	</bean>
+	<bean id="videoConfSynchronManager" class="com.seeyon.apps.videoconference.manager.VideoConfSynchronManagerImpl">
+	</bean>
+
+	<!-- ws第三方通信实现 -->
+	<bean id="createVideoConferenceManager" class="com.seeyon.apps.videoconference.ws.CreateInfoWareVideoConferenceManagerImpl">
+	</bean>
+	<bean id="createInfoWareInstantMeetingManagerImpl" class="com.seeyon.apps.videoconference.ws.CreateInfoWareInstantMeetingManagerImpl">
+	</bean>
+	<bean id="deleteVideoConferenceManager" class="com.seeyon.apps.videoconference.ws.DeleteInfoWareVideoConferenceManagerImpl">
+	</bean>
+	<bean id="joinVideoConferenceManager" class="com.seeyon.apps.videoconference.ws.JoinInfoWareVideoConferenceManagerImpl">
+	</bean>
+	<bean id="startVideoConferenceManager" class="com.seeyon.apps.videoconference.ws.StartInfoWareVideoConferenceManagerImpl">
+	</bean>
+	<bean id="updateVideoConferenceManager" class="com.seeyon.apps.videoconference.ws.UpdateInfoWareVideoConferenceManagerImpl">
+	</bean>
+	<bean id="getVideoConferenceServerListManager" class="com.seeyon.apps.videoconference.ws.GetVideoConferenceServerListManagerImpl">
+	</bean>
+	<bean id="checkVideoConferenceServerStatusManager" class="com.seeyon.apps.videoconference.ws.CheckInfoWareVideoConferenceServerStatusManagerImpl">
+	</bean>
+
+</beans>

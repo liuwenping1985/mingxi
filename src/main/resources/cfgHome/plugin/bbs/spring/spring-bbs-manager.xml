@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="bbsBoardManager" class="com.seeyon.v3x.bbs.manager.BbsBoardManagerImpl"
+		init-method="init" singleton="true">
+	</bean>
+	
+	<bean id="bbsArticleNotificationHandler"  class="com.seeyon.ctp.cluster.listener.BbsArticleNotificationHandler">
+    </bean>
+    
+	<bean id="bbsArticleManager"  class="com.seeyon.v3x.bbs.manager.BbsArticleManagerImpl" init-method="init">
+	</bean>
+	
+	<bean id="validateBoardNameManager" class="com.seeyon.v3x.bbs.manager.ValidateBoardNameManager">
+	</bean>
+	<bean id="bbsIndex" class="com.seeyon.v3x.bbs.manager.BbsIndexImpl">
+	</bean>
+	
+	<bean id="bbsManager4ISearch" class="com.seeyon.v3x.bbs.manager.BbsManager4ISearch" init-method="init">
+	</bean>
+	<bean id="memberLeaveClearItemBbsRole" class="com.seeyon.v3x.bbs.manager.MemberLeaveClearItemBbsRoleImpl">
+	</bean>
+	
+	<bean class="com.seeyon.v3x.bbs.listener.BbsOrganizationEventListener">
+	</bean>
+	<bean id="bbsDocFilingEnable" class="com.seeyon.v3x.bbs.manager.BbsDocFilingEnable">
+    </bean>
+    
+    <bean id="publicInfoSpaceOwnerMenuSelector" class="com.seeyon.ctp.portal.manager.PublicInfoSpaceOwnerMenuSelector">
+        <property name="spaceType" value="department,corporation,group,custom,public_custom,public_custom_group"></property>
+        <property name="sortId" value="1"></property>
+     </bean>
+     <bean id="userMessageFilterImplBBS" class="com.seeyon.v3x.bbs.usermessage.filter.UserMessageFilterImplBBS"></bean>
+     
+     <bean id="portalEventListener" class="com.seeyon.ctp.portal.listener.PortalEventListener"></bean>
+    
+    <bean id="bbsNotificationHandler" class="com.seeyon.ctp.cluster.listener.BbsNotificationHandler" />
+    
+    <bean id="bbsPortlet" class="com.seeyon.v3x.bbs.portal.portlet.BbsPortlet"/>
+</beans>

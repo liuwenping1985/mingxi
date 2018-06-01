@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 表单统计表 (bean id名称和3.5统一，避免升级处理)-->
+	<bean id="singleBoardFormReportResultTableSection"
+		class="com.seeyon.ctp.form.formreport.section.FormStatisticsGridSection"
+		init-method="init">
+		<property name="reportSaveManager" ref="reportSaveManager"/>
+		<property name="sectionType" value="formbizconfigs" />
+		<property name="isRegistrer" value="false" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="readOnly" value="true" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="height" />
+								<property name="subject" value="cannel.height.label" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="min=208 max=768" />
+								<property name="defaultValue" value="208" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 表单统计图 -->
+	<bean id="singleBoardFormReportResultChartSection"
+		class="com.seeyon.ctp.form.formreport.section.FormStatisticsChartSection"
+		init-method="init">
+		<property name="reportSaveManager" ref="reportSaveManager"/>
+		<property name="sectionType" value="formbizconfigs" />
+		<property name="isRegistrer" value="false" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+        <property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="height" />
+								<property name="subject" value="cannel.height.label" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="min=208 max=768" />
+								<property name="defaultValue" value="208" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="chartType" />
+                                <property name="subject" value="performanceReport.section.chartType" />
+                                <property name="valueType" value="0" />
+                                <property name="defaultValue" value="1" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.section.barchart" />
+                                            <property name="value" value="1" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.section.piechart" />
+                                            <property name="value" value="7" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.section.LineChart" />
+                                            <property name="value" value="3" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="performanceReport.section.LeiChart" />
+                                            <property name="value" value="11" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

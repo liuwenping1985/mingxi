@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+
+	<!-- 旧的enumManager迁移代码的组会用到 -->
+	 <bean  id="enumManager" class="com.seeyon.ctp.common.ctpenum.manager.EnumManagerImpl">
+	</bean>
+	<!-- 旧的DAO 迁移代码的组可能会用到，不过应该没有用了-->
+	 <bean id="enumDao" class="com.seeyon.ctp.common.ctpenum.dao.EnumDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+	<bean id="enumItemDao" class="com.seeyon.ctp.common.ctpenum.dao.EnumItemDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- 重构后的enumManager -->
+	<bean  id="enumManagerNew" class="com.seeyon.ctp.common.ctpenumnew.manager.EnumManagerImpl" singleton="true"  init-method="init"></bean>
+	<!-- 重构后的DAO-->
+	<bean id="newEnumDAO" class="com.seeyon.ctp.common.ctpenumnew.dao.EnumDAOImpl"></bean>
+	<bean id="newEnumItemDAO" class="com.seeyon.ctp.common.ctpenumnew.dao.EnumItemDAOImpl"></bean>
+	<bean id="enumBindDAO" class="com.seeyon.ctp.common.ctpenumnew.dao.EnumBindDAOImpl"></bean>
+	<bean  id="enumBindManager" class="com.seeyon.ctp.common.ctpenumnew.manager.EnumBindManagerImpl"></bean>
+</beans>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<videoconference>
+		<url mark="{VE}" desc="视频会议服务器地址+端口（必须加），请输入 http://[VideoConfServer IP ADDRESS]:[PORT]或 https://[VideoConfServer IP ADDRESS]:[PORT]，如：https://128.2.3.123:80"></url>
+		<timeOut mark="{int}{VE}" desc="视频会议连接超时时间（单位：毫秒）">60000</timeOut>
+		<multipleMasterServerEnable mark="{boolean}{VE}" desc="是否启用多主服务器版本（启用true，不启用false）">false</multipleMasterServerEnable>
+	</videoconference>
+</ctpConfig>

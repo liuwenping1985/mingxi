@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="licensePerMissionDao" class="com.seeyon.ctp.permission.dao.LicensePerMissionDaoImpl" singleton="true">
+		<property name="licensePerMissionCache" ref="licensePerMissionCache" />
+	</bean>
+	<bean id="licensePerMissionCache" class="com.seeyon.ctp.permission.dao.LicensePerMissionCacheImpl" singleton="true" init-method="init">
+		<property name="licensePerMissionDao" ref="licensePerMissionDao" />
+	</bean>
+	<bean id="licensePermissionManager" class="com.seeyon.ctp.permission.manager.LicensePermissionManagerImpl" singleton="true">
+		<property name="licensePerMissionDao" ref="licensePerMissionDao" />
+		<property name="licensePerMissionCache" ref="licensePerMissionCache" />
+		<property name="appLogManager" ref="appLogManager" />
+	</bean>
+    <bean id="orgDao" class="com.seeyon.ctp.organization.dao.OrgDaoImpl" singleton="true">
+        <property name="orgCache" ref="orgCache" />
+       
+    </bean>
+    
+    <bean id="orgCache" class="com.seeyon.ctp.organization.dao.OrgCacheImpl" singleton="true" init-method="init">
+        <property name="orgDao" ref="orgDao" />
+    </bean>
+    
+    
+    <bean id="orgManager" class="com.seeyon.ctp.organization.manager.OrgManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="principalManager" ref="principalManager" />
+    </bean>
+    <bean id="iOManager" class="com.seeyon.ctp.organization.inexportutil.manager.IOManagerImpl" singleton="true">
+        
+    </bean>
+    <bean id="organizationServices" class="com.seeyon.ctp.organization.services.OrganizationServicesImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+    </bean>
+    
+    <bean id="departmentManager" class="com.seeyon.ctp.organization.manager.DepartmentManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    <bean id="postManager" class="com.seeyon.ctp.organization.manager.PostManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+        <property name="enumManagerNew" ref="enumManagerNew" />
+        
+    </bean>
+    <bean id="levelManager" class="com.seeyon.ctp.organization.manager.LevelManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    <bean id="teamManager" class="com.seeyon.ctp.organization.manager.TeamManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    <bean id="moveDeptManager" class="com.seeyon.ctp.organization.manager.MoveDeptManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+        <property name="roleManager" ref="roleManager" />
+    </bean>
+    <bean id="distributeManager" class="com.seeyon.ctp.organization.manager.DistributeManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    <bean id="externalManager" class="com.seeyon.ctp.organization.manager.ExternalManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    <bean id="workscopeManager" class="com.seeyon.ctp.organization.manager.WorkscopeManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    
+    <bean id="orgManagerDirect" class="com.seeyon.ctp.organization.manager.OrgManagerDirectImpl" singleton="true" init-method="init">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="roleResourceDao" ref="roleResourceDao" />
+        <property name="roleManager" ref="roleManager" />
+    </bean>
+    
+    <bean id="principalDao" class="com.seeyon.ctp.organization.principal.dao.PrincipalDaoImpl" singleton="true">
+    </bean>
+    
+    <bean id="principalManager" class="com.seeyon.ctp.organization.principal.PrincipalManagerImpl" singleton="true" init-method="init">
+        <property name="principalDao" ref="principalDao" />
+        <property name="systemConfig" ref="systemConfig" />
+    </bean>
+    
+    <bean id="selectPeopleManager" class="com.seeyon.ctp.organization.selectpeople.manager.SelectPeopleManagerImpl" singleton="true" init-method="init">
+        <property name="orgManager" ref="orgManager" />
+    </bean>
+    
+    <bean id="accountManager" class="com.seeyon.ctp.organization.manager.AccountManagerImpl">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+        <property name="enumManagerNew" ref="enumManagerNew" />
+    </bean>
+
+	<bean id="roleManager" class="com.seeyon.ctp.organization.manager.RoleManagerImpl" singleton="true">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="roleResourceDao" ref="roleResourceDao" />
+        <property name="menuManager" ref="menuManager" />
+        <property name="appLogManager" ref="appLogManager" />
+        <property name="resourceManager" ref="resourceManager" />
+    </bean>
+    
+    <bean id="memberManager" class="com.seeyon.ctp.organization.manager.MemberManagerImpl">
+        <property name="orgDao" ref="orgDao" />
+        <property name="orgCache" ref="orgCache" />
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="principalManager" ref="principalManager" />
+        <property name="appLogManager" ref="appLogManager" />
+        <property name="enumManagerNew" ref="enumManagerNew" />
+        <property name="roleManager" ref="roleManager" />
+    </bean>
+    
+    <bean id="memberLeaveManager" class="com.seeyon.ctp.organization.memberleave.manager.MemberLeaveManagerImpl" lazy-init="true" init-method="init">
+    </bean>
+    <bean id="memberLeaverListener" class="com.seeyon.ctp.organization.memberleave.listener.MemberLeaverListener">
+    </bean>
+    <bean id="memberChangeDeptListener" class="com.seeyon.ctp.organization.listener.MemberChangeDeptListener">
+    </bean>
+    
+    <!-- 离职管理 -->
+    <bean id="memberLeaveHandItemInterfaceOrgRole" class="com.seeyon.ctp.organization.memberleave.manager.MemberLeaveHandItemInterfaceOrgRoleImpl">
+    </bean>
+    
+    <!-- 选人界面页签  -->
+    <bean id="SelectPeoplePanel4Admin" class="com.seeyon.ctp.organization.selectpeople.manager.SelectPeoplePanel4AdminImpl">
+    </bean>
+    <bean id="SelectPeoplePanel4Role" class="com.seeyon.ctp.organization.selectpeople.manager.SelectPeoplePanel4RoleImpl">
+    </bean>
+    <!-- 选人最近页签 -->
+    <bean id="SelectPeoplePanel4OrgRecent" class="com.seeyon.ctp.organization.selectpeople.manager.SelectPeoplePanel4OrgRecent">
+    	<property name="orgManager" ref="orgManager" />
+    	<property name="orgIndexManager" ref="orgIndexManager" />
+    </bean>
+    
+    <bean id="conPostManager" class="com.seeyon.ctp.organization.manager.ConcurrentPostManagerImpl">
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    <bean id="peopleCardManager" class="com.seeyon.ctp.organization.manager.PeopleCardManagerImpl">
+        <property name="orgManagerDirect" ref="orgManagerDirect" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="addressBookManager" ref="addressBookManager"/>
+    </bean>
+    
+    <bean id="orgIndexManager" class="com.seeyon.ctp.organization.manager.OrgIndexManagerImpl">
+        <property name="orgManager" ref="orgManager" />
+    </bean>
+    
+    <!-- 监听,人员停用离职删除等直接踢下线 -->
+    <bean id="memberOfflineLister" class="com.seeyon.ctp.organization.listener.MemberOfflineListener">
+    </bean>
+    <bean id="delConPostListener" class="com.seeyon.ctp.organization.listener.DelConPostListener">
+    </bean>
+    <bean id="outerToInterMemberUpdateListener" class="com.seeyon.ctp.organization.listener.OuterToInterMemberUpdateListener">
+    </bean>
+    <bean id="memberChangeAccListener" class="com.seeyon.ctp.organization.listener.MemberChangeAccListener">
+    </bean>
+    
+</beans>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/thirdpartyController.do" class="com.seeyon.ctp.portal.sso.thirdpartyintegration.controller.ThirdpartyController">
+		<property name="orgManager" ref="orgManager" />
+		<!-- <property name="menuManager" ref="menuManager" /> -->
+	</bean>
+	<bean name="cloudAppCenterPortlet" class="com.seeyon.ctp.portal.portlet.CloudAppCenterPortlet"></bean>
+	<bean name="dajiaWorkPortlet" class="com.seeyon.ctp.portal.portlet.DajiaWorkPortlet"></bean>
+	<bean name="yunxuetangPortlet" class="com.seeyon.ctp.portal.portlet.YunxuetangPortlet"></bean>
+	<bean name="s1ServicePortlet" class="com.seeyon.ctp.portal.portlet.S1ServicePortlet"></bean>
+</beans>

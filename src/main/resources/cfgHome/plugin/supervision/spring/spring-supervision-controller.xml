@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/supervision/supervisionController.do" class="com.seeyon.apps.supervision.controller.SupervisionController">
+	</bean>
+	<bean name="/supervision/supervisionAuth.do" class="com.seeyon.apps.supervision.controller.SupervisionAuthController">
+	</bean>
+	<bean name="/supervision/supervisionStatController.do" class="com.seeyon.apps.supervision.controller.SupervisionStatController">
+	</bean>
+</beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<table name="privResource" class=" com.seeyon.ctp.privilege.po.PrivResource">
+		<!-- ======================== 字符型======================== -->
+        <!--0 入口资源，1 导航资源，2 其它资源-->
+        <column name="EXT1">
+            <label>samples.ServerState.minute.label</label>
+            <alias>resourcesubtype</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--其它资源的归属资源ID-->
+        <column name="EXT2">
+            <label>samples.ServerState.minute.label</label>
+            <alias>belongresourceid</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--主资源ID-->
+        <column name="EXT3">
+            <label>samples.ServerState.minute.label</label>
+            <alias>mainresourceid</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--应用资源类型-->
+        <column name="EXT4">
+            <label>samples.ServerState.minute.label</label>
+            <alias>appresourcetype</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'Integer',maxLength:100,minLength:1</rule>
+        </column>
+        <!--是否可被勾选-->
+        <column name="EXT5">
+            <label>samples.ServerState.minute.label</label>
+            <alias>appresourcetype</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'Integer',maxLength:100,minLength:1</rule>
+        </column>
+	</table>
+</metadata>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+	<edocDocMark id="edocDocMark">
+		<url orgAccountId="form" edocType="0" selDocmark="">/edocMark.do?method=docMarkChoose4form</url>
+		<title>form.mark.dialog.tip</title>
+		<width>450</width>
+		<height>450</height>
+	</edocDocMark>
+	<edocInnerMark id="edocInnerMark">
+		<url selDocmark="">/edocMark.do?method=getInnerMark</url>
+		<title>form.inner.dialog.tip</title>
+		<width>350</width>
+		<height>150</height>
+	</edocInnerMark>
+	<edocSignMark id="edocSignMark">
+		<url selDocmark="">/edocMark.do?method=getSignMark</url>
+		<title>form.sign.dialog.tip</title>
+		<width>350</width>
+		<height>150</height>
+	</edocSignMark>
+</xml-body>

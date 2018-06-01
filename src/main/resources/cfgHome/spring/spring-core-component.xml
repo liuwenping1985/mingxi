@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- TODO 清理系统annotation -->
+    <bean id="annotationFactory" class="com.seeyon.ctp.util.annotation.AnnotationHandler" init-method="init">
+        <property name="annotationTypes">
+            <list>
+                <!-- <value>com.seeyon.v3x.util.annotation.SetContentType</value> <value>com.seeyon.v3x.util.annotation.NeedlessCheckLogin</value> 
+                    <value>com.seeyon.v3x.util.annotation.HandleNotification</value> <value>com.seeyon.v3x.common.security.roleauthcheck.CheckRoleAccess</value> 
+                    <value>com.seeyon.v3x.util.annotation.RegisterFormInputExtend</value> <value>com.seeyon.v3x.common.web.security.qs.EncoderQueryString</value> -->
+                <value>com.seeyon.ctp.util.annotation.ListenEvent</value>
+                <value>com.seeyon.ctp.util.annotation.AjaxAccess</value>
+                <value>com.seeyon.ctp.util.annotation.NeedlessCheckLogin</value>
+                <value>com.seeyon.ctp.util.annotation.HandleNotification</value>
+                <value>com.seeyon.ctp.util.annotation.Function</value>
+                <value>com.seeyon.ctp.util.annotation.After</value>
+                 <value>com.seeyon.ctp.util.annotation.CheckRoleAccess</value>  
+                
+            </list>
+        </property>
+    </bean>
+    <bean id="GenericFilterBean" class="com.seeyon.ctp.common.web.GenericFilterBean">
+        <property name="genericFilterProxies">
+            <list>
+                <bean class="com.seeyon.ctp.common.office.trans.OfficeTransFilterImpl">
+                    <property name="urlPattern" value="/office/cache/*" />
+                </bean>
+                <bean class="com.seeyon.ctp.common.web.filter.CTPJSPFilter">
+                    <property name="urlPattern" value="/common/print/print.jsp*" />
+                </bean>
+            </list>
+        </property>
+    </bean> 
+    <bean id="officeTransManager" class="com.seeyon.ctp.common.office.trans.manager.OfficeTransManagerImpl"
+        init-method="init" destroy-method="destroy">
+        <property name="host" value="${officeTrans.rmi.host}" />
+        <property name="port" value="${officeTrans.rmi.port}" />
+        <property name="outputPath" value="${officeTrans.cache.folder}" />
+        <property name="retainDay" value="${officeTrans.retainDay}" />
+        <property name="fileMaxSize" value="${officeTrans.file.maxSize}" />
+    </bean>    
+    <bean name="/officeTrans.do" class="com.seeyon.ctp.common.office.trans.OfficeTransController" />
+    <!-- 锁组件 -->
+    <bean id="lockDao" class="com.seeyon.ctp.common.lock.dao.impl.LockDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="abstractLockManager" class="com.seeyon.ctp.common.lock.manager.AbstractLockManager">
+        <!-- <property name="orgManager" ref="OrgManager"></property> <property name="onLineManager" ref="onLineManager" /> -->
+    </bean>
+
+    <bean id="lockManager" class="com.seeyon.ctp.common.lock.manager.LockManagerImpl" parent="abstractLockManager">
+        <property name="module" value="" />
+        <property name="memoryLockManager">
+            <bean class="com.seeyon.ctp.common.lock.manager.MemoryLockManagerImpl" />
+        </property>
+        <property name="databaseLockManager">
+            <bean class="com.seeyon.ctp.common.lock.manager.DatabaseLockManagerImpl">
+                <property name="lockDao" ref="lockDao" />
+            </bean>
+        </property>
+    </bean>
+    <!-- Annotation handler -->
+    <bean id="listenEventAnnotationAware" class="com.seeyon.ctp.event.ListenEventAnnotationAware">
+        <property name="annotationFactory" ref="annotationFactory" />
+    </bean>
+    <bean id="ajaxAccessAnnotationAware" class="com.seeyon.ctp.common.service.AjaxAccessAnnotationAware">
+        <property name="annotationFactory" ref="annotationFactory" />
+    </bean>
+    <bean id="NeedlessCheckLoginAnnotationAware" class="com.seeyon.ctp.common.service.NeedlessCheckLoginAnnotationAware">
+        <property name="annotationFactory" ref="annotationFactory" />
+    </bean>
+ 	<bean id="checkRoleAccessAnnotationAware" class="com.seeyon.ctp.util.annotation.CheckRoleAccessAnnotationAware">
+        <property name="annotationFactory" ref="annotationFactory" />
+    </bean>
+    <bean id="cacheNotificationHandler" class="com.seeyon.ctp.common.cache.cluster.CacheNotificationHandler">
+    </bean>
+    <bean id="functionAnnotationAware" class="com.seeyon.ctp.common.function.CtpFunctionAnnotationAware">
+       <property name="functionManager" ref="functionManager" />
+       <property name="annotationFactory" ref="annotationFactory" />
+    </bean>
+    <bean id="aspectAnnotationAware" class="com.seeyon.ctp.common.aspect.AspectAnnotationAware">
+        <property name="annotationFactory" ref="annotationFactory" />
+    </bean>    
+    <!-- <bean id="timerHolder" class="com.seeyon.ctp.common.timer.TimerHolder" init-method="init" destroy-method="destroy" 
+        /> -->
+    <bean class="com.seeyon.ctp.common.quartz.QuartzListener" />
+    <bean id="handWriteManager" class="com.seeyon.ctp.common.office.HandWriteManager" singleton="false"/>
+    <bean id="htmlHandWriteManager" class="com.seeyon.ctp.common.office.HtmlHandWriteManager" singleton="false"/>
+    <bean class="com.seeyon.ctp.common.metadata.MetadataInitializer" />
+    <bean name="metadataManager" class="com.seeyon.ctp.common.metadata.manager.MetadataManagerImpl" />
+    <bean name="/metadata.do" class="com.seeyon.ctp.common.metadata.controller.MetadataController" />
+
+    <bean name="/selectpeople.do" class="com.seeyon.ctp.organization.selectpeople.controller.SelectPeopleController">
+        <property name="orgManager" ref="orgManager" />
+    </bean>
+
+    <bean id="guidMapper" class="com.seeyon.ctp.common.idmapper.DBGuidMapper" />
+    <bean id="guidMapperDao" class="com.seeyon.ctp.common.idmapper.dao.GuidMapperDaoImpl" />
+    <bean id="userMapperDao" class="com.seeyon.ctp.common.usermapper.dao.UserMapperDaoImpl" />
+    <bean id="fileToExcelManager" class="com.seeyon.ctp.common.excel.FileToExcelManagerImpl" />
+
+    <!-- ==========================个性化组件相关start ========================== -->
+    <bean id="ctpUserPreferenceManager" class="com.seeyon.ctp.common.service.CTPUserPreferenceManagerImpl" />
+    <bean id="customizeManager" class="com.seeyon.ctp.portal.customize.manager.CustomizeManagerImpl" init-method="init">
+       <property name="defaultValue">
+           <map>
+               <entry key="locale"              value="zh_CN" />
+               <entry key="rtxClientEnable"     value="" />
+               <entry key="messageSoundEnabled" value="" />
+               <entry key="messageViewRemoved"  value="" />
+               <entry key="indexShow"           value="" />
+               <entry key="handle_Expand"       value="" />
+               <entry key="avatar"              value="pic.gif" />
+           </map>
+       </property>
+       <property name="customizeDao">
+           <bean class="com.seeyon.ctp.portal.customize.dao.CustomizeDaoImpl" />
+       </property>
+    </bean>
+
+    <!-- ==========================内容系统相关start ========================== -->
+    <bean id="ctpCommentManager" class="com.seeyon.ctp.common.content.comment.CommentManagerImpl" />
+    <bean id="commentDao" class="com.seeyon.ctp.common.content.comment.dao.CommentDaoImpl" />
+    <!-- 正文组件相关start -->
+    <bean name="/content/content.do" class="com.seeyon.ctp.common.content.mainbody.MainbodyController"></bean>
+    <bean id="ctpMainbodyManager" class="com.seeyon.ctp.common.content.mainbody.MainbodyManagerImpl" init-method="init" />
+    <bean id="htmlMainbodyHandler" class="com.seeyon.ctp.common.content.mainbody.handler.impl.HtmlMainbodyHandler" />
+    <bean id="officeWordMainbodyHandler" class="com.seeyon.ctp.common.content.mainbody.handler.impl.OfficeWordMainbodyHandler" />
+    <bean id="officeExcelMainbodyHandler" class="com.seeyon.ctp.common.content.mainbody.handler.impl.OfficeExcelMainbodyHandler" />
+    <bean id="wpsWordMainbodyHandler" class="com.seeyon.ctp.common.content.mainbody.handler.impl.WpsWordMainbodyHandler" />
+    <bean id="wpsExcelMainbodyHandler" class="com.seeyon.ctp.common.content.mainbody.handler.impl.WpsExcelMainbodyHandler" />
+    <bean id="pdfMainbodyHandler" class="com.seeyon.ctp.common.content.mainbody.handler.impl.PdfMainbodyHandler" />
+
+    <!-- 正文组件相关end -->
+    <bean class="com.seeyon.ctp.common.content.workflow.CTPAffairEventListenerImpl" />
+
+    <bean id="affairDao" class="com.seeyon.ctp.common.content.affair.AffairDaoImpl" />
+    <bean id="hisAffairDao" class="com.seeyon.ctp.common.content.affair.HisAffairDaoImpl" />
+    <bean id="affairManager" class="com.seeyon.ctp.common.content.affair.AffairManagerImpl">
+        <property name="affairDao" ref="affairDao"></property>
+    </bean>
+    <bean id="hisAffairManager" class="com.seeyon.ctp.common.content.affair.HisAffairManagerImpl">
+       <property name="hisAffairDao" ref="hisAffairDao"></property>
+    </bean>
+    <!-- ==========================内容系统相关end ========================== -->
+
+    <!-- ==========================模板组件start ========================== -->
+    <bean name="/template/template.do" class="com.seeyon.ctp.common.template.controller.TemplateController" />
+    <bean id="templateDao" class="com.seeyon.ctp.common.template.dao.TemplateDaoImpl" />
+    <bean id="templateManager" class="com.seeyon.ctp.common.template.manager.TemplateManagerImpl" init-method="init" />
+    <bean id="templateListener" class="com.seeyon.ctp.common.template.listener.TemplateListener" />
+    
+    <!-- ==========================模板组件end ========================== -->
+    
+    <!-- ==========================跟踪组件 start ========================== -->
+    <bean id="trackManager" class="com.seeyon.ctp.common.track.manager.CtpTrackMemberManagerImpl"/>
+    <bean id="trackdao" class="com.seeyon.ctp.common.track.dao.CtpTrackMemberDaoImpl" />
+    
+    <!-- ==========================跟踪组件end ========================== -->
+    
+    <!-- ==========================节点权限组件start ========================== -->
+    <bean name="/permission/permission.do" class="com.seeyon.ctp.common.permission.controller.PermissionController">
+        <property name="permissionManager" ref="permissionManager" />
+        <property name="enumManager" ref="enumManager"></property>
+    </bean>
+    <bean id="permissionManager" class="com.seeyon.ctp.common.permission.manager.PermissionManagerImpl" init-method="init">
+        <property name="configManager" ref="configManager"></property>
+        <property name="enumManager" ref="enumManager"></property>
+    </bean>
+    <bean id="permissionOrganizationEventListener" class="com.seeyon.ctp.common.permission.listener.PermissionOrganizationEventListener"/>
+    <!-- ==========================节点权限组件end ========================== -->
+
+    <!-- ==========================常用语组件start ========================== -->
+    <bean name="/phrase/phrase.do" class="com.seeyon.ctp.common.phrase.controller.CommonPhraseController">
+        <property name="phraseManager" ref="phraseManager"></property>
+    </bean>
+    <bean id="cpdao" class="com.seeyon.ctp.common.phrase.dao.CommonPhraseDaoImpl" />
+    <bean id="phraseManager" class="com.seeyon.ctp.common.phrase.manager.CommonPhraseManagerImpl">
+        <property name="cpdao" ref="cpdao"></property>
+    </bean>
+    <bean id="phraseOrganizationEventListener"
+        class="com.seeyon.ctp.common.phrase.listener.PhraseOrganizationEventListener">
+    </bean>
+    <!-- ==========================常用语组件end ========================== -->
+
+    <!-- ==========================督办组件start ========================== -->
+    <bean name="/supervise/supervise.do" class="com.seeyon.ctp.common.supervise.controller.SuperviseController">
+        <property name="superviseManager" ref="superviseManager"></property>
+    </bean>
+    <bean id="superviseDao" class="com.seeyon.ctp.common.supervise.dao.SuperviseDaoImpl" />
+    <bean id="superviseManager" class="com.seeyon.ctp.common.supervise.manager.SuperviseManagerImpl" init-method="init">
+        <property name="orgManager" ref="orgManager"></property>
+    </bean>
+    <!-- ==========================督办组件end ========================== -->
+    
+    <!-- ==========================流程管理 ==============================-->
+    <bean name="/workflowmanage/workflowmanage.do" 
+        class="com.seeyon.ctp.common.workflowmanage.controller.WorkflowManageController" >
+    </bean>
+       <bean id="workflowManageDao"
+        class="com.seeyon.ctp.common.workflowmanage.dao.WorkflowManageDaoImpl">
+    </bean>
+     <bean id="workflowManageManager"
+        class="com.seeyon.ctp.common.workflowmanage.manager.WorkflowManageManagerImpl" init-method="init">
+    </bean>
+    <!-- ==========================流程管理  end==============================-->
+    
+    <!-- ==========================isignaturehtml专业签章  start==============================-->
+    <bean id="iSignatureHtmlManager" class="com.seeyon.ctp.common.isignaturehtml.manager.ISignatureHtmlManagerImpl"/>
+    <bean id="iSignatureHtmlDao" class="com.seeyon.ctp.common.isignaturehtml.dao.ISignatureHtmlDaoImpl"/>
+    <!-- ==========================isignaturehtml专业签章  end==============================-->
+
+    <!-- ==========================在线相关Manager  start==============================-->
+    <bean id="onlineManager" class="com.seeyon.ctp.login.online.OnlineManagerImpl" init-method="init">
+            <property name="offlineMinute">
+            <value>${onlineManager.offilineCount.minute}</value>
+        </property>
+        <property name="leaveMinute">
+            <value>${onlineManager.leaveCount.minute}</value>
+        </property>     
+    </bean>
+    <bean id="onlineUserLoader" class="com.seeyon.ctp.login.online.OnlineUserLoaderImpl" />
+    <bean id="logonLogDao" class="com.seeyon.ctp.login.logonlog.dao.LogonLogDaoImpl" />
+    <bean id="logonLogManager" class="com.seeyon.ctp.login.logonlog.manager.LogonLogManagerImpl" />
+    <!-- ==========================在线相关Manager  end==============================-->
+    
+    <!-- 热点图片集群同步 -->
+    <bean name="fileSynchronization" class="com.seeyon.ctp.common.cache.FileSynchronizationImpl" init-method="init"></bean>
+ 
+    
+    <bean id="ajaxAccessInterceptor" class="com.seeyon.ctp.common.service.AjaxAccessInterceptor" />
+    <bean class="com.seeyon.ctp.common.service.AjaxInitializer" />
+    <bean id="RunInRightEventHolder" class="com.seeyon.ctp.common.RunInRightEventHolder" init-method="init">
+    </bean>
+    <bean id="timeJobForMessageQuartzJob" class="com.seeyon.ctp.common.usermessage.TimeJobForMessage" />   
+    <bean id="pluginMenuManager" class="com.seeyon.ctp.menu.manager.MenuManagerImpl">
+    </bean>      
+    <bean id="pluginMainMenu" class="com.seeyon.ctp.plugin.PluginMainMenu" />
+    
+    <!-- 函数组件 -->
+    <bean id="functionManager" class="com.seeyon.ctp.common.function.manager.impl.FunctionManagerImpl" />
+    <bean name="/function/function.do" class="com.seeyon.ctp.common.function.controller.FunctionController" />
+</beans>

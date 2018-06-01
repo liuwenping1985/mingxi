@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 协同立方 -->
+    <bean name="/colCube/colCube.do" class="com.seeyon.apps.colCube.controller.ColCubeController">
+<!--         <property name="collCubeManager" ref="collCubeManager"></property> -->
+    </bean>
+     <!-- 协同立方指标 -->
+    <bean name="/colCube/collCubeIndex.do" class="com.seeyon.apps.colCube.controller.CollCubeIndexController">
+        <property name="collCubeIndexManager" ref="collCubeIndexManager"></property>
+    </bean>
+    <!-- 权限设置 -->
+    <bean name="/colCube/cubeAuth.do" class="com.seeyon.apps.colCube.controller.CubeAuthController">
+    </bean>      
+</beans>

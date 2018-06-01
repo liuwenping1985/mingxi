@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<websiteIntegrate>
+		<domain mark="{VE}" desc="网站集成外网地址，如：http://demo17.11077.net"></domain>
+	</websiteIntegrate>
+</ctpConfig>

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 流程实例管理逻辑处理类配置 -->
+	<bean id="workFlowReplaceNodeManager" class="com.seeyon.ctp.workflow.manager.impl.WorkFlowReplaceNodeManagerImpl">
+		<property name="processTemplateManager" ref="processTemplateManager"/>
+		<property name="templateManager" ref="templateManager"/>
+	</bean>
+	<bean id="workflowSuperNodeControlManager" class="com.seeyon.ctp.workflow.manager.impl.WorkflowSuperNodeControlManagerImpl">
+	   <property name="itemlist" ref="bpmWorkItemList"/>
+	   <property name="workflowApiManager" ref="wapi"/>
+	   <property name="workItemManager" ref="workItemManager"/>
+	   <property name="affairManager" ref="affairManager"/>
+	   <property name="processManager" ref="processManager"/>
+	   <property name="workflowSuperNodeControlDao" ref="workflowSuperNodeControlDao"/>
+	   <property name="caseManager" ref="caseManager"/>
+	</bean>
+	<bean id="workflowSuperNodeApi" class="com.seeyon.ctp.workflow.supernode.WorkflowSuperNodeApiImpl"></bean>
+	<!-- 流程实例管理逻辑处理类配置 -->
+	<bean id="caseManager" class="com.seeyon.ctp.workflow.manager.impl.CaseManagerImpl">
+		<property name="bpmCaseDao" ref="IBPMCaseDao"/>
+		<property name="caseRunDao" ref="ICaseRunDao"/>
+	</bean>
+	<!-- 流程实例管理逻辑处理类配置 -->
+	
+	<!-- 任务事项逻辑处理类配置 -->
+	<bean id="bpmWorkItemList" class="net.joinwork.bpm.task.BPMWorkItemList">
+		<property name="workitemDao" ref="IWorkitemDao"/>
+	</bean>
+	<!-- 任务事项逻辑处理类配置 -->
+	
+	<!-- 工作流锁 -->
+	<bean id="workFlowLock" parent="lockManager">
+        <property name="module" value="workFlowLock" />
+    </bean>
+    
+    <!-- 流程池配置 -->
+    <bean id="processManager" class="com.seeyon.ctp.workflow.manager.impl.ProcessManagerImpl">
+        <property name="processRunningDao" ref="IProcessRunningDao"/>
+    </bean>
+    <!-- 流程池配置 -->
+    
+    <!-- 人员匹配接口 -->
+    <bean id="workflowMatchUserManager" class="com.seeyon.ctp.workflow.manager.impl.WorkFlowMatchUserManagerImpl">
+        <property name="orgManager" ref="orgManager" />
+    </bean>
+    
+    <!-- 流程级别：具体监听器配置 -->
+    <!-- 子流程监听处理 
+    <bean id="executeSubProcess" class="com.seeyon.ctp.workflow.engine.listener.impl.ExecuteSubProcess"/>-->
+    <!-- 流程流转监听处理 -->
+    <bean id="dispatcher" class="com.seeyon.ctp.workflow.engine.listener.impl.Dispatcher">
+       <property name="itemlist" ref="bpmWorkItemList"/>
+       <property name="processManager" ref="processManager"/>
+       <property name="workflowMatchUserManager" ref="workflowMatchUserManager"/>
+    </bean>
+    <bean id="superNodeDispatcher" class="com.seeyon.ctp.workflow.engine.listener.impl.SuperNodeDispatcher">
+       <property name="itemlist" ref="bpmWorkItemList"/>
+       <property name="workflowMatchUserManager" ref="workflowMatchUserManager"/>
+       <property name="workflowSuperNodeControlManager" ref="workflowSuperNodeControlManager"/>
+    </bean>
+    <!-- 流程级别：监听器配置 -->
+    
+    <!-- 流程级别：监听器管理类配置 -->
+    <bean id="executListnerList" class="com.seeyon.ctp.workflow.engine.listener.ExecuteListenerList">
+        <property name="list">
+            <list>
+                <ref bean="dispatcher"/>
+                <ref bean="superNodeDispatcher"/>
+            </list>
+        </property>
+    </bean>
+    <!-- 流程级别：监听器管理类配置 -->
+    
+    <!-- 流程引擎类配置 -->
+    <bean id="processEngine" class="net.joinwork.bpm.engine.execute.ProcessEngineImpl">
+        <property name="processManager" ref="processManager"/>
+        <property name="caseManager" ref="caseManager"/>
+        <property name="listener" ref="executListnerList"/>
+        <property name="itemlist" ref="bpmWorkItemList"/>
+        <property name="lockManager" ref="workFlowLock"/>
+        <property name="processTemplateManager" ref="processTemplateManager"/>
+        <property name="processOrgManager" ref="processOrgManager"/>
+        <property name="subProcessManager" ref="subProcessManager"/>
+        <property name="workflowSuperNodeControlManager" ref="workflowSuperNodeControlManager"/>
+    </bean>
+    <!-- 流程引擎类配置 -->
+    
+        <!-- 流程模板定义管理器配置 -->
+    <bean id="processDefManager" class="com.seeyon.ctp.workflow.manager.impl.ProcessDefManagerFileImpl">
+        <property name="domain">
+            <value>Engine_1</value>
+        </property>
+    </bean>
+    <!-- 流程模板定义管理器配置 -->
+    
+    <!-- 任务事项管理器配置 -->
+    <bean id="workItemManager" class="net.joinwork.bpm.task.WorkItemManagerImpl">
+        <property name="itemlist">
+            <ref bean="bpmWorkItemList"/>
+        </property>
+    </bean>
+    <!-- 任务事项管理器配置 -->
+    
+	<!-- WAPI配置 -->
+	<bean id="wapiFactory" class="net.joinwork.bpm.engine.wapi.WAPIFactory" singleton="true">
+		<property name="defManagerMap">
+			<map>
+				<entry>
+					<key><value>Engine_1</value></key>
+					<ref bean="processDefManager"/>
+				</entry>
+				<entry>
+					<key><value>Engine_2</value></key>
+					<ref bean="processDefManager"/>
+				</entry>
+			</map>
+		</property>
+		<property name="engineMap">
+			<map>
+				<entry>
+					<key><value>Engine_1</value></key>
+					<ref bean="processEngine"/>
+				</entry>
+			</map>
+		</property>
+		<property name="userMathersMap">
+            <map>
+                <entry>
+                    <key><value>Engine_1</value></key>
+                    <ref bean="workflowMatchUserManager"/>
+                </entry>
+            </map>
+        </property>
+		
+		<property name="workItemMap">
+			<map>
+				<entry>
+					<key><value>Task_1</value></key>
+					<ref bean="workItemManager"/>
+				</entry>
+				<entry>
+					<key><value>Task_2</value></key>
+					<ref bean="workItemManager"/>
+				</entry>
+			</map>
+		</property>
+        <property name="domainConfigMap">
+            <map>
+                <entry>
+                    <key><value>Engine_1</value></key>
+                    <value>Task_1</value>
+                </entry>
+                <entry>
+                    <key><value>Engine_2</value></key>
+                    <value>Task_2</value>
+                </entry>
+            </map>
+        </property>
+		<property name="hour">
+		  <value>23</value>
+		</property>
+		<property name="minute">
+		  <value>30</value>
+		</property>
+		<property name="second">
+		  <value>0</value>
+		</property>
+		<property name="milsecond">
+		  <value>0</value>
+		</property>
+	</bean>
+	<!-- WAPI配置 -->
+	<bean id="workflowEventListener" class="com.seeyon.ctp.workflow.event.EventListenerTestImpl">
+        <property name="sortOrder"><value>100</value></property>
+	</bean>
+	
+	<bean id="workflowEventListener1" class="com.seeyon.ctp.workflow.event.EventListenerTestImpl1">
+        <property name="sortOrder"><value>101</value></property>
+    </bean>
+	 
+	 <!-- 工作流引擎定时任务 -->
+	 <bean id="moveWorkItemsToHistoryJob" class="com.seeyon.ctp.workflow.timer.MoveWorkItemsToHistoryJob">
+	   <property name="itemlist" ref="bpmWorkItemList"/>
+	 </bean>
+	 <bean id="workflowSuperNodeRetriggerJob" class="com.seeyon.ctp.workflow.timer.WorkflowSuperNodeRetriggerJob">
+       <property name="workflowSuperNodeControlManager" ref="workflowSuperNodeControlManager"/>
+     </bean>
+	 
+	 <!-- 工作流流程定义模版管理类-->
+	 <bean id="processTemplateManager" class="com.seeyon.ctp.workflow.manager.impl.ProcessTemplateManagerImpl">
+	    <property name="processTemplateDao" ref="IProcessTemplateDao" />
+	    <property name="subProcessManager" ref="subProcessManager" />
+	 </bean>
+	 <!-- 工作流引擎对外接口:单例-->
+	 <bean id="wapi" class="com.seeyon.ctp.workflow.wapi.WorkflowApiManagerImpl" singleton="true">
+        <property name="processTemplateManager" ref="processTemplateManager" />
+     </bean>
+     <bean id="workFlowDesignerManager" class="com.seeyon.ctp.workflow.designer.manager.WorkFlowDesignerManagerImpl">
+        <property name="processManager" ref="processManager" />
+        <property name="processTemplateManager" ref="processTemplateManager" />
+        <property name="itemlist" ref="bpmWorkItemList" />
+        <property name="caseManager" ref="caseManager" />
+        <property name="wapi" ref="wapi" />
+        <property name="workFlowHastenManager" ref="workFlowHastenManager"></property>
+        <property name="selectPeopleParamerters">
+            <map>
+                <!-- 普通协同 -->
+                <entry>
+                    <key><value>collaboration</value></key>
+                    <value>Department,Team,Post,Outworker,RelatePeople</value>
+                </entry>
+                <entry>
+                    <key><value>collaboration_type</value></key>
+                    <value>Member,Department,Team,Account,Post</value>
+                </entry>
+                <entry>
+                    <key><value>govdocSend</value></key>
+                    <value>Department,Team,Post</value>
+                </entry>
+                <entry>
+                    <key><value>govdocSend_type</value></key>
+                    <value>Member,Account,Department,Team,Post,RelatePeople</value>
+                </entry>
+                <entry>
+                    <key><value>govdocRec</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>govdocRec_type</value></key>
+                    <value>Department,Team,Post,Level,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>collaboration_template</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account</value>
+                </entry>
+                <entry>
+                    <key><value>collaboration_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <!-- 表单协同-->
+                <entry>
+                    <key><value>collaboration_template_form</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>collaboration_template_form_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>govdocSend_template_form</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>govdocSend_template_form_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>govdocExchange_template_form</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>govdocExchange_template_form_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>govdocRec_template_form</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>govdocRec_template_form_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>form</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account,FormField</value>
+                </entry>
+                <entry>
+                    <key><value>form_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member,FormField</value>
+                </entry> 
+                <!-- 公文发文 -->
+                <entry>
+                    <key><value>sendEdoc</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>sendEdoc_type</value></key>
+                    <value>Department,Team,Post,Level,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>sendEdoc_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>sendEdoc_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edocSend</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocSend_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edocSend_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocSend_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <!-- 公文签报 -->
+                <entry>
+                    <key><value>signReport</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>signReport_type</value></key>
+                    <value>Department,Team,Post,Level,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>signReport_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>signReport_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edocSign</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocSign_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edocSign_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocSign_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <!-- 公文收文 -->
+                <entry>
+                    <key><value>recEdoc</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>recEdoc_type</value></key>
+                    <value>Department,Team,Post,Level,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>recEdoc_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>recEdoc_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edocRec</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocRec_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edocRec_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocRec_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <!-- 公文督办 -->
+                <entry>
+                    <key><value>edocSupervise</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>edocSupervise_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Account,Member</value>
+                </entry>
+                <!-- 公文模版 -->
+                <entry>
+                    <key><value>edoc_template</value></key>
+                    <value>Department,Team,Post,Level,Node,Outworker,Account</value>
+                </entry>
+                <entry>
+                    <key><value>edoc_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>edoc</value></key>
+                    <value>Department,Team,Post</value>
+                </entry>
+                <entry>
+                    <key><value>edoc_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <!-- 信息报送 start -->
+                <entry>
+                    <key><value>sendInfo</value></key>
+                    <value>Department,Post,Team</value>
+                </entry>
+                <entry>
+                    <key><value>sendInfo_type</value></key>
+                    <value>Department,Team,Post,Level,Node,Account,Member</value>
+                </entry>
+                <entry>
+                    <key><value>sendInfo_template</value></key>
+                    <value>Department,Post,Level,Node,Team</value>
+                </entry>
+                <entry>
+                    <key><value>sendInfo_template_type</value></key>
+                    <value>Department,Team,Post,Level,Role,Node,Account,Member</value>
+                </entry>
+                <!-- 信息报送 end -->
+            </map>
+        </property>
+        <property name="deadLineMap">
+            <!-- 这个map里面，key是分钟数，value是对应的期限国际化资源标记，
+            如果要扩展，请不要忘记除了在这里添加一条记录之外，还要添加对应的国际化资源 -->
+            <map>
+                <entry>
+				    <key><value>0</value></key>
+				    <value>workflow.deadline.no</value>
+				</entry>
+				<entry>
+				    <key><value>60</value></key>
+				    <value>workflow.deadline.one.hour</value>
+				</entry>
+				<entry>
+				    <key><value>120</value></key>
+				    <value>workflow.deadline.two.hour</value>
+				</entry>
+				<entry>
+				    <key><value>180</value></key>
+				    <value>workflow.deadline.three.hour</value>
+				</entry>
+				<entry>
+				    <key><value>240</value></key>
+				    <value>workflow.deadline.four.hour</value>
+				</entry>
+				<entry>
+				    <key><value>300</value></key>
+				    <value>workflow.deadline.five.hour</value>
+				</entry>
+				<entry>
+				    <key><value>360</value></key>
+				    <value>workflow.deadline.six.hour</value>
+				</entry>
+				<entry>
+				    <key><value>420</value></key>
+				    <value>workflow.deadline.seven.hour</value>
+				</entry>
+				<entry>
+				    <key><value>1440</value></key>
+				    <value>workflow.deadline.one.day</value>
+				</entry>
+				<entry>
+				    <key><value>2880</value></key>
+				    <value>workflow.deadline.two.day</value>
+				</entry>
+				<entry>
+				    <key><value>4320</value></key>
+				    <value>workflow.deadline.three.day</value>
+				</entry>
+				<entry>
+				    <key><value>5760</value></key>
+				    <value>workflow.deadline.four.day</value>
+				</entry>
+				<entry>
+				    <key><value>10080</value></key>
+				    <value>workflow.deadline.one.week</value>
+				</entry>
+				<entry>
+				    <key><value>20160</value></key>
+				    <value>workflow.deadline.two.week</value>
+				</entry>
+				<entry>
+				    <key><value>30240</value></key>
+				    <value>workflow.deadline.three.week</value>
+				</entry>
+				<entry>
+				    <key><value>43200</value></key>
+				    <value>workflow.deadline.one.month</value>
+				</entry>
+				<entry>
+				    <key><value>86400</value></key>
+				    <value>workflow.deadline.two.month</value>
+				</entry>
+				<entry>
+				    <key><value>129600</value></key>
+				    <value>workflow.deadline.three.month</value>
+				</entry>
+            </map>
+        </property>
+        <property name="remindTimeMap">
+            <!-- 这个map里面，key是分钟数，value是对应的期限国际化资源标记，
+            如果要扩展，请不要忘记除了在这里添加一条记录之外，还要添加对应的国际化资源 -->
+            <map>
+                <entry>
+				    <key><value>-1</value></key>
+				    <value>workflow.remind.time.no</value>
+				</entry>
+				<entry>
+				    <key><value>5</value></key>
+				    <value>workflow.remind.time.five.minutes</value>
+				</entry>
+				<entry>
+				    <key><value>10</value></key>
+				    <value>workflow.remind.time.ten.minutes</value>
+				</entry>
+				<entry>
+				    <key><value>15</value></key>
+				    <value>workflow.remind.time.fifteen.minutes</value>
+				</entry>
+				<entry>
+				    <key><value>30</value></key>
+				    <value>workflow.remind.time.thirty.minutes</value>
+				</entry>
+				<entry>
+				    <key><value>60</value></key>
+				    <value>workflow.remind.time.one.hour</value>
+				</entry>
+				<entry>
+				    <key><value>120</value></key>
+				    <value>workflow.remind.time.two.hour</value>
+				</entry>
+				<entry>
+				    <key><value>180</value></key>
+				    <value>workflow.remind.time.three.hour</value>
+				</entry>
+				<entry>
+				    <key><value>240</value></key>
+				    <value>workflow.remind.time.four.hour</value>
+				</entry>
+				<entry>
+				    <key><value>480</value></key>
+				    <value>workflow.remind.time.eight.hour</value>
+				</entry>
+				<entry>
+				    <key><value>720</value></key>
+				    <value>workflow.remind.time.half.day</value>
+				</entry>
+				<entry>
+				    <key><value>1440</value></key>
+				    <value>workflow.remind.time.one.day</value>
+				</entry>
+				<entry>
+				    <key><value>2880</value></key>
+				    <value>workflow.remind.time.two.day</value>
+				</entry>
+				<entry>
+				    <key><value>4320</value></key>
+				    <value>workflow.remind.time.three.day</value>
+				</entry>
+				<entry>
+				    <key><value>10080</value></key>
+				    <value>workflow.remind.time.one.week</value>
+				</entry>
+            </map>
+        </property>
+     </bean>
+     <!-- 工作流处理管理类 -->
+     <bean id="workFlowProcessManager" class="com.seeyon.ctp.workflow.process.manager.WorkFlowProcessManagerImpl">
+        <property name="processManager" ref="processManager" />
+        <property name="processTemplateManager" ref="processTemplateManager" />
+        <property name="itemlist" ref="bpmWorkItemList" />
+        <property name="caseManager" ref="caseManager" />
+        <property name="wapi" ref="wapi" />
+        <property name="subProcessManager" ref="subProcessManager" />
+        <property name="workFlowDesignerManager" ref="workFlowDesignerManager" />
+     </bean>
+     <!-- 工作流组织模型管理器 -->
+     <bean id="processOrgManager" class="com.seeyon.ctp.workflow.manager.impl.ProcessOrgManagerImpl">
+        <property name="orgManager" ref="orgManager" />
+        <property name="onLineManager" ref="onlineManager" />
+     </bean>
+     <!-- 子流程管理器 -->
+     <bean id="subProcessManager" class="com.seeyon.ctp.workflow.manager.impl.SubProcessManagerImpl">
+        <property name="subProcessRunningDao" ref="subProcessRunningDao" />
+        <property name="subProcessSettingDao" ref="subProcessSettingDao" />
+        <property name="processTemplateManager" ref="processTemplateManager" />
+     </bean>
+     <!-- 催办管理器 -->
+     <bean id="workFlowHastenManager" class="com.seeyon.ctp.workflow.designer.manager.impl.WorkFlowHastenManagerImpl">
+        <property name="processOrgManager" ref="processOrgManager" />
+     </bean>
+     <!-- 工作流对外统一ajax接口 -->
+     <bean id="WFAjax" class="com.seeyon.ctp.workflow.manager.impl.WorkflowAjaxManagerImpl">
+        <property name="subProcessManager" ref="subProcessManager" />
+        <property name="workFlowHastenManager" ref="workFlowHastenManager" />
+        <property name="workflowApiManager" ref="wapi" />
+        <property name="processTemplateManager" ref="processTemplateManager" />
+        <property name="formManager" ref="formManager" />
+        <property name="itemlist" ref="bpmWorkItemList" />
+        <property name="workFlowReplaceNodeManager" ref="workFlowReplaceNodeManager"/>
+     </bean>
+     <bean id="workflowInit" class="com.seeyon.ctp.workflow.WorkflowSystemInitializer"></bean>
+     <bean id="SelectPeoplePanel4Node" class="com.seeyon.ctp.workflow.selectpeople.SelectPeoplePanel4NodeImpl"></bean>
+     <bean id="SelectPeoplePanel4WorkflowSuperNode" class="com.seeyon.ctp.workflow.selectpeople.SelectPeoplePanel4WorkflowSuperNodeImpl"></bean>
+     <bean id="wfProcessPropertyManager" class="com.seeyon.ctp.workflow.manager.impl.WFProcessPropertyManagerImpl"></bean>
+     <bean id="workflowEventExecute" class="com.seeyon.ctp.workflow.event.WorkflowEventExecute"></bean>
+</beans>

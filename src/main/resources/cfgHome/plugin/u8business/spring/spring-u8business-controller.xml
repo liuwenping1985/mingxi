@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/u8BusinessUserMapper.do" class="com.seeyon.apps.u8business.controller.U8BusinessSynchronController">
+        <property name="u8BusinessBindingManager" ref="userBusinessMapper"></property>
+    </bean>
+     <bean name="/u8BusinessController.do" class="com.seeyon.apps.u8business.controller.U8BusinessController">
+    </bean>
+    <bean name="/u8business/u8BusinessDataSource.do" class="com.seeyon.apps.u8business.controller.U8BusinessDataSourceController"></bean>
+</beans>

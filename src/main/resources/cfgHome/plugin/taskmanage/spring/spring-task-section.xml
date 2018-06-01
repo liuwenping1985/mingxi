@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 栏目名称 -->
+	<bean id="sectionName4TaskSection" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+		<property name="name" value="columnsName" />
+		<property name="subject" value="cannel.name.label" />
+		<property name="valueType" value="2" />
+	</bean>
+
+	<!-- 栏目样式 -->
+	<bean id="sectionStyle4TaskSection" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+		<property name="name" value="columnstyle" />
+		<property name="subject" value="cannel.style.label" />
+		<property name="valueType" value="0" />
+		<property name="defaultValue" value="0" />
+		<property name="valueRanges">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="collaboration.orderList.label" />
+					<property name="value" value="0" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="collaboration.doubleList.label" />
+					<property name="value" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 显示行数 -->
+	<bean id="columnscount4TaskSection" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+		<property name="name" value="columnscount" />
+		<property name="subject" value="collaboration.cannel.data.count" />
+		<property name="valueType" value="2" />
+		<property name="defaultValue" value="8" />
+		<property name="validate" value="isInteger" />
+		<property name="validateValue" value="max=50 min=1 maxLength=2" />
+	</bean>
+
+	<!-- 显示字段 -->
+	<bean id="filterColumn4TaskSection" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+		<property name="name" value="columnproperty" />
+		<property name="subject" value="cannel.display.column.label" />
+		<property name="valueType" value="1" />
+		<property name="defaultValue" value="0,2,3,5,6" />
+		<property name="valueRanges">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="common.subject.label" />
+					<property name="value" value="0" />
+					<property name="readOnly" value="true" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="taskmanage.weight" />
+					<property name="value" value="1" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="common.state.label" />
+					<property name="value" value="2" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="taskmanage.finishrate" />
+					<property name="value" value="3" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="taskmanage.starttime" />
+					<property name="value" value="4" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="common.date.endtime.label" />
+					<property name="value" value="5" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="taskmanage.manager" />
+					<property name="value" value="6" />
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					<property name="subject" value="taskmanage.inspector" />
+					<property name="value" value="7" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 任务来源 -->
+	<bean id="taskSource4TaskSection" class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+		<property name="name" value="columnsource" />
+		<property name="subject" value="taskmanage.task_source.label" />
+		<property name="valueType" value="5" />
+		<property name="defaultValue" value="persontask" />
+	</bean>
+
+	<!-- 任务来源弹出窗体 -->
+	<bean id="taskSourceDialog4TaskSection"
+		class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+		<property name="backUp" value="true" />
+		<property name="panelSetUrl"
+			value="/taskmanage/taskshowinfo.do?method=showImportantProgram" />
+	</bean>
+
+	<!-- 我的任务 -->
+	<bean id="taskMySection" class="com.seeyon.ctp.portal.section.MyTaskSection">
+		<property name="taskInfoManagerImpl" ref="taskInfoManager" />
+		<property name="sectionType" value="timeManagement" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="sectionName4TaskSection">
+								<property name="defaultValue" value="menu.taskmanage.mytasks" />
+							</bean>
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="sectionStyle4TaskSection" />
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="columnscount4TaskSection" />
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="filterColumn4TaskSection" />
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="taskSource4TaskSection">
+								<property name="valueRanges">
+									<list>
+										<bean parent="taskSourceDialog4TaskSection"
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="taskmanage.my" />
+											<property name="value" value="persontask" />
+										</bean>
+										
+										 <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl"
+												value="/taskmanage/taskshowinfo.do?method=showImportantProgram&amp;informFlag=1" />
+											<property name="subject" value="taskmanage.informMe.label" />
+											<property name="value" value="tellMeTask" />
+										</bean>
+										
+										<bean parent="taskSourceDialog4TaskSection"
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="taskmanage.assignment" />
+											<property name="value" value="distributionTask" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 部门任务 V5.6本版本隐藏
+	<bean id="taskDepartmentSection" class="com.seeyon.ctp.portal.section.DepartmentTaskSection">
+		<property name="taskInfoManagerImpl" ref="taskInfoManager" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="sectionType" value="common" />
+		<property name="spaceTypes" value="department" />
+		<property name="sortId" value="19" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="sectionName4TaskSection" >
+								<property name="defaultValue" value="taskmanage.departmentTask" />
+							</bean>
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="sectionStyle4TaskSection" />
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="columnscount4TaskSection" />
+
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"
+								parent="filterColumn4TaskSection" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	-->
+	
+
+	<!-- 任务统计 -->
+	<bean id="TaskStatisticsSection" class="com.seeyon.ctp.portal.section.TaskStatisticsSection">
+		<property name="sectionType" value="timeManagement" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<!-- 文本框 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="栏目名称" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="我的任务" />
+								<property name="validate" value="notNull"></property>
+								<property name="validateValue" value="notNull=true maxLength=2000"></property>
+							</bean>
+							<!-- 文本框 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="picHeight" />
+								<property name="subject" value="图片高度" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="210" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=1000 min=200 maxLength=4" />
+							</bean>
+							<!-- 文本框 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="picWidth" />
+								<property name="subject" value="图片宽度" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="460" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=1000 min=200 maxLength=4" />
+							</bean>
+
+							<!-- 下拉列表 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="timeType" />
+								<property name="subject" value="时间类型" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="0" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="本周" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="本月" />
+											<property name="value" value="1" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+
+							<!-- 下拉列表 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartType" />
+								<property name="subject" value="图表类型" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="1" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="柱状图" />
+											<property name="value" value="0" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="饼图" />
+											<property name="value" value="1" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="折线图" />
+											<property name="value" value="2" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

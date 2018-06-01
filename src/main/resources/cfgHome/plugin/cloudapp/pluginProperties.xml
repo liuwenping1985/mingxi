@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<cloudapp>
+	    <enabled mark="{option,0,1} {VE}" desc="是否启用云应用中心集成 0--不启用  1--启用">0</enabled>
+        <codeLocation mark="{VE}" desc="Code服务器地址">http://home.seeyon.com/OAuth/authorize.php</codeLocation>
+        <tokenLocation mark="{VE}" desc="Token服务器地址">http://home.seeyon.com/OAuth/token.php</tokenLocation>
+        <clientId mark="{VE}" desc="客户端Id">v5_cloudcenter_id</clientId>
+        <clientSecret mark="{VE}" desc="客户端密码">v5_cloudcenter_pwd</clientSecret>
+        <cloudAppUrl mark="{VE}" desc="云服务中心官网地址">http://home.seeyon.com/portal.php</cloudAppUrl>
+	</cloudapp>
+</ctpConfig>

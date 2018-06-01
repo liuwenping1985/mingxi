@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName"> 
+	<bean id="outerspaceManager" class="com.seeyon.apps.outerspace.manager.OuterspaceManagerImpl" init-method="init" singleton="true">
+	</bean>
+	<!--  <bean id="outerspaceQuartzJob" class="com.seeyon.apps.outerspace.manager.OuterspaceQuartzJob"></bean>
+	<bean id="outerspaceInitializer" class="com.seeyon.apps.outerspace.manager.OuterspaceInitializer"></bean>
+	-->
+	<bean id="outerspaceSectionConfigManager" class="com.seeyon.apps.outerspace.manager.OuterspaceSectionConfigManagerImpl"></bean>
+	<bean id="outerspaceSectionListManager" class="com.seeyon.apps.outerspace.manager.OuterspaceSectionListManagerImpl"></bean>
+
+</beans>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+    <!-- 公共资源管理 -->
+    <bean id="publicResourceDao" class="com.seeyon.v3x.pubResource.dao.PublicResourceDaoImpl" />
+    <bean id="publicResourceIppDao" class="com.seeyon.v3x.pubResource.dao.PublicResourceIppDaoImpl" />
+    <bean id="publicResourceManager" class="com.seeyon.v3x.pubResource.manager.PublicResourceManagerImpl"/>
+</beans>

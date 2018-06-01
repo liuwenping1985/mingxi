@@ -1,0 +1,914 @@
+<div name="@formmain@" id="@formmain@">
+	<style type="text/css">
+body,div,p {
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+.basic_msg_container,.urge_container,.concern_container,.instruction_container,.change_container,.feedback_container,.evaluate_container
+	{
+	width: 1088px;
+	margin: 0 auto;
+	font-family: "微软雅黑,宋体";
+	font-size:14px;
+}
+
+.viewtable {
+	width: 900px;
+	font-size: 14px;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.viewtable td {
+	height: 35px;
+	padding: 5px 0;
+	vertical-align: middle;
+}
+
+.more {
+	color: #4180DB;
+	cursor: pointer;
+}
+
+.more>div>span {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-image: url(../apps_res/supervision/img/form.png);
+	background-repeat: no-repeat;
+	background-position: -78px -60px;
+	cursor: pointer;
+}
+
+.down>div>span {
+	background-image: url(../apps_res/supervision/img/form02.png);
+	cursor: pointer;
+	background-position: -26px -16px;
+}
+
+.down_content {
+	
+}
+
+.date_icon {
+	position: relative;
+}
+
+.date_icon>span {
+	display: inline-block;
+	width: 17px;
+	height: 17px;
+	background-image: url(../apps_res/supervision/img/form.png);
+	background-repeat: no-repeat;
+	background-position: -40px -58px;
+	position: absolute;
+	top: 4px;
+	left: 304px;
+	cursor: pointer;
+}
+
+.log>div{
+	color: rgb(65, 128, 219);
+	cursor: pointer;
+}
+.log>div>span {
+	display: inline-block;
+	width: 30px;
+	height: 20px;
+	min-height: 20px;
+	background-image: url(../apps_res/supervision/img/form.png);
+	background-repeat: no-repeat;
+	background-position: -168px -112px;
+	position: absolute;
+	cursor: pointer;
+}
+
+#field0001 {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	max-height:37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0001_txt {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	max-height:37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0002 {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0002_txt {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0087 {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0087_txt {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#field0023 {
+	width: 756px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0022 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0022_txt {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border-left: 1px solid #D7D7D7;
+	border-bottom: 1px solid #D7D7D7;
+	border-top: 1px solid #D7D7D7;
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	font-size:14px;
+}
+
+#field0004 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0030 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0099 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0099_txt {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border-left: 1px solid #D7D7D7;
+	border-bottom: 1px solid #D7D7D7;
+	border-top: 1px solid #D7D7D7;
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0024 {
+	width: 322px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0024_txt {
+	width: 322px;
+	height: 20px;
+	min-height: 20px;
+	border-left: 1px solid #D7D7D7;
+	border-bottom: 1px solid #D7D7D7;
+	border-top: 1px solid #D7D7D7;
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0003 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0003_txt {
+	width: 324px;
+	height: 37px;
+	max-height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+.duty_phone,.duty_person {
+	display: inline-block;
+}
+
+#field0014 {
+	width: 306px;
+	height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0088 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0088_txt {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0096 {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	max-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0096_txt {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	max-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0134 {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	max-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0134_txt {
+	width: 324px;
+	height: 37px;
+	min-height: 37px;
+	max-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0026,#field0101 {
+	width: 756px;
+	height: 37px;
+	min-height: 37px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0028 {
+	width: 306px;
+	height: 14px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0030 {
+	width: 306px;
+	height: 14px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0019,#field0131 {
+	width: 306px;
+	height: 20px;
+	min-height: 20px;
+	max-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+#field0090 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0089 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0085 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0100 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0091 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0025,#field0151 {
+	width: 306px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0098,#field0126 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0095 {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0095_txt {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0093 {
+	width: 766px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0093_span>div {
+	padding: 3px;
+	border-radius: 5px;
+}
+
+#field0093_span {
+	border-radius: 5px;
+	width: 774px;
+}
+#field0149 {
+	width: 322px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#field0149_txt {
+	width: 322px;
+	height: 20px;
+	min-height: 20px;
+	border-left: 1px solid #D7D7D7;
+	border-bottom: 1px solid #D7D7D7;
+	border-top: 1px solid #D7D7D7;
+	border-right: none;
+	border-radius: 5px 0px 0px 5px;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	font-size: 14px;
+}
+#write-off-date {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size:14px;
+}
+
+#break-meter {
+	width: 324px;
+	height: 20px;
+	min-height: 20px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.attachmentShowDelete {
+	background-color: #EAEAEA;
+	float:left;
+}
+span.browse_class > span{
+	color:#8b8b8b;
+}
+</style>
+	<div xmlns:xdImage="www.seeyon.com/form/2007"
+		xmlns:xdFormatting="www.seeyon.com/form/2007"
+		xmlns:xdSolution="www.seeyon.com/form/2007"
+		xmlns:xdXDocument="www.seeyon.com/form/2007"
+		xmlns:xdExtension="www.seeyon.com/form/2007"
+		xmlns:x="urn:schemas-microsoft-com:office:excel"
+		xmlns:xd="www.seeyon.com/form/2007"
+		xmlns:msxsl="www.seeyon.com/form/2007"
+		xmlns:my="www.seeyon.com/form/2007" align="center"></div>
+	<div xmlns:xdImage="www.seeyon.com/form/2007"
+		xmlns:xdFormatting="www.seeyon.com/form/2007"
+		xmlns:xdSolution="www.seeyon.com/form/2007"
+		xmlns:xdXDocument="www.seeyon.com/form/2007"
+		xmlns:xdExtension="www.seeyon.com/form/2007"
+		xmlns:x="urn:schemas-microsoft-com:office:excel"
+		xmlns:xd="www.seeyon.com/form/2007"
+		xmlns:msxsl="www.seeyon.com/form/2007"
+		xmlns:my="www.seeyon.com/form/2007" align="center">
+		<div style="">
+			<table class="viewtable">
+				<colgroup>
+					<col style="WIDTH: 120px">
+					<col style="WIDTH: 108px">
+					<col style="WIDTH: 18px">
+					<col style="WIDTH: 90px">
+					<col style="WIDTH: 108px">
+					<col style="WIDTH: 36px">
+					<col style="WIDTH: 90px">
+					<col style="WIDTH: 108px">
+					<col style="WIDTH: 18px">
+					<col style="WIDTH: 108px">
+					<col style="WIDTH: 90px">
+					<col style="WIDTH: 54px">
+				</colgroup>
+				<tbody vAlign="top">
+					<tr>
+						<td style="text-align: right"><div>
+								<label>批示事项及内容：</label>
+							</div></td>
+						<td colspan="10"><div>@field0023@</div></td>
+					</tr>
+					<tr>
+						<td style="text-align: right"><div>
+								<label>事项类别：</label>
+							</div></td>
+						<td colspan="4"><div>@field0022@</div></td>
+						<td></td>
+						<td style="text-align: right"><div>
+								<label>台账流水号：</label>
+							</div></td>
+						<td colspan="4"><div>@field0025@</div></td>
+						<td></td>
+					</tr>
+			        <tr>
+			            <td style="text-align:right">
+			                <div>
+			                    <label>来源/依据：</label>
+			                </div>
+			            </td>
+			            <td colspan="11">
+			                <div>
+			                    @field0093@
+			                </div>
+			            </td>
+			        </tr>
+			        <tr>
+						<td style="text-align: right"><div>
+								<label>批示领导：</label>
+							</div></td>
+						<td colspan="4"><div>@field0088@</div></td>
+						<td></td>
+						<td style="text-align: right"><div>
+								<label>督办人：</label>
+							</div></td>
+						<td colspan="4"><div>@field0095@</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td style="text-align: right"><div>
+								<label>责任单位：</label>
+							</div></td>
+						<td colspan="4"><div>@field0001@</div></td>
+						<td></td>
+						<td style="text-align: right"><div>
+								<label>协办单位：</label>
+							</div></td>
+						<td colspan="4"><div>@field0002@</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td style="text-align: right">
+							<div>
+								<label>责任人：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div class="duty_person">@field0003@</div>
+						</td>
+						<td></td>
+						<td style="text-align: right">
+							<div>
+								<label>责任人电话：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div class="duty_phone">@field0014@</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td style="text-align: right">
+							<div>
+								<label>分管领导：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div>@field0096@</div>
+						</td>
+						<td></td>
+						<td style="text-align: right">
+							<div>
+								<label>交办单位：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div>@field0087@</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td style="text-align: right">
+							<div>
+								<label>反馈方式：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div>@field0149@</div>
+						</td>
+						<td></td>
+						<td style="text-align: right"><div>
+								<label>紧急程度：</label>
+							</div></td>
+						<td colspan="4"><div>@field0099@</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td style="text-align: right">
+							<div>
+								<label>完成时限：</label>
+							</div>
+						</td>
+						<td colspan="4" class="date_icon">
+							<div>@field0004@</div>
+						</td>
+						<td></td>
+						<td style="text-align: right">
+							<div>
+								<label>立项时间：</label>
+							</div>
+						</td>
+						<td colspan="4" class="">
+							<div>@field0098@</div> <span></span>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td style="text-align: right"><div>
+								<label>督办要求：</label>
+							</div></td>
+						<td colspan="10"><div>@field0026@</div></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="9"></td>
+						<td class="log" style="text-align:right"><div>日志<span></span></div></td>
+						<td class="more down" style="text-align: right">
+							<div>
+								更多 <span></span>
+							</div>
+						</td>
+					</tr>
+					<tr class="down_content">
+						<td style="text-align: right"><div>
+								<label>上级事项：</label>
+							</div></td>
+						<td colspan="4"><div style="display:none">@field0019@</div></td>
+						<td></td>
+						<td style="text-align: right"><div>
+								<label>事项状态：</label>
+							</div></td>
+						<td colspan="4"><div>@field0024@</div></td>
+						<td></td>
+					</tr>
+					<tr class="down_content">
+						
+						<td style="text-align: right">
+							<div>
+								<label>完成进度：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div>@field0028@</div>
+						</td>
+						<td></td>
+						<td style="text-align: right">
+							<div>
+								<label>得分：</label>
+							</div>
+						</td>
+						<td colspan="4">
+							<div>@field0151@</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr class="down_content">
+						<td style="text-align: right"><div>
+								<label>承办人：</label>
+							</div></td>
+						<td colspan="4"><div>@field0134@</div></td>
+						<td></td>
+						<td style="text-align: right;" valign="top"><div>
+								<label>销账时间：</label>
+							</div></td>
+						<td class="" colspan="4" valign="top"><div>
+								<div>@field0126@</div>
+							</div>
+							<span></span></td>
+						<td></td>
+					</tr>
+					<tr style="display: none">
+						<td style="text-align: right"><div>
+								<label>目标来源：</label>
+							</div></td>
+						<td colspan="4"><div>@field0100@</div></td>
+						<td style="text-align: right"><div>
+								<label>上级事项ID：</label>
+							</div></td>
+						<td colspan="4"><div>@field0131@</div></td>
+					</tr>
+					<tr style="display: none">
+						<td style="text-align: right"><div>
+								<label>签收时间：</label>
+							</div></td>
+						<td colspan="4"><div>@field0125@</div></td>
+						<td style="text-align: right"><div>
+								<label>签收人：</label>
+							</div></td>
+						<td colspan="4"><div>@field0133@</div></td>
+					</tr>
+					<tr style="display: none">
+						<td style="text-align: right"><div>
+								<label>销账人：</label>
+							</div></td>
+						<td colspan="4"><div>@field0132@</div></td>
+						<td style="text-align: right"><div>
+								<label>预警：</label>
+							</div></td>
+						<td colspan="4"><div>@field0012@</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<style>
+label {
+	font-family: 微软雅黑, 宋体;
+	font-size:14px;
+}
+
+#field0024_txt+input,#field0149_txt+input {
+	border-radius: 0px 5px 5px 0px;
+	padding: 3px;
+	height: 28px;
+}
+
+#field0099_txt+input,#field0022_txt+input {
+	border-radius: 0px 5px 5px 0px;
+	padding: 3px;
+	height: 28px;
+}
+</style>

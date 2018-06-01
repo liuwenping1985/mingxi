@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<sms>
+		<cmpp3>
+			<host mark="" desc="ISMG主机地址"></host>
+			<port mark="{int}" desc="ISMG主机端口号"></port>
+			<SPID mark="" desc="企业代码SPID"></SPID>
+			<password mark="" desc="登录密码"></password>
+			<srcTerminalId mark="" desc="源终端MSISDN号码（为SP的服务代码或前缀，服务代码的长号码，没有可以为空）"></srcTerminalId>
+			<serviceId mark="" desc="业务类型"></serviceId>
+			<msgLevel mark="{int}" desc="信息类别">1</msgLevel>
+			<version mark="{int}" desc="双方协商的版本号（大于0，小于256）">1</version>
+			<heartbeatInterval mark="{int}" desc="心跳信息发送间隔时间（单位：秒）">15</heartbeatInterval>
+			<reconnectInterval mark="{int}" desc="连接中断时重连间隔时间（单位：秒）">15</reconnectInterval>
+			<heartbeatNoresponseout mark="{int}" desc="需要重连时，连续发出心跳而没有接收到响应的个数（单位：个）">5</heartbeatNoresponseout>
+		</cmpp3>
+
+		<ufmobile>
+			<host mark="" desc="UFMobile服务器IP，如128.2.2.10"></host>
+			<port mark="{int}" desc="UFMobile服务器端口，如803"></port>
+		</ufmobile>
+
+		<king>
+			<name mark="" desc="短信王用户名"></name>
+			<password mark="" desc="短信王密码"></password>
+		</king>
+
+		<jindi>
+			<comNum mark="{int}" desc="金笛短信COM口配置，如：1,2,3,4"></comNum>
+		</jindi>
+
+		<merp>
+			<host mark="" desc="NC-MERP服务器IP，如127.0.0.1"></host>
+			<port mark="{int}" desc="NC-MERP服务器端口，如80"></port>
+		</merp>
+	</sms>
+</ctpConfig>

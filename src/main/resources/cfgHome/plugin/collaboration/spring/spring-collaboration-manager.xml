@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="colManager"
+        class="com.seeyon.apps.collaboration.manager.ColManagerImpl">
+        <property name="attachmentManager" ref="attachmentManager"></property>
+        <property name="commentManager" ref="ctpCommentManager"></property>
+        <!-- 处理后不允许撤销的节点权限 -->
+        <property name="cannotRepealList">
+            <list>
+                <value>formaudit</value><!-- 表单审核 -->
+                <value>newsaudit</value><!-- 新闻审核 -->
+                <value>bulletionaudit</value><!-- 公告审核 -->
+                <value>vouch</value><!-- 核定 -->
+            </list>
+        </property>
+    </bean>
+    <bean id="collWFEventListener"
+        class="com.seeyon.apps.collaboration.listener.WorkFlowEventListener">
+    </bean>
+    <bean id="collaborationListener"
+        class="com.seeyon.apps.collaboration.listener.CollaborationListener">
+    </bean>
+     <bean id="col4WFAnalysisManager"
+        class="com.seeyon.apps.collaboration.manager.Col4WFAnalysisManagerImpl">
+    </bean>
+     <bean id="colMessageManager"
+        class="com.seeyon.apps.collaboration.manager.ColMessageManagerImpl">
+    </bean>
+    <bean id="MemberLeaveClearItemInterfaceCol" class="com.seeyon.apps.collaboration.manager.MemberLeaveClearItemInterfaceColImpl"></bean>
+    <bean id="MemberLeaveDataInterfaceCol" class="com.seeyon.apps.collaboration.manager.MemberLeaveDataInterfaceColImpl"></bean>
+    <bean id="MemberLeaveDataInterfaceColTemplate" class="com.seeyon.apps.collaboration.manager.MemberLeaveDataInterfaceColTemplateImpl"></bean>
+
+    <bean id="workFlowAppExtendManager"
+        class="com.seeyon.apps.supervise.manager.WorkFlowAppExtendManagerImpl">
+    </bean>
+    <bean id="iSearchInterfaceColImpl" class="com.seeyon.apps.collaboration.manager.ISearchInterfaceColImpl" init-method="init">
+        <property name="iSearchInterfaceColDao" ref="iSearchInterfaceColDao"></property>
+    </bean>
+    <bean id="iSearchInterfaceHisColImpl" class="com.seeyon.apps.collaboration.manager.ISearchInterfaceHisColImpl" init-method="init"></bean>
+    <bean id="colWorkflowManageHandler" class="com.seeyon.apps.collaboration.manager.ColWorkflowManageHandler"></bean>
+    
+    <bean id="colIndex" class="com.seeyon.apps.collaboration.manager.ColIndexEnableImpl"></bean>
+    <!-- 协同归档
+    <bean id="collDocFilingEnable" class="com.seeyon.apps.collaboration.manager.CollDocFilingEnable"></bean> -->
+    
+    
+    <bean id="fromDocFilingEnable" class="com.seeyon.apps.collaboration.manager.FromDocFilingEnable"></bean>
+    
+    <!-- 协同自动发起流程对外接口 -->
+    <bean id="colPubManager" class="com.seeyon.apps.collaboration.manager.ColPubManagerImpl">
+        <property name="commentManager" ref="ctpCommentManager"></property>
+    </bean>
+    
+    <bean id="processCycRemindQuartzJob" class="com.seeyon.apps.collaboration.quartz.ProcessCycRemind">
+    </bean>
+    
+    <bean id="affairIsOvertopTimeJob" class="com.seeyon.apps.collaboration.quartz.IsOvertopTimeJob">
+    </bean>
+    <bean id="collDocFilingImpl" class="com.seeyon.apps.collaboration.manager.CollDocFilingImpl">
+    </bean>
+    <bean id="batchManager" class="com.seeyon.apps.collaboration.batch.manager.BatchManagerImpl">
+    </bean>
+    <bean id="detaillogManager" class="com.seeyon.apps.collaboration.manager.DetaillogManagerImpl">
+    </bean>
+    <bean id="terminateColSuperviseJob" class="com.seeyon.apps.collaboration.quartz.TerminateColSupervise">
+    </bean>
+    <!-- 协同锁 -->
+    <bean id="colLock" parent="lockManager">
+        <property name="module" value="colLock" />
+    </bean>
+    <bean id="colLockManager" class="com.seeyon.apps.collaboration.manager.ColLockManagerImpl">
+    </bean>
+    <bean id="pendingManager" class="com.seeyon.apps.collaboration.manager.PendingManagerImpl">
+    </bean>
+    <!-- 消息过滤 -->
+    <bean id="userMessageFilterImplCollaboration" class="com.seeyon.apps.collaboration.manager.UserMessageFilterImplCollaboration"/>
+    <!-- 常用栏目选择器 -->
+    <bean id="collaborationSelector" class="com.seeyon.ctp.portal.section.CollaborationSectionSelector">
+        <property name="sectionType" value="collaboration"></property>
+    </bean>
+    <bean id="quartzManager" class="com.seeyon.apps.collaboration.quartz.QuartzManagerImpl">
+    </bean>
+    <bean id="traceWorkflowManager" class="com.seeyon.apps.collaboration.trace.manager.TraceWorkflowManagerImpl">
+    </bean>
+    <bean id="colTraceWorkflowManager" class="com.seeyon.apps.collaboration.manager.ColTraceWorkflowManagerImpl">
+    </bean>
+    <bean name="deskCollaborationManager" class="com.seeyon.apps.collaboration.manager.DeskCollaborationManagerImpl"></bean>
+    
+    <bean id="collaborationPortlet" class="com.seeyon.ctp.portal.portlet.CollaborationPortlet"></bean>
+    <bean name="deskCollaborationProcessManagerImpl" class="com.seeyon.apps.collaboration.manager.DeskCollaborationProcessManagerImpl">
+    	<property name="app" value="collaboration"></property>
+    </bean>
+    <!-- 电子签章Manager注册 -->
+    <bean id="htmSignetManager" class="com.seeyon.v3x.system.signet.manager.V3xHtmDocumentSignatManagerImpl"/>
+    <!-- 书生正文Manager注册 -->
+    <bean id="sursenManager" class="com.seeyon.ctp.common.sursen.manager.SursenManagerImpl"/>
+    <!-- 签章锁Manager注册 -->
+    <bean id="officeLockManager" class="com.seeyon.ctp.common.office.OfficeLockManagerImpl"/>
+    <bean id="updateAffairState4AutoSkipJob" class="com.seeyon.apps.collaboration.quartz.UpdateAffairState4AutoSkipJob"/>
+    <bean id="collaobrationSystemInitializer" class="com.seeyon.apps.collaboration.systeminitializer.CollaobrationSystemInitializer"></bean>
+</beans>

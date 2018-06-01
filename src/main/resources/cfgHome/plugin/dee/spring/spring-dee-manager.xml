@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="deeDataSourceManager"
+		class="com.seeyon.apps.dee.manager.DeeDataSourceManagerImpl">
+	</bean>
+	<bean id="deeSynchronLogManager"
+		class="com.seeyon.apps.dee.manager.DeeSynchronLogManagerImpl">
+	</bean>
+	<bean id="deeScheduleManager"
+		class="com.seeyon.apps.dee.manager.DeeScheduleManagerImpl">
+	</bean>
+	<bean id="deeSectionManager"
+		class="com.seeyon.apps.dee.manager.DeeSectionManagerImpl" init-method="init"/>
+	<bean id="deeSectionSelector" class="com.seeyon.apps.dee.section.DeeSectionSelector">
+        <property name="sectionType" value="forum"></property>
+        <property name="linkCategoryManager" ref="linkCategoryManager"></property>
+        <property name="linkSectionManager" ref="linkSectionManager"></property>
+        <property name="deeSectionManager" ref="deeSectionManager"></property>
+    </bean>
+    <bean id="deeDeleteManager"
+          class="com.seeyon.apps.dee.manager.DeeDeleteManagerImpl">
+    </bean>
+</beans>

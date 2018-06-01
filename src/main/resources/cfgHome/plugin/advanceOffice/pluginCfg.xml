@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>advanceOffice</id>
+	<!-- 虚拟插件，为兼容v3x:hasPlugin('officeOcx') 判断，标准office插件，为兼容老代码程序中引用的 "officeOcx"，次名字保留，制作加密狗时，默认勾选officeOcx插件-->
+	<name>advanceOffice</name>
+	<category>50300</category>
+</plugin>

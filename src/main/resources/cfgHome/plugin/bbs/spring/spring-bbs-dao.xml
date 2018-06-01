@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="bbsBoardDao" class="com.seeyon.v3x.bbs.dao.impl.BbsBoardDaoImpl">
+	</bean>
+	
+	<bean id="bbsArticleDao" class="com.seeyon.v3x.bbs.dao.impl.BbsArticleDaoImpl">
+	</bean>
+	
+	<bean id="bbsArticleReplyDao" class="com.seeyon.v3x.bbs.dao.impl.BbsArticleReplyDaoImpl">
+	</bean>
+	
+	<bean id="bbsBoardAuthDao" class="com.seeyon.v3x.bbs.dao.impl.BbsBoardAuthDaoImpl">
+	</bean>
+	
+	<bean id="vbsArticleIssueAreaDao" class="com.seeyon.v3x.bbs.dao.impl.BbsArticleIssueAreaDaoImpl">
+	</bean>
+	
+</beans>

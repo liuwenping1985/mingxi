@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="categoryDao" class="com.seeyon.apps.category.dao.impl.CategoryDaoImpl"></bean>
+	<bean id="elementDao" class="com.seeyon.apps.element.dao.impl.ElementDaoImpl"></bean>
+	<bean id="elementPermissionDao" class="com.seeyon.apps.element.dao.impl.ElementPermissionDaoImpl"></bean>
+	<bean id="govformDao" class="com.seeyon.apps.form.dao.impl.FormDaoImpl"></bean>
+	<bean id="govformAclDao" class="com.seeyon.apps.form.dao.impl.FormAclDaoImpl"></bean>
+	<bean id="govformExtendInfoDao" class="com.seeyon.apps.form.dao.impl.FormExtendInfoDaoImpl"></bean>
+	<bean id="govformElementDao" class="com.seeyon.apps.form.dao.impl.FormElementDaoImpl"></bean>
+	<bean id="govformPermissionBoundDao" class="com.seeyon.apps.form.dao.impl.FormPermissionBoundDaoImpl"></bean>
+</beans>

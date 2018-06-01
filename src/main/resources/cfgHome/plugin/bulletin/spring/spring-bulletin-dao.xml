@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="bulDataDao" class="com.seeyon.v3x.bulletin.dao.BulDataDaoImpl"></bean>
+	
+	<bean id="bulReadDao" class="com.seeyon.v3x.bulletin.dao.BulReadDaoImpl"></bean>
+	
+	<bean id="bulTemplateDao" class="com.seeyon.v3x.bulletin.dao.BulTemplateDaoImpl"></bean>
+	
+	<bean id="bulTypeDao" class="com.seeyon.v3x.bulletin.dao.BulTypeDaoImpl"></bean>
+	
+	<bean id="bulTypeManagersDao" class="com.seeyon.v3x.bulletin.dao.BulTypeManagersDaoImpl"></bean>
+	
+	<bean id="bulLogDao" class="com.seeyon.v3x.bulletin.dao.BulLogDaoImpl"></bean>
+	
+	<bean id="bulPublishScopeDao" class="com.seeyon.v3x.bulletin.dao.BulPublishScopeDaoImpl"></bean>
+	
+	<bean id="bulBodyDao" class="com.seeyon.v3x.bulletin.dao.BulBodyDaoImpl"></bean>
+		
+</beans>

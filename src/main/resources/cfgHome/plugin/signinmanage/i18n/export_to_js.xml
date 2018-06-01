@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>signinmanage.application.name</resKey>
+    <resKey>signinmanage.application.parameter</resKey>
+    <resKey>signinmanage.application.checkconnection</resKey>
+    <resKey>signinmanage.application.targetconnection</resKey>
+    <resKey>signinmanage.application.new</resKey>
+    <resKey>signinmanage.application.modify</resKey>
+    <resKey>signinmanage.application.delete</resKey>
+    <resKey>signinmanage.application.error</resKey>
+    <resKey>signinmanage.application.poppage</resKey>
+    <resKey>signinmanage.application.yes</resKey>
+    <resKey>signinmanage.application.no</resKey>
+    <resKey>signinmanage.application.remind</resKey>
+    <resKey>signinmanage.application.edit</resKey>
+</export>

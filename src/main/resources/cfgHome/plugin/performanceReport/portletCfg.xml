@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlets>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>performancethemespace</portletId>
+		<!-- 需要进行权限判断时使用的资源Id-->
+		<resourceCode>T03_performance_analysis</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id-->
+		<pluginId>performanceReport</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>performanceReport.section.collboration</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>performanceReport.section.collboration</displayName>
+		<!-- Portlet分类 -->
+		<!-- 
+				space,//空间
+				common, //常用
+				collaboration,//协同工作
+				formbizconfigs, //表单应用
+				edoc,//公文管理
+				timeManagement, //目标管理
+				meeting,//会议管理
+				doc, //知识社区
+				performanceAnalysis,//协同驾驶舱
+				integratedoffice,//综合办公
+				publicInformation, //文化建设
+				hrmanage,//HR管理
+				uccenter,//UC中心
+				info,//信息报送
+				businessfactory,//业务生成器
+				business,//业务
+				mytool,//我的工具
+		 -->
+		<category>performanceAnalysis</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/portal/spaceController.do?method=showThemSpace&themType=23]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>0</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				<!-- 图片路径 -->
+				<imageUrl><![CDATA[d_monitorthemespace.png]]></imageUrl>
+				<!-- 图片名称 -->
+				<imageName>performanceReport.section.collboration</imageName>
+				<!-- 图片内容标题 -->
+				<imageTitle></imageTitle>
+				<!-- 图片内容摘要 -->
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>collcubethemespace</portletId>
+		<!-- 需要进行权限判断时使用的资源Id -->
+		<resourceCode>F08_colCube</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id -->
+		<pluginId>colCube</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>colCube.common.crumbs.colAllRound</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>colCube.common.crumbs.colAllRound</displayName>
+		<!-- Portlet分类 -->
+		<category>performanceAnalysis,common</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/colCube/colCube.do?method=goColAllRound]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>8</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				图片路径
+				<imageUrl><![CDATA[d_collaborationcube.png]]></imageUrl>
+				图片名称
+				<imageName>colCube.common.crumbs.colAllRound</imageName>
+				图片内容标题
+				<imageTitle></imageTitle>
+				图片内容摘要
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+	<portlet>
+		<!-- 唯一标识，用于权限判断及Portlet数据更新 -->
+		<portletId>performancequerythemespace</portletId>
+		<!-- 需要进行权限判断时使用的资源Id -->
+		<resourceCode>F08_queryindex</resourceCode>
+		<!-- 需要进行权限判断时使用的插件Id -->
+		<pluginId>performanceReport</pluginId>
+		<!-- Portlet名称,可以为空 -->
+		<portletName>performanceReport.section.queryMain</portletName>
+		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
+		<displayName>performanceReport.section.queryMain</displayName>
+		<!-- Portlet分类 -->
+		<category>performanceAnalysis,common</category>
+		<!-- Portlet点击响应地址 -->
+		<portletUrl><![CDATA[/performanceReport/performanceQuery.do?method=queryIndex]]></portletUrl>
+		<!-- Portlet点击响应地址类型,space:空间地址,workspace:系统工作区地址,open:系统新窗口地址,link:外部地址 -->
+		<portletUrlType>workspace</portletUrlType>
+		<!-- Portlet大小,0:中,1:大 -->
+		<size>0</size>
+		<!-- Portlet排序 -->
+		<order>9</order>
+		<!-- Portlet展示图片 -->
+		<imageLayouts>
+			<imageLayout>
+				图片路径
+				<imageUrl><![CDATA[d_performancequery.png]]></imageUrl>
+				图片名称
+				<imageName>performanceReport.section.queryMain</imageName>
+				图片内容标题
+				<imageTitle></imageTitle>
+				图片内容摘要
+				<summary></summary>
+			</imageLayout>
+		</imageLayouts>
+	</portlet>
+</portlets>

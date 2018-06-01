@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>ca</id>
+	<name>ca身份认证管理</name>
+	<category>17606</category>
+	<initializer>com.seeyon.v3x.plugin.ca.CAPluginInitializer</initializer>
+</plugin>

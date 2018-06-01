@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="upgradeManager" class="com.seeyon.apps.upgrade.manager.impl.UpgradeManagerImpl" init-method="init" singleton="true"></bean>
+	<bean id="edocFontSizeUpgradeManager" class="com.seeyon.apps.upgrade.manager.impl.EdocFontSizeUpgradeManagerImpl" init-method="init" singleton="true"></bean>
+	<bean id="edocSummaryFontSizeJob" class="com.seeyon.apps.upgrade.manager.impl.EdocSummaryFontSizeJob" singleton="true"></bean>
+	
+</beans>

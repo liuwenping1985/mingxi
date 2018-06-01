@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="mProfileManager" class="com.seeyon.apps.m1.profile.manager.impl.MProfileManagerImpl">
+		<property name="mMOneProfileManager" ref="mMOneProfileManager" />
+	</bean>
+	<bean id="mLoginManager" class="com.seeyon.apps.m1.login.manager.impl.MLoginManagerImpl">
+		<property name="loginControl" ref="loginControl" />
+		<property name="mOrgManager" ref="mOrganizationManager" />
+		<property name="mProductManager" ref="mProductManager" />
+		<property name="mobileAuthService" ref="mobileAuthService" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="userMapperDao" ref="userMapperDao" />
+		<property name="ssoLogout" ref="cmpSSOLogout" />
+	</bean> 
+		<bean id="mOrganizationManager"
+		class="com.seeyon.apps.m1.organization.manager.impl.MOrganizationManagerImpl">
+		<property name="orgManager" ref="orgManager" />
+		<property name="staffInfoManager" ref="staffInfoManager" />
+		<property name="customizeManager" ref="customizeManager" />
+		<property name="s2sManager" ref="s2sManager" />
+		<property name="s2sUtil" ref="s2sUtil" />
+		<property name="orgManagerDirect" ref="orgManagerDirect" />
+	</bean>
+	<bean id="mCollaborationManager"
+		class="com.seeyon.apps.m1.collaboration.manager.impl.MCollaborationManagerImpl">
+		<property name="colManager" ref="colManager" />
+		<property name="permissionManager" ref="permissionManager" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="templateManager" ref="templateManager" />
+		<property name="ctpCommentManager" ref="ctpCommentManager" />
+		<property name="WFAjax" ref="WFAjax" />
+		<property name="mFormManager" ref="mFormManager" />
+		<property name="mTemplateManager" ref="mTemplateManager"></property>
+		<property name="mSignatureManager" ref="mSignatureManager"></property>
+		<property name="formManager" ref="formManager"></property>
+		<property name="docHierarchyManager" ref="docHierarchyManager" />
+		<property name="mCollaborationDao" ref="mCollaborationDao" />
+		<property name="attachmentManager" ref="attachmentManager" />
+	</bean>
+
+	<bean id="mBulletinManager"
+		class="com.seeyon.apps.m1.bulletin.manager.impl.MBulletinManagerImpl">
+		<property name="bulDataManager" ref="bulDataManager" />
+		<property name="bulTypeManager" ref="bulTypeManager" />
+
+	</bean>
+	<!-- 新闻板块 -->
+	<bean id="mNewsManager" class="com.seeyon.apps.m1.news.manager.impl.MNewsManagerImpl">
+		<property name="newsTypeManager" ref="newsTypeManager"></property>
+		<property name="newsDataManager" ref="newsDataManager"></property>
+        <property name="orgManager" ref="orgManager"></property>
+	</bean>
+	<bean id="mChoosePersonManager"
+		class="com.seeyon.apps.m1.common.manager.chooseperson.impl.MChoosePersonManagerImpl">
+		<property name="orgManager" ref="orgManager" />
+		<property name="addressBookManager" ref="addressBookManager" />
+		<property name="departmentManager" ref="departmentManager" />
+		<property name="orgManagerDirect" ref="orgManagerDirect" />
+	</bean>
+	<bean id="mWorkflowManager"
+		class="com.seeyon.apps.m1.common.manager.workflow.impl.MWorkflowManagerImpl">
+		<property name="permissionManager" ref="permissionManager" />
+		<property name="colManager" ref="colManager" />
+		<property name="wapi" ref="wapi" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="templateManager" ref="templateManager" />
+		<property name="affairManager" ref="affairManager" />
+		<property name="edocManager" ref="edocManager" />
+	</bean>
+
+	<bean id="mOpinionManager"
+		class="com.seeyon.apps.m1.common.manager.opinion.impl.MOpinionManagerImpl">
+		<property name="ctpCommentManager" ref="ctpCommentManager" />
+	</bean>
+
+	<!-- 文档管理接口 -->
+	<bean id="mArchiveManager"
+		class="com.seeyon.apps.m1.archive.manager.impl.MArchiveManagerImpl">
+		<property name="docLibManager" ref="docLibManager" />
+		<property name="docAclManager" ref="docAclManager" />
+		<property name="docAclNewManager" ref="docAclNewManager" />
+		<property name="docMimeTypeManager" ref="docMimeTypeManager" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="attachmentManager" ref="attachmentManager" />
+		<property name="docHierarchyManager" ref="docHierarchyManager" />
+		<property name="affairManager" ref="affairManager" />
+		<property name="knowledgePageManager" ref="knowledgePageManager" />
+		<property name="docActionUseManager" ref="docActionUseManager" />
+		<property name="fileManager" ref="fileManager" />
+		<property name="operationlogManager" ref="operationlogManager" />
+	</bean> 
+
+	<bean id="mCommonPhraseManager"
+		class="com.seeyon.apps.m1.common.manager.phrase.impl.MCommonPhraseManagerImpl">
+		<property name="phraseManager" ref="phraseManager" />
+	</bean>
+	<!-- 公文管理接口 -->
+	<bean id="mEdocManager"
+		class="com.seeyon.apps.m1.edoc.manager.impl.MEdocManagerImpl">
+		<property name="edocManager" ref="edocManager" />
+		<property name="orgManager" ref="orgManager" />
+		<property name="colManager" ref="colManager" />
+		<property name="wapi" ref="wapi" />
+		<property name="attachmentManager" ref="attachmentManager" />
+		<property name="edocFormManager" ref="edocFormManager" />
+		<property name="templateManager" ref="templateManager" />
+		<property name="affairManager" ref="affairManager" />
+		<property name="fileManager" ref="fileManager" />
+		<property name="edocElementManager" ref="edocElementManager" />
+		<property name="edocElementFlowPermAclManager" ref="edocElementFlowPermAclManager" />
+		<property name="permissionManager" ref="permissionManager" />
+		<property name="edocRegisterManager" ref="edocRegisterManager" />
+		<property name="indexManager" ref="indexManager" />
+		<property name="WFAjax" ref="WFAjax" />
+		<property name="edocListManager" ref="edocListManager" />
+		<property name="workTimeManager" ref="workTimeManager" />
+		<property name="edocSummaryManager" ref="edocSummaryManager" />
+		<property name="privilegeCheck" ref="privilegeCheck"></property>
+	</bean>
+	 <!--  消息管理接口类 -->
+  	<bean id = "mMessageManager" class="com.seeyon.apps.m1.message.manager.impl.MMessageManagerImpl">
+        <property name="userMessageManager" ref="userMessageManager"></property>
+        <property name="orgManager" ref="orgManager"></property>
+        <property name="attachmentManager" ref = "attachmentManager"></property>
+        <property name="m1UserPushMessageConfigDao" ref = "m1UserPushMessageConfigDao"></property>
+    </bean> 
+    
+  	<bean id = "mTemplateManager" class="com.seeyon.apps.m1.template.manager.impl.MTemplateManagerImpl">
+        <property name="formManager" ref="formManager"></property>
+        <property name="templateManager" ref="templateManager"></property>
+    </bean>
+ 	<bean id = "mMessageEventListener" class = "com.seeyon.apps.m1.message.listener.MMessageEventListener">
+       <property name="mProductManager" ref="mProductManager" />
+       <property name="m1UserPushMessageConfigDao" ref="m1UserPushMessageConfigDao"></property>
+    </bean> 
+    <bean class = "com.seeyon.apps.m1.organization.listener.MOrganizationEventListener">
+       <property name="mProductManager" ref="mProductManager" />
+       <property name="mobileAuthService" ref="mobileAuthService" />
+    </bean>
+
+    
+  	<bean id = "mFormAjaxManager" class="com.seeyon.apps.m1.form.manager.impl.MFormAjaxManagerImpl">
+        <property name="formManager" ref="formManager"></property>
+        <property name="formCacheManager" ref="formCacheManager"></property>
+        <property name="formDataManager" ref="formDataManager"></property>
+        <property name="ctpMainbodyManager" ref="ctpMainbodyManager"></property>
+        <property name="mArchiveManager" ref="mArchiveManager"></property>
+        <property name="mSignatureManager" ref="mSignatureManager"></property>
+        <property name="colManager" ref="colManager" />
+    </bean>
+    
+  	<bean id = "mFormManager" class="com.seeyon.apps.m1.form.manager.impl.MFormManagerImpl">
+        <property name="formManager" ref="formManager"></property>
+        <property name="formCacheManager" ref="formCacheManager"></property>
+        <property name="formDataManager" ref="formDataManager"></property>
+        <property name="ctpMainbodyManager" ref="ctpMainbodyManager"></property>
+        <property name="mCollaborationManager" ref="mCollaborationManager"></property>
+        <property name="mTemplateManager" ref="mTemplateManager"></property>
+        <property name="mSignatureManager" ref="mSignatureManager"></property>
+    </bean>
+  	
+    <!-- UC中心交互接口 -->
+    <bean id="mUcManager" class="com.seeyon.apps.m1.uc.manager.impl.MUcManagerImpl">
+    </bean>
+    
+    <bean id = "mBGManager" class="com.seeyon.apps.m1.bg.manager.impl.MBGManagerImpl">
+        <property name="businessManager" ref="businessManager"></property>
+        <property name="menuManager" ref="menuManager"></property>
+        <property name="mCollaborationManager" ref="mCollaborationManager"></property>
+    </bean>
+    
+    <bean id = "mProjectManager" class="com.seeyon.apps.m1.project.manager.impl.MProjectManagerImpl">
+        <property name="portletEntityPropertyManager" ref="portletEntityPropertyManager"></property>
+        <property name="projectManager" ref="projectManager"></property>
+    </bean>
+     <bean id = "mAttachmentManager" class="com.seeyon.apps.m1.common.manager.attachment.impl.MAttachmentManagerImpl">
+        <property name="fileManager" ref="fileManager"></property>
+    </bean>
+    <!-- 菜单管理 -->
+     <bean id = "mMenuManager" class="com.seeyon.apps.m1.common.manager.menu.impl.MMenuManagerImpl">
+        <property name="colManager" ref="colManager" />
+        <property name="edocListManager" ref="edocListManager" />
+    </bean>
+    <!-- RBAC管理 -->
+     <bean id = "mPrivilegeManager" class="com.seeyon.apps.m1.privilege.MPrivilegeManagerImpl">
+        <property name="privilegeManage" ref="privilegeManage"></property>
+        <property name="privilegeCheck" ref="privilegeCheck"></property>
+        <property name="menuManager" ref="menuManager"></property>
+        <property name="formReportViewManager" ref="formReportViewManager"></property>
+        <property name="ncUserMapperManager" ref="ncUserMapperManager"></property>
+    </bean>
+    
+    <!-- 签章 -->
+     <bean id = "mSignatureManager" class="com.seeyon.apps.m1.common.manager.signature.impl.MSignatureManagerImpl">
+        <property name="htmlHandWriteManager" ref="htmlHandWriteManager" />
+    </bean>
+    
+     <bean id = "mProductManager" class="com.seeyon.apps.m1.product.manager.impl.MProductManagerImpl"/>
+     <bean id = "mMOneProfileManager" class="com.seeyon.apps.m1.product.manager.impl.MMOneProfileManagerImpl"/>
+     <bean id = "mSkinManager" class="com.seeyon.apps.m1.skin.MSkinManagerImpl">
+         <property name="fileManager" ref="fileManager" />
+      </bean>
+     <bean id = "mBindApplyManager" class="com.seeyon.apps.m1.bind.service.impl.MBindApplyManagerImpl"></bean>
+     
+     <!-- 统计图 -->
+     
+     <bean id = "mReportFormViewManager" class="com.seeyon.apps.m1.report.manager.impl.MReportFormViewManagerImpl">
+     	<property name="formReportViewManager" ref="formReportViewManager" />
+     	<property name="reportSaveManager" ref="reportSaveManager" />
+     	<property name="drawChartManager" ref="drawChartManager" />
+     	<property name="formManager" ref="formManager"></property>
+     	<property name="formAuthManager" ref="formAuthManager" />
+     </bean>
+     
+     <!-- 会议 -->
+     <bean id = "mMeetingManager" class="com.seeyon.apps.m1.meeting.manager.impl.MMeetingManagerImpl">
+          <property name="mtMeetingManager" ref="mtMeetingManager" /> 
+          <property name="orgManager" ref="orgManager"/>
+          <property name="replyManager" ref="replyManager"/>
+          <property name="meetingRoomManager" ref="meetingRoomManager"/>
+          <property name="attachmentManager" ref="attachmentManager"/>
+          <property name="mtSummaryManager" ref="mtSummaryManager"/>
+          <property name="affairManager" ref="affairManager"/>
+          <property name="userMessageManager" ref="userMessageManager"/>
+          <property name="indexManager" ref="indexManager"/>
+           <property name="fileManager" ref="fileManager"/>
+     </bean>
+      <!-- dee -->
+     <bean id="mDeeManager" class="com.seeyon.apps.m1.dee.manager.impl.MDeeManagerImpl" > 
+          <property name="formManager" ref="formManager"/> 
+          <property name="formCacheManager" ref="formCacheManager"/>
+          <property name="deeDataManager" ref="deeDataManager"/>
+     </bean>
+     <!-- 日程事件时间视图-->
+     <bean id="mCalendarManager" class="com.seeyon.apps.m1.calendar.manager.impl.MCalendarManagerImpl" >
+	     <property name="calEventManager" ref="calEventManager" />
+	     <property name="attachmentManager" ref="attachmentManager" />
+	     <property name="calReplyManager" ref="calReplyManager" />
+	     <property name="orgManager" ref="orgManager" />
+	     <property name="calContentManager" ref="calContentManager" />
+	   
+     </bean>
+    <!-- msignature manager -->
+     <bean id = "mIsignatureManager" class ="com.seeyon.apps.m1.signature.manager.impl.MIsignatureManagerImpl"></bean>
+      
+     <bean id = "mmobileOfficeAuthManager" class =" com.seeyon.apps.m1.mobileOffice.authorization.manager.impl.MmobileOfficeAuthManagerImpl"></bean>
+      
+      
+      <bean id = "mCmpAppInfoManager" class = "com.seeyon.apps.m1.cmp.ai.manager.impl.MCmpAppInfoManagerImpl">
+     </bean>
+     
+      <bean id="mLockManager"
+        class="com.seeyon.apps.m1.common.manager.lock.MLockManagerImpl">
+        <property name="colManager" ref="colManager" />
+        <property name="edocManager" ref="edocManager" />
+        <property name="formManager" ref="formManager" />
+        <property name="affairManager" ref="affairManager" />
+        <property name="wapi" ref="wapi" />
+        <property name="officeLockManager" ref="officeLockManager" />
+        <property name="edocFormManager" ref="edocFormManager" />
+        <property name="templateManager" ref="templateManager" />
+        <property name="edocSummaryManager" ref="edocSummaryManager" />
+    </bean>
+    <bean id = "mConnectSetManager" class = "com.seeyon.apps.m1.connectSet.manager.MConnectSetManagerImpl"></bean>
+    <!-- 全部待办 -->
+     <bean id="mPendingManager" class="com.seeyon.apps.m1.common.manager.pending.impl.MPendingManagerImpl" > 
+          <property name="portalForeignManager" ref="portalForeignManager"/> 
+           <property name="pendingManager" ref="pendingManager"/>
+           <property name="orgManager" ref="orgManager"/>
+           <property name="edocManager" ref="edocManager"/>
+           <property name="colManager" ref="colManager"/>
+           <property name="workTimeManager" ref="workTimeManager"/>
+           <property name="mtMeetingManager" ref="mtMeetingManager"/>
+           <property name="bulDataManager" ref="bulDataManager"/>
+           <property name="bulDataCache" ref="bulDataCache"/>
+           <property name="newsDataManager" ref="newsDataManager"/>
+           <property name="dataCache" ref="dataCache"/>
+            <property name="attachmentManager" ref="attachmentManager"/>
+     </bean>
+     <!-- 任务 -->
+     <bean id="mTaskManager" class="com.seeyon.apps.m1.task.manager.impl.MTaskManagerImpl" > 
+          <property name="taskInfoManager" ref="taskInfoManager"/> 
+           <property name="orgManager" ref="orgManager"/>
+           <property name="attachmentManager" ref="attachmentManager"/>
+           <property name="taskListAjaxManager" ref="taskListAjaxManager"/>
+           <property name="ctpCommentManager" ref="ctpCommentManager"/>
+           <property name="taskFeedbackManager" ref="taskFeedbackManager"/>
+           <property name="projectQueryManager" ref="projectQueryManager"/>
+           <property name="indexManager" ref="indexManager"></property>
+           <property name="userMessageManager" ref="userMessageManager"></property>
+           <property name="taskInfoDao" ref="taskInfoDao"></property>
+     </bean>
+      <bean id="mPortalManager"
+        class="com.seeyon.apps.m1.portal.manager.impl.MPortalManagerImpl">
+    </bean>
+     <bean id = "mNCPendingManager" class="com.seeyon.apps.m1.third.manager.impl.MNCPendingManagerImpl">
+        <property name="scheduleSectionManager" ref="scheduleSectionManager" />
+         <property name="ncUserMapperManager" ref="ncUserMapperManager" />
+    </bean>
+    
+     <bean id = "mDajiaManager" class="com.seeyon.apps.m1.third.manager.impl.MDajiaManagerImpl">
+    </bean>
+     <bean id = "mDidicarManager" class="com.seeyon.apps.m1.third.manager.impl.MDidicarManagerImpl">
+    </bean>
+</beans>

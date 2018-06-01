@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName"> 
+	<bean name="/govDoc/govDocController.do" class="com.seeyon.apps.govdoc.doc.controller.GovDocController">
+	</bean>
+	<bean name="/govDoc/govDocExchangeController.do" class="com.seeyon.apps.govdoc.exchange.controler.GovDocExchangeController">
+	</bean>
+	<bean name="/secret/secretSetController.do" class="com.seeyon.apps.secret.controller.SecretSetController"></bean>
+	<bean name="/govdocOpenController.do" class="com.seeyon.v3x.edoc.controller.GovdocOpenController"></bean>
+</beans>

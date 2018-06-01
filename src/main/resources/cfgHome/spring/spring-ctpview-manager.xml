@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 服务日志 -->
+    <bean id="systemLogsManager" class="com.seeyon.ctp.view.modules.operationcenter.servicelog.manager.SystemLogsManagerImpl">
+    </bean>
+    <!-- 国际化资源管理 -->
+    <bean id="i18resourceManager" class="com.seeyon.ctp.common.i18n.manager.I18nResourceManagerImpl">
+    </bean>
+    <!-- 系统常量 -->
+    <bean id="constDefManager" class="com.seeyon.ctp.common.constdef.manager.ConstDefManagerImpl">
+    </bean>
+</beans>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Form id="-4857441029041076712" name="上级交办" relviewid="0" type="seeyonform">
+    <Engine>  infopath  </Engine>
+    <ViewList>
+      <View viewfile="view9.xsl" viewtype="html"/>
+    </ViewList>
+    <OperationList>
+      <Operation id="-7218546283113658340" name="审批" filename="-5931957196109427957.xml" type="update" defaultAuth="true" delete="false" phoneviewid="0" />
+      <Operation id="4759309174520627581" name="显示" filename="-7140152880576902103.xml" type="readonly" defaultAuth="true" delete="false" phoneviewid="0" />
+      <Operation id="-4848189851217146551" name="新建上级交办" filename="Operation_2627773321344598417.xml" type="add" defaultAuth="false" delete="false" phoneviewid="0" />
+    </OperationList>
+  </Form>
