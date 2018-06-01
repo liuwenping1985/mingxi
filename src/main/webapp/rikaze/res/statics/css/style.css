@@ -1,0 +1,14 @@
+.hide_div{
+    display:none
+}
+.sortImgcmpSize{
+    width:15px;
+    height:15px;
+    curosr:pointer;
+}
+.paging{
+    cursor:pointer;
+}
+.can_click{
+    cursor:pointer;
+}

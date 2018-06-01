@@ -1,0 +1,18 @@
+/* 
+ * sidebar 
+ * added at 2015-02-03 11:00:23 by milly
+ * 
+ **/
+.sidebar {float: left; display: inline; width: 181px; border-right: 1px solid #c0bdbd; margin-right: -1px;}
+.sidebar-list {}
+.sidebar-list .on {color: #45ac39;}
+.tree-item {}
+.tree-item a {display: block; height: 30px; line-height: 30px; font-size: 14px; padding: 5px 10px 5px 45px; border-bottom: 1px solid #f0f0f0;}
+.tree-item a:hover {text-decoration: none;}
+.tree-item-tit {background: #e2f9d5 url(../images/sidebar/icon_arr_down.png) 15px center no-repeat; margin-bottom: 2px; color: #45ac39; font-weight: bold;}
+/*.tree-item-tit-toggle {background-image: url(../images/sidebar/icon_arr_up.png);}*/
+.tree-item-child {display: block;}
+.tree-item-child a {}
+.tree-item-child-tit {background: url(../images/sidebar/icon_plus.png) 15px center no-repeat; margin-bottom: 2px; font-weight: bold;}
+.tree-item-child-tit-toggle {background-image: url(../images/sidebar/icon_minus.png);}
+.tree-item-child-list {display: none;}
