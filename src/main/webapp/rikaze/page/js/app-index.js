@@ -1,10 +1,78 @@
 ;
+var $_$ = false;
+function openLink(id,type){
+    if(!$_$){
+        alert("请先登陆");
+        return;
+    }
+    window.open("/seeyon/newsData.do?method=userView&id="+id+"&spaceId=&auditFlag=0");
+}
+function openLink2(id,type){
+    if(!$_$){
+        alert("请先登陆");
+        return;
+    }
+    window.open("/seeyon/bulData.do?method=userView&id="+id+"&auditFlag=0&spaceId=");
+}
+function openXxjbMore(){
+    if(!$_$){
+        alert("请先登陆");
+        return;
+    }
+  window.open('/seeyon/newsData.do?method=newsMore&spaceType=2&where=&orgType=dept&spaceId=&isGroup=&homeFlag=true&typeId=2');
+}
+function openGzdtMore(){
+    if(!$_$){
+        alert("请先登陆");
+        return;
+    }
+  window.open('/seeyon/newsData.do?method=newsMore&spaceType=2&where=&orgType=dept&spaceId=&isGroup=&homeFlag=true&typeId=1');
+
+}
+function loadBanWenBadge(){
+
+    if(!$_$){
+        $("#banwenCount").hide();
+        $("#banwenCountMask").show();
+        return;
+    }
+    $.get("/seeyon/rikaze.do?method=getBanwenCount",function(data){
+        if(data.count==0){
+            return;
+        }
+        $("#banwenCount").html(data.count);
+        $("#banwenCount").show();
+        $("#banwenCountMask").hide();
+    });
+
+
+}
+function loadYueWenBadge(){
+    if(!$_$){
+        $("#yuewenCount").hide();
+        $("#yuewenCountMask").show();
+        return;
+    }
+    $.get("/seeyon/rikaze.do?method=getYuewenCount",function(data){
+        if(data.count==0){
+            return;
+        }
+        $("#yuewenCount").html(data.count);
+        $("#yuewenCount").show();
+        $("#yuewenCountMask").hide();
+    });
+
+}
+function loadAllBadge(){
+    loadBanWenBadge();
+    loadYueWenBadge()
+}
 (function () {
     $(".nav-link").click(function (e) {
         $(".nav-link").removeClass("active");
         $(e.target).addClass("active");
     });
-    var $_$ = false;
+ 
     $(document).ready(function () {
       
 
@@ -30,6 +98,7 @@
                     $('.theme-popover-mask').fadeOut(100);
                     $('.theme-popover').slideUp(200);
                     $("#logout-btn").show();
+                    loadAllBadge();
 
                 },
                 error: function (errorInfo) {
@@ -50,6 +119,7 @@
                         $("#login-btn").show();
                         $_$ = false;
                         $("#logout-btn").hide();
+                        loadAllBadge();
 
                     },
                     error: function (errorInfo) {
@@ -99,6 +169,7 @@
             $.get("/seeyon/rikaze.do?method=checkLogin", function (data) {
                 if (data.user == "no-body") {
                     $_$ = false;
+                    loadAllBadge();
                 } else {
 
                     $("#login_info").html("欢迎您," + data.user);
@@ -108,6 +179,7 @@
                     $('.theme-popover-mask').fadeOut(100);
                     $('.theme-popover').slideUp(200);
                     $("#logout-btn").show();
+                    loadAllBadge();
                 }
             });
         }
@@ -139,10 +211,10 @@
                         isgzdt = true;
                     }
                     if(item.imageId!=null&&item.iamgeId!=""){
-                        imageData.push({"imgId":item.imageId,"title":item.title});
+                        imageData.push({"imgId":item.imageId,"title":item.title,"id":item.id,"typeId":item.typeId});
                     }
                     var htmlStr=[];
-                    htmlStr.push('<a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:42px;border-top: 0px;border-bottom:0px;">');
+                    htmlStr.push('<a onClick="openLink(\''+item.id+'\','+item.typeId+')" class="list-group-item list-group-item-action list-group-item-light" style="height:42px;border-top: 0px;border-bottom:0px;cursor:pointer">');
                     htmlStr.push('<span><p class="rkz_infor_item">'+item.title+'</p></span>');
                     htmlStr.push('<span style="float:right">'+item.createDate.split(" ")[0]+'</span>');
                     if(isgzdt){
@@ -178,51 +250,32 @@
                         xxjb.push(htmlStr.join(''));  
                     }
                 }
-                gzdt.push('<a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px"><span style="float:right;color:#007bff;margin-top:-5px">更多...</span></a>');
-                xxjb.push('<a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px"><span style="float:right;color:#007bff;margin-top:-5px">更多...</span></a>');
+                gzdt.push('<a onClick="openGzdtMore()" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px"><span style="float:right;color:#007bff;margin-top:-5px;cursor:pointer">更多...</span></a>');
+                xxjb.push('<a onClick="openXxjbMore()" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px"><span style="float:right;color:#007bff;margin-top:-5px;cursor:pointer">更多...</span></a>');
                
                 $("#gzdt").html(gzdt.join(""));
 
                 $("#xxjb").html(xxjb.join(""));
                 if(imageData.length>0){
-                    //carouselExampleIndicators
-                    //carousel-indicators
-                    /**
-                      <ol id="carousel-indicators" class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                    </ol>
-                     */
                     var olHtml=[];
-
-
                     //carousel-inner
                     var innerHtml=[];
-                    /**
-                     <div class="carousel-item active">
-                                            <img class="d-block w-100" windth="540px" height="391px" src="images/1.jpg" alt="First slide">
-                                            <div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color: rgba(119,119,119,0.8) ">
-                                                <p>国务院举行宪法宣誓</p>
-                                            </div>
-                                        </div>
-                     */
                     $(imageData).each(function(index,item){
                         var innerHtmlStr=[];
                         if(index==0){
                             olHtml.push('<li data-target="#carouselExampleIndicators" data-slide-to="'+index+'" class="active"></li>');
                             innerHtmlStr.push(' <div class="carousel-item item active">');
-                            innerHtmlStr.push('<img class="d-block w-100" windth="540px" height="330px" src="/seeyon/fileUpload.do?method=showRTE&fileId='+item.imgId+'&createDate=&type=image" alt="'+item.title+'">');
+                            innerHtmlStr.push('<img style="cursor:pointer" onclick="openLink(\''+item.id+'\','+item.typeId+')" class="d-block w-100" windth="540px" height="330px" src="/seeyon/fileUpload.do?method=showRTE&fileId='+item.imgId+'&createDate=&type=image" alt="'+item.title+'">');
                             innerHtmlStr.push('<div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color: rgba(119,119,119,0.8) ">');
-                            innerHtmlStr.push(' <p class="rkz_infor_item">'+item.title+'</p>');
+                            innerHtmlStr.push(' <p style="cursor:pointer" onclick="openLink(\''+item.id+'\','+item.typeId+')" class="rkz_infor_item">'+item.title+'</p>');
                             innerHtmlStr.push('</div></div>');
                             innerHtml.push(innerHtmlStr.join(''));
                         }else{
                             olHtml.push('<li data-target="#carouselExampleIndicators" data-slide-to="'+index+'"></li>'); 
                             innerHtmlStr.push('<div class="carousel-item item">');
-                            innerHtmlStr.push('<img class="d-block w-100" windth="540px" height="330px" src="/seeyon/fileUpload.do?method=showRTE&fileId='+item.imgId+'&createDate=&type=image" alt="'+item.title+'">');
+                            innerHtmlStr.push('<img style="cursor:pointer" onclick="openLink(\''+item.id+'\','+item.typeId+')"  class="d-block w-100" windth="540px" height="330px" src="/seeyon/fileUpload.do?method=showRTE&fileId='+item.imgId+'&createDate=&type=image" alt="'+item.title+'">');
                             innerHtmlStr.push('<div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color: rgba(119,119,119,0.8) ">');
-                            innerHtmlStr.push(' <p class="rkz_infor_item">'+item.title+'</p>');
+                            innerHtmlStr.push(' <p style="cursor:pointer" onclick="openLink(\''+item.id+'\','+item.typeId+')" class="rkz_infor_item">'+item.title+'</p>');
                             innerHtmlStr.push('</div></div>');
                             innerHtml.push(innerHtmlStr.join(''));
                         }
@@ -250,14 +303,14 @@
                     return;
                 }
                 $(data.buls).each(function(index,item){
-                    message.push(item.title);
+                    message.push(item);
                 });
                 $(data.buls).each(function(index,item){
-                    message.push(item.title);
+                    message.push(item);
                 });
                 var htmls=[];
                 $(message).each(function(index,item){
-                    htmls.push('<li><a href="#">'+item+'</a></li>')
+                    htmls.push('<li><a class="bulLink" style="cursor:pointer" onClick="openLink2(\''+item.id+'\')">'+item.title+'</a></li>')
                 });
                 $("#notice_ul").append(htmls.join(""));
 
@@ -276,10 +329,10 @@
                 //设置滚动速度
                 var timer = setInterval(goLeft, 20);
                 //设置鼠标经过时滚动停止
-                $(".box").hover(function () {
+                $(".bulLink").hover(function () {
                     clearInterval(timer);
                 },function () {
-                        timer = setInterval(goLeft, 20);
+                    timer = setInterval(goLeft, 20);
                 });
             });
 

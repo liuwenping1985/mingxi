@@ -4,6 +4,7 @@
 <beans default-autowire="byName">
 	<bean name="/rikaze.do" class="com.seeyon.apps.datakit.controller.RikazeController">
 		<property name="rikazeService" ref="rikazeService" />
+		<property name="pendingManager" ref="pendingManager" />
 	</bean>
 	<!--<bean name="/edocDB.do" class="com.seeyon.apps.zdgjedoc.controller.EDocDBController">-->
 	<!--</bean>-->

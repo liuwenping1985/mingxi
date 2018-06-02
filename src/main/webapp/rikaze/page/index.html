@@ -25,7 +25,7 @@
                         <button id="login-btn" type="button" style="color:white" class="btn btn-light btn-link">登录</button>
                         <button id="logout-btn" type="button" style="color:white;display:none" class="btn btn-light  btn-link">退出</button>
                     </div>
-                    <div id="login_info" style="color:white;padding-top:15px;" class="rkz_margin15 rkz_hide rkz_float_right">xxx欢迎您</div>
+                    <div id="login_info" style="color:white;padding-top:3px;font-size:20px" class="rkz_margin15 rkz_hide rkz_float_right">xxx欢迎您</div>
                     <div class="input-group" style="width:320px;float:right;padding-top:15px">
                         <input type="text" class="form-control" aria-label="">
                         <div class="input-group-append">
@@ -178,7 +178,8 @@
                                 <div style="padding-left:0px">
                                     <button id="btn-banwen" style="width:250px;height:65px" type="button" class="btn btn-primary btn-lg rkz_btn">
                                         <img src="images/doc.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded" />办文系统
-                                        <span style="position:relative;right:-52px;top:-21px" class="badge badge-danger">6</span>
+                                        <span id="banwenCount" style="position:relative;right:-52px;top:-21px;display:none" class="badge badge-danger">6</span>
+                                        <span  id="banwenCountMask" style="position:relative;right:-41px;top:-18px" class="badge badge-primary"></span>
                                     </button>
                                 </div>
                             </td>
@@ -187,7 +188,8 @@
                                     <button id="btn-yuewen" style="width:250px;height:65px;padding-left:40px" type="button" class="btn btn_style_one btn-lg rkz_btn">
                                         <img src="images/doc2.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
                                         />阅文系统
-                                        <span style="position:relative;right:-41px;top:-21px" class="badge badge-danger">3</span>
+                                        <span  id="yuewenCount" style="position:relative;right:-41px;top:-21px;display:none" class="badge badge-danger">3</span>
+                                        <span  id="yuewenCountMask" style="position:relative;right:-41px;top:-18px" class="badge btn_style_one"></span>
                                     </button>
                                 </div>
                             </td>

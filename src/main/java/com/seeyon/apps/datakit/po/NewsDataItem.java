@@ -1,6 +1,6 @@
 package com.seeyon.apps.datakit.po;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.seeyon.ctp.common.po.BasePO;
 
 import java.io.Serializable;
@@ -36,15 +36,15 @@ public class NewsDataItem  extends BasePO implements Serializable {
     private Integer state;
     private boolean deletedFlag;
     private Long accountId;
-    @JsonIgnore
+
     private String ext1;
-    @JsonIgnore
+
     private String ext2;
-    @JsonIgnore
+
     private String ext3;
-    @JsonIgnore
+
     private String ext4;
-    @JsonIgnore
+
     private String ext5;
     private Boolean attachmentsFlag = false;
     private boolean imageNews;

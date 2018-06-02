@@ -1,5 +1,7 @@
 package com.seeyon.apps.datakit.controller;
 
+import com.seeyon.apps.collaboration.manager.PendingManager;
+import com.seeyon.apps.collaboration.manager.PendingManagerImpl;
 import com.seeyon.apps.datakit.po.BulDataItem;
 import com.seeyon.apps.datakit.po.NewsDataItem;
 import com.seeyon.apps.datakit.service.RikazeService;
@@ -7,10 +9,20 @@ import com.seeyon.apps.datakit.util.DataKitSupporter;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.portal.section.PendingController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.addressbook.controller.AddressBookController;
 import com.seeyon.v3x.bulletin.domain.BulData;
+import com.seeyon.v3x.edoc.controller.EdocController;
+import com.seeyon.v3x.edoc.manager.EdocStatManager;
+import com.seeyon.v3x.edoc.manager.EdocSummaryManager;
+import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsData;
+import org.apache.axis.utils.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +38,7 @@ public class RikazeController extends BaseController {
 
 
     private RikazeService rikazeService;
+    private PendingManager pendingManager;
 
     public RikazeService getRikazeService() {
         return rikazeService;
@@ -36,6 +49,13 @@ public class RikazeController extends BaseController {
     }
 
 
+    public PendingManager getPendingManager() {
+        return pendingManager;
+    }
+
+    public void setPendingManager(PendingManager pendingManager) {
+        this.pendingManager = pendingManager;
+    }
 
     public RikazeController(){
 
@@ -79,6 +99,7 @@ public class RikazeController extends BaseController {
             List<BulDataItem> dataList = DBAgent.find("from BulDataItem");
             data.put("buls",dataList);
             DataKitSupporter.responseJSON(data,response);
+            NewsDataController controller;
             return null;
         }catch(Exception e){
             e.printStackTrace();
@@ -86,6 +107,39 @@ public class RikazeController extends BaseController {
             e.printStackTrace();
         }
         data.put("buls","error");
+        return null;
+    }
+
+    public ModelAndView getBanwenCount(HttpServletRequest request, HttpServletResponse response){
+       User  user = AppContext.getCurrentUser();
+       Long memberId =  user.getId();
+       String fragementId = request.getParameter("fragmentId");
+       if(StringUtils.isEmpty(fragementId)){
+           fragementId = "-7771288622128478783";
+       }
+        String ord = "0";
+        Long fgId = Long.parseLong(fragementId);
+        int count =  pendingManager.getPendingCount(memberId,fgId,ord);
+        Map<String,Object> data = new HashMap<String, Object>();
+        data.put("count",count);
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
+
+    public ModelAndView getYuewenCount(HttpServletRequest request, HttpServletResponse response){
+        User  user = AppContext.getCurrentUser();
+        Long memberId =  user.getId();
+        String fragementId = request.getParameter("fragmentId");
+        if(StringUtils.isEmpty(fragementId)){
+            fragementId = "-7771288622128478783";
+        }
+        String ord = "1";
+        Long fgId = Long.parseLong(fragementId);
+        int count =  pendingManager.getPendingCount(memberId,fgId,ord);
+        Map<String,Object> data = new HashMap<String, Object>();
+        data.put("count",count);
+        DataKitSupporter.responseJSON(data,response);
+
         return null;
     }
 
