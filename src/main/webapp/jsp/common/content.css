@@ -1,0 +1,105 @@
+	@charset "utf-8";
+	.browse_class span {
+		color: blue;
+	}
+	.xdTableHeader TD {
+		min-height: 10px;
+	}
+	.radio_com {
+		margin-right: 0px;
+	}
+	.xdTextBox {
+		BORDER-BOTTOM: #dcdcdc 1pt solid;
+		min-height: 12px;
+		TEXT-ALIGN: left;
+		BORDER-LEFT: #dcdcdc 1pt solid;
+		BACKGROUND-COLOR: window;
+		DISPLAY: inline-block;
+		WHITE-SPACE: nowrap;
+		COLOR: windowtext;
+		OVERFLOW: hidden;
+		BORDER-TOP: #dcdcdc 1pt solid;
+		BORDER-RIGHT: #dcdcdc 1pt solid;
+	}
+	.xdRichTextBox {
+		font-size: 12px;
+		BORDER-BOTTOM: #dcdcdc 1pt solid;
+		TEXT-ALIGN: left;
+		BORDER-LEFT: #dcdcdc 1pt solid;
+		BACKGROUND-COLOR: window;
+		FONT-STYLE: normal;
+		min-height: 12px;
+		display: inline-block;
+		WORD-WRAP: break-word;
+		COLOR: windowtext;
+		BORDER-TOP: #dcdcdc 1pt solid;
+		BORDER-RIGHT: #dcdcdc 1pt solid;
+		TEXT-DECORATION: none;
+	}
+	
+	span.xdRichTextBox{
+		VERTICAL-ALIGN: bottom !important;
+	}
+	span.design_class{
+		vertical-align: bottom;
+	}
+	span.edit_class{
+		vertical-align: bottom;
+	}
+	.mainbodyDiv div,.mainbodyDiv input,.mainbodyDiv textarea,.mainbodyDiv p,.mainbodyDiv th,.mainbodyDiv td,.mainbodyDiv ul,.mainbodyDiv li{
+		font-family: inherit;
+		layout-grid-mode : none;
+	}
+	span.biggerThanMax{
+		background-color:yellow;
+	}
+	.insert_pic_16{
+		margin-top:2px;
+	}
+	span.browse_class>span{
+		min-height:14px;
+		overflow-y:hidden;
+		white-space:pre-wrap;
+	}
+	.GoTo_Top_scan {
+		position:fixed;width: 42px; height: 42px;left: 92%;bottom:5%;background: url("../../skin/default/images/scan.png") no-repeat; z-index: 2001; opacity: 0.8; filter: alpha(opacity=80);
+	}
+
+    .form_scan_img {
+        position:fixed;width: 42px; height: 42px;left: 92%;top:5%;background: url("../../skin/default/images/scan_hover.png") no-repeat; z-index: 2001; opacity: 0.8; filter: alpha(opacity=80);
+    }
+
+    /*正文组件相关*/
+	.content_view .content_text {
+	    padding: 35px 30px;
+	    font-size: 16px;
+	}
+	.content_text_10{ }
+	.content_text_10 a    { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 p    { line-height: 180%; #line-height: 1.8; _line-height: 1.8; clear: both;}
+	.content_text_10 td   { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 UL   { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 LI   { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 div  { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 ol   { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 pre  { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	.content_text_10 span { line-height: 180%; #line-height: 1.8; _line-height: 1.8; }
+	
+	.content_view .content_text a {
+	    color: #008dd6;
+	}
+	.content_view .content_text td {
+	    text-align: left;
+	}
+	.content_view .content_text td.xdHeadingCell {
+	    text-align: center;
+	}
+	.content_text ul {
+	    padding-left: 40px;
+	}
+	.content_text ul li {
+	    list-style-type: disc;
+	}
+	.content_text ol li {
+	    list-style-type: decimal;
+	}

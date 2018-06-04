@@ -1,0 +1,280 @@
+TABLE.xdLayout TD {
+	BORDER-BOTTOM: medium none;
+	BORDER-LEFT: medium none;
+	BORDER-TOP: medium none;
+	BORDER-RIGHT: medium none;
+	TEXT-ALIGN: left;
+}
+
+.browse_class span {
+	color: blue;
+}
+
+TABLE {
+	BEHAVIOR: url ( #default #urn :: tables/ NDTable )
+}
+
+BODY {
+	BACKGROUND-COLOR: #ffffff;
+	LAYOUT-GRID: none none none;
+	COLOR: windowtext
+}
+
+STRONG INPUT {
+	FONT-WEIGHT: bold
+}
+
+STRONG SELECT {
+	FONT-WEIGHT: bold
+}
+
+STRONG TEXTAREA {
+	FONT-WEIGHT: bold
+}
+
+.xdTableHeader TD {
+	min-height: 10px;
+	TEXT-ALIGN: left;
+}
+
+.xdListItem {
+	WIDTH: 100%;
+	DISPLAY: inline-block;
+	VERTICAL-ALIGN: text-top
+}
+
+.xdListBox {
+	MARGIN: 1px
+}
+
+.xdComboBox {
+	MARGIN: 1px
+}
+
+.xdInlinePicture {
+	MARGIN: 1px;
+	BEHAVIOR: url(#default#urn::xdPicture)
+}
+
+.xdLinkedPicture {
+	MARGIN: 1px;
+	BEHAVIOR: url(#default#urn::xdPicture)
+		url(#default#urn::controls/Binder)
+}
+
+.xdSection {
+	BORDER-BOTTOM: #ffffff 1pt solid;
+	BORDER-LEFT: #ffffff 1pt solid;
+	PADDING-BOTTOM: 1px;
+	MARGIN: 6px 0px;
+	PADDING-LEFT: 5px;
+	PADDING-RIGHT: 1px;
+	BORDER-TOP: #ffffff 1pt solid;
+	BORDER-RIGHT: #ffffff 1pt solid;
+	PADDING-TOP: 1px
+}
+
+.xdRepeatingSection {
+	BORDER-BOTTOM: #ffffff 1pt solid;
+	BORDER-LEFT: #ffffff 1pt solid;
+	PADDING-BOTTOM: 1px;
+	MARGIN: 6px 0px;
+	PADDING-LEFT: 5px;
+	PADDING-RIGHT: 1px;
+	BORDER-TOP: #ffffff 1pt solid;
+	BORDER-RIGHT: #ffffff 1pt solid;
+	PADDING-TOP: 1px
+}
+
+.xdBehavior_Formatting {
+	BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting)
+}
+
+.xdBehavior_FormattingNoBUI {
+	BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder)
+		url(#default#Formatting)
+}
+
+.xdExpressionBox {
+	PADDING-BOTTOM: 1px;
+	OVERFLOW-X: hidden;
+	MARGIN: 1px;
+	PADDING-LEFT: 1px;
+	TEXT-OVERFLOW: ellipsis;
+	PADDING-RIGHT: 1px;
+	WORD-WRAP: break-word;
+	PADDING-TOP: 1px
+}
+
+.xdBehavior_GhostedText {
+	BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField)
+		url(#default#GhostedText)
+}
+
+.xdBehavior_GhostedTextNoBUI {
+	BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField)
+		url(#default#GhostedText)
+}
+
+.xdBehavior_GTFormatting {
+	BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting)
+		url(#default#GhostedText)
+}
+
+.xdBehavior_GTFormattingNoBUI {
+	BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder)
+		url(#default#Formatting) url(#default#GhostedText)
+}
+
+.xdBehavior_Boolean {
+	BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper)
+}
+
+.xdBehavior_Select {
+	BORDER-BOTTOM: 1pt solid;
+	BORDER-LEFT: 1pt solid;
+	BORDER-TOP: 1pt solid;
+	BORDER-RIGHT: 1pt solid;
+	BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper)
+}
+
+.xdRepeatingTable {
+	BORDER-BOTTOM-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BORDER-COLLAPSE: collapse;
+	WORD-WRAP: break-word;
+	BORDER-TOP-STYLE: none;
+	BORDER-RIGHT-STYLE: none
+}
+
+.xdTextBox {
+	BORDER-BOTTOM: #dcdcdc 1pt solid;
+	min-height: 12px;
+	TEXT-ALIGN: left;
+	BORDER-LEFT: #dcdcdc 1pt solid;
+	BACKGROUND-COLOR: window;
+	DISPLAY: inline-block;
+	WHITE-SPACE: nowrap;
+	COLOR: windowtext;
+	OVERFLOW: hidden;
+	BORDER-TOP: #dcdcdc 1pt solid;
+	BORDER-RIGHT: #dcdcdc 1pt solid;
+}
+
+.xdRichTextBox {
+	font-size: 12px;
+	BORDER-BOTTOM: #dcdcdc 1pt solid;
+	TEXT-ALIGN: left;
+	BORDER-LEFT: #dcdcdc 1pt solid;
+	BACKGROUND-COLOR: window;
+	FONT-STYLE: normal;
+	min-height: 12px;
+	display: inline-block;
+	WORD-WRAP: break-word;
+	COLOR: windowtext;
+	BORDER-TOP: #dcdcdc 1pt solid;
+	BORDER-RIGHT: #dcdcdc 1pt solid;
+	TEXT-DECORATION: none
+}
+
+.xdDTPicker {
+	BORDER-BOTTOM: #dcdcdc 1pt solid;
+	BORDER-LEFT: #dcdcdc 1pt solid;
+	BACKGROUND-COLOR: window;
+	DISPLAY: inline;
+	COLOR: windowtext;
+	OVERFLOW: hidden;
+	BORDER-TOP: #dcdcdc 1pt solid;
+	BORDER-RIGHT: #dcdcdc 1pt solid
+}
+
+.xdDTText {
+	PADDING-BOTTOM: 0px;
+	PADDING-LEFT: 0px;
+	WIDTH: 100%;
+	PADDING-RIGHT: 0px;
+	WHITE-SPACE: nowrap;
+	HEIGHT: 100%;
+	OVERFLOW: hidden;
+	MARGIN-RIGHT: 22px;
+	PADDING-TOP: 0px
+}
+
+.xdDTButton {
+	WIDTH: 20px;
+	HEIGHT: 18px;
+	MARGIN-LEFT: -21px;
+	BEHAVIOR: url(#default#DTPicker)
+}
+
+BODY,TABLE,SELECT {
+	FONT-SIZE: 9pt;
+	FONT-FAMILY: SimSun
+}
+
+DIV {
+	FONT-SIZE: 12px;
+	ALIGN: justify;
+}
+.optionalPlaceholder {
+	FONT-STYLE: normal;
+	PADDING-LEFT: 20px;
+	FONT-FAMILY: SimSun;
+	COLOR: #333333;
+	FONT-SIZE: 9pt;
+	FONT-WEIGHT: normal;
+	TEXT-DECORATION: none;
+	BEHAVIOR: url(#default#xOptional)
+}
+
+.langFont {
+	FONT-FAMILY: SimSun
+}
+
+.input-noborder {
+	BORDER-BOTTOM-STYLE: none;
+	BACKGROUND-COLOR: #f6f6f6;
+	BORDER-LEFT-STYLE: none;
+	BORDER-TOP-STYLE: none;
+	BORDER-RIGHT-STYLE: none
+}
+
+.input-noborder1 {
+	BORDER-BOTTOM-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BORDER-TOP-STYLE: none;
+	BORDER-RIGHT-STYLE: none
+}
+
+.prestyle {
+	DISPLAY: inline;
+	FONT-FAMILY: Arial, Helvetica, sans-serif;
+	FONT-SIZE: 12px
+}
+
+.headcenter THEAD TD {
+	TEXT-ALIGN: center;
+	WHITE-SPACE: nowrap
+}
+
+.attachment-single {
+	height: 22px;
+	overflow: hidden;
+}
+
+.attachment-all-80 {
+	height: 36px;
+	overflow: auto;
+}
+
+.attachment-all-80 a {
+	text-decoration: none;
+}
+
+.radio_com {
+	margin-right: 0px;
+}
+
+textarea {
+	line-height: 100%;
+}
