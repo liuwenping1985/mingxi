@@ -1,8 +1,10 @@
 package com.seeyon.ctp.ext.extform;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.event.CollaborationStartEvent;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.ext.extform.util.UIUtils;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
@@ -139,6 +141,10 @@ public class ExtFormInfoController extends BaseController {
         UIUtils.responseJSON(data,response);
         return null;
 
+    }
+    @listenEvent(event= CollaborationStartEvent.class,mode=EventTriggerMode.afterCommit)//协同发起成功提交事务后执行，异步模式。
+    public void onCollaborationStart3(CollaborationStartEvent event){
+        //event.getSummartId()
     }
 
 }
