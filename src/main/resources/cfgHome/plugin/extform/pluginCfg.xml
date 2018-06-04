@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin>
-  <id>extForm</id>
-  <name>表单自定义控件</name>
+  <id>extform</id>
+  <name>绩效分布插件</name>
   <category>95272</category>
 </plugin>

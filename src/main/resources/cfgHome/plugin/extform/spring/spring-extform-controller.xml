@@ -2,5 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans default-autowire="byName">
-  <bean name="/form/extform.do" class="com.seeyon.ctp.ext.extform.ExtFormInfoController"/>
+  <bean name="/form/extform.do" class="com.seeyon.ctp.ext.extform.ExtFormInfoController">
+    <property name="principalManager" ref="principalManager"/>
+  </bean>
 </beans>
