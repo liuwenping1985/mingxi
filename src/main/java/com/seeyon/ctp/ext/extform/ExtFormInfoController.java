@@ -1,14 +1,21 @@
 package com.seeyon.ctp.ext.extform;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
 import com.seeyon.apps.collaboration.event.CollaborationStartEvent;
+import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.ext.extform.util.UIUtils;
+import com.seeyon.ctp.ext.extform.vo.Formson1527;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.rest.util.CtpAffairUntil;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.annotation.ListenEvent;
+import com.seeyon.ctp.workflow.util.BPMChangeUtil;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.apache.axis.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -142,9 +149,45 @@ public class ExtFormInfoController extends BaseController {
         return null;
 
     }
-    @listenEvent(event= CollaborationStartEvent.class,mode=EventTriggerMode.afterCommit)//协同发起成功提交事务后执行，异步模式。
-    public void onCollaborationStart3(CollaborationStartEvent event){
-        //event.getSummartId()
+    @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.afterCommit,async = true)//协同发起成功提交事务后执行，异步模式。
+    public void onCollaborationEnd(CollaborationFinishEvent event) throws NoSuchPrincipalException {
+       // 7255984374117713477 event.getAffairId(); w
+        Long affairId = event.getAffairId();
+        List<CtpAffair> list = DBAgent.find("from CtpAffair where id="+affairId);
+        if(CollectionUtils.isEmpty(list)){
+            return;
+        }
+        CtpAffair affair = list.get(0);
+        Long targetTemplateId = 7255984374117713477L;
+        if(targetTemplateId.equals(affair.getTempleteId())){
+            //trigger
+            List<Formson1527> sonlist = DBAgent.find("from formson_1527 where formmainId="+affair.getFormRecordid());
+            List<Long> memberIdList = new ArrayList<Long>();
+            for(Formson1527 son:sonlist){
+                Long memberId = principalManager.getMemberIdByLoginName(son.getField0009());
+                memberIdList.add(memberId);
+            }
+            StringBuilder stb= new StringBuilder();
+            String atpStr = "";
+            int index =0;
+            for(Long mId:memberIdList){
+                if(index == 0){
+                    stb.append(String.valueOf(mId));
+                    index++;
+                }else{
+                    stb.append(","+String.valueOf(mId))
+                    index++;
+                }
+            }
+            List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId=8703799250809407701 and senderId in("+stb.toString()+")and state=3");
+            for(CtpAffair affairNode:afList){
+                AffairManager manager = null;
+                BulDataController con;
+
+            }
+
+        }
+
     }
 
 }
