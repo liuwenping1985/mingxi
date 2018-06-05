@@ -2,8 +2,7 @@ package com.seeyon.ctp.ext.extform;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
-import com.seeyon.apps.collaboration.event.CollaborationStartEvent;
-import com.seeyon.ctp.common.content.affair.AffairManager;
+import com.seeyon.client.CTPRestClient;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.event.EventTriggerMode;
@@ -11,11 +10,8 @@ import com.seeyon.ctp.ext.extform.util.UIUtils;
 import com.seeyon.ctp.ext.extform.vo.Formson1527;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
-import com.seeyon.ctp.rest.util.CtpAffairUntil;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.ListenEvent;
-import com.seeyon.ctp.workflow.util.BPMChangeUtil;
-import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.apache.axis.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +31,7 @@ public class ExtFormInfoController extends BaseController {
     public PrincipalManager getPrincipalManager() {
         return principalManager;
     }
+    private CTPRestClient client ;
 
     public void setPrincipalManager(PrincipalManager principalManager) {
         this.principalManager = principalManager;
@@ -175,14 +172,13 @@ public class ExtFormInfoController extends BaseController {
                     stb.append(String.valueOf(mId));
                     index++;
                 }else{
-                    stb.append(","+String.valueOf(mId))
+                    stb.append(","+String.valueOf(mId));
                     index++;
                 }
             }
             List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId=8703799250809407701 and senderId in("+stb.toString()+")and state=3");
             for(CtpAffair affairNode:afList){
-                AffairManager manager = null;
-                BulDataController con;
+
 
             }
 
