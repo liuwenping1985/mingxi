@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="newsReadManager" class="com.seeyon.v3x.news.manager.NewsReadManagerImpl"></bean>
+
+	<bean id="newsTemplateManager" class="com.seeyon.v3x.news.manager.NewsTemplateManagerImpl"></bean>
+	
+	<bean id="newsLogManager" class="com.seeyon.v3x.news.manager.NewsLogManagerImpl"></bean>
+	
+	
+	<bean id="newsTypeManagersManager" class="com.seeyon.v3x.news.manager.NewsTypeManagersManagerImpl">
+	</bean>
+	
+	<bean id="newsDataManager" class="com.seeyon.v3x.news.manager.NewsDataManagerImpl" 
+		init-method="init" singleton="true">
+	</bean>
+	
+	<bean id="newsTypeManager" class="com.seeyon.v3x.news.manager.NewsTypeManagerImpl"
+				init-method="init" singleton="true">
+	</bean>
+	
+	<bean class="com.seeyon.v3x.news.listener.NewsOrganizationEventListener"></bean>
+	
+	<bean id="newsUtils" class="com.seeyon.v3x.news.util.NewsUtils"></bean>
+	
+	<bean id="newsManager4ISearch" class="com.seeyon.v3x.news.manager.NewsManager4ISearch"
+		init-method="init">
+	</bean>
+	
+	<bean id="memberLeaveClearItemNewsHand" class="com.seeyon.v3x.news.manager.MemberLeaveClearItemNewsHandImpl">
+	</bean>
+	<bean id="memberLeaveClearItemNewsRole" class="com.seeyon.v3x.news.manager.MemberLeaveClearItemNewsRoleImpl">
+	</bean>
+	
+    <bean id="newsIndex" class="com.seeyon.v3x.news.manager.NewsIndexEnableImpl"></bean>
+    <bean id="newsDocFilingEnable" class="com.seeyon.v3x.news.manager.NewsDocFilingEnable">
+    </bean>
+    <bean id="newsIssueManager" class="com.seeyon.v3x.news.manager.NewsIssueManagerImpl"></bean>
+    
+    <bean id="userMessageFilterImplNews" class="com.seeyon.v3x.news.usermessage.filter.UserMessageFilterImplNews"/>
+    
+    <bean id="newsNotificationHandler" class="com.seeyon.ctp.cluster.listener.NewsNotificationHandler"/>
+    
+    <bean id="newsPortlet" class="com.seeyon.v3x.news.portal.portlet.NewsPortlet"/>
+    
+    <bean id="publishInfoStcManager" class="com.seeyon.v3x.news.manager.PublishInfoStcManagerImpl"/>
+    
+    <bean id="DeskKnowledgeProcessManagerImpl" class="com.seeyon.v3x.news.portal.portlet.manager.DeskKnowledgeProcessManagerImpl">
+        <property name="app" value="news,bulletin,inquiry"></property>
+    </bean>
+    
+    <bean id="pubInfoManager" class="com.seeyon.v3x.publicManager.manager.PubInfoManagerImpl"/>
+</beans>

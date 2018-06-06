@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>supervisionManager</serviceName>
+		<operations>
+			<op>getSupervisionList</op>
+			<op>changeOwner</op>
+		</operations>
+	</bean>
+	<bean>
+		<serviceName>supervisionStatManager</serviceName>
+		<operations>
+			<op>getMoreStatMasterData</op>
+		</operations>
+	</bean>
+	
+	<bean>
+		<serviceName>supervisionStatManager</serviceName>
+		<operations>
+			<op>getMoreStatLevelData</op>
+		</operations>
+	</bean>
+
+</beans>

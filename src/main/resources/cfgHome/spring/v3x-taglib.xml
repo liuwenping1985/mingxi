@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/genericController.do" class="com.seeyon.v3x.common.controller.GenericController" />
+	<bean name="/v3xselectPeople.do"
+		class="com.seeyon.v3x.common.selectPeople.SelectPeopleController" />
+	<bean id="v3xmetadataManager"
+		class="com.seeyon.v3x.common.metadata.manager.MetadataManagerImpl" />
+	<bean id="searchManager" class="com.seeyon.v3x.common.search.manager.SearchManagerImpl"/>
+	
+	
+    <bean id="securityCheck" class="com.seeyon.v3x.common.security.SecurityCheck">
+        <property name="securityCheckers">
+            <map>
+                <entry key="1">
+                    <bean parent="colSecurityControlManager" />
+                </entry>
+                <entry key="2">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlFormImpl"></bean>
+                </entry>
+                <entry key="3">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlDocImpl"></bean>
+                </entry>
+                <entry key="4">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlEdocImpl"></bean>
+                </entry>
+                <entry key="5">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlPlanImpl"></bean>
+                </entry>
+                <entry key="6">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlMeetingImpl"></bean>
+                </entry>
+                <entry key="7">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlBulletinImpl"></bean>
+                </entry>
+                <entry key="8">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlNewsImpl"></bean>
+                </entry>
+                <entry key="9">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlBBSImpl"></bean>
+                </entry>
+                <entry key="10">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlInquiryImpl"></bean>
+                </entry>                
+				 <entry key="11">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlCalendarImpl"></bean>
+                </entry>
+                <entry key="30">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlTaskImpl"></bean>
+                </entry>
+				<entry key="32">
+                    <bean class="com.seeyon.v3x.common.security.SecurityControlInfoImpl"></bean>
+                </entry>
+            </map>
+        </property>
+    </bean>	
+    <bean id="colSecurityControlManager" class="com.seeyon.v3x.common.security.SecurityControlColImpl"/>
+
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	 <!-- 档案集成的配置信息 -->
+    <archive>
+        <integration>
+            <enable mark="{option,false,true} {VE}" desc="是否启用档案集成插件false--不启用  true--启用">false</enable>
+            <ftp>
+	           	<host mark="{VE}" desc="档案集成上传Ftp的IP地址">127.0.0.1</host>
+	           	<port mark="{int}" desc="档案集成上传Ftp的端口">21</port>
+	           	<userName mark="{VE}" desc="档案集成上传Ftp用户名">seeyon</userName>
+	           	<passWord mark="{VE}" desc="档案集成上传Ftp密码">123456</passWord>
+       		</ftp>
+       		<db>
+       		   <driverClassName mark="{option,com.mysql.jdbc.Driver,net.sourceforge.jtds.jdbc.Driver,oracle.jdbc.OracleDriver,org.postgresql.Driver,dm.jdbc.driver.DmDriver} {VE}" 
+       			desc="档案集成中间数据库连接，JDBC驱动ClassName">com.mysql.jdbc.Driver</driverClassName>
+       			<userName  mark="{VE}" desc="档案集成中间数据库连接，用户名">root</userName>
+       			<passWord  mark="{VE}" desc="档案集成中间数据库连接，密码">123456</passWord>
+       			<url mark="{VE}" desc="档案集成中间数据库连接;oracle URL:jdbc:oracle:thin:@[database ip address]:[port]:[sid],SQLServer URL:jdbc:jtds:sqlserver://[database ip address]:[port]/[database name]
+       			mysql URL:jdbc:mysql://[database ip address]:[port]/[database name],postgres URL:jdbc:postgresql://[database ip address]:[port]/[database name],dm URL:jdbc:dm://[database ip address]:[port]/[database name]">jdbc:mysql://127.0.0.1:3306/oaarchive?characterEncoding=utf-8</url>
+       		</db>
+        </integration>
+    </archive>
+</ctpConfig>

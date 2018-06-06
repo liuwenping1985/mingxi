@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<ntp>
+	    <aancversion mark="{option,nc5,nc6,eas} {VE}" desc="ERP版本系列，如NC6，EAS,系统默认NC5系列">nc5</aancversion>
+		<level>
+			<source mark="{option,1,0} {VE}" desc="ERP职务级别来源：0:同步ERP职务名称到A8职务级别，1:同步ERP职务级别到A8职务级别,注意：EAS仅同步职务名称">0</source>
+		</level>
+		<post>
+			<source mark="{option,1,0} {VE}" desc="ERP岗位来源：0:同步ERP岗位到A8岗位，1:同步ERP岗位等级到A8岗位，注意：NC6,EAS仅同步岗位到A8，无岗位等级同步">0</source>
+		</post>
+		<user>
+			<syn>
+				<switch mark="{option,ignore,add} {VE}"
+					desc="是否同步ERP账号到A8,ignore是默认不同步ERP账号，add是同步ERP账号做为A8人员登录名">ignore</switch>
+				<enable mark="{option,Y,N}" desc="同步新增人员状态   N--停用  Y--启用">Y</enable>
+			</syn>
+			<binding>
+				<close>
+					<switch mark="{boolean} {VE}"
+						desc="是否自动同步ERP账号绑定,默认自动同步ERP账号绑定(true)，如果不需要自动同步ERP账号绑定，则设置(false)">true</switch>
+				</close>
+			</binding>
+		</user>
+		<require>
+			<syn>
+				<switch mark="{option,Y,N}"
+					desc="是否启用按需同步,启用则新同步人员为启用状态,否则为停用状态,并且按需同步停用   N--不启用  Y--启用">Y</switch>
+			</syn>
+		</require>
+		<relationship>
+			<incremental>
+				<add mark="{boolean} {VE}"
+					desc="是否启用增量同步，是为(true)，否为(false).增量同步指ERP同步不覆盖OA设置的部门主管、副岗，只会追加;全量同步会覆盖OA中设置的部门主管、副岗">true</add>
+			</incremental>
+		</relationship>
+	</ntp>
+</ctpConfig>

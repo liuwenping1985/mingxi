@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="calContentDao" class="com.seeyon.apps.calendar.dao.CalContentDaoImpl"></bean>
+	<bean id="calEventDao" class="com.seeyon.apps.calendar.dao.CalEventDaoImpl"></bean>
+	<bean id="calEventPeriodicalInfoDao"
+		class="com.seeyon.apps.calendar.dao.CalEventPeriodicalInfoDaoImpl"></bean>
+	<bean id="calTimeLineDao" class="com.seeyon.apps.calendar.dao.CalTimeLineDaoImpl"></bean>
+	<bean id="calEventTranDao" class="com.seeyon.apps.calendar.dao.CalEventTranDaoImpl"></bean>
+	<bean id="calReplyDao" class="com.seeyon.apps.calendar.dao.CalReplyDaoImpl"></bean>
+</beans>

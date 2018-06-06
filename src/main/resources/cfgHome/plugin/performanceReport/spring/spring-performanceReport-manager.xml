@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="performanceReportManager" class="com.seeyon.apps.performanceReport.manager.PerformanceReportManagerImpl">
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"></property>
+	</bean>
+	<bean id="performanceQueryManager" class="com.seeyon.apps.performanceReport.manager.PerformanceQueryManagerImpl">
+		<property name="reportDefinitionDao" ref="reportDefinitionDao"></property>
+        <property name="reportDesignManager" ref="reportDesignManager"></property>
+        <property name="reportManager" ref="performanceReportManager4Report"></property>
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="chartBaseImgDao" ref="chartBaseImgDao"></property>
+		<property name="templateManager" ref="templateManager"></property>
+	</bean>
+	<bean id="chartBaseImgDao" class="com.seeyon.apps.performanceReport.dao.ChartBaseImgDaoImpl"></bean>
+	<bean id="achievementsReportManager" class="com.seeyon.apps.performanceReport.manager.AchievementsReportManagerImpl">
+		<property name="achievementsReportDao" ref="achievementsReportDao"></property>
+		<property name="workFlowAnalysisManager" ref="workFlowAnalysisManager"></property>
+		<property name="templateManager" ref="templateManager"></property>
+	</bean>
+	<bean id="achievementsReportDao" class="com.seeyon.apps.performanceReport.dao.AchievementsReportDaoImpl"/>
+	<bean id="meetingReportManager" class="com.seeyon.apps.performanceReport.manager.MeetingReportManagerImpl">
+		<property name="meetingReportDao" ref="meetingReportDao"></property>
+		<property name="workTimeManager" ref="workTimeManager"></property>
+	</bean>
+	<bean id="meetingReportDao" class="com.seeyon.apps.performanceReport.dao.MeetingReportDaoImpl"></bean>
+	<!--<bean id="knowledgeRise" class="com.seeyon.apps.doc.manager.KnowledgeRiseImpl"></bean>-->
+	<bean id="knowledgeReportManager" class="com.seeyon.apps.performanceReport.manager.KnowledgeReportManagerImpl">
+		<property name="knowledgeReportDao" ref="knowledgeReportDao"></property>
+		<property name="knowledgeRise" ref="knowledgeRise"></property>
+	</bean>
+	<bean id="knowledgeReportDao" class="com.seeyon.apps.performanceReport.dao.KnowledgeReportDaoImpl">
+	</bean>
+	<bean id="taskReportManager" class="com.seeyon.apps.performanceReport.manager.TaskReportManagerImpl">
+		<property name="taskReportDao" ref="taskReportDao"></property>
+	</bean>
+	<bean id="taskReportDao" class="com.seeyon.apps.performanceReport.dao.TaskReportDaoImpl">
+	</bean>
+	<bean id="systemReportManager" class="com.seeyon.apps.performanceReport.manager.SystemReportManagerImpl">
+		<property name="systemReportDao" ref="systemReportDao"></property>
+	</bean>
+	<bean id="systemReportDao" class="com.seeyon.apps.performanceReport.dao.SystemReportDaoImpl"></bean>
+	<bean id="projectReportDao" class="com.seeyon.apps.performanceReport.dao.ProjectReportDaoImpl"></bean>
+	<bean id="projectReportManager" class="com.seeyon.apps.performanceReport.manager.ProjectReportManagerImpl"></bean>
+	<bean id="workFlowAnalysisManager" class="com.seeyon.apps.performanceReport.manager.WorkFlowAnalysisManagerImpl">
+		<property name="workFlowAnalysisDao" ref="workFlowAnalysisDao"/>
+		<property name="edocSummaryManager" ref="edocSummaryManager"/>
+		<property name="colManager" ref="colManager"/>
+		<property name="col4WFAnalysisDao" ref="col4WFAnalysisDao"/>
+		<property name="affairManager" ref="affairManager"/>
+		<property name="workTimeManager" ref="workTimeManager"/> 
+		<property name="templateManager" ref="templateManager"/>
+		<property name="workFlowAnalysisAclManager" ref="workFlowAnalysisAclManager"/>
+		<property name="wapi" ref="wapi"/>
+	</bean>
+	
+	<bean id="edocSummaryManager" class="com.seeyon.v3x.edoc.manager.EdocSummaryManagerImpl"/>
+	<bean id="workFlowAnalysisAclManager" class="com.seeyon.apps.performanceReport.manager.WorkFlowAnalysisAclManagerImpl" init-method="init">
+		<property name="workFlowAnalysisAclDao" ref="workFlowAnalysisAclDao"/>
+		<property name="templateManager" ref="templateManager"/>
+	</bean>
+	<bean id="workFlowAnalysisAclDao" class="com.seeyon.apps.performanceReport.dao.WorkFlowAnalysisAclDaoAclImpl"/>
+	<bean id="workFlowAnalysisDao" class="com.seeyon.apps.performanceReport.dao.WorkFlowAnalysisDaoImpl"/>	
+	<bean id="reportMidOnlinePeakManager" class="com.seeyon.apps.performanceReport.manager.ReportMidOnlinePeakManagerImpl">
+	</bean>
+	<bean id="reportMidOnlinePeakDao" class="com.seeyon.apps.performanceReport.dao.ReportMidOnlinePeakDaoImpl">
+	</bean>
+	<bean id="workDailyDao" class="com.seeyon.apps.performanceReport.dao.WorkDailyDaoImpl">
+	</bean>
+	<bean id="onlinePeakQuartz" class="com.seeyon.apps.performanceReport.schedule.quartz.OnlinePeakQuartz">
+	</bean>
+	<bean id="workDailyQuartz" class="com.seeyon.apps.performanceReport.schedule.quartz.WorkDailyQuartz">
+	</bean>
+	<bean id="knowledgeIncreaseQuartz" class="com.seeyon.apps.performanceReport.schedule.quartz.KnowledgeIncreaseQuartz">
+	</bean>
+	<bean id="OnlineTimeStatisticsQuartz" class="com.seeyon.apps.performanceReport.schedule.quartz.OnlineTimeStatisticsQuartz">
+	</bean>
+	<bean id="workFlowAnalysisJobName" class="com.seeyon.apps.performanceReport.vo.WorkFlowAnalysisJob">
+	</bean>
+	<bean id="performanceReportInitializer" class="com.seeyon.apps.performanceReport.manager.PerformanceReportInitializer"/>
+	<bean id="reportAuthListener" class="com.seeyon.apps.performanceReport.listener.ReportAuthListener"></bean>
+	<bean id="templateQuery4ReportHandler" class="com.seeyon.apps.performanceReport.manager.TemplateReportManagerImpl"></bean>
+	<bean id="formAuthManager" class="com.seeyon.ctp.form.formreport.manager.FormAuthManagerImpl"/>
+	<bean id="reportAuthManager" class="com.seeyon.apps.performanceReport.manager.ReportAuthManagerImpl"/>
+	<!-- 中间表调度 -->
+    <bean id="Schedule2TableInitializer" class="com.seeyon.apps.performanceReport.schedule.SchedulePerformanceInitializer"></bean>
+	<!--绩效引擎下获取数据 -->
+	<bean id="performanceReportManager4Report" class="com.seeyon.apps.performanceReport.core.manager.PerformanceReportManagerImpl">
+		<property name="reportDataManager" ref="performanceReportDataManager"/>
+		<property name="reportBindManager" ref="performanceReportBindManager"/>
+	</bean>
+	<bean id="performanceReportDataManager" class="com.seeyon.apps.performanceReport.data.manager.PerformanceReportDataManagerImpl"></bean>
+	<bean id="performanceReportBindManager" class="com.seeyon.apps.performanceReport.bind.manager.PerformanceReportBindManagerImpl"></bean>
+	
+	<!-- portal栏目 表单应用-表单统计表树形结构实现 -->
+    <bean id="formSectionReportTableManager" class="com.seeyon.apps.performanceReport.section.FormSectionReportTableManagerImpl"/>
+    <!-- portal栏目 表单应用-表单统计图树形结构实现 -->
+    <bean id="formSectionReportChartManager" class="com.seeyon.apps.performanceReport.section.FormSectionReportChartManagerImpl"/>
+</beans>

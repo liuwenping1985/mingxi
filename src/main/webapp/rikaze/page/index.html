@@ -25,7 +25,7 @@
                         <button id="login-btn" type="button" style="color:white" class="btn btn-light btn-link">登录</button>
                         <button id="logout-btn" type="button" style="color:white;display:none" class="btn btn-light  btn-link">退出</button>
                     </div>
-                    <div id="login_info" style="color:white;padding-top:15px;" class="rkz_margin15 rkz_hide rkz_float_right">xxx欢迎您</div>
+                    <div id="login_info" style="color:white;padding-top:3px;font-size:20px" class="rkz_margin15 rkz_hide rkz_float_right">xxx欢迎您</div>
                     <div class="input-group" style="width:320px;float:right;padding-top:15px">
                         <input type="text" class="form-control" aria-label="">
                         <div class="input-group-append">
@@ -49,39 +49,9 @@
                     <img width="25px" height="25px" src="images/notice.png" />
                     <span style="color:#1c2836">通知公告</span>
                 </div>
-                <div id="notice" class="rkz_right rkz_width80">
-                    <ul class="scroll">
-                        <li>
-                            <a href="#">习近平会见世界经济论坛主席施瓦布</a>
-                        </li>
-                        <li>
-                            <a href="#">习近平这些“金句”告诉你，中国开放的大门越开越大</a>
-                        </li>
-                        <li>
-                            <a href="#">新一届国务院举行宪法宣誓仪式 李克强总理监誓</a>
-                        </li>
-                        <li>
-                            <a href="#">国务院新组建部门第二批挂牌分别举行 韩正出席应急管理部挂牌仪式</a>
-                        </li>
-                        <li>
-                            <a href="#">《习近平关于总体国家安全观论述摘编》出版发行</a>
-                        </li>
-                        <!--给所要的内容复制一份-->
-                        <li>
-                            <a href="#">习近平会见世界经济论坛主席施瓦布</a>
-                        </li>
-                        <li>
-                            <a href="#">习近平这些“金句”告诉你，中国开放的大门越开越大</a>
-                        </li>
-                        <li>
-                            <a href="#">新一届国务院举行宪法宣誓仪式 李克强总理监誓</a>
-                        </li>
-                        <li>
-                            <a href="#">国务院新组建部门第二批挂牌分别举行 韩正出席应急管理部挂牌仪式</a>
-                        </li>
-                        <li>
-                            <a href="#">《习近平关于总体国家安全观论述摘编》出版发行</a>
-                        </li>
+                <div  id="notice" class="rkz_right rkz_width80">
+                    <ul id="notice_ul" class="scroll">
+
                     </ul>
 
                 </div>
@@ -89,7 +59,7 @@
 
         </div>
         <div class="card rkz_card">
-            <div class="card-body rkz_body" style="padding:5px;height:406px">
+            <div class="card-body rkz_body" style="padding:5px;height:339px">
                 <table style="width:100%">
                     <tr>
                         <td style="width:50%">
@@ -108,33 +78,9 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="home">
-                                        <div style="width:100%;height:332px;;padding-left:-14px">
-                                            <div class="list-group">
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:42px;border-top: 0px;border-bottom:0px;">
-                                                    <span>习近平会见世界经济论坛主席施瓦布</span>
-                                                    <span style="float:right">2018-05-21</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px;border-bottom:0px">习近平这些“金句”告诉你，中国开放的大门越开越大
-                                                    <span style="float:right">2018-05-20</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px;border-bottom:0px">新一届国务院举行宪法宣誓仪式
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px;border-bottom:0px">国务院新组建部门第二批挂牌分别举行
-                                                    <span style="float:right">2018-05-19</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
+                                        <div style="width:100%;height:282px;;padding-left:-14px">
+                                            <div id="gzdt" class="list-group">
+                                                
                                                 <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">
                                                     <span style="float:right;color:#007bff;margin-top:-5px">更多...</span>
                                                 </a>
@@ -142,35 +88,10 @@
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="profile">
-                                        <div style="width:100%;height:332px;">
+                                        <div style="width:100%;height:282px;">
 
-                                            <div class="list-group">
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:42px;border-top: 0px;border-bottom:0px;">
-                                                    <span>习近平这些“金句”告诉你，中国开放的大门越开越大</span>
-                                                    <span style="float:right">2018-05-21</span>
-                                                </a>
+                                            <div id="xxjb" class="list-group">
                                                 
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px;border-bottom:0px">习近平这些“金句”告诉你，中国开放的大门越开越大
-                                                    <span style="float:right">2018-05-20</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px;border-bottom:0px">新一届国务院举行宪法宣誓仪式
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px;border-bottom:0px">国务院新组建部门第二批挂牌分别举行
-                                                    <span style="float:right">2018-05-19</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
-                                                <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">习近平关于总体国家安全观论述摘编出版发行
-                                                    <span style="float:right">2018-05-18</span>
-                                                </a>
                                             <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">
                                                 <span style="float:right;color:#007bff;margin-top:-5px">更多...</span>
                                             </a>
@@ -183,33 +104,13 @@
                             </div>
                         </td>
                         <td style="width:50%">
-                            <div style="margin-top:-1px;height:392px;">
+                            <div style="margin-top:-1px;height:342px;">
                                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators" style="">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                    <ol id="carousel-indicators" class="carousel-indicators">
+                                       
                                     </ol>
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <img class="d-block w-100" windth="540px" height="391px" src="images/1.jpg" alt="First slide">
-                                            <div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color: rgba(119,119,119,0.8) ">
-                                                <p>国务院举行宪法宣誓</p>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100" windth="540px" height="391px" src="images/2.jpg" alt="Second slide">
-                                            <div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color:rgba(119,119,119,0.8)">
-
-                                                <p>国务院举行宪法宣誓</p>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <img class="d-block w-100" windth="540px" height="391px" src="images/3.jpg" alt="Third slide">
-                                            <div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color:rgba(119,119,119,0.8)">
-                                                <p>习近平会见世界经济论坛主席施瓦布</p>
-                                            </div>
-                                        </div>
+                                    <div id="carousel-inner" class="carousel-inner" role="listbox">
+                                        
                                     </div>
                                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -236,13 +137,7 @@
                     <table style="width:100%;vertical-align: middle;align:left">
                         <tr style="padding-top:10px">
                             <td align="center" style="padding-left:0px;padding-top:15px">
-                                <!--<div class="media text-muted pt-3">-->
-                                <!--<img src="images/supervisor.png" alt="32x32" class="mr-2 rounded" style="width: 32px; height: 32px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1634635b0b3%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1634635b0b3%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.296875%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">-->
-                                <!--<p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">-->
-                                <!--<strong class="d-block text-gray-dark">监督</strong>-->
-
-                                <!--</p>-->
-                                <!--</div>-->
+                            
                                 <div>
                                     <button type="button" style="width:250px;height:65px" class="btn btn-danger btn-lg rkz_btn">
                                         <img src="images/supervisor.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
@@ -283,7 +178,8 @@
                                 <div style="padding-left:0px">
                                     <button id="btn-banwen" style="width:250px;height:65px" type="button" class="btn btn-primary btn-lg rkz_btn">
                                         <img src="images/doc.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded" />办文系统
-                                        <span style="position:relative;right:-52px;top:-21px" class="badge badge-danger">6</span>
+                                        <span id="banwenCount" style="position:relative;right:-52px;top:-21px;display:none" class="badge badge-danger">6</span>
+                                        <span  id="banwenCountMask" style="position:relative;right:-41px;top:-18px" class="badge badge-primary"></span>
                                     </button>
                                 </div>
                             </td>
@@ -292,7 +188,8 @@
                                     <button id="btn-yuewen" style="width:250px;height:65px;padding-left:40px" type="button" class="btn btn_style_one btn-lg rkz_btn">
                                         <img src="images/doc2.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
                                         />阅文系统
-                                        <span style="position:relative;right:-41px;top:-21px" class="badge badge-danger">3</span>
+                                        <span  id="yuewenCount" style="position:relative;right:-41px;top:-21px;display:none" class="badge badge-danger">3</span>
+                                        <span  id="yuewenCountMask" style="position:relative;right:-41px;top:-18px" class="badge btn_style_one"></span>
                                     </button>
                                 </div>
                             </td>

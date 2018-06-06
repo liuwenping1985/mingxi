@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="u8OrgRecordManager" class="com.seeyon.apps.u8.manager.U8OrgSynRecordManagerImpl"/>
+	<bean id="u8OrgManager" class="com.seeyon.apps.u8.manager.U8OrgManagerImpl" init-method="init"/>
+    <bean id="u8Scheduler" class="com.seeyon.apps.u8.scheduletask.U8ScheduleTaskManagerImpl" init-method="init"/>
+	<bean id="scheduleSection" class="com.seeyon.apps.u8.manager.ScheduleSectionManagerImpl">
+		<property name="sectionDao" ref="sectionDao"></property>
+		<property name="configManager" ref="configManager"></property>
+		<property name="u8MessageManager" ref="u8MessageManager"></property>
+		<property name="userMessageManager" ref="userMessageManager"></property>
+		<property name="u8UserMapperBeanManager" ref="u8UserMapperBeanManager"></property>
+    </bean>
+    	<bean id ="u8UserInfoManager" class="com.seeyon.apps.u8.manager.U8UserInfoManagerImpl">
+	</bean>
+    
+    <bean id="u8MessageManager" class="com.seeyon.apps.u8.manager.U8MessageManagerImpl" init-method="init">
+    	<property name="messageDao" ref="messageDao"></property>
+    	<property name="scheduleSectionManager" ref="scheduleSection"></property>
+    	<property name="configManager" ref="configManager"></property>
+    </bean>
+	<bean id="u8UserMapperBeanManager" class="com.seeyon.apps.u8.manager.U8UserMapperBeanManagerImpl">
+		<property name="u8UserMapperBeanDao" ref="u8UserMapperBeanDao"></property>
+	</bean>
+	<bean id ="u8ServerManager" class="com.seeyon.apps.u8.manager.U8ServerManagerImpl">
+		<property name="u8userManager" ref="userMapper"></property>
+		<property name="u8ServerDao" ref="u8ServerDao"></property>
+		<property name="u8UserInfoManager" ref="u8UserInfoManager"></property>
+		<property name="u8UserMapperBeanManager" ref="u8UserMapperBeanManager"></property>
+	</bean>
+	
+	<bean id="userMapper" class="com.seeyon.apps.u8.manager.U8UserManagerImpl">
+		<property name="userMapperDao" ref="u8UserMapperDao"></property>
+	</bean>
+	<bean id ="u8ServerAndU8UserInfoManagerImpl" class="com.seeyon.apps.u8.manager.U8ServerAndU8UserInfoManagerImpl">        
+        <property name="u8ServerDao" ref="u8ServerDao"></property>
+        <property name="u8UserInfoDao" ref="u8UserInfoDao"></property>
+        <property name="u8UserInfoManager" ref="u8UserInfoManager"></property>
+        <property name="u8ServerManager" ref="u8ServerManager"></property>
+    </bean>
+    <bean id="u8ReportHrManager" class="com.seeyon.apps.u8.manager.U8ReportHrManagerImpl"/>
+    <bean id="uuMessagePipeline" class="com.seeyon.apps.u8.message.UUMessagePipeline"></bean>
+      <bean id="u8MessagePipeline" class="com.seeyon.apps.u8.message.U8MessagePipeline"></bean>
+</beans>

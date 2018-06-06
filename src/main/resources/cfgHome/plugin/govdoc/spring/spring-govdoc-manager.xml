@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="govDocExchangeEventLisener" class="com.seeyon.apps.govdoc.exchange.event.GovDocExchangeEventLisener" init-method="init">
+	</bean>
+	<bean id="govdocProcessEventListener" class="com.seeyon.apps.govdoc.doc.event.GovdocProcessEventListener" init-method="init">
+	</bean>
+	<bean id="permListener" class="com.seeyon.apps.govdoc.listener.PermListener"></bean>
+	  <bean id="govdocIndexEnable" class="com.seeyon.apps.govdoc.doc.manager.GovdocIndexEnable">
+    </bean>
+	<bean id="govdocExchangeManager" class="com.seeyon.apps.govdoc.exchange.manager.GovdocExchangeManagerImpl">
+	</bean>
+	<bean id="govdocListConfigManager" class="com.seeyon.apps.govdoc.doc.manager.GovdocListConfigManagerImpl">
+	</bean>
+	<bean id="govdocRelationManager" class="com.seeyon.apps.govdoc.relation.manager.GovdocRelationManagerImpl">
+	</bean>
+	<bean id="govdocOrganizationEventListener" class="com.seeyon.apps.govdoc.listener.GovdocOrganizationEventListener"></bean>
+	<bean id="govdocOpenManager" class="com.seeyon.v3x.edoc.manager.GovdocOpenManagerImpl"></bean>
+</beans>

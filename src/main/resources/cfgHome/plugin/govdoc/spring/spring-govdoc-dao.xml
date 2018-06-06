@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="govdocExchangeDetailDao" class="com.seeyon.apps.govdoc.exchange.dao.GovdocExchangeDetailDaoImpl" />
+	<bean id="govdocExchangeMainDao" class="com.seeyon.apps.govdoc.exchange.dao.GovdocExchangeMainDaoImpl" />
+	<bean id="govdocExchangeFileDao" class="com.seeyon.apps.govdoc.exchange.dao.GovdocExchangeFileDaoImpl" />
+	<bean id="govdocExchangeDetailLogDao" class="com.seeyon.apps.govdoc.exchange.dao.GovdocExchangeDetailLogDaoImpl" />
+	<bean id="govdocListConfigDao" class="com.seeyon.apps.govdoc.doc.dao.GovdocListConfigDaoImpl" />
+	<bean id="govdocRelationDao" class="com.seeyon.apps.govdoc.relation.dao.GovdocRelationDaoImpl" />
+</beans>

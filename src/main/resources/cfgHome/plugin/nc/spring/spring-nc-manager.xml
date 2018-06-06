@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	 <bean id="scheduleSectionManager" class="com.seeyon.apps.nc.manager.ScheduleSectionManagerImpl">
+    </bean>
+    <bean id="ncPendingSectionSelector" class="com.seeyon.apps.nc.section.NCPendingSectionSelector">
+        <property name="sectionType" value="forum"></property>
+        <property name="section" ref="NCPendingSection"/>
+    </bean>
+   	<bean id="ncIntegration" class="com.seeyon.apps.nc.space.NCThirdpartySpace" init-method="initAll">
+	<property name="pluginId" value="nc" />
+	<property name="ncPageURLBuilder" ref="ncPageURLBuilder" />
+	<property name="openType" value="workspace" />
+	<property name="hiddenA8Menu" value="true" />
+	<property name="index" value="0" />
+	<property name="ncThirdpartyAccessCheck" ref="ncThirdpartyAccessCheck" />
+	<property name="languageMapping">
+            <map>
+                <entry key="zh_CN" value="simpchn" />
+                <entry key="zh_TW" value="tradchn" />
+                <entry key="en" value="english" />
+            </map>
+        </property>
+    </bean>
+	<bean id="ncThirdpartyAccessCheck"
+		class="com.seeyon.apps.nc.space.NCThirdpartyAccessCheck">
+	</bean>
+	<bean id="ncPageURLBuilder" class="com.seeyon.apps.nc.space.NCPageURLBuilder">
+	    <property name="loginURL" value="/seeyon/genericController.do?ViewPage=plugin/nc/A8"/>
+		<property name="languageMapping">
+			<map>
+				<entry key="zh_CN" value="simpchn" />
+				<entry key="zh_TW" value="tradchn" />
+				<entry key="en" value="english" />
+			</map>
+		</property>
+	</bean>
+    <bean id="nc" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+		<property name="name" value="nc" />
+		<property name="ticketName" value="ticket" />
+		<property name="topFrameName" value="frame_A8" />
+		<property name="handshake">
+			<bean class="com.seeyon.apps.nc.sso.NCSSOLoginHandshakeImpl" />
+		</property>
+	</bean>
+	<bean id="ncportal" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+		<property name="name" value="ncportal" />
+		<property name="ticketName" value="ticket" />
+		<property name="topFrameName" value="frame_A8" />
+		<property name="forward" value="false" />
+		<property name="handshake">
+			<bean class="com.seeyon.apps.nc.sso.NCSSOLoginHandshakeImpl" />
+		</property>
+	</bean>
+       <bean id="ncMessageQuartzJob" class="com.seeyon.apps.nc.scheduletask.NCMessageQuartzJob"/>
+    <bean id="homePageNCParamsImpl" class="com.seeyon.apps.nc.manager.HomePageNCParamsImpl"/>
+    <bean id="nCExpandJspForHomePage" class="com.seeyon.apps.nc.manager.NCExpandJspForHomePage"/>
+     <bean id="nc5SSOManagerImpl" class="com.seeyon.apps.nc.ssomanager.NC5SSOManagerImpl">
+         <property name="languageMapping">
+            <map>
+                <entry key="zh_CN" value="simpchn" />
+                <entry key="zh_TW" value="tradchn" />
+                <entry key="en" value="english" />
+            </map>
+        </property>
+     </bean>
+    <bean id="nc6SSOManagerImpl" class="com.seeyon.apps.nc.ssomanager.NC6SSOManagerImpl">
+     <property name="languageMapping">
+            <map>
+                <entry key="zh_CN" value="simpchn" />
+                <entry key="zh_TW" value="tradchn" />
+                <entry key="en" value="english" />
+            </map>
+        </property>
+    </bean>
+</beans>

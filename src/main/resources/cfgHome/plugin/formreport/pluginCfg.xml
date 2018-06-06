@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>report</id>
+	<name>表单统计</name>
+	<category>50001</category>
+</plugin>

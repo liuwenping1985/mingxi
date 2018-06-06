@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="signetManager" class="com.seeyon.v3x.system.signet.manager.SignetManagerImpl" init-method="init" />
+	<bean id="ctpSignetManager" class="com.seeyon.apps.system.signet.manager.CtpSignetManagerImpl" />
+	<bean id="ipcontrolManager" class="com.seeyon.v3x.system.ipcontrol.manager.IpcontrolManagerImpl" init-method="init" />
+	<bean id="ipcontrolLoginInterceptor" class="com.seeyon.ctp.login.interceptor.IpcontrolLoginInterceptor" />
+	<bean id="messageDelsetManager" class="com.seeyon.v3x.messageManager.manager.MessageDelsetManagerImpl" init-method="init" />
+</beans>

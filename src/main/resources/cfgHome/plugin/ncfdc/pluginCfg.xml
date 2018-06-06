@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>ncfdc</id>
+	<name>NC业务集成-房产建筑集成插件</name>
+	<category>10105</category>
+	<initializer>com.seeyon.apps.ncbusiness.NCBusinessPlatFormInit</initializer>
+</plugin>

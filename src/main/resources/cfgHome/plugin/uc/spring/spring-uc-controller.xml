@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/uc/chat.do" class="com.seeyon.apps.uc.controller.ChatController" />
+	<bean name="/uc/s2s.do" class="com.seeyon.apps.uc.controller.S2SController" />
+	<bean name="/uc/config.do" class="com.seeyon.apps.uc.controller.UCConfigController" />
+	<bean name="/uc/version.do" class="com.seeyon.apps.uc.controller.UcVersionCheckController" />
+</beans>

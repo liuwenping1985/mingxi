@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>barCode</id>
+	<!-- 二维码虚拟插件-->
+	<name>barCode</name>
+	<category>50400</category>
+</plugin>

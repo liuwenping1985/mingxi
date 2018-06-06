@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="officeTemplateManager" class="com.seeyon.apps.office.manager.OfficeTemplateManagerImpl" init-method="init" />
+
+	<bean id="selectPeoplePanel4Office" class="com.seeyon.apps.office.selectpeople.SelectPeoplePanel4OfficeImpl" />
+
+	<bean id="organizationEventListener4Office" class="com.seeyon.apps.office.organization.OrganizationEventListener" />
+
+	<bean id="workflowEventListener4Office" class="com.seeyon.apps.office.workflow.WorkflowEventListener" />
+
+	<bean id="workflowAppExtendManager4Office" class="com.seeyon.apps.office.workflow.WorkFlowAppExtendManagerOfficeImpl" />
+
+	<bean id="userMessageFilterImplOffice" class="com.seeyon.apps.office.usermessage.filter.UserMessageFilterImplOffice"></bean>
+
+	<bean id="officePortlet" class="com.seeyon.apps.office.portal.OfficePortlet" />
+
+	<bean name="deskOfficeAutoProcessManagerImpl" class="com.seeyon.apps.office.portlet.manager.DeskOfficeAutoProcessManagerImpl">
+		<property name="app" value="office"></property>
+	</bean>
+	
+	<bean id="officeCheckPrivUpdate" class="com.seeyon.apps.office.organization.OfficeCheckPrivUpdate" />
+</beans>

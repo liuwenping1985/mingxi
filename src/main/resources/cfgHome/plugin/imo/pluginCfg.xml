@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>imo</id>
+	<name>IMO插件</name>
+	<category>11116</category>
+	<initializer>com.seeyon.v3x.imo.IMOPluginInitializer</initializer>
+</plugin>

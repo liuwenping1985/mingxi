@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-lazy-init="true" default-autowire="byName">
+	<bean id="menuDao" class="com.seeyon.ctp.privilege.dao.MenuDaoImpl" singleton="true"></bean>
+	<bean id="menuResourceDao" class="com.seeyon.ctp.privilege.dao.MenuResourceDaoImpl" singleton="true"></bean>
+	<bean id="resourceDao" class="com.seeyon.ctp.privilege.dao.ResourceDaoImpl" singleton="true"></bean>
+	<bean id="roleResourceDao" class="com.seeyon.ctp.privilege.dao.RoleResourceDaoImpl" singleton="true"></bean>
+	<bean id="privilegeCache" class="com.seeyon.ctp.privilege.dao.PrivilegeCacheImpl" singleton="true" init-method="init"></bean>
+	
+	<bean id="menuManager" class="com.seeyon.ctp.privilege.manager.MenuManagerImpl" singleton="true" depends-on="privilegeCache">
+	</bean>
+	<bean id="resourceManager" class="com.seeyon.ctp.privilege.manager.ResourceManagerImpl" singleton="true"
+		depends-on="privilegeCache"></bean>
+	<bean id="privilegeCheck" class="com.seeyon.ctp.privilege.manager.PrivilegeCheckImpl"></bean>
+	<bean id="privilegeManage" class="com.seeyon.ctp.privilege.manager.PrivilegeManageImpl"></bean>
+	
+	<bean id="menuCacheManager" class="com.seeyon.ctp.privilege.manager.MenuCacheManagerImpl"/>
+	<!-- 注解校验 -->
+	<bean id="ctpSecurityService" class="com.seeyon.ctp.privilege.service.CtpSecurityServiceImpl"/>
+	
+</beans>

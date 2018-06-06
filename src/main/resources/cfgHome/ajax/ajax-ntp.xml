@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>ncMultiJCManager</serviceName>
+		<operations>
+			<op>showNCConfList</op>
+			<op>viewNCConf</op>
+			<op>deleteNCConf</op>
+			<op>createNCConf</op>
+		</operations>
+	</bean>
+</beans>

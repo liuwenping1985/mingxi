@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName" >
+       <bean id="ncRegister"
+        class="com.seeyon.apps.nc.ssomanager.NCSSORegisterImpl">
+    </bean>
+    <bean id="extendedMessageSystem_NC" class="com.seeyon.ctp.common.usermessage.extended.ExtendedMessageSystemImpl">
+        <property name="applicationCategory" value="101" />
+        <property name="displayName" value="nc.messageSystem.displayName" />
+        <property name="i18NResource" value="com.seeyon.apps.nc.i18n.NCResources" />
+    </bean>
+    <bean id="NCPendingSection" class="com.seeyon.apps.nc.section.NCPendingSection"  init-method="init">
+        <property name="ncUserMapperManager" ref="ncUserMapperManager" />
+        <property name="orgManager" ref="orgManager" />
+        <property name="sectionType" value="forum" />
+        <property name="sortId" value="99" />
+        <!-- <property name="spaceTypes" value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" /> -->
+        <property name="resourceBundle" value="com.seeyon.apps.nc.i18n.NCResources"/>
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                             <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" /><!-- 栏目名称 -->
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <!-- <property name="defaultValue" value="nc.section.title" /> -->
+                            </bean>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="countNum"/>
+                                <property name="subject" value="cannel.data.count"/>
+                                <property name="valueType" value="2"/>
+                                <property name="validate" value="isInteger"/>
+                                <property name="validateValue" value="max=50 min=8"/>
+                                <property name="defaultValue" value="8" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

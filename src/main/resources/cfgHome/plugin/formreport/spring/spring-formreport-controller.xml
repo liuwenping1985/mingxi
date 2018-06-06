@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 单表统计制作 -->
+	<bean name="/report/reportDesign.do" class="com.seeyon.ctp.form.formreport.controller.FormReportDesignController">
+	   <property name="formManager" ref="formManager"></property>
+	   <property name="formReportDesignManager" ref="formReportDesignManager"></property>
+	</bean>
+	
+	<!-- 单表统计查看 -->
+	<bean name="/report/queryReport.do" class="com.seeyon.ctp.form.formreport.controller.FormReportViewController">
+        <property name="formReportViewManager" ref="formReportViewManager"></property>
+        <property name="formReportPenetrateManager" ref="formReportPenetrateManager"></property>
+	</bean>
+	
+</beans>

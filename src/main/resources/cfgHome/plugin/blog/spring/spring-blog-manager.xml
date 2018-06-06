@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+
+	<bean id="blogManager" class="com.seeyon.apps.blog.manager.BlogManagerImpl" />
+	<bean id="blogArticleManager" class="com.seeyon.apps.blog.manager.BlogArticleManagerImpl" />
+	<bean id="validateFamilyNameManager" class="com.seeyon.apps.blog.manager.ValidateFamilyNameManager" />
+	<bean id="blogFamilyManager" class="com.seeyon.apps.blog.manager.BlogFamilyManagerImpl" />
+	<bean id="blogManagerForPOJO" class="com.seeyon.apps.blog.manager.BlogManagerForPOJOImpl" />
+	<bean id="blogDaoForPOJO" class="com.seeyon.apps.blog.dao.BlogDaoForPOJOImpl" />
+
+</beans>

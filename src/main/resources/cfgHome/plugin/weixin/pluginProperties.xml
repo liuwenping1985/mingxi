@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<weixin>
+	    <!-- 微信服务器地址 -->
+		<ip mark="{VE}" desc="微信服务器地址，如：http://127.0.0.1:88，http://192.168.10.3:8080">http://weixin.seeyon.com</ip>
+		
+		<!-- 微信服务器对应外网URL -->
+		<wxUrl mark="{VE}" desc="微信服务器对应外网地址，如：http://127.0.0.1:88，http://192.168.10.3:8080">http://weixin.seeyon.com</wxUrl>
+		
+		<!-- 当前此微信插件未受加密狗的控制，暂时通过此配置来控制是否开启。0：未开启；1：开启 -->
+		<enable mark="{int}{VE}" desc="是否启用微信插件，1：表示开启 ；0：表示未开启">0</enable>
+		
+		<!-- 是否启用监听组织模型同步到企业号通讯录。0：未开启；1：开启 -->
+		<orgSync mark="{int}{VE}" desc="是否启用监听组织模型同步到企业号通讯录，1：表示开启 ；0：表示未开启">0</orgSync>
+		
+	</weixin>
+	
+	<!-- 
+	AppContext.getSystemProperty("weixin.ip")取得“http://weixin.seeyon.com” 
+	注意：属性key必须以插件id开始
+	-->
+</ctpConfig>

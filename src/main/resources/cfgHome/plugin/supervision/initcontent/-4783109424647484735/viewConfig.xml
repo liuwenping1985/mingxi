@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <Form id="-4783109424647484735" name="来文办件" relviewid="0" type="seeyonform">
+    <Engine>  infopath  </Engine>
+    <ViewList>
+      <View viewfile="view8.xsl" viewtype="html"/>
+    </ViewList>
+    <OperationList>
+      <Operation id="4134520180699384211" name="审批" filename="-7845547646689721416.xml" type="update" defaultAuth="true" delete="false" phoneviewid="0" />
+      <Operation id="-6937741353130832511" name="显示" filename="5925265382396413694.xml" type="readonly" defaultAuth="true" delete="false" phoneviewid="0" />
+      <Operation id="3515050777870683899" name="新增来文办件" filename="Operation_1481176914097752493.xml" type="add" defaultAuth="false" delete="false" phoneviewid="0" />
+    </OperationList>
+  </Form>

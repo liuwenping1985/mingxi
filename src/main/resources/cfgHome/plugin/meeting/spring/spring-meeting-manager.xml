@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+    <bean id="meetingUtils" class="com.seeyon.v3x.meeting.util.MeetingUtils"></bean>
+    
+    <bean id="meetingHelper" class="com.seeyon.v3x.meeting.util.MeetingHelper"></bean>
+    
+    <bean id="mtContentTemplateManager" class="com.seeyon.v3x.meeting.manager.MtContentTemplateManagerImpl"></bean>
+    
+    <bean id="mtSummaryTemplateManager" class="com.seeyon.v3x.meeting.manager.MtSummaryTemplateManagerImpl"></bean>
+    
+    <bean id="mtMeetingManager" class="com.seeyon.v3x.meeting.manager.MtMeetingManagerImpl"></bean>
+    
+    <bean id="replyManager" class="com.seeyon.v3x.meeting.manager.MtReplyManagerImpl"></bean>
+    
+    <bean id="mtAppPermManager" class="com.seeyon.v3x.meeting.manager.MtAppPermManagerImpl"></bean>
+    
+    <bean id="mtResourcesManager" class="com.seeyon.v3x.meeting.manager.MtResourcesManagerImpl"></bean>
+    
+    <bean id="mtTemplateManager" class="com.seeyon.v3x.meeting.manager.MtTemplateManagerImpl"></bean>
+    
+    <bean id="mtTemplateUserManager" class="com.seeyon.v3x.meeting.manager.MtTemplateUserManagerImpl"></bean>
+    
+    <bean id="meetingManager4ISearch" class="com.seeyon.v3x.meeting.manager.MeetingManager4ISearch" init-method="init"></bean>
+    
+    <bean id="mtAppMeetingManager" class="com.seeyon.v3x.meeting.manager.MtAppMeetingManagerImpl"></bean>
+    
+    <bean id="meetingTypeManager" class="com.seeyon.v3x.meeting.manager.MeetingTypeManagerImpl"></bean>
+    
+    <bean id="meetingRoomManager" class="com.seeyon.v3x.meetingroom.manager.MeetingRoomManagerImpl"></bean>
+    
+    <bean id="mtSummaryManager" class="com.seeyon.v3x.meetingsummary.manager.MtSummaryManagerImpl"></bean>
+    
+    <bean id="meetingRoomAdminManager" class="com.seeyon.v3x.meetingroom.manager.MeetingRoomAdminManagerImpl"  init-method="init"></bean>
+    
+    <bean id="meetingFilingEnableImpl" class="com.seeyon.v3x.meeting.manager.MeetingFilingEnableImpl"></bean>
+    
+    <bean id="meetingManager" class="com.seeyon.v3x.meeting.manager.MeetingManagerImpl"></bean>
+    
+    <bean id="meetingAjaxManager" class="com.seeyon.v3x.meeting.manager.MeetingAjaxManagerImpl"></bean>
+    
+    <bean id="meetingSummaryManager" class="com.seeyon.v3x.meeting.manager.MeetingSummaryManagerImpl"></bean>
+    
+    <bean id="meetingIndexImpl" class="com.seeyon.v3x.meeting.manager.MeetingIndexImpl"></bean>
+    
+    <bean id="userMessageFilterMeeting" class="com.seeyon.v3x.meeting.usermessage.filter.UserMessageFilterImplMeeting"/>
+    
+    <bean id="meetingOrganizationEventListener" class="com.seeyon.v3x.meeting.listener.MeetingOrganizationEventListener"/>
+    
+    <bean id="publicResourceDao" class="com.seeyon.v3x.pubResource.dao.PublicResourceDaoImpl" />
+    <bean id="publicResourceIppDao" class="com.seeyon.v3x.pubResource.dao.PublicResourceIppDaoImpl" />
+    <bean id="publicResourceManager" class="com.seeyon.v3x.pubResource.manager.PublicResourceManagerImpl"/>
+    
+    <!-- 离职办理 -->
+    <bean id="MemberLeaveClearItemMeetingImpl" class="com.seeyon.v3x.meeting.manager.memberLeave.MemberLeaveClearItemMeetingImpl"/>
+    <!-- 删除人员时，检查是否可以删除 -->
+    <bean id="mtAdminCheckMemberDeleteImpl" class="com.seeyon.v3x.meeting.manager.memberLeave.MtAdminCheckMemberDeleteImpl"/>
+    <!-- 人员离职检查 -->
+    <bean id="memberLeaveDataInterfaceMeetingImpl" class="com.seeyon.v3x.meeting.manager.memberLeave.MemberLeaveDataInterfaceMeetingImpl"/>
+    
+    <bean id="mtPeriodicityInfoManager" class="com.seeyon.v3x.meeting.manager.MtPeriodicityInfoManagerImpl"></bean>
+    <bean id="calculateMeetingProcess" class="com.seeyon.v3x.meeting.periodicity.CalculateMeetingProcess" init-method="init"></bean>
+    
+    <bean id="meetingPortlet" class="com.seeyon.ctp.portal.portlet.MeetingPortlet"></bean>
+    
+    <bean name="deskMeetingProcessManagerImpl" class="com.seeyon.ctp.portal.portlet.manager.DeskMeetingProcessManagerImpl">
+    	<property name="app" value="meeting,meetingroom"></property>
+    </bean>
+    <bean id="meetingTypeContentHistoryManager" class="com.seeyon.v3x.meeting.manager.MeetingTypeContentHistoryManagerImpl"></bean>
+    
+    <bean id="meetingTimeJob" class="com.seeyon.v3x.meeting.util.MeetingTimeJob"></bean>
+    
+
+    <bean id="meetingDataRepairTimeJob" class="com.seeyon.v3x.meeting.quartz.MeetingDataRepairTimeJob"></bean>
+    <bean id="meetingSystemInitializer" class="com.seeyon.v3x.meeting.quartz.MeetingSystemInitializer"></bean>
+    
+</beans>

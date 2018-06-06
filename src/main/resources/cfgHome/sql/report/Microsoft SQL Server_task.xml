@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<EventStatistics>
+			<main>
+				<matterReport>
+				<![CDATA[
+				SELECT 
+					:name AS "人员",
+					:departmentName AS "部门",
+					CONVERT(VARCHAR(12), b.query_time, 23) AS "日期",
+					(CASE WHEN a.plans IS NULL THEN 0 ELSE a.plans END) AS "计划",
+					(CASE WHEN a.tasks IS NULL THEN 0 ELSE a.tasks END) AS "任务",
+					(CASE WHEN a.events IS NULL THEN 0 ELSE a.events END) AS "事件",
+					(CASE WHEN a.meetings IS NULL THEN 0 ELSE a.meetings END) AS "会议",
+					(CASE WHEN a.total IS NULL THEN 0 ELSE a.total END) AS "合计",
+					round(cast(cast(b.total as NUMERIC)/cast(:departmentNum as NUMERIC) as NUMERIC(32,2)),2) AS "平均值",
+					:user_id AS member_id
+				FROM
+				(
+					(select SUM(a.plans) as plans,SUM(a.tasks) as tasks,
+					SUM(a.events) as events,SUM(a.meetings) as meetings,
+					SUM(a.total) as total,a.QUERY_TIME as QUERY_TIME
+					from RPT_MATTER_REPORT a 
+					WHERE a.USER_id = :user_id
+					AND a.QUERY_TIME>=:startTime
+					AND a.QUERY_TIME<:endTime
+					GROUP BY a.QUERY_TIME
+					) a
+					RIGHT JOIN
+					(select SUM(a.TOTAL) AS total,a.query_time AS QUERY_TIME
+					from RPT_MATTER_REPORT a 
+					WHERE a.DEPARTMENT_ID=:departmentId
+					AND a.QUERY_TIME>=:startTime
+					AND a.QUERY_TIME<:endTime
+					GROUP BY a.query_time,a.DEPARTMENT_ID
+					) b
+					ON a.query_time = b.query_time
+				)
+				ORDER BY b.QUERY_TIME ASC
+				]]>
+				</matterReport>
+				<matterReport-group>
+				<![CDATA[
+				SELECT  
+					m.name AS "人员",
+					m.depName AS "部门",
+					:displayTime AS "日期",
+					(CASE WHEN a.plans IS NULL THEN 0 ELSE a.plans END) AS "计划",
+					(CASE WHEN a.tasks IS NULL THEN 0 ELSE a.tasks END) AS "任务",
+					(CASE WHEN a.events IS NULL THEN 0 ELSE a.events END) AS "事件",
+					(CASE WHEN a.meetings IS NULL THEN 0 ELSE a.meetings END) AS "会议",
+					(CASE WHEN a.total IS NULL THEN 0 ELSE a.total END) AS "合计",
+					(CASE WHEN b.total IS NULL THEN 0 ELSE round(cast(cast(b.total as NUMERIC)/cast(c.departmentNum as NUMERIC) as NUMERIC(32,2)),2) END) AS "部门平均值",
+					m.member_id AS member_id
+				FROM
+				(
+					(SELECT m.NAME AS NAME,m.id AS member_id,m.ORG_DEPARTMENT_ID AS ORG_DEPARTMENT_ID,u.NAME AS depName 
+					FROM org_member m INNER JOIN org_unit u ON m.ORG_DEPARTMENT_ID=u.ID
+					WHERE m.ID in (:user_id)
+					) m left JOIN
+					(select SUM(a.plans) as plans,SUM(a.tasks) as tasks,
+					SUM(a.events) as events,SUM(a.meetings) as meetings,
+					SUM(a.total) as total,a.USER_id AS USER_ID
+					from RPT_MATTER_REPORT a 
+					WHERE a.USER_id in (:user_id)
+					AND a.QUERY_TIME>=:startTime
+					AND a.QUERY_TIME<:endTime
+					group by a.USER_id
+					) a ON m.member_id=a.USER_id
+					RIGHT JOIN
+					(select SUM(a.TOTAL) AS total,a.DEPARTMENT_ID AS DEPARTMENT_ID
+					from RPT_MATTER_REPORT a 
+					WHERE a.DEPARTMENT_ID in (SELECT ORG_DEPARTMENT_ID FROM org_member WHERE id IN (:user_id))
+					AND a.QUERY_TIME>=:startTime
+					AND a.QUERY_TIME<:endTime
+					group by a.DEPARTMENT_ID
+					) b
+					ON m.ORG_DEPARTMENT_ID=b.DEPARTMENT_ID
+					left join
+					(
+					select count(*) as departmentNum,ORG_DEPARTMENT_ID as DEPARTMENT_ID
+					from org_member m
+					 WHERE m.ORG_DEPARTMENT_ID in (SELECT ORG_DEPARTMENT_ID FROM org_member WHERE id IN (:user_id))
+					 AND m.IS_DELETED = 0
+					 AND m.IS_ENABLE = 1
+					 AND m.IS_ADMIN = 0
+					 AND m.IS_ASSIGNED = 1
+					 AND m.IS_VIRTUAL = 0
+					 AND m.IS_LOGINABLE = 1
+					 AND m.IS_INTERNAL = 1
+					 group by m.ORG_DEPARTMENT_ID
+					) c
+					ON m.ORG_DEPARTMENT_ID=c.DEPARTMENT_ID
+				)
+				ORDER BY '合计' DESC
+				]]>
+				</matterReport-group>
+				<matterReport2>
+				<![CDATA[
+				SELECT
+				m.name AS '人员',
+				m.depName AS '部门',
+				:startTime AS '日期',
+				(CASE WHEN a.number IS NULL THEN 0 ELSE a.number END) AS '计划',
+				(CASE WHEN b.number IS NULL THEN 0 ELSE b.number END) AS '任务',
+				(CASE WHEN c.number IS NULL THEN 0 ELSE c.number END) AS '事件',
+				(CASE WHEN d.number IS NULL THEN 0 ELSE d.number END) AS '会议',
+				(CASE WHEN a.number IS NULL THEN 0 ELSE a.number END)+
+				(CASE WHEN b.number IS NULL THEN 0 ELSE b.number END)+
+				(CASE WHEN c.number IS NULL THEN 0 ELSE c.number END)+
+				(CASE WHEN d.number IS NULL THEN 0 ELSE d.number END) AS '合计',
+				e.num AS '平均值',:users as member_id
+				FROM(
+				SELECT m.NAME AS NAME,u.NAME AS depName FROM org_member m INNER JOIN org_unit u ON m.ORG_DEPARTMENT_ID=u.ID WHERE m.ID=:users
+				) m INNER JOIN
+				(SELECT COUNT(*) AS number
+				FROM plan_info p 
+				WHERE p.STATUS!=1 AND p.plan_status!=4
+				AND p.CREATE_USER_ID=:users
+				AND ((p.START_TIME >= :startTime AND p.END_TIME < :endTime) 
+				OR (p.START_TIME<=:startTime AND p.END_TIME>=:startTime)
+				OR (p.START_TIME<:endTime AND p.END_TIME>=:endTime))
+				) a	ON 1=1
+				INNER JOIN(
+				SELECT 
+				COUNT(DISTINCT ti.id) AS number
+				FROM task_info ti
+				INNER JOIN task_role tr
+				ON ti.id = tr.task_id
+				WHERE tr.role_id = :users
+				AND ti.status IN (1,2,3,4)
+				AND tr.role_type > 0
+				AND ((ti.planned_start_time <= :startTime AND ti.planned_end_time >= :startTime) 
+				OR (ti.planned_start_time >= :startTime AND ti.planned_end_time <= :endTime) 
+				OR (ti.planned_start_time < :endTime AND ti.planned_end_time >= :endTime))
+				) b ON 1=1
+				INNER JOIN
+				(SELECT
+				COUNT(*) AS number
+				FROM cal_event calEvent
+				WHERE (calEvent.create_user_id = :users 
+				or calEvent.RECEIVE_MEMBER_ID like '%'+:users+'%'
+				)
+				AND ((calEvent.BEGIN_DATE <= :startTime AND calEvent.END_DATE >= :startTime) 
+				OR (calEvent.BEGIN_DATE >= :startTime AND calEvent.END_DATE <= :endTime)
+				OR (calEvent.BEGIN_DATE < :endTime AND calEvent.END_DATE >= :endTime))
+				) c ON 1=1
+				INNER JOIN
+				(SELECT
+				COUNT(*) AS number
+				FROM ctp_affair AS a inner join meeting mt on mt.id=a.object_id
+				WHERE a.APP = 6
+				AND a.SUB_APP = 5 AND a.is_delete=0
+				AND a.MEMBER_ID = :users
+				AND (a.state = 3 OR a.state = 2 OR a.state=4 AND a.sub_state!=32)
+				AND ((mt.BEGIN_DATE>=:startTime AND mt.END_DATE<=:endTime)  
+				OR (mt.BEGIN_DATE<=:startTime AND mt.END_DATE>=:startTime)
+				OR (mt.BEGIN_DATE<:endTime AND mt.END_DATE>=:endTime))
+				) d ON 1=1
+				INNER JOIN
+				(SELECT
+				(case when sum(total)=0 or sum(total) is null then 0 else round(cast(sum(total) as NUMERIC)/cast(:departmentnum as NUMERIC),2) end) as num 
+				from rpt_event 
+				where department_id=:departmentid and query_time>=:startTime and CONVERT(VARCHAR(10),query_time,23)<=:endTime
+				) e ON 1=1
+				]]>
+				</matterReport2>
+				<matterReport3>
+				<![CDATA[
+				SELECT 
+				m.id as id,m.org_Department_Id as orgdepartmentid,calEvent.begin_Date as starttime,calEvent.end_Date as endtime
+				FROM Cal_Event as calEvent,Org_Member as m
+				WHERE (calEvent.create_User_Id = m.id or calEvent.receive_Member_Id like '%'+cast(m.id as NVARCHAR(32))+'%' )
+				AND calEvent.begin_Date<:startTime AND calEvent.create_Date >= :startTime
+				AND calEvent.create_Date <= :endTime 
+				]]>
+				</matterReport3>
+				<avg>
+				<![CDATA[
+				select (case when sum(total)=0 or sum(total) is null then 0 else round(cast(sum(total) as NUMERIC)/cast(:departmentnum as NUMERIC),2) end) as num from rpt_event where department_id=:departmentid and query_time>=:avgStart and CONVERT(VARCHAR(10),query_time,23)<=:avgEnd
+				]]>
+				</avg>
+			</main>
+		</EventStatistics>
+		<WorkDailyStatistics>
+			<main>
+				<task>
+					<sql1>
+					<![CDATA[
+					SELECT 
+					a.name AS '管理范围', 
+					'任务' AS '类型', 
+					]]>
+					</sql1>
+					<type>
+						<sql1>
+						<![CDATA[
+						'已完成' AS '状态',
+						]]>
+						</sql1>
+						<sql2>
+						<![CDATA[
+						'进行中' AS '状态',
+						]]>
+						</sql2>
+						<sql3>
+						<![CDATA[
+						'已延期' AS '状态',
+						]]>
+						</sql3>
+						<sql4>
+						<![CDATA[
+						'未开始' AS '状态',
+						]]>
+						</sql4>
+						<sql5>
+						<![CDATA[
+						'已取消' AS '状态',
+						]]>
+						</sql5>
+						<sql6>
+						<![CDATA[
+						'已创建' AS '状态',
+						]]>
+						</sql6>
+						<sql7>
+						<![CDATA[
+						'未完成' AS '状态',
+						]]>
+						</sql7>
+					</type>
+					<time1>
+						<sql1>
+						<![CDATA[
+						'本日' AS '时间',
+						]]>
+						</sql1>
+						<sql2>
+						<![CDATA[
+						'本周' AS '时间',
+						]]>
+						</sql2>
+						<sql3>
+						<![CDATA[
+						'本月' AS '时间',
+						]]>
+						</sql3>
+						<sql4>
+						<![CDATA[
+						'累积' AS '时间',
+						]]>
+						</sql4>
+						<sql5>
+						<![CDATA[
+						'任意' AS '时间',
+						]]>
+						</sql5>
+					</time1>
+					<sql4>
+						<type1>
+						<![CDATA[
+						AND ti.status=4 
+						]]>
+						</type1>
+						<type2>
+						<![CDATA[
+						AND ti.status=2 
+						]]>
+						</type2>
+						<type3>
+						<![CDATA[
+						AND ti.status=3 
+						]]>
+						</type3>
+						<type4>
+						<![CDATA[
+						AND ti.status=1 
+						]]>
+						</type4>
+						<type5>
+						<![CDATA[
+						AND ti.status=5 
+						]]>
+						</type5>
+						<type6>
+						<![CDATA[
+						AND ti.status<5 
+						]]>
+						</type6>
+						<type7>
+						<![CDATA[
+						AND ti.status in(1,2,3) 
+						]]>
+						</type7>
+					</sql4>
+					<sql2>
+					<![CDATA[
+					(CASE WHEN b.total IS NULL THEN 0 ELSE b.total END) AS '数量',
+					(CASE WHEN c.dep_sum is null THEN 0 ELSE ROUND(c.dep_sum,2) END) AS '平均数',
+					'-' AS '超期数',
+					'-' AS '超期百分比',
+					a.member_id as member_id,:startTime as start_time,:endTime as end_time 
+					FROM (
+					(SELECT
+					o.ID                AS member_id,
+					o.NAME              AS NAME,
+					o.ORG_DEPARTMENT_ID AS dep_id
+					FROM org_member o
+					WHERE o.ID in(:users)) a
+					LEFT JOIN 
+					]]>
+					</sql2>
+					<categore1>
+					<![CDATA[(SELECT
+                tr.role_id AS member_id,
+							COUNT(DISTINCT TI.id) AS total 
+							FROM task_info ti 
+					INNER JOIN task_role tr 
+					ON ti.id = tr.task_id 
+					WHERE tr.role_id in(:users)
+					]]></categore1>
+					<categore2>
+					<![CDATA[
+					AND ((ti.planned_start_time <= :startTime AND ti.planned_end_time >= :startTime) 
+								OR (ti.planned_start_time >= :startTime AND ti.planned_end_time <= :endTime) 
+								OR (ti.planned_start_time < :endTime AND ti.planned_end_time >= :endTime))
+					]]>
+					</categore2>
+					<categore3>
+					<![CDATA[(SELECT
+                :users AS member_id,
+							COUNT(DISTINCT TI.id) AS total 
+							FROM task_info ti 
+					WHERE ti.create_user = :users
+					]]></categore3>
+					<categore4>
+					<![CDATA[
+					AND ti.create_time >= :startTime AND ti.create_time <= :endTime 
+					]]>
+					</categore4>
+					<sql5>
+					<![CDATA[
+					group by tr.role_id
+					) b ON a.member_id=b.member_id 
+					LEFT JOIN 
+					(SELECT 
+						  middle.department_id AS dep_id, 
+						  sum(middle.total) AS dep_sum 
+						FROM rpt_task middle 
+						WHERE middle.status=:avgStatus AND (:time=3 OR (:time!=3 
+							AND :avgStart <= middle.query_time 
+					   		AND middle.QUERY_TIME < :avgEnd))
+					   	GROUP BY middle.DEPARTMENT_ID) c 
+					   	ON a.dep_id=c.dep_id 
+					) order by a.name
+					]]>
+					</sql5>
+					<sql6>
+					<![CDATA[
+					AND tr.role_type > 0 
+					]]>
+					</sql6>
+					<sql7>
+					<![CDATA[
+					AND tr.role_type = 0 
+					]]>
+					</sql7>
+				</task>
+			</main>
+		</WorkDailyStatistics>
+		<TaskBurndownStatistics>
+			<main>
+				<![CDATA[
+				SELECT TMP."ID", TMP.TASK_NAME as "任务", TMP.START_TIME, TMP.PLAN_END, TMP.ACTUAL_END,
+					CONVERT(VARCHAR(10),(TMP.END_TIME),23) as "时间", count(TMP.COMPL_COUNT) as "完成任务数", TMP.TOTAL as "总数" 
+				FROM(
+					SELECT parent.id as id, parent.subject as task_name,parent.planned_start_time as start_time, parent.planned_end_time as plan_end,
+					parent.actual_end_time as actual_end, CONVERT(VARCHAR(10),max(feed.create_time),23) as end_time,
+					1 as compl_count, 
+					(SELECT count(*) FROM task_info where parent_task_id = :task_id) as total  
+					FROM 
+					task_info tinfo LEFT JOIN task_info parent ON tinfo.parent_task_id=parent.id
+					LEFT JOIN task_feedback feed ON feed.task_id = tinfo.id
+					WHERE tinfo.parent_task_id = :task_id AND tinfo.status in (4,5)
+					GROUP BY TINFO."ID" ,parent."ID", parent.SUBJECT,parent.PLANNED_START_TIME, parent.PLANNED_END_TIME,parent.ACTUAL_END_TIME
+					) TMP
+				GROUP BY TMP.END_TIME, TMP."ID", TMP.TASK_NAME, TMP.START_TIME, TMP.PLAN_END, TMP.ACTUAL_END, TMP.COMPL_COUNT,TMP.TOTAL
+				ORDER BY TMP.END_TIME
+				]]>
+			</main>
+		</TaskBurndownStatistics>
+	</report>
+</sqlcfg>

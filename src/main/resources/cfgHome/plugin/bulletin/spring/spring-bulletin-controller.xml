@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 公告阅读信息 -->
+    <bean name="/bulRead.do"
+          class="com.seeyon.v3x.bulletin.controller.BulReadController">
+    </bean>  
+    
+    <!-- 公告基本信息 -->
+    <bean name="/bulData.do" class="com.seeyon.v3x.bulletin.controller.BulDataController">
+    </bean>   
+    
+    <!-- 公告版面信息 -->
+    <bean name="/bulTemplate.do" class="com.seeyon.v3x.bulletin.controller.BulTemplateController">
+    </bean>
+    
+     <!-- 公告类型信息 -->
+    <bean name="/bulType.do" class="com.seeyon.v3x.bulletin.controller.BulTypeController">
+    </bean>
+
+     <!-- 发布公告信息 -->
+    <bean name="/bulIssue.do" class="com.seeyon.v3x.bulletin.controller.BulIssueController">
+    </bean>
+</beans>

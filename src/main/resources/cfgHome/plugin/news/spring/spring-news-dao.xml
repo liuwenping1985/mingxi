@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="newsDataDao"
+		class="com.seeyon.v3x.news.dao.impl.NewsDataDaoImpl">
+	</bean>
+	
+	<bean id="newsReadDao"
+		class="com.seeyon.v3x.news.dao.impl.NewsReadDaoImpl">
+	</bean>
+	
+	<bean id="newsTemplateDao"
+		class="com.seeyon.v3x.news.dao.impl.NewsTemplateDaoImpl">
+	</bean>
+	
+	<bean id="newsTypeDao"
+		class="com.seeyon.v3x.news.dao.impl.NewsTypeDaoImpl">
+	</bean>
+	
+	<bean id="newsTypeManagersDao"
+		class="com.seeyon.v3x.news.dao.impl.NewsTypeManagersDaoImpl">
+	</bean>
+	
+	<bean id="newsLogDao" class="com.seeyon.v3x.news.dao.impl.NewsLogDaoImpl"></bean>
+	
+	<bean id="newsBodyDao"
+		class="com.seeyon.v3x.news.dao.impl.NewsBodyDaoImpl">
+	</bean>
+	
+</beans>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+	<bean name="/rikaze.do" class="com.seeyon.apps.datakit.controller.RikazeController">
+		<property name="rikazeService" ref="rikazeService" />
+	</bean>
+	<!--<bean name="/edocDB.do" class="com.seeyon.apps.zdgjedoc.controller.EDocDBController">-->
+	<!--</bean>-->
+	<!--<bean name="/edocUIResponse.do" class="com.seeyon.apps.zdgjedoc.controller.UIResponseController">-->
+		<!--<property name="orgManager" ref="orgManager" />-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean name="/csDownloadStatFile.do" class="com.seeyon.apps.csgwdb.controller.DownloadStatFileController4CS">-->
+		<!--<property name="downloadStatFileManager" ref="downloadStatFileManager" />-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean name="/swdbDownloadStatFile.do" class="com.seeyon.apps.swdb.controller.DownloadStatFileController4SW">-->
+		<!--<property name="downloadStatFileManager4SW" ref="downloadStatFileManager4SW" />-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean name="/swdbUIResponse.do" class="com.seeyon.apps.swdb.controller.UIResponseController4SW">-->
+	<!--</bean>-->
+	<!---->
+	<!--<bean name="/csEdocUIResponse.do" class="com.seeyon.apps.csgwdb.controller.UIResponseController4CS">-->
+	<!--</bean>-->
+</beans>

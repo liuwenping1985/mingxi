@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="u8AioUserMappingManager" class="com.seeyon.apps.allinone.manager.U8AioUserMappingManagerImpl">
+		<property name="u8AioUserMappingDao" ref="u8AioUserMappingDao"></property>
+	</bean>
+	<bean id="aioMessageManager" class="com.seeyon.apps.allinone.manager.AioMessageManagerImpl"></bean>
+</beans>

@@ -6,6 +6,7 @@
 	</bean>
 	<bean name="/rikaze.do" class="com.seeyon.apps.datakit.controller.RikazeController">
 		<property name="rikazeService" ref="rikazeService" />
+		<property name="pendingManager" ref="pendingManager" />
 	</bean>
 
 </beans>

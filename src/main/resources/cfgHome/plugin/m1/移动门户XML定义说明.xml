@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portal-cfg-list>
+    <!-- 该配置支持通过嵌套定义父子关系 -->
+	<portal-cfg>
+	    <column-id>cmp_column_001</column-id>
+	    <!-- 用于如果该资源受RBAC控制的话需要建立关联关系 -->
+	    <resource-type></resource-type>
+	    <!--show-type属性指定栏目的呈现形式，1=表示该配置栏目是一个目录，不是可添加项，2=表示该配置栏目是一个列表型的栏目，3表示该配置栏目是一个非列表型栏目 -->
+	    <show-type>1</show-type>
+	    <!-- 默认的title都不配置，以系统中获取的数据为准 -->
+	    <title>常用</title>
+	    <!-- 服务器端加载服务栏目的服务定义，用于动态获取子栏目的配置 -->
+	    <server-services>
+	        <!-- 加载数据的manager -->
+	        <service-manager></service-manager>
+	        <!-- 加载数据的method -->
+	        <service-method></service-method>
+	        <!-- 加载数据的参数 -->
+	        <service-params></service-params>
+	    </server-services>
+	    <!-- 客户端相关服务的定义 -->
+	    <client-services>
+	        <!--version指版本 -->
+	    	<version></version>
+	        <!-- load-data-function属性为预留属性，本期不启用 -->
+		    <load-data-function></load-data-function>
+		    <!-- view-more-addr是门户中查看更多按钮的目标地址 -->
+		    <view-more-addr>
+		        <ipad></ipad>
+		        <iphone></iphone>
+		        <androidpad></androidpad>
+		        <androidphone></androidphone>
+		    </view-more-addr>
+		    <!-- view-more-type是门户中查看更多按钮的目标地址的类型，1=本地服务，2=本地网页（相对路径），3=第三方网页（全路径） -->
+		    <view-more-type></view-more-type>
+		    <!-- 查看更多参数 -->
+		    <view-more-params></view-more-params>
+		    <!-- 模板的package包在服务器的位置，这是一个zip文件，内容包含了模板、图片及css -->
+		    <template-package></template-package>
+		    <!--template-container-path表示卡片容器模板路径，指zip包中解压后的的路径 -->
+		    <template-container-path>
+		        <ipad></ipad>
+		        <iphone></iphone>
+		        <androidpad></androidpad>
+		        <androidphone></androidphone>
+		    </template-container-path>
+		    <!--template-content-path表示卡片容器模板路径，指zip包中解压后的的路径 -->
+		    <template-content-path>
+		        <ipad></ipad>
+		        <iphone></iphone>
+		        <androidpad></androidpad>
+		        <androidphone></androidphone>
+		    </template-content-path>
+		    <!-- ref-res-links指加入一个门户栏目以后，CSS文件引用标签 -->
+	    	<ref-res-links></ref-res-links>
+	    	<!-- service-url用于当该栏目被加入到首页以后，获取数据的服务地址 -->
+		    <service-url></service-url>
+		    <!-- service-type表示服务类型，1=OA服务，2=第三方服务,3=本地服务 -->
+		    <service-type></service-type>
+		    <!-- service-params表示请求栏目数据需要传递的参数，如果是列表型内容，传入的参数还会自动添加pagesize参数 -->
+		    <service-params></service-params>
+		    <!-- page-size表示在客服端配置数据条数的默认条数显示，可根据设备自定义 -->
+		    <page-size>
+				<iphone></iphone>
+				<ipad></ipad>
+				<androidphone></androidphone>
+				<androidpad></androidpad>
+		    </page-size>
+		    <!-- refresh表示在客户端需要进行数据同步的特征，1=需要进行同步刷新，0=不需要进行同步刷新。未添加该属性的话默认值为0 -->
+		    <refresh></refresh>
+	    </client-services>
+	    <portal-cfg-list>
+		    <portal-cfg>
+		        <!-- 定义子portal -->
+		    </portal-cfg>
+	    </portal-cfg-list>
+	</portal-cfg>
+</portal-cfg-list>

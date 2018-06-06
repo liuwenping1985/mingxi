@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<login>
+	<!-- <bean class="com.seeyon.cmp.authentication.CTPUsernamePasswordLoginAuthentication"
+		before="com.seeyon.ctp.login.auth.DefaultLoginAuthentication" /> -->
+		
+	<!-- <bean class="com.seeyon.cmp.authentication.CTPTicketLoginAuthentication"
+		before="com.seeyon.ctp.portal.sso.login.SSOTicketLoginAuthentication" /> -->
+</login>

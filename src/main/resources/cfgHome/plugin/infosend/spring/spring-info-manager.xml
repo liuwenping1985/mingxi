@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="infoLeftManager" class="com.seeyon.apps.info.manager.impl.InfoLeftManagerImpl"></bean>
+	<bean id="infoScoreManager" class="com.seeyon.apps.info.manager.impl.InfoScoreManagerImpl"></bean>
+	<bean id="infoFormatManager" class="com.seeyon.apps.info.manager.impl.InfoFormatManagerImpl" init-method="init"></bean>
+	<bean id="infoSwitchSetManager" class="com.seeyon.apps.info.manager.impl.InfoSwitchSetManagerImpl"></bean>
+	<bean id="infoFormDataHandler" class="com.seeyon.apps.info.service.InfoFormDataHandler"></bean>
+	<bean id="infoManager" class="com.seeyon.apps.info.manager.impl.InfoManagerImpl"></bean>
+	<bean id="infoNewManager" class="com.seeyon.apps.info.manager.impl.InfoNewManagerImpl"></bean>
+	<bean id="infoListManager" class="com.seeyon.apps.info.manager.impl.InfoListManagerImpl"></bean>
+	<bean id="infoContentManager" class="com.seeyon.apps.info.manager.impl.InfoContentManagerImpl"></bean>
+	<bean id="infoContentCacheManager" class="com.seeyon.apps.info.service.InfoContentCacheManager"  init-method="init"></bean>
+	<bean id="infoNewCreateHandler" class="com.seeyon.apps.info.service.InfoNewCreateHandler"></bean>
+	<bean id="infoNewModifyHandler" class="com.seeyon.apps.info.service.InfoNewModifyHandler"></bean>
+	<bean id="infoNewTemplateHandler" class="com.seeyon.apps.info.service.InfoNewTemplateHandler"></bean>
+	<bean id="infoNewForwardHandler" class="com.seeyon.apps.info.service.InfoNewForwardHandler"></bean>
+	<bean id="infoWorkflowEventListener" class="com.seeyon.apps.info.listener.InfoWorkflowEventListener"></bean>
+	<bean id="infoOpinionManager" class="com.seeyon.apps.info.manager.impl.InfoOpinionManagerImp"></bean>
+    <bean id="infoDocFilingEnable" class="com.seeyon.apps.info.manager.InfoDocFilingEnable"></bean>
+    <bean id="infoMessageManager" class="com.seeyon.apps.info.manager.impl.InfoMessageManagerImpl"></bean>
+    <bean id="infoAppExtendManager" class="com.seeyon.apps.info.listener.InfoAppExtendManagerImpl"></bean>
+	<bean id="infoStepBackManager" class="com.seeyon.apps.info.manager.impl.InfoStepBackManagerImpl"></bean>
+    <bean id="infoStepBackMessageManager" class="com.seeyon.apps.info.manager.impl.InfoStepBackMessageManager"></bean>
+    <bean id="infoOpinionDisplayManager" class="com.seeyon.apps.info.manager.impl.InfoOpinionDisplayManager"></bean>
+    <bean id="infoOrganizationEventListener" class="com.seeyon.apps.info.listener.InfoOrganizationEventListener"></bean>
+    <bean id="infoFilingEnable" class="com.seeyon.apps.info.manager.impl.InfoFilingEnable"></bean>
+    <bean id="infoDocManager" class="com.seeyon.apps.info.manager.impl.InfoDocManagerImpl"></bean>
+    <bean id="infoStatManager" class="com.seeyon.apps.info.manager.impl.InfoStatManagerImpl"></bean>
+    
+    <bean id="infoMagazineManager" class="com.seeyon.apps.info.manager.impl.InfoMagazineManagerImpl"></bean>
+    <bean id="magazineListManager" class="com.seeyon.apps.info.manager.impl.MagazineListManagerImpl"></bean>
+    
+    <bean id="magazinePublishManager" class="com.seeyon.apps.info.manager.impl.MagazinePublishManagerImpl"></bean>
+	<bean id="infoPublishScoreManager" class="com.seeyon.apps.info.manager.impl.InfoPublishScoreManagerImpl"></bean>
+	
+	<bean id="infoSearchManager" class="com.seeyon.apps.info.manager.impl.InfoSearchManagerImpl"></bean>
+
+    <bean id="infoPortlet" class="com.seeyon.ctp.portal.portlet.InfoPortal"></bean>
+    <bean id="infoLockManager" class="com.seeyon.apps.info.manager.impl.InfoLockManagerImpl"></bean>
+    <bean id="userMessageFilterImplInfo" class="com.seeyon.apps.info.listener.UserMessageFilterImplInfo"></bean>
+    <bean id="deskInfoProcessManager" class="com.seeyon.ctp.portal.portlet.DeskInfoProcessManagerImpl">
+    	<property name="app" value="info"></property>
+    </bean>
+</beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 所有DAO -->
+   
+	<!-- 所有Manager -->
+	<bean id="deeDesignManager" class="com.seeyon.ctp.form.dee.design.DeeDesignManagerImpl"></bean>
+	<bean id="deeDataManager" class="com.seeyon.ctp.form.dee.design.DeeDataManager"></bean>
+	<bean id="deeTriggerTaskManager" class="com.seeyon.ctp.form.dee.trigger.DEETriggerTaskManager"></bean>
+	<bean id="deeTriggerActionManager" class="com.seeyon.ctp.form.dee.trigger.DEETriggerActionManager"></bean>
+	<bean id="deeTriggerActionDesign" class="com.seeyon.ctp.form.dee.trigger.DEETriggerActionDesign"></bean>
+	<bean id="deeTriggerDesignManager" class="com.seeyon.ctp.form.dee.trigger.manager.DeeTriggerDesignManagerImpl"></bean>
+</beans>

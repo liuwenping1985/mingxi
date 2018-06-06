@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="edocFormFileRelationDao"
+		class="com.seeyon.v3x.edoc.dao.EdocFormFileRelationDao">
+	</bean>
+	<bean id="edocSendFormRelationDao"
+		class="com.seeyon.v3x.edoc.dao.EdocSendFormRelationDao">
+	</bean>	
+	<bean id="edocDefaultTemplateDao"
+		class="com.seeyon.v3x.edoc.dao.EdocDefaultTemplateDao">
+	</bean>
+</beans>

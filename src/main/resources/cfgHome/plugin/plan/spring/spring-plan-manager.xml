@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-lazy-init="true" default-autowire="byName">
+    <bean id="planDao" class="com.seeyon.apps.plan.dao.PlanDaoImpl" singleton="true"></bean>
+    <bean id="planSummaryDao" class="com.seeyon.apps.plan.dao.PlanSummaryDaoImpl" singleton="true"></bean>
+    <bean id="planRelevantUserDao" class="com.seeyon.apps.plan.dao.PlanRelevantUserDaoImpl" singleton="true"></bean>
+    <bean id="planRefRelationDao" class="com.seeyon.apps.plan.dao.PlanRefRelationDaoImpl" singleton="true"></bean>
+    <bean id="planReferenceConfigDao" class="com.seeyon.apps.plan.dao.PlanReferenceConfigDaoImpl"  singleton="true"></bean>
+    <bean id="planMentionedUserDao" class="com.seeyon.apps.plan.dao.PlanMentionedUserDaoImpl"  singleton="true"></bean>
+    <bean id="refMeetingDao" class="com.seeyon.apps.plan.dao.RefMeetingDaoImpl"  singleton="true"></bean>
+    <bean id="userMessageFilterImplPlan" class="com.seeyon.apps.plan.usermessage.filter.UserMessageFilterImplPlan"/>
+    <bean id="planManager" class="com.seeyon.apps.plan.manager.PlanManagerImpl" singleton="true">
+        <property name="planDao" ref="planDao" />
+        <property name="planSummaryDao" ref="planSummaryDao"></property>
+        <property name="planRelevantUserDao" ref="planRelevantUserDao" />
+        <property name="planReferenceConfigDao" ref="planReferenceConfigDao"></property>
+        <property name="commentManager" ref="ctpCommentManager" />
+        <property name="taskInfoManager" ref="taskInfoManager"></property>
+        <property name="planRefRelationDao" ref="planRefRelationDao"></property>
+        <property name="planMentionedUserManager" ref="planMentionedUserManager"></property>
+    </bean>
+    <bean id="planMentionedUserManager" class="com.seeyon.apps.plan.manager.PlanMentionedUserManagerImpl" singleton="true">
+        <property name="planMentionedUserDao" ref="planMentionedUserDao"></property>
+    </bean>
+    <bean id="planRefRelationManager" class="com.seeyon.apps.plan.manager.PlanRefRelationManagerImpl" singleton="true"></bean>
+    <bean id="planManagerISearch" class="com.seeyon.apps.plan.manager.PlanManagerISearch" init-method="init"></bean>
+    <bean id="refMeetingManager" class="com.seeyon.apps.plan.manager.RefMeetingManagerImpl" singleton="true"></bean>
+</beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="metadataDefDao" class="com.seeyon.apps.doc.dao.MetadataDefDaoImpl" />
+	<bean id="metadataUseDao" class="com.seeyon.apps.doc.dao.MetadataUseDaoImpl" init-method="init" />
+	<bean id="metadataOptionsDao" class="com.seeyon.apps.doc.dao.MetadataOptionsDaoImpl" />
+	<bean id="contentTypeDao" class="com.seeyon.apps.doc.dao.ContentTypeDaoImpl" />
+	<bean id="contentTypeDetailsDao" class="com.seeyon.apps.doc.dao.ContentTypeDetailsDaoImpl" />
+	<bean id="docResourceDao" class="com.seeyon.apps.doc.dao.DocResourceDaoImpl" />
+	<bean id="docFromPotentDao" class="com.seeyon.apps.doc.dao.DocFromPotentDaoImpl" />
+	<bean id="docAclDao" class="com.seeyon.apps.doc.dao.DocAclDaoImpl" />
+	<bean id="docLibMemberDao" class="com.seeyon.apps.doc.dao.DocLibMemberDaoImpl" />
+	<bean id="docSpaceDao" class="com.seeyon.apps.doc.dao.DocSpaceDaoImpl" />
+	<bean id="docLibDao" class="com.seeyon.apps.doc.dao.DocLibDaoImpl" />
+	<bean id="ownerDao" class="com.seeyon.apps.doc.dao.DocLibOwnerDaoImpl" />
+	<bean id="docListColumnDao" class="com.seeyon.apps.doc.dao.DocListColumnDaoImpl" />
+	<bean id="docSearchConfigDao" class="com.seeyon.apps.doc.dao.DocSearchConfigDaoImpl" />
+	<bean id="docTypeListDao" class="com.seeyon.apps.doc.dao.DocTypeListDaoImpl" />
+	<bean id="docAlertDao" class="com.seeyon.apps.doc.dao.DocAlertDaoImpl" />
+	<bean id="docAlertLatestDao" class="com.seeyon.apps.doc.dao.DocAlertLatestDaoImpl" />
+	<bean id="docVersionInfoDao" class="com.seeyon.apps.doc.dao.DocVersionInfoDaoImpl" />
+	<bean id="docMimeTypeDao" class="com.seeyon.apps.doc.dao.DocMimeTypeDaoImpl" />
+	<bean id="docBodyDao" class="com.seeyon.apps.doc.dao.DocBodyDaoImpl" />
+	<bean id="docFavoriteDao" class="com.seeyon.apps.doc.dao.DocFavoriteDaoImpl" />
+	<bean id="docForumDao" class="com.seeyon.apps.doc.dao.DocForumDaoImpl" />
+	<bean id="docMetadataDao" class="com.seeyon.apps.doc.dao.DocMetadataDaoImpl" />
+	<bean id="docLearningDao" class="com.seeyon.apps.doc.dao.DocLearningDaoImpl" />
+	<bean id="docLearningHistoryDao" class="com.seeyon.apps.doc.dao.DocLearningHistoryDaoImpl" />
+
+	<bean id="docSessionFactory" class="com.seeyon.apps.doc.util.db.DocSessionFactory">
+		<property name="mappingResources">
+			<list>
+				<value>DocMetadata.hbm.xml</value>
+				<value>DocResourcePO.hbm.xml</value>
+			</list>
+		</property>
+		<!-- oracle9 配置 <property name="lobHandler" ref="lobHandler" /> -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">false</prop><!-- 已经采用Log4j -->
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.jdbc.batch_size">1000</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 新增的 --> 
+	<bean id="docDao" class="com.seeyon.apps.doc.dao.DocDaoImpl" />
+	<bean id="docAclNewDao" class="com.seeyon.apps.doc.dao.DocAclNewDaoImpl" />
+	<bean id="docBorrowDao" class="com.seeyon.apps.doc.dao.DocBorrowDaoImpl" />
+	<bean id="knowledgeDao" class="com.seeyon.apps.doc.dao.KnowledgeDaoImpl" />
+    <bean id="docActionDao" class="com.seeyon.apps.doc.dao.DocActionDaoImpl" />
+    
+</beans>

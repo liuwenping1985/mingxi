@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>u8</id>
+	<name>U8插件</name>
+	<category>102</category>
+	<initializer>com.seeyon.apps.u8.U8PluginInitializer</initializer>
+</plugin>

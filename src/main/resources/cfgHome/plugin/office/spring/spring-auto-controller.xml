@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<!-- 基础设置 -->
+	<bean name="/office/autoSet.do" class="com.seeyon.apps.office.controller.AutoSetController" />
+	<!-- 车辆申请 -->
+	<bean name="/office/autoUse.do" class="com.seeyon.apps.office.controller.AutoUseController" />
+	<!-- 车辆维护 -->
+	<bean name="/office/autoMgr.do" class="com.seeyon.apps.office.controller.AutoMgrController" />
+	<!-- 车辆统计 -->
+	<bean name="/office/autoStc.do" class="com.seeyon.apps.office.controller.AutoStcController" />
+
+</beans>

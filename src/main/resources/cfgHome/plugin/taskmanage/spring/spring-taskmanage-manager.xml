@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+	<bean id="taskInfoManager" class="com.seeyon.apps.taskmanage.manager.TaskInfoManagerImpl">
+		<property name="taskInfoDao" ref="taskInfoDao"></property>
+		<property name="taskFeedbackDao" ref="taskFeedbackDao"></property>
+		<property name="taskInfoBodyManager" ref="taskInfoBodyManager"></property>
+		<property name="taskRoleManager" ref="taskRoleManager"></property>
+		<property name="taskReplyManager" ref="taskReplyManager"></property>
+		<property name="taskFeedbackManager" ref="taskFeedbackManager"></property>
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="attachmentManager" ref="attachmentManager"></property>
+		<property name="userMessageManager" ref="userMessageManager"></property>
+		<property name="projectManager" ref="projectManager"></property>
+		<property name="projectPhaseManager" ref="projectPhaseManager"></property>
+		<property name="fileToExcelManager" ref="fileToExcelManager"></property>
+		<property name="planManager" ref="planManager"></property>
+		<property name="reportAuthManager" ref="reportAuthManager"></property>
+		<property name="commentManager" ref="ctpCommentManager" />
+		<property name="appLogManager" ref="appLogManager"></property>
+		<property name="indexManager" ref="indexManager"></property>
+		<property name="projectQueryManager" ref="projectQueryManager"></property>
+	</bean>
+	<bean id="taskInfoBodyManager" class="com.seeyon.apps.taskmanage.manager.TaskInfoBodyManagerImpl">
+		<property name="taskInfoBodyDao" ref="taskInfoBodyDao"></property>
+	</bean>
+	<bean id="taskRoleManager" class="com.seeyon.apps.taskmanage.manager.TaskRoleManagerImpl">
+		<property name="taskRoleDao" ref="taskRoleDao"></property>
+	</bean>
+	<bean id="taskReplyManager" class="com.seeyon.apps.taskmanage.manager.TaskReplyManagerImpl">
+		<property name="commentManager" ref="ctpCommentManager" />
+	</bean>
+	<bean id="taskFeedbackManager" class="com.seeyon.apps.taskmanage.manager.TaskFeedbackManagerImpl">
+		<property name="taskFeedbackDao" ref="taskFeedbackDao"></property>
+		<property name="taskInfoDao" ref="taskInfoDao"></property>
+		<property name="taskInfoManager" ref="taskInfoManager"></property>
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="userMessageManager" ref="userMessageManager"></property>
+		<property name="attachmentManager" ref="attachmentManager"></property>
+		<property name="indexManager" ref="indexManager"></property>
+	</bean>
+	<bean id="taskStatisticsManager" class="com.seeyon.apps.taskmanage.manager.TaskStatisticsManagerImpl">
+        <property name="taskStatisticsDao" ref="taskStatisticsDao"></property>
+        <property name="taskStatisticsViewDao" ref="taskStatisticsViewDao"></property>
+        <property name="taskInfoDao" ref="taskInfoDao"></property>
+        <property name="taskFeedbackDao" ref="taskFeedbackDao"></property>
+        <property name="taskRoleManager" ref="taskRoleManager"></property>
+        <property name="fileToExcelManager" ref="fileToExcelManager"></property>
+        <property name="reportAuthManager" ref="reportAuthManager"></property>
+        <property name="orgManager" ref="orgManager"></property>
+    </bean>
+	<bean id="taskAjaxManager" class="com.seeyon.apps.taskmanage.manager.TaskAjaxManagerImpl">
+		<property name="taskInfoDao" ref="taskInfoDao"></property>
+		<property name="taskStatisticsDao" ref="taskStatisticsDao"></property>
+		<property name="taskInfoManager" ref="taskInfoManager"></property>
+		<property name="taskFeedbackManager" ref="taskFeedbackManager"></property>
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="taskStatisticsManager" ref="taskStatisticsManager"></property>
+		<property name="projectManager" ref="projectManager"></property>
+	</bean>	
+	<bean id="importExcelMannager" class="com.seeyon.apps.taskmanage.manager.ImportExcelMannagerImpl">
+		<property name="fileManager" ref="fileManager"></property>
+		<property name="fileToExcelManager" ref="fileToExcelManager"></property>
+	</bean>
+	
+	<bean id="taskListAjaxManager" class="com.seeyon.apps.taskmanage.manager.TaskListAjaxManagerImpl">
+		<property name="taskInfoManager" ref="taskInfoManager"></property>
+	</bean>
+	
+    <bean id="userMessageFilterImplTaskManage" class="com.seeyon.apps.taskmanage.usermessage.filter.UserMessageFilterImplTaskManage"/>
+    <!-- <bean id="taskPortlet" class="com.seeyon.ctp.portal.portlet.TaskPortlet"></bean> -->
+    
+	<bean id="taskInfoDao" class="com.seeyon.apps.taskmanage.dao.TaskInfoDaoImpl" />
+	<bean id="taskInfoBodyDao" class="com.seeyon.apps.taskmanage.dao.TaskInfoBodyDaoImpl" />
+	<bean id="taskRoleDao" class="com.seeyon.apps.taskmanage.dao.TaskRoleDaoImpl" />
+	<bean id="taskReplyDao" class="com.seeyon.apps.taskmanage.dao.TaskReplyDaoImpl" />
+	<bean id="taskFeedbackDao" class="com.seeyon.apps.taskmanage.dao.TaskFeedbackDaoImpl" />
+	<bean id="taskStatisticsDao" class="com.seeyon.apps.taskmanage.dao.TaskStatisticsDaoImpl" />
+	<bean id="taskStatisticsViewDao" class="com.seeyon.apps.taskmanage.dao.TaskStatisticsViewDaoImpl" />
+	<bean id="taskRemind" class="com.seeyon.apps.taskmanage.util.TaskRemindJob" />
+	<bean id="taskLogDao" class="com.seeyon.apps.taskmanage.log.dao.TaskLogDaoImpl"/>
+	<bean id="taskStatisticsPromptDao" class="com.seeyon.apps.taskmanage.dao.TaskStatisticsPromptDaoImpl"/>
+	<bean id="taskLogManager" class="com.seeyon.apps.taskmanage.log.manager.TaskLogManagerImpl"/>
+	<bean id="taskRemindAppHandler" class="com.seeyon.apps.taskmanage.manager.TaskRemindAppHandlerImpl"/>
+	
+	<bean id="taskInfoReportManager" class="com.seeyon.apps.taskmanage.report.manager.TaskInfoReportManagerImpl"></bean>
+	<bean id="taskReportTDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportTDaoImpl"></bean>
+	<bean id="taskDetailTreeManager" class="com.seeyon.apps.taskmanage.manager.TaskDetailTreeManagerImpl"></bean>
+	<bean id="taskReportPeopleDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportPeopleDaoImpl"></bean>
+	<bean id="taskReportOverDueDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportOverdueDaoImpl"></bean>
+	<bean id="taskReportOverViewDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportOverViewDaoImpl"></bean>
+	<bean id="taskReportStatusDao" class="com.seeyon.apps.taskmanage.report.dao.TaskReportStatusDaoImpl"></bean>
+	<bean id="taskTreeListAjaxManager" class="com.seeyon.apps.taskmanage.manager.TaskTreeListAjaxManagerImpl"></bean>
+	<!-- 微信任务事件监听对象 -->
+    <bean id="wechatTaskListener" class="com.seeyon.apps.taskmanage.listener.WechatTaskListener"></bean>
+</beans>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/comments/comments.do" class="com.seeyon.apps.taskmanage.controller.CommentsController"></bean>
+	<bean name="/taskmanage/taskinfo.do" class="com.seeyon.apps.taskmanage.controller.TaskInfoController">
+		<property name="taskInfoManager" ref="taskInfoManager"></property>
+		<property name="attachmentManager" ref="attachmentManager"></property>
+		<property name="projectManager" ref="projectManager"></property>
+		<property name="taskStatisticsManager" ref="taskStatisticsManager"></property>
+		<property name="reportAuthManager" ref="reportAuthManager"></property>
+		<property name="importExcelMannager" ref="importExcelMannager"></property>
+	</bean>
+	<bean name="/taskmanage/taskfeedback.do" class="com.seeyon.apps.taskmanage.controller.TaskFeedbackController">
+		<property name="taskInfoManager" ref="taskInfoManager"></property>
+		<property name="taskFeedbackManager" ref="taskFeedbackManager"></property>
+		<property name="attachmentManager" ref="attachmentManager"></property>
+		<property name="indexManager" ref="indexManager"></property>
+		<property name="userMessageManager" ref="userMessageManager"></property>
+	</bean>
+	<bean name="/taskmanage/taskstatistics.do" class="com.seeyon.apps.taskmanage.controller.TaskStatisticsController">
+		<property name="taskStatisticsManager" ref="taskStatisticsManager"></property>
+	</bean>
+
+	<bean name="/taskmanage/taskshowinfo.do" class="com.seeyon.apps.taskmanage.controller.TaskConfigSctionController">
+		<property name="taskInfoManagerImpl" ref="taskInfoManager"></property>
+		<property name="taskFeedbackManager" ref="taskFeedbackManager" />
+		<property name="orgManager" ref="orgManager"></property>
+	</bean>
+	<bean name="/taskmanage/taskReport.do" class="com.seeyon.apps.taskmanage.report.controller.TaskReportController"></bean>
+</beans>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="false">
+	<!-- 我的报表栏目 -->
+	<bean id="seeyonReportTemplateSection"
+		class="com.seeyon.ctp.portal.section.SeeyonReportTemplateSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="sortId" value="6" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+		<property name="resourceBundle"
+			value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" /><!-- 显示名称 -->
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue"
+									value="seeyonreport.report.template.sction.my.label" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="count" /><!-- 显示行数 -->
+								<property name="subject"
+									value="seeyonreport.report.template.sction.data.count" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=50 min=1" />
+								<property name="defaultValue" value="16" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="panel" />
+								<property name="subject" value="seeyonreport.report.template.src.label" /> <!-- 报表来源 -->
+								<property name="valueType" value="5" />
+								<property name="defaultValue" value="all" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="section.panel.all.label" /> <!-- 全部 -->
+											<property name="value" value="all" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="seeyonreport.report.template.categoryName.label" /> <!-- 报表分类 -->
+											<property name="value" value="track_catagory" />
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl"
+												value="/seeyonReport/seeyonReportController.do?method=reportCategoryForPortal" />
+										</bean>
+
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 报表分析栏目 -->
+	<bean id="seeyonReportShowSection"
+		class="com.seeyon.ctp.portal.section.SeeyonReportShowSection"
+		init-method="init">
+		<property name="sectionType" value="performanceAnalysis" />
+		<property name="spaceTypes"
+			value="personal,personal_custom,leader,outer,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,custom,department" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="seeyonreport.report.template.portal.show.label" /> <!-- 报表分析 -->
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="seeyonreport.report.template.portal.height.label" /> <!-- 高度 -->
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=768 min=208" />
+								<property name="defaultValue" value="400" />
+							</bean>		
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

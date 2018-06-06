@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+	<resKey>supervision.new</resKey>
+	<resKey>supervision.print</resKey>
+	<resKey>supervision.import</resKey>
+	<resKey>supervision.newinfo.nosupervisemember</resKey>
+	<resKey>supervision.import.success</resKey>
+	<resKey>supervision.name.notnull</resKey>
+	<resKey>supervision.date.validate1</resKey>
+	<resKey>supervision.date.validate2</resKey>
+	<resKey>supervision.source.notnull</resKey>
+</export>

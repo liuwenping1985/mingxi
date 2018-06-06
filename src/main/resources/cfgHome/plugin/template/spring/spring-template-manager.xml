@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="collaborationTemplateManager" class="com.seeyon.apps.template.manager.CollaborationTemplateManagerImpl">
+    	<property name="templateManager" ref="templateManager"></property>
+    	<property name="templateDao" ref="templateDao"></property>
+    	<property name="ctpMainbodyManager" ref="ctpMainbodyManager"></property>
+    </bean>
+    <!-- <bean id="templateCategoryManager" class="com.seeyon.apps.template.manager.TemplateCategoryManagerImpl"></bean> -->
+</beans>

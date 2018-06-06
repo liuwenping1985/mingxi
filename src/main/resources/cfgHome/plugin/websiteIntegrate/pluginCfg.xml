@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>websiteIntegrate</id>
+	<name>网站集成</name>
+	<category>19874</category>
+	<initializer>com.seeyon.apps.websiteIntegrate.WebsiteIntegratePluginInitializer</initializer>
+</plugin>

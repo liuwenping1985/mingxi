@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>yxtSynManager</serviceName>
+		<operations>
+			<op>showAccountTree</op>
+			<op>showTable</op>
+			<op>synAll</op>
+			<op>synSelected</op>
+			<op>saveSynConfig</op>
+			<op>saveApiKey</op>
+			<op>checkApikey</op>
+			<op>checkUsed</op>
+		</operations>
+	</bean>
+</beans>

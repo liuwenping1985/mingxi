@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+		<serviceName>u8DataSourceManager</serviceName>
+		<operations>
+			<op>showDataSourceList</op>
+			<op>saveDataSource</op>
+			<op>deleteDataSource</op>
+			<op>viewDataSource</op>			
+			<op>checkDBInfo</op>			
+			<op>checkAccountCode</op>
+			
+		</operations>
+	</bean>
+	
+</beans>

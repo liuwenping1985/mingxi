@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="memberLeaveClearItemOfficeHandImpl" class="com.seeyon.apps.office.organization.MemberLeaveClearItemOfficeHandImpl" />
+	
+	<bean id="autoApplyManager" class="com.seeyon.apps.office.manager.AutoApplyManagerImpl" />
+	
+	<bean id="autoCategoryManager" class="com.seeyon.apps.office.manager.AutoCategoryManagerImpl" />
+	
+	<bean id="autoDriverManager" class="com.seeyon.apps.office.manager.AutoDriverManagerImpl" />
+	
+	<bean id="autoInfoManager" class="com.seeyon.apps.office.manager.AutoInfoManagerImpl" />
+	
+	<bean id="autoUseManager" class="com.seeyon.apps.office.manager.AutoUseManagerImpl" />
+	
+	<bean id="autoIllegalManager" class="com.seeyon.apps.office.manager.AutoIllegalManagerImpl"/>
+	
+	<bean id="autoRepairManager" class="com.seeyon.apps.office.manager.AutoRepairManagerImpl"/>
+	
+	<bean id="autoSafetyManager" class="com.seeyon.apps.office.manager.AutoSafetyManagerImpl"/>
+	
+	<bean id="autoInspectionManager" class="com.seeyon.apps.office.manager.AutoInspectionManagerImpl"/>
+	
+	<bean id="autoReminQuartz" class="com.seeyon.apps.office.util.AutoReminQuartz"/>
+	
+	<bean id="autoUseTimeOutQuartz" class="com.seeyon.apps.office.util.AutoUseTimeOutQuartz"/>
+	
+	<bean id="autoRemindManager" class="com.seeyon.apps.office.manager.AutoRemindManagerImpl"/>
+	
+	<bean id="autoStcInfoManager" class="com.seeyon.apps.office.manager.AutoStcInfoManagerImpl" />
+</beans>

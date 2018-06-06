@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<export>
+    <resKey>restlog.title.info</resKey>
+    <resKey>restlog.restname.info</resKey>
+    <resKey>restlog.resttoken.info</resKey>
+    <resKey>restlog.restlogintime.info</resKey>
+    <resKey>restlog.reststate.info</resKey>
+    <resKey>restlog.restip.info</resKey>
+    <resKey>restlog.restlogintype.info</resKey>
+    <resKey>restlog.resturl.info</resKey>
+    <resKey>restlog.error.info</resKey>
+</export>

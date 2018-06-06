@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="bulReadManager" class="com.seeyon.v3x.bulletin.manager.BulReadManagerImpl"></bean>
+
+	<bean id="bulTemplateManager" class="com.seeyon.v3x.bulletin.manager.BulTemplateManagerImpl"></bean>
+
+	<bean id="bulTypeManagersManager" class="com.seeyon.v3x.bulletin.manager.BulTypeManagersManagerImpl"></bean>
+    
+	<bean id="bulLogManager" class="com.seeyon.v3x.bulletin.manager.BulLogManagerImpl"></bean>
+
+	<bean id="bulDataManager" class="com.seeyon.v3x.bulletin.manager.BulDataManagerImpl" singleton="true">
+    </bean>  
+
+	<bean id="bulTypeManager" class="com.seeyon.v3x.bulletin.manager.BulTypeManagerImpl"  
+    	init-method="init" singleton="true">
+    </bean> 	   
+
+	<bean id="bulOrganizationEventListener" class="com.seeyon.v3x.bulletin.listener.BulOrganizationEventListener"></bean>
+	
+	<bean id="bulDataCache" class="com.seeyon.v3x.bulletin.util.BulDataCache" init-method="init" destroy-method="destroy"/>
+    
+    <bean id="bulletinUtils" class="com.seeyon.v3x.bulletin.util.BulletinUtils">
+    </bean>
+    
+    <bean id="bulletinManager4ISearch" class="com.seeyon.v3x.bulletin.manager.BulletinManager4ISearch" init-method="init">
+    </bean>  
+    <bean id="bulIndex" class="com.seeyon.v3x.bulletin.manager.BulIndexEnableImpl">
+    </bean>  
+    
+    <!-- 离职办理 -->
+    <bean id="MemberLeaveDataInterfacePubinfo"  class="com.seeyon.v3x.bulletin.manager.MemberLeaveDataInterfacePubinfoImpl">
+    </bean>  
+    <bean id="memberLeaveClearItemBulletinHand" class="com.seeyon.v3x.bulletin.manager.MemberLeaveClearItemBulletinHandImpl">
+    </bean>
+    <bean id="memberLeaveClearItemBulletinRole" class="com.seeyon.v3x.bulletin.manager.MemberLeaveClearItemBulletinRoleImpl">
+    </bean>
+    <bean id="bulDocFilingEnable" class="com.seeyon.v3x.bulletin.manager.BulDocFilingEnable">
+    </bean>
+    <bean id="bulIssueManager" class="com.seeyon.v3x.bulletin.manager.BulIssueManagerImpl"></bean>
+    
+    <bean id="userMessageFilterImplBulletin" class="com.seeyon.v3x.bulletin.usermessage.filter.UserMessageFilterImplBulletin"/>
+    
+    <bean id="bulletinNotificationHandler" class="com.seeyon.ctp.cluster.listener.BulletinNotificationHandler"/>
+    
+    <bean id="bulletinPortlet" class="com.seeyon.v3x.bulletin.portal.portlet.BulletinPortlet"/>
+    
+    <!-- 业务生成器解耦 -->
+    <bean id="businessSourceType4Infomation" class="com.seeyon.ctp.form.modules.business.impl.BusinessSourceType4Infomation">
+        <property name="sort" value="6"/>
+    </bean>
+
+	<!-- 业务导图-链接分类 -->
+	<bean id="bizMapLinkType4PubInfo" class="com.seeyon.ctp.form.modules.bizmap.BizMapLinkType4PubInfo" />
+</beans>

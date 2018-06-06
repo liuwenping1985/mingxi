@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>archive</id>
+	<name>档案集成</name>
+	<category>19877</category>
+	<initializer>com.seeyon.apps.archive.appsinitializer.ArchiveDocInitializer</initializer>
+</plugin>

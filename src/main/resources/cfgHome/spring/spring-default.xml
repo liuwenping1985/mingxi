@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd  
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/jdbc/ctpDataSource</value>
+		</property>
+	</bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.CTPLocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+<!-- 				<prop key="hibernate.hbm2ddl.auto">update</prop> -->
+			</props>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>classpath*:com/seeyon/apps/*/po/**/*.hbm.xml</value>
+				<value>classpath:com/seeyon/apps/*/po/**/*.hbm.xml</value>
+				<value>classpath*:com/seeyon/ctp/*/po/**/*.hbm.xml</value>
+				<value>classpath:com/seeyon/ctp/*/po/**/*.hbm.xml</value>
+				<value>classpath*:com/seeyon/gov/*/po/**/*.hbm.xml</value>
+				<value>classpath:com/seeyon/gov/*/po/**/*.hbm.xml</value>
+				<value>classpath:com/seeyon/v3x/**/domain/*.hbm.xml</value>
+				<value>classpath*:com/seeyon/v3x/**/domain/*.hbm.xml</value>
+				<value>classpath*:com/seeyon/ctp/common/lbs/po/CmpLBSBase.hbm.xml</value>
+				<value>classpath*:com/seeyon/cmp/*/po/**/*.hbm.xml</value>
+				<value>classpath:com/seeyon/cmp/*/po/**/*.hbm.xml</value>
+				<value>classpath*:com/seeyon/apps/**/po/**/*.hbm.xml</value>
+				<value>classpath:com/seeyon/apps/**/po/**/*.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.CTPTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="transfer*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="translate*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="translateV3xOrgMemberToWebV3xOrgMember*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="translateFormFieldValieDisplayInfo*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transBeforeInvokeWorkFlow*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transferTemplate*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transShowSummary*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transContentViewResponse*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transDoLogin*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transDoLogout*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="updateOnlineState*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transInitChartData*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="loadMore*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transPendingMain*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="export*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addToIndex*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />            
+            <tx:method name="decryptionFile*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />            
+            <tx:method name="upload*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" /> 
+ 	    <tx:method name="wrapMenuBOListOfMember*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="addTrigger*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="deleteIndexForDelete*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="onDealPageLeave*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="createLog*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="transMergeCtpTemplateConfig*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="saveRecentData4OrgIndex*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="sendPacket*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            <tx:method name="transCheckBrachSelectedWorkFlow*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />  
+            
+            <tx:method name="is*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="check*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="get*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="list*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="query*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="find*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="trans*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="test*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="import*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="on*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="iSearch*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="create*" propagation="REQUIRED" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="summary" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="componentPage" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="showDiagram" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="lockWorkflow" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="canWorkflowCurrentNodeSubmit" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="colDelLock" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="formAddLock" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="loginUC" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="init*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="listenEvent*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            
+            <tx:method name="addAuthView*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addDownlaodRecord*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addEditForm*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addField*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addFormBean*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addFormReportBean*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addFormSerialNumberBean*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addOrDelDataSubBean*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addQuery*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addTable*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addTrigger*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="addView*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="deleteTrigger4Cache*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="onFieldInfoChange*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveBaseInfo*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveFormBeanSet4Cache*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveOrUpdateAuth*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveOrupdateAuthBind*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveOrUpdateCodeAndLogs*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveOrUpdateFillBackSet*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveOrUpdateRelationForm*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveQuerySet*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveTrigger4Cache*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="saveUserFieldsCache*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transFormRelation4SysType*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="transFormRelationRecord*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="translateFormula*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="updateDataState*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="updateFormFieldBindEnum*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="updateFormFieldChange*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="updateFormName*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.BusinessException" />
+            <tx:method name="updateRecentReport*" propagation="SUPPORTS" rollback-for="com.seeyon.ctp.common.exceptions.Busine"/>            
+        </tx:attributes>
+    </tx:advice>
+
+	<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="method" />
+		<property name="defaultMethodName" value="index" />
+	</bean>
+
+	<!-- 定义View -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.CTPViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="addinMenuInterceptor" />
+			</list>
+		</property>
+	</bean>
+	<bean id="addinMenuInterceptor" class="com.seeyon.ctp.common.thirdparty.menu.AddinMenuInterceptor"/>
+
+	<!-- <bean id="loggerAdvice" class="com.ufida.hap.spring.LoggerAdvice" /> -->
+	<aop:config>
+		<aop:pointcut id="appServiceMethods" expression="execution(* com.seeyon.apps..*.*(..))" />
+		<aop:pointcut id="ctpServiceMethods" expression="execution(* com.seeyon.ctp..*.*(..))" />
+		<aop:pointcut id="seeworkServiceMethods" expression="execution(* com.seeyon.seework.apps..*.*(..))" />
+		<!-- <aop:pointcut id="v3xServiceMethods" expression="execution(* com.seeyon.v3x..*.*(..))" /> -->
+		<!-- <aop:advisor advice-ref="loggerAdvice" pointcut-ref="sampleMethod" /> -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="appServiceMethods" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="ctpServiceMethods" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="seeworkServiceMethods" />
+		<!-- <aop:advisor advice-ref="txAdvice" pointcut-ref="v3xServiceMethods" /> -->
+		<!-- 
+		<aop:aspect id="perfmonLogAspect" ref="perfmonLogBean">
+			<aop:around pointcut-ref="appServiceMethods" method="perfmonLog" />
+			<aop:around pointcut-ref="ctpServiceMethods" method="perfmonLog" />
+		</aop:aspect>
+		 -->
+		 <!--  
+        <aop:aspect id="genericAspect" ref="genericAspect">
+            <aop:after pointcut-ref="appServiceMethods" method="after" />
+            <aop:after pointcut-ref="ctpServiceMethods" method="after" />
+        </aop:aspect>	
+        -->	 
+	</aop:config>
+<!--  	
+	<bean id="genericAspect" class="com.seeyon.ctp.common.aspect.GenericAspectBean"/>
+   -->   
+<!-- 	<aop:config>
+		<aop:aspect id="scanTransAspect" ref="scanTransMethodBean">
+			<aop:pointcut id="tramsMethods" expression="execution(* com.seeyon.apps..*.trans*(..))" />
+			<aop:around pointcut-ref="tramsMethods" method="scanTrans" />
+		</aop:aspect>
+	</aop:config> -->
+
+    <bean id="perfmonLogBean" class="com.seeyon.ctp.monitor.perfmon.OperationLog"/>
+    <bean id="scanTransMethodBean" class="com.seeyon.ctp.monitor.codescan.ScanTransMethod"/>
+    
+	<mvc:interceptors>
+		<!-- <mvc:mapping path="/user/*" /> -->
+		<bean class="com.seeyon.ctp.common.spring.CTPHandlerInterceptor" />
+		<bean class="com.seeyon.ctp.common.web.ExtendJavascriptInteceptor" />
+	</mvc:interceptors>
+
+	<bean scope="prototype" id="hibernateDaoSupport" class="org.springframework.orm.hibernate3.support.CTPHibernateDaoSupport">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- Spring属性配置器，系统环境变量 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
+
+	<!-- 定义语言管理器 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
+	<bean name="/ajax.do" class="com.seeyon.ctp.common.service.AjaxController" autowire="byName" />
+	<bean id="ctpCodeManager" class="com.seeyon.ctp.common.service.CTPCodeManagerImpl" />
+</beans>

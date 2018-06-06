@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<ncbusinessplatform>
+		<plugin>
+		<enabled mark="{option,true,false} {VE}" desc="是否启用NC业务集成插件,默认不启用">false</enabled>
+		</plugin>
+	</ncbusinessplatform>
+	<!-- http://10.3.4.233:5056 http://10.3.4.221:9080 该例中可通过AppContext.getSystemProperty("nc.accountcode.name")取得“NC的账套编码”， 
+		AppContext.getSystemProperty("nc.accountcode")取得“1001” 注意：属性key必须以插件id开始 -->
+</ctpConfig>
