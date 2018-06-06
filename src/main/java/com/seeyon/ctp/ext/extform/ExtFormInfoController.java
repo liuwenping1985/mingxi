@@ -46,7 +46,7 @@ public class ExtFormInfoController extends BaseController {
         String affairId = request.getParameter("affairId");
         /**
          * test :7255984374117713477
-         * product:
+         * product:4369223031188048854
          */
         String templateId = request.getParameter("tplId");
         Map<String,Object> data = new HashMap<String,Object>();
@@ -100,9 +100,9 @@ public class ExtFormInfoController extends BaseController {
 
         /**
          * test :8703799250809407701
-         * product:
+         * product:-4679650058905172061,-3220873770960730919,-640281432140132614
          */
-        String linkTplId = request.getParameter("linkTplId");
+        String linkTplId = request.getParameter("linkTplIds");
 
         String oaLoginName = request.getParameter("oaLoginName");
 
@@ -114,20 +114,23 @@ public class ExtFormInfoController extends BaseController {
             UIUtils.responseJSON(data,response);
             return null;
         }
+
         if(StringUtils.isEmpty(oaLoginName)){
             data.put("result",false);
             data.put("reason","LOGIN_NAME_NOT_FOUND");
             UIUtils.responseJSON(data,response);
             return null;
         }
-        Long outLinkTplId = Long.parseLong(linkTplId);
+       // Long outLinkTplId = Long.parseLong(linkTplId);
+        linkTplId="("+linkTplId+")";
         Long memberId = principalManager.getMemberIdByLoginName(oaLoginName);
-        List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId="+outLinkTplId+" and senderId="+memberId+"and state=3");
+        List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId in "+linkTplId+" and senderId="+memberId+"and state=3");
         if(!CollectionUtils.isEmpty(afList)){
             if(afList.size()>0){
                 CtpAffair affair = afList.get(0);
                 data.put("affair", JSON.toJSONString(affair));
                 data.put("affairId", String.valueOf(affair.getId()));
+                data.put("templateId", String.valueOf(affair.getTempleteId()));
                 if(afList.size()>1) {
                     data.put("warning", "AFFAIR_MULTI_FOUND");
                 }
@@ -146,7 +149,7 @@ public class ExtFormInfoController extends BaseController {
         return null;
 
     }
-    @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.afterCommit,async = true)//协同发起成功提交事务后执行，异步模式。
+//    @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.afterCommit,async = true)//协同发起成功提交事务后执行，异步模式。
     public void onCollaborationEnd(CollaborationFinishEvent event) throws NoSuchPrincipalException {
        // 7255984374117713477 event.getAffairId(); w
         Long affairId = event.getAffairId();
