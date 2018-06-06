@@ -47,7 +47,16 @@ body{font-family:"微软雅黑", "宋体";}
 .photoWall ul li.zl .fl{ padding-top:66px;}
 .photoWall ul li.zl dl { width:107px;}
 .photoWall ul li.zl dl dt{height:115px;}
-.photoWall ul li dl dt{ display:block;background:#fff; border:1px #e2e2e2 solid; padding:7px; height:90px; overflow:hidden;}
+.photoWall ul li dl dt{
+    display:block;
+    background:#fff;
+    border:1px #e2e2e2 solid; padding:7px;
+    height:90px; overflow:hidden;
+    /*background: -webkit-linear-gradient(#e6f4ff,#025194); !* Safari 5.1 - 6.0 *!*/
+    /*background: -o-linear-gradient(#e6f4ff,#025194); !* Opera 11.1 - 12.0 *!*/
+    /*background: -moz-linear-gradient(#e6f4ff,#025194); !* Firefox 3.6 - 15 *!*/
+    /*background: linear-gradient(#e6f4ff,#025194); !* 标准的语法 *!*/
+}
 .photoWall ul li dl dt:hover{ border:1px #b2b2b2 solid;}
 .photoWall ul li dl dd{ text-align:center; line-height:32px; font-size:12px}
 .w999{ width:999px;}
@@ -138,3 +147,43 @@ div.channel_tab2{ padding-left:0px;}
 .jg-list ol li{ height:30px; line-height:30px; background:url(../images/gwy/gwy_titbg04.jpg) no-repeat;  padding:0 10px; margin-bottom:5px;}
 .jg-list ol li.libg{ background:url(http://www.gov.cn/govweb/xhtml/images/gwy/gwy_titbg03.jpg) no-repeat; }
 .gwy-list ol li.libg a,.jg-list ol li.libg a{ color:#FFF; font-size:14px;}
+
+.rd-div{
+    margin:0 auto;
+
+    background: darkcyan;
+
+    width:600px;
+
+    height:200px;
+
+    border:0px solid lightgray;
+
+    border-radius:5px;
+
+    text-align: center;
+
+    line-height: 200px;
+}
+.cs-header{
+    background:#45A5CE;
+    width:100%;
+    height:35px;
+}
+.cs-header-close{
+    background: url('../img/dialog_close.png');
+    width:30px;
+    height:32px;
+    cursor:pointer;
+    float:right;
+}
+.cs-header-title{
+    float:left;
+    padding-left:20px;
+    width:200px;
+    position:relative;
+    top:0px;
+    color:white;
+    height:32px;
+    cursor:pointer;
+}

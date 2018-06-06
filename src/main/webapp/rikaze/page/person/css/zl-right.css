@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*部分左右结构*/
+.leftPart{ float:right;width:713px;display:inline-block;background: #ecf7ff}
+.rightPart{ float:left;width:253px;padding-right:30px;border-right:1px #bababa solid;display:inline-block}
+
+/*总理简历*/
+.column2_right .lyd{ height:110px; padding:18px 33px 10px 20px;}
+.zl_left{ width:86px; height:104px; font-size:22px;font-family:"微软雅黑","宋体"; float:left}
+.zl_right{ float:right;width:113px; height:74px; padding-top:38px;}
+.zl_right a{font-size:22px;font-family:"微软雅黑","宋体"; display:block;}
+.zl_right a.zl_btn{ margin:15px auto 0; width:26px;}
+
+/*国务院常务会议 带背景 标题+时间*/
+.gwycwhy_btn{font-family:"FZZHUNYSK","微软雅黑","宋体";margin:0 auto; background:#c1d1d0; text-align:center; padding-top:9px; padding-bottom:10px;}
+.gwycwhy_btn_tit{font-size:22px; padding-bottom:10px;}
+.gwycwhy_btn_date{font-size:14px; color:#fff; font-family:"微软雅黑","宋体";}
+
+.gwycwhy_btn2{ width:234px; font-family:"FZZHUNYSK","微软雅黑","宋体";margin:0 auto; background:#c1d1d0; text-align:center; padding-top:17px; padding-bottom:22px;font-size:22px;}
+
+
+/*栏目标题 tab 带下划线 字体18px*/*/
+div.channel_tab2{  border-bottom:none; padding-left:5px; padding-top:14px;}
+div.channel_tab2 span{ padding:0 15px; background:url(../images/public/line.jpg) no-repeat right 7px;}
+div.channel_tab2 span.noline{ background:none}
+div.channel_tab2 span a{ font-family:"微软雅黑","宋体"; font-size:18px;}
+
+/**/
+.zl_channel_con2{/* width:234px; margin:0 auto*/}
+.zl_channel_con2 ul{}
+.zl_channel_con2 ul li{ font-family:"微软雅黑","宋体"; line-height:18px; padding:5px 0; margin:0}
+.zl_channel_con2 ul li a{ font-size:14px;}
+.zl_channel_con2 ul li span{ font-size:14px; color:#888; padding-left:9px;}
+
+.zl_more3{ color:#888; font-size:14px; font-family:"微软雅黑","宋体"; line-height:28px;}
+
+
+/*我向总理说句话*/
+.saySome .lmtit{ border-bottom:none;}
+.saySome .list{ background:#eeeeee; padding:10px; margin-top:5px;}
+.saySome div.list_1 ul{ padding-top:0px;height: 390px; overflow: hidden;}
+.saySome div.list_1 ul li{ line-height:22px; padding:4px 0;}
+.saySome .list ul li h4 span.place{ font-size:14px; display:inline-block;}
+.saySome .list ul li h4 a{ font-size:14px;}
+.saySome .list ul li h4 a:hover{ color:#025194;}
+.lyBtn { background:url(../images/public/lyBtn.jpg) no-repeat left; height:36px; padding-left:40px; line-height:36px; margin-bottom:5px; font-size:18px; font-family:"微软雅黑", "宋体";}
+.lyBtn a{ color:#000;}
+.lyBtn a:hover{ color:#025194;}
+
+
+/*文件搜索（蓝色按钮）*/
+.date_selector{ font-size:12px;}
+.docSearch form ul li { line-height:26px; clear:both;_height:26px; font-family:"微软雅黑", "宋体";}
+.docSearch form ul li span.left{ display:block;float:left; margin:4px 0; width:56px; font-size:14px; padding-right:10px;}
+.docSearch form ul li span.right{ display:block;float:right; width:186px; margin:0px; padding:0px;}
+.docSearch form ul li input{ border:none; color:#666666; background:#eaeaea; width:156px;line-height:26px; height:26px; margin:4px 0px; padding:0 15px;}
+.docSearch .seclect_op { position:relative;z-index:22;}
+.docSearch .seclect_op input.inp{ z-index:1; background:url(../images/public/icon18.jpg) no-repeat right #eaeaea;}
+.docSearch .seclect_op input.inp1{ z-index:1; background:url(../images/public/icon18.jpg) no-repeat right #eaeaea;}
+.docSearch .seclect_op .option{ position:absolute; width:186px; background:#eaeaea;top:30px;left:0px; color:#666666;}
+.docSearch .seclect_op ul li{cursor:pointer; font-size:12px;}
+.docSearch .seclect_op ul li a{ display:block; padding:1px 15px; _padding:5px 15px -15px 15px;}
+.docSearch .seclect_op ul li a:hover{ background:#d8d8d8; color:#000}
+.docSearch .seclect_op.w110 .option{width:140px;}
+.docSearch form ul li .w110 input,.w110{ width:110px;}
+.w131{ width:131px;}
+.docSearch input.w159{ width:129px;}
+.docSearch input.date_picker{background:url(../images/public/dataBg.jpg) no-repeat right #eaeaea; cursor:pointer;}
+#maxHei{display:block;height:0;overflow-y:scroll;}
+
+.btnBlue,.btnBlue a{ line-height:28px; height:28px; margin-top:10px; background:url(../images/public/btnBlue.jpg) no-repeat; border:none; color:#fff; font-size:14px; font-family:"微软雅黑", "宋体"; cursor:pointer;}
+.btnBlue.w110{ background-position:0 -58px}
+.btnBlue.w131{ background-position:0 -29px}
+
+.h350{ height:85px; }
+.hao{font-size:14px; display:inline-block; margin-top:6px;}
