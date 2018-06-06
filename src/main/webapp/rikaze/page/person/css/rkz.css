@@ -155,7 +155,7 @@ div.channel_tab2{ padding-left:0px;}
 
     width:600px;
 
-    height:200px;
+    height:400px;
 
     border:0px solid lightgray;
 
@@ -163,7 +163,6 @@ div.channel_tab2{ padding-left:0px;}
 
     text-align: center;
 
-    line-height: 200px;
 }
 .cs-header{
     background:#45A5CE;
@@ -186,4 +185,24 @@ div.channel_tab2{ padding-left:0px;}
     color:white;
     height:32px;
     cursor:pointer;
+    border-top-right-radius:5px;
+    border-top-left-radius:5px;
+}
+.cs-footer-btn{
+    border: 1px #99948c solid;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: #99948c;
+    display: inline-block;
+    color: #ffffff;
+    cursor: pointer;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 10px;
+        margin-right: 5px;
+        margin-top:5px;
+            vertical-align: middle;
+
 }
