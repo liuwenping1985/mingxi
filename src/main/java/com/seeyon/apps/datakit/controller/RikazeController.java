@@ -1,5 +1,6 @@
 package com.seeyon.apps.datakit.controller;
 
+import com.seeyon.apps.calendar.manager.CalEventManagerImpl;
 import com.seeyon.apps.collaboration.manager.PendingManager;
 import com.seeyon.apps.datakit.po.BulDataItem;
 import com.seeyon.apps.datakit.po.NewsDataItem;
@@ -55,6 +56,7 @@ public class RikazeController extends BaseController {
         if(user!=null){
             userName = user.getName();
         }
+        CalEventManagerImpl cl;
         data.put("user",userName);
         DataKitSupporter.responseJSON(data,response);
         return null;

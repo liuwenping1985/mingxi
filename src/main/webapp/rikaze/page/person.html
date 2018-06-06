@@ -1,92 +1,307 @@
-<div class="rkz_column ">
-    <div style="margin-top:-15px">
-        <div style="width:45%;float:left">
-            <ul class="nav nav-tabs">
-                <li class="nav-item" data-target="#jiguan">
-                    <a class="nav-link active" href="#">机关动态</a>
-                </li>
-                <li class="nav-item" data-target="#jianbao">
-                    <a class="nav-link" href="#">简报</a>
-                </li>
-            </ul>
-            <div id="jiguan" style="height:340px">
-                机关动态
-                机关动态
-                机关动态机关动态
-                机关动态
-                机关动态
-                机关动态
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>日喀则市纪委监委内部工作网</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link type="text/css" href="css/style.css" rel="stylesheet">
+    <link type="text/css" href="../res/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="rkz_container">
+
+<div>
+    <div class="rkz_top">
+        <div class="rkz_header">
+            <div class="rkz_banner_left">
+                <div class="rkz_logo">
+                    <img class="rkz_logo" src="images/logo4.png">
+                </div>
+                <div class="rkz_banner">日喀则市纪委监委内部工作网</div>
+                <div class="rkz_margin15 rkz_float_right">
+                    <button id="login-btn" type="button" style="color:white" class="btn btn-light btn-link">登录</button>
+                    <button id="logout-btn" type="button" style="color:white;display:none" class="btn btn-light  btn-link">退出</button>
+                </div>
+                <div id="login_info" style="color:white;padding-top:3px;font-size:20px" class="rkz_margin15 rkz_hide rkz_float_right">xxx欢迎您</div>
+                <div class="input-group" style="width:320px;float:right;padding-top:15px">
+                    <input type="text" class="form-control" aria-label="">
+                    <div class="input-group-append">
+                        <button class="input-group-text">搜索</button>
+                        <br>
+
+                    </div>
+
+                </div>
 
 
             </div>
-            <div class="rkz_hide" style="height:340px" id="jianbao">
-                简报
-                机关动态
-                机关动态
-                机关动态
-                机关动态
-                机关动态
-                机关动态
+        </div>
+    </div>
+    <div style="width:100%;height:1px;background-color:#cccccc"></div>
+    <div class="rkz_column_no_color" style="padding-top:8px;">
+        <div class="alert alert-secondary" style="height:50px">
+            <div class="rkz_left rkz_width19">
+
+
+                <img width="25px" height="25px" src="images/notice.png" />
+                <span style="color:#1c2836">通知公告</span>
             </div>
+            <div  id="notice" class="rkz_right rkz_width80">
+                <ul id="notice_ul" class="scroll">
+
+                </ul>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card rkz_card">
+        <div class="card-body rkz_body" style="padding:5px;height:339px">
+            <table style="width:100%">
+                <tr>
+                    <td style="width:50%">
+                        <div style="margin-top:-18px">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item" role="presentation" class="active">
+                                    <a style="width:100px" class="nav-link active" href="#home" aria-controls="home" role="tab"
+                                       data-toggle="tab">工作动态</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a style="width:100px" class="nav-link" href="#profile" aria-controls="profile" role="tab"
+                                       data-toggle="tab">信息简报</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="home">
+                                    <div style="width:100%;height:282px;;padding-left:-14px">
+                                        <div id="gzdt" class="list-group">
+
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">
+                                                <span style="float:right;color:#007bff;margin-top:-5px">更多...</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="profile">
+                                    <div style="width:100%;height:282px;">
+
+                                        <div id="xxjb" class="list-group">
+
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px">
+                                                <span style="float:right;color:#007bff;margin-top:-5px">更多...</span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width:50%">
+                        <div style="margin-top:-1px;height:342px;">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                <ol id="carousel-indicators" class="carousel-indicators">
+
+                                </ol>
+                                <div id="carousel-inner" class="carousel-inner" role="listbox">
+
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
 
         </div>
-        <div style="width:55%;float:right;padding-top:42px;">
+
+    </div>
+    <div class="card rkz_card" style="margin-top:10px;background-color: white">
+        <div class="card-body rkz_body" style="padding:5px;background-color: white">
+            <div style="width:100%;height:178px;">
+                <table style="width:100%;vertical-align: middle;align:left">
+                    <tr style="padding-top:10px">
+                        <td align="center" style="padding-left:0px;padding-top:15px">
+
+                            <div>
+                                <button type="button" style="width:250px;height:65px" class="btn btn-danger btn-lg rkz_btn">
+                                    <img src="images/supervisor.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
+                                    />监督执纪问责
+                                </button>
+                            </div>
+                        </td>
+
+                        <td align="center" style="padding-top:15px">
+                            <div>
+                                <button style="width:250px;height:65px" type="button" class="btn btn-success btn-lg rkz_btn">
+                                    <img src="images/attendance.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
+                                    />考勤系统
+                                </button>
+                            </div>
+                        </td>
+                        <td align="center" style="padding-top:15px">
+                            <div>
+                                <button style="width:250px;height:65px" type="button" class="btn btn-dark btn-lg rkz_btn">
+                                    <img src="images/training.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
+                                    />培训系统
+                                </button>
+                            </div>
+                        </td>
+                        <td align="center" style="padding-top:15px">
+                            <div>
+                                <button style="width:250px;height:65px" type="button" class="btn btn-info btn-lg rkz_btn">
+                                    <img src="images/mail.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
+                                    />安全邮件
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td align="center" style="padding-left:0px">
+                            <div style="padding-left:0px">
+                                <button id="btn-banwen" style="width:250px;height:65px" type="button" class="btn btn-primary btn-lg rkz_btn">
+                                    <img src="images/doc.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded" />办文系统
+                                    <span id="banwenCount" style="position:relative;right:-52px;top:-21px;display:none" class="badge badge-danger">6</span>
+                                    <span  id="banwenCountMask" style="position:relative;right:-41px;top:-18px" class="badge badge-primary"></span>
+                                </button>
+                            </div>
+                        </td>
+                        <td align="center" style="padding-left:0px">
+                            <div>
+                                <button id="btn-yuewen" style="width:250px;height:65px;padding-left:40px" type="button" class="btn btn_style_one btn-lg rkz_btn">
+                                    <img src="images/doc2.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
+                                    />阅文系统
+                                    <span  id="yuewenCount" style="position:relative;right:-41px;top:-21px;display:none" class="badge badge-danger">3</span>
+                                    <span  id="yuewenCountMask" style="position:relative;right:-41px;top:-18px" class="badge btn_style_one"></span>
+                                </button>
+                            </div>
+                        </td>
+
+                        <td align="center" style="padding-left:0px">
+                            <div>
+                                <button id="btn-fawen" type="button" class="btn btn_style_two btn-lg rkz_btn" style="width:250px;height:65px">
+                                    <img src="images/clipboard.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded" />发文系统
+                                </button>
+                            </div>
+                        </td>
+                        <td align="center" style="padding-left:0px">
+                            <div>
+                                <button type="button" id="btn-shouwen" class="btn btn_style_three btn-lg rkz_btn" style="width:250px;height:65px">
+                                    <img src="images/book.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
+                                    />收文系统
+                                </button>
+                            </div>
+                        </td>
 
 
+                    </tr>
+                </table>
 
+            </div>
         </div>
     </div>
-</div>
+    <div class="card rkz_card" style="margin-top:10px">
 
+        <div class="card-body rkz_body" style="padding:5px">
+            <div style="width:100%">
 
+                <ul class="nav">
+                    <li class="nav-item" style="margin-left:7%;color:#ccc">
+                        <a style="color:cornflowerblue" class="nav-link active" href="person.html" target="_blank">人事信息</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:7%;color:#333">
+                        <a style="color:cornflowerblue" class="nav-link" href="#">业务指南</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:7%;color:#333">
+                        <a style="color:cornflowerblue" class="nav-link" href="#">学习交流</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:7%;color:#333">
+                        <a style="color:cornflowerblue" class="nav-link" href="#">党规法规</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:7%;color:#333">
+                        <a style="color:cornflowerblue" class="nav-link " href="http://www.ccdi.gov.cn/" target="_blank">中央纪委国家监委网站</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:7%;color:#333">
+                        <a style="color:cornflowerblue" class="nav-link" href="http://www.xzjjw.gov.cn/" target="_blank">自治区纪委监委网站</a>
+                    </li>
+                </ul>
 
+            </div>
+        </div>
 
-<div class="rkz_column">
-
-    <div style="padding-left:160px">
-        <button type="button" class="btn btn-secondary btn-lg rkz_btn">监督<span style="margin-left:8px"
-                                                                               class="badge badge-danger">1</span>
-        </button>
-        <button type="button" class="btn btn-secondary btn-lg rkz_btn">阅文<span style="margin-left:8px"
-                                                                               class="badge badge-danger">2</span>
-        </button>
-        <button type="button" class="btn btn-secondary btn-lg rkz_btn">办文<span style="margin-left:8px"
-                                                                               class="badge badge-danger">3</span>
-        </button>
-        <button type="button" class="btn btn-secondary btn-lg rkz_btn">考勤<span style="margin-left:8px"
-                                                                               class="badge badge-danger">4</span>
-        </button>
-        <button type="button" class="btn btn-secondary btn-lg rkz_btn">培训<span style="margin-left:8px"
-                                                                               class="badge badge-danger">5</span>
-        </button>
-        <button type="button" class="btn btn-secondary btn-lg rkz_btn">安全邮件<span style="margin-left:8px"
-                                                                                 class="badge badge-danger">6</span>
-        </button>
     </div>
-
+    <div style="width:100%;height:1px;background-color:#cccccc;margin:10px 0px 10px 0"></div>
+    <div>
+        <center>
+            <footer class="footer">
+                <div class="container">
+                    <p style="margin:0 auto;padding:20px;color:#999">© 2018 &nbsp;日喀则市纪委监委内部工作网
+                    </p>
+                </div>
+            </footer>
+        </center>
+    </div>
 </div>
+<div class="theme-popover">
+    <div class="theme-poptit" style="height:25px;padding-right:5px">
+        <a style="color:black" href="javascript:void(0);" title="关闭" class="close">x</a>
+    </div>
+    <div class="theme-popbod dform">
 
-<div class="rkz_column">
+        <form class="form-signin text-center">
+            <img class="mb-4" src="images/iuser.png" alt="" width="72" height="72">
+            <label for="inputUserName" class="sr-only">用户名</label>
+            <input type="text" id="inputUserName" class="form-control" placeholder="用户名" required="" autofocus="">
+            <label for="inputPassword" class="sr-only">密码</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
+            <div class="checkbox mb-3">
+                <!--<label>-->
+                <!--<input type="checkbox" value="remember-me"> Remember me-->
+                <!--</label>-->
+            </div>
+            <button id="login-btn-2" class="btn btn-lg btn-primary btn-block" type="button">登 录</button>
+        </form>
 
-    <ul class="nav">
-        <li class="nav-item" style="margin-left:110px">
-            <a class="nav-link active" href="javascript:window.open('person.html')">人员信息</a>
-        </li>
-        <li class="nav-item" style="margin-left:110px">
-            <a class="nav-link" href="#">法律法规</a>
-        </li>
-        <li class="nav-item" style="margin-left:110px">
-            <a class="nav-link" href="#">业务资料</a>
-        </li>
-        <li class="nav-item" style="margin-left:110px">
-            <a class="nav-link disabled" href="#">中纪委</a>
-        </li>
-        <li class="nav-item" style="margin-left:110px">
-            <a class="nav-link disabled" href="#">区纪委</a>
-        </li>
-    </ul>
+        <!--
+    authorization=&login.timezone=GMT%2B8%3A00&login_username=oa2&login_password=123456&login_validatePwdStrength=1&random=&fontSize=12&screenWidth=1440&screenHeight=900
+    -->
+
+        <form style="display: none" method="post" id="login-form" action="/seeyon/main.do?method=login">
+            <input type="text" id="login_username" name="login_username" />
+            <input type="password" id="login_password" name="login_password" />
+            <input type="text" name="authorization" value="" />
+            <input type="text" name="login_validatePwdStrength" value="1" />
+        </form>
+
+        <form style="display: none" id="logout-form" action="/seeyon/main.do?method=logout">
+
+
+        </form>
+    </div>
 </div>
+<div id="mask-div" class="theme-popover-mask"></div>
+<script type="text/javascript" src="../res/jquery/jquery.3.3.1.min.js"></script>
+<script type="text/javascript" src="../res/proper/proper.min.js"></script>
+<script type="text/javascript" src="../res/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/j.f.js"></script>
+<script type="text/javascript" src="js/app-index.js"></script>
+</body>
 
-<div class="rkz_column">
-    版权所有 @ 日喀则市纪委监察
-</div>
+</html>

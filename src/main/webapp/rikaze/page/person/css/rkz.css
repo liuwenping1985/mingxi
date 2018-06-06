@@ -1,0 +1,140 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*结构*/
+body{font-family:"微软雅黑", "宋体";}
+.box{ margin-bottom:30px;}
+.leftPart .channel_tab{ background:#dcdcdd; border-bottom:none; padding-bottom:0px; line-height:40px; height:40px;}
+.leftPart .channel_tab span,.leftPart .channel_tab span a{font-family:"FZZHUNYSK","微软雅黑","宋体"; font-size:22px;}
+
+/*会议*/
+.meeting{line-height:18px; color:#666666;}
+.meeting .channel_tab{ padding-top:7px;}
+.meeting .channel_tab{ background:none; font-size:22px;}
+.meeting .zl_channel_con{ padding:8px 20px;}
+.meeting table{border-collapse:separate;border-spacing:1px;}
+.meeting thead td{ background:#015293; color:#fff; font-size:17px; line-height:31px; height:31px;}
+.meeting .hr_1 {height: 1px; line-height:1px;}
+.meeting .wid1 {width:1px;overflow: hidden; padding:0px; background:#fff}
+.meeting .gwy-summary { font-size:14px;text-indent: 2em;padding: 15px 10px;}
+
+/*新闻*/
+.news .zl_channel_con{ padding:0 13px;}
+.moreBtn{ width:111px; height:28px; color:#666666; background:#dcdcdd; display:block; margin:15px auto 0 auto; line-height:28px; text-align:center; transition-duration:1s; font-family:"宋体"; font-size:12px;}
+.moreBtn:hover{ background:#a4a4a4;}
+.moreBtn span{ padding-right:9px;}
+.news .list ul li{ padding:10px 0px; line-height:29px;}
+.news .list ul li h4{ padding-bottom:0px}
+.news .list ul li h4 a:hover{ color:#015293}
+.news .channel_tab .span1{ background:none; color:#666666; font-size:14px; font-family:"微软雅黑", "宋体";}
+
+
+/*焦点图*/
+.znh .focus{ width:713px; height:353px; overflow:hidden}
+.focus img{width:713px; height:353px;}
+.focus .fbg{right:15px;left:auto;_left:585px;}
+
+
+/*总理照片墙*/
+.photoWall .container{ background:#ecf7ff; padding:8px 33px;}
+.photoWall ul li{ height:130px; border-bottom:1px #ccdce8 solid; padding:16px 0;}
+.photoWall ul li.last{ height:26px; border-bottom:none;}
+.photoWall ul li.last .fl{ line-height:32px;text-align:justify; width:70px; padding-top:7px;}
+.photoWall ul li .fl{ font-size:18px; font-weight:bold; padding-top:51px;}
+.photoWall ul li .fr{ width:552px; overflow:hidden}
+.photoWall ul li dl { width:84px; float:left; margin-right:33px;}
+.photoWall ul li.zl{ height:163px;}
+.photoWall ul li.zl .fl{ padding-top:66px;}
+.photoWall ul li.zl dl { width:107px;}
+.photoWall ul li.zl dl dt{height:115px;}
+.photoWall ul li dl dt{ display:block;background:#fff; border:1px #e2e2e2 solid; padding:7px; height:90px; overflow:hidden;}
+.photoWall ul li dl dt:hover{ border:1px #b2b2b2 solid;}
+.photoWall ul li dl dd{ text-align:center; line-height:32px; font-size:12px}
+.w999{ width:999px;}
+
+.gwycwhy_btn{ width:auto;}
+.gwycwhy_btn_tit.nobottom{ padding-bottom:0px; margin:7px 0px}
+
+.zl_channel_con2{ width:auto}
+div.channel_tab2{ padding-left:0px;}
+.zl_more3 a{ font-size:14px; color:#888888;}
+.zl_more3 a:hover{ color:#015293}
+
+
+/*政府工作报告*/
+.baogao .lmtit{ margin-bottom:7px;}
+.rightPart .column a {width: 254px;height: 57px;display: block;line-height: 57px;background: #c1d1d0;font-size: 22px;text-align: center;color: #333;}
+.rightPart .column a:hover{background:#8fa6a5; color:#fff;}
+
+/*历届国务院领导机构和历任国务院总理*/
+.liren a{ display:block;font-family:"FZZHUNYSK","微软雅黑","宋体"; font-size:22px; text-align:center; border:1px #dddddd solid; padding:9px 0; line-height:31px;margin-top:11px;}
+
+/*国务院常务会议及组织机构*/
+/*标题背景灰色*/
+.leftPart h1 { background:#dcdcdd; padding-left:20px; height:40px;line-height:40px;}
+.cwhyhgtit { background::#eee; border-bottom:2px solid #024886;}
+.cwhytit h1{ font-size:40px; color:#005293;}
+.cwhytit { text-align:center; line-height:40px;}
+
+.cwhybox1tit { text-align:center;}
+.cwhybox1tit a { color:#005293;}
+.cwhybox1con a { color:#015293;}
+
+.cwhybox2 ul li { width:687px; margin:0 auto; margin-top:20px;}
+
+/*右侧滚动效果样式*/
+.scrollDiv {
+    height: 329px;
+    margin-bottom:15px;
+    overflow:hidden;
+    line-height: 26px;
+    overflow: hidden;/* width:500px;*/
+}
+.scrollDiv li {
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+.scrollDiv li a {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+    font-family: 微软雅黑, Arial, Helvetica, sans-serif;
+}
+/*时间日期切换tab*/
+.tab{ overflow:hidden;}
+.cwhyhgtit {background:url(../images/gwy/gwyhyhgtitbj.jpg) no-repeat; width:1028px; height:41px; line-height:41px; padding-left:20px; color:#fff; font-weight:normal; }
+.tab .tab_title{  height:26px; border-bottom:1px solid #000;  padding-bottom:10px; margin-top:20px;}
+.tab .tab_title ul{ overflow:hidden;}
+.tab .tab_title li{ float:left; height:35px; font-size:18px;}
+.tab .tab_title li a{ float:left; width:220px; height:35px; line-height:35px; color:#000; }
+.tab .tab_title li.active a{text-decoration:none; line-height:35px;  color:#4a77ba;}
+.tab .tab_box{ overflow:hidden; padding:10px;}
+.tab .tab_box .tab_box_content{ display:none;}
+
+
+
+/*组织机构*/
+
+.pubListBox01, .container .youz, .container .zuo6 { width:968px; margin:0 auto;}
+.container .youz { font-size:16px; line-height:26px; margin-top:20px;}
+.container .youz div{ text-indent:2em;}
+.container .zuo6 { margin-top:30px;}
+.container .zuo6 tr td { line-height:26px; font-size:16px;font-family: "微软雅黑";}
+
+.pubListBox01 .noindent { width:400px;}
+.pubListBox01 .noindent li a { color:#000;}
+
+.gwyzzjgtext { width:950px; margin:0 auto;}
+
+.gwyzzjg .tit_s01 span.tabg { font-weight:normal;}
+
+/*新增右侧列表*/
+.gwy-list{ margin-bottom:25px;}
+.gwy-list ol li { background:url(http://www.gov.cn/govweb/xhtml/images/gwy/gwy_titbg01.jpg) no-repeat 10px 8px; padding-left:30px; height:22px; margin-bottom:5px; line-height:22px;}
+.gwy-list ol li a{ font-size:14px;}
+.gwy-list ol li.libg{ background:url(http://www.gov.cn/govweb/xhtml/images/gwy/gwy_titbg02.jpg) no-repeat; height:22px; }
+.jg-list ol li{ height:30px; line-height:30px; background:url(../images/gwy/gwy_titbg04.jpg) no-repeat;  padding:0 10px; margin-bottom:5px;}
+.jg-list ol li.libg{ background:url(http://www.gov.cn/govweb/xhtml/images/gwy/gwy_titbg03.jpg) no-repeat; }
+.gwy-list ol li.libg a,.jg-list ol li.libg a{ color:#FFF; font-size:14px;}
