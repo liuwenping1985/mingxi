@@ -63,6 +63,17 @@
         function doneEdoc2(){
             window.location.href='/seeyon/collaboration/collaboration.do?method=moreDone&fragmentId=-2229139237615680120&ordinal=1&rowStr=subject,createDate,receiveTime,edocMark,sendUnit,currentNodesInfo,sendUser,deadline&columnsName=已阅公文&isGroupBy=false';
         }
+        function doneEdoc3(){
+
+        }
+        function todoEdoc3(){
+
+
+        }
+        function newEdoc3(){
+
+
+        }
         var toolbarmenu = new Array();
         window.parent.$(".layout_content_main_content").css("top","50px");
         if("${param.columnsName}"=="待办公文"){
@@ -71,10 +82,11 @@
         }else if("${param.columnsName}"=="待阅公文"){
             toolbarmenu.push({id: "todo-edoc-2",name: "待阅",className: "ico16 batch_16",click:todoEdoc2});
             toolbarmenu.push({id: "done-edoc-2",name: "已阅",className: "ico16 forwarding_16",click:doneEdoc2});
-
-
-        } else{
-
+        } else if("${param.columnsName}"=="已发公文"){
+            toolbarmenu.push({id: "done-edoc-3",name: "已发",className: "ico16 batch_16",click:doneEdoc3});
+            toolbarmenu.push({id: "todo-edoc-3",name: "待登记",className: "ico16 forwarding_16",click:todoEdoc3});
+            toolbarmenu.push({id: "new-edoc-3",name: "新建",className: "ico16 forwarding_16",click:newEdoc3});
+         } else{
             toolbarmenu.push({id: "batchDeal",name: "${ctp:i18n('batch.title')}",className: "ico16 batch_16",click:batchDeal});
             if($.ctx.resources.contains('F01_newColl') || $.ctx.resources.contains('F12_mailcreate')){
                 toolbarmenu.push({id: "transmit",name: "${ctp:i18n('common.toolbar.transmit.collaboration.label')}",className: "ico16 forwarding_16",subMenu: submenu});

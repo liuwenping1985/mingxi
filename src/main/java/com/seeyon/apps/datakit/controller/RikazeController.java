@@ -13,10 +13,14 @@ import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.news.controller.NewsDataController;
 import org.apache.axis.utils.StringUtils;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +60,6 @@ public class RikazeController extends BaseController {
         if(user!=null){
             userName = user.getName();
         }
-        CalEventManagerImpl cl;
         data.put("user",userName);
         DataKitSupporter.responseJSON(data,response);
         return null;
@@ -126,8 +129,8 @@ public class RikazeController extends BaseController {
         int count =  pendingManager.getPendingCount(memberId,fgId,ord);
         Map<String,Object> data = new HashMap<String, Object>();
         data.put("count",count);
-        DataKitSupporter.responseJSON(data,response);
 
+        DataKitSupporter.responseJSON(data,response);
         return null;
     }
 

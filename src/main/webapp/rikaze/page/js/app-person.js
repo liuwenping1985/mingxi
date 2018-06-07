@@ -19,6 +19,11 @@ $(document).ready(function(){
         Custombox.modal.close();
 
     });
+    $(".cs-footer-btn").click(function(){
+
+      $("#modalWin").hide();
+            Custombox.modal.close();
+    })
 
 
 });

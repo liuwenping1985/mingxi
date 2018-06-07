@@ -36,7 +36,7 @@ function loadBanWenBadge(){
         $("#banwenCountMask").show();
         return;
     }
-    $.get("/seeyon/rikaze.do?method=getBanwenCount",function(data){
+    $.get("/seeyon/rikaze.do?method=getBanwenCount&fragmentId=-6689103910895860375",function(data){
         if(data.count==0){
             return;
         }
@@ -53,7 +53,7 @@ function loadYueWenBadge(){
         $("#yuewenCountMask").show();
         return;
     }
-    $.get("/seeyon/rikaze.do?method=getYuewenCount",function(data){
+    $.get("/seeyon/rikaze.do?method=getYuewenCount&fragmentId=-6689103910895860375",function(data){
         if(data.count==0){
             return;
         }
@@ -72,9 +72,9 @@ function loadAllBadge(){
         $(".nav-link").removeClass("active");
         $(e.target).addClass("active");
     });
- 
+
     $(document).ready(function () {
-      
+
 
         $("#login-btn").click(function () {
             $('.theme-popover-mask').fadeIn(100);
@@ -139,7 +139,11 @@ function loadAllBadge(){
                 alert("请先登录");
                 return;
             }
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=6589483643434978648&app=4&sub_app=1");
+            ///seeyon/collaboration/collaboration.do?method=moreSent&fragmentId=651251962166595088&ordinal=0&rowStr=subject,edocMark,publishDate,type&columnsName=已发公文
+           // window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=6589483643434978648&app=4&sub_app=1");
+           // window.open("/seeyon/collaboration/collaboration.do?method=moreSent&fragmentId=651251962166595088&ordinal=0&rowStr=subject,edocMark,publishDate,type&columnsName=已发公文");
+            window.open("/seeyon/main.do?method=main&fragmentId=651251962166595088&from=menhu&type=fawen");
+
         });
         $("#btn-banwen").click(function () {
             if (!$_$) {
@@ -147,14 +151,15 @@ function loadAllBadge(){
                 return;
             }
             ///seeyon/collaboration/pending.do?method=morePending&fragmentId=-7771288622128478783&ordinal=0&currentPanel=sources&rowStr=subject,deadLine,edocMark,sendUnit,sendUser&columnsName=待办公文
-            window.open("/seeyon/main.do?method=main&fragmentId=-7771288622128478783&from=menhu&type=banwen");
+            window.open("/seeyon/main.do?method=main&fragmentId=-6689103910895860375&from=menhu&type=banwen");
         });
         $("#btn-shouwen").click(function () {
             if (!$_$) {
                 alert("请先登录");
             }
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=-2592679227520888888&app=4&sub_app=2");
+           // window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=-2592679227520888888&app=4&sub_app=2");
             ///seeyon/govDoc/govDocController.do?method=govDocSend&amp;_resourceCode=F20_govDocSendManage
+            window.open("/seeyon/main.do?method=main&fragmentId=651251962166595088&from=menhu&type=shouwen");
 
         });
         $("#btn-yuewen").click(function () {
@@ -164,7 +169,13 @@ function loadAllBadge(){
             }
             window.open("/seeyon/main.do?method=main&fragmentId=-7771288622128478783&from=menhu&type=yuewen");
         });
-
+        $("#kaoqing").click(function(){
+            if (!$_$) {
+                alert("请先登录");
+                return;
+            }
+            window.open("/seeyon/calendar/calEvent.do?method=calEventView4Rkz&type=month");
+        });
         function checkLogin() {
             $.get("/seeyon/rikaze.do?method=checkLogin", function (data) {
                 if (data.user == "no-body") {
@@ -221,15 +232,15 @@ function loadAllBadge(){
                         if(gzdt.length==max){
                             return;
                         }
-                        gzdt.push(htmlStr.join(''));  
+                        gzdt.push(htmlStr.join(''));
                     }else{
                         if(xxjb.length==max){
                             return;
                         }
-                        xxjb.push(htmlStr.join(''));   
+                        xxjb.push(htmlStr.join(''));
                     }
                 });
-               
+
                 if(gzdt.length<max){
                     var left= max-gzdt.length;
                     for(var p=0;p<left;p++){
@@ -237,7 +248,7 @@ function loadAllBadge(){
                         htmlStr.push('<a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:42px;border-top: 0px;border-bottom:0px;">');
                         htmlStr.push('<span></span>');
                         htmlStr.push('<span style="float:right"></span>');
-                        gzdt.push(htmlStr.join(''));  
+                        gzdt.push(htmlStr.join(''));
                     }
                 }
                 if(xxjb.length<max){
@@ -247,12 +258,12 @@ function loadAllBadge(){
                         htmlStr.push('<a href="#" class="list-group-item list-group-item-action list-group-item-light" style="height:42px;border-top: 0px;border-bottom:0px;">');
                         htmlStr.push('<span></span>');
                         htmlStr.push('<span style="float:right"></span>');
-                        xxjb.push(htmlStr.join(''));  
+                        xxjb.push(htmlStr.join(''));
                     }
                 }
                 gzdt.push('<a onClick="openGzdtMore()" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px"><span style="float:right;color:#007bff;margin-top:-5px;cursor:pointer">更多...</span></a>');
                 xxjb.push('<a onClick="openXxjbMore()" class="list-group-item list-group-item-action list-group-item-light" style="height:40px;border-top: 0px"><span style="float:right;color:#007bff;margin-top:-5px;cursor:pointer">更多...</span></a>');
-               
+
                 $("#gzdt").html(gzdt.join(""));
 
                 $("#xxjb").html(xxjb.join(""));
@@ -271,7 +282,7 @@ function loadAllBadge(){
                             innerHtmlStr.push('</div></div>');
                             innerHtml.push(innerHtmlStr.join(''));
                         }else{
-                            olHtml.push('<li data-target="#carouselExampleIndicators" data-slide-to="'+index+'"></li>'); 
+                            olHtml.push('<li data-target="#carouselExampleIndicators" data-slide-to="'+index+'"></li>');
                             innerHtmlStr.push('<div class="carousel-item item">');
                             innerHtmlStr.push('<img style="cursor:pointer" onclick="openLink(\''+item.id+'\','+item.typeId+')"  class="d-block w-100" windth="540px" height="330px" src="/seeyon/fileUpload.do?method=showRTE&fileId='+item.imgId+'&createDate=&type=image" alt="'+item.title+'">');
                             innerHtmlStr.push('<div class="carousel-caption2 d-none d-md-block" style="width:100%;background-color: rgba(119,119,119,0.8) ">');
@@ -286,7 +297,7 @@ function loadAllBadge(){
 
                 }
 
-              
+
             });
         }
         function getBuls(){
@@ -294,11 +305,11 @@ function loadAllBadge(){
 
                 var message = [];
                 //$("#notice").hide();
-			
+
                 if(!data.buls){
                     return;
                 }
-					
+
                 if(data.buls.length==0){
                     return;
                 }
@@ -315,7 +326,7 @@ function loadAllBadge(){
                 $("#notice_ul").append(htmls.join(""));
 
                 var num = 0;
-        
+
                 function goLeft() {
                     //750是根据你给的尺寸，可变的
                     if (num == -1000) {
