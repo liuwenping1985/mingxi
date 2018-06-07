@@ -1,16 +1,27 @@
 package com.seeyon.ctp.ext.extform;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.bo.ColInfo;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
+import com.seeyon.apps.collaboration.manager.ColManager;
+import com.seeyon.apps.collaboration.manager.ColManagerImpl;
+import com.seeyon.apps.collaboration.po.ColSummary;
+import com.seeyon.apps.collaboration.util.ColUtil;
 import com.seeyon.client.CTPRestClient;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.ext.extform.util.UIUtils;
 import com.seeyon.ctp.ext.extform.vo.Formson1527;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.rest.bpm.CollaborationBPMHandlerImpl;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.ParamUtil;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.apache.axis.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -19,10 +30,7 @@ import org.springframework.web.servlet.view.InternalResourceView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExtFormInfoController extends BaseController {
 
@@ -149,44 +157,71 @@ public class ExtFormInfoController extends BaseController {
         return null;
 
     }
-//    @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.afterCommit,async = true)//协同发起成功提交事务后执行，异步模式。
-    public void onCollaborationEnd(CollaborationFinishEvent event) throws NoSuchPrincipalException {
+    private static final Long TARGET_TEMPLATE_ID = 4369223031188048854L;
+    private static final String TARGET_SUBMIT_TEMPLATE_ID = "(-4679650058905172061,-3220873770960730919,-640281432140132614)";
+    private boolean isDebug = true;
+   @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.immediately,async = true)//协同发起成功提交事务后执行，异步模式。
+    public void onCollaborationEnd(CollaborationFinishEvent event) throws Exception {
        // 7255984374117713477 event.getAffairId(); w
         Long affairId = event.getAffairId();
         List<CtpAffair> list = DBAgent.find("from CtpAffair where id="+affairId);
         if(CollectionUtils.isEmpty(list)){
             return;
         }
+        User user = AppContext.getCurrentUser();
+        System.out.println("user:"+user==null?"null":JSON.toJSONString(user));
         CtpAffair affair = list.get(0);
-        Long targetTemplateId = 7255984374117713477L;
-        if(targetTemplateId.equals(affair.getTempleteId())){
-            //trigger
-            List<Formson1527> sonlist = DBAgent.find("from formson_1527 where formmainId="+affair.getFormRecordid());
-            List<Long> memberIdList = new ArrayList<Long>();
-            for(Formson1527 son:sonlist){
-                Long memberId = principalManager.getMemberIdByLoginName(son.getField0009());
-                memberIdList.add(memberId);
+
+        Long memberId = affair.getMemberId();
+        System.out.println("----:"+affair.getTempleteId());
+        if((""+TARGET_TEMPLATE_ID).equals(""+affair.getTempleteId())){
+            String sql = "from CtpAffair where templeteId in "+TARGET_SUBMIT_TEMPLATE_ID+" and memberId="+memberId+"and state=3";
+            List<CtpAffair> affairList = DBAgent.find(sql);
+            System.out.println("affairList:"+JSON.toJSONString(affairList));
+            if(CollectionUtils.isEmpty(affairList)){
+                return;
             }
-            StringBuilder stb= new StringBuilder();
-            String atpStr = "";
-            int index =0;
-            for(Long mId:memberIdList){
-                if(index == 0){
-                    stb.append(String.valueOf(mId));
-                    index++;
-                }else{
-                    stb.append(","+String.valueOf(mId));
-                    index++;
+            //ColManager colManager = (ColManager)AppContext.getBean("colManager");
+            //AffairManager afm =(AffairManager)AppContext.getBean("affairManager");
+            System.out.println("----is out----:"+affair.getTempleteId());
+            for(CtpAffair af:affairList){
+                try {
+                    af.setFinish(true);
+                    af.setState(2);
+                    af.setCompleteTime(new Date());
+                    DBAgent.update(af);
+                    System.out.println(JSON.toJSONString(af));
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
             }
-            List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId=8703799250809407701 and senderId in("+stb.toString()+")and state=3");
-            for(CtpAffair affairNode:afList){
-
-
-            }
-
         }
 
     }
+
+    //trigger
+//            List<Formson1527> sonlist = DBAgent.find("from formson_1527 where formmainId="+affair.getFormRecordid());
+//            List<Long> memberIdList = new ArrayList<Long>();
+//            for(Formson1527 son:sonlist){
+//                Long memberId = principalManager.getMemberIdByLoginName(son.getField0009());
+//                memberIdList.add(memberId);
+//            }
+//            StringBuilder stb= new StringBuilder();
+//            String atpStr = "";
+//            int index =0;
+//            for(Long mId:memberIdList){
+//                if(index == 0){
+//                    stb.append(String.valueOf(mId));
+//                    index++;
+//                }else{
+//                    stb.append(","+String.valueOf(mId));
+//                    index++;
+//                }
+//            }
+//            List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId=8703799250809407701 and senderId in("+stb.toString()+")and state=3");
+//            for(CtpAffair affairNode:afList){
+//
+//
+//            }
 
 }
