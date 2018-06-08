@@ -1,27 +1,18 @@
 package com.seeyon.ctp.ext.extform;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.collaboration.bo.ColInfo;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
-import com.seeyon.apps.collaboration.manager.ColManager;
-import com.seeyon.apps.collaboration.manager.ColManagerImpl;
-import com.seeyon.apps.collaboration.po.ColSummary;
-import com.seeyon.apps.collaboration.util.ColUtil;
 import com.seeyon.client.CTPRestClient;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
-import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.ext.extform.util.UIUtils;
-import com.seeyon.ctp.ext.extform.vo.Formson1527;
+import com.seeyon.ctp.ext.extform.vo.Formson1569;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
-import com.seeyon.ctp.rest.bpm.CollaborationBPMHandlerImpl;
 import com.seeyon.ctp.util.DBAgent;
-import com.seeyon.ctp.util.ParamUtil;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.apache.axis.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -159,23 +150,63 @@ public class ExtFormInfoController extends BaseController {
     }
     private static final Long TARGET_TEMPLATE_ID = 4369223031188048854L;
     private static final String TARGET_SUBMIT_TEMPLATE_ID = "(-4679650058905172061,-3220873770960730919,-640281432140132614)";
-    private boolean isDebug = true;
-   @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.immediately,async = true)//协同发起成功提交事务后执行，异步模式。
+
+    @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.immediately,async = true)//协同发起成功提交事务后执行，异步模式。
     public void onCollaborationEnd(CollaborationFinishEvent event) throws Exception {
        // 7255984374117713477 event.getAffairId(); w
         Long affairId = event.getAffairId();
-        List<CtpAffair> list = DBAgent.find("from CtpAffair where id="+affairId);
-        if(CollectionUtils.isEmpty(list)){
+        if(affairId  == null){
+            System.out.println("----affairId:"+affairId);
             return;
         }
-        User user = AppContext.getCurrentUser();
-        System.out.println("user:"+user==null?"null":JSON.toJSONString(user));
+        List<CtpAffair> list = DBAgent.find("from CtpAffair where id="+affairId);
+        if(CollectionUtils.isEmpty(list)){
+            System.out.println("----list is empty----");
+            return;
+        }
+        //User user = AppContext.getCurrentUser();
+        //System.out.println("user:"+user==null?"null":JSON.toJSONString(user));
         CtpAffair affair = list.get(0);
 
-        Long memberId = affair.getMemberId();
+       // Long memberId = affair.getMemberId();
         System.out.println("----:"+affair.getTempleteId());
         if((""+TARGET_TEMPLATE_ID).equals(""+affair.getTempleteId())){
-            String sql = "from CtpAffair where templeteId in "+TARGET_SUBMIT_TEMPLATE_ID+" and memberId="+memberId+"and state=3";
+            //找到该单子的那几个被考核人
+
+            Long recordId = affair.getFormRecordid();
+            StringBuilder memberIdstr = new StringBuilder();
+            String sql2 = "from Formson1569 where formmainId="+recordId;
+            List<Formson1569> formson1569s = new ArrayList<Formson1569>();
+            try {
+                formson1569s = DBAgent.find(sql2);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            if(CollectionUtils.isEmpty(formson1569s)){
+                System.out.println("out found formson1569s");
+                return;
+            }
+            List<Long>mIds = new ArrayList<Long>();
+            for(Formson1569 son:formson1569s){
+                try {
+                    Long memberId = principalManager.getMemberIdByLoginName(son.getField0011());
+                    mIds.add(memberId);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            int tag =0;
+            for(Long id:mIds){
+                if(tag==0){
+                    memberIdstr.append("(").append(id);
+                }else{
+                    memberIdstr.append(",").append(id);
+                }
+                tag++;
+            }
+            memberIdstr.append(")");
+
+            String sql = "from CtpAffair where templeteId in "+TARGET_SUBMIT_TEMPLATE_ID+" and senderId in"+memberIdstr+"and state=3";
             List<CtpAffair> affairList = DBAgent.find(sql);
             System.out.println("affairList:"+JSON.toJSONString(affairList));
             if(CollectionUtils.isEmpty(affairList)){
@@ -200,9 +231,9 @@ public class ExtFormInfoController extends BaseController {
     }
 
     //trigger
-//            List<Formson1527> sonlist = DBAgent.find("from formson_1527 where formmainId="+affair.getFormRecordid());
+//            List<Formson1569> sonlist = DBAgent.find("from formson_1527 where formmainId="+affair.getFormRecordid());
 //            List<Long> memberIdList = new ArrayList<Long>();
-//            for(Formson1527 son:sonlist){
+//            for(Formson1569 son:sonlist){
 //                Long memberId = principalManager.getMemberIdByLoginName(son.getField0009());
 //                memberIdList.add(memberId);
 //            }
