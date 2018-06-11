@@ -1382,13 +1382,20 @@ public class CollaborationController extends BaseController {
                     params = null;
                     return null;
                 }
-
+                /**
+                 * trackParam:{"zdgzry":"","trackRange_members_textbox":""}
+                 * templateColSubject:
+                 * templateWorkflowId:-3052006732260228892
+                 */
                 params = new HashMap();
                 Map<String, String> trackPara = ParamUtil.getJsonDomain("trackDiv_detail");
                 params.put("trackParam", trackPara);
+                System.out.println("trackParam:"+trackPara);
                 Map<String, Object> templateMap = ParamUtil.getJsonDomain("colSummaryData");
                 params.put("templateColSubject", templateMap.get("templateColSubject"));
+                System.out.println("templateColSubject:"+templateMap.get("templateColSubject"));
                 params.put("templateWorkflowId", templateMap.get("templateWorkflowId"));
+                System.out.println("templateWorkflowId:"+templateMap.get("templateWorkflowId"));
                 this.colManager.transFinishWorkItem(summary, affair, params);
                 return null;
             }

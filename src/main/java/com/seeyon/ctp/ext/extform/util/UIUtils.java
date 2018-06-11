@@ -5,6 +5,8 @@ import com.seeyon.ctp.util.json.JSONUtil;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UIUtils {
     public static void responseJSON(Object data, HttpServletResponse response)
@@ -36,6 +38,7 @@ public class UIUtils {
     }
     public static void main(String[] arhs){
         Long i = 1L;
-        System.out.println(String.valueOf(i).equals("1"));
+         SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        System.out.println(format.format(new Date()));
     }
 }
