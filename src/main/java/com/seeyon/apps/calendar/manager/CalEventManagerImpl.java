@@ -285,7 +285,8 @@ public class CalEventManagerImpl implements CalEventManager, IndexEnable {
                 workBeginTime = workTimeCurrency.getAmWorkTimeBeginTime();
                 workEndTime = workTimeCurrency.getPmWorkTimeEndTime();
             }
-
+            AppContext.putRequestContext("",null);
+            com.seeyon.apps.govdoc.doc.controller.GovDocController gc;
             if("1".equals(dateType)) {
                 String endTime;
                 String startTime;

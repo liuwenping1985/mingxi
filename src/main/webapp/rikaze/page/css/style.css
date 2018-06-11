@@ -11,11 +11,11 @@
 }
 .rkz_top{
     width:100%;
-    background-image: url('../images/timg.jpeg');
+    background-image: url('../images/timg2.jpg');
     height:128px;
-    background-repeat: no-repeat;
-    background-position: 0px -230px;
-
+    background-repeat: repeat-x;
+    background-position: -70px -360px;
+    /* background-position:center*/
     /*margin-left:-50px;*/
 
     /*margin-right:-50px;*/
