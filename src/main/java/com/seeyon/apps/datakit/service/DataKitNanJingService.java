@@ -1,6 +1,5 @@
 package com.seeyon.apps.datakit.service;
 
-import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
 import com.seeyon.apps.datakit.dao.DataKitNanjingDao;
 import com.seeyon.apps.datakit.po.*;
@@ -38,7 +37,7 @@ public class DataKitNanJingService {
     @ListenEvent(event = CollaborationFinishEvent.class,async = true)
     public void onProcess(CollaborationFinishEvent event) {
         try {
-            System.out.println("-------------process finish---------");
+          //  System.out.println("-------------process finish---------");
             // CtpAffair affair =  event.getAffairId();
             List<CtpAffair> affairList = DBAgent.find("from CtpAffair where id=" + event.getAffairId());
             if (affairList == null) {
@@ -47,75 +46,75 @@ public class DataKitNanJingService {
             CtpAffair affair = affairList.get(0);
 
             Long formId = affair.getFormRecordid();
-            System.out.println("-------------process affair---------form--id:" + formId);
+           // System.out.println("-------------process affair---------form--id:" + formId);
             if(formId == null){
                 return;
             }
             List<Formson0068> formson68List = DBAgent.find("from Formson0068 where formainId=" + formId);
-            System.out.println("formson68List:"+formson68List==null?"null":JSON.toJSONString(formson68List));
+         //   System.out.println("formson68List:"+formson68List==null?"null":JSON.toJSONString(formson68List));
             if (!CollectionUtils.isEmpty(formson68List)) {
                 List<ZYWLDW> zywldw68List = new ArrayList<ZYWLDW>();
-                System.out.println("find record!!!!");
-                System.out.println("data will push 2 ZYWLDW-tmp");
+              //  System.out.println("find record!!!!");
+              //  System.out.println("data will push 2 ZYWLDW-tmp");
                 for (Formson0068 fs : formson68List) {
-                    System.out.println("data:"+JSON.toJSONString(fs));
+                 //   System.out.println("data:"+JSON.toJSONString(fs));
                     ZYWLDW dw = new ZYWLDW();
                     Long id = UUIDLong.longUUID();
-                    System.out.println("step:1");
+                //    System.out.println("step:1");
                     dw.setID(0L+id.intValue());
-                    System.out.println("step:2");
+                   // System.out.println("step:2");
                     try {
-                        System.out.println("step:2.1");
+                       // System.out.println("step:2.1");
                         dw.setWLDW06(fs.getField0011());
                     }catch(Exception e){
-                        System.out.println("step:2.2");
+                       // System.out.println("step:2.2");
                         e.printStackTrace();
                     }
                     try {
 
-                        System.out.println("step:2.3");
+                      //  System.out.println("step:2.3");
                         Float fval = fs.getField0012();
-                        System.out.println("step:2.3.1");
+                      //  System.out.println("step:2.3.1");
                         if(fval== null){
                             fval=0.0f;
                         }
-                        System.out.println("step:2.3.2");
+                       // System.out.println("step:2.3.2");
                         dw.setJXSL01(fval.floatValue());
-                        System.out.println("step:2.3.3");
+                       // System.out.println("step:2.3.3");
                     } catch (Exception e) {
-                        System.out.println("step:2.4");
+                      //  System.out.println("step:2.4");
                         e.printStackTrace();
                     }catch(Error error){
                         error.printStackTrace();
                     }
-                    System.out.println("step:3");
+                   // System.out.println("step:3");
                     dw.setWLDW20(0);
-                    System.out.println("step:4");
+                  //  System.out.println("step:4");
                     dw.setWLDW11(fs.getField0013());
-                    System.out.println("step:5");
+                   // System.out.println("step:5");
                     dw.setWLDW12(fs.getField0014());
-                    System.out.println("step:6");
+                   // System.out.println("step:6");
                     dw.setWLDW13(fs.getField0015());
-                    System.out.println("step:7");
+                  //  System.out.println("step:7");
                     dw.setDWQT06(fs.getField0016());
-                    System.out.println("step:8");
+                  //  System.out.println("step:8");
                     dw.setDWQT08(fs.getField0017());
-                    System.out.println("step:9");
+                   // System.out.println("step:9");
                     dw.setDQXX01(fs.getField0018());
-                    System.out.println("step:10");
+                  //  System.out.println("step:10");
                     dw.setWLDW02(fs.getField0009());
-                    System.out.println("step:11");
+                 //   System.out.println("step:11");
                     dw.setTBBJ(0);
                     try {
-                        System.out.println("step:12");
+                      //  System.out.println("step:12");
                         dw.setBTOBTS01(format.format(new Date()));
                     }catch(Exception e){
                         e.printStackTrace();
                     }
-                    System.out.println("step:13");
+                   // System.out.println("step:13");
                     zywldw68List.add(dw);
                 }
-                System.out.println("save record:"+ JSON.toJSONString(zywldw68List));
+               // System.out.println("save record:"+ JSON.toJSONString(zywldw68List));
                 dataKitNanjingDao.saveOrUpdateZYWLDW(zywldw68List);
                 //dataKitNanjingDao.getHibernateTemplate().saveOrUpdateAll(zywldwList);
                 return;
@@ -196,4 +195,6 @@ public class DataKitNanJingService {
             e.printStackTrace();
         }
     }
+
+
 }
