@@ -47,11 +47,13 @@ import com.seeyon.ctp.common.usermessage.MessageContent;
 import com.seeyon.ctp.common.usermessage.MessageReceiver;
 import com.seeyon.ctp.common.usermessage.UserMessageManager;
 import com.seeyon.ctp.event.EventDispatcher;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.OrgConstants.Role_NAME;
 import com.seeyon.ctp.organization.bo.MemberPost;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgTeam;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import com.seeyon.ctp.portal.po.PortalSpaceFix;
 import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.util.Constants.SecurityType;
@@ -127,6 +129,7 @@ public class BulDataController extends BaseController {
     }
 
     private String convertContent(String content) throws BusinessException {
+
         if (content == null) {
             return content;
         } else {

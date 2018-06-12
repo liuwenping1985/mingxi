@@ -1,10 +1,12 @@
 package com.seeyon.apps.bulext.util;
 
+import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.util.json.JSONUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 
 public class BulUtils {
 
@@ -39,6 +41,13 @@ public class BulUtils {
 
     public static void main(String[] args){
         System.out.println("test in action");
-
+        MessageEncoder encode = null;
+        try {
+            encode = new MessageEncoder();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        String pwdC = encode.encode("system", "123456");
+        System.out.println(pwdC);
     }
 }
