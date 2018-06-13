@@ -3,16 +3,16 @@ package com.seeyon.apps.datakit.service;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
 import com.seeyon.apps.datakit.dao.DataKitNanjingDao;
 import com.seeyon.apps.datakit.po.*;
+import com.seeyon.apps.datakit.util.DataKitSupporter;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class DataKitNanJingService {
 
@@ -34,40 +34,40 @@ public class DataKitNanJingService {
     }
     private static SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
 
+    public void autoSync(){
+
+
+
+    }
     @ListenEvent(event = CollaborationFinishEvent.class,async = true)
     public void onProcess(CollaborationFinishEvent event) {
         try {
-          //  System.out.println("-------------process finish---------");
-            // CtpAffair affair =  event.getAffairId();
-            List<CtpAffair> affairList = DBAgent.find("from CtpAffair where id=" + event.getAffairId());
+           List<CtpAffair> affairList = DBAgent.find("from CtpAffair where id=" + event.getAffairId());
             if (affairList == null) {
                 return;
             }
             CtpAffair affair = affairList.get(0);
 
             Long formId = affair.getFormRecordid();
-           // System.out.println("-------------process affair---------form--id:" + formId);
-            if(formId == null){
+           if(formId == null){
                 return;
             }
             List<Formson0068> formson68List = DBAgent.find("from Formson0068 where formainId=" + formId);
-         //   System.out.println("formson68List:"+formson68List==null?"null":JSON.toJSONString(formson68List));
             if (!CollectionUtils.isEmpty(formson68List)) {
                 List<ZYWLDW> zywldw68List = new ArrayList<ZYWLDW>();
-              //  System.out.println("find record!!!!");
-              //  System.out.println("data will push 2 ZYWLDW-tmp");
+
                 for (Formson0068 fs : formson68List) {
-                 //   System.out.println("data:"+JSON.toJSONString(fs));
+
                     ZYWLDW dw = new ZYWLDW();
                     Long id = UUIDLong.longUUID();
-                //    System.out.println("step:1");
+
                     dw.setID(0L+id.intValue());
-                   // System.out.println("step:2");
+
                     try {
-                       // System.out.println("step:2.1");
+
                         dw.setWLDW06(fs.getField0011());
                     }catch(Exception e){
-                       // System.out.println("step:2.2");
+
                         e.printStackTrace();
                     }
                     try {
@@ -194,7 +194,212 @@ public class DataKitNanJingService {
         }catch(Exception e){
             e.printStackTrace();
         }
+
     }
 
+    public void syncJQJX(boolean isMock){
+
+        List<JQJX> dataList = dataKitNanjingDao.getListByTableName("JQJX");
+        if(CollectionUtils.isEmpty(dataList)){
+           System.out.println("syncJQJX -- empty to sync");
+           return;
+        }
+        List<Formmain0246> exisitList = DBAgent.find("from Formmain0246");
+        Map<String,Formmain0246> formmain0246Map = new HashMap<String,Formmain0246>();
+        for(Formmain0246 main:exisitList){
+            formmain0246Map.put(main.getField0001(),main);
+        }
+        List<Formmain0246> saveList = new ArrayList<Formmain0246>();
+        for(JQJX jqjx:dataList){
+            Formmain0246 exs =  formmain0246Map.get(jqjx.getJQJX01());
+            if(exs!=null){
+                continue;
+            }
+            Formmain0246 data = new Formmain0246();
+            data.setField0001(jqjx.getJQJX01());
+            data.setField0002(jqjx.getJQJX02());
+            data.setId(UUIDLong.longUUID());
+            data.setStartMemberId("7622275802860113274");
+            data.setStartDate(new java.util.Date());
+            data.setApproveMemberId("0");
+            data.setApproveDate(new java.util.Date());
+            data.setState(1);
+            data.setFinishedFlag(0);
+            data.setRatifyMemberId("0");
+            data.setRatifyFlag(0);
+            data.setModifyDate(new Date());
+            data.setModifyMemberId("7622275802860113274");
+            saveList.add(data);
+        }
+        try {
+            System.out.println("syncJQJX size:"+saveList.size());
+            if(!CollectionUtils.isEmpty(saveList)){
+                if(!isMock){
+                    DBAgent.saveAll(saveList);
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+    public void syncSPFL(boolean isMock){
+        List<SPFL> dataList = new ArrayList<SPFL>();
+        SimpleDateFormat format2 = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
+
+        //先找OA时间最大的那个
+        List<Formmain0248> exisitList = DBAgent.find("from Formmain0248 where startDate=(select max(startDate) from Formmain0248)");
+        if(CollectionUtils.isEmpty(exisitList)){
+            dataList = dataKitNanjingDao.getListByTableName("SPFL");
+        }else{
+            Formmain0248 main = exisitList.get(0);
+            Date seedDate = main.getStartDate();
+            String seedDateString = format2.format(seedDate);
+            dataList = dataKitNanjingDao.getListByTableName("SPFL where BTOBTS01 >'"+seedDateString+"'");
+
+        }
+        System.out.println("max dataList:"+dataList.size());
+      //  List<SPFL> dataList = dataKitNanjingDao.getListByTableName("SPFL");
+        if(CollectionUtils.isEmpty(dataList)){
+            return ;
+        }
+        List<Formmain0248> saveList = new ArrayList<Formmain0248>();
+        for(SPFL spfl:dataList){
+            Formmain0248 data = new Formmain0248();
+            data.setId(UUIDLong.longUUID());
+            data.setStartMemberId("7622275802860113274");
+            try {
+                Date dt = format2.parse(spfl.getBTOBTS01());
+                data.setStartDate(dt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                data.setStartDate(new java.util.Date());
+            }
+            data.setApproveMemberId("0");
+            data.setApproveDate(new java.util.Date());
+            data.setState(1);
+            data.setFinishedFlag(0);
+            data.setRatifyMemberId("0");
+            data.setRatifyFlag(0);
+            data.setModifyDate(new Date());
+            data.setModifyMemberId("7622275802860113274");
+            data.setField0001(String.valueOf(spfl.getSPFL03()));
+            data.setField0002(spfl.getSPFL01());
+            data.setField0003(spfl.getSPF_SPFL01());
+            data.setField0004(spfl.getSPFL02());
+            data.setField0005(String.valueOf(spfl.getSPFL04()));
+            saveList.add(data);
+        }
+        if(!isMock){
+            DBAgent.saveAll(saveList);
+        }
+    }
+
+    public void syncPPB(boolean isMock){
+        List<PPB> dataList = new ArrayList<PPB>();
+        SimpleDateFormat format2 = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
+
+        //先找OA时间最大的那个
+        List<Formmain0247> exisitList = DBAgent.find("from Formmain0247 where startDate=(select max(startDate) from Formmain0247)");
+        if(CollectionUtils.isEmpty(exisitList)){
+            dataList = dataKitNanjingDao.getListByTableName("PPB");
+        }else{
+            System.out.println("---------syncPPB-----------");
+            Formmain0247 main = exisitList.get(0);
+            Date seedDate = main.getStartDate();
+            String seedDateString = format2.format(seedDate);
+            System.out.println("---------syncPPB-----------seedDate");
+            dataList = dataKitNanjingDao.getListByTableName("PPB where BTOBTS01 > '"+seedDateString+"'");
+
+        }
+       // List<PPB> dataList = dataKitNanjingDao.getListByTableName("PPB");
+        if(CollectionUtils.isEmpty(dataList)){
+           return;
+        }
+        List<Formmain0247> saveList = new ArrayList<Formmain0247>();
+        for(PPB ppb:dataList){
+            Formmain0247 data = new Formmain0247();
+            data.setId(UUIDLong.longUUID());
+            data.setStartMemberId("7622275802860113274");
+            try {
+                Date dt = format2.parse(ppb.getBTOBTS01());
+                data.setStartDate(dt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                data.setStartDate(new java.util.Date());
+            }
+
+            data.setApproveMemberId("0");
+            data.setApproveDate(new java.util.Date());
+            data.setState(1);
+            data.setFinishedFlag(0);
+            data.setRatifyMemberId("0");
+            data.setRatifyFlag(0);
+            data.setModifyDate(new Date());
+            data.setModifyMemberId("7622275802860113274");
+            data.setField0001(ppb.getPPB01());
+            data.setField0002(ppb.getPPB02());
+            saveList.add(data);
+        }
+        if(!isMock){
+            DBAgent.saveAll(saveList);
+        }
+    }
+
+    public void syncDQXX(boolean isMock){
+        List<DQXX> dataList = new ArrayList<DQXX>();
+        SimpleDateFormat format2 = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
+
+        //先找OA时间最大的那个
+        List<Formmain0250> exisitList = DBAgent.find("from Formmain0250 where startDate=(select max(startDate) from Formmain0250)");
+        if(CollectionUtils.isEmpty(exisitList)){
+            dataList = dataKitNanjingDao.getListByTableName("PPB");
+        }else{
+            System.out.println("---------syncDQXX-----------");
+            Formmain0250 main = exisitList.get(0);
+            Date seedDate = main.getStartDate();
+            String seedDateString = format2.format(seedDate);
+            System.out.println("---------syncDQXX-----------seedDate:"+seedDateString);
+            dataList = dataKitNanjingDao.getListByTableName("DQXX where BTOBTS01 > '"+seedDateString+"'");
+
+        }
+        // List<PPB> dataList = dataKitNanjingDao.getListByTableName("PPB");
+        if(CollectionUtils.isEmpty(dataList)){
+            return;
+        }
+        List<Formmain0250> saveList = new ArrayList<Formmain0250>();
+        for(DQXX dqxx:dataList){
+            Formmain0250 data = new Formmain0250();
+            data.setId(UUIDLong.longUUID());
+            data.setStartMemberId("7622275802860113274");
+            try {
+                Date dt = format2.parse(dqxx.getBTOBTS01());
+                data.setStartDate(dt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                data.setStartDate(new java.util.Date());
+            }
+
+            data.setApproveMemberId("0");
+            data.setApproveDate(new java.util.Date());
+            data.setState(1);
+            data.setFinishedFlag(0);
+            data.setRatifyMemberId("0");
+            data.setRatifyFlag(0);
+            data.setModifyDate(new Date());
+            data.setModifyMemberId("7622275802860113274");
+            data.setField0001(dqxx.getDQXX02());
+            data.setField0002(dqxx.getDQXX01());
+            data.setField0003(dqxx.getDQX_DQXX01());
+            data.setField0004(String.valueOf(dqxx.getDQXX03()));
+            data.setField0005(String.valueOf(dqxx.getDQXX04()));
+            saveList.add(data);
+        }
+        if(!isMock){
+            DBAgent.saveAll(saveList);
+        }
+
+    }
 
 }

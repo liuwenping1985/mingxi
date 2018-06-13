@@ -45,9 +45,7 @@ public class DataKitService {
     }
 
     public DataKitService() {
-        ScheduleTread scheduleTread = new ScheduleTread();
-        scheduleTread.setDataKitService(this);
-        scheduleTread.schedule();
+
     }
 
     public boolean refresh(){

@@ -4,6 +4,7 @@
 <beans default-autowire="byName">
 	<bean name="/datakit.do" class="com.seeyon.apps.datakit.controller.DataKitNanjingController">
 		<property name="dataKitNanjingDao" ref="dataNanjingKitDao" />
+		<property name="dataKitNanjingService" ref="dataKitNanjingService" />
 	</bean>
 	<bean id="dataKitNanjingService" class="com.seeyon.apps.datakit.service.DataKitNanJingService"
 		  autowire="byName">

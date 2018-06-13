@@ -2,11 +2,14 @@ package com.seeyon.apps.datakit.controller;
 
 import com.seeyon.apps.datakit.dao.DataKitNanjingDao;
 import com.seeyon.apps.datakit.po.*;
+import com.seeyon.apps.datakit.service.DataKitNanJingService;
 import com.seeyon.apps.datakit.util.DataKitSupporter;
+import com.seeyon.apps.datakit.vo.ScheduleTread;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import org.apache.axis.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +24,8 @@ public class DataKitNanjingController extends BaseController {
 
     private DataKitNanjingDao dataKitNanjingDao;
 
+    private DataKitNanJingService dataKitNanjingService;
+
     public DataKitNanjingDao getDataKitNanjingDao() {
         return dataKitNanjingDao;
     }
@@ -28,6 +33,15 @@ public class DataKitNanjingController extends BaseController {
     public void setDataKitNanjingDao(DataKitNanjingDao dataKitNanjingDao) {
         this.dataKitNanjingDao = dataKitNanjingDao;
     }
+
+    public DataKitNanJingService getDataKitNanjingService() {
+        return dataKitNanjingService;
+    }
+
+    public void setDataKitNanjingService(DataKitNanJingService dataKitNanjingService) {
+        this.dataKitNanjingService = dataKitNanjingService;
+    }
+
     @NeedlessCheckLogin
     public ModelAndView syncJQJX(HttpServletRequest request, HttpServletResponse response){
         List<JQJX> dataList = dataKitNanjingDao.getListByTableName("JQJX");
@@ -199,6 +213,46 @@ public class DataKitNanjingController extends BaseController {
             }
         }
         DataKitSupporter.responseJSON("CHECK",response);
+        return null;
+    }
+    private ScheduleTread scheduleTread = new ScheduleTread();
+    @NeedlessCheckLogin
+    public ModelAndView startJob(HttpServletRequest request, HttpServletResponse response) {
+
+
+        scheduleTread.setDataKitNanJingService(dataKitNanjingService);
+        scheduleTread.schedule();
+        DataKitSupporter.responseJSON("startJob",response);
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView stopJob(HttpServletRequest request, HttpServletResponse response) {
+
+        scheduleTread.RUN = false;
+        DataKitSupporter.responseJSON("stop",response);
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView sync(HttpServletRequest request, HttpServletResponse response){
+
+        String which = request.getParameter("which");
+        if(StringUtils.isEmpty(which)){
+            which = "PPB";
+        }
+        if("PPB".equals(which)){
+            dataKitNanjingService.syncPPB(true);
+        }
+        if("DQXX".equals(which)){
+            dataKitNanjingService.syncDQXX(true);
+        }
+        if("SPFL".equals(which)){
+            dataKitNanjingService.syncSPFL(true);
+        }
+        if("JQJX".equals(which)){
+            dataKitNanjingService.syncJQJX(true);
+        }
+
+        DataKitSupporter.responseJSON("ok",response);
         return null;
     }
 }
