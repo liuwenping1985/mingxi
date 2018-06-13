@@ -57,6 +57,8 @@ import com.seeyon.v3x.worktimeset.manager.WorkTimeManager;
 import net.joinwork.bpm.engine.wapi.WorkflowBpmContext;
 import org.apache.axis.utils.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.InternalResourceView;
@@ -67,7 +69,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ExtFormInfoController extends BaseController {
-
+    private static Log log = LogFactory.getLog(WorkFlowEventListener.class);
     private  PrincipalManager  principalManager;
 
     public PrincipalManager getPrincipalManager() {
@@ -199,12 +201,12 @@ public class ExtFormInfoController extends BaseController {
        // 7255984374117713477 event.getAffairId(); w
         Long affairId = event.getAffairId();
         if(affairId  == null){
-            System.out.println("----affairId:"+affairId);
+            log.error("----affairId:"+affairId);
             return;
         }
         List<CtpAffair> list = DBAgent.find("from CtpAffair where id="+affairId);
         if(CollectionUtils.isEmpty(list)){
-            System.out.println("----list is empty----");
+            log.error("----list is empty----");
             return;
         }
         //User user = AppContext.getCurrentUser();
@@ -212,7 +214,7 @@ public class ExtFormInfoController extends BaseController {
         CtpAffair affair = list.get(0);
 
        // Long memberId = affair.getMemberId();
-        System.out.println("----:"+affair.getTempleteId());
+        log.error("--getTempleteId--:"+affair.getTempleteId());
         if((""+TARGET_TEMPLATE_ID).equals(""+affair.getTempleteId())){
             //找到该单子的那几个被考核人
 
@@ -225,10 +227,12 @@ public class ExtFormInfoController extends BaseController {
             }catch(Exception e){
                 e.printStackTrace();
             }
+
             if(CollectionUtils.isEmpty(formson1569s)){
-                System.out.println("out found formson1569s");
+                log.error("out found formson1569s");
                 return;
             }
+            log.error(" formson1569s size:"+formson1569s.size());
             List<Long>mIds = new ArrayList<Long>();
             for(Formson1569 son:formson1569s){
                 try {
@@ -250,13 +254,14 @@ public class ExtFormInfoController extends BaseController {
             memberIdstr.append(")");
 
             String sql = "from CtpAffair where templeteId in "+TARGET_SUBMIT_TEMPLATE_ID+" and senderId in"+memberIdstr+"and state=3";
+            log.error("sql:"+sql);
             List<CtpAffair> affairList = DBAgent.find(sql);
-            System.out.println("affairList:"+JSON.toJSONString(affairList));
+            log.error("affairList---size:"+JSON.toJSONString(affairList));
             if(CollectionUtils.isEmpty(affairList)){
                 return;
             }
            ColManager colManager = (ColManager)AppContext.getBean("colManager");
-           System.out.println("----is out----:"+affair.getTempleteId());
+            log.error("----is out----:"+affair.getTempleteId());
             // af.setState(4);
             //  DBAgent.update(af);
             /**
@@ -285,7 +290,10 @@ public class ExtFormInfoController extends BaseController {
                    // colManager.transFinishWorkItemPublic(affair, colSummary, comment, ColHandleType.finish, params);
 
                 }catch(Exception e){
+                    log.error("error----"+af.getSubject(),e);
                     e.printStackTrace();
+                }catch(Error error){
+                    error.printStackTrace();
                 }
             }
         }
@@ -336,41 +344,34 @@ private SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
       //  User user = AppContext.getCurrentUser();
         ColManagerImpl colManager = (ColManagerImpl)AppContext.getBean("colManager");
         CommentManager commentManager = (CommentManager)AppContext.getBean("ctpCommentManager");
-        System.out.println("commentManager:"+commentManager);
+       // System.out.println("commentManager:"+commentManager);
         ColMessageManager colMessageManager = (ColMessageManager)AppContext.getBean("colMessageManager");
-        System.out.println("colMessageManager:"+colMessageManager);
+        //System.out.println("colMessageManager:"+colMessageManager);
         WorkTimeManager workTimeManager = (WorkTimeManager)AppContext.getBean("workTimeManager");
-        System.out.println("workTimeManager:"+workTimeManager);
+        //System.out.println("workTimeManager:"+workTimeManager);
         FormManager formManager = (FormManager)AppContext.getBean("formManager");
-        System.out.println("formManager:"+formManager);
+        //System.out.println("formManager:"+formManager);
         AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
-        System.out.println("affairManager:"+affairManager);
+       // System.out.println("affairManager:"+affairManager);
         IndexManager indexManager = (IndexManager)AppContext.getBean("indexManager");
-        System.out.println("indexManager:"+indexManager);
+       // System.out.println("indexManager:"+indexManager);
         Map<String, String> colSummaryDomian = genColSummary(summary);
-        System.out.println("colSummaryDomian:"+colSummaryDomian);
+       // System.out.println("colSummaryDomian:"+colSummaryDomian);
         String _flowPermAccountId = (String)colSummaryDomian.get("flowPermAccountId");
         Long flowPermAccountId = Strings.isBlank(_flowPermAccountId) ? summary.getOrgAccountId() : Long.valueOf(_flowPermAccountId);
-        System.out.println("flowPermAccountId:"+flowPermAccountId);
+      //  System.out.println("flowPermAccountId:"+flowPermAccountId);
         Comment comment = new Comment();
         comment.setPushMessage(false);
         comment.setId(UUIDLong.longUUID());
         comment.setContent("AUTO COMMIT");
         comment.setAffairId(affair.getId());
-        CommentManagerImpl impl2;
         commentManager.insertComment(comment);
-        //colManager.saveAttDatas(user, summary, affair, comment.getId());
         AffairUtil.setHasAttachments(affair, ColUtil.isHasAttachments(summary));
         AffairData affairData = ColUtil.getAffairData(summary);
         affairData.setMemberId(affair.getMemberId());
         affairData.addBusinessData("flowPermAccountId", flowPermAccountId);
         Integer t = WorkFlowEventListener.COMMONDISPOSAL;
         affairData.addBusinessData("operationType", t);
-        //Map<String, String> wfdef = ParamUtil.getJsonDomain("workflow_definition");
-       // String messageDataListJSON = (String)wfdef.get("process_message_data");
-       // Date actionTime = colMessageManager.sendOperationTypeMessage(messageDataListJSON, summary, affair, comment.getId());
-        //actionTime = Datetimes.addSecond(actionTime, 1);
-       // colManager.checkCollSubject(summary, affair, params);
         Boolean isRego = false;
         String isProcessCompetion;
         String _pigeonholeValue;
