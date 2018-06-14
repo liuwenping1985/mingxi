@@ -36,7 +36,7 @@ function loadBanWenBadge(){
         $("#banwenCountMask").show();
         return;
     }
-    $.get("/seeyon/rikaze.do?method=getBanwenCount&fragmentId=-6689103910895860375",function(data){
+    $.get("/seeyon/rikaze.do?method=getBanwenCount&fragmentId=-8831171015220966891",function(data){
         if(data.count==0){
             return;
         }
@@ -142,7 +142,7 @@ function loadAllBadge(){
             ///seeyon/collaboration/collaboration.do?method=moreSent&fragmentId=651251962166595088&ordinal=0&rowStr=subject,edocMark,publishDate,type&columnsName=已发公文
            // window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=6589483643434978648&app=4&sub_app=1");
            // window.open("/seeyon/collaboration/collaboration.do?method=moreSent&fragmentId=651251962166595088&ordinal=0&rowStr=subject,edocMark,publishDate,type&columnsName=已发公文");
-            window.open("/seeyon/main.do?method=main&fragmentId=651251962166595088&from=menhu&type=fawen");
+            window.open("/seeyon/main.do?method=main&fragmentId=-8831171015220966891&from=menhu&type=fawen");
 
         });
         $("#btn-banwen").click(function () {
