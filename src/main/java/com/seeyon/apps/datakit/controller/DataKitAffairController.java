@@ -72,7 +72,7 @@ public class DataKitAffairController  extends BaseController {
     }
     @NeedlessCheckLogin
     public ModelAndView postAffair(HttpServletRequest request, HttpServletResponse response) throws IOException, BusinessException, NoSuchPrincipalException {
-       response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String param = DataKitSupporter.getPostDataAsString(request);
         if(StringUtils.isEmpty(param)){
             throw new BusinessException("无法找到数据，请确认数据结构是否正确");
