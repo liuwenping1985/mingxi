@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>eas</id>
-	<name>EAS插件</name>
-	<category>10108</category>
-	<initializer>com.seeyon.apps.eas.EASPluginDefintion</initializer>
-</plugin>

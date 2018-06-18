@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-	<bean id="productRegisterManager" class="com.seeyon.apps.cip.base.manager.impl.ProductRegisterManagerImpl"></bean>
-	<bean id="registerInstanceManager" class="com.seeyon.apps.cip.base.manager.impl.RegisterInstanceManagerImpl"></bean>
-	<bean id="logMonitorManager" class="com.seeyon.apps.cip.base.manager.impl.LogMonitorManagerImpl"  ></bean>
-</beans>

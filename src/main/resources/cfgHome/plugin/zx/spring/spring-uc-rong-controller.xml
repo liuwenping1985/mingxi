@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-
-	<bean name="/uc/rong/config.do"
-		class="com.seeyon.apps.uc.rongcloud.controller.UcRongConfigController" />
-	<bean name="/uc/rest.do"
-		class="com.seeyon.apps.uc.rongcloud.controller.UcRestController" />
-</beans>

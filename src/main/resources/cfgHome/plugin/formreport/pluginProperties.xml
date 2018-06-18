@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ctpConfig>
-	<report>
-		<result>
-			<maximum mark="{option,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000}{VE}" desc="表单统计结果最大阀值">1000</maximum>
-		</result>
-	</report>
-</ctpConfig>

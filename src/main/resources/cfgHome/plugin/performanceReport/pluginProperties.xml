@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ctpConfig>
-    <performanceReport>
-        <performanceAnalysis name="绩效分析">1</performanceAnalysis>
-        <workAnalysis name="我的快捷-工作统计">1</workAnalysis>
-        <workAnalysisTree name="我的快捷-工作统计-树状菜单">1</workAnalysisTree>
-        <workAnalysisSetUp name="功能应用设置-工作统计设置">1</workAnalysisSetUp>
-    </performanceReport>
-</ctpConfig>

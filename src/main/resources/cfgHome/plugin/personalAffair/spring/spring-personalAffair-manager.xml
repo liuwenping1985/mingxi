@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-	<bean id="notepagerManager" class="com.seeyon.v3x.notepager.manager.NotepagerManagerImpl" />
-	<bean id="messageManager" class="com.seeyon.v3x.online.manager.MessageManagerImpl" />
-	<bean id="wimManager" class="com.seeyon.v3x.online.manager.WIMManagerImpl" />
-	<bean id="personalAffairPortlet" class="com.seeyon.v3x.personalaffair.portal.portlet.PersonalAffairPortlet"/>
-</beans>

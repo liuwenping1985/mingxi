@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<plugin> 
-  <id>extFormFieldRole</id>  <!-- 这里应该对应文件夹名称-->
-  <name>自定义表单控件选择角色控件</name>  
-  <category>34999</category> 
-</plugin>

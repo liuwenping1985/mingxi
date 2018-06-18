@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ctpConfig>
-	 <xc>
-	    <ConfirmPersonSet mark="{option,0,1} {VE}" desc="0--不启用授权人默认值设置，单位管理手动设置 1--启用授权人默认值设置，默认是部门主管 ">0</ConfirmPersonSet>
-	    <SubAccountName mark="{VE}" desc="子账户默认值"></SubAccountName>
-	    <CorpCustServiceURL mark="{VE}" desc="携程人事信息更新接口 Web Service 地址">http://www.corporatetravel.ctrip.com/corpservice/CorpCustService.asmx</CorpCustServiceURL>
-	    <authorizeURL mark="{VE}" desc="登录验证 地址">https://www.corporatetravel.ctrip.com/corpservice/authorize/ticket</authorizeURL>   
-    </xc>
-</ctpConfig>

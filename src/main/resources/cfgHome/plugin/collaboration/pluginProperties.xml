@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ctpConfig>
-	<collaboration>
-		<security>
-            <!-- 需要做URL digest的URL注册，空格分隔1为uri地址，2为method（没有可以省略），3为digest参数名 -->
-            <digesturl>/collaboration/collaboration.do statisticSearch user_id</digesturl>
-        </security>
-	</collaboration>
-</ctpConfig>

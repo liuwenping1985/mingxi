@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>videoconference</id>
-	<name>视频会议</name>
-	<category>11111</category>
-	<initializer>com.seeyon.apps.videoconference.VideoConferencePluginInitializer</initializer>
-</plugin>

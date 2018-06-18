@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-    <!-- 开发高级-扩展类权限节点事件操作绑定 -->
-    <bean id="formBindExtendClassEventListener" class="com.seeyon.apps.dee.event.FormBindExtendClassEventListenerImpl"  /> 
-</beans>

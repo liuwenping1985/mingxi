@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>eip</id>
-	<name>企业信息门户插件</name>
-	<category>100002</category>
-	<initializer>com.seeyon.apps.cip.eip.appsinitializer.EipPortalInitializer</initializer>
-</plugin>

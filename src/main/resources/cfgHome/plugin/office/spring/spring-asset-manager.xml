@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-  <bean id="assetInfoManager" class="com.seeyon.apps.office.manager.AssetInfoManagerImpl" />
-  <bean id="assetHouseManager" class="com.seeyon.apps.office.manager.AssetHouseManagerImpl" />
-  <bean id="assetUseManager" class="com.seeyon.apps.office.manager.AssetUseManagerImpl" />
-  <bean id="assetApplyManager" class="com.seeyon.apps.office.manager.AssetApplyManagerImpl" />
-  <bean id="assetStcManager" class="com.seeyon.apps.office.manager.AssetStcManagerImpl"></bean>
-</beans>

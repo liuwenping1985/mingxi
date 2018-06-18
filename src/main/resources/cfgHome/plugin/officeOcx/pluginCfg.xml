@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>officeOcx</id>
-	<!-- 虚拟插件，为兼容v3x:hasPlugin('officeOcx') 判断，标准office插件，为兼容老代码程序中引用的 "officeOcx"，次名字保留，制作加密狗时，如果是高级office插件，默认勾选此插件-->
-	<name>标准OFFICE</name>
-	<category>50100</category>
-</plugin>

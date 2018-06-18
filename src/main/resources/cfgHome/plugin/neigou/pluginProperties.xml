@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ctpConfig>
-	<neigou>
-		<enabled mark="{option,0,1} {VE}" desc="是否启用内购福利插件 0--不启用  1--启用">0</enabled>
-		<url mark="{VE}" desc="内购网地址">https://openapi.neigou.com</url>
-	</neigou>
-</ctpConfig>

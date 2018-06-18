@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>ncehr</id>
-	<name>NC人力资源集成插件</name>
-	<category>10101</category>
-	<initializer>com.seeyon.apps.ncbusiness.NCBusinessPlatFormInit</initializer>
-</plugin>
