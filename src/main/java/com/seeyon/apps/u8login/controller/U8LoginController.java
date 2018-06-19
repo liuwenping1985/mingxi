@@ -1,29 +1,29 @@
 package com.seeyon.apps.u8login.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.m3.app.vo.AppInfoVO;
+import com.seeyon.apps.taskmanage.enums.ImportantLevelEnums;
 import com.seeyon.apps.u8login.po.MemberU8Info;
 import com.seeyon.apps.u8login.po.U8CtpAffair;
 import com.seeyon.apps.u8login.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.content.affair.constants.StateEnum;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2018/6/15.
@@ -39,20 +39,22 @@ public class U8LoginController  extends BaseController {
 
         Map<String,String> data = new HashMap<String,String>();
         String userCode = request.getParameter("userCode");
-        if(StringUtils.isEmpty(userCode)){
+        if(userCode==null||"".equals(userCode)){
             data.put("result","false");
             data.put("message","USER_CODE_INVALID");
+
             UIUtils.responseJSON(data,response);
             return null;
 
         }
         String password = request.getParameter("password");
-        if(StringUtils.isEmpty(password)){
+        if(password==null||"".equals(password)){
             password = "";
 
         }
+
         List<MemberU8Info> list = DBAgent.find("from MemberU8Info where userCode='"+userCode+"'");
-        if(CollectionUtils.isEmpty(list)){
+        if(list==null||list.isEmpty()){
             MemberU8Info info = new MemberU8Info();
             info.setIdIfNew();
             info.setUserCode(userCode);
@@ -109,11 +111,11 @@ public class U8LoginController  extends BaseController {
                     throw new BusinessException("通过组织名"+pData.getOrgName()+"无法找到组织数据，请确认数据结构是否正确");
                 }
                 String senderName = pData.getSenderUserId();
-                if(StringUtils.isEmpty(senderName)){
+                if(senderName==null||"".equals(senderName)){
                     throw new BusinessException("发送者名称为空无法找到用户数据，请确认数据是否正确");
                 }
                 String receiverName = pData.getReceiverUserId();
-                if(StringUtils.isEmpty(receiverName)){
+                if(receiverName==null||"".equals(receiverName)){
                     throw new BusinessException("接收者名称为空无法找到用户数据，请确认数据是否正确");
                 }
                 Long senderId =  userPricipalMap.get(pData.getSenderUserId());
@@ -153,7 +155,7 @@ public class U8LoginController  extends BaseController {
             return null;
 
         }
-        if (StringUtils.isEmpty(param)) {
+        if (param==null||"".equals(param)) {
             data.put("result","false");
             data.put("reason","无法找到数据，请确认数据结构是否正确");
             UIUtils.responseJSON(data,response);
@@ -163,5 +165,45 @@ public class U8LoginController  extends BaseController {
 
 
         return null;
+    }
+
+    private CtpAffair genAffair(U8CtpAffair data,Map<String,Long>orgAccountId,Map<String,Long>userPricipalMap){
+        CtpAffair affair = new CtpAffair();
+        affair.setImportantLevel(ImportantLevelEnums.general.getKey());
+        affair.setState(StateEnum.col_pending.key());
+        Long accountId =  orgAccountId.get(data.getOrgName());
+        if(accountId!=null){
+            affair.setOrgAccountId(accountId);
+        }
+        affair.setApp(AppInfoVO.AppTypeEnums.integration_remote_url.ordinal());
+        affair.setAddition(data.getLink());
+
+        affair.putExtraAttr("linkAddress",data.getLink());
+        affair.putExtraAttr("outside_affair","YES");
+      //  affair.setAutoRun(false);
+        affair.setSubject(data.getSubject());
+        affair.setCreateDate(new Date());
+        affair.setUpdateDate(new Date());
+        affair.setReceiveTime(new Date());
+        affair.setSenderId(userPricipalMap.get(data.getSenderUserId()));
+        affair.setMemberId(userPricipalMap.get(data.getReceiverUserId()));
+        affair.setObjectId(0l);
+       // affair.setAutoRun(false);
+        affair.setActivityId(0l);
+        affair.setIdIfNew();
+
+        affair.setIdentifier("u8000000000000000000");
+
+        affair.setNodePolicy("collaboration");
+        affair.setBodyType("10");
+        affair.setTrack(0);
+        affair.setDealTermType(0);
+        affair.setDealTermUserid(-1L);
+        affair.setSubApp(0);
+
+        // affair.setState();
+        //  affair.setMemberId();
+        // affair.setOrgAccountId();
+        return affair;
     }
 }
