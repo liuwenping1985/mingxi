@@ -37,7 +37,7 @@ public class DataKitSupporter {
     }
     public static void main(String[] arhs){
         System.out.println("show me the body");
-        Double d = -4.70945000426076E18;
-        System.out.println(d.longValue());
+
+        System.out.println();
     }
 }

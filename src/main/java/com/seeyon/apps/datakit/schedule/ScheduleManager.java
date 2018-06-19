@@ -1,6 +1,5 @@
 package com.seeyon.apps.datakit.schedule;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
