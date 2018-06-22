@@ -21,11 +21,16 @@
                         <img class="rkz_logo" src="images/logo4.png">
                     </div>
                     <div class="rkz_banner">日喀则市纪委监委内部工作网</div>
+					<div class="rkz_float_right">
+					<table>
+                        <tr>
+                            <td>
                     <div class="rkz_margin15 rkz_float_right">
                         <button id="login-btn" type="button" style="color:white" class="btn btn-light btn-link">登录</button>
                         <button id="logout-btn" type="button" style="color:white;display:none" class="btn btn-light  btn-link">退出</button>
                     </div>
-                    <div id="login_info" style="color:white;padding-top:3px;font-size:20px" class="rkz_margin15 rkz_hide rkz_float_right">xxx欢迎您</div>
+					
+                    
                     <div class="input-group" style="width:320px;float:right;padding-top:15px">
                         <input type="text" class="form-control" aria-label="">
                         <div class="input-group-append">
@@ -35,7 +40,17 @@
                         </div>
 
                     </div>
-
+                </td>
+                </tr>
+                <tr>
+                    <td>
+					<div id="login_info" style="color:yellow;margin-top:3px;font-size:20px;font-weight:bold" class="rkz_margin15 rkz_hide rkz_float_left">xxx欢迎您</div>
+                    <div id="time_info" style="color:yellow;margin-top:3px;font-size:20px" class="rkz_margin15  rkz_float_right">2018年6月13日 17时25分</div>
+                        
+                </td>
+                </tr>    
+                </table>
+					</div>
 
                 </div>
             </div>
@@ -104,8 +119,8 @@
                             </div>
                         </td>
                         <td style="width:50%">
-                            <div style="margin-top:-1px;height:342px;">
-                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <div style="margin-top:-1px;height:342px;margin-left:25px;margin-right:25px">
+                                <div id="carouselExampleIndicators" class="carousel slide"  data-ride="carousel">
                                     <ol id="carousel-indicators" class="carousel-indicators">
                                        
                                     </ol>
@@ -156,7 +171,7 @@
                             </td>
                             <td align="center" style="padding-top:15px">
                                 <div>
-                                    <button style="width:250px;height:65px" type="button" class="btn btn-dark btn-lg rkz_btn">
+                                    <button id="peixun" style="width:250px;height:65px" type="button" class="btn btn-dark btn-lg rkz_btn">
                                         <img src="images/training.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
                                         />培训系统
                                     </button>
@@ -252,7 +267,7 @@
             <center>
                 <footer class="footer">
                     <div class="container">
-                        <p style="margin:0 auto;padding:20px;color:#999">© 2018 &nbsp;日喀则市纪委监委内部工作网
+                        <p style="margin:0 auto;padding:10px;color:#999">© 2018 &nbsp;日喀则市纪委监委内部工作网
                         </p>
                     </div>
                 </footer>
@@ -269,6 +284,7 @@
                 <img class="mb-4" src="images/iuser.png" alt="" width="72" height="72">
                 <label for="inputUserName" class="sr-only">用户名</label>
                 <input type="text" id="inputUserName" class="form-control" placeholder="用户名" required="" autofocus="">
+                <div style="height:10px;width:100%"></div>
                 <label for="inputPassword" class="sr-only">密码</label>
                 <input type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
                 <div class="checkbox mb-3">

@@ -1,8 +1,8 @@
-.rkz_header{
+﻿.rkz_header{
     width: 80%;
     margin: 0 auto;
     padding-left:30px;
-    padding-top: 39px;
+    padding-top: 80px;
     height: 64px;
 }
 .rkz_container{
@@ -12,20 +12,21 @@
 .rkz_top{
     width:100%;
     background-image: url('../images/timg2.jpg');
-    height:128px;
-    background-repeat: repeat-x;
-    background-position: -70px -360px;
-    /* background-position:center*/
+    height:200px;
+	background-repeat: repeat-x;
+    background-position: -90px -360px;
+
     /*margin-left:-50px;*/
 
     /*margin-right:-50px;*/
 }
 .rkz_infor_item{
+
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width:500px;
-    float:left;
+	float:left;
 }
 .rkz_left{
     float:left;
@@ -41,7 +42,7 @@
     width:90%;
 }
 .rkz_width19{
-    width:9%;
+    width:8%;
 }
 .rkz_column{
     width: 78%;
@@ -63,7 +64,7 @@
 
 }
 .rkz_column_no_color{
-    width: 80%;
+    width: 79%;
     margin: 0 auto;
     padding-top:18px;
     padding-left:10px;

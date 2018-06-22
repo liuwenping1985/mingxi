@@ -362,7 +362,7 @@ ul.ej_list .mainlevel:hover{ background:url(../images/public/nav_bg_hover.jpg) r
 .footer3_rf p{font-size:12px;font-family:"微软雅黑","宋体"; width:62px; padding:5px 0px;}
 
 /*整体大结构*/
-.content{ width:1100px; margin:0 auto; background:#fff; padding:}
+.content{ width:78%; margin:0 auto; background:#fff; padding:}
 .padd{ padding:0 36px 60px 36px;}
 
 /*面包屑开始*/

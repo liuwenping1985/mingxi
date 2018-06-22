@@ -8,10 +8,15 @@ import com.seeyon.apps.datakit.po.BulDataItem;
 import com.seeyon.apps.datakit.po.NewsDataItem;
 import com.seeyon.apps.datakit.service.RikazeService;
 import com.seeyon.apps.datakit.util.DataKitSupporter;
+import com.seeyon.apps.datakit.vo.RikazeAccountVo;
+import com.seeyon.apps.datakit.vo.RikazeDeptVo;
+import com.seeyon.apps.datakit.vo.RikazeMemberVo;
 import com.seeyon.apps.doc.manager.KnowledgeFavoriteManager;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ModuleType;
+import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.config.SystemConfig;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.constants.SystemProperties;
 import com.seeyon.ctp.common.content.mainbody.MainbodyManager;
@@ -25,7 +30,14 @@ import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.organization.bo.MemberPost;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.organization.manager.OrgManagerImpl;
+import com.seeyon.ctp.organization.po.OrgMember;
+import com.seeyon.ctp.portal.customize.manager.CustomizeManager;
 import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.util.Constants;
 import com.seeyon.ctp.util.DBAgent;
@@ -90,182 +102,306 @@ public class RikazeController extends BaseController {
         this.pendingManager = pendingManager;
     }
 
-    public RikazeController(){
+    public RikazeController() {
 
     }
-
-    @NeedlessCheckLogin
-    public ModelAndView checkLogin(HttpServletRequest request, HttpServletResponse response){
-        User user =  AppContext.getCurrentUser();
-        Map<String,String> data = new HashMap<String,String>();
-        String userName ="no-body";
-        if(user!=null){
-            userName = user.getName();
+    private CustomizeManager customizeManager;
+    public  CustomizeManager getCustomizeManager() {
+        if (customizeManager == null) {
+            customizeManager = (CustomizeManager)AppContext.getBean("customizeManager");
         }
-        data.put("user",userName);
+        return customizeManager;
+    }
+    private SystemConfig systemConfig;
+    private  SystemConfig getSystemConfig() {
+        if (systemConfig == null) {
+            systemConfig = (SystemConfig)AppContext.getBean("systemConfig");
+        }
+        return systemConfig;
+    }
+    public  String getAvatarImageUrl(Long memberId) {
+        String contextPath = SystemEnvironment.getContextPath();
+        return getAvatarImageUrl(memberId, contextPath);
+    }
+    public  String getSystemSwitch(String name) {
+        return getSystemConfig().get(name);
+    }
+    private String getAvatarImageUrl(Long memberId, String contextPath) {
+        String imageSrc = contextPath + "/apps_res/v3xmain/images/personal/pic.gif";
+        String isUseDefaultAvatar = getSystemSwitch("default_avatar");
+        try {
+            String fileName = getCustomizeManager().getCustomizeValue(memberId, "avatar");
+            if (fileName != null && !Strings.equals("pic.gif", fileName)) {
+                fileName = fileName.replaceAll(" on", " son");
+                if (fileName.startsWith("fileId")) {
+                    imageSrc = contextPath + "/fileUpload.do?method=showRTE&" + fileName + "&type=image";
+                } else {
+                    imageSrc = contextPath + "/apps_res/v3xmain/images/personal/" + fileName;
+                }
+            } else if (Strings.equals("enable", isUseDefaultAvatar)) {
+                V3xOrgMember member = getOrgManager().getMemberById(memberId);
+                if (member != null) {
+                    Object property = member.getProperty("imageid");
+                    if (property != null) {
+                        String imageId = member.getProperty("imageid").toString();
+                        if (Strings.isNotBlank(imageId)) {
+                            imageSrc = contextPath + imageId;
+                        }
+                    }
+                }
+            }
+        } catch (Exception var8) {
+            var8.printStackTrace();
+        }
+        return imageSrc;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView getDepartmentListGroupByAccount(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        List<V3xOrgAccount> accountList = this.getOrgManager().getAllAccounts();
+        Map<String, Object> data = new HashMap<String, Object>();
+        List<RikazeAccountVo> dataList = new ArrayList<RikazeAccountVo>();
+        if (accountList != null && accountList.size() > 0) {
+            for(V3xOrgAccount account:accountList){
+                RikazeAccountVo accountVo = new RikazeAccountVo();
+                accountVo.setAccountId(String.valueOf(account.getId()));
+                accountVo.setV3xOrgAccount(account);
+                List<V3xOrgDepartment> depts = this.getOrgManager().getAllDepartments(account.getId());
+                List<RikazeDeptVo> deptVoList = new ArrayList<RikazeDeptVo>();
+                for(V3xOrgDepartment department:depts){
+                    RikazeDeptVo vo = new RikazeDeptVo();
+                    vo.setAccountId(accountVo.getAccountId());
+                    vo.setDeptId(String.valueOf(department.getId()));
+                    vo.setDeptName(department.getName());
+                    vo.setV3xOrgDepartment(department);
+                    deptVoList.add(vo);
+                }
+                accountVo.setDepts(deptVoList);
+                dataList.add(accountVo);
+            }
+        }
+        data.put("items",dataList);
+        com.seeyon.ctp.common.taglibs.functions.Functions funs;
         DataKitSupporter.responseJSON(data,response);
         return null;
     }
     @NeedlessCheckLogin
+    public ModelAndView getDepartmentMemberList(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        Map<String,Object> data = new HashMap<String, Object>();
+        String deptId = request.getParameter("deptId");
+        if(deptId == null||"".equals(deptId)){
+            data.put("items",new ArrayList());
+        }else{
+            List<V3xOrgMember> list = this.getOrgManager().getAllMembersByDepartmentBO(Long.parseLong(deptId));
+           List<RikazeMemberVo> dataList = new ArrayList<RikazeMemberVo>();
+           for(V3xOrgMember member:list){
+              RikazeMemberVo vo = new RikazeMemberVo();
+              vo.setDepartmentId(String.valueOf(member.getOrgDepartmentId()));
+              vo.setMemberId(String.valueOf(member.getId()));
+              vo.setMemberName(member.getName());
+              vo.setV3xOrgMember(member);
+              vo.setAvtar(getAvatarImageUrl(member.getId()));
+              dataList.add(vo);
+           }
+            data.put("items",dataList);
+        }
+        DataKitSupporter.responseJSON(data,response);
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView checkLogin(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        Map<String, String> data = new HashMap<String, String>();
+        String userName = "no-body";
+        if (user != null) {
+            userName = user.getName();
+        }
+        data.put("user", userName);
+        DataKitSupporter.responseJSON(data, response);
+        return null;
+    }
+
+    @NeedlessCheckLogin
     public ModelAndView getNews(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String,Object> data = new HashMap<String,Object>();
+        Map<String, Object> data = new HashMap<String, Object>();
         try {
             List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem");
-            data.put("news",newsDataList);
-            DataKitSupporter.responseJSON(data,response);
+            data.put("news", newsDataList);
+            DataKitSupporter.responseJSON(data, response);
             return null;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }catch(Error e){
+        } catch (Error e) {
             e.printStackTrace();
         }
-        data.put("news","error");
+        data.put("news", "error");
         return null;
     }
 
     @NeedlessCheckLogin
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String,Object> data = new HashMap<String,Object>();
+        Map<String, Object> data = new HashMap<String, Object>();
         try {
             List<BulDataItem> dataList = DBAgent.find("from BulDataItem");
-            data.put("buls",dataList);
-            DataKitSupporter.responseJSON(data,response);
+            data.put("buls", dataList);
+            DataKitSupporter.responseJSON(data, response);
             NewsDataController controller;
             return null;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }catch(Error e){
+        } catch (Error e) {
             e.printStackTrace();
         }
-        data.put("buls","error");
+        data.put("buls", "error");
         return null;
     }
 
-    public ModelAndView getBanwenCount(HttpServletRequest request, HttpServletResponse response){
-       User  user = AppContext.getCurrentUser();
-       Long memberId =  user.getId();
-       String fragementId = request.getParameter("fragmentId");
-       if(StringUtils.isEmpty(fragementId)){
-           fragementId = "-7771288622128478783";
-       }
+    public ModelAndView getBanwenCount(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        Long memberId = user.getId();
+        String fragementId = request.getParameter("fragmentId");
+        if (StringUtils.isEmpty(fragementId)) {
+            fragementId = "-7771288622128478783";
+        }
         String ord = "0";
         Long fgId = Long.parseLong(fragementId);
-        int count =  pendingManager.getPendingCount(memberId,fgId,ord);
-        Map<String,Object> data = new HashMap<String, Object>();
-        data.put("count",count);
-        DataKitSupporter.responseJSON(data,response);
+        int count = pendingManager.getPendingCount(memberId, fgId, ord);
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("count", count);
+        DataKitSupporter.responseJSON(data, response);
         return null;
     }
 
-    public ModelAndView getYuewenCount(HttpServletRequest request, HttpServletResponse response){
-        User  user = AppContext.getCurrentUser();
-        Long memberId =  user.getId();
+    public ModelAndView getYuewenCount(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        Long memberId = user.getId();
         String fragementId = request.getParameter("fragmentId");
-        if(StringUtils.isEmpty(fragementId)){
+        if (StringUtils.isEmpty(fragementId)) {
             fragementId = "-7771288622128478783";
         }
         NewsDataController ndc;
         String ord = "1";
         Long fgId = Long.parseLong(fragementId);
-        int count =  pendingManager.getPendingCount(memberId,fgId,ord);
-        Map<String,Object> data = new HashMap<String, Object>();
-        data.put("count",count);
+        int count = pendingManager.getPendingCount(memberId, fgId, ord);
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("count", count);
         BulDataController bdc;
-        DataKitSupporter.responseJSON(data,response);
+        DataKitSupporter.responseJSON(data, response);
         return null;
     }
+
     private NewsDataManager newsDataManager;
-    public NewsDataManager getNewsDataManager(){
-        if(newsDataManager!=null){
+
+    public NewsDataManager getNewsDataManager() {
+        if (newsDataManager != null) {
             return newsDataManager;
         }
-        newsDataManager =  (NewsDataManager)AppContext.getBean("newsDataManager");
+        newsDataManager = (NewsDataManager) AppContext.getBean("newsDataManager");
         return newsDataManager;
     }
+
     private SpaceManager spaceManager;
-    public SpaceManager getSpaceManager(){
-        if(spaceManager!=null){
+
+    public SpaceManager getSpaceManager() {
+        if (spaceManager != null) {
             return spaceManager;
         }
-        spaceManager =  (SpaceManager)AppContext.getBean("spaceManager");
+        spaceManager = (SpaceManager) AppContext.getBean("spaceManager");
         return spaceManager;
     }
+
     private OrgManager orgManager;
-    public OrgManager getOrgManager(){
-        if(orgManager != null){
+
+    public OrgManager getOrgManager() {
+        if (orgManager != null) {
             return orgManager;
         }
-        orgManager=  (OrgManager)AppContext.getBean("orgManager");
+        orgManager = (OrgManager) AppContext.getBean("orgManager");
         return orgManager;
     }
+
     private NewsReadManager newsReadManager;
-    public NewsReadManager getNewsReadManager(){
-        if(newsReadManager!=null){
+
+    public NewsReadManager getNewsReadManager() {
+        if (newsReadManager != null) {
             return newsReadManager;
         }
-        newsReadManager =  (NewsReadManager)AppContext.getBean("newsReadManager");
+        newsReadManager = (NewsReadManager) AppContext.getBean("newsReadManager");
         return newsReadManager;
     }
+
     private AttachmentManager attachmentManager;
-    private AttachmentManager getAttachmentManager(){
-        if(attachmentManager!=null){
+
+    private AttachmentManager getAttachmentManager() {
+        if (attachmentManager != null) {
             return attachmentManager;
         }
-        attachmentManager =  (AttachmentManager)AppContext.getBean("attachmentManager");
+        attachmentManager = (AttachmentManager) AppContext.getBean("attachmentManager");
         return attachmentManager;
     }
+
     private KnowledgeFavoriteManager knowledgeFavoriteManager;
-    private KnowledgeFavoriteManager getKnowledgeFavoriteManager(){
-        if(knowledgeFavoriteManager!=null){
+
+    private KnowledgeFavoriteManager getKnowledgeFavoriteManager() {
+        if (knowledgeFavoriteManager != null) {
             return knowledgeFavoriteManager;
         }
-        knowledgeFavoriteManager =  (KnowledgeFavoriteManager)AppContext.getBean("knowledgeFavoriteManager");
+        knowledgeFavoriteManager = (KnowledgeFavoriteManager) AppContext.getBean("knowledgeFavoriteManager");
         return knowledgeFavoriteManager;
     }
+
     private ColManager colManager;
-    private ColManager getColManager(){
-        if(colManager!=null){
+
+    private ColManager getColManager() {
+        if (colManager != null) {
             return colManager;
         }
-        colManager =  (ColManager)AppContext.getBean("colManager");
+        colManager = (ColManager) AppContext.getBean("colManager");
         return colManager;
     }
+
     private MainbodyManager mainbodyManager;
-    private MainbodyManager getCtpMainbodyManager(){
-        if(mainbodyManager!=null){
+
+    private MainbodyManager getCtpMainbodyManager() {
+        if (mainbodyManager != null) {
             return mainbodyManager;
         }
-        mainbodyManager =  (MainbodyManager)AppContext.getBean("ctpMainbodyManager");
+        mainbodyManager = (MainbodyManager) AppContext.getBean("ctpMainbodyManager");
         return mainbodyManager;
     }
+
     private NewsIssueManager newsIssueManager;
-    private NewsIssueManager getNewsIssueManager(){
-        if(newsIssueManager!=null){
+
+    private NewsIssueManager getNewsIssueManager() {
+        if (newsIssueManager != null) {
             return newsIssueManager;
         }
-        newsIssueManager =  (NewsIssueManager)AppContext.getBean("newsIssueManager");
+        newsIssueManager = (NewsIssueManager) AppContext.getBean("newsIssueManager");
         return newsIssueManager;
     }
+
     private BulDataManager bulDataManager2;
 
-    private BulDataManager getBulDataManager(){
-        if(bulDataManager2!=null){
+    private BulDataManager getBulDataManager() {
+        if (bulDataManager2 != null) {
             return bulDataManager2;
         }
-        bulDataManager2 =  (BulDataManager)AppContext.getBean("bulDataManager");
+        bulDataManager2 = (BulDataManager) AppContext.getBean("bulDataManager");
 
-       return bulDataManager2;
+        return bulDataManager2;
     }
-    private BulTypeManager getBulTypeManager(){
-        BulTypeManager bulTypeManager =  (BulTypeManager)AppContext.getBean("bulTypeManager");
+
+    private BulTypeManager getBulTypeManager() {
+        BulTypeManager bulTypeManager = (BulTypeManager) AppContext.getBean("bulTypeManager");
         return bulTypeManager;
     }
-    private BulletinUtils getBulletinUtils(){
-        BulletinUtils bulletinUtils = (BulletinUtils)AppContext.getBean("bulletinUtils");
+
+    private BulletinUtils getBulletinUtils() {
+        BulletinUtils bulletinUtils = (BulletinUtils) AppContext.getBean("bulletinUtils");
         return bulletinUtils;
     }
+
     @NeedlessCheckLogin
     public ModelAndView bulDataView(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String idStr = request.getParameter("id");
@@ -274,7 +410,7 @@ public class RikazeController extends BaseController {
             throw new BulletinException("bulletin.not_exists");
         } else {
             long dataId = Long.valueOf(idStr);
-            BulData bean = (BulData)this.getBulDataManager().getBulDataCache().getDataCache().get(dataId);
+            BulData bean = (BulData) this.getBulDataManager().getBulDataCache().getDataCache().get(dataId);
             boolean hasCache = false;
             if (bean == null) {
                 bean = this.getBulDataManager().getById(Long.valueOf(idStr));
@@ -298,76 +434,79 @@ public class RikazeController extends BaseController {
                     mav.addObject("customSpaceName", this.spaceManager.getSpaceFix(Long.parseLong(spaceId)).getSpacename());
                 }
 
-               // User user = AppContext.getCurrentUser();
+                // User user = AppContext.getCurrentUser();
 
-                    if (!"true".equals(fromPigeonhole)) {
-                        this.recordBulRead(dataId, bean, hasCache);
+                if (!"true".equals(fromPigeonhole)) {
+                    this.recordBulRead(dataId, bean, hasCache);
+                }
+
+                BulBody body = this.getBulDataManager().getBody(bean.getId());
+                bean.setContent(body.getContent());
+                bean.setContentName(body.getContentName());
+                String content;
+                if ("FORM".equals(bean.getDataFormat())) {
+                    content = this.convertContent(bean.getContent());
+                    if (content != null) {
+                        bean.setDataFormat("HTML");
+                        bean.setContent(content);
                     }
+                }
 
-                    BulBody body = this.getBulDataManager().getBody(bean.getId());
-                    bean.setContent(body.getContent());
-                    bean.setContentName(body.getContentName());
-                    String content;
-                    if ("FORM".equals(bean.getDataFormat())) {
-                        content = this.convertContent(bean.getContent());
-                        if (content != null) {
-                            bean.setDataFormat("HTML");
-                            bean.setContent(content);
-                        }
+                if ("HTML".equals(bean.getDataFormat())) {
+                    content = this.convertContentV(bean.getContent());
+                    if (content != null) {
+                        bean.setContent(content);
                     }
+                }
 
-                    if ("HTML".equals(bean.getDataFormat())) {
-                        content = this.convertContentV(bean.getContent());
-                        if (content != null) {
-                            bean.setContent(content);
-                        }
-                    }
-
-                    Long userId = -4709450004260764208L;
-                    boolean isManager = false;
-                    if (Integer.parseInt(bean.getExt1()) == 1) {
-                        if (userId == bean.getCreateUser()) {
-                            isManager = true;
-                        } else {
-                            isManager = this.getBulTypeManager().isManagerOfType(bean.getTypeId(), userId);
-                        }
-                    }
-
-                    mav.addObject("isManager", isManager);
-                    this.getBulletinUtils().initData(bean);
-                    mav.addObject("bul_title", Strings.toText(bean.getTitle()));
-                    mav.addObject("bean", bean);
-                    if (bean.getAttachmentsFlag()) {
-                        List<Attachment> attachments = this.attachmentManager.getByReference(bean.getId(), bean.getId());
-                        mav.addObject("attachments", attachments);
+                Long userId = -4709450004260764208L;
+                boolean isManager = false;
+                if (Integer.parseInt(bean.getExt1()) == 1) {
+                    if (userId == bean.getCreateUser()) {
+                        isManager = true;
                     } else {
-                        mav.addObject("attachments", new ArrayList());
+                        isManager = this.getBulTypeManager().isManagerOfType(bean.getTypeId(), userId);
                     }
+                }
 
-                    String collectFlag = SystemProperties.getInstance().getProperty("doc.collectFlag");
-                    if ("true".equals(collectFlag)) {
-                        List<Map<Long, Long>> collectMap = this.knowledgeFavoriteManager.getFavoriteSource(CommonTools.newArrayList(new Long[]{bean.getId()}), userId);
-                        if (!collectMap.isEmpty()) {
-                            mav.addObject("isCollect", true);
-                            mav.addObject("collectDocId", ((Map)collectMap.get(0)).get("id"));
-                        }
+                mav.addObject("isManager", isManager);
+                this.getBulletinUtils().initData(bean);
+                mav.addObject("bul_title", Strings.toText(bean.getTitle()));
+                mav.addObject("bean", bean);
+                if (bean.getAttachmentsFlag()) {
+                    List<Attachment> attachments = this.attachmentManager.getByReference(bean.getId(), bean.getId());
+                    mav.addObject("attachments", attachments);
+                } else {
+                    mav.addObject("attachments", new ArrayList());
+                }
+
+                String collectFlag = SystemProperties.getInstance().getProperty("doc.collectFlag");
+                if ("true".equals(collectFlag)) {
+                    List<Map<Long, Long>> collectMap = this.knowledgeFavoriteManager.getFavoriteSource(CommonTools.newArrayList(new Long[]{bean.getId()}), userId);
+                    if (!collectMap.isEmpty()) {
+                        mav.addObject("isCollect", true);
+                        mav.addObject("collectDocId", ((Map) collectMap.get(0)).get("id"));
                     }
+                }
 
-                    mav.addObject("docCollectFlag", collectFlag);
-                    AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.bulletin, String.valueOf(bean.getId()), AppContext.currentUserId());
-                    return mav.addObject("bulStyle", bean.getType().getExt1());
+                mav.addObject("docCollectFlag", collectFlag);
+                AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.bulletin, String.valueOf(bean.getId()), AppContext.currentUserId());
+                return mav.addObject("bulStyle", bean.getType().getExt1());
 
             }
         }
     }
+
     private BulReadManager bulReadManager;
-    private BulReadManager getBulReadManager(){
-        if(bulReadManager!=null){
+
+    private BulReadManager getBulReadManager() {
+        if (bulReadManager != null) {
             return bulReadManager;
         }
-        bulReadManager = (BulReadManager)AppContext.getBean("bulReadManager");
+        bulReadManager = (BulReadManager) AppContext.getBean("bulReadManager");
         return bulReadManager;
     }
+
     public boolean checkScope(BulData bulData) throws BusinessException {
         String scopeId = bulData.getPublishScope();
         Long createId = bulData.getCreateUser();
@@ -391,6 +530,7 @@ public class RikazeController extends BaseController {
             return true;
         }
     }
+
     private void recordBulRead(long dataId, BulData bean, boolean hasCache) {
         Long userId = -4709450004260764208L;
         Long accountId = 670869647114347L;
@@ -407,6 +547,7 @@ public class RikazeController extends BaseController {
         }
 
     }
+
     private String convertContentV(String content) throws BusinessException {
         if (Strings.isBlank(content)) {
             return null;
@@ -415,7 +556,7 @@ public class RikazeController extends BaseController {
             Pattern pDiv = Pattern.compile("method=download&fileId=(.+?)&v=fromForm");
             Matcher matcherDiv = pDiv.matcher(content);
 
-            while(matcherDiv.find()) {
+            while (matcherDiv.find()) {
                 String fileId = matcherDiv.group(1);
                 String replace = "method=download&fileId=" + fileId + "&v=" + SecurityHelper.digest(new Object[]{fileId});
                 matcherDiv.appendReplacement(sb, replace.toString());
@@ -425,10 +566,11 @@ public class RikazeController extends BaseController {
             return sb.toString();
         }
     }
+
     //spaceManager
     @NeedlessCheckLogin
     public ModelAndView userView(HttpServletRequest request, HttpServletResponse response) throws Exception {
-       // User user = AppContext.getCurrentUser();
+        // User user = AppContext.getCurrentUser();
         try {
             Long userId = -4709450004260764208L;
             Long accountId = 670869647114347L;
@@ -534,11 +676,12 @@ public class RikazeController extends BaseController {
 
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
     private String convertContent(String content) throws BusinessException {
         int xslStart = content.indexOf("&&&&&&&  xsl_start  &&&&&&&&");
         int dataStart = content.indexOf("&&&&&&&&  data_start  &&&&&&&&");
@@ -549,21 +692,21 @@ public class RikazeController extends BaseController {
             String formId = null;
             Pattern pAppId = Pattern.compile("appId=([-]{0,1}\\d+)");
 
-            for(Matcher matcherAppId = pAppId.matcher(xsl); matcherAppId.find(); formId = matcherAppId.group(1)) {
+            for (Matcher matcherAppId = pAppId.matcher(xsl); matcherAppId.find(); formId = matcherAppId.group(1)) {
                 ;
             }
 
             String viewId = null;
             Pattern pFormId = Pattern.compile("formId=([-]{0,1}\\d+)");
 
-            for(Matcher matcherFormId = pFormId.matcher(xsl); matcherFormId.find(); viewId = matcherFormId.group(1)) {
+            for (Matcher matcherFormId = pFormId.matcher(xsl); matcherFormId.find(); viewId = matcherFormId.group(1)) {
                 ;
             }
 
             String recordid = null;
             Pattern pRecordid = Pattern.compile("recordid=\\\\\"([-]{0,1}\\d+?)\\\\\"");
 
-            for(Matcher matcherRecordid = pRecordid.matcher(data); matcherRecordid.find(); recordid = matcherRecordid.group(1)) {
+            for (Matcher matcherRecordid = pRecordid.matcher(data); matcherRecordid.find(); recordid = matcherRecordid.group(1)) {
                 ;
             }
 
@@ -571,7 +714,7 @@ public class RikazeController extends BaseController {
                 ColSummary summary = this.getColManager().getColSummaryByFormRecordId(Long.parseLong(recordid));
                 List<CtpContentAll> contentList = this.getCtpMainbodyManager().getContentListByModuleIdAndModuleType(ModuleType.collaboration, summary.getId());
                 if (Strings.isNotEmpty(contentList)) {
-                    CtpContentAll body = (CtpContentAll)contentList.get(0);
+                    CtpContentAll body = (CtpContentAll) contentList.get(0);
                     String htmlContent = MainbodyService.getInstance().getContentHTML(body.getModuleType(), body.getModuleId());
                     htmlContent = this.getNewsIssueManager().replaceFileHtml("fileupload", htmlContent);
                     htmlContent = this.getNewsIssueManager().replaceFileHtml("assdoc", htmlContent);
@@ -584,9 +727,6 @@ public class RikazeController extends BaseController {
             return null;
         }
     }
-
-
-
 
 
 }

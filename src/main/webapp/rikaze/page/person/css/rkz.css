@@ -37,12 +37,12 @@ body{font-family:"微软雅黑", "宋体";}
 
 /*总理照片墙*/
 .photoWall .container{ background:#ecf7ff; padding:8px 33px;}
-.photoWall ul li{ height:130px; border-bottom:1px #ccdce8 solid; padding:16px 0;}
+.photoWall ul li{ height:260px; border-bottom:1px #ccdce8 solid; padding:16px 0;}
 .photoWall ul li.last{ height:26px; border-bottom:none;}
 .photoWall ul li.last .fl{ line-height:32px;text-align:justify; width:70px; padding-top:7px;}
 .photoWall ul li .fl{ font-size:18px; font-weight:bold; padding-top:51px;}
 .photoWall ul li .fr{ width:552px; overflow:hidden}
-.photoWall ul li dl { width:84px; float:left; margin-right:33px;}
+.photoWall ul li dl {float:left; margin-right:33px;}
 .photoWall ul li.zl{ height:163px;}
 .photoWall ul li.zl .fl{ padding-top:66px;}
 .photoWall ul li.zl dl { width:107px;}
@@ -51,7 +51,7 @@ body{font-family:"微软雅黑", "宋体";}
     display:block;
     background:#fff;
     border:1px #e2e2e2 solid; padding:7px;
-    height:90px; overflow:hidden;
+     overflow:hidden;
     /*background: -webkit-linear-gradient(#e6f4ff,#025194); !* Safari 5.1 - 6.0 *!*/
     /*background: -o-linear-gradient(#e6f4ff,#025194); !* Opera 11.1 - 12.0 *!*/
     /*background: -moz-linear-gradient(#e6f4ff,#025194); !* Firefox 3.6 - 15 *!*/

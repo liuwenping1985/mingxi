@@ -32,78 +32,26 @@
 </div>
 <div class="content gwy">
 <div class="padd" style="height:650px !important;padding-top:10px">
-<div class="rightPart" >
-
-
-    <div class="column box box1">
-        <a  target="_blank" title="纪委监委领导">纪委监委领导</a>
-    </div>
-    <!--<div class="gwy-list">-->
-        <!--<div style="width:255px;height:40px;line-height:40px;text-align:center;font-size: 22px;background: #dcdcdd;margin-bottom: 15px;font-family:'FZZHUNYSK','微软雅黑','宋体'">书记 习近平</div>-->
-    <!--</div>-->
-
-
-    <!--政府工作报告-->
-
-
-
-    <div class="column box box1">
-
-        <a  target="_blank" title="办公室">办公室</a>
-
-    </div>
-
-
-    <div class="column box box1">
-        <a  target="_blank" title="组织部">组织部</a>
-    </div>
-    <div class="column box box1">
-
-        <a  target="_blank" title="宣传部">宣传部</a>
-
-    </div>
-    <div class="column box box1">
-
-        <a  target="_blank" title="党风政风监督室">党风政风监督室</a>
-
-    </div>
-    <div class="column box box1">
-
-        <a  target="_blank" title="信访案管室">信访案管室</a>
-
-    </div>
-    <div class="column box box1">
-
-        <a  target="_blank" title="第一纪检监察室">第一纪检监察室</a>
-
-    </div>
-    <div class="column box box1">
-
-        <a  target="_blank" title="审理室">审理室</a>
-
-    </div>
-
-    <!-- <div class="liren govwf_fzzhys"></div>-->
+<div class="rightPart" id="departmentList">
 </div>
 
 <div class="leftPart" >
     <!--国务院结构-->
     <div class="box photoWall">
-        <div class="channel_tab"><span class="noline">单位领导</span></div>
+        <div class="channel_tab"><span class="noline" id="deptNameSpan">单位领导</span></div>
         <div class="container">
-            <ul>
-                <li class="zl">
-                    <div class="fl"><img src="http://www.gov.cn/govweb/xhtml/2016gov/images/gwy/zongli.jpg" width="72" height="17"></div>
+            <ul id="container_ul">
+                <!-- <li class="zl">
+                    
                     <div class="fr">
                         <dl>
                             <dt><a style="cursor:pointer" onclick="showPersonSummary('李克强')" target="_blank"><img src="person/img/gwy_lkq.jpg" width="91" height="115"></a></dt>
                             <dd><a style="cursor:pointer" onclick="showPersonSummary('李克强')" target="_blank">李克强</a></dd>
                         </dl>
                     </div>
-                </li>
-                <li>
-                    <div class="fl"><img src="http://www.gov.cn/govweb/xhtml/2016gov/images/gwy/fuzongli.jpg" width="72" height="17"></div>
-                    <div class="fr marginTop38">
+                </li> -->
+                <!-- <li>
+                   <div class="fr marginTop38">
                         <dl>
                             <dt><a style="cursor:pointer" onclick="showPersonSummary('韩正')" target="_blank"><img src="http://www.gov.cn/govweb/xhtml/2016gov/zongli/hanzheng.jpg" width="68" height="88"></a></dt>
                             <dd><a style="cursor:pointer" onclick="showPersonSummary('韩正')" target="_blank">韩正</a></dd>
@@ -121,9 +69,8 @@
                             <dd><a style="cursor:pointer" onclick="showPersonSummary('刘鹤')" target="_blank">刘鹤</a></dd>
                         </dl>
                     </div>
-                </li>
-                <li>
-                    <div class="fl"><img src="http://www.gov.cn/govweb/xhtml/2016gov/images/gwy/guowuweiyuan.jpg" width="70" height="17"></div>
+                </li> -->
+                <!-- <li>
                     <div class="fr marginTop38">
                         <div class="w999">
                             <dl>
@@ -151,7 +98,7 @@
                 </li>
                 <li class="last">
 
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
@@ -200,6 +147,8 @@
 <script type="text/javascript" src="../res/jquery/jquery.3.3.1.min.js"></script>
 <script type="text/javascript" src="person/plugin/custombox.min.js"></script>
 <script src="person/plugin/custombox.legacy.min.js"></script>
+<script type="text/javascript" src="mock/dept.js"></script>
+<script type="text/javascript" src="mock/person.js"></script>
 <script type="text/javascript" src="js/app-person.js"></script>
 
 </body>

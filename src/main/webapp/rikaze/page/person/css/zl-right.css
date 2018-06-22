@@ -2,8 +2,8 @@
 /* CSS Document */
 
 /*部分左右结构*/
-.leftPart{ float:right;width:713px;display:inline-block;background: #ecf7ff}
-.rightPart{ float:left;width:253px;padding-right:30px;border-right:1px #bababa solid;display:inline-block}
+.leftPart{ float:left;width:73%;min-height:650px;margin-left:32px;display:inline-block;background: #ecf7ff}
+.rightPart{ float:left;width:21%;padding-right:30px;border-right:1px #bababa solid;display:inline-block}
 
 /*总理简历*/
 .column2_right .lyd{ height:110px; padding:18px 33px 10px 20px;}
