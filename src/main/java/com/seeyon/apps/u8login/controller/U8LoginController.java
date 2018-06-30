@@ -16,6 +16,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.portal.section.PendingController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.util.CollectionUtils;
@@ -24,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -72,6 +75,16 @@ public class U8LoginController extends BaseController {
         UIUtils.responseJSON(new HashMap(), response);
         return null;
     }
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public ModelAndView openPending(HttpServletRequest req, HttpServletResponse response){
+        ModelAndView view = new ModelAndView("apps/u8login/redirect");
+        String affid =  req.getParameter("affId");
+        String url =  req.getParameter("url");
+        view.addObject("affid", affid);
+        view.addObject("url", url);
+        return view;
+    }
 
     @NeedlessCheckLogin
     public ModelAndView postAffair(HttpServletRequest request, HttpServletResponse response) {
@@ -79,9 +92,25 @@ public class U8LoginController extends BaseController {
         String param = null;
         try {
             param = UIUtils.getPostDataAsString(request);
+            System.out.println("【param】"+param);
             Map itemsData = (Map) JSON.parse(param);
-            Map context = (Map) itemsData.get("context");
-            U8CtpAffair pData = JSON.parseObject(JSON.toJSONString(context), U8CtpAffair.class);
+            String context = (String)itemsData.get("context");
+            String[] pContext = context.split("\\|\\|");
+
+            U8CtpAffair pData = new U8CtpAffair();
+            pData.setId(pContext[0]);
+            pData.setSubject(pContext[1]);
+            pData.setSenderUserId(pContext[2]);
+            pData.setReceiverUserId(pContext[3]);
+            try {
+                Date dt = format.parse(pContext[5]);
+                pData.setCreateDate(dt.getTime());
+            } catch (ParseException e) {
+                pData.setCreateDate(new Date().getTime());
+            }
+            pData.setLink(pContext[6]);
+            pData.setStatus(Integer.parseInt(pContext[7]));
+                    ;//JSON.parseObject(JSON.toJSONString(context), U8CtpAffair.class);
             String senderName = pData.getSenderUserId();
             if (senderName == null || "".equals(senderName)) {
                 data.put("result", "false");
@@ -122,6 +151,13 @@ public class U8LoginController extends BaseController {
             e.printStackTrace();
             UIUtils.responseJSON(new HashMap(), response);
 
+        }catch(Exception e){
+            e.printStackTrace();
+            data.put("result", "false");
+            data.put("msg", "【---Eeception---】" );
+          //  e.printStackTrace();
+            UIUtils.responseJSON(new HashMap(), response);
+            return null;
         }
         data.put("result", "true");
         data.put("msg", "提交待办成功");
@@ -132,14 +168,18 @@ public class U8LoginController extends BaseController {
     @NeedlessCheckLogin
     public ModelAndView affairDone(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> data = new HashMap<String, String>();
-
+        PendingController pc;
         String param = null;
         try {
             param = UIUtils.getPostDataAsString(request);
+            System.out.println("【param】"+param);
             Map itemsData = (Map) JSON.parse(param);
-            Map context = (Map) itemsData.get("context");
-            U8CtpAffair pData = JSON.parseObject(JSON.toJSONString(context), U8CtpAffair.class);
-           List<CtpAffair>  affairList =  DBAgent.find("from CtpAffair where identifier='U8"+pData.getId()+"'");
+            String context = (String) itemsData.get("context");
+            String[] pContext = context.split("\\|\\|");
+
+            U8CtpAffair pData = new U8CtpAffair();
+            pData.setId(pContext[0]);
+            List<CtpAffair>  affairList =  DBAgent.find("from CtpAffair where identifier='U8"+pData.getId()+"'");
             if(affairList.size()==0){
                 data.put("result", "false");
                 data.put("msg", "找不到待办");
@@ -154,6 +194,13 @@ public class U8LoginController extends BaseController {
             data.put("result", "false");
             data.put("msg", "处理参数错误");
             UIUtils.responseJSON(data, response);
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            data.put("result", "false");
+            data.put("msg", "【---Eeception---】" );
+            //  e.printStackTrace();
+            UIUtils.responseJSON(new HashMap(), response);
             return null;
         }
         data.put("result", "true");

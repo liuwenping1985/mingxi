@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,8 +72,10 @@ public class UIUtils {
 
         return wholeStr;
     }
-
+    static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static void main(String[] args){
-        System.out.println("123");
+
+        String key="123||345||564";
+        System.out.println(format.format(new Date()));
     }
 }
