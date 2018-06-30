@@ -44,10 +44,10 @@ public class UIUtils {
         }
     }
     public static String getPostDataAsString(HttpServletRequest request) throws IOException {
-        String jsonString = request.getParameter("items");
+        String jsonString = request.getParameter("context");
         if(!org.springframework.util.StringUtils.isEmpty(jsonString)){
             Map data = new HashMap();
-            data.put("items",jsonString);
+            data.put("context",jsonString);
             return JSON.toJSONString(data);
         }
         String str, wholeStr = "";
@@ -69,5 +69,9 @@ public class UIUtils {
         }
 
         return wholeStr;
+    }
+
+    public static void main(String[] args){
+        System.out.println("123");
     }
 }

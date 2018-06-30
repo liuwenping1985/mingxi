@@ -6,18 +6,44 @@ import java.util.Map;
  * Created by liuwenping on 2018/6/15.
  */
 public class U8CtpAffair {
+    /**
+     * id-唯一标识
+     */
+    private String id;
 
     private String subject;
-
+    /**
+     * 发送人用户编码（必填）
+     */
     private String senderUserId;
-
+    /**
+     * 接收人用户编码（必填）
+     */
     private String receiverUserId;
-
+    /**
+     * 组织名称（必填）
+     */
     private String orgName;
-
+    /**
+     * 创建时间（时间戳）
+     */
     private Long createDate;
-
+    /**
+     * 跳转地址
+     */
     private String link;
+    /**
+     * 状态
+     */
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public String getSubject() {
         return subject;
@@ -73,5 +99,13 @@ public class U8CtpAffair {
 
     public void setCreateDate(Long createDate) {
         this.createDate = createDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
