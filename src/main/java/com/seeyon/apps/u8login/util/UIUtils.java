@@ -47,7 +47,7 @@ public class UIUtils {
     }
     public static String getPostDataAsString(HttpServletRequest request) throws IOException {
         String jsonString = request.getParameter("context");
-        if(!org.springframework.util.StringUtils.isEmpty(jsonString)){
+        if(jsonString!=null&&jsonString.length()>0){
             Map data = new HashMap();
             data.put("context",jsonString);
             return JSON.toJSONString(data);

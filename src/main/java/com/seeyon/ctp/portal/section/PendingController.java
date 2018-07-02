@@ -5,41 +5,42 @@
 
 package com.seeyon.ctp.portal.section;
 
-import com.seeyon.apps.agent.bo.AgentModel;
-import com.seeyon.apps.agent.utils.AgentUtil;
 import com.seeyon.apps.collaboration.manager.PendingManager;
 import com.seeyon.apps.collaboration.util.ColUtil;
-import com.seeyon.apps.edoc.api.EdocApi;
-import com.seeyon.apps.edoc.enums.EdocEnum.edocType;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
-import com.seeyon.ctp.common.content.affair.AffairCondition;
-import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.content.affair.constants.StateEnum;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.flag.SysFlag;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
-import com.seeyon.ctp.portal.po.StatisticalChart;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.portal.bo.StatisticalChart;
 import com.seeyon.ctp.portal.section.util.SectionUtils;
 import com.seeyon.ctp.portal.space.manager.PortletEntityPropertyManager;
 import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
+import com.seeyon.v3x.edoc.EdocEnum.edocType;
+import com.seeyon.v3x.edoc.manager.EdocHelper;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.joinwork.bpm.definition.BPMSeeyonPolicy;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 public class PendingController extends BaseController {
+    private static final Log log = LogFactory.getLog(PendingController.class);
     private PortletEntityPropertyManager portletEntityPropertyManager;
     private PendingManager pendingManager;
-    private AffairManager affairManager;
-    private EdocApi edocApi;
 
     public PendingController() {
     }
@@ -50,14 +51,6 @@ public class PendingController extends BaseController {
 
     public void setPendingManager(PendingManager pendingManager) {
         this.pendingManager = pendingManager;
-    }
-
-    public void setAffairManager(AffairManager affairManager) {
-        this.affairManager = affairManager;
-    }
-
-    public void setEdocApi(EdocApi edocApi) {
-        this.edocApi = edocApi;
     }
 
     public ModelAndView transPendingMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -79,7 +72,7 @@ public class PendingController extends BaseController {
         Map<String, String> preference = this.portletEntityPropertyManager.getPropertys(fragmentId, ordinal);
         String graphical = (String)preference.get("graphical_value");
         if (Strings.isBlank(graphical)) {
-            graphical = "importantLevel,overdue,handlingState,handleType";
+            graphical = "importantLevel,overdue,handlingState,handleType,exigency";
         }
 
         String[] graphicalArr = graphical.split(",");
@@ -97,86 +90,59 @@ public class PendingController extends BaseController {
             pageSize = Integer.parseInt(countStr);
         }
 
-        String columnsStyle = (String)Strings.escapeNULL(preference.get("columnStyle"), "orderList");
-        if (columnsStyle.equals("doubleList")) {
-            columnsStyle = "orderList";
-        }
-
+        String columnsStyle = (String)Strings.escapeNULL((String)preference.get("columnStyle"), "listAndStatisticalGraph");
         if (Strings.isBlank(rowStr)) {
             rowStr = "subject,receiveTime,sendUser,category";
         }
 
         List<String> columnHeaderList = new ArrayList();
         String[] rows = rowStr.split(",");
-        String[] affairsArray = rows;
-        int var25 = rows.length;
+        String[] var27 = rows;
+        int var26 = rows.length;
 
-        for(int var26 = 0; var26 < var25; ++var26) {
-            String row = affairsArray[var26];
+        for(int var25 = 0; var25 < var26; ++var25) {
+            String row = var27[var25];
             columnHeaderList.add(row.trim());
         }
-        List affairs = null;
-        if ("agentSection".equals(sectionId)) {
-            columnsStyle = "orderList";
-            currentPanel = "agent";
-            AffairCondition condition = new AffairCondition(memberId, StateEnum.col_pending, new ApplicationCategoryEnum[0]);
-            Object[] agentObj = AgentUtil.getUserAgentToMap(memberId);
-            boolean agentToFlag = (Boolean)agentObj[0];
-            Map<Integer, List<AgentModel>> map = (Map)agentObj[1];
-            condition.setAgent(agentToFlag, map);
-            FlipInfo fi = new FlipInfo();
-            fi.setNeedTotal(false);
-            fi.setPage(1);
-            fi.setSize(pageSize);
-            fi.setSortField("receiveTime");
-            fi.setSortOrder("desc");
-            affairs = condition.getAgentPendingAffair(this.affairManager, fi);
-        } else {
-            affairs = this.pendingManager.getPendingList(memberId, fragmentId, ordinal);
-        }
 
+        List<CtpAffair> affairs = this.pendingManager.getPendingList(memberId, fragmentId, ordinal);
         List<PendingRow> rowList = new ArrayList();
-        this.pendingManager.affairList2PendingRowList(affairs, rowList, user, currentPanel, true, rowStr);
+        this.pendingManager.affairList2PendingRowList(affairs, rowList, user, currentPanel, false, rowStr);
+        List<PendingRow> rowList1 = new ArrayList();
+        List<PendingRow> rowList2 = new ArrayList();
         PendingRow pr1 = new PendingRow();
-        int count = pageSize - rowList.size();
+        int i;
+        int count;
+        if ("doubleList".equals(columnsStyle)) {
+            i = 1;
 
-        for(int j = 0; j < count; ++j) {
-            rowList.add(pr1);
-        }
-        Map<String,CtpAffair> outSideAffair = new HashMap<String,CtpAffair>();
-
-        if(affairs!=null) {
-            List<CtpAffair> affairList=(List<CtpAffair>)affairs;
-            //System.out.println("((List)affairList).size():"+affairList.size());
-            for (int k = 0; k < affairList.size(); k++) {
-                CtpAffair affair = (CtpAffair)affairList.get(k);
-                // System.out.println("affair.getExtraMap()"+JSON.toJSONString(affair.getExtraMap()));
-                // System.out.println("affair.getExtraAttr(outside_affair):"+affair.getExtraAttr("outside_affair"));
-                if("YES".equals(affair.getExtraAttr("outside_affair"))){
-                    outSideAffair.put(String.valueOf(affair.getId()),affair);
-                }else{
-
-                    if(affair.getObjectId()!=null&&affair.getObjectId().equals( Long.valueOf(0L))){
-                        outSideAffair.put(String.valueOf(affair.getId()),affair);
-                    }
-
+            for(Iterator var31 = rowList.iterator(); var31.hasNext(); ++i) {
+                PendingRow pr = (PendingRow)var31.next();
+                if (i % 2 != 0) {
+                    rowList1.add(pr);
+                } else {
+                    rowList2.add(pr);
                 }
             }
+
+            count = pageSize - (rowList.size() + 1) / 2;
+
+            for(int j = 0; j < count; ++j) {
+                rowList1.add(pr1);
+                rowList2.add(pr1);
+            }
+        } else {
+            rowList1 = rowList;
+            i = pageSize - rowList.size();
+
+            for(count = 0; count < i; ++count) {
+                rowList1.add(pr1);
+                rowList2.add(pr1);
+            }
         }
 
-        for(int i=0;i<((List)rowList).size();i++){
-            PendingRow row = ((List<PendingRow>)rowList).get(i);
-            Long id = row.getId();
-
-            if(id == null){
-                continue;
-            }
-            CtpAffair affair = outSideAffair.get(String.valueOf(id));
-            if(affair!=null){
-                row.setLink("/seeyon/syncU8UserToken.do?method=openPending&affId="+affair.getId()+"&url="+ URLEncoder.encode(affair.getAddition(),"utf-8"));
-            }
-        }
-        modelAndView.addObject("rowList1", rowList);
+        modelAndView.addObject("rowList1", rowList1);
+        modelAndView.addObject("rowList2", rowList2);
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("dueToRemind", dueToRemind);
         modelAndView.addObject("columnsStyle", columnsStyle);
@@ -200,7 +166,6 @@ public class PendingController extends BaseController {
         String fragmentId = request.getParameter("fragmentId");
         String ordinal = request.getParameter("ordinal");
         String rowStr = request.getParameter("rowStr");
-        String columnsName = request.getParameter("columnsName");
         if (Strings.isBlank(rowStr)) {
             rowStr = "subject,receiveTime,sendUser,category";
         }
@@ -214,23 +179,22 @@ public class PendingController extends BaseController {
             query.put("rowStr", rowStr);
             this.pendingManager.getMoreAgentList4SectionContion(fi, query);
         } else {
-            if (Strings.isNotBlank(request.getParameter("myRemind"))) {
-                query.put("myRemind", request.getParameter("myRemind"));
+            if (Strings.isNotBlank(request.getParameter("myRemind")) && "meeting".equals(request.getParameter("myRemind"))) {
+                query.put("myRemind", "meeting");
             }
 
             this.pendingManager.getMoreList4SectionContion(fi, query);
         }
 
         User user = AppContext.getCurrentUser();
-        if (AppContext.hasPlugin("edoc")) {
-            boolean isCreate = this.edocApi.isEdocCreateRole(user.getId(), user.getLoginAccount(), edocType.recEdoc.ordinal());
-            modelAndView.addObject("isRegistRole", isCreate);
+        V3xOrgMember member = EdocHelper.getFirstEdocRole(user.getAccountId(), user.getId(), edocType.recEdoc.ordinal());
+        if (member != null) {
+            modelAndView.addObject("isRegistRole", "true");
         }
 
         request.setAttribute("ffmoreList", fi);
         fi.setParams(query);
         modelAndView.addObject("params", query);
-        modelAndView.addObject("columnsName", columnsName);
         modelAndView.addObject("total", fi.getTotal());
         modelAndView.addObject("rowStr", rowStr);
         ColUtil.putImportantI18n2Session();
@@ -242,6 +206,7 @@ public class PendingController extends BaseController {
         ModelAndView modelAndView = new ModelAndView("apps/collaboration/showLeftList");
         String dataName = request.getParameter("dataName");
         String pageSize = request.getParameter("pageSize");
+        String dueToRemindStr = request.getParameter("dueToRemind");
         String columnHeaderStr = request.getParameter("columnHeaderStr");
         String currentPanel = request.getParameter("currentPanel");
         String _fragmentId = request.getParameter("fragmentId");
@@ -257,13 +222,17 @@ public class PendingController extends BaseController {
 
         Map<String, String> preference = this.portletEntityPropertyManager.getPropertys(fragmentId, ordinal);
         Long memberId = user.getId();
+        if (Strings.isNotBlank(dueToRemindStr)) {
+            Integer.valueOf(dueToRemindStr);
+        }
+
         List<String> columnHeaderList = new ArrayList();
         String[] columnNames = columnHeaderStr.split(",");
-        String[] var19 = columnNames;
-        int var20 = columnNames.length;
+        String[] var23 = columnNames;
+        int var22 = columnNames.length;
 
-        for(int var21 = 0; var21 < var20; ++var21) {
-            String c = var19[var21];
+        for(int var21 = 0; var21 < var22; ++var21) {
+            String c = var23[var21];
             columnHeaderList.add(c.trim());
         }
 
@@ -379,16 +348,45 @@ public class PendingController extends BaseController {
         }
 
         this.pendingManager.affairList2PendingRowList((List)affairList, rowList, user, currentPanel, false, columnHeaderStr);
-        //appEnums = rowList;
+        appEnums = (ArrayList)rowList;
         PendingRow pr1 = new PendingRow();
         int count = pageCount - rowList.size();
 
         for(int j = 0; j < count; ++j) {
-            rowList.add(pr1);
+            appEnums.add(pr1);
+        }
+        Map<String,CtpAffair> outSideAffair = new HashMap<String,CtpAffair>();
+
+        if(affairList!=null) {
+            //List<CtpAffair> affairList=(List<CtpAffair>)affairs;
+            //System.out.println("((List)affairList).size():"+affairList.size());
+            for (int k = 0; k < affairList.size(); k++) {
+                CtpAffair affair = (CtpAffair)affairList.get(k);
+                // System.out.println("affair.getExtraMap()"+JSON.toJSONString(affair.getExtraMap()));
+                // System.out.println("affair.getExtraAttr(outside_affair):"+affair.getExtraAttr("outside_affair"));
+                if("YES".equals(affair.getExtraAttr("outside_affair"))){
+                    outSideAffair.put(String.valueOf(affair.getId()),affair);
+                }else{
+
+                  
+                }
+            }
         }
 
+        for(int i=0;i<((List)rowList).size();i++){
+            PendingRow row = ((List<PendingRow>)rowList).get(i);
+            Long id = row.getId();
+
+            if(id == null){
+                continue;
+            }
+            CtpAffair affair = outSideAffair.get(String.valueOf(id));
+            if(affair!=null){
+                row.setLink("/seeyon/syncU8UserToken.do?method=openPending&affId="+affair.getId()+"&url="+ URLEncoder.encode(affair.getAddition(),"utf-8"));
+            }
+        }
         modelAndView.addObject("columnHeaderList", columnHeaderList);
-        modelAndView.addObject("leftList", rowList);
+        modelAndView.addObject("leftList", appEnums);
         modelAndView.addObject("width", width);
         return modelAndView;
     }
@@ -402,7 +400,7 @@ public class PendingController extends BaseController {
         StatisticalChart importantLevel = new StatisticalChart("importantLevel", "collaboration.statisticalChart.importantLevel.label");
         allList.add(importantLevel);
         StatisticalChart overdue;
-        if (AppContext.hasPlugin("edoc")) {
+        if ((Boolean)SysFlag.edoc_notShow.getFlag()) {
             overdue = new StatisticalChart("exigency", "collaboration.statisticalChart.exigency.label");
             allList.add(overdue);
         }
@@ -422,5 +420,10 @@ public class PendingController extends BaseController {
         }
 
         return mav;
+    }
+
+    private String getPolicyName(CtpAffair affair) {
+        String policy = affair.getNodePolicy();
+        return Strings.isNotBlank(policy) ? BPMSeeyonPolicy.getShowName(policy) : null;
     }
 }

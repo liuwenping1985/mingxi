@@ -1,20 +1,20 @@
 package com.seeyon.apps.u8login.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.m3.app.vo.AppInfoVO;
+import com.seeyon.apps.collaboration.manager.PendingManagerImpl;
 import com.seeyon.apps.taskmanage.enums.ImportantLevelEnums;
 import com.seeyon.apps.u8login.po.MemberU8Info;
+import com.seeyon.apps.u8login.po.OAMember;
 import com.seeyon.apps.u8login.po.U8CtpAffair;
 import com.seeyon.apps.u8login.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
-import com.seeyon.ctp.common.content.affair.AffairData;
+import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.content.affair.constants.StateEnum;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
-import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.portal.section.PendingController;
 import com.seeyon.ctp.util.DBAgent;
@@ -53,7 +53,6 @@ public class U8LoginController extends BaseController {
             password = "";
 
         }
-
         List<MemberU8Info> list = DBAgent.find("from MemberU8Info where userCode='" + userCode + "'");
         if (list == null || list.isEmpty()) {
             MemberU8Info info = new MemberU8Info();
@@ -126,23 +125,34 @@ public class U8LoginController extends BaseController {
                 UIUtils.responseJSON(data, response);
                 return null;
             }
-            List<V3xOrgMember> mems = DBAgent.find("from V3xOrgMember where code='" + senderName + "' or code='"+receiverName+"'");
-            if(mems == null||mems.size()!=2){
+
+
+            List<OAMember> mems = DBAgent.find("from OAMember where code='" + senderName + "' or code='"+receiverName+"'");
+
+            if(mems == null||mems.size()==0) {
                 data.put("result", "false");
-                data.put("msg", "接收者或者发送者无法找到A8用户数据，请确认数据是否正确");
+                data.put("msg", "【DB-0】接收者或者发送者无法找到A8用户数据，请确认数据是否正确");
                 UIUtils.responseJSON(data, response);
                 return null;
             }
-            V3xOrgMember sender = null;
-            V3xOrgMember receiver = null;
-            V3xOrgMember mem =   mems.get(0);
-            if(receiverName.equals(mem.getCode())){
-                receiver = mem;
-                sender = mems.get(1);
-            }else{
-                sender = mem;
-                receiver = mems.get(1);
+            OAMember sender = null;
+            OAMember receiver = null;
+            for(OAMember oamember:mems){
+                if(oamember.getIsDelete()==1){
+                    continue;
+                }
+                if(receiverName.equals(oamember.getCode())){
+                    receiver = oamember;
+                    break;
+                }
             }
+            if(receiver == null) {
+                data.put("result", "false");
+                data.put("msg", "接收者无法找到A8用户数据，请确认数据是否正确");
+                UIUtils.responseJSON(data, response);
+                return null;
+            }
+            sender = receiver;
             CtpAffair affairItem =  genAffair(pData,sender,receiver);
             DBAgent.save(affairItem);
         } catch (IOException e) {
@@ -179,7 +189,7 @@ public class U8LoginController extends BaseController {
 
             U8CtpAffair pData = new U8CtpAffair();
             pData.setId(pContext[0]);
-            List<CtpAffair>  affairList =  DBAgent.find("from CtpAffair where identifier='U8"+pData.getId()+"'");
+            List<CtpAffair>  affairList =  DBAgent.find("from CtpAffair where identifier='U8+"+pData.getId()+"'");
             if(affairList.size()==0){
                 data.put("result", "false");
                 data.put("msg", "找不到待办");
@@ -295,15 +305,15 @@ public class U8LoginController extends BaseController {
 
         return null;
     }
-    private CtpAffair genAffair(U8CtpAffair data,V3xOrgMember sender,V3xOrgMember receiver) {
+    private CtpAffair genAffair(U8CtpAffair data,OAMember sender,OAMember receiver) {
         CtpAffair affair = new CtpAffair();
         affair.setImportantLevel(ImportantLevelEnums.general.getKey());
         affair.setState(StateEnum.col_pending.key());
-        Long accountId =sender.getOrgAccountId();
+        Long accountId =sender.getAccountId();
         if (accountId != null) {
             affair.setOrgAccountId(accountId);
         }
-        affair.setApp(AppInfoVO.AppTypeEnums.integration_remote_url.ordinal());
+        affair.setApp(ApplicationCategoryEnum.collaboration.ordinal());
         affair.setAddition(data.getLink());
 
         affair.putExtraAttr("linkAddress", data.getLink());
@@ -338,11 +348,12 @@ public class U8LoginController extends BaseController {
         CtpAffair affair = new CtpAffair();
         affair.setImportantLevel(ImportantLevelEnums.general.getKey());
         affair.setState(StateEnum.col_pending.key());
+
         Long accountId = orgAccountId.get(data.getOrgName());
         if (accountId != null) {
             affair.setOrgAccountId(accountId);
         }
-        affair.setApp(AppInfoVO.AppTypeEnums.integration_remote_url.ordinal());
+       // affair.setApp(AppInfoVO.AppTypeEnums.integration_remote_url.ordinal());
         affair.setAddition(data.getLink());
 
         affair.putExtraAttr("linkAddress", data.getLink());
@@ -362,7 +373,7 @@ public class U8LoginController extends BaseController {
         affair.setIdentifier("u8000000000000000000");
 
         affair.setNodePolicy("collaboration");
-        affair.setBodyType("10");
+        affair.setBodyType("20");
         affair.setTrack(0);
         affair.setDealTermType(0);
         affair.setDealTermUserid(-1L);
