@@ -224,7 +224,6 @@ public class RikazeController extends BaseController {
         int count = pendingManager.getPendingCount(memberId, fgId, ord);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("count", count);
-        BulDataController bdc;
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
