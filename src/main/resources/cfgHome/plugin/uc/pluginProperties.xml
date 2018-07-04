@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<uc>
+		<enable mark="{boolean} {VE}" desc="是否启用致信插件。true：启用;false：不启用。">true</enable>
+		
+	</uc>
+</ctpConfig>

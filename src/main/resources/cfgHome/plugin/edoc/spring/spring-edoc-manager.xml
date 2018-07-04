@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="edocElementManager" class="com.seeyon.v3x.edoc.manager.EdocElementManagerImpl">		
+	</bean>
+	
+	<bean id="edocElementCacheManager" class="com.seeyon.v3x.edoc.manager.EdocElementCacheManager" init-method="initialize">		
+	</bean>
+	
+	<bean id="edocMarkAclManager" class="com.seeyon.v3x.edoc.manager.EdocMarkAclManagerImpl">
+	</bean>
+<!-- 
+	<bean id="processLogManager" class="com.seeyon.v3x.common.processlog.manager.ProcessLogManagerImpl">
+	</bean>
+ -->
+	<bean id="edocInnerMarkDefinitionManager" class="com.seeyon.v3x.edoc.manager.EdocInnerMarkDefinitionManagerImpl">
+	</bean>
+	
+	<bean id="edocDocTemplateAclManager" class="com.seeyon.v3x.edoc.manager.EdocDocTemplateAclManagerImpl">
+	</bean>	
+	
+	<bean id="edocMarkCategoryManager" class="com.seeyon.v3x.edoc.manager.EdocMarkCategoryManagerImpl">
+	</bean>
+	
+	
+	<bean id="edocMarkDefinitionManager"  class="com.seeyon.v3x.edoc.manager.EdocMarkDefinitionManagerImpl">
+	</bean>		
+	
+	<bean id="edocMarkHistoryManager" class="com.seeyon.v3x.edoc.manager.EdocMarkHistoryManagerImpl">
+	</bean>
+			
+	<bean id="edocMarksManager" class="com.seeyon.v3x.edoc.manager.EdocMarkManagerImpl">
+	</bean>
+	
+	<bean id="edocFormManager" class="com.seeyon.v3x.edoc.manager.EdocFormManagerImpl">
+	</bean>
+	<bean id="edocSummaryManager" class="com.seeyon.v3x.edoc.manager.EdocSummaryManagerImpl">
+	</bean>
+	
+	<bean id="edocSuperviseManager"  class="com.seeyon.v3x.edoc.manager.EdocSuperviseManagerImpl">	
+	<property name="edocSummaryDao" ref="edocSummaryDao"></property>	
+	<property name="orgManager" ref="orgManager"></property>
+	</bean>	
+	
+	<bean id="edocManager" class="com.seeyon.v3x.edoc.manager.EdocManagerImpl">
+	</bean>
+	
+	<bean id="edocTraceWorkflowManager" class="com.seeyon.v3x.edoc.manager.EdocTraceWorkflowManagerImpl">
+	</bean>
+	
+	<bean id="edocManagerFacade" class="com.seeyon.v3x.edoc.manager.EdocManagerFacadeImpl">
+	</bean>
+	
+	<bean id="edocPermissionControlManager" class="com.seeyon.v3x.edoc.manager.EdocPermissionControlManagerImpl">
+	</bean>
+	
+	<bean id="edocObjTeamManager" class="com.seeyon.v3x.edoc.manager.EdocObjTeamManagerImpl" init-method="initialize">
+	</bean>
+	
+	<!--有待确认点TODO
+	<bean id="workflowEventListenerBeanEdoc" class="com.seeyon.v3x.edoc.workflow.event.WorkflowEventListener">
+	</bean>
+	<bean id="workflowEventListenerEdoc" parent="baseTxService" lazy-init="false" singleton="true">
+		<property name="target" ref="workflowEventListenerBeanEdoc" />
+	</bean>	
+	  -->
+	<bean id="edocDocTemplateManager" class="com.seeyon.v3x.edoc.manager.EdocDocTemplateManagerImpl">
+	</bean>	
+
+	<bean id="edocElementFlowPermAclManager" class="com.seeyon.v3x.edoc.manager.EdocElementFlowPermAclManagerImpl">
+	</bean>
+
+	<bean id="edocStatManager" class="com.seeyon.v3x.edoc.manager.EdocStatManagerImpl">
+	</bean>
+
+	<bean id="edocStatNewManager" class="com.seeyon.v3x.edoc.manager.EdocStatNewManagerImpl">
+	</bean>
+
+    <bean id="edocCustomerTypeManager" class="com.seeyon.v3x.edoc.manager.EdocCustomerTypeManagerImpl">
+    </bean>
+    
+    <bean id="sendContentImpl" class="com.seeyon.v3x.edoc.manager.statistics.SendContentImpl">
+    </bean>
+    
+    <bean id="workflowNodeImpl"
+        class="com.seeyon.v3x.edoc.manager.statistics.WorkflowNodeImpl">
+    </bean> 
+
+    <bean id="dealSituationImpl"
+        class="com.seeyon.v3x.edoc.manager.statistics.DealSituationImpl">   
+    </bean>
+
+    <bean id="edocCategoryManager" class="com.seeyon.v3x.edoc.manager.EdocCategoryManagerImpl">
+    </bean>
+    
+    <bean id="xmlConverter" class="com.seeyon.v3x.edoc.util.XMLConverter">
+    </bean>
+    
+<!-- 
+    <bean id="flowPermManager" class="com.seeyon.v3x.flowperm.manager.FlowPermManagerImpl">
+    </bean> 
+ -->
+	<bean id="edocSignHandler" class="com.seeyon.v3x.edoc.event.EdocSignHandler">		
+	</bean>	
+
+     <bean id="edocSummaryRelationManager" class="com.seeyon.v3x.edoc.manager.EdocSummaryRelationManagerImpl">
+				<property name="edocSummaryRelationDao" ref="edocSummaryRelationDao" />
+	</bean>
+
+	<bean id="edocSummaryRelationDao"
+		class="com.seeyon.v3x.edoc.dao.EdocSummaryRelationDao">
+	</bean>	
+	<!-- 主题词 -->
+	<bean id="edocKeyWordManager" class="com.seeyon.v3x.edoc.manager.EdocKeyWordManagerImpl" init-method="initialize">
+	  <property name="edocKeyWordDao" ref="edocKeyWordDao"></property>
+	</bean>
+
+	<!-- 收文登陆记Manager -->
+	<bean id="edocRegisterManager" class="com.seeyon.v3x.edoc.manager.EdocRegisterManagerImpl">
+				<property name="edocRegisterDao" ref="edocRegisterDao" />
+				<property name="registerBodyDao" ref="registerBodyDao" />
+	</bean>
+		<bean id="edocRegisterDao" class="com.seeyon.v3x.edoc.dao.EdocRegisterDao">
+	</bean>
+	
+	<bean id="registerBodyDao" class="com.seeyon.v3x.edoc.dao.RegisterBodyDao">
+	</bean>	
+
+    <bean id="edocMarkManager"
+        class="com.seeyon.v3x.edoc.manager.EdocMarkManagerImpl">
+    </bean>
+    
+	<bean id="exchangeAccountManager" class="com.seeyon.v3x.exchange.manager.ExchangeAccountManagerImpl" init-method="initialize">
+	<property name="exchangeAccountDao" ref="exchangeAccountDao"></property>
+	</bean>
+	<bean id="edocExchangeManager" class="com.seeyon.v3x.exchange.manager.EdocExchangeManagerImpl">
+     	<property name="edocSendDetailDao" ref="edocSendDetailDao" />
+	</bean>	
+	
+	<bean id="recieveEdocManager" class="com.seeyon.v3x.exchange.manager.RecieveEdocManagerImpl">
+    </bean>
+    
+    <bean id="sendEdocManager" class="com.seeyon.v3x.exchange.manager.SendEdocManagerImpl">
+    </bean>
+    
+    <bean id="registerBodyManager" class="com.seeyon.v3x.edoc.manager.RegisterBodyManagerImpl">
+    </bean>
+    
+    
+    <!-- 公文流程回调监听 -->
+     <bean id="edocWorkflowEventListener" class="com.seeyon.v3x.edoc.workflow.event.EdocWorkflowEventListener"></bean>
+   
+    <bean id="edocOrganizationEventListener" class="com.seeyon.v3x.edoc.listener.EdocOrganizationEventListener">
+	</bean>
+	<bean id="edocPluginChangeListener" class="com.seeyon.v3x.edoc.listener.EdocPluginChangeListener"></bean>
+	
+	<!-- zcdb -->
+	<bean id="edocZcdbManager" class="com.seeyon.v3x.edoc.manager.EdocZcdbManagerImpl">
+	 <property name="edocZcdbDao" ref="edocZcdbDao"></property>
+	</bean>
+	
+	<!-- 选人界面页签 -->
+	<bean id="SelectPeoplePanel4ExchangeAccount" class="com.seeyon.v3x.exchange.manager.SelectPeoplePanel4ExchangeAccountImpl"></bean>
+	<bean id="SelectPeoplePanel4OrgTeam" class="com.seeyon.v3x.edoc.manager.SelectPeoplePanel4OrgTeamImpl"></bean>
+
+	<bean id="edocFilingEnableImpl" class="com.seeyon.v3x.edoc.manager.EdocFilingEnableImpl"></bean>
+
+	<!-- 离职办理 -->
+	<bean id="MemberLeaveDataInterfaceEdoc" class="com.seeyon.v3x.edoc.manager.MemberLeaveDataInterfaceEdocImpl"></bean>
+	<bean id="edocSuperviseHandler" class="com.seeyon.v3x.edoc.manager.EdocSuperviseHandler"></bean>
+    <bean id="edocHandlerInterface" class="com.seeyon.v3x.edoc.manager.EdocHandlerElement"></bean>
+    
+    <bean id="edocWorkflowManageHandler" class="com.seeyon.v3x.edoc.listener.EdocWorkflowManageHandler"></bean>
+    
+    <bean id="edocArchiveModifyLogManager" class="com.seeyon.v3x.edoc.manager.EdocArchiveModifyLogManagerImpl">
+    </bean>
+    <bean id="edocIndexEnable" class="com.seeyon.v3x.edoc.manager.EdocIndexEnableImpl">
+    </bean>
+    
+    <bean id="edocWorkManageManager" class="com.seeyon.v3x.edoc.manager.EdocWorkManageManagerImpl">
+    </bean>
+    <bean id="edocMessagerManager" class="com.seeyon.v3x.edoc.manager.EdocMessagerManagerImpl"></bean>
+    
+    	
+	<!-- 暂存待办提醒任务bean -->
+	<bean id="edocRemindQuartzJob" class="com.seeyon.v3x.edoc.manager.EdocRemind"   />
+	
+	<!-- 个人事务消息提醒设置 -->
+	 <bean id="userMessageFilterEdoc" class="com.seeyon.v3x.edoc.usermessage.filter.UserMessageFilterImplEdoc"></bean>
+	 
+	 <bean id="edocListManager" class="com.seeyon.v3x.edoc.manager.EdocListManagerImpl"></bean>
+	 
+	 <!-- 组织模型删除收发员和部门收发员角色时校验 -->
+	 <bean id="EdocCheckPrivDelete" class="com.seeyon.v3x.edoc.manager.EdocCheckPrivDelete"></bean>
+	 <!-- 集群调用的Handler -->
+    <bean id="edocElementHandler" class="com.seeyon.ctp.cluster.listener.EdocElementHandler">
+    </bean>
+    
+    <bean id="edocExchangeTurnRecManager" class="com.seeyon.v3x.exchange.manager.EdocExchangeTurnRecManagerImpl">
+    	<property name="edocExchangeTurnRecDao" ref="edocExchangeTurnRecDao"/>
+    </bean>
+    
+    <bean id="edocSummaryQuickManager" class="com.seeyon.v3x.edoc.manager.EdocSummaryQuickManagerImpl">
+    	<property name="edocSummaryQuickDao" ref="edocSummaryQuickDao"/>
+    </bean>
+    
+    <bean id="edocPortlet" class="com.seeyon.ctp.portal.portlet.EdocPortlet"></bean>
+    
+    <bean id="deskEdocProcessManagerImpl" class="com.seeyon.ctp.portal.portlet.manager.DeskEdocProcessManagerImpl">
+		<property name="app" value="edocSend,edocRec,edocSign,exSend,exSign,edocRegister,edocRecDistribute"></property>
+	</bean>
+	
+    <bean id="edocSummaryExtendManager" class="com.seeyon.v3x.edoc.manager.EdocSummaryExtendManagerImpl"></bean>
+    <bean id="edocMarkReserveManager" class="com.seeyon.v3x.edoc.manager.EdocMarkReserveManagerImpl"></bean>
+    <bean id="edocMarkReserveCacheManager" class="com.seeyon.v3x.edoc.manager.EdocMarkReserveCacheManager" init-method="init"></bean>
+
+	<bean id="edocArchiveSyncImpl" class="com.seeyon.v3x.edoc.plugin.archive.manager.impl.EdocArchiveSyncImpl"></bean>
+	<bean id="workflowNodeOvertimeEdocHandler" class="com.seeyon.v3x.edoc.quartz.WorkflowNodeOvertimeEdocHandler" ></bean>
+	<bean id="workflowProcessOvertimEdoceHandler" class="com.seeyon.v3x.edoc.quartz.WorkflowProcessOvertimEdoceHandler" ></bean>
+	<bean id="edoc4WFAnalysisManager" class="com.seeyon.v3x.edoc.manager.Edoc4WFAnalysisManagerImpl"></bean>
+	
+	<bean id="batchEdocManager" class="com.seeyon.v3x.edoc.manager.BatchEdocHandler" />
+	
+	<bean id="edocH5Manager" class="com.seeyon.v3x.edoc.manager.EdocH5ManagerImpl" />
+	
+	<bean id="edocDetaillogHandler" class="com.seeyon.v3x.edoc.manager.EdocDetaillogHandler"></bean>
+	
+	<bean id="edocAppExtendManager"
+        class="com.seeyon.v3x.edoc.listener.EdocAppExtendManagerImpl">
+    </bean>
+    
+	<bean id="edocResource" class="com.seeyon.ctp.rest.resources.EdocResource"></bean>
+	
+	<bean id="edocLockManager" class="com.seeyon.v3x.edoc.manager.EdocLockManagerImpl"></bean>
+	
+</beans>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>neigou</id>
+	<name>内购福利插件</name>
+	<category>12111</category>
+	<initializer>com.seeyon.apps.neigou.NeigouPluginDefinition</initializer>
+</plugin>

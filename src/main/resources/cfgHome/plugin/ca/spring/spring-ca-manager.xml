@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="caAccountManager" class="com.seeyon.v3x.ca.caaccount.manager.CAAccountManagerImpl" />
+	<bean id="caManageriTrus" class="com.seeyon.v3x.ca.impl.IcaManager4iTrus" init-method="init">
+		<property name="CVMConfigFile" value="/plugin/ca/config/cvm.xml" />
+	</bean>
+	<bean id="caManagerJit" class="com.seeyon.v3x.ca.impl.IcaManager4Jit" />
+</beans>

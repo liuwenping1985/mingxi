@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 考勤签到持久层 -->
+	<bean id="attendanceDao" class="com.seeyon.apps.attendance.dao.AttendanceDaoImpl"/>
+	<!-- 考勤调度持久层 -->
+	<bean id="attendanceCollectorDao" class="com.seeyon.apps.attendance.dao.AttendanceCollectorDaoImpl"></bean>
+	<!-- lbs度持久层 -->
+	<bean id="attendancelbsMapDao" class="com.seeyon.apps.attendance.dao.AttendanceLbsMapDaoImpl"></bean>
+	
+	<bean id="attendanceHistoryDao" class="com.seeyon.apps.attendance.dao.AttendanceHistoryDaoImpl"></bean>
+</beans>

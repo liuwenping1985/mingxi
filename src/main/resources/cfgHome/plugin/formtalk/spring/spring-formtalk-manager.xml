@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+
+	<bean id="formtalkMapperManager" class="com.seeyon.apps.formtalk.manager.FormtalkMapperManagerImpl"></bean>
+	<bean id="formFactory4ft" class="com.seeyon.apps.formtalk.form.FormFactoryImpl4ft"></bean>
+	<bean id="flowFactory4ft" class="com.seeyon.apps.formtalk.form.FlowFactoryImpl4ft"></bean>
+
+	<bean id="formtalkEventManager" class="com.seeyon.apps.formtalk.event.FormtalkEventManagerImpl"></bean>
+
+<!-- qrcode -->
+	<bean id="formtalkQRCodeDataAfterSubmitListener" class="com.seeyon.apps.formtalk.event.qrcode.FormtalkQRCodeDataAfterSubmitListener"></bean>
+	<!--<bean id="formtalkQRCodeTriggerAction" class="com.seeyon.apps.formtalk.event.qrcode.FormtalkQRCodeTriggerAction"></bean>-->
+	<!--<bean id="formtalkQRCodeTriggerDesign" class="com.seeyon.apps.formtalk.event.qrcode.design.FormtalkQRCodeTriggerDesign"></bean>-->
+	<bean id="formtalkQRCodeCollaborationEvent" class="com.seeyon.apps.formtalk.event.qrcode.FormtalkQRCodeCollaborationEvent"></bean>
+	<!--<bean id="formtalkQRCodeEventListenerRunTask" class="com.seeyon.apps.formtalk.event.qrcode.FormtalkQRCodeEventListenerRunTask"></bean>-->
+<!--transfer-->
+	<bean id="formtalkTransferTriggerAction" class="com.seeyon.apps.formtalk.event.transfer.FormtalkTransferTriggerAction"></bean>  
+	<bean id="formtalkTransferTriggerDesign" class="com.seeyon.apps.formtalk.event.transfer.design.FormtalkTransferTriggerDesign"></bean> 
+	<bean id="formtalkTransferCollaborationEvent" class="com.seeyon.apps.formtalk.event.transfer.FormtalkTransferCollaborationEvent"></bean>
+</beans>

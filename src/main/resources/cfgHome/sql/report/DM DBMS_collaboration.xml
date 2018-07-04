@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<FlowSentAndCompletedStatistics>
+			<main>
+				<sql1>
+                <![CDATA[
+                SELECT * FROM (
+				SELECT  (CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) as "时间",
+                _member.id,
+                COUNT(affair.id) as "协同"  
+                FROM Ctp_Affair affair INNER JOIN Col_Summary col ON affair.object_Id=col.id  
+                INNER JOIN Org_Member _member ON affair.member_Id=_member.id AND _member.id=:user  
+                WHERE affair.app=1 AND affair.state in(:state) AND affair.BODY_TYPE!='20'
+                ]]>
+				</sql1>
+				<sql2>
+                <![CDATA[
+                AND col.templete_Id IS NULL
+                ]]>
+				</sql2>
+				<sql3>
+                <![CDATA[
+                AND col.templete_Id IS NOT NULL
+                ]]>
+				</sql3>
+				<sql4>
+                <![CDATA[
+                AND (CASE WHEN 2=affair.state AND :startTime<=TO_CHAR(affair.CREATE_DATE,'yyyy-mm') AND TO_CHAR(affair.CREATE_DATE,'yyyy-mm')<=:endTime THEN 1 
+                WHEN 4=affair.state AND :startTime<=TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') AND TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm')<=:endTime THEN 1 ELSE 0 END)=1 
+                GROUP BY (CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END),_member.id ) a
+				LEFT JOIN ( 
+                ]]>
+				</sql4>
+				<sql5>
+                <![CDATA[
+                SELECT * FROM (
+				SELECT  _member.id, (CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) as "时间",
+                COUNT(affair.id) as "公文" 
+                FROM Ctp_Affair affair INNER JOIN edoc_summary col ON affair.object_Id=col.id  
+                INNER JOIN Org_Member _member ON affair.member_Id=_member.id AND _member.id=:user  
+                WHERE affair.app in(19,20,21) AND affair.state in(:state) 
+                ]]>
+				</sql5>
+				<sql6>
+				<![CDATA[
+				SELECT m.ID,ROUND(SUM(rpt.NUM)/:avgNum,0) as "部门平均值",rpt.query_Time as "时间" FROM org_member m INNER JOIN rpt_send_pending rpt 
+				ON m.id=:user AND m.ORG_DEPARTMENT_ID=rpt.DEPARTMENT_ID
+				AND rpt.state in (:state)
+				]]>
+				</sql6>
+				<sql7>
+				<![CDATA[
+				WHERE rpt.QUERY_TIME>=:start_time AND rpt.QUERY_TIME<=:end_time
+				GROUP BY m.ID,rpt.QUERY_TIME) b
+				ON b.id=a.id and a.时间=b.时间
+				ORDER BY a.时间
+				]]>
+				</sql7>
+				<sql8>
+				<![CDATA[
+				AND rpt.app=1 
+				]]>
+				</sql8>
+				<sql9>
+				<![CDATA[
+				AND rpt.app=2 
+				]]>
+				</sql9>
+				<sql10>
+				<![CDATA[
+				AND rpt.IS_TEMPLATE=1
+				]]>
+				</sql10>
+				<sql11>
+				<![CDATA[
+				AND rpt.IS_TEMPLATE=0
+				]]>
+				</sql11>
+			</main>
+			<avg>
+				<sql1>
+                <![CDATA[
+                SELECT (CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) as "时间",
+                COUNT(affair.id) as "部门平均值"  
+                FROM Ctp_Affair affair INNER JOIN Col_Summary col ON affair.object_Id=col.id  
+                INNER JOIN Org_Member _member ON affair.member_Id=_member.id 
+                AND _member.org_Department_Id = :departmentId  
+                WHERE affair.app=1 AND affair.state=:state AND affair.BODY_TYPE!='20'
+                ]]>
+				</sql1>
+				<sql2>
+                <![CDATA[
+                AND col.templete_Id IS NULL
+                ]]>
+				</sql2>
+				<sql3>
+                <![CDATA[
+                AND col.templete_Id IS NOT NULL
+                ]]>
+				</sql3>
+				<sql4>
+                <![CDATA[
+                AND (CASE WHEN 2=affair.state AND :startTime<=TO_CHAR(affair.CREATE_DATE,'yyyy-mm') AND TO_CHAR(affair.CREATE_DATE,'yyyy-mm')<=:endTime THEN 1 
+                WHEN 4=affair.state AND :startTime<=TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') AND TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm')<=:endTime THEN 1 ELSE 0 END)=1 
+                GROUP BY (CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END)  
+                ORDER BY 时间 
+                ]]>
+				</sql4>
+				<sql5>
+                <![CDATA[
+                SELECT (CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) as "时间",
+                COUNT(affair.id) as "部门平均值"  
+                FROM Ctp_Affair affair INNER JOIN edoc_summary col ON affair.object_Id=col.id  
+                INNER JOIN Org_Member _member ON affair.member_Id=_member.id 
+                AND _member.org_Department_Id = :departmentId  
+                WHERE affair.app in(19,20,21) AND affair.state=:state 
+                ]]>
+				</sql5>
+				<!-- 协同已发已办平均值 -->
+				<sql6>
+                <![CDATA[
+                SELECT 
+                _member.org_Department_Id as departmentid,
+                1 as app,
+                affair.state as state,
+				(CASE WHEN COL.templete_id IS NULL THEN 0 ELSE 1 END) as istemplate,
+                COUNT(affair.id) as num,
+				(CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) as queryTime 
+                FROM Ctp_Affair affair INNER JOIN Col_Summary col ON affair.object_Id=col.id  
+                INNER JOIN Org_Member _member ON affair.member_Id=_member.id 
+                WHERE affair.app=1 AND affair.state IN(2,4) AND affair.BODY_TYPE!='20'
+                AND (CASE WHEN 2=affair.state AND :startTime<=TO_CHAR(affair.CREATE_DATE,'yyyy-mm') AND TO_CHAR(affair.CREATE_DATE,'yyyy-mm')<=:endTime THEN 1 
+                WHEN 4=affair.state AND :startTime<=TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') AND TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm')<=:endTime THEN 1 ELSE 0 END)=1 
+				GROUP BY _member.org_Department_Id,affair.state,
+				(CASE WHEN COL.templete_id IS NULL THEN 0 ELSE 1 END),
+				(CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) 
+                ]]>
+				</sql6>
+				<!-- 公文已发已办平均值 -->
+				<sql7>
+                <![CDATA[
+                SELECT 
+                _member.org_Department_Id as departmentid,
+                2 as app,
+                affair.state as state,
+				(CASE WHEN COL.templete_id IS NULL THEN 0 ELSE 1 END) as istemplate,
+                COUNT(affair.id) as num,
+				(CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) as queryTime 
+                FROM Ctp_Affair affair INNER JOIN edoc_summary col ON affair.object_Id=col.id  
+                INNER JOIN Org_Member _member ON affair.member_Id=_member.id 
+                WHERE affair.app in(19,20,21) AND affair.state IN(2,4) AND affair.BODY_TYPE!='20'
+                AND (CASE WHEN 2=affair.state AND :startTime<=TO_CHAR(affair.CREATE_DATE,'yyyy-mm') AND TO_CHAR(affair.CREATE_DATE,'yyyy-mm')<=:endTime THEN 1 
+                WHEN 4=affair.state AND :startTime<=TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') AND TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm')<=:endTime THEN 1 ELSE 0 END)=1 
+				GROUP BY _member.org_Department_Id,affair.state,
+				(CASE WHEN COL.templete_id IS NULL THEN 0 ELSE 1 END),
+				(CASE WHEN 2=affair.state THEN TO_CHAR(affair.CREATE_DATE,'yyyy-mm') 
+                WHEN 4=affair.state THEN TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') END) 
+                ]]>
+				</sql7>
+			</avg>
+		</FlowSentAndCompletedStatistics>
+		<FlowOverTimeStatistics>
+			<select>
+				<sql1>
+                  <![CDATA[
+                  CAST('已办和当前待办' AS VARCHAR(21)) AS 
+                  ]]>
+				</sql1>
+				<sql2>
+                  <![CDATA[
+                  CAST('当前待办' AS VARCHAR(12)) AS 
+                  ]]>
+				</sql2>
+				<sql3>
+                  <![CDATA[
+                  CAST('已办' AS VARCHAR(6)) AS 
+                  ]]>
+				</sql3>
+				<sql4>
+                  <![CDATA[
+                  "协同",
+                  ]]>
+				</sql4>
+				<sql5>
+                  <![CDATA[
+                  "表单",
+                  ]]>
+				</sql5>
+				<sql6>
+                  <![CDATA[
+                  "公文",
+                  ]]>
+				</sql6>
+			</select>
+			<main>
+				<sql1>
+		          <![CDATA[
+		          SUM(CASE WHEN affair.DEADLINE_DATE IS NULL THEN 0 
+		          ]]>
+				</sql1>
+				<sql2>
+                  <![CDATA[
+                  WHEN 3=affair.state AND affair.is_cover_time=1 THEN 1 
+                  ]]>
+				</sql2>
+				<sql3>
+                  <![CDATA[
+                  WHEN 4=affair.state AND affair.is_cover_time=1 THEN 1 
+                  ]]>
+				</sql3>
+				<sql4>
+                  <![CDATA[
+                     ELSE 0 END) AS "超期", 
+                     COUNT(*) AS "未超期" 
+                     FROM ctp_affair affair INNER JOIN COL_SUMMARY col ON affair.OBJECT_ID=col.ID 
+                     INNER JOIN org_member _member ON affair.MEMBER_ID=_member.ID AND _member.ID=:user 
+                     WHERE affair.APP=1 AND affair.STATE IN(:state)  
+                  ]]>
+				</sql4>
+				<sql5>
+                  <![CDATA[
+                  AND affair.BODY_TYPE!='20' 
+                  ]]>
+				</sql5>
+				<sql6>
+                  <![CDATA[
+                  AND col.TEMPLETE_ID IS NOT NULL and affair.BODY_TYPE='20' 
+                  ]]>
+				</sql6>
+				<sql7>
+                  <![CDATA[
+                  AND (case WHEN 4=affair.state AND 
+                  :startTime<=TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm') 
+                  AND TO_CHAR(affair.COMPLETE_TIME,'yyyy-mm')<=:endTime THEN 1 
+                  WHEN 3=affair.state THEN 1
+                  ELSE 0 end)=1 
+                  ]]>
+                </sql7>
+                <sql8>
+                  <![CDATA[
+                     ELSE 0 END) AS "超期", 
+                     COUNT(*) AS "未超期" 
+                     FROM ctp_affair affair INNER JOIN edoc_summary col ON affair.OBJECT_ID=col.ID 
+                     INNER JOIN org_member _member ON affair.MEMBER_ID=_member.ID AND _member.ID=:user 
+                     WHERE affair.APP in(19,20,21) AND affair.STATE IN(:state)  
+                  ]]>
+				</sql8>
+			</main>
+		</FlowOverTimeStatistics>
+	</report>
+</sqlcfg>

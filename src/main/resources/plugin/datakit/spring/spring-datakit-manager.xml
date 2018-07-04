@@ -8,5 +8,9 @@
 		<property name="newEnumDAO" ref="newEnumDAO" />
 		<property name="newEnumItemDAO" ref="newEnumItemDAO" />
 	</bean>
+	<bean id="dataKitAffairService" class="com.seeyon.apps.datakit.service.DataKitAffairService">
+
+	</bean>
+
 </beans>
 

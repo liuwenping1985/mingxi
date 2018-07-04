@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>ncfinance</id>
+	<name>NC财务集成插件</name>
+	<category>10102</category>
+	<initializer>com.seeyon.apps.ncbusiness.NCBusinessPlatFormInit</initializer>
+</plugin>

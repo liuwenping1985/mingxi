@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="pageComponentDao" class="com.seeyon.ctp.portal.designer.dao.PageComponentDaoImpl" />
+	<bean id="pageLayoutDao" class="com.seeyon.ctp.portal.designer.dao.PageLayoutDaoImpl" />
+	<bean id="pageLayoutTempDao" class="com.seeyon.ctp.portal.designer.dao.PageLayoutTempDaoImpl" />
+</beans>

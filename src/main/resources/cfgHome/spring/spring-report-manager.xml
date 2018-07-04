@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 报表基础类report_definition DAO层 -->
+    <bean id="reportDefinitionDao" class="com.seeyon.ctp.form.formreport.dao.ReportDefinitionDaoImpl"/>
+    <!-- 统计授权 -->
+    <bean id="reportAuthDao" class="com.seeyon.ctp.report.auth.dao.ReportAuthDaoImpl"></bean>
+    <bean id="reportAuthDetailDao" class="com.seeyon.ctp.report.auth.dao.ReportAuthDetailDaoImpl"></bean>
+     
+     <bean id="schedule4ReportManager" class="com.seeyon.ctp.report.schedule.manager.Schedule4ReportManagerImpl"></bean>
+     
+     <bean id="schedule4ReportDao" class="com.seeyon.ctp.report.schedule.dao.Schedule4ReportDaoImpl"></bean>
+     
+ 	 <!-- 报表引擎xml解析类 -->
+	 <bean id="reportXmlDesignManager" class="com.seeyon.ctp.reportengine.data.po.grid.design.ReportXmlDesignManagerImpl"/>
+	 <!-- 报表前端数据转换器 -->
+	 <bean id="reportBuildGrid" class="com.seeyon.ctp.reportengine.build.impl.ReportBuildGrid"></bean>
+	 <bean id="reportBuildECharts" class="com.seeyon.ctp.reportengine.build.impl.ReportBuildECharts"></bean>
+	 <bean id="reportBuildExcel" class="com.seeyon.ctp.reportengine.build.impl.ReportBuildExcel"></bean>
+	 <!-- 统计图转图片 -->
+	 <bean id="chartBaseImgManager" class="com.seeyon.ctp.report.chart.manager.ChartBaseImgManagerImpl"></bean>
+	 <bean id="chartBaseImgDao" class="com.seeyon.ctp.report.dao.ChartBaseImgDaoImpl"></bean>
+	 
+	 <bean id="performanceAuthManager" class="com.seeyon.apps.performancereport.manager.PerformanceAuthManagerImpl"></bean>
+	 <bean id="performanceAuthDao" class="com.seeyon.apps.performancereport.dao.PerformanceAuthDaoImpl"></bean>
+	 <!-- echarts图接口 -->
+	 <bean id="chartRender" class="com.seeyon.ctp.report.chart2.core.ChartRenderImpl">
+ 		<property name="type" value="echarts" />
+ 		<property name="templateHandler">
+ 			<bean class="com.seeyon.ctp.report.chart2.core.GerneralTemplateHandler">
+ 				<property name="chain">
+ 					<list>
+ 						<bean class="com.seeyon.ctp.report.chart2.core.SmartyTemplateHandler" init-method="init">
+ 							<property name="type" value="echarts" />
+ 						</bean>
+ 					</list>
+ 				</property>
+ 			</bean>
+ 		</property>
+     </bean>
+     
+	<!-- 流程、行为绩效调度日志 -->
+	<bean id="rptCollectorLogManager" class="com.seeyon.ctp.report.collector.manager.RptCollectorLogManagerImpl"></bean>
+	<bean id="rptCollectorLogDao" class="com.seeyon.ctp.report.collector.dao.RptCollectorLogDaoImpl"></bean>
+	
+	<!-- 协同驾驶舱调度任务控制器 -->
+	<bean id="rptCollectorControlManager" class="com.seeyon.ctp.report.collector.manager.RptCollectorControlManagerImpl"></bean>
+	<bean id="rptCollectorControlDao" class="com.seeyon.ctp.report.collector.dao.RptCollectorControlDaoImpl"></bean>
+
+</beans>

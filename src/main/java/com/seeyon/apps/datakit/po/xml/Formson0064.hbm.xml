@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+ 
+<class name="Formson0064" table="formson_0064"><id
+name="ID"
+column="ID"
+type="long"
+length="20"
+></id>
+<property
+name="formainId"
+column="formmain_id"
+type="long"
+not-null="false"
+ length="20"
+ />
+<property
+name="sort"
+column="sort"
+type="integer"
+not-null="false"
+ length="16"
+ />
+ <property
+         name="field0008"
+         column="field0008"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0009"
+         column="field0009"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0010"
+         column="field0010"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+<property
+name="field0011"
+column="field0011"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="field0012"
+column="field0012"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="field0013"
+column="field0013"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="field0014"
+column="field0014"
+type="float"
+not-null="false"
+ />
+<property
+name="field0015"
+column="field0015"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="field0016"
+column="field0016"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="field0017"
+column="field0017"
+type="string"
+not-null="false"
+ length="256"
+ />
+ <property
+         name="field0018"
+         column="field0018"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0019"
+         column="field0019"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0020"
+         column="field0020"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0021"
+         column="field0021"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0022"
+         column="field0022"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0023"
+         column="field0023"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0024"
+         column="field0024"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0025"
+         column="field0025"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+ <property
+         name="field0026"
+         column="field0026"
+         type="string"
+         not-null="false"
+         length="256"
+ />
+    </class>
+</hibernate-mapping>

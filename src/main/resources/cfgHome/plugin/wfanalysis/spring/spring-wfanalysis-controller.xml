@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+ 	<!-- 流程绩效的Controller配置 -->
+ 	<bean name="/wfanalysis.do" class="com.seeyon.apps.wfanalysis.controller.WfAnalysisController"></bean>
+ 	<!-- 流程绩效权限配置 -->
+ 	<bean name="/wfanalysisAuth.do" class="com.seeyon.apps.wfanalysis.controller.WfAnalysisAuthController"></bean>
+</beans>

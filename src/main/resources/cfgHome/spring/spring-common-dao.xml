@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+    <!-- 公共的非插件的DAO配置 -->
+	<bean id="obdao" class="com.seeyon.ctp.common.office.dao.OfficeBakFileDaoImpl"></bean>
+</beans>

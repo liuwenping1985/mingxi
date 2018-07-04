@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>ca</id>
+	<name>CA认证集成插件</name>
+	<category>17606</category>
+	<initializer>com.seeyon.v3x.ca.CAPluginInitializer</initializer>
+</plugin>

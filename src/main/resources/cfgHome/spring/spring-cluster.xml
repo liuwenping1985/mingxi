@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- Annotation handler -->
+    <bean id="notificationAnnotationAware" class="com.seeyon.ctp.cluster.NotificationAnnotationAware">
+        <property name="annotationFactory" ref="annotationFactory" />
+    </bean>
+    <bean id="clusterCacheSystemInitialition" class="com.seeyon.ctp.cluster.ClusterCacheSystemInitialition">
+    </bean> 
+    <!-- 监听器注册 -->
+    <bean id="notificationListenerRegistry" class="com.seeyon.ctp.cluster.NotificationListenerRegistry" singleton="true">
+        <!-- 服务初始化时注册的监听器 -->
+        <property name="listeners">
+            <list/>
+        </property>
+        <!-- 服务初始化时发送的通知 -->
+        <!-- 
+        <property name="initNotifications">
+            <list>
+                <value>PullAllOnlineUser</value>
+            </list>
+        </property>
+        -->
+    </bean> 
+	<!-- 用户通知监听处理 -->
+    <bean id="userNotificationHandler" class="com.seeyon.ctp.cluster.listener.UserNotificationHandler">
+    </bean>	  
+     <!-- SSOTicket通知监听处理  -->
+    <bean id="sSOTicketHandler" class="com.seeyon.ctp.cluster.listener.SSOTicketHandler"/>   
+	 <!-- 系统配置通知监听处理 --> 
+    <bean id="sysConfigNotificationHandler" class="com.seeyon.ctp.cluster.listener.SysConfigNotificationHandler"/>
+</beans>

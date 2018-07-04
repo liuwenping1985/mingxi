@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    
+    <!-- msignature manager 
+     <bean id = "m3IsignatureManager" class ="com.seeyon.apps.m3.signature.manager.impl.M3IsignatureManagerImpl"></bean> -->
+     <!-- 硬件绑定申请-->
+     <bean id = "m3BindApplyManager" class="com.seeyon.apps.m3.bind.service.impl.M3BindApplyManagerImpl"></bean>
+     <!-- 硬件绑定Service -->
+	<bean id="m3ClientBindService" class="com.seeyon.apps.m3.bind.service.impl.M3ClientBindServiceImpl">
+	    <property name="m3ClientBindDao" ref="m3ClientBindDao" />
+	</bean>
+	<!-- 移动授权 -->
+	<!-- 移动授权Service   --> 
+	<bean id="m3MobileAuthService"
+		class="com.seeyon.apps.m3.authorization.mobileAuth.service.impl.M3MobileAuthServiceImpl">
+		<property name="orgManager" ref="orgManager" />
+		<property name="m3mobileAuthDao" ref="m3mobileAuthDao" />
+	</bean>
+	<bean id = "m3ProductManager" class="com.seeyon.apps.m3.product.manager.impl.M3ProductManagerImpl"></bean>
+    <!-- 统计 -->
+    <!-- <bean id = "m3StatisticManager" class =" com.seeyon.apps.m3.statistic.manager.impl.M3StatisticManagerImpl"></bean> -->
+	
+	<bean id = "m3PNSMsgSettingManager" class =" com.seeyon.apps.m3.message.manager.impl.M3PNSMsgSettingManagerImpl"></bean>
+	
+	<bean id = "m3OfflineManager" class = "com.seeyon.apps.m3.contacts.offline.manager.M3OfflineManagerImpl"></bean>
+	<bean id = "m3MessageManager" class =" com.seeyon.apps.m3.message.manager.impl.M3MessageManagerImpl"></bean>
+	<bean id = "bannerManager" class ="com.seeyon.apps.m3.banner.manager.impl.BannerManagerImpl"></bean>
+	<bean id = "m3OfflineInitListener" class ="com.seeyon.apps.m3.contacts.offline.listener.M3OfflineInitListener"></bean>
+
+	<bean id="m3ChangePwdEventListener" class="com.seeyon.apps.m3.login.listener.M3ChangePwdEventListener"></bean>
+	<!-- <bean id = "m3OfficeAuthManager" class ="com.seeyon.apps.m3.mobileOffice.authorization.manager.impl.M3OfficeAuthManagerImpl"></bean>
+	 -->
+	<bean id = "m3PnsConfigManager" class ="com.seeyon.apps.m3.message.manager.impl.M3PnsConfigManagerImpl"></bean>
+
+	<bean id = "m3OfflineContactsFileHandleJob" class ="com.seeyon.apps.m3.contacts.offline.job.M3OfflineContactsFileHandleJob"></bean>
+	<bean id = "m3XiaoZhiAuthManager" class = "com.seeyon.apps.m3.authorization.mobileAuth.service.impl.M3XiaoZhiAuthManagerImpl"></bean>
+</beans>

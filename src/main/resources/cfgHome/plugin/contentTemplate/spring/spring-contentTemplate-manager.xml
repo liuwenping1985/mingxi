@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+    <!-- 常用格式设置 -->
+    <bean id="contentTemplateDao" class="com.seeyon.v3x.contentTemplate.dao.ContentTemplateDaoImpl" />
+    <bean id="contentTemplateManager" class="com.seeyon.v3x.contentTemplate.manager.ContentTemplateManagerImpl"/>
+	<bean id="contentTemplateScopeDao" class="com.seeyon.v3x.contentTemplate.dao.ContentTemplateScopeDaoImpl"/>
+</beans>

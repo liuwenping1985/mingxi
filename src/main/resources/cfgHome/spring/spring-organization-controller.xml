@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/organization/account.do" class="com.seeyon.ctp.organization.controller.AccountController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+    </bean>
+    <bean name="/organization/department.do" class="com.seeyon.ctp.organization.controller.DepartmentController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+       <property name="orgCache" ref="orgCache" />
+    </bean>
+    
+    <bean name="/organization/postController.do" class="com.seeyon.ctp.organization.controller.PostController">
+	   <property name="orgManager" ref="orgManager"/>
+	   <property name="fileToExcelManager" ref="fileToExcelManager"/>
+	   <property name="orgManagerDirect" ref="orgManagerDirect"/>
+	</bean>	
+	<bean name="/organization/peopleCard.do" class="com.seeyon.ctp.organization.controller.PeopleCardController">
+	   <property name="orgManager" ref="orgManager"/>
+	   <property name="orgManagerDirect" ref="orgManagerDirect"/>
+	</bean>
+	<bean name="/permission/licpermission.do" class="com.seeyon.ctp.permission.controller.PermissionAssignController">
+	   <property name="orgManager" ref="orgManager"/>
+	   <property name="orgManagerDirect" ref="orgManagerDirect"/>
+	</bean>   
+    
+    <bean name="/organization/levelController.do" class="com.seeyon.ctp.organization.controller.LevelController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+    </bean>
+    <bean name="/organization/externalController.do" class="com.seeyon.ctp.organization.controller.ExternalController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+    </bean>
+    <bean name="/organization/workscopeController.do" class="com.seeyon.ctp.organization.controller.WorkscopeController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+    </bean>
+    <bean name="/organization/distributeController.do" class="com.seeyon.ctp.organization.controller.DistributeController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+    </bean>
+    <bean name="/organization/teamController.do" class="com.seeyon.ctp.organization.controller.TeamController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+       
+    </bean>
+    <bean name="/organization/moveDeptController.do" class="com.seeyon.ctp.organization.controller.MoveDeptController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+       
+    </bean>
+    <bean name="/organization/organizationControll.do" class="com.seeyon.ctp.organization.controller.OrganizationControll">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="iOManager" ref="iOManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+       <property name="appLogManager" ref="appLogManager" />
+    </bean>
+    
+    
+    <bean name="/organization/role.do" class="com.seeyon.ctp.organization.controller.RoleController">
+    </bean>
+    
+    <bean name="/organization/member.do" class="com.seeyon.ctp.organization.controller.MemberController">
+       <property name="orgManager" ref="orgManager"/>
+       <property name="orgManagerDirect" ref="orgManagerDirect"/>
+       <property name="fileToExcelManager" ref="fileToExcelManager"/>
+       <property name="orgCache" ref="orgCache" />
+       <property name="appLogManager" ref="appLogManager" />
+       <property name="memberManager" ref="memberManager" />
+    </bean>
+
+	<bean name="/organization/memberLeave.do" class="com.seeyon.ctp.organization.memberleave.controller.MemberLeaveController">
+	</bean>
+
+	<bean name="/organization/conPost.do" class="com.seeyon.ctp.organization.controller.ConcurrentPostController">
+		<property name="orgManager" ref="orgManager" />
+		<property name="orgManagerDirect" ref="orgManagerDirect" />
+		<property name="fileToExcelManager" ref="fileToExcelManager" />
+		<property name="appLogManager" ref="appLogManager" />
+		<property name="roleManager" ref="roleManager" />
+		<property name="conPostManager" ref="conPostManager" />
+	</bean>
+    
+    <bean name="/organization/orgIndexController.do" class="com.seeyon.ctp.organization.controller.OrgIndexController">
+       <property name="orgIndexManager" ref="orgIndexManager"/>
+    </bean>
+    
+</beans>
+

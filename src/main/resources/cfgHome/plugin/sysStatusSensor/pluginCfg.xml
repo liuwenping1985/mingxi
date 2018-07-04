@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>sysStatusSensor</id>
+	<name>系统状态传感器</name>
+	<category>168</category>
+	<initializer>com.seeyon.ctp.plugin.sysStatusSensor.SysStatusSensorPluginDefinition</initializer>
+</plugin>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<bean>
+        <serviceName>imgManager</serviceName>
+        <operations>
+            <op>imgCuttingAndSave</op>
+            <op>getSrcWidthAndHeight</op>
+        </operations>
+    </bean>
+</beans>

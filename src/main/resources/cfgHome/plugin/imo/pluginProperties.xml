@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<imo>
+		<host mark="{VE}" desc="IMO服务器地址，如：10.5.6.105:5722,10.3.20.196:5722"></host>
+		<timeOut mark="{int}{VE}" desc="IMO连接超时：单位毫秒">60000</timeOut>
+		<synTime desc="IMO定时初始时间">10</synTime>
+		<defaultSend mark="{boolean}{VE}" desc="默认是否发送，如果为false，则个人需要在“个人设置-消息提示设置”中进行配置">false</defaultSend>
+		<identification mark="{boolean}{VE}" desc="是否支持身份验证狗，默认为false，如果在启用身份验证狗插件的情况下，从IMO单点登录到OA需要支持身份验证狗时，则需要把此项设置为true">false</identification>
+		<modify>
+			<password mark="{boolean}{VE}" desc="是否允许同步修改IMO密码（包括个人修改，管理员修改），默认设置为修改，值为true">true</password>
+		</modify>
+	</imo>
+</ctpConfig>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="edocPermissionOperDefinition" class="com.seeyon.ctp.common.permission.bo.PermissionOperDefinition">
+      <property name="operations">
+          <map>
+              <!-- 基本操作  开始 -->
+              <entry key="edoc_basic_action">
+                  <list>
+                       <props>
+                           <!-- 跟踪 -->
+                           <prop key="key">Track</prop>
+                           <prop key="label">permission.operation.Track</prop>
+                       </props>
+                       <props>
+                           <!-- 暂存待办 -->
+                           <prop key="key">Comment</prop>
+                           <prop key="label">permission.operation.Comment</prop>
+                       </props>
+                       <props>
+                            <!-- 提交 -->
+                           <prop key="key">ContinueSubmit</prop>
+                           <prop key="label">permission.operation.ContinueSubmit</prop>
+                       </props>
+                        <!-- 处理后删除-->
+                      <!-- <props>
+                           <prop key="key">Delete</prop>
+                           <prop key="label">permission.operation.Delete</prop>
+                       </props>-->
+                       <props>
+                           <!-- 处理后归档-->
+                           <prop key="key">Archive</prop>
+                           <prop key="label">permission.operation.Archive</prop>
+                       </props>
+                       <props>
+                           <!-- 意见-->
+                           <prop key="key">Opinion</prop>
+                           <prop key="label">permission.operation.Opinion</prop>
+                       </props>
+                       <props>
+                           <!-- 常用语-->
+                           <prop key="key">CommonPhrase</prop>
+                           <prop key="label">permission.operation.CommonPhrase</prop>
+                       </props>
+                       <props>
+                           <!-- 上传附件-->
+                           <prop key="key">UploadAttachment</prop>
+                           <prop key="label">permission.operation.UploadAttachment</prop>
+                       </props>
+                       <props>
+                           <!-- 打印-->
+                           <prop key="key">Print</prop>
+                           <prop key="label">permission.operation.Print</prop>
+                       </props>
+                        <props>
+                           <!-- 交换类型 -->
+                           <prop key="key">EdocExchangeType</prop>
+                           <prop key="label">permission.operation.EdocExchangeType</prop>
+                       </props>
+                       <props>
+                           <!-- 关联文档-->
+                           <prop key="key">UploadRelDoc</prop>
+                           <prop key="label">permission.operation.UploadRelDoc</prop>
+                       </props>
+                       <props>
+                           <!--   正文打印  -->
+                           <prop key="key">PrintContentAcc</prop>
+                           <prop key="label">permission.operation.ContentPrint</prop>
+                       </props>
+                        <props>
+                           <!--   正文保存  -->
+                           <prop key="key">SaveContentAcc</prop>
+                           <prop key="label">permission.operation.ContentSave</prop>
+                       </props>
+                  </list>
+              </entry>
+              <!-- 基本操作  结束 -->
+              
+              <!-- 常用、高级操作  开始 -->
+              <entry key="edoc_node_control_action">
+                  <list>
+                      <props>
+                           <!-- 回退-->
+                           <prop key="key">Return</prop>
+                           <prop key="label">permission.operation.Return</prop>
+                      </props>
+                      <props>
+                           <!-- 终止-->
+                           <prop key="key">Terminate</prop>
+                           <prop key="label">permission.operation.Terminate</prop>
+                      </props>
+                      <props>
+                           <!-- 知会-->
+                           <prop key="key">Infom</prop>
+                           <prop key="label">permission.operation.Infom</prop>
+                      </props>
+                      <props>
+                           <!-- 加签-->
+                           <prop key="key">AddNode</prop>
+                           <prop key="label">permission.operation.AddNode</prop>
+                      </props>
+                      <props>
+                           <!-- 当前会签-->
+                           <prop key="key">JointSign</prop>
+                           <prop key="label">permission.operation.JointSign</prop>
+                      </props>
+                      <props>
+                           <!-- 减签-->
+                           <prop key="key">RemoveNode</prop>
+                           <prop key="label">permission.operation.RemoveNode</prop>
+                       </props>
+                       <props>
+                           <!-- 转发-->
+                           <prop key="key">Forward</prop>
+                           <prop key="label">permission.operation.Forward</prop>
+                       </props>
+                       <props>
+                           <!-- 修改正文-->
+                           <prop key="key">Edit</prop>
+                           <prop key="label">permission.operation.Edit</prop>
+                       </props>
+                       <props>
+                           <!-- 签章-->
+                           <prop key="key">Sign</prop>
+                           <prop key="label">permission.operation.Sign</prop>
+                       </props>
+                       <props>
+                           <!-- 撤销-->
+                           <prop key="key">Cancel</prop>
+                           <prop key="label">permission.operation.Cancel</prop>
+                       </props>
+                       <props>
+                           <!-- 督办设置-->
+                           <prop key="key">SuperviseSet</prop>
+                           <prop key="label">permission.operation.SuperviseSet</prop>
+                       </props>
+                       <props>
+                           <!-- 修改附件-->
+                           <prop key="key">allowUpdateAttachment</prop>
+                           <prop key="label">permission.operation.allowUpdateAttachment</prop>
+                       </props>
+                       <props>
+                           	<!-- 转事件 --> 
+                           <prop key="key">Transform</prop>
+                           <prop key="label">permission.operation.Transform</prop>
+                       </props>
+                      <props>
+                           <!-- 转公告-->
+                           <prop key="key">TransmitBulletin</prop>
+                           <prop key="label">permission.operation.TransmitBulletin</prop>
+                      </props>
+                      <props>
+                           <!-- 多级会签-->
+                           <prop key="key">moreSign</prop>
+                           <prop key="label">permission.operation.moreSign</prop>
+                      </props>
+                      <props>
+                           <!-- 修改文单-->
+                           <prop key="key">UpdateForm</prop>
+                           <prop key="label">permission.operation.UpdateForm</prop>
+                      </props>
+                      <props>
+                           <!-- 部门归档-->
+                           <prop key="key">DepartPigeonhole</prop>
+                           <prop key="label">permission.operation.DepartPigeonhole</prop>
+                      </props>
+                      <props> 
+                           <!-- 正文套红-->
+                           <prop key="key">EdocTemplate</prop>
+                           <prop key="label">permission.operation.EdocTemplate</prop>
+                      </props>
+                      <props>
+                           <!-- 传阅-->
+                           <prop key="key">PassRead</prop>
+                           <prop key="label">permission.operation.PassRead</prop>
+                       </props>
+                       <props>
+                           <!-- 文单签批-->
+                           <prop key="key">HtmlSign</prop>
+                           <prop key="label">permission.operation.HtmlSign</prop>
+                       </props>
+                       <props>
+                           <!-- 文单套红-->
+                           <prop key="key">ScriptTemplate</prop>
+                           <prop key="label">permission.operation.ScriptTemplate</prop>
+                       </props>
+                       <props>
+                           <!-- Word转PDF-->
+                           <prop key="key">TanstoPDF</prop>
+                           <prop key="label">permission.operation.TanstoPDF</prop>
+                       </props>
+                       <props>
+                           <!-- 文号修改 -->
+                           <prop key="key">WordNoChange</prop>
+                           <prop key="label">permission.operation.WordNoChange</prop>
+                       </props>
+                         <props>
+                           <!--   指定回退  -->
+                           <prop key="key">SpecifiesReturn</prop>
+                           <prop key="label">permission.operation.SpecifiesReturn</prop>
+                       </props>
+                        <props>
+                            <!-- 转收文 -->
+                            <prop key="key">TurnRecEdoc</prop>
+                            <prop key="label">permission.operation.TurnRecEdoc</prop>
+                        </props>
+                         <props>
+                            <!-- 移交 -->
+                            <prop key="key">Transfer</prop>
+                            <prop key="label">permission.operation.Transfer</prop>
+                        </props>
+                  </list>
+              </entry>
+              <!-- 常用、 公文高级操作 结束-->
+          </map>
+      </property>
+    </bean>
+</beans>

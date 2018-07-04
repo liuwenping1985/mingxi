@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+    <!-- 业务管理配置表 -->
+    <class name="BusGetAmountData" table="OA_YS_busget">
+        <id
+                name="id"
+                type="integer"
+                column="ID"
+                length="11"
+        >
+        </id>
+
+        <!-- 年 -->
+        <property
+                name="year"
+                column="年"
+                type="integer"
+                not-null="false"
+                length="11"
+        />
+        <!-- 月 -->
+        <property
+                name="month"
+                column="月"
+                type="integer"
+                not-null="false"
+                length="11"
+        />
+        <!-- 单位ID -->
+        <property
+                name="accountId"
+                column="单位ID"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 部门ID -->
+        <property
+                name="departmentId"
+                column="部ID"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 科目编号  -->
+        <property
+                name="itemNo"
+                column="科目编号"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 金额 -->
+        <property
+                name="amount"
+                column="月初预算金额"
+                type="float"
+                not-null="false"
+                length="11"
+        />
+        <!-- 创建人 -->
+        <property
+                name="syncStatus"
+                column="同步状态"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+
+    </class>
+</hibernate-mapping>

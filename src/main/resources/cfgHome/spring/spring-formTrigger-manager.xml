@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 表单触发    数据存档 -->
+    <bean name="/form/formTriggerCreateMember.do" class="com.seeyon.ctp.form.modules.trigger.createmember.FormTriggerCreateMemberController" />
+    <bean id="formTriggerCreateMemberDesign" class="com.seeyon.ctp.form.modules.trigger.createmember.FormTriggerCreateMemberDesign"/>
+    <bean id="triggerCreateMemberAction" class="com.seeyon.ctp.form.modules.trigger.createmember.FormTriggerCreateMemberAction"/>
+    
+    <bean name="/form/formTriggerUpdateMember.do" class="com.seeyon.ctp.form.modules.trigger.updatemember.FormTriggerUpdateMemberController" />
+    <bean id="formTriggerUpdateMemberDesign" class="com.seeyon.ctp.form.modules.trigger.updatemember.FormTriggerUpdateMemberDesign"/>
+    <bean id="triggerUpdateMemberAction" class="com.seeyon.ctp.form.modules.trigger.updatemember.FormTriggerUpdateMemberAction"/>
+</beans>

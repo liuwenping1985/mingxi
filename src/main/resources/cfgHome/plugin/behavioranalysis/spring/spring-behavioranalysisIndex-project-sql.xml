@@ -1,0 +1,1474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!--项目单位-->
+	<bean id="projectAccount" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="单位项目"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptProjectIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="account"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="计划已开始项目数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .id AS orgid,
+												COUNT(DISTINCT r.project_id)AS executedsum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													mem.org_account_id AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													PROJECT_SUMMARY projectSummary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.member_type <> 3
+												AND projectSummary. ID = projectMember.PROJECT_ID
+												AND mem. ID = projectMember.memberid
+												AND projectSummary.CLOSETIME >= :startTime
+												AND projectSummary.BEGINTIME <= :endTime
+												AND(
+													projectSummary.PROJECT_STATE <> 4
+													OR projectSummary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												)
+												AND mem.IS_DELETED = 0
+												AND mem.state = 1
+												AND mem.IS_ASSIGNED = 1
+												AND mem.IS_ENABLE = 1
+												AND mem.is_internal = 1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . id = r.ORGID
+											GROUP BY
+												U .id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .id AS orgid,
+												COUNT(DISTINCT r.project_id)AS endsum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													m.org_account_id AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.ID=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(2,4)
+												and m.IS_INTERNAL=1
+												AND summary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . id = r.ORGID
+											GROUP BY
+												U .id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .id AS orgid,
+												COUNT(DISTINCT r.project_id)AS overendsum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													m.org_account_id AS orgid,
+													projectSummary.id AS project_id
+												FROM
+													project_summary projectSummary,
+													PROJECT_MEMBER projectMember,
+													org_member m
+												WHERE
+													projectSummary.PROJECT_STATE in(2,4)
+												AND m.ID = projectMember.MEMBERID
+												and projectMember.member_type <> 3
+												AND projectSummary.id = projectMember.PROJECT_ID
+												AND projectSummary.ACTUAL_END_TIME BETWEEN :startTime AND :endTime
+												and m.IS_INTERNAL=1
+												AND projectSummary.ACTUAL_END_TIME > projectSummary.CLOSETIME
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . id = r.ORGID
+											GROUP BY
+												U .id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="未结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .id AS orgid,
+												COUNT(DISTINCT r.project_id)AS startunendsum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													m.org_account_id AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.id=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(0,1)
+												and m.IS_INTERNAL=1
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . id = r.ORGID
+											GROUP BY
+												U .id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期未结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .id AS orgid,
+												COUNT(DISTINCT r.project_id)AS overunendsum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													mem.org_account_id AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.memberid = mem.ID
+												and summary.id=projectMember.PROJECT_ID
+												AND projectMember.member_type <> 3
+												and summary.PROJECT_STATE in(0,1)
+												and summary.CLOSETIME<:endTime
+												and mem.IS_DELETED = 0
+												AND mem.state=1
+												and mem.IS_ASSIGNED=1
+												and mem.IS_ENABLE=1
+												and mem.is_internal=1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . id = r.ORGID
+											GROUP BY
+												U .id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!--项目部门-->
+	<bean id="projectDepartment" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="部门项目"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptProjectIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="department"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="计划已开始项目数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS executedsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2. PATH + '%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													mem.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													PROJECT_SUMMARY projectSummary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.member_type <> 3
+												AND projectSummary. ID = projectMember.PROJECT_ID
+												AND mem. ID = projectMember.memberid
+												AND projectSummary.CLOSETIME >= :startTime
+												AND projectSummary.BEGINTIME <= :endTime
+												AND(
+													projectSummary.PROJECT_STATE <> 4
+													OR projectSummary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												)
+												AND mem.IS_DELETED = 0
+												AND mem.state = 1
+												AND mem.IS_ASSIGNED = 1
+												AND mem.IS_ENABLE = 1
+												AND mem.is_internal = 1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS executedsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE CONCAT(u2.PATH, '%')
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													mem.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													PROJECT_SUMMARY projectSummary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.member_type <> 3
+												AND projectSummary. ID = projectMember.PROJECT_ID
+												AND mem. ID = projectMember.memberid
+												AND projectSummary.CLOSETIME >= :startTime
+												AND projectSummary.BEGINTIME <= :endTime
+												AND(
+													projectSummary.PROJECT_STATE <> 4
+													OR projectSummary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												)
+												AND mem.IS_DELETED = 0
+												AND mem.state = 1
+												AND mem.IS_ASSIGNED = 1
+												AND mem.IS_ENABLE = 1
+												AND mem.is_internal = 1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="postgreSQL,oracle"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS executedsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2.PATH||'%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													mem.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													PROJECT_SUMMARY projectSummary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.member_type <> 3
+												AND projectSummary. ID = projectMember.PROJECT_ID
+												AND mem. ID = projectMember.memberid
+												AND projectSummary.CLOSETIME >= :startTime
+												AND projectSummary.BEGINTIME <= :endTime
+												AND(
+													projectSummary.PROJECT_STATE <> 4
+													OR projectSummary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												)
+												AND mem.IS_DELETED = 0
+												AND mem.state = 1
+												AND mem.IS_ASSIGNED = 1
+												AND mem.IS_ENABLE = 1
+												AND mem.is_internal = 1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS endsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2. PATH + '%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.ID=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(2,4)
+												and m.IS_INTERNAL=1
+												AND summary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS endsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE CONCAT(u2.PATH, '%')
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.ID=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(2,4)
+												and m.IS_INTERNAL=1
+												AND summary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="postgreSQL,oracle"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS endsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2.PATH||'%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.ID=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(2,4)
+												and m.IS_INTERNAL=1
+												AND summary.ACTUAL_END_TIME BETWEEN :startTime and :endTime
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS overendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2. PATH + '%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectSummary.id AS project_id
+												FROM
+													project_summary projectSummary,
+													PROJECT_MEMBER projectMember,
+													org_member m
+												WHERE
+													projectSummary.PROJECT_STATE in(2,4)
+												AND m.ID = projectMember.MEMBERID
+												and projectMember.member_type <> 3
+												AND projectSummary.id = projectMember.PROJECT_ID
+												AND projectSummary.ACTUAL_END_TIME BETWEEN :startTime AND :endTime
+												and m.IS_INTERNAL=1
+												AND projectSummary.ACTUAL_END_TIME > projectSummary.CLOSETIME
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS overendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE CONCAT(u2.PATH, '%')
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectSummary.id AS project_id
+												FROM
+													project_summary projectSummary,
+													PROJECT_MEMBER projectMember,
+													org_member m
+												WHERE
+													projectSummary.PROJECT_STATE in(2,4)
+												AND m.ID = projectMember.MEMBERID
+												and projectMember.member_type <> 3
+												AND projectSummary.id = projectMember.PROJECT_ID
+												AND projectSummary.ACTUAL_END_TIME BETWEEN :startTime AND :endTime
+												and m.IS_INTERNAL=1
+												AND projectSummary.ACTUAL_END_TIME > projectSummary.CLOSETIME
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS overendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2.PATH||'%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectSummary.id AS project_id
+												FROM
+													project_summary projectSummary,
+													PROJECT_MEMBER projectMember,
+													org_member m
+												WHERE
+													projectSummary.PROJECT_STATE in(2,4)
+												AND m.ID = projectMember.MEMBERID
+												and projectMember.member_type <> 3
+												AND projectSummary.id = projectMember.PROJECT_ID
+												AND projectSummary.ACTUAL_END_TIME BETWEEN :startTime AND :endTime
+												and m.IS_INTERNAL=1
+												AND projectSummary.ACTUAL_END_TIME > projectSummary.CLOSETIME
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="未结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS startunendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2. PATH + '%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.id=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(0,1)
+												and m.IS_INTERNAL=1
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS startunendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE CONCAT(u2.PATH, '%')
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.id=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(0,1)
+												and m.IS_INTERNAL=1
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS startunendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2.PATH||'%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													m.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													org_member m
+												WHERE
+													projectMember.member_type <> 3
+												and m.id=projectMember.MEMBERID
+												AND summary.id = projectMember.PROJECT_ID
+												AND summary.PROJECT_STATE in(0,1)
+												and m.IS_INTERNAL=1
+												and m.IS_DELETED = 0
+												AND m.state=1
+												and m.IS_ASSIGNED=1
+												and m.IS_ENABLE=1
+												AND m.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期未结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="sql server"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS overunendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2. PATH + '%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													mem.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.memberid = mem.ID
+												and summary.id=projectMember.PROJECT_ID
+												AND projectMember.member_type <> 3
+												and summary.PROJECT_STATE in(0,1)
+												and summary.CLOSETIME<:endTime
+												and mem.IS_DELETED = 0
+												AND mem.state=1
+												and mem.IS_ASSIGNED=1
+												and mem.IS_ENABLE=1
+												and mem.is_internal=1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="mysql,dm"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS overunendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE CONCAT(u2.PATH, '%')
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													mem.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.memberid = mem.ID
+												and summary.id=projectMember.PROJECT_ID
+												AND projectMember.member_type <> 3
+												and summary.PROJECT_STATE in(0,1)
+												and summary.CLOSETIME<:endTime
+												and mem.IS_DELETED = 0
+												AND mem.state=1
+												and mem.IS_ASSIGNED=1
+												and mem.IS_ENABLE=1
+												and mem.is_internal=1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="postgreSQL,oracle"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												U .pid AS orgid,
+												COUNT(DISTINCT r.project_id)AS overunendsum
+											FROM
+												(
+													SELECT
+														u2. ID AS pid,
+														u1. ID AS SID
+													FROM
+														org_unit u1,
+														org_unit u2
+													WHERE
+														u1. PATH LIKE u2.PATH||'%'
+													AND u1. TYPE = 'Department'
+													AND u2. TYPE = 'Department'
+													AND u1.is_internal = 1
+													and u1.is_deleted=0	
+													and u1.is_enable=1
+													AND u2.is_internal = 1
+													and u2.is_deleted=0	
+													and u2.is_enable=1
+												)U
+											LEFT JOIN(
+												SELECT
+													mem.ORG_DEPARTMENT_ID AS orgid,
+													projectMember.project_id AS project_id
+												FROM
+													PROJECT_MEMBER projectMember,
+													project_summary summary,
+													ORG_MEMBER mem
+												WHERE
+													projectMember.memberid = mem.ID
+												and summary.id=projectMember.PROJECT_ID
+												AND projectMember.member_type <> 3
+												and summary.PROJECT_STATE in(0,1)
+												and summary.CLOSETIME<:endTime
+												and mem.IS_DELETED = 0
+												AND mem.state=1
+												and mem.IS_ASSIGNED=1
+												and mem.IS_ENABLE=1
+												and mem.is_internal=1
+												AND mem.ORG_DEPARTMENT_ID != - 1
+											)r ON U . SID = r.ORGID
+											GROUP BY
+												U .pid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!--项目人员-->
+	<bean id="projectMember" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="人员项目"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptProjectIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="member"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="计划已开始项目数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m.id as orgid,
+												r.executedsum as executedsum
+											FROM
+												org_member m
+											LEFT JOIN(
+												SELECT
+													projectMember.memberid AS orgid,
+													COUNT(projectMember.project_id)AS executedsum
+												FROM
+													PROJECT_MEMBER projectMember,
+													PROJECT_SUMMARY projectSummary
+												WHERE
+													projectMember.member_type <> 3
+												AND projectSummary.ID = projectMember.PROJECT_ID
+												AND projectSummary.CLOSETIME >= :startTime
+												AND projectSummary.BEGINTIME <= :endTime
+												AND(
+													projectSummary.PROJECT_STATE <> 4
+													OR projectSummary.ACTUAL_END_TIME BETWEEN :startTime AND :endTime
+												)
+												GROUP BY
+													projectMember.memberid
+											)r on m.id=r.orgid
+											where 
+												m.IS_DELETED = 0
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and m.is_internal=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												projectMember.memberid AS orgid,
+												COUNT(projectMember.project_id)AS endsum
+											FROM
+												PROJECT_MEMBER projectMember,
+												project_summary summary,
+												org_member m
+											WHERE
+												projectMember.member_type <> 3
+											and summary.id=projectMember.PROJECT_ID
+											and summary.PROJECT_STATE in(2,4)
+											and summary.ACTUAL_END_TIME between :startTime and :endTime
+											and m.id=projectMember.memberid
+											and m.IS_DELETED = 0
+											and m.is_internal=1
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											GROUP BY
+												projectMember.memberid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												projectMember.memberid AS orgid,
+												count(projectMember.project_id)AS overendsum
+											FROM
+												PROJECT_MEMBER projectMember,
+												project_summary summary,
+												org_member m
+											WHERE
+												projectMember.member_type <> 3
+											AND summary.id = projectMember.PROJECT_ID
+											AND summary.ACTUAL_END_TIME BETWEEN :startTime AND :endTime
+											AND summary.ACTUAL_END_TIME > summary.CLOSETIME
+											and m.id=projectMember.memberid
+											and m.IS_DELETED = 0
+											and m.is_internal=1
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											AND summary.PROJECT_STATE in(2,4)
+											GROUP BY
+												projectMember.memberid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="未结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												projectMember.memberid AS orgid,
+												count(projectMember.project_id)AS startunendsum
+											FROM
+												PROJECT_MEMBER projectMember,
+												project_summary summary,
+												org_member m
+											WHERE
+												projectMember.member_type <> 3
+											AND summary.id = projectMember.PROJECT_ID
+											AND summary.PROJECT_STATE IN(0,1)
+											and m.id=projectMember.memberid
+											and m.IS_DELETED = 0
+											and m.is_internal=1
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											GROUP BY
+												projectMember.memberid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="超期未结束项目数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												projectMember.MEMBERID AS orgid,
+												COUNT(projectMember.project_id)AS overunendsum
+											FROM
+												PROJECT_MEMBER projectMember,
+												project_summary summary,
+												org_member m
+											WHERE
+												summary.id=projectMember.PROJECT_ID
+											AND projectMember.member_type <> 3
+											and summary.PROJECT_STATE in(0,1)
+											and m.id=projectMember.memberid
+											and m.IS_DELETED = 0
+											and m.is_internal=1
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and summary.CLOSETIME<:endTime
+											GROUP BY
+												projectMember.MEMBERID
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

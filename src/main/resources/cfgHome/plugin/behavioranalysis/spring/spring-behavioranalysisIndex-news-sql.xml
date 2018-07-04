@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!--新闻部门-->
+	<bean id="newsDepartment" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="部门新闻"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptNewsIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="department"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+												SELECT
+													t.orgid AS orgid,
+													SUM(t.receivenum)AS receivenum
+												FROM
+													(
+														SELECT
+															m.org_department_id AS orgid,
+															sum(r.receivenum) AS receivenum
+														FROM
+															(
+																SELECT
+																	n.ACCOUNTID AS orgId,
+																	COUNT(n.id)AS receivenum
+																FROM
+																	NEWS_DATA n
+																LEFT JOIN NEWS_TYPE t ON n.TYPE_ID = t.ID
+																WHERE
+																	n.state in (30,100)
+																and n.DELETED_FLAG=0
+																AND t.SPACETYPE = 2
+																AND n.publish_date BETWEEN :startTime AND :endTime
+																GROUP BY
+																	n.ACCOUNTID
+															)r
+														LEFT JOIN org_member m ON m.ORG_ACCOUNT_ID = r.orgId
+														where 
+															m.IS_DELETED = 0
+														AND m.state=1
+														and m.IS_ASSIGNED=1
+														and m.IS_ENABLE=1
+														and m.is_internal=1
+														AND m.ORG_DEPARTMENT_ID != - 1
+														GROUP BY
+															m.org_department_id
+														UNION ALL
+															SELECT
+																m.ORG_DEPARTMENT_ID AS orgid,
+																sum(r.receivenum) AS receivenum
+															FROM
+																(
+																	SELECT
+																		COUNT(n.id)AS receivenum
+																	FROM
+																		NEWS_DATA n
+																	LEFT JOIN NEWS_TYPE t ON n.TYPE_ID = t.ID
+																	WHERE
+																		n.state IN(30, 100)
+																	and n.DELETED_FLAG=0
+																	AND t.SPACETYPE = 3
+																	AND n.publish_date BETWEEN :startTime AND :endTime
+																	and n.DELETED_FLAG=0
+																)r
+															LEFT JOIN org_member m ON 1 = 1
+															WHERE
+																r.receivenum != 0
+															and	m.IS_DELETED = 0
+															AND m.state=1
+															and m.IS_ASSIGNED=1
+															and m.IS_ENABLE=1
+															and m.is_internal=1
+															AND m.ORG_DEPARTMENT_ID != - 1
+															GROUP BY
+																m.ORG_DEPARTMENT_ID
+													)t
+												left join org_unit u on u.id=t.orgid
+												WHERE
+													t.receivenum != 0
+												and u.IS_DELETED=0
+												and u.IS_ENABLE=1
+												and u.IS_INTERNAL=1
+												GROUP BY
+													t.orgid
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												r.org_department_id as orgid,
+												count(r.news_id) as readnum
+											FROM
+												(
+													SELECT
+														m.org_department_id,
+														n.news_id
+													FROM
+														org_member m
+													left join(
+														SELECT
+															r.MANAGER_ID AS orgid,
+															r.NEWS_ID AS news_id
+														FROM
+															NEWS_READ r,
+															news_data n
+														where r.read_date between :startTime and :endTime
+														AND n.publish_date BETWEEN :startTime AND :endTime
+														and n.id=r.news_id
+														AND n.DELETED_FLAG = 0
+														and n.state in(30,100)
+													)n ON n.orgid = m.ID
+													where 
+														m.IS_DELETED = 0
+													AND m.state=1
+													and m.IS_ASSIGNED=1
+													and m.IS_ENABLE=1
+													and m.is_internal=1
+													AND m.ORG_DEPARTMENT_ID != - 1
+												)r
+											left join org_unit u on u.id=r.org_department_id
+											where 
+												u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+											group by
+												r.org_department_id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读总时间"></property>
+					<property name="name" value="readRatio"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m.ORG_DEPARTMENT_ID as orgid,
+												r.READ_DATE as read_date,
+												n.PUBLISH_DATE as publish_date
+											FROM
+												NEWS_READ r
+											left join NEWS_DATA n on r.NEWS_ID=n.id
+											left join ORG_MEMBER m on r.MANAGER_ID=m.id
+											left join org_unit u on u.id=m.ORG_DEPARTMENT_ID
+											where 
+												n.state in (30,100)
+											AND n.DELETED_FLAG = 0
+											and	m.IS_DELETED = 0
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											and m.is_internal=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											AND n.publish_date BETWEEN :startTime AND :endTime
+											and r.read_date between :startTime and :endTime
+											and u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="reportPointHander">
+			<bean class="com.seeyon.apps.dashboard.bo.ReportPointHandler">
+				<property name="managerName" value="com.seeyon.apps.dashboard.NewsIndexHandler"></property>
+				<property name="methodName">
+					<map>
+						<entry key="readRatio" value="getReadRatio"></entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!--新闻人员-->
+	<bean id="newsMember" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="人员新闻"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptNewsIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="member"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<!-- 数据库版本 -->
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+										select 
+											M.ID AS orgid,
+											r.receivenum AS receivenum 
+										from 
+											org_member m
+										left join(
+											SELECT
+												t.orgid AS orgid,
+												SUM(t.receivenum)AS receivenum
+											FROM
+												(
+													SELECT
+														m.id as orgid,
+														r.receivenum
+													FROM
+														ORG_MEMBER m
+													LEFT JOIN(
+														SELECT
+															n.ACCOUNTID AS orgId,
+															COUNT(n.id)AS receivenum
+														FROM
+															NEWS_DATA n
+														LEFT JOIN NEWS_TYPE t ON n.TYPE_ID = t.ID
+														WHERE
+															n.state in (30,100)
+														and n.DELETED_FLAG=0
+														AND n.publish_date BETWEEN :startTime AND :endTime
+														AND t.SPACETYPE = 2
+														and n.DELETED_FLAG=0
+														GROUP BY
+															n.ACCOUNTID
+													)r ON m.ORG_ACCOUNT_ID = r.orgId
+													WHERE
+														r.receivenum IS NOT NULL
+													UNION ALL
+														SELECT
+															m.id as orgid,
+															r.receivenum
+														FROM
+															ORG_MEMBER m
+														LEFT JOIN(
+															SELECT
+																COUNT(n.id)AS receivenum
+															FROM
+																NEWS_DATA n
+															LEFT JOIN NEWS_TYPE t ON n.TYPE_ID = t.ID
+															WHERE
+																n.state in (30,100)
+															and n.DELETED_FLAG=0
+															AND n.publish_date BETWEEN :startTime AND :endTime
+															AND t.SPACETYPE = 3
+															and n.DELETED_FLAG=0
+														)r ON 1 = 1
+														WHERE
+															r.receivenum IS NOT NULL
+												)t
+											WHERE
+												t.receivenum != 0
+											GROUP BY
+												t.orgid
+										)r on M . ID = r.orgid
+										where 
+											M .IS_DELETED = 0
+										AND M .state = 1
+										AND M .IS_ASSIGNED = 1
+										AND M .IS_ENABLE = 1
+										AND M .is_internal = 1
+										AND M .ORG_DEPARTMENT_ID != - 1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读数 "></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+										SELECT
+											r.MANAGER_ID AS orgid,
+											count(r.id) AS readnum
+										FROM
+											NEWS_READ r,
+											news_data n,
+											org_member m
+										where r.read_date between :startTime and :endTime
+										AND n.publish_date BETWEEN :startTime AND :endTime
+										and m.id=r.MANAGER_ID
+										and n.id=r.news_id
+										and n.state in (30,100)
+										and n.DELETED_FLAG=0
+										and m.IS_DELETED = 0
+										AND m.state=1
+										and m.IS_ASSIGNED=1
+										and m.IS_ENABLE=1
+										and m.is_internal=1
+										AND m.ORG_DEPARTMENT_ID != - 1
+										group by 
+											r.MANAGER_ID
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="阅读总时间"></property>
+					<property name="name" value="readRatio"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+										SELECT
+											r.MANAGER_ID as orgid,
+											r.READ_DATE as read_date,
+											n.PUBLISH_DATE as publish_date
+										FROM
+											NEWS_READ r
+										left join org_member m on r.MANAGER_ID=m.id
+										left join NEWS_DATA n on r.NEWS_ID=n.id
+										where 
+											n.state in (30,100)
+										AND n.DELETED_FLAG = 0
+										and m.IS_DELETED = 0
+										AND m.state=1
+										and m.IS_ASSIGNED=1
+										and m.IS_ENABLE=1
+										and m.is_internal=1
+										AND m.ORG_DEPARTMENT_ID != - 1
+										AND n.publish_date BETWEEN :startTime AND :endTime
+										and r.read_date between :startTime and :endTime
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="reportPointHander">
+			<bean class="com.seeyon.apps.dashboard.bo.ReportPointHandler">
+				<property name="managerName" value="com.seeyon.apps.dashboard.NewsIndexHandler"></property>
+				<property name="methodName">
+					<map>
+						<entry key="readRatio" value="getReadRatio"></entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

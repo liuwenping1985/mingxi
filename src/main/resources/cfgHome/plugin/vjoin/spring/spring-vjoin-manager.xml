@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="joinSettingManager" class="com.seeyon.apps.vjoin.manager.JoinSettingManagerImpl" />
+
+	<bean id="joinMetadataDepartmentEventListener" class="com.seeyon.apps.vjoin.listener.JoinMetadataDepartmentEventListener" />
+
+	<!-- 选人界面 -->
+	<bean id="selectPeoplePanel4JoinDepartment" class="com.seeyon.apps.vjoin.selectpeople.SelectPeoplePanel4JoinDepartmentImpl" />
+	<bean id="selectPeoplePanel4JoinPost" class="com.seeyon.apps.vjoin.selectpeople.SelectPeoplePanel4JoinPostImpl" />
+	<bean id="selectPeoplePanel4JoinMember" class="com.seeyon.apps.vjoin.selectpeople.SelectPeoplePanel4JoinMemberImpl" />
+	<bean id="selectPeoplePanel4JoinAccountTag" class="com.seeyon.apps.vjoin.selectpeople.SelectPeoplePanel4JoinAccountTagImpl" />
+
+	<bean id="vjoinMessagePipeline" class="com.seeyon.apps.vjoin.usermessage.VjoinMessagePipeline" />
+</beans>

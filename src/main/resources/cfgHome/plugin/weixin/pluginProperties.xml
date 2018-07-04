@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<weixin>
+		<!-- 留着升级用，用一下key -->
+		<enable desc="">0</enable>
+	</weixin>
+</ctpConfig>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 我的秀吧 -->
+	<bean class="com.seeyon.ctp.portal.section.MyShowSection" id="myShowSection" >
+		<!-- 空间分类（文化建设-常用） -->
+		<property name="sectionType" value="publicInformation" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="93" />
+		<!-- 空间分类 -->
+		<property name="sectionCategory" value="common" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间、部门空间、自定义团队空间、（自定义）单位空间、协同工作、驾驶舱、目标管理、会议管理、公文管理、表单主题空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,cooperation_work,performance_analysis,objective_manage,meeting_manage,edoc_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsName"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showSectionStyle"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsCount"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showDisplayCol"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 最新秀吧 -->
+	<bean class="com.seeyon.ctp.portal.section.NewestShowSection" id="newestShowSection">
+		<!-- 空间分类（文化建设-常用） -->
+		<property name="sectionType" value="publicInformation" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="91" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间、部门空间、自定义团队空间、（自定义）单位空间、协同工作、驾驶舱、目标管理、会议管理、公文管理、表单主题空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,department,custom,public_custom,public_custom_group,group,corporation,cooperation_work,performance_analysis,objective_manage,meeting_manage,edoc_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsName">
+								<property name="defaultValue" value="show.section.newestshowsection" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl"  	parent="showSectionStyle"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" 	parent="showColumnsCount"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" 	parent="showDisplayCol"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 最热秀吧 -->
+	<bean class="com.seeyon.ctp.portal.section.HotShowSection" id="hotShowSection">
+		<!-- 空间分类（文化建设-常用） -->
+		<property name="sectionType" value="publicInformation" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="92" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间、部门空间、自定义团队空间、（自定义）单位空间、协同工作、驾驶舱、目标管理、会议管理、公文管理、表单主题空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,public_custom_group,group,leader,department,custom,public_custom,corporation,cooperation_work,performance_analysis,objective_manage,meeting_manage,edoc_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsName">
+								<property name="defaultValue" value="show.section.hotshowsection" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showSectionStyle"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsCount"/>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showDisplayCol"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 秀秀 -->
+	<bean class="com.seeyon.ctp.portal.section.ShowsSection" id="showsSection">
+		<!-- 空间分类（文化建设-常用） -->
+		<property name="sectionType" value="common,publicInformation" />
+		<!-- 可配置空间(show.section.all) -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,department,public_custom_group,group,custom,public_custom,corporation,cooperation_work,performance_analysis,objective_manage,meeting_manage,edoc_manage,form_application"/>
+		<!-- 控件排序Id -->
+		<property name="sortId" value="90" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<!-- 栏目名称 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsName">
+								<property name="defaultValue" value="show.section.showssection" />
+							</bean>
+							<!-- 栏目显示 的行数 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" parent="showColumnsCount"/>
+							<!-- 数据来源 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="dataFrom" />
+                                <property name="subject" value="show.section.dataFrom" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="validate" value="notNull"/>
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="show.common.all" />
+                                            <property name="value" value="all" />
+                                        </bean>
+										<!-- 我创建的-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="show.section.showssection.mycreated" />
+                                            <property name="value" value="mycreated" />
+                                        </bean>
+								  		 <!-- 我 参与的-->
+                                         <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                             <property name="subject" value="show.section.showssection.myjoined" />
+                                             <property name="value" value="myjoined" />
+                                         </bean>
+                                         <!-- 
+                                         	指定主题:
+	                                         	portal-common.js  //portal 弹出口样式
+												//秀照片栏目选择数据
+												if(setUrl.indexOf("/show/show.do?method=showSectionSelector")!=-1){
+													width=700;
+													height=470;
+													id = "showSectionSelector";
+												}
+                                          -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="backUp" value="true" />
+											<property name="panelSetUrl" value="/show/show.do?method=showSectionSelector" />
+                                            <property name="subject" value="show.section.showssection.customsources" />
+                                            <property name="value" value="custom" />
+										</bean>
+                                    </list>
+                                </property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- 秀栏目样式bean -->
+	<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" id="showSectionStyle">
+		<property name="name" value="columnsStyle" />
+		<property name="subject" value="show.section.columnsStyle" />
+		<property name="valueType" value="0" />
+		<property name="onChange" value="showListTypeChange"/>
+		<property name="defaultValue" value="listimage" />
+		<property name="validate" value="notNull"/>
+		<property name="valueRanges">
+             <list>
+                 <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                     <property name="subject" value="show.section.columnsStyle.listinfo" />
+                     <property name="value" value="listinfo" />
+                 </bean>
+                 <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                     <property name="subject" value="show.section.columnsStyle.listimage" />
+                     <property name="value" value="listimage" />
+                 </bean>
+             </list>
+         </property>
+	</bean>
+	
+	<!-- 栏目显示行数 -->
+	<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" id="showColumnsCount">
+		<property name="name" value="columnsCount" />
+		<property name="subject" value="show.section.columnsCount" />
+		<property name="valueType" value="2" />
+		<property name="defaultValue" value="1" />
+		<property name="validate" value="isInteger" />
+        <property name="validateValue" value="max=50 min=1 maxLength=2 notNull=true" />
+	</bean>
+	
+	<!-- 秀栏目的显示的行数 displayCol -->
+	<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" id="showDisplayCol">
+		<property name="name" value="displayCol" />
+        <property name="subject" value="show.section.displayCol" />
+        <property name="valueType" value="1" />
+        <property name="defaultValue" value="0,2,3,4" />
+        <property name="validate" value="notNull"/>
+        <property name="valueRanges">
+            <list>
+                <bean   class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                    <property name="subject" value="show.section.displayCol.title" />
+                    <property name="readOnly" value="true" />
+                    <property name="value" value="0" />
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                    <property name="subject" value="show.section.displayCol.createTime" />
+                    <property name="value" value="1" />
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                    <property name="subject" value="show.section.displayCol.viewtimes" />
+                    <property name="value" value="2" />
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                    <property name="subject" value="show.section.displayCol.commenttimes" />
+                    <property name="value" value="3" />
+                </bean>
+                <bean  class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                    <property name="subject" value="show.section.displayCol.liketimes" />
+                    <property name="value" value="4" />
+                </bean>
+            </list>
+        </property>
+	</bean>
+	
+	<!-- 秀栏目名称-->
+	<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl" id="showColumnsName">
+		<property name="name" value="columnsName" />
+		<property name="subject" value="show.section.sectionname" />
+		<property name="valueType" value="2" />
+		<property name="defaultValue" value="show.section.myshowsection" />
+		<property name="validate" value="notNull"/>
+		<property name="validateValue" value="notNull=true maxLength=200"></property>
+	</bean>
+	
+</beans>

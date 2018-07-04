@@ -1,43 +1,85 @@
-//package com.seeyon.apps.datakit.vo;
-//
-//import com.seeyon.apps.datakit.dao.DataKitDao;
-//import com.seeyon.apps.datakit.service.DataKitService;
-//
-//import java.util.Calendar;
-//import java.util.Date;
-//import java.util.Timer;
-//import java.util.TimerTask;
-//
-//public class ScheduleTread{
-//    private DataKitService dataKitService;
-//    private int startAt=3;
-//    public void schedule(){
-//        Timer timer = new Timer();
-//        Date dt = new Date();
-//        Calendar cal = Calendar.getInstance();
-//        int now = cal.get(Calendar.HOUR_OF_DAY);
-//        if(now<startAt){
-//            now = 24-startAt + now;
-//        }else{
-//            now = now-startAt;
-//        }
-//        timer.schedule(new TimerTask(){
-//
-//            public void run() {
-//                try {
-//                    dataKitService.autoSync();
-//                }catch(Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        },now*3600*1000L,24*3600*1000L);
-//    }
-//
-//    public DataKitService getDataKitService() {
-//        return dataKitService;
-//    }
-//
-//    public void setDataKitService(DataKitService dataKitService) {
-//        this.dataKitService = dataKitService;
-//    }
-//}
+package com.seeyon.apps.datakit.vo;
+
+import com.seeyon.apps.datakit.service.DataKitNanJingService;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class ScheduleTread{
+    private DataKitNanJingService dataKitNanJingService;
+    public static boolean RUN = true;
+    private static boolean isStart = false;
+    public void schedule(){
+        if(isStart){
+            return;
+        }
+        isStart = true;
+        Timer timer = new Timer();
+       // Date dt = new Date();
+        //dataKitNanJingService
+        timer.schedule(new TimerTask(){
+
+            public void run() {
+                try {
+                    if(!RUN){
+                        return;
+                    }
+                    System.out.println("----schedule syncJQJX----");
+                    dataKitNanJingService.syncJQJX(false);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        },30*60*1000L,1*3600*1000L);
+        timer.schedule(new TimerTask(){
+
+            public void run() {
+                try {
+                    if(!RUN){
+                        return;
+                    }
+                    System.out.println("----schedule syncPPB----");
+                    dataKitNanJingService.syncPPB(false);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        },10*60*1000L,5*60*1000L);
+        timer.schedule(new TimerTask(){
+
+            public void run() {
+                try {
+                    if(!RUN){
+                        return;
+                    }
+                    System.out.println("----schedule syncSPFL----");
+                    dataKitNanJingService.syncSPFL(false);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        },5*60*1000L,5*60*1000L);
+        timer.schedule(new TimerTask(){
+
+            public void run() {
+                try {
+                    if(!RUN){
+                        return;
+                    }
+                    System.out.println("----schedule syncDQXX----");
+                    dataKitNanJingService.syncDQXX(false);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        },8*60*1000L,5*60*1000L);
+    }
+
+    public DataKitNanJingService getDataKitNanJingService() {
+        return dataKitNanJingService;
+    }
+
+    public void setDataKitNanJingService(DataKitNanJingService dataKitNanJingService) {
+        this.dataKitNanJingService = dataKitNanJingService;
+    }
+}

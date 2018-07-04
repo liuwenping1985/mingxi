@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 工作处理效率-->
+	<bean class="com.seeyon.ctp.portal.section.WorkHandleEfficiencySection" id="workHandleEfficiencySection" >
+		<!-- 空间类型（） -->
+		<property name="sectionType" value="performanceAnalysis" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="2" />
+		<!-- 空间分类 -->
+		<property name="sectionCategory" value="personBehaviorAnalysis" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,Default_personal,default_leader,Default_personal_custom,Default_out_personal,performance_analysis,cooperation_work,objective_manage,edoc_manage,meeting_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<!-- 栏目名称 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="behavioranalysis.section.common.name" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="behavioranalysis.section.workhandlingefficiency" />
+						        <property name="validate" value="notNull"/>
+								<property name="validateValue" value="notNull=true maxLength=200"/>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="h" />
+								<property name="subject" value="behavioranalysis.section.common.height" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="280" />
+								<property name="validate" value="isInteger" />
+						        <property name="validateValue" value="max=768 min=208" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="t" />
+							<property name="subject" value="behavioranalysis.section.common.time" />
+							<property name="valueType" value="0" />
+							<property name="defaultValue" value="0" />
+							<property name="validate" value="notNull"/>
+					        <property name="valueRanges">
+					            <list>
+					                <bean   class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.lastmonth" />
+					                    <property name="value" value="0" />
+					                </bean>
+					                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.lastquarter" />
+					                    <property name="value" value="1" />
+					                </bean>
+					                <!-- <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="上半年" />
+					                    <property name="value" value="2" />
+					                </bean> -->
+					                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.lastyear" />
+					                    <property name="value" value="3" />
+					                </bean>
+					            </list>
+					        </property>
+						</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 个人行为绩效 -->
+	<bean class="com.seeyon.ctp.portal.section.PersonalBhaSection" id="personalBhaSection" >
+		<!-- 空间类型（） -->
+		<property name="sectionType" value="performanceAnalysis" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="1" />
+		<!-- 空间分类 -->
+		<property name="sectionCategory" value="personBehaviorAnalysis" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,Default_personal,default_leader,Default_personal_custom,Default_out_personal,performance_analysis,cooperation_work,objective_manage,edoc_manage,meeting_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+						<!-- 栏目名称 -->
+						<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="columnsName" />
+							<property name="subject" value="behavioranalysis.section.common.name" />
+							<property name="valueType" value="2" />
+							<property name="defaultValue" value="behavioranalysis.section.personalbehaviorscore" />
+					        <property name="validate" value="notNull"/>
+							<property name="validateValue" value="notNull=true maxLength=200"></property>
+						</bean>
+						<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="h" />
+							<property name="subject" value="behavioranalysis.section.common.height" />
+							<property name="valueType" value="2" />
+							<property name="defaultValue" value="280" />
+							<property name="validate" value="isInteger" />
+					        <property name="validateValue" value="max=768 min=208" />
+						</bean>
+						<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="t" />
+							<property name="subject" value="behavioranalysis.section.common.time" />
+							<property name="valueType" value="0" />
+							<property name="defaultValue" value="0" />
+							<property name="validate" value="notNull"/>
+					        <property name="valueRanges">
+					            <list>
+					                <bean   class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.lastmonth" />
+					                    <property name="value" value="0" />
+					                </bean>
+					                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.lastquarter" />
+					                    <property name="value" value="1" />
+					                </bean>
+					                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.lastyear" />
+					                    <property name="value" value="3" />
+					                </bean>
+					            </list>
+					        </property>
+						</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 模板流程超期处理趋势 -->
+	<bean class="com.seeyon.ctp.portal.section.TemplateFlowOvertimeHandleSection" id="templateFlowOvertimeHandleSection" >
+		<!-- 空间类型（） -->
+		<property name="sectionType" value="performanceAnalysis" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="4" />
+		<!-- 空间分类 -->
+		<property name="sectionCategory" value="personBehaviorAnalysis" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,Default_personal,default_leader,Default_personal_custom,Default_out_personal,performance_analysis,cooperation_work,objective_manage,edoc_manage,meeting_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+						<!-- 栏目名称 -->
+						<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="columnsName" />
+							<property name="subject" value="behavioranalysis.section.common.name" />
+							<property name="valueType" value="2" />
+							<property name="defaultValue" value="behavioranalysis.section.templateFlowOvertimeHandleSection" />
+					        <property name="validate" value="notNull"/>
+							<property name="validateValue" value="notNull=true maxLength=200"></property>
+						</bean>
+						<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="h" />
+							<property name="subject" value="behavioranalysis.section.common.height" />
+							<property name="valueType" value="2" />
+							<property name="defaultValue" value="208" />
+							<property name="validate" value="isInteger" />
+					        <property name="validateValue" value="max=768 min=208" />
+						</bean>
+						<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+							<property name="name" value="t" />
+							<property name="subject" value="behavioranalysis.section.common.time" />
+							<property name="valueType" value="0" />
+							<property name="defaultValue" value="6" />
+							<property name="validate" value="notNull"/>
+					        <property name="valueRanges">
+					        	<list>
+					            	<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="behavioranalysis.section.last6m" />
+					                    <property name="value" value="6" />
+					                </bean>
+					                <!-- <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+					                    <property name="subject" value="最近一年" />
+					                    <property name="value" value="12" />
+					                </bean> -->
+					            </list>
+					        </property>
+						</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 工作数量统计（原 协同360） -->
+	<bean class="com.seeyon.ctp.portal.section.WorkHandleStatisticsSection" id="cube360Section" >
+		<!-- 空间类型（） -->
+		<property name="sectionType" value="performanceAnalysis" />
+		<!-- 控件排序Id -->
+		<property name="sortId" value="3" />
+		<!-- 空间分类 -->
+		<property name="sectionCategory" value="personBehaviorAnalysis" />
+		<!-- 可配置空间（（自定义）个人空间、外部人员空间、领导空间） -->
+		<property name="spaceTypes" value="personal_custom,personal,outer,leader,Default_personal,default_leader,Default_personal_custom,Default_out_personal,performance_analysis,cooperation_work,objective_manage,edoc_manage,meeting_manage,form_application"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<!-- 栏目名称 -->
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="behavioranalysis.section.common.name" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="behavioranalysis.section.workflowNumber" />
+						        <property name="validate" value="notNull"/>
+								<property name="validateValue" value="notNull=true maxLength=200"></property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="chartHeight" />
+								<property name="subject" value="behavioranalysis.section.common.height" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="208" />
+								<property name="validate" value="isInteger" />
+						        <property name="validateValue" value="max=768 min=208" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="dateType" />
+								<property name="subject" value="behavioranalysis.section.common.time" />
+								<property name="valueType" value="0" />
+								<property name="defaultValue" value="9" />
+								<property name="validate" value="notNull"/>
+						        <property name="valueRanges">
+						            <list>
+						            	<!-- 原来协同360选择的值是 1、2、4、7、8 -->
+						                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+						                    <property name="subject" value="behavioranalysis.section.lastmonth" />
+						                    <property name="value" value="9" />
+						                </bean>
+						                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+						                    <property name="subject" value="behavioranalysis.section.lastquarter" />
+						                    <property name="value" value="10" />
+						                </bean>
+						                <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+						                    <property name="subject" value="behavioranalysis.section.lastyear" />
+						                    <property name="value" value="11" />
+						                </bean>
+						            </list>
+						        </property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+   <bean id="wFDynamicFormManager" class="com.seeyon.ctp.workflow.dynamicform.manager.WFDynamicFormManagerImpl"/>
+   <bean id="selectPeoplePanel4WFDynamicForm" class="com.seeyon.ctp.workflow.dynamicform.manager.SelectPeoplePanel4WFDynamicForm"/>
+   <bean id="wFDynamicFormLisenter" class="com.seeyon.ctp.workflow.dynamicform.manager.WFDynamicFormLisenter"/>
+   <bean id="wFDynamicFormMatch" class="com.seeyon.ctp.workflow.dynamicform.manager.WFDynamicFormMatchImpl"/>
+   
+</beans>

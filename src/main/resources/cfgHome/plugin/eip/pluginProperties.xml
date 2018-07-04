@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ctpConfig>
+	<eip>
+		<integration>
+			<enable mark="{option,false,true} {VE}" desc="是否启用门户系统集成插件false--不启用  true--启用">false</enable>
+		</integration>
+	</eip>
+</ctpConfig>

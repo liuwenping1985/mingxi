@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="dataSource-archiveExchange"
+        class="com.seeyon.v3x.dbpool.datasource.DataSourceConProvider"
+        abstract="false" singleton="true"
+        lazy-init="default" autowire="default" dependency-check="default">
+        <property name="name" value="archiveExchange" />
+        <property name="configProperties">
+            <props>
+                <prop key="driverClassName">${archive.integration.db.driverClassName}</prop>                 
+                <prop key="url">${archive.integration.db.url}</prop>
+                <prop key="username">${archive.integration.db.userName}</prop>
+                <prop key="password">${archive.integration.db.passWord}</prop>
+                <prop key="minCount">1</prop>
+                <prop key="maxCount">100</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="sessionFactory-archiveExchange"
+        class="org.springframework.orm.hibernate3.CTPLocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref local="dataSource-archiveExchange" />
+        </property>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath*:com/seeyon/apps/archive/po/*.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="transactionManager-archiveExchange"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref local="sessionFactory-archiveExchange" />
+        </property>
+    </bean>
+
+    <bean id="baseTxService-archiveExchange"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+        abstract="true">
+        <property name="transactionManager" ref="transactionManager-archiveExchange" />
+        <property name="proxyTargetClass" value="true" />
+
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName"> 
+  <!-- 角色自定义控件控制器 addby lib -->
+    <bean name="/form/roleCustom.do" class="com.seeyon.ctp.workflow.dynamicform.controller.FormFieldCustomRoleExtendController" />
+</beans>
+
+

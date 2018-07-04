@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+ 
+<class name="PPB" table="PPB">
+ <id
+            name="PPB01"
+            column="PPB01"
+            type="string"
+            length="256"
+ ></id>
+<property
+            name="PPB02"
+            column="PPB02"
+            type="string"
+not-null="false"
+ length="256"
+ />
+<property
+            name="PPB03"
+            column="PPB03"
+            type="string"
+not-null="false"
+ length="256"
+ />
+<property
+            name="PPB04"
+            column="PPB04"
+            type="float"
+not-null="false"
+length="16"
+ />
+<property
+            name="BTOBTS01"
+            column="BTOBTS01"
+            type="string"
+not-null="false"
+ length="256"
+ />
+<property
+            name="BTOBTS02"
+            column="BTOBTS02"
+            type="string"
+not-null="false"
+ length="256"
+ />
+<property
+            name="BTOBZT01"
+            column="BTOBZT01"
+            type="long"
+not-null="false"
+ length="20"
+ />
+    </class>
+</hibernate-mapping>

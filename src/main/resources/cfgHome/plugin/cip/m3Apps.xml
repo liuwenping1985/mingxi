@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<m3>
+	<shellVersion>ios:1.0.0,android:1.0.0</shellVersion>
+	<v5Apps>
+		<app>
+			<appName>协同</appName>
+			<appId>1</appId>
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<packName>1</packName><!--应用包文件名-->
+			<sortNum>1</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F01_listPending</menuCode><!--移动端对应v5菜单code-->
+					<menuName>待办</menuName>
+				</menu>
+				<menu>
+					<menuCode>F01_listDone</menuCode>
+					<menuName>已办</menuName>
+				</menu>
+				<menu>
+					<menuCode>F01_listSent</menuCode>
+					<menuName>已发</menuName>
+				</menu>
+				<menu>
+					<menuCode>F01_listWaitSend</menuCode>
+					<menuName>待发</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>公告</appName>
+			<appId>7</appId>
+			<packName>7</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>3</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F05_bulIndexAccount</menuCode><!--移动端对应v5菜单code-->
+					<menuName>公告</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>讨论</appName>
+			<appId>9</appId>
+			<packName>9</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>16</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F05_bbsIndexAccount</menuCode><!--移动端对应v5菜单code-->
+					<menuName>讨论</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>文档</appName>
+			<appId>3</appId>
+			<packName>3</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>13</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F04_docIndex</menuCode><!--移动端对应v5菜单code-->
+					<menuName>文档中心</menuName>
+				</menu>
+				<menu>
+					<menuCode>F04_myDocLibIndex</menuCode><!--移动端对应v5菜单code-->
+					<menuName>文档中心</menuName>
+				</menu>
+				<menu>
+					<menuCode>F04_accDocLibIndex</menuCode><!--移动端对应v5菜单code-->
+					<menuName>文档中心</menuName>
+				</menu>
+				<menu>
+					<menuCode>F04_proDocLibIndex</menuCode><!--移动端对应v5菜单code-->
+					<menuName>文档中心</menuName>
+				</menu>
+				<menu>
+					<menuCode>F04_eDocLibIndex</menuCode><!--移动端对应v5菜单code-->
+					<menuName>文档中心</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>公文</appName>
+			<appId>4</appId>
+			<packName>4</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>11</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F07_sendManager</menuCode><!--移动端对应v5菜单code-->
+					<menuName>发文</menuName>
+				</menu>
+				<menu>
+					<menuCode>F07_recManager</menuCode>
+					<menuName>收文</menuName>
+				</menu>
+				<menu>
+					<menuCode>F07_signReport</menuCode>
+					<menuName>签报</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>行为绩效</appName>
+			<appId>42</appId>
+			<packName>42</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>18</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F08_personalbehavioranalysis</menuCode><!--移动端对应v5菜单code-->
+					<menuName>个人行为绩效</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>表单</appName>
+			<appId>2</appId>
+			<packName>2</packName><!--应用包文件名-->
+			<privilege>0</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<menus>
+			</menus>
+		</app>
+		<app>
+			<appName>工资条</appName><!--判断有没有hr插件-->
+			<appId>17</appId>
+			<packName>17</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>19</sortNum>
+			<plugin>hr</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+			</menus>
+		</app>
+		<app>
+			<appName>调查</appName>
+			<appId>10</appId>
+			<packName>10</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>15</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F05_inquiryIndexAccount</menuCode><!--移动端对应v5菜单code-->
+					<menuName>调查</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>会议</appName>
+			<appId>6</appId>
+			<packName>6</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>2</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F09_meetingPending</menuCode><!--移动端对应v5菜单code-->
+					<menuName>待开会议</menuName>
+				</menu>
+				<menu>
+					<menuCode>F09_meetingDone</menuCode>
+					<menuName>已开会议</menuName>
+				</menu>
+				<menu>
+					<menuCode>F09_meetingRoom</menuCode>
+					<menuName>会议资源</menuName>
+				</menu>
+				<menu>
+					<menuCode>F09_meetingArrange</menuCode>
+					<menuName>会议安排</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>新闻</appName>
+			<appId>8</appId>
+			<packName>8</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>4</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F05_newsIndexAccount</menuCode><!--移动端对应v5菜单code-->
+					<menuName>新闻</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>享空间</appName>
+			<appId>40</appId>
+			<packName>40</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>17</sortNum>
+			<menus>
+				<menu>
+					<menuCode>F05_show</menuCode><!--移动端对应v5菜单code-->
+					<menuName>享空间</menuName>
+				</menu>
+			</menus>
+		</app>
+		
+		<app>
+			<appName>业务生成器</appName>
+			<appId>43</appId>
+			<packName>43</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin>formBiz</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>cmp</appName>
+			<appId>49</appId>
+			<packName>49</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin>formBiz</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>公共资源</appName>
+			<appId>44</appId>
+			<packName>44</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin>formBiz</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>dee</appName>
+			<appId>51</appId>
+			<packName>51</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin>formBiz</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>表单查询统计</appName>
+			<appId>48</appId>
+			<packName>48</packName><!--应用包文件名-->
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>9</sortNum>
+			<menus>
+				<menu>
+					<menuCode>T05_formQuery</menuCode><!--移动端对应v5菜单code-->
+					<menuName>表单查询</menuName>
+				</menu>
+				<menu>
+					<menuCode>F08_reportviewindex</menuCode>
+					<menuName>表单统计</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>无流程表单</appName>
+			<appId>47</appId>
+			<packName>47</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin>formBiz</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>语音模块</appName>
+			<appId>50</appId>
+			<packName>50</packName><!--应用包文件名-->
+			<privilege>0</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>工作流</appName>
+			<appId>45</appId>
+			<packName>45</packName><!--应用包文件名-->
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin>formBiz</plugin><!--如果只受插件控制需要填插件ID-->
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>我的收藏</appName>
+			<appId>60</appId>
+			<packName>60</packName>
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>7</sortNum>
+			<plugin>doc</plugin>
+			<menus>
+				<menu>
+					<menuCode>F04_myCollection</menuCode><!--移动端对应v5菜单code-->
+					<menuName>我的收藏</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>综合办公</appName>
+			<appId>26</appId>
+			<packName>26</packName>
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>999</sortNum>
+			<plugin></plugin>
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>签到</appName>
+			<appId>36</appId>
+			<packName>36</packName>
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>6</sortNum>
+			<plugin>attendance</plugin>
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>致信</appName>
+			<appId>61</appId>
+			<packName>61</packName>
+			<privilege>2</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>5</sortNum>
+			<plugin>zx</plugin>
+			<menus>
+				
+			</menus>
+		</app>
+		<app>
+			<appName>任务管理</appName>
+			<appId>30</appId>
+			<packName>30</packName>
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>12</sortNum>
+			<plugin></plugin>
+			<menus>
+				<menu>
+					<menuCode>F02_projecttask</menuCode><!--移动端对应v5菜单code-->
+					<menuName>项目任务</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>日程事件</appName>
+			<appId>11</appId>
+			<packName>11</packName>
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>8</sortNum>
+			<plugin></plugin>
+			<menus>
+				<menu>
+					<menuCode>F02_timeArrangelist</menuCode><!--移动端对应v5菜单code-->
+					<menuName>时间视图</menuName>
+				</menu>
+			</menus>
+		</app>
+		<app>
+			<appName>报表分析</appName>
+			<appId>63</appId>
+			<packName>63</packName>
+			<privilege>1</privilege><!--0,不受权限控制 1,正常权限控制 2,只做插件权限控制-->
+			<sortNum>10</sortNum>
+			<plugin></plugin>
+			<menus>
+				<menu>
+					<menuCode>T7_reportShowIndex</menuCode><!--移动端对应v5菜单code-->
+					<menuName>报表分析</menuName>
+				</menu>
+			</menus>
+		</app>
+	</v5Apps>
+</m3>

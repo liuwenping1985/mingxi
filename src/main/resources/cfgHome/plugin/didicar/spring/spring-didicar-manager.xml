@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="didicarManager" class="com.seeyon.apps.didicar.manager.DidicarManagerImpl">
+		<property name="msgMap">
+			<map>
+				<entry key="400" value="didicar.plugin.account.msg.400"></entry>
+				<entry key="401" value="didicar.plugin.account.msg.401"></entry>
+				<entry key="402" value="didicar.plugin.account.msg.402"></entry>
+				<entry key="403" value="didicar.plugin.account.msg.403"></entry>
+				<entry key="404" value="didicar.plugin.account.msg.404"></entry>
+				<entry key="405" value="didicar.plugin.account.msg.405"></entry>
+				<entry key="406" value="didicar.plugin.account.msg.406"></entry>
+				<entry key="407" value="didicar.plugin.account.msg.407"></entry>
+				<entry key="19999" value="didicar.plugin.account.msg.407"></entry>
+				<entry key="408" value="didicar.plugin.account.msg.408"></entry>
+				<entry key="409" value="didicar.plugin.account.msg.409"></entry>
+				<entry key="410" value="didicar.plugin.account.msg.410"></entry>
+				<entry key="411" value="didicar.plugin.account.msg.411"></entry>
+				<entry key="412" value="didicar.plugin.account.msg.412"></entry>
+				<entry key="500" value="didicar.plugin.account.msg.500"></entry>
+				<entry key="5001" value="didicar.plugin.account.msg.5001"></entry>
+				<entry key="20013" value="didicar.plugin.account.msg.20013"></entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="updateMemberEventListener" class="com.seeyon.apps.didicar.listener.UpdateMemberEventListener"/>
+
+	<bean id="didicarUnitManager" class="com.seeyon.apps.didicar.manager.DidicarUnitManagerImpl">
+       <property name="orgManager" ref="orgManager"/>
+    </bean>
+    <bean id="didiGroupVerUpdate" class="com.seeyon.apps.didicar.manager.DidiCarGroupVerUpdateImpl"/>
+    <bean id="didiCarPluginInitializer" class="com.seeyon.apps.didicar.DidiCarPluginInitializer"/>
+    <bean id="diDiConnectM3Portal" class="com.seeyon.apps.didicar.cip.DiDiConnectM3Portal"/>
+    <bean id="diDiDepartMentEventListener" class="com.seeyon.apps.didicar.listener.DiDiDepartMentEventListener"/>
+     
+</beans>

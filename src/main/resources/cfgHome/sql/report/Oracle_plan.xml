@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlcfg>
+	<report>
+		<PlanReturnStatistics>
+			<main>
+				<subjectReport>
+                <![CDATA[
+                SELECT 
+                a.uname AS "人员", 
+                cast(:displayTime as VARCHAR(23)) AS "时间", 
+                cast((CASE WHEN 1=:TYPE THEN '日计划' WHEN 2=:TYPE THEN '周计划' WHEN 3=:TYPE THEN '月计划' WHEN 4=:TYPE THEN '任意期计划' ELSE '' END) AS VARCHAR(15)) AS "类型", 
+                (CASE WHEN b.send_sum IS NULL THEN 0 ELSE b.send_sum END) AS "我的计划", 
+                (CASE WHEN c.ser_sum1 IS NULL THEN 0 ELSE c.ser_sum1 END) AS "收到数(主送)", 
+                (CASE WHEN c.ser_sum2 IS NULL THEN 0 ELSE c.ser_sum2 END) AS "回复数(主送)", 
+                (CASE WHEN c.ser_sum2=0 OR c.ser_sum2 is null THEN '0.00%' ELSE CONCAT(cast(ROUND(c.ser_sum2/c.ser_sum1*100,2) as char(10)),'%') END) AS "回复率(主送)",  
+                (CASE WHEN c.ser_sum3 IS NULL THEN 0 ELSE c.ser_sum3 END) AS "收到数(抄送)", 
+                (CASE WHEN c.ser_sum4 IS NULL THEN 0 ELSE c.ser_sum4 END) AS "回复数(抄送)", 
+                (CASE WHEN c.ser_sum4=0 OR c.ser_sum4 is null THEN '0.00%' ELSE CONCAT(cast(ROUND(c.ser_sum4/c.ser_sum3*100,2) as char(10)),'%') END) AS "回复率(抄送)", 
+                :startTime as "start_time",:endTime as "end_time",:TYPE as "planType",a.member_id as "member_id" 
+                FROM 
+                (SELECT 
+                o.ID         AS member_id, 
+                o.name        AS uNAME 
+                FROM org_member o 
+                WHERE o.ID IN(:users) )a 
+                LEFT JOIN ( 
+                SELECT 
+                p.create_user_id AS member_id, 
+                COUNT(create_user_id) AS send_sum 
+                FROM plan_info p 
+                WHERE p.status != 1 
+                AND p.type = :TYPE 
+                AND p.create_user_id IN(:users) 
+                AND ((p.start_time >= TO_DATE(:startTime,'yyyy-mm-dd') AND p.end_time < TO_DATE(:endTime,'yyyy-mm-dd')) OR 
+                (p.start_time<=TO_DATE(:startTime,'yyyy-mm-dd') and TO_DATE(:startTime,'yyyy-mm-dd')<=p.end_time) OR 
+                (p.start_time<TO_DATE(:endTime,'yyyy-mm-dd') and TO_DATE(:endTime,'yyyy-mm-dd')<=p.end_time) ) 
+                GROUP BY p.create_user_id) b 
+                ON a.member_id=b.member_id 
+                LEFT JOIN ( 
+                SELECT 
+                pu.ref_user_id AS member_id, 
+                SUM(CASE WHEN pu.type = 1 THEN 1 ELSE 0 END) AS ser_sum1, 
+                SUM(CASE WHEN pu.type = 1 AND pu.PROCESS=1 THEN 1 ELSE 0 END) AS ser_sum2, 
+                SUM(CASE WHEN pu.type = 2 THEN 1 ELSE 0 END) AS ser_sum3, 
+                SUM(CASE WHEN pu.type = 2 AND pu.PROCESS=1 THEN 1 ELSE 0 END) AS ser_sum4 
+                FROM plan_info p 
+                INNER JOIN plan_relevant_user pu 
+                ON p.id = pu.ref_plan_id 
+                WHERE p.status != 1 
+                AND p.type = :TYPE 
+                AND pu.ref_user_id IN(:users) 
+                AND ((p.start_time >= TO_DATE(:startTime,'yyyy-mm-dd') AND p.end_time < TO_DATE(:endTime,'yyyy-mm-dd')) OR 
+                (p.start_time<=TO_DATE(:startTime,'yyyy-mm-dd') and TO_DATE(:startTime,'yyyy-mm-dd')<=p.end_time) OR 
+                (p.start_time<TO_DATE(:endTime,'yyyy-mm-dd') and TO_DATE(:endTime,'yyyy-mm-dd')<=p.end_time) ) 
+                GROUP BY pu.ref_user_id) c 
+                ON a.member_id=c.member_id
+                order by "我的计划" DESC
+                ]]>
+				</subjectReport>
+				<plan>
+					<body>
+					<![CDATA[
+						SELECT 
+			               	{0}
+			                FROM plan_info p 
+			                INNER JOIN plan_relevant_user pu 
+			                ON p.id = pu.ref_plan_id 
+			                WHERE p.status != 1 
+			                AND pu.ref_user_id IN(:users)   
+			                AND {1} 
+			                GROUP BY pu.ref_user_id
+			         ]]>
+					</body>
+					<member>
+					<![CDATA[
+						pu.ref_user_id AS member_id
+					]]> 
+					</member>
+					<masterReceive>
+					<![CDATA[
+						SUM(CASE WHEN pu.type = 1 THEN 1 ELSE 0 END) AS master_receive
+					]]>
+					</masterReceive>
+					<masterReply>
+					<![CDATA[
+						SUM(CASE WHEN pu.type = 1 AND pu.PROCESS=1 THEN 1 ELSE 0 END) AS master_reply
+					]]>
+					</masterReply>
+					<copyReceive>
+					<![CDATA[
+						SUM(CASE WHEN pu.type = 2 THEN 1 ELSE 0 END) AS copy_receive
+					]]>
+					</copyReceive>
+					<copyReply>
+					<![CDATA[
+						SUM(CASE WHEN pu.type = 2 AND pu.PROCESS=1 THEN 1 ELSE 0 END) AS copy_reply
+					]]>
+					</copyReply>
+					<allReply>
+					<![CDATA[
+						SUM(CASE WHEN (pu.type = 1 AND pu.PROCESS = 1) or (pu.type = 2 AND pu.PROCESS = 1) THEN 1 ELSE 0 END)AS all_reply
+					]]>
+					</allReply>
+					<allReceive>
+					<![CDATA[
+						SUM(CASE WHEN pu.type = 1 or pu.type = 2 THEN 1 ELSE 0 END) AS all_receive
+					]]>
+					</allReceive>
+					<time>
+					<![CDATA[
+						((p.start_time >= TO_DATE(:startTime,'yyyy-mm-dd') AND p.end_time < TO_DATE(:endTime,'yyyy-mm-dd')) OR 
+		                (p.start_time<=TO_DATE(:startTime,'yyyy-mm-dd') and TO_DATE(:startTime,'yyyy-mm-dd')<=p.end_time) OR 
+		                (p.start_time<TO_DATE(:endTime,'yyyy-mm-dd') and TO_DATE(:endTime,'yyyy-mm-dd')<=p.end_time) )
+			        ]]>
+					</time>
+					<send>
+					<![CDATA[
+		                SELECT 
+		                p.create_user_id AS member_id, 
+		                COUNT(create_user_id) AS send_sum 
+		                FROM plan_info p 
+		                WHERE p.status != 1 
+		                AND p.create_user_id IN(:users) 
+		                AND {0} 
+		                GROUP BY p.create_user_id
+		             ]]>
+					</send>
+				</plan>
+			</main>
+		</PlanReturnStatistics>
+	</report>
+</sqlcfg>

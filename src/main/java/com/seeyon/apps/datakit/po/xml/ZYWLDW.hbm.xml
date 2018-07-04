@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+ 
+<class name="ZYWLDW" table="ZYWLDW_TMP">
+ <id
+name="ID"
+column="ID"
+type="long"
+length="20"
+
+></id>
+<property
+name="WLDW02"
+column="WLDW02"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="DQXX01"
+column="DQXX01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="WLDW06"
+column="WLDW06"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="JXSL01"
+column="JXSL01"
+type="float"
+not-null="false"
+ />
+<property
+name="WLDW11"
+column="WLDW11"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="WLDW12"
+column="WLDW12"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="WLDW13"
+column="WLDW13"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="WLDW14"
+column="WLDW14"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="WLDW20"
+column="WLDW20"
+type="integer"
+not-null="false"
+ length="32"
+ />
+<property
+name="WLDW43"
+column="WLDW43"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="DWQT06"
+column="DWQT06"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="DWQT08"
+column="DWQT08"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="TBBJ"
+column="TBBJ"
+type="integer"
+not-null="false"
+ length="32"
+ />
+<property
+name="BTOBTS01"
+column="BTOBTS01"
+type="string"
+not-null="false"
+ length="256"
+ />
+<property
+name="BTOBTS02"
+column="BTOBTS02"
+type="string"
+not-null="false"
+ length="256"
+ />
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>ldap</id>
+	<name>LDAP/AD</name>
+	<category>17289</category>
+	<!-- 
+	<initializer>com.seeyon.apps.ldap.LdapPluginInitializer</initializer>
+	 -->
+</plugin>

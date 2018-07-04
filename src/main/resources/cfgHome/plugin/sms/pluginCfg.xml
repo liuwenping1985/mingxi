@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>sms</id>
+	<name>短信集成接口</name>
+	<category>11113</category>
+</plugin>

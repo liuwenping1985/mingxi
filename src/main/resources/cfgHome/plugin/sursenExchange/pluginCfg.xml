@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>sursenExchange</id>
+	<name>书生公文交换集成插件</name>
+	<category>19875</category>
+	<initializer>com.seeyon.apps.sursenExchange.util.SursenExchangePluginDefintion</initializer>
+</plugin>

@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName" default-lazy-init="false">
+    <bean name="/collaboration/pending.do"
+        class="com.seeyon.ctp.portal.section.PendingController" >
+    </bean>
+    <!-- 待办事项 -->
+    <bean id="pendingSection" class="com.seeyon.ctp.portal.section.PendingSection" init-method="init">
+        <property name="sectionType" value="common,collaboration,edoc" />
+        <property name="sortId" value="6" />
+        <property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+        <property name="properties">
+            <list>
+                <!-- 栏目名称 -->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="common.my.pending.title" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!-- 栏目样式 -->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnStyle" />
+                                <property name="subject" value="collaboration.columnStyle.style.label" />
+                                <property name="valueType" value="0" /> <!-- 下拉列表 -->
+                                <property name="onChange" value="pendingColumnStyle"></property>
+                                <property name="defaultValue" value="orderList" /><!-- 默认值单列表+统计图 -->
+                                <property name="valueRanges">
+                                    <list>
+                                        <!-- 单列表 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.orderList.label" />
+                                            <property name="value" value="orderList" />
+                                        </bean>
+                                        <!--  单列表+统计图 （默认）-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.listAndStatisticalGraph.label" />
+                                            <property name="value" value="listAndStatisticalGraph" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!-- 显示行数 -->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" />
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=8" />
+                                <property name="defaultValue" value="8" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!-- 显示字段-->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="rowList" />
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="subject,receiveTime,sendUser,category" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <!-- 标题 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.subject.label" />
+                                            <property name="readOnly" value="true" />
+                                            <property name="value" value="subject" />
+                                        </bean>
+                                        <!-- 接收时间/召开时间段 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.cannel.display.column.receiveTime.label" />
+                                            <property name="value" value="receiveTime" />
+                                        </bean>
+                                         <!-- 处理期限 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.deadLine.label" />
+                                            <property name="value" value="deadLine" />
+                                        </bean>
+                                        <!-- 公文文号(公文用)-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pendingSection.edocMark.label" />
+                                            <property name="value" value="edocMark" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 发文单位 (公文用)-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pendingSection.sendUnit.label" />
+                                            <property name="value" value="sendUnit" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 发起人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.sendUser.label" />
+                                            <property name="value" value="sendUser" />
+                                        </bean>
+                                        <!-- 上一处理人  addby libing-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.preApprover.label2" />
+                                            <property name="value" value="preApproverName" />
+                                            <property name="pluginId" value="collaboration" />
+                                        </bean>
+                                        <!-- 会议地点(会议用) -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pendingSection.placeOfMeeting.label" />
+                                            <property name="value" value="placeOfMeeting" />
+                                            <property name="pluginId" value="meeting" />
+                                        </bean>
+                                        <!-- 主持人(会议用) -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pendingSection.theConferenceHost.label" />
+                                            <property name="value" value="theConferenceHost" />
+                                            <property name="pluginId" value="meeting" />
+                                        </bean>
+                                        <!--已处理人数/总人数(会议用) -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pendingSection.processingProgress.label" />
+                                            <property name="value" value="processingProgress" />
+                                            <property name="pluginId" value="meeting" />
+                                        </bean>
+                                        <!-- 分类 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.category.label" />
+                                            <property name="value" value="category" />
+                                        </bean>
+                                        <!-- 节点名称 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.policy.label" />
+                                            <property name="value" value="policy" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!-- 统计图 -->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="graphical" />
+                                <property name="subject" value="collaboration.pending.graphicalChoose.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="graphical" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pending.collaboration.pending.chart.label" />
+                                            <property name="value" value="graphical" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="collaboration/pending.do?method=showStatisticalChart" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!-- 数据来源 -->
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" />
+                                <property name="subject" value="cannel.panel.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <!-- 全部待办 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.all.label" />
+                                            <property name="readOnly" value="false" />
+                                            <property name="value" value="all" />
+                                        </bean>
+                                        <!-- 指定发起人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.sender.label" />
+                                            <property name="value" value="sender" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/selectPeople.do?ViewPage=SelectPeople4PortalSender&amp;amp;Panels=Department,Team,Post,Outworker,RelatePeople&amp;amp;SelectType=Account,Department,Team,RelatePeople,Post,Member&amp;amp;id=portalSender&amp;amp;include=true"></property>
+                                        </bean>
+                                        <!-- 组合来源 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pending.panel.combination.sources" />
+                                            <property name="value" value="sources" />
+                                             <property name="backUp" value="true" />
+                                            <property name="valueRangeExtraSelects">
+                                                    <list>
+                                                       <!-- 流程分类 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="template.section.choose.label" />
+                                                            <property name="value" value="track_catagory" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalCatagory&amp;amp;openFrom=pendingSection" />
+                                                        </bean>
+                                                         <!-- 应用或节点权限 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.policy.or.other.label" />
+                                                            <property name="value" value="Policy" />
+                                                            <property name="panelSetUrl" value="permission/permission.do?method=showPerom4Portal&amp;amp;openFrom=pendingSection" />
+                                                        </bean>
+                                                         <!-- 模板分类-->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.template.toolbar.category" />
+                                                            <property name="value" value="templete_pending" />
+                                                            <property name="panelSetUrl" value="template/template.do?method=templateChooseMul&amp;amp;type=-1&amp;amp;isPortal=1&amp;amp;isMul=true&amp;amp;scope=MaxScope&amp;amp;isCanSelectCategory=true" />
+                                                        </bean>
+                                                         <!-- 指定重要紧急程度 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.importlevel.label" />
+                                                            <property name="value" value="importLevel" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalImportLevel" />
+                                                        </bean>
+                                                         
+                                                        <!-- 超期待办 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.overTime.label" />
+                                                            <property name="value" value="overTime" />
+                                                        </bean>
+                                                         <!-- 办理状态 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.handlingState.label" />
+                                                            <property name="value" value="handlingState" />
+                                                            <property name="panelSetUrl" value="collaboration/pending.do?method=handlingState" />
+                                                        </bean>
+                                                        <!-- 条件关系 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.relation" />
+                                                            <property name="showCheckBox" value="false"/>
+                                                            <property name="value" value="relation" />
+                                                            <property name="select">
+                                                                    <list>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="1" />
+                                                                            <property name="value" value="and" />
+                                                                        </bean>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="0" />
+                                                                            <property name="value" value="or" />
+                                                                        </bean>
+                                                                    </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- 代理事项 -->
+	<bean id="agentSection" class="com.seeyon.ctp.portal.section.AgentSection">
+		<property name="sectionType" value="common" />
+		<property name="sortId" value="7" />
+		<property name="spaceTypes" value="personal,personal_custom,leader" />
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="cannel.name.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="common.my.agent.label" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="count" />
+								<property name="subject" value="collaboration.cannel.data.count" />
+								<property name="valueType" value="2" />
+								<property name="validate" value="isInteger" />
+								<property name="validateValue" value="max=50 min=8" />
+								<property name="defaultValue" value="8" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="rowList" />
+								<property name="subject" value="cannel.display.column.label" />
+								<property name="valueType" value="1" />
+								<property name="defaultValue" value="subject,receiveTime,sendUser,category" />
+								<property name="valueRanges">
+									<list>
+										<!-- 标题 -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="cannel.display.column.subject.label" />
+											<property name="readOnly" value="true" />
+											<property name="value" value="subject" />
+										</bean>
+										<!-- 接收时间/召开时间段 -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="collaboration.cannel.display.column.receiveTime.label" />
+											<property name="value" value="receiveTime" />
+										</bean>
+										<!-- 处理期限 -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="cannel.display.column.deadLine.label" />
+											<property name="value" value="deadLine" />
+										</bean>
+										<!-- 公文文号(公文用) -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="collaboration.pendingSection.edocMark.label" />
+											<property name="value" value="edocMark" />
+											<property name="pluginId" value="edoc" />
+										</bean>
+										<!-- 发文单位 (公文用) -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="collaboration.pendingSection.sendUnit.label" />
+											<property name="value" value="sendUnit" />
+											<property name="pluginId" value="edoc" />
+										</bean>
+										<!-- 发起人 -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="cannel.display.column.sendUser.label" />
+											<property name="value" value="sendUser" />
+										</bean>
+                                        <!-- 上一处理人-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.preApprover.label2" />
+                                            <property name="value" value="preApproverName" />
+                                            <property name="pluginId" value="collaboration" />
+                                        </bean>
+										<!-- 会议地点(会议用) -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="collaboration.pendingSection.placeOfMeeting.label" />
+											<property name="value" value="placeOfMeeting" />
+											<property name="pluginId" value="meeting" />
+										</bean>
+										<!-- 主持人(会议用) -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="collaboration.pendingSection.theConferenceHost.label" />
+											<property name="value" value="theConferenceHost" />
+											<property name="pluginId" value="meeting" />
+										</bean>
+										<!-- 已处理人数/总人数(会议用) -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="collaboration.pendingSection.processingProgress.label" />
+											<property name="value" value="processingProgress" />
+											<property name="pluginId" value="meeting" />
+										</bean>
+										<!-- 分类 -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="cannel.display.column.category.label" />
+											<property name="value" value="category" />
+										</bean>
+										<!-- 节点名称 -->
+										<bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="cannel.display.column.policy.label" />
+											<property name="value" value="policy" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+    <!-- 已办事项 -->
+    <bean id="doneSection" class="com.seeyon.ctp.portal.section.DoneSection" init-method="init">
+        <property name="sectionType" value="common,collaboration,meeting,edoc" />
+        <property name="sortId" value="8" />
+        <property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,vjoinpc,vjoinmobile" />
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" /><!-- 栏目名称 -->
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="common.my.done.title" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" /><!-- 显示行数 -->
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="8" />
+                                <property name="mValidateValue" value="max=10 min=1" />
+                                <property name="mDefaultValue" value="3" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="dateList" /><!-- 数据显示 -->
+                                <property name="subject" value="collaboration.portal.listDone.dataShow" />
+                                <property name="valueType" value="10" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.portal.listDone.isDeduplication" /> <!-- 同一流程只显示最后一条 -->
+                                            <property name="value" value="deduplication" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="rowList" /><!-- 显示字段 -->
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="subject,receiveTime,sendUser,category,deduplication" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.subject.label" /> <!-- 标题 -->
+                                            <property name="readOnly" value="true" />
+                                            <property name="value" value="subject" />
+                                        </bean>
+                                        <!-- 处理时间/召开时间 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.cannel.display.column.doneTime.label" />
+                                            <property name="value" value="receiveTime" />
+                                        </bean>
+                                        <!-- 公文文号-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.edocMark.label" />
+                                            <property name="value" value="edocMark" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 发文单位-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.sendUnit.label" />
+                                            <property name="value" value="sendUnit" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 当前待办人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.list.currentNodesInfo.label" />
+                                            <property name="value" value="currentNodesInfo" />
+                                        </bean>
+                                        <!-- 发起人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.sendUser.label" />
+                                            <property name="value" value="sendUser" />
+                                        </bean>
+                                        <!-- 上一处理人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.preApprover.label2" />
+                                            <property name="value" value="preApproverName" />
+                                            <property name="pluginId" value="collaboration" />
+                                        </bean>
+                                        <!-- 会议地点(会议字段) -->
+                                        <!-- <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.placeOfMeeting.label" />
+                                            <property name="value" value="placeOfMeeting" />
+                                        </bean> -->
+                                        <!-- 主持人(会议字段) -->
+                                        <!-- <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.theConferenceHost.label" />
+                                            <property name="value" value="theConferenceHost" />
+                                        </bean> -->
+                                        <!-- 分类 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.category.label" />
+                                            <property name="value" value="category" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+        		 <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" />
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="subject" value="cannel.panel.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.panel.all.label" /> <!-- 全部 -->
+                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                            <property name="value" value="all" />
+                                        </bean>
+                                        <!-- 指定发起人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.sender.label" />
+                                            <property name="value" value="sender" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/selectPeople.do?ViewPage=SelectPeople4PortalSender&amp;amp;Panels=Department,Team,Post,Outworker,RelatePeople&amp;amp;SelectType=Account,Department,Team,RelatePeople,Post,Member&amp;amp;id=portalSender&amp;amp;include=true"/>
+                                        </bean>
+                                        <!-- 组合来源 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pending.panel.combination.sources" />
+                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                            <property name="value" value="sources" />
+                                             <property name="backUp" value="true" />
+                                            <property name="valueRangeExtraSelects">
+                                                    <list>
+													   <!-- 流程分类 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="template.section.choose.label" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="value" value="track_catagory" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalCatagory&amp;amp;openFrom=doneSection" />
+                                                        </bean>
+														 <!-- 应用或节点权限 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.policy.or.other.label" />
+                                                            <property name="value" value="Policy" />
+                                                            <property name="panelSetUrl" value="permission/permission.do?method=showPerom4Portal&amp;amp;openFrom=doneSection" />
+                                                        </bean>
+														 <!-- 模板分类-->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.template.toolbar.category" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="value" value="templete_pending" />
+                                                            <property name="panelSetUrl" value="template/template.do?method=templateChooseMul&amp;amp;type=-1&amp;amp;isPortal=1&amp;amp;isMul=true&amp;amp;scope=MaxScope&amp;amp;isCanSelectCategory=true" />
+                                                        </bean>
+														 <!-- 指定重要紧急程度 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.importlevel.label" />
+                                                            <property name="value" value="importLevel" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalImportLevel" />
+                                                        </bean>
+														<!-- 条件关系 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.relation" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="showCheckBox" value="false"/>
+                                                            <property name="value" value="relation" />
+                                                            <property name="select">
+                                                                    <list>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="1" />
+                                                                            <property name="value" value="and" />
+                                                                        </bean>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="0" />
+                                                                            <property name="value" value="or" />
+                                                                        </bean>
+                                                                    </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- 已发事项 -->
+    <bean id="sentSection" class="com.seeyon.ctp.portal.section.SentSection" init-method="init">
+        <property name="sectionType" value="common,collaboration,edoc" />
+        <property name="sortId" value="9" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,vjoinpc,vjoinmobile" />
+        <property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" /><!-- 显示名称 -->
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="common.my.sent.title" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" /><!-- 显示行数 -->
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="8" />
+                                <property name="mValidateValue" value="max=10 min=1" />
+                                <property name="mDefaultValue" value="3" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="rowList" /><!-- 显示字段 -->
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="subject,publishDate,category" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.subject.label" /> <!-- 标题 -->
+                                            <property name="readOnly" value="true" />
+                                            <property name="value" value="subject" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.startTime.label" /> <!-- 发起时间 -->
+                                            <property name="value" value="publishDate" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.edocMark.label" /><!-- 公文文号(公文字段)-->
+                                            <property name="value" value="edocMark" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 当前待办人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.list.currentNodesInfo.label" />
+                                            <property name="value" value="currentNodesInfo" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.category.label" /> <!-- 分类 -->
+                                            <property name="value" value="category" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" />
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="subject" value="cannel.panel.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                   		<!-- 全部 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.panel.all.label" />
+                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                            <property name="value" value="all" />
+                                        </bean>
+                                       <!-- 组合来源 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pending.panel.combination.sources" />
+                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                            <property name="value" value="sources" />
+                                             <property name="backUp" value="true" />
+                                            <property name="valueRangeExtraSelects">
+                                                    <list>
+													   <!-- 流程分类 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="template.section.choose.label" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="value" value="track_catagory" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalCatagory&amp;amp;openFrom=sentSection" />
+                                                        </bean>
+														<!-- 模板分类-->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.template.toolbar.category" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="value" value="templete_pending" />
+                                                            <property name="panelSetUrl" value="template/template.do?method=templateChooseMul&amp;amp;type=-1&amp;amp;isPortal=1&amp;amp;isMul=true&amp;amp;scope=MaxScope&amp;amp;isCanSelectCategory=true" />
+                                                        </bean>
+														 <!-- 指定重要紧急程度 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.importlevel.label" />
+                                                            <property name="value" value="importLevel" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalImportLevel" />
+                                                        </bean>
+														<!-- 条件关系 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.relation" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="showCheckBox" value="false"/>
+                                                            <property name="value" value="relation" />
+                                                            <property name="select">
+                                                                    <list>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="1" />
+                                                                            <property name="value" value="and" />
+                                                                        </bean>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="0" />
+                                                                            <property name="value" value="or" />
+                                                                        </bean>
+                                                                    </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- 待发事项 -->
+    <bean id="waitSendSection" class="com.seeyon.ctp.portal.section.WaitSendSection" init-method="init">
+        <property name="sectionType" value="collaboration" />
+        <property name="sortId" value="10" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application,vjoinpc,vjoinmobile" />
+        <property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" /><!-- 显示名称 -->
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="menu.collaboration.listWaitsend" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" /><!-- 显示行数 -->
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="8" />
+                                <property name="mValidateValue" value="max=10 min=1" />
+                                <property name="mDefaultValue" value="3" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="rowList" /><!-- 显示字段 -->
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="subject,receiveTime,state,category" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.subject.label" /> <!-- 标题 -->
+                                            <property name="readOnly" value="true" />
+                                            <property name="value" value="subject" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="common.date.create.label" /> <!-- 创建时间 -->
+                                            <property name="value" value="receiveTime" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.state.label" /> <!-- 状态 -->
+                                            <property name="value" value="state" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.category.label" /> <!-- 分类 -->
+                                            <property name="value" value="category" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" />
+                                <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                <property name="subject" value="cannel.panel.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.panel.all.label" /> <!-- 全部 -->
+                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                            <property name="value" value="all" />
+                                        </bean>
+                                         <!-- 组合来源 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pending.panel.combination.sources" />
+                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                            <property name="value" value="sources" />
+                                             <property name="backUp" value="true" />
+                                             <property name="valueRangeExtraSelects">
+                                                    <list>
+													   <!-- 流程分类 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="template.section.choose.label" />
+                                                            <property name="spaceType" value="vjoinpc,vjoinmobile" />
+                                                            <property name="value" value="track_catagory" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalCatagory&amp;amp;openFrom=waitSendSection" />
+                                                        </bean>
+														 <!-- 指定重要紧急程度 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.importlevel.label" />
+                                                            <property name="value" value="importLevel" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalImportLevel" />
+                                                        </bean>
+                                                         <!-- 状态  add by libing -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="cannel.display.column.state.label" />
+                                                            <property name="value" value="handlingState" />
+                                                            <property name="panelSetUrl" value="collaboration/pending.do?method=handlingState&amp;amp;comeFrom=waitSendSection" />
+                                                        </bean>
+														<!-- 条件关系 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.relation" />
+                                                            <property name="showCheckBox" value="false"/>
+                                                            <property name="value" value="relation" />
+                                                            <property name="select">
+                                                                    <list>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="1" />
+                                                                            <property name="value" value="and" />
+                                                                        </bean>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="0" />
+                                                                            <property name="value" value="or" />
+                                                                        </bean>
+                                                                    </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 督办事项 -->
+    <bean id="superviseSection" class="com.seeyon.ctp.portal.section.SuperviseSection" init-method="init">
+        <property name="sectionType" value="common,collaboration,edoc" />
+        <property name="sortId" value="11" />
+        <property name="superviseManager" ref="superviseManager" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+        <property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" /> <!-- 显示名称 -->
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="supervise.manager.label" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" /><!-- 显示行数 -->
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="8" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="rowList" /><!-- 显示字段 -->
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="subject,receiveTime,sendUser,category" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.subject.label" /> <!-- 标题 -->
+                                            <property name="readOnly" value="true" />
+                                            <property name="value" value="subject" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.startTime.label" /> <!-- 发起时间 -->
+                                            <property name="value" value="receiveTime" />
+                                        </bean>
+										<!-- 显示流程期限 -->
+										 <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.deadlineName.label" /> <!-- 流程期限 -->
+                                            <property name="value" value="deadlineName" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.edocMark.label" /><!-- 公文文号-->
+                                            <property name="value" value="edocMark" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.sendUnit.label" /><!-- 发文单位-->
+                                            <property name="value" value="sendUnit" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 当前待办人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.list.currentNodesInfo.label" />
+                                            <property name="value" value="currentNodesInfo" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.sendUser.label" /> <!-- 发起人 -->
+                                            <property name="value" value="sendUser" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.category.label" /> <!-- 分类 -->
+                                            <property name="value" value="category" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" />
+                                <property name="subject" value="cannel.panel.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                    	<!-- 全部 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.panel.all.label" />
+                                            <property name="value" value="all" />
+                                        </bean>
+                                        <!-- 流程分类 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.catagorywf.label" />
+                                            <property name="value" value="track_catagory" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalCatagory&amp;amp;openFrom=superviseSection" />
+                                        </bean>
+                                        <!-- 模板分类 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.templete.label" />
+                                            <property name="value" value="templete_pending" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="template/template.do?method=templateChooseMul&amp;amp;type=-1&amp;amp;isPortal=1&amp;amp;isMul=true&amp;amp;scope=MaxScope&amp;amp;isCanSelectCategory=true" />
+                                        </bean>
+                                        <!-- 指定重要紧急程度 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.importlevel.label" />
+                                            <property name="value" value="importLevel" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalImportLevel" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- 跟踪事项 -->
+    <bean id="trackSection" class="com.seeyon.ctp.portal.section.TrackSection" init-method="init">
+        <property name="sectionType" value="common,collaboration" />
+        <property name="sortId" value="10" />
+        <property name="spaceTypes" value="personal,personal_custom,leader,outer,custom,cooperation_work,objective_manage,edoc_manage,meeting_manage,performance_analysis,form_application" />
+        <property name="resourceBundle" value="com.seeyon.v3x.main.resources.i18n.MainResources" />
+        <property name="properties">
+            <list>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="columnsName" /> <!-- 栏目名称 -->
+                                <property name="subject" value="cannel.name.label" />
+                                <property name="valueType" value="2" />
+                                <property name="defaultValue" value="menu.collaboration.listTrack" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="count" /><!-- 显示行数 -->
+                                <property name="subject" value="cannel.data.count" />
+                                <property name="valueType" value="2" />
+                                <property name="validate" value="isInteger" />
+                                <property name="validateValue" value="max=50 min=1" />
+                                <property name="defaultValue" value="8" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="rowList" /><!-- 显示字段 -->
+                                <property name="subject" value="cannel.display.column.label" />
+                                <property name="valueType" value="1" />
+                                <property name="defaultValue" value="subject,receiveTime,sendUser,category" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.subject.label" /><!-- 标题 -->
+                                            <property name="readOnly" value="true" />
+                                            <property name="value" value="subject" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.startTime.label" /><!-- 发起时间 -->
+                                            <property name="value" value="receiveTime" />
+                                        </bean>
+                                        <!-- 公文文号(公文字段)-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.edocMark.label" />
+                                            <property name="value" value="edocMark" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                        <!-- 发文单位 (公文字段)-->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.section.display.column.sendUnit.label" />
+                                            <property name="value" value="sendUnit" />
+                                            <property name="pluginId" value="edoc" />
+                                        </bean>
+                                         <!-- 当前待办人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.list.currentNodesInfo.label" />
+                                            <property name="value" value="currentNodesInfo" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.sendUser.label" /><!-- 发起人 -->
+                                            <property name="value" value="sendUser" />
+                                        </bean>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="cannel.display.column.category.label" /><!-- 分类 -->
+                                            <property name="value" value="category" />
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+                    <property name="reference">
+                        <list>
+                            <bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+                                <property name="name" value="panel" />
+                                <property name="subject" value="cannel.panel.label" />
+                                <property name="valueType" value="5" />
+                                <property name="defaultValue" value="all" />
+                                <property name="valueRanges">
+                                    <list>
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="section.panel.all.label" /> <!-- 全部 -->
+                                            <property name="value" value="all" />
+                                        </bean>
+                                   
+                                        <!-- 指定发起人 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="pending.panel.sender.label" />
+                                            <property name="value" value="sender" />
+                                            <property name="backUp" value="true" />
+                                            <property name="panelSetUrl" value="/selectPeople.do?ViewPage=SelectPeople4PortalSender&amp;amp;Panels=Department,Team,Post,Outworker,RelatePeople&amp;amp;SelectType=Account,Department,Team,RelatePeople,Post,Member&amp;amp;id=portalSender&amp;amp;include=true"/>
+                                        </bean>
+                                        <!-- 组合来源 -->
+                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+                                            <property name="subject" value="collaboration.pending.panel.combination.sources" />
+                                            <property name="value" value="sources" />
+                                             <property name="backUp" value="true" />
+                                            <property name="valueRangeExtraSelects">
+                                                    <list>
+													   <!-- 流程分类 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="template.section.choose.label" />
+                                                            <property name="value" value="track_catagory" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalCatagory&amp;amp;openFrom=trackSection" />
+                                                        </bean>
+														 <!-- 应用或节点权限 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.policy.or.other.label" />
+                                                            <property name="value" value="Policy" />
+                                                            <property name="panelSetUrl" value="permission/permission.do?method=showPerom4Portal&amp;amp;openFrom=trackSection" />
+                                                        </bean>
+														 <!-- 模板分类-->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.template.toolbar.category" />
+                                                            <property name="value" value="templete_pending" />
+                                                            <property name="panelSetUrl" value="template/template.do?method=templateChooseMul&amp;amp;type=-1&amp;amp;isPortal=1&amp;amp;isMul=true&amp;amp;scope=MaxScope&amp;amp;isCanSelectCategory=true" />
+                                                        </bean>
+														 <!-- 指定重要紧急程度 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="pending.panel.importlevel.label" />
+                                                            <property name="value" value="importLevel" />
+                                                            <property name="panelSetUrl" value="/portalAffair/portalAffairController.do?method=showPortalImportLevel" />
+                                                        </bean>
+														<!-- 条件关系 -->
+                                                        <bean class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeExtraSelectImpl">
+                                                            <property name="subject" value="collaboration.pending.panel.relation" />
+                                                            <property name="showCheckBox" value="false"/>
+                                                            <property name="value" value="relation" />
+                                                            <property name="select">
+                                                                    <list>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="1" />
+                                                                            <property name="value" value="and" />
+                                                                        </bean>
+                                                                        <bean class="com.seeyon.ctp.portal.section.SectionExtraDataSelectImpl">
+                                                                            <property name="key" value="0" />
+                                                                            <property name="value" value="or" />
+                                                                        </bean>
+                                                                    </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- 项目协同 -->
+	<bean id="projectCollaboration" class="com.seeyon.ctp.portal.section.ProjectCollaborationSection">
+		<property name="sortId" value="106"/>
+		<property name="sectionType" value="common"/>
+		<property name="spaceTypes" value="related_project_space"/>
+		<property name="properties">
+			<list>
+				<bean class="com.seeyon.ctp.portal.section.SectionPropertyImpl">
+					<property name="reference">
+						<list>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsName" />
+								<property name="subject" value="project.collaboration.subject.label" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="project.collaboration.subject.name" />
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnsCount" />
+								<property name="subject" value="cannel.data.count" />
+								<property name="valueType" value="2" />
+								<property name="defaultValue" value="8" />
+								<property name="validate" value="isInteger"></property>
+								<property name="validateValue" value="isInteger=true max=50 min=8"></property>
+							</bean>
+							<bean class="com.seeyon.ctp.portal.section.SectionReferenceImpl">
+								<property name="name" value="columnProperty" />
+								<property name="subject" value="project.collaboration.show.label" />
+								<property name="defaultValue" value="subject,createDate,senderId,state,canForward" />
+								<property name="valueType" value="1" />
+								<property name="valueRanges">
+									<list>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="project.bbs.select.title" />
+											<property name="value" value="subject" />
+											<property name="readOnly" value="true"/>
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="project.create.time" />
+											<property name="value" value="createDate" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="project.collaboration.show.sender" />
+											<property name="value" value="senderId" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="project.collaboration.show.state" />
+											<property name="value" value="state" />
+										</bean>
+										<bean
+											class="com.seeyon.ctp.portal.section.SectionReferenceValueRangeImpl">
+											<property name="subject" value="project.collaboration.show.forward" />
+											<property name="value" value="canForward" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean name="/collaboration/collProjectController.do"
+		class="com.seeyon.ctp.portal.section.CollProjectController">
+	</bean>
+	
+	<bean name="commonAffairSectionUtils"
+		class="com.seeyon.ctp.portal.section.CommonAffairSectionUtilsImpl">
+	</bean>
+</beans>

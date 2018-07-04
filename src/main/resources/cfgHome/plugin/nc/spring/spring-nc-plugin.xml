@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="ncSSOService"
+        class="com.seeyon.apps.nc.ssomanager.NCSSOService">
+        <property name="ncRegister" ref="ncRegister" />
+        <property name="languageMapping">
+            <map>
+                <entry key="zh_CN" value="simpchn" />
+                <entry key="zh_TW" value="tradchn" />
+                <entry key="en" value="english" />
+            </map>
+        </property>
+    </bean>
+    <bean id="dataSource-NC"
+        class="com.seeyon.v3x.dbpool.datasource.DataSourceConProvider"
+        abstract="false" singleton="true"
+        lazy-init="default" autowire="default" dependency-check="default">
+        <property name="name" value="NC" />
+        <property name="configProperties">
+            <props>
+                <prop key="driverClassName">${nc.db.driverClassName}</prop>                 
+                <prop key="url">${nc.db.url}</prop>
+                <prop key="username">${nc.db.username}</prop>
+                <prop key="password">${nc.db.password}</prop>
+                <prop key="minCount">0</prop>
+                <prop key="maxCount">100</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="sessionFactory-NC"
+        class="org.springframework.orm.hibernate3.CTPLocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref local="dataSource-NC" />
+        </property>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath*:com/seeyon/apps/nc/po${ntp.aancversion}/*.hbm.xml</value>
+            </list>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                    ${nc.db.hibernateDialect}
+                </prop>
+                <prop key="hibernate.show_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionManager-NC"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref local="sessionFactory-NC" />
+        </property>
+    </bean>
+
+    <bean id="baseTxService-NC"
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+        abstract="true">
+        <property name="transactionManager" ref="transactionManager-NC" />
+        <property name="proxyTargetClass" value="true" />
+
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

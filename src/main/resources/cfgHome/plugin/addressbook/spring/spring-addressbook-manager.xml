@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="addressBookManager" class="com.seeyon.apps.addressbook.manager.AddressBookManagerImpl" />
+	<bean id="addressBookSetEventListener" class="com.seeyon.apps.addressbook.listener.AddressBookSetEventListener" />
+	<bean id="addressBookCustomerFieldInfoManager" class="com.seeyon.apps.addressbook.manager.AddressBookCustomerFieldInfoManagerImpl" />
+	
+</beans>

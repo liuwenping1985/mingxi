@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/zyPortalController.do" class="com.seeyon.apps.cip.eip.controller.ZyPortalController"/>
+	<bean name="/zyPortalSSOLoginController.do" class="com.seeyon.apps.cip.eip.controller.ZyPortalSSOLoginController"/>
+	<bean name="/eipPortalTemplateController.do" class="com.seeyon.apps.cip.eip.controller.EipPortalTemplateController" init-method="initMethod"/>
+	<bean name="/eipPortalColumnController.do" class="com.seeyon.apps.cip.eip.controller.EipPortalColumnController"/>
+	<bean name="/eipPortalSetupController.do" class="com.seeyon.apps.cip.eip.controller.EipPortalSetupController"/>
+	<bean name="/eipPortalAppController.do" class="com.seeyon.apps.cip.eip.controller.EipPortalAppController"/>
+	<bean name="/eipPortalColumnDetailController.do" class="com.seeyon.apps.cip.eip.controller.EipPortalColumnDetailController"/>
+	<bean name="/eipUserCustomController.do" class="com.seeyon.apps.cip.eip.controller.EipUserCustomController"/>
+	
+</beans>

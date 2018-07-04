@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	<bean id="s2sUtil" class="com.seeyon.apps.uc.util.S2SUtil" />
+	<bean id="s2sManager" class="com.seeyon.apps.uc.manager.S2SManagerImpl" />
+	<bean id="ucSSOManager" class="com.seeyon.apps.uc.manager.UcSSOManagerImpl" />
+	<bean id="ucOrgManager" class="com.seeyon.apps.uc.manager.UcOrgManagerImpl" />
+	<bean id="ucConfigManager" class="com.seeyon.apps.uc.manager.UCConfigManagerImpl" />
+	<bean id="ucExpandJspForHomePage" class="com.seeyon.ctp.portal.expansion.UcExpandJspForHomePage" />
+	
+	<bean id="ucpcsso" class="com.seeyon.ctp.portal.sso.SSOLoginContext">
+		<property name="name" value="ucpc" />
+		<!-- 单点登录成功是否跳转到首页 -->
+		<property name="forward" value="true" />
+		<!-- 握手配置 -->
+		<property name="handshake">
+			<!-- 使用系统实现的缺省握手类 -->
+			<bean class="com.seeyon.apps.uc.sso.UcSSOLoginHandshakeImpl" />
+		</property>
+	</bean>
+	<bean id="S2SConnJob" class="com.seeyon.apps.uc.util.S2SConnJob" />
+	<bean id="S2SSynJob" class="com.seeyon.apps.uc.util.S2SSynJob" />
+</beans>

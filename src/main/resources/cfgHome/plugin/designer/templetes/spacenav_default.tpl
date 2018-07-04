@@ -1,0 +1,1 @@
+<div id="nowLocation" class="layout_location"><span class="nowLocation_ico"><img src="{$imagePath}"></span><span class="nowLocation_content" style="color: {$fontColor};"><a style="color: rgb(255, 255, 255);">{$spaceName}</a></span></div>

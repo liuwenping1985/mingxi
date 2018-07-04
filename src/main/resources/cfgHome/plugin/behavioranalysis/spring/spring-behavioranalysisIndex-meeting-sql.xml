@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	
+	<!--会议人员-->
+	<bean id="meetingMember" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="人员会议"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptMeetingIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="member"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="发起数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												om.id AS orgId,
+												r.sendnum as sendnum
+											FROM
+												org_member om
+											LEFT JOIN(
+												SELECT
+													m.create_User AS orgId,
+													count(m.id)AS sendnum
+												FROM
+													meeting m
+												WHERE
+													m.state IN(- 10, 10, 20, 30, 60)
+												AND(
+													m.room_State = 1
+													OR m.room_State = - 2
+												)
+												AND m.create_Date BETWEEN :startTime
+												AND :endTime
+												GROUP BY
+													m.create_User
+											)r ON r.orgId = om.ID
+											WHERE
+												om.IS_DELETED = 0
+											AND om. state=1
+											and om.IS_ASSIGNED=1
+											and om.IS_ENABLE=1
+											and om.is_internal=1
+											AND om.ORG_DEPARTMENT_ID != - 1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到会议数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												ca.member_Id AS orgid,
+												count(m.id)AS receivenum
+											FROM
+												meeting m,
+												ctp_affair ca,
+												org_member om
+											WHERE
+												m.id = ca.object_Id
+											AND m.state IN(- 10, 10, 20, 30, 60)
+											and om.id=ca.member_Id
+											AND(
+												m.room_State = 1
+												OR m.room_State = - 2
+											)
+											AND(
+												ca.node_Policy != 'inform'
+												OR ca.node_Policy IS NULL
+											)
+											AND ca.app = 6
+											and om.IS_DELETED = 0
+											AND om.state=1
+											and om.IS_ASSIGNED=1
+											and om.IS_ENABLE=1
+											and om.is_internal=1
+											AND om.ORG_DEPARTMENT_ID != - 1
+											AND ca.create_date BETWEEN :startTime
+											AND :endTime
+											GROUP BY
+												ca.member_Id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="回执参加数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												ca.member_Id AS orgid,
+												COUNT(m.id) AS attendnum
+											FROM
+												meeting m,
+												Ctp_Affair ca,
+												org_member om
+											WHERE
+												m.id = ca.object_Id
+											AND m.state IN(-10,10,20,30,60)
+											and ca.SUB_STATE in(31) 
+											AND(
+												ca.node_Policy != 'inform'
+												OR ca.node_Policy IS NULL
+											)
+											and om.id=ca.member_Id
+											AND ca.app = 6
+											and om.IS_DELETED = 0
+											and om.is_internal=1
+											AND om.state=1
+											and om.IS_ASSIGNED=1
+											and om.IS_ENABLE=1
+											AND om.ORG_DEPARTMENT_ID != - 1
+											AND ca.complete_time BETWEEN :startTime AND :endTime
+											and m.end_Date BETWEEN :startTime AND :endTime
+											GROUP BY
+												ca.member_Id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="回执会议数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+										SELECT
+											ca.member_Id AS orgid,
+											COUNT(m.id)AS replynum
+										FROM
+											meeting m,
+											Ctp_Affair ca,
+											org_member om
+										WHERE
+											m.id = ca.object_Id
+										and om.id=ca.member_Id
+										AND m.state IN(-10,10, 20, 30, 60)
+										and ca.sub_state in(31,32,33)
+										AND(
+											ca.node_Policy != 'inform'
+											OR ca.node_Policy IS NULL
+										)
+										and om.IS_DELETED = 0
+										and om.is_internal=1
+										AND om.state=1
+										and om.IS_ASSIGNED=1
+										and om.IS_ENABLE=1
+										AND om.ORG_DEPARTMENT_ID != - 1
+										AND ca.app = 6
+										AND ca.complete_time BETWEEN :startTime AND :endTime
+										AND m.end_Date BETWEEN :startTime AND :endTime
+										GROUP BY
+											ca.member_Id
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="回执时长"></property>
+					<property name="name" value="meetingReplyRatio"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												mt.user_Id AS orgid,
+												mt.read_date AS replytime,
+												ca.create_Date as receivedate
+											FROM
+												meeting m,
+												Ctp_Affair ca,
+												MEETING_REPLY mt,
+												org_member om
+											WHERE
+												m.id = ca.object_Id
+											AND ca.member_Id = mt.user_Id
+											AND m.id = mt.meeting_Id
+											AND m.state IN(-10,10, 20, 30, 60)
+											and ca.sub_state in(31,32,33)
+											and om.id=mt.user_Id
+											AND(
+												ca.node_Policy != 'inform'
+												OR ca.node_Policy IS NULL
+											)
+											and om.IS_DELETED = 0
+											and om.is_internal=1
+											AND om.state=1
+											and om.IS_ASSIGNED=1
+											and om.IS_ENABLE=1
+											AND om.ORG_DEPARTMENT_ID != - 1
+											AND ca.app = 6
+											AND ca.complete_time BETWEEN :startTime AND :endTime
+											and m.end_date BETWEEN :startTime AND :endTime
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="reportPointHander">
+			<bean class="com.seeyon.apps.dashboard.bo.ReportPointHandler">
+				<property name="managerName" value="com.seeyon.apps.dashboard.MeetingIndexHandler"></property>
+				<property name="methodName">
+					<map>
+						<entry key="meetingReplyRatio" value="getMeetingReplyRatio"></entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!--会议部门-->
+	<bean id="meetingDepartment" class="com.seeyon.apps.dashboard.bo.ReportPoint">
+		<property name="comment" value="部门会议"></property>
+		<!-- po对象 (用户自定义)-->
+		<property name="po" value="com.seeyon.apps.dashboard.po.RptMeetingIndex"></property>
+		<!-- 部门,人员,单位  (用户自定义)-->
+		<property name="type">
+			<map>
+				<!--key po属性名 ,表示模块类型-->
+				<entry key="orgType" value="department"></entry>
+			</map>
+		</property>
+		<property name="fieldDataNodes">
+			<list>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="发起数"></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="isHql" value="true"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT new map(om.orgDepartmentId as orgid,count(m.id) as sendnum) FROM MtMeeting m ,OrgMember om,OrgUnit u WHERE u.id=om.orgDepartmentId and m.createUser = om.id and om.deleted=0 and om.internal=1 and om.state=1 and om.assigned=1 and om.enable=1 and om.orgDepartmentId!=-1 and m.state IN (-10,10,20,30,60) and (m.roomState=1 or m.roomState = -2) AND m.createDate BETWEEN :startTime AND :endTime and u.deleted=0	and u.enable=1 and u.internal=1 GROUP BY om.orgDepartmentId
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="收到会议数 "></property>
+					<property name="propertyNodes">
+						<!-- 对象属性和字段映射关系 (用户设置) -->
+						<list>
+							<!-- 唯一键值 必须配置 -->
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<!--  多数据库sql(用户自定义) -->
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												u.id AS orgid,
+												r.receivenum AS receivenum
+											FROM
+												org_unit u
+											LEFT JOIN(
+												SELECT
+													om.org_Department_Id AS orgid,
+													count(ca.id)AS receivenum
+												FROM
+													meeting m,
+													Ctp_Affair ca,
+													Org_Member om
+												WHERE
+													m.id = ca.object_Id
+												AND m.state IN(- 10, 10, 20, 30, 60)
+												AND om.id = ca.MEMBER_ID
+												AND(
+													ca.node_Policy != 'inform'
+													OR ca.node_Policy IS NULL
+												)
+												AND ca.app = 6
+												AND ca.create_date BETWEEN :startTime
+												AND :endTime
+												AND om.IS_DELETED = 0
+												and om.is_internal=1
+												AND om. state=1
+												and om.IS_ASSIGNED=1
+												and om.IS_ENABLE=1
+												AND om.ORG_DEPARTMENT_ID != - 1
+												GROUP BY
+													om.ORG_DEPARTMENT_ID
+											)r ON u.id = r.orgId
+											where 
+												u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="回执参加数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m.ORG_DEPARTMENT_ID as orgId,
+												sum(r.attendnum) as attendnum
+											FROM
+												(
+													SELECT
+														ca.member_Id AS orgid,
+														COUNT(m.id)AS attendnum
+													FROM
+														meeting m,
+														Ctp_Affair ca
+													WHERE
+														m.id = ca.object_Id
+													AND m.state IN(-10,10, 20, 30, 60)
+													and ca.SUB_STATE in(31)
+													AND(
+														ca.node_Policy != 'inform'
+														OR ca.node_Policy IS NULL
+													)
+													AND ca.app = 6
+													AND ca.complete_time BETWEEN :startTime AND :endTime
+													and m.end_Date BETWEEN :startTime AND :endTime
+													GROUP BY
+														ca.member_Id
+												)r 
+											LEFT JOIN ORG_MEMBER m on r.orgid=m.id
+											left join org_unit u on u.id=m.ORG_DEPARTMENT_ID
+											where 
+											 m.IS_DELETED = 0
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+											group by 
+												m.ORG_DEPARTMENT_ID
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="回执会议数"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												m.ORG_DEPARTMENT_ID AS orgId,
+												SUM(r.replynum)AS replynum
+											FROM
+												(
+													SELECT
+														ca.member_Id AS orgid,
+														COUNT(m.id)AS replynum
+													FROM
+														meeting m,
+														Ctp_Affair ca
+													WHERE
+														m.id = ca.object_Id
+													AND m.state IN(-10,10, 20, 30, 60)
+													and ca.sub_state IN(31, 32, 33)
+													AND(
+														ca.node_Policy != 'inform'
+														OR ca.node_Policy IS NULL
+													)
+													AND ca.app = 6
+													AND ca.complete_time BETWEEN :startTime AND :endTime
+													and m.end_Date BETWEEN :startTime AND :endTime
+													GROUP BY
+														ca.member_Id
+												)r
+											LEFT JOIN ORG_MEMBER m ON r.orgid = m.id
+											left join org_unit u on u.id=m.ORG_DEPARTMENT_ID
+											where 
+												m.IS_DELETED = 0
+											AND m.state=1
+											and m.IS_ASSIGNED=1
+											and m.IS_ENABLE=1
+											AND m.ORG_DEPARTMENT_ID != - 1
+											and u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+											GROUP BY
+												m.ORG_DEPARTMENT_ID
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.seeyon.apps.dashboard.bo.FieldDataNode">
+					<property name="comment" value="回执时长"></property>
+					<property name="name" value="meetingReplyRatio"></property>
+					<property name="propertyNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.PropertyNode">
+								<property name="value" value="orgId"></property>
+								<property name="merge" value="true"></property>
+							</bean>
+						</list>
+					</property>
+					<property name="sqlNodes">
+						<list>
+							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
+								<property name="dbCategory" value="all"></property>
+								<property name="sqlText">
+									<value>
+										<![CDATA[
+											SELECT
+												om.ORG_DEPARTMENT_ID AS orgid,
+												mt.read_date AS replytime,
+												ca.create_Date as receivedate
+											FROM
+												meeting m,
+												Ctp_Affair ca,
+												MEETING_REPLY mt,
+												ORG_MEMBER om,
+												org_unit u
+											WHERE
+												m.id = ca.object_Id
+											and u.id=om.ORG_DEPARTMENT_ID
+											AND ca.member_Id = mt.user_Id
+											AND m.id = mt.meeting_Id
+											and mt.USER_ID=om.ID
+											AND m.state IN(-10,10, 20, 30, 60)
+											and ca.sub_state in(31,32,33)
+											and om.IS_DELETED = 0
+											and om.is_internal=1
+											AND om.state=1
+											and om.IS_ASSIGNED=1
+											and om.IS_ENABLE=1
+											AND om.ORG_DEPARTMENT_ID != - 1
+											AND(
+												ca.node_Policy != 'inform'
+												OR ca.node_Policy IS NULL
+											)
+											AND ca.app = 6
+											AND ca.complete_time BETWEEN :startTime AND :endTime
+											and m.end_date BETWEEN :startTime AND :endTime
+											and u.IS_DELETED=0
+											and u.IS_ENABLE=1
+											and u.IS_INTERNAL=1
+										]]>
+									</value>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="reportPointHander">
+			<bean class="com.seeyon.apps.dashboard.bo.ReportPointHandler">
+				<property name="managerName" value="com.seeyon.apps.dashboard.MeetingIndexHandler"></property>
+				<property name="methodName">
+					<map>
+						<entry key="meetingReplyRatio" value="getMeetingReplyRatio"></entry>
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

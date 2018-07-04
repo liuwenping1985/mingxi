@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+	
+	<!--  MIsignature controller -->
+	<bean name="/m3/msignature.do" class = "com.seeyon.apps.m3.signature.controller.M3IsignatureConfigController">
+	</bean>
+	<!-- 硬件绑定Controller -->
+	<bean name="/m3/mClientBindController.do" 
+		class="com.seeyon.apps.m3.bind.controller.M3ClientBindController" autowire="byName" >
+		<property name="m3MobileManageService" ref="m3MobileManageService" />
+		<property name="m3ClientBindService" ref="m3ClientBindService"></property>
+		<property name="m3BindApplyManager" ref="m3BindApplyManager"></property>
+	</bean>
+	<bean name = "/m3/transModeController.do" class = "com.seeyon.apps.m3.transmissionmode.controller.M3TransModeController"></bean>
+	<!-- controller begin-->
+	<!-- 移动授权Controller  -->
+	<bean name="/m3/mobileAuthController.do" 
+		class="com.seeyon.apps.m3.authorization.mobileAuth.controller.M3MobileAuthController" autowire="byName" >
+		<property name="m3MobileAuthService" ref="m3MobileAuthService" />
+		<property name="m3ProductManager" ref="m3ProductManager"/>
+	</bean>
+	<!--  移动office 授权controller -->
+	<bean name = "/m3/mobileOfficeGuide.do" class ="com.seeyon.apps.m3.mobileOffice.authorization.controller.M3MobileOfficeGuide">
+	
+	</bean>
+	
+	<bean name = "/m3/pnsMsgSettingController.do" class ="com.seeyon.apps.m3.message.controller.M3PNSMsgSettingController">
+		<property name="m3PNSMsgSettingManager" ref="m3PNSMsgSettingManager" />
+	</bean>
+<!-- 	<bean name = "/m3/monitoringController.do" class ="com.seeyon.apps.m3.statistic.controller.M3MonitoringController">
+	</bean> -->
+	<bean name = "/m3/offlineDownload.do" class = "com.seeyon.apps.m3.contacts.offline.controller.M3OfflineController"></bean>
+	<bean name = "/m3/bannerController.do" class ="com.seeyon.apps.m3.banner.controller.BannerController">
+	</bean>
+	
+	<bean name = "/m3/pnsConfigController.do" class ="com.seeyon.apps.m3.message.controller.M3PnsConfigController">
+		<property name="m3PnsConfigManager" ref="m3PnsConfigManager" />
+	</bean>
+	
+	<bean name = "/m3/productController.do" class ="com.seeyon.apps.m3.product.controller.ProductController">
+	</bean>
+	
+	<bean name = "/m3/pnsLogController.do" class ="com.seeyon.apps.m3.message.controller.M3PnsLogController">
+	</bean>
+</beans>

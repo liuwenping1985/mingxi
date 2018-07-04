@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>uc</id>
+	<name>致信</name>
+	<category>19871</category>
+	<initializer>com.seeyon.apps.uc.UcPluginInitializer</initializer>
+</plugin>

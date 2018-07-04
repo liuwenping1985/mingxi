@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 考勤管理和个人考勤业务接口 -->
+	<bean id="attendanceManager" class="com.seeyon.apps.attendance.manager.AttendanceManagerImpl"/>
+	<!-- 考勤管理调度 -->
+	<bean id="attendanceCollectorTask" class="com.seeyon.apps.attendance.quart.AttendanceCollectorTask"></bean>
+	<!-- 考勤调度业务层 -->
+	<bean id="attendanceCollectorManager" class="com.seeyon.apps.attendance.manager.AttendanceCollectorManagerImpl"></bean>
+	<!-- LBS度业务层 -->
+	<bean id="attendancelbsMapManager" class="com.seeyon.apps.attendance.manager.AttendanceLbsMapManagerImpl"></bean>
+	<!-- 上班签到提醒 -->
+	<bean id="attendRemindTask" class="com.seeyon.apps.attendance.quart.AttendRemindTask"></bean>
+	<!-- 下班签退提醒 -->
+	<bean id="leaveRemindTask" class="com.seeyon.apps.attendance.quart.LeaveRemindTask"></bean>
+	<!-- 工作时间修改监听 -->
+	<bean id="attendanceRemindListener" class="com.seeyon.apps.attendance.listener.AttendanceRemindListener"></bean>
+	<!-- 考勤相关应用磁贴 -->
+	<bean id="attendancePortlet" class="com.seeyon.ctp.portal.portlet.AttendancePortlet"></bean>
+	<!-- 考勤签到-消息过滤机制 -->
+	<bean id="userMessageFilterImplAttendance" class="com.seeyon.apps.attendance.usermessage.UserMessageFilterImplAttendance" />
+	<!-- 存储历史签到记录 -->
+	<bean id="attendanceHistoryManager" class="com.seeyon.apps.attendance.manager.AttendanceHistoryManagerImpl"></bean>
+</beans>

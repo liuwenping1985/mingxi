@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>everybodyWork</id>
+	<name>大家社区</name>
+	<category>1999</category>
+	<initializer>com.seeyon.ctp.portal.systeminitializer.EverybodyWorkInitializer</initializer>
+</plugin>

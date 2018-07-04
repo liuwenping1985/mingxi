@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+    <!-- 业务管理配置表 -->
+    <class name="DepartmentDataObject" table="OA_YS_department">
+        <id
+                name="id"
+                type="string"
+                column="ID"
+                length="256"
+        >
+        </id>
+
+        <!-- 年 -->
+        <property
+                name="oaId"
+                column="OA_ID"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 月 -->
+        <property
+                name="oaName"
+                column="OA_NAME"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 单位ID -->
+        <property
+                name="ysId"
+                column="YS_ID"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 部门ID -->
+        <property
+                name="ysName"
+                column="YS_NAME"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+        <!-- 科目编号  -->
+        <property
+                name="unit"
+                column="TYPE"
+                type="string"
+                not-null="false"
+                length="256"
+        />
+
+
+    </class>
+</hibernate-mapping>

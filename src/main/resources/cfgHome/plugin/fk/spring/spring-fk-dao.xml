@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="colDaoFK" class="com.seeyon.apps.collaboration.dao.ColDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="contentDaoFK" class="com.seeyon.ctp.common.content.dao.ContentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="affairDaoFK" class="com.seeyon.ctp.common.content.affair.AffairDaoImpl" >
+        <property name="sessionFactory" ref="sessionFactory-FK" />
+    </bean>
+	<bean id="processLogDaoFK" class="com.seeyon.ctp.common.processlog.dao.ProcessLogDAOImpl" >
+        <property name="sessionFactory" ref="sessionFactory-FK" />
+    </bean>
+	
+   <bean id="commentDaoFK" class="com.seeyon.ctp.common.content.comment.dao.CommentDaoImpl" >
+     <property name="sessionFactory" ref="sessionFactory-FK" />
+   </bean>
+	
+	<bean id="col4WFAnalysisDaoFK" class="com.seeyon.apps.collaboration.dao.Col4WFAnalysisDaoImpl">
+	</bean>
+	<bean id="iSearchInterfaceColDaoFK" class="com.seeyon.apps.collaboration.dao.ISearchInterfaceColDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="traceDaoFK" class="com.seeyon.apps.collaboration.trace.dao.TraceDaoImpl">
+	</bean>
+
+	<bean id="IBPMCaseDaoFK" class="com.seeyon.ctp.workflow.dao.impl.BPMCaseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="ICaseRunDaoFK" class="com.seeyon.ctp.workflow.dao.impl.CaseRunDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="IProcessRunningDaoFK" class="com.seeyon.ctp.workflow.dao.impl.ProcessRunningDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="IWorkitemDaoFK" class="com.seeyon.ctp.workflow.dao.impl.WorkitemDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="IProcessTemplateDaoFK" class="com.seeyon.ctp.workflow.dao.impl.ProcessTemplateDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="subProcessSettingDaoFK" class="com.seeyon.ctp.workflow.dao.impl.SubProcessSettingDaoImpl">
+	</bean>
+	<bean id="subProcessRunningDaoFK" class="com.seeyon.ctp.workflow.dao.impl.SubProcessRunningDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory-FK" />
+	</bean>
+	<bean id="wfProcessPropertyDaoFK" class="com.seeyon.ctp.workflow.dao.impl.WFProcessPropertyDaoImpl">
+	</bean>
+</beans>

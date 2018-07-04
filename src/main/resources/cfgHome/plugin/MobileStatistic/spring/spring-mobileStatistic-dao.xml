@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 统计 -->
+    <bean id="m3UserFirstLoginDao" class="com.seeyon.apps.m3.statistic.dao.impl.M3UserFirstLoginDaoImpl"></bean>
+    <bean id="m3UserBehaviorDao" class="com.seeyon.apps.m3.statistic.dao.impl.M3UserBehaviorDaoImpl"></bean>
+    <bean id="m3AppBehaviorDao" class="com.seeyon.apps.m3.statistic.dao.impl.M3AppBehaviorDaoImpl"></bean>
+</beans>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean name="/form/formDesign.do" class="com.seeyon.ctp.form.modules.engin.design.FormDesignController" />
+	<!-- 表单公式条件组件的控制器 -->
+    <bean name="/form/formula.do" class="com.seeyon.ctp.form.modules.engin.formula.FormFormulaController"/>
+	<!-- 表单组件页面的控制器 -->
+    <bean name="/form/component.do" class="com.seeyon.ctp.form.modules.component.ComponentController"/>
+    <!-- 表单基础设置页面的控制器 -->
+    <bean name="/form/fieldDesign.do" class="com.seeyon.ctp.form.modules.engin.field.FormFieldDesignController" />
+    <!-- 表单单元格权限设置页面的控制器 -->
+    <bean name="/form/authDesign.do" class="com.seeyon.ctp.form.modules.engin.authorization.FormAuthDesignController" />
+    <!-- 表单应用绑定的控制器 -->
+    <bean name="/form/bindDesign.do" class="com.seeyon.ctp.form.modules.bind.FormBindDesignController" />
+    <!-- 表单触发设置页面的控制器 -->
+    <bean name="/form/triggerDesign.do" class="com.seeyon.ctp.form.modules.trigger.FormTriggerDesignController" />
+    <!-- 表单查询设置页面的控制器 -->
+    <bean name="/form/queryDesign.do" class="com.seeyon.ctp.form.modules.query.FormQueryDesignController" />
+    <!-- 表单列表显示及操作的控制器 -->
+    <bean name="/form/formList.do" class="com.seeyon.ctp.form.modules.formlist.FormListController" />
+    <!-- 表单逻辑关系显示的控制器 -->
+    <bean name="/form/relationView.do" class="com.seeyon.ctp.form.modules.engin.relation.FormRelationViewController" />
+    <!-- 表单查询执行页面的控制器 -->
+    <bean name="/form/queryResult.do" class="com.seeyon.ctp.form.modules.query.FormQueryResultController" />
+    <!-- 表单流水号控制器 -->
+    <bean name="/form/serialNumber.do" class="com.seeyon.ctp.form.modules.serialNumber.SerialNumberController" />
+    <!-- 表单数据类相关控制器 -->
+    <bean name="/form/formData.do" class="com.seeyon.ctp.form.service.FormDataController" />
+    <!-- 业务生成器 -->
+    <bean name="/form/business.do" class="com.seeyon.ctp.form.modules.business.BusinessController"/>
+    <!--表单栏目-->
+    <bean name="/form/formSection.do" class="com.seeyon.ctp.form.modules.formSection.FormSectionController"/>
+    <!--表单升级-->
+    <bean name="/form/formUpgrade.do" class="com.seeyon.ctp.form.service.FormUpgradeController"/>
+    
+    <!--轻量级表单设计器-->
+    <bean name="/form/lightForm.do" class="com.seeyon.ctp.form.formContent.LightFormController"/>
+    <!-- 业务导图 -->
+    <bean name="/form/bizMap.do" class="com.seeyon.ctp.form.modules.bizmap.controller.BizMapController"/>
+    <!--更新数据 -->
+    <bean name="/form/update.do" class="com.seeyon.ctp.form.service.FormUpdateController"/>
+
+    <bean name="/dee/deeDataDesign.do" class="com.seeyon.apps.dee.controller.DeeDataController"/>
+	
+	<!--报表图表 -->
+	<bean name="/report/reportChart.do" class="com.seeyon.ctp.report.chart.controller.ReportChartController"></bean>
+    <!-- 业务看板 -->
+    <bean name="/form/bizDashboard.do" class="com.seeyon.ctp.form.modules.bizDashboard.controller.BizDashboardController"/>
+    <!-- 获取静态页面国际化控制器 -->
+    <bean name="/form/staticFile.do" class="com.seeyon.ctp.form.staticFile.StaticFileController"/>
+</beans>

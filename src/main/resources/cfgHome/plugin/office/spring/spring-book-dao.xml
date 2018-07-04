@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="bookHouseDao" class="com.seeyon.apps.office.dao.BookHouseDaoImpl" />
+	<bean id="bookInfoDao" class="com.seeyon.apps.office.dao.BookInfoDaoImpl" />
+	<bean id="bookHouseScopeDao" class="com.seeyon.apps.office.dao.BookHouseScopeDaoImpl" />
+	<bean id="bookInfoApplyDao" class="com.seeyon.apps.office.dao.BookInfoApplyDaoImpl" />
+	<bean id="bookStcInfoDao" class="com.seeyon.apps.office.dao.BookStcInfoDaoImpl" />
+</beans>

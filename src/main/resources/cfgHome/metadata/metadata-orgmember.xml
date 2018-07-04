@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <table name="orgMember" class="com.seeyon.ctp.organization.po.OrgMember">
+        <!-- ======================== 字符型======================== -->
+        <!--手机号-->
+        <column name="EXT_ATTR_1">
+            <label>samples.ServerState.minute.label</label>
+            <alias>telnumber</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--邮箱-->
+        <column name="EXT_ATTR_2">
+            <label>samples.ServerState.minute.label</label>
+            <alias>emailaddress</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--办公电话-->
+        <column name="EXT_ATTR_3">
+            <label>samples.ServerState.minute.label</label>
+            <alias>officenumber</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--地址-->
+        <column name="EXT_ATTR_4">
+            <label>samples.ServerState.minute.label</label>
+            <alias>address</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--邮编-->
+        <column name="EXT_ATTR_5">
+            <label>samples.ServerState.minute.label</label>
+            <alias>postalcode</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--主页-->
+        <column name="EXT_ATTR_6">
+            <label>samples.ServerState.minute.label</label>
+            <alias>website</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--博客-->
+        <column name="EXT_ATTR_7">
+            <label>samples.ServerState.minute.label</label>
+            <alias>blog</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--头像-->
+        <column name="EXT_ATTR_9">
+            <label>samples.ServerState.minute.label</label>
+            <alias>imageid</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!--外部人员岗位和职务存储字段，存储方式岗位p:岗位,l:职务-->
+        <column name="EXT_ATTR_10">
+            <label>samples.ServerState.minute.label</label>
+            <alias>extPostLevel</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- ======================== 数字型======================== -->
+        <!--性别-->
+        <column name="EXT_ATTR_11">
+            <label>samples.ServerState.minute.label</label>
+            <alias>gender</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'Integer',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 最高学历 -->
+        <column name="EXT_ATTR_12">
+            <label>samples.ServerState.minute.label</label>
+            <alias>eduBack</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'Integer',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 政治面貌 -->
+        <column name="EXT_ATTR_13">
+            <label>samples.ServerState.minute.label</label>
+            <alias>politics</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'Integer',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- ======================== 日期型======================== -->
+        <!--生日-->
+        <column name="EXT_ATTR_21">
+            <label>samples.ServerState.minute.label</label>
+            <alias>birthday</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'date',maxLength:100,minLength:1</rule>
+        </column>
+        <!--入職時間-->
+        <column name="EXT_ATTR_22">
+            <label>samples.ServerState.minute.label</label>
+            <alias>hiredate</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'date',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- ======================追加字符串型======================= -->
+        <!-- 微博 -->
+        <column name="EXT_ATTR_31">
+            <label>samples.ServerState.minute.label</label>
+            <alias>weibo</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 微信 -->
+        <column name="EXT_ATTR_32">
+            <label>samples.ServerState.minute.label</label>
+            <alias>weixin</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 身份证 -->
+        <column name="EXT_ATTR_33">
+            <label>samples.ServerState.minute.label</label>
+            <alias>idnum</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 最高学位 -->
+        <column name="EXT_ATTR_34">
+            <label>samples.ServerState.minute.label</label>
+            <alias>degree</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 通讯地址 -->
+        <column name="EXT_ATTR_35">
+            <label>samples.ServerState.minute.label</label>
+            <alias>postAddress</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:100,minLength:1</rule>
+        </column>
+        <!-- 工作地 -->
+        <column name="EXT_ATTR_36">
+            <label>samples.ServerState.minute.label</label>
+            <alias>location</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'string',maxLength:255,minLength:1</rule>
+        </column>
+        
+        <!-- 汇报人 -->
+        <column name="EXT_ATTR_37">
+            <label>samples.ServerState.minute.label</label>
+            <alias>reporter</alias>
+            <sort>5</sort>
+            <type>2</type>
+            <datatype>2</datatype>
+            <width>100</width>
+            <rule>type:'Long',maxLength:255,minLength:1</rule>
+        </column>
+    </table>
+</metadata>

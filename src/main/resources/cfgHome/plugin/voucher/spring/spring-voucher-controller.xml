@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean name="/voucher/accountCfgController.do" class="com.seeyon.apps.voucher.controller.AccountCfgController"/>
+	<bean name="/voucher/deptMapperController.do" class="com.seeyon.apps.voucher.controller.DeptMapperController"/>
+	<bean name="/voucher/memberMapperController.do" class="com.seeyon.apps.voucher.controller.MemberMapperController"/>
+	<bean name="/voucher/subjectMapperController.do" class="com.seeyon.apps.voucher.controller.SubjectMapperController"/>
+	<bean name="/voucher/archivesMapperController.do" class="com.seeyon.apps.voucher.controller.ArchivesMapperController"/>
+	<bean name="/voucher/documnentationMapperController.do" class="com.seeyon.apps.voucher.controller.DocumnentationMapperController"/>
+	<bean name="/voucher/voucherController.do" class="com.seeyon.apps.voucher.controller.VoucherController"/>
+</beans>

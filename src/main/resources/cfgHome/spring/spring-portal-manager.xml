@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="spaceDao" class="com.seeyon.ctp.portal.space.dao.SpaceDaoImpl" />
+
+	<bean id="pageManagerDao" class="com.seeyon.ctp.portal.space.dao.PageManagerDaoImpl" />
+
+	<bean id="spaceSecurityDao" class="com.seeyon.ctp.portal.space.dao.SpaceSecurityDaoImpl" />
+
+	<bean id="portalTemplateDao"
+		class="com.seeyon.ctp.portal.portaltemplate.dao.PortalTemplateDaoImpl" />
+
+	<bean id="portalPortletPropertyDao"
+		class="com.seeyon.ctp.portal.space.dao.PortalPortletPropertyDaoImpl" />
+
+	<bean id="portalTemplateSettingDao"
+		class="com.seeyon.ctp.portal.portaltemplate.dao.PortalTemplateSettingDaoImpl" />
+
+	<bean id="portalHotSpotDao" class="com.seeyon.ctp.portal.hotspot.dao.PortalHotSpotDaoImpl" />
+
+	<bean id="loginTemplateDao"
+		class="com.seeyon.ctp.portal.logintemplate.dao.LoginTemplateDaoImpl" />
+
+	<bean id="linkSystemDao" class="com.seeyon.ctp.portal.link.dao.LinkSystemDaoImpl" />
+
+	<bean id="linkAclDao" class="com.seeyon.ctp.portal.link.dao.LinkAclDaoImpl" />
+
+	<bean id="linkOptionValueDao" class="com.seeyon.ctp.portal.link.dao.LinkOptionValueDaoImpl" />
+
+	<bean id="linkSpaceDao" class="com.seeyon.ctp.portal.link.dao.LinkSpaceDaoImpl" />
+
+	<bean id="linkMemberDao" class="com.seeyon.ctp.portal.link.dao.LinkMemberDaoImpl" />
+
+	<bean id="linkMenuDao" class="com.seeyon.ctp.portal.link.dao.LinkMenuDaoImpl" />
+
+	<bean id="everybodyWorkDataDao"
+		class="com.seeyon.ctp.portal.customize.dao.EverybodyWorkDataDaoImpl" />
+
+	<bean id="portalHotSpotManager"
+		class="com.seeyon.ctp.portal.hotspot.manager.PortalHotSpotManagerImpl">
+
+	</bean>
+
+	<bean id="portalTemplateManager"
+		class="com.seeyon.ctp.portal.portaltemplate.manager.PortalTemplateManagerImpl">
+	</bean>
+
+	<bean id="portalTemplateSettingManager"
+		class="com.seeyon.ctp.portal.portaltemplate.manager.PortalTemplateSettingManagerImpl">
+	</bean>
+
+	<bean id="portalSkinChoiceManager"
+		class="com.seeyon.ctp.portal.portaltemplate.manager.PortalSkinChoiceManagerImpl">
+	</bean>
+
+	<bean id="portletEntityPropertyManager"
+		class="com.seeyon.ctp.portal.space.manager.PortletEntityPropertyManagerImpl">
+
+	</bean>
+
+	<bean id="pageManager" class="com.seeyon.ctp.portal.space.manager.PageManagerImpl">
+
+
+	</bean>
+
+	<bean id="portalSYSMenuManager" class="com.seeyon.ctp.portal.manager.PortalSYSMenuManagerImpl"
+		init-method="onInit">
+	</bean>
+
+	<bean id="personalHeadImgManager"
+		class="com.seeyon.ctp.portal.manager.PersonalHeadImgManagerImpl">
+		<property name="fileManager" ref="fileManager"></property>
+	</bean>
+
+	<bean id="spaceSecurityManager"
+		class="com.seeyon.ctp.portal.space.manager.SpaceSecurityManagerImpl">
+
+	</bean>
+
+	<bean id="spaceManager" class="com.seeyon.ctp.portal.space.manager.SpaceManagerImpl">
+
+
+
+
+		<property name="portletEntityPropertyManager" ref="portletEntityPropertyManager"></property>
+		<property name="customizeManager" ref="customizeManager"></property>
+		<property name="linkSpaceManager" ref="linkSpaceManager"></property>
+		<property name="roleManager" ref="roleManager"></property>
+
+		<property name="menuManager" ref="pluginMenuManager"></property>
+	</bean>
+
+	<bean id="loginTemplateManager"
+		class="com.seeyon.ctp.portal.logintemplate.manager.LoginTemplateManagerImpl">
+
+
+
+
+	</bean>
+
+	<bean id="linkSystemManager"
+		class="com.seeyon.ctp.portal.link.manager.LinkSystemManagerImpl" init-method="init">
+
+
+
+
+
+		<property name="linkOptionManager" ref="linkOptionManager"></property>
+		<property name="menuDao" ref="menuDao"></property>
+		<property name="linkMenuManager" ref="linkMenuManager"></property>
+
+	</bean>
+
+	<bean id="portalManager" class="com.seeyon.ctp.portal.manager.PortalManagerImpl">
+	</bean>
+
+	<bean id="ssoManager" class="com.seeyon.ctp.portal.sso.section.SSOManagerImpl">
+		<property name="linkOptionManager" ref="linkOptionManager"></property>
+	</bean>
+	<bean id="linkSectionManager"
+		class="com.seeyon.ctp.portal.link.manager.LinkSectionManagerImpl">
+
+	</bean>
+	<bean id="linkCategoryManager"
+		class="com.seeyon.ctp.portal.link.manager.LinkCategoryManagerImpl">
+		<property name="linkSystemManager" ref="linkSystemManager"></property>
+	</bean>
+	<bean id="linkOptionManager"
+		class="com.seeyon.ctp.portal.link.manager.LinkOptionManagerImpl">
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="linkOptionValueDao" ref="linkOptionValueDao"></property>
+	</bean>
+	<bean id="linkSpaceManager" class="com.seeyon.ctp.portal.link.manager.LinkSpaceManagerImpl">
+		<property name="orgManager" ref="orgManager"></property>
+		<property name="linkSpaceDao" ref="linkSpaceDao"></property>
+	</bean>
+	<bean id="linkMenuManager" class="com.seeyon.ctp.portal.link.manager.LinkMenuManagerImpl">
+		<property name="linkMenuDao" ref="linkMenuDao"></property>
+	</bean>
+	<!-- 常用栏目选择器 -->
+	<bean id="commonSelector"
+		class="com.seeyon.ctp.portal.section.manager.CommonSectionSelector">
+		<property name="sectionType" value="common"></property>
+	</bean>
+	<!-- 扩展栏目选择器 -->
+	<bean id="forumSelector" class="com.seeyon.ctp.portal.link.manager.ForumSectionSelector">
+		<property name="sectionType" value="forum"></property>
+		<property name="linkCategoryManager" ref="linkCategoryManager"></property>
+		<property name="linkSectionManager" ref="linkSectionManager"></property>
+		<property name="sortId" value="0"></property>
+	</bean>
+	<bean id="spaceEditMenuSelector" class="com.seeyon.ctp.portal.manager.SpaceEditMenuSelector">
+
+		<property name="spaceType"
+			value="department,corporation,group,custom,public_custom,public_custom_group"></property>
+		<property name="sortId" value="10"></property>
+	</bean>
+	<!-- 离职管理 -->
+	<bean id="MemberLeaveClearItemSpace"
+		class="com.seeyon.ctp.portal.space.manager.MemberLeaveClearItemSpaceImpl">
+
+	</bean>
+
+
+	<bean id="spaceOrganizationEventListener"
+		class="com.seeyon.ctp.portal.space.listener.SpaceOrganizationEventListener" />
+	<bean id="spaceDeleteEventListenerForDefaultSetting"
+		class="com.seeyon.ctp.portal.space.listener.SpaceDeleteEventListenerForDefaultSetting" />
+
+	<bean id="portalForeignManager" class="com.seeyon.ctp.portal.manager.PortalForeignManagerImpl">
+		<property name="pageManager" ref="pageManager"></property>
+		<property name="portletEntityPropertyManager" ref="portletEntityPropertyManager"></property>
+	</bean>
+
+	<!-- 配置级Portlet加载 -->
+	<bean name="portletInit" class="com.seeyon.ctp.portal.portlet.PortletInit"
+		init-method="init" singleton="true"></bean>
+	<!-- 常用Portlet -->
+	<bean name="commonPortlet" class="com.seeyon.ctp.portal.portlet.CommonPortlet"></bean>
+	<!-- 空间Portlet -->
+	<bean name="spacePortlet" class="com.seeyon.ctp.portal.portlet.SpacePortlet"></bean>
+	<!-- 关联系统Portlet -->
+	<bean name="linkSystemPortlet" class="com.seeyon.ctp.portal.portlet.LinkSystemPortlet"></bean>
+	<!-- 工作桌面管理 -->
+	<bean name="deskManager" class="com.seeyon.ctp.portal.portlet.manager.DeskManagerImpl"></bean>
+	<!-- 工作桌面数据更新 -->
+	<bean name="portletManager"
+		class="com.seeyon.ctp.portal.portlet.manager.PortletManagerImpl"></bean>
+	<!-- 工作桌面实体Dao -->
+	<bean name="portalDeskCateDao"
+		class="com.seeyon.ctp.portal.portlet.dao.PortalDeskCateDaoImpl"></bean>
+	<!-- 工作桌面菜单工具类 -->
+	<bean name="menuConstants" class="com.seeyon.ctp.portal.portlet.MenuConstantsImpl"></bean>
+
+	<bean id="everybodyWorkDataManager"
+		class="com.seeyon.ctp.portal.customize.manager.EverybodyWorkDataManagerImpl" />
+
+	<bean id="portalCacheManager" class="com.seeyon.ctp.portal.manager.PortalCacheManagerImpl"/>
+
+	<bean id="functionalModuleManager"
+		class="com.seeyon.ctp.portal.plugin.manager.FunctionalModuleManagerImpl"></bean>
+
+	<bean id="spaceSystemInitializer"
+		class="com.seeyon.ctp.portal.systeminitializer.SpaceSystemInitializer" />
+
+	<bean id="weatherAreaInfoManager"
+		class="com.seeyon.ctp.portal.weather.manager.WeatherAreaInfoManagerImpl"
+		init-method="initData">
+		<property name="url" value="http://apm.seeyon.com:10011/weather/Seeyon"></property>
+		<property name="hour" value="8"></property>
+		<property name="minute" value="30"></property>
+	</bean>
+	<bean id="weatherAreaInfoDao"
+		class="com.seeyon.ctp.portal.weather.dao.WeatherAreaInfoDaoImpl" />
+	<bean id="weatherJob" class="com.seeyon.ctp.portal.weather.quartz.WeatherJob" />
+
+	<!-- 扩展角色权限校验 -->
+	<bean id="extendCheckSpaceManager"
+		class="com.seeyon.ctp.util.annotation.ExtendCheckSpaceManagerImpl" />
+
+	<!-- portal菜单扩展接口 -->
+	<bean id="portalMenuManager" class="com.seeyon.ctp.menu.manager.PortalMenuManagerImpl" />
+</beans>

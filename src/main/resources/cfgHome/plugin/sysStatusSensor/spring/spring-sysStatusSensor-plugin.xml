@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="sysStatusSensor" class="com.seeyon.ctp.plugin.sysStatusSensor.SysStatusSensor" />
+	<bean id="osInfoSensor" class="com.seeyon.ctp.plugin.sysStatusSensor.OsInfoSensor" />
+	<bean id="diskSpaceSensor" class="com.seeyon.ctp.plugin.sysStatusSensor.DiskSpaceSensor" />
+	<bean id="diskSpaceSensorCurrent" class="com.seeyon.ctp.plugin.sysStatusSensor.DiskSpaceSensorCurrent" />
+	<bean id="dbInfoDao" class="com.seeyon.ctp.plugin.sensor.dao.DbInfoDao" />
+	<bean id="customerNameAndDogSensor" class="com.seeyon.ctp.plugin.sysStatusSensor.CustomerNameAndDogSensor" />
+	<bean id="logSensor" class="com.seeyon.ctp.plugin.sysStatusSensor.LogSensor"></bean>
+	<bean name="/sensor.do" class="com.seeyon.ctp.plugin.sensor.controller.SensorControl"></bean>
+	<bean id="uploadFileTask" class="com.seeyon.ctp.plugin.sensor.daemon.UploadFileTask"></bean>
+</beans>
