@@ -401,7 +401,6 @@ public class RikazeController extends BaseController {
             for (Matcher matcherAppId = pAppId.matcher(xsl); matcherAppId.find(); formId = matcherAppId.group(1)) {
                 ;
             }
-
             String viewId = null;
             Pattern pFormId = Pattern.compile("formId=([-]{0,1}\\d+)");
 
