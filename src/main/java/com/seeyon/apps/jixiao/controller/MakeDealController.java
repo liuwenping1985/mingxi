@@ -38,26 +38,28 @@ public class MakeDealController extends BaseController {
 
                   String khzq =  formmain0638.getField0001();
                   System.out.println("---触发---formmain0638:"+khzq);
-                  List<Formmain0651> data2List =  DBAgent.find("from Formmain0651 where field0001='"+khzq+"'");
+                  List<Formmain0651> data2List =  DBAgent.find("from Formmain0651 where field0001='"+khzq+"'order by field0006 desc");
+                  System.out.println("---触发---formmain0651:"+data2List.size());
                   // 20优秀 70 合格 10 不合格
+
                      if(data2List==null||data2List.isEmpty()){
                          return;
                      }
-                     Collections.sort(data2List, new Comparator<Formmain0651>() {
-                         public int compare(Formmain0651 o1, Formmain0651 o2) {
-                             Float val1 = o1.getField0006();
-                             Float val2 = o2.getField0006();
-                             if(val1 == null){
-                                 val1 = 0f;
-                             }
-                             if(val2==null){
-                                 val2 = 0f;
-                             }
-                             Float f = val2-val1;
-                             f = f*10000;
-                             return f.intValue();
-                         }
-                     });
+//                     Collections.sort(data2List, new Comparator<Formmain0651>() {
+//                         public int compare(Formmain0651 o1, Formmain0651 o2) {
+//                             Float val1 = o1.getField0006();
+//                             Float val2 = o2.getField0006();
+//                             if(val1 == null){
+//                                 val1 = 0f;
+//                             }
+//                             if(val2==null){
+//                                 val2 = 0f;
+//                             }
+//                             Float f = val2-val1;
+//                             f = f*10000;
+//                             return f.intValue();
+//                         }
+//                     });
                      int len = data2List.size();
                      if(len<5){
                          return ;
@@ -66,7 +68,9 @@ public class MakeDealController extends BaseController {
                      int total = data2List.size();
                      Float youxiu = total *0.2f;
                      Float hege = total*0.9f;
+                     StringBuilder stb = new StringBuilder();
                      for(Formmain0651 data:data2List){
+                         stb.append(data.getId()).append(data.getField0006()).append(",");
                          if(tag<=youxiu.intValue()){
                              data.setField0017("优秀");
 
@@ -77,6 +81,7 @@ public class MakeDealController extends BaseController {
                          }
                          tag++;
                      }
+                     System.out.println(stb.toString());
                      DBAgent.updateAll(data2List);
                  }
             }
