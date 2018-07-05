@@ -53,7 +53,9 @@ public class MakeDealController extends BaseController {
                              if(val2==null){
                                  val2 = 0f;
                              }
-                             return val2-val1>=0f?1:-1;
+                             Float f = val2-val1;
+                             f = f*10000;
+                             return f.intValue();
                          }
                      });
                      int len = data2List.size();
@@ -61,15 +63,16 @@ public class MakeDealController extends BaseController {
                          return ;
                      }
                      int tag =1;
+                     int total = data2List.size();
+                     Float youxiu = total *0.2f;
+                     Float hege = total*0.9f;
                      for(Formmain0651 data:data2List){
-
-                         int temp = tag*10/len;
-                         if(temp<=2){
+                         if(tag<=youxiu.intValue()){
                              data.setField0017("优秀");
 
-                         } else if(temp>2&&temp<=9){
+                         } else if(tag<=hege.intValue()){
                              data.setField0017("合格");
-                         }else if(temp>9){
+                         }else {
                              data.setField0017("不合格");
                          }
                          tag++;
