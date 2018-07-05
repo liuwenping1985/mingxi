@@ -352,7 +352,7 @@ public class DataKitNanJingService {
         SimpleDateFormat format2 = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
 
         //先找OA时间最大的那个
-        List<Formmain0250> exisitList = DBAgent.find("from Formmain0250 where startDate=(select max(startDate) from Formmain0250)");
+        List<Formmain0250> exisitList = DBAgent.find("from Formmain0651 where startDate=(select max(startDate) from Formmain0651)");
         if(CollectionUtils.isEmpty(exisitList)){
             dataList = dataKitNanjingDao.getListByTableName("PPB");
         }else{
