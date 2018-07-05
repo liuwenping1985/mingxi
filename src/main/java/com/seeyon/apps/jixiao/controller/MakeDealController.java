@@ -22,6 +22,13 @@ public class MakeDealController extends BaseController {
         System.out.println("---触发---:"+affairId);
         List<CtpAffair> affairList =  DBAgent.find("from CtpAffair where id="+affairId);
         System.out.println("---触发---:"+affairList.size());
+        try {
+            System.out.println("---触发延迟8秒---");
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("---触发延迟8秒结束---");
         if(!CollectionUtils.isEmpty(affairList)){
             CtpAffair affair = affairList.get(0);
             Long templateId = affair.getTempleteId();
@@ -68,14 +75,18 @@ public class MakeDealController extends BaseController {
                      int total = data2List.size();
                      Float youxiu = total *0.2f;
                      Float hege = total*0.9f;
+                     Float buhege = total*0.1f;
                      StringBuilder stb = new StringBuilder();
                      for(Formmain0651 data:data2List){
-                         stb.append(data.getId()).append(data.getField0006()).append(",");
+                         stb.append("【"+data.getId()).append("】:"+data.getField0006()).append(",");
                          if(tag<=youxiu.intValue()){
                              data.setField0017("优秀");
 
                          } else if(tag<=hege.intValue()){
                              data.setField0017("合格");
+                             if(tag>=total-buhege.intValue()){
+                                 data.setField0017("不合格");
+                             }
                          }else {
                              data.setField0017("不合格");
                          }
