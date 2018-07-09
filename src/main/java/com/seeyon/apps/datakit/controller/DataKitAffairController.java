@@ -18,6 +18,7 @@ import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.portal.section.PendingController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 

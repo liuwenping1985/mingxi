@@ -7,6 +7,7 @@ package com.seeyon.apps.casso;
 
 import com.seeyon.ctp.common.constants.LoginResult;
 import com.seeyon.ctp.login.LoginAuthenticationException;
+import com.seeyon.ctp.login.controller.MainController;
 import com.seeyon.ctp.portal.sso.SSOLoginContext;
 import com.seeyon.ctp.portal.sso.SSOLoginHandshakeInterface;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,8 @@ public class CassoLoginImpl implements SSOLoginHandshakeInterface {
 
     public String handshake(String token) {
         String ticket = "";
-        System.out.println("0 token=" + token);
-        Base64 base64 = new Base64();
-        System.out.println();
-
         try {
-            ticket = new String(base64.decode(token), "GB2312");
+            ticket = token.substring(3);
         } catch (Exception var5) {
             var5.printStackTrace();
         }
@@ -38,6 +35,7 @@ public class CassoLoginImpl implements SSOLoginHandshakeInterface {
 
     public LoginResult dogCheck(String arg0, String arg1, HttpServletRequest arg2) throws LoginAuthenticationException {
         System.out.print("dog");
+        MainController.class;
         return null;
     }
 
@@ -48,7 +46,7 @@ public class CassoLoginImpl implements SSOLoginHandshakeInterface {
     }
     public static void main(String[] args) throws Exception {
         Base64 base64 = new Base64();
-        String ss = "amlnc2h3Y2g=";
-        System.out.println(new String(base64.decode(ss), "GB2312"));
+        String ss = "sso123";
+        System.out.println(ss.substring(3));
     }
 }
