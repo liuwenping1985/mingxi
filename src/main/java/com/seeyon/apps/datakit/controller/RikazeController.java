@@ -53,6 +53,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.seeyon.ctp.common.taglibs.functions.Functions.getAvatarImageUrl;
+
 /**
  * Created by liuwenping on 2018/5/31.
  */
@@ -137,7 +139,7 @@ public class RikazeController extends BaseController {
               vo.setMemberId(String.valueOf(member.getId()));
               vo.setMemberName(member.getName());
               vo.setV3xOrgMember(member);
-              //vo.setAvtar(getAvatarImageUrl(member.getId()));
+              vo.setAvtar(getAvatarImageUrl(member.getId()));
               dataList.add(vo);
            }
             data.put("items",dataList);
