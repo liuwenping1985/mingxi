@@ -9,8 +9,16 @@ public class RikazeMemberVo {
     private String memberId;
     private String memberName;
     private String avtar;
+    private String postName;
     private V3xOrgMember v3xOrgMember;
 
+    public String getPostName() {
+        return postName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName;
+    }
 
     public String getAvtar() {
         return avtar;

@@ -1,6 +1,7 @@
 package com.seeyon.apps.datakit.controller;
 
 import com.seeyon.apps.calendar.manager.CalEventManagerImpl;
+import com.seeyon.apps.collaboration.controller.CollaborationController;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.manager.PendingManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
@@ -12,6 +13,7 @@ import com.seeyon.apps.datakit.vo.RikazeAccountVo;
 import com.seeyon.apps.datakit.vo.RikazeDeptVo;
 import com.seeyon.apps.datakit.vo.RikazeMemberVo;
 import com.seeyon.apps.doc.manager.KnowledgeFavoriteManager;
+import com.seeyon.apps.index.controller.IndexController;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ModuleType;
 import com.seeyon.ctp.common.SystemEnvironment;
@@ -29,14 +31,13 @@ import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.SecurityHelper;
-import com.seeyon.ctp.organization.bo.MemberPost;
-import com.seeyon.ctp.organization.bo.V3xOrgAccount;
-import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
-import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
+import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.manager.OrgManagerImpl;
 import com.seeyon.ctp.organization.po.OrgMember;
+import com.seeyon.ctp.organization.po.OrgPost;
 import com.seeyon.ctp.portal.customize.manager.CustomizeManager;
 import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.util.Constants;
@@ -105,27 +106,34 @@ public class RikazeController extends BaseController {
     public RikazeController() {
 
     }
+
     private CustomizeManager customizeManager;
-    public  CustomizeManager getCustomizeManager() {
+
+    public CustomizeManager getCustomizeManager() {
         if (customizeManager == null) {
-            customizeManager = (CustomizeManager)AppContext.getBean("customizeManager");
+            customizeManager = (CustomizeManager) AppContext.getBean("customizeManager");
         }
         return customizeManager;
     }
+
     private SystemConfig systemConfig;
-    private  SystemConfig getSystemConfig() {
+
+    private SystemConfig getSystemConfig() {
         if (systemConfig == null) {
-            systemConfig = (SystemConfig)AppContext.getBean("systemConfig");
+            systemConfig = (SystemConfig) AppContext.getBean("systemConfig");
         }
         return systemConfig;
     }
-    public  String getAvatarImageUrl(Long memberId) {
+
+    public String getAvatarImageUrl(Long memberId) {
         String contextPath = SystemEnvironment.getContextPath();
         return getAvatarImageUrl(memberId, contextPath);
     }
-    public  String getSystemSwitch(String name) {
+
+    public String getSystemSwitch(String name) {
         return getSystemConfig().get(name);
     }
+
     private String getAvatarImageUrl(Long memberId, String contextPath) {
         String imageSrc = contextPath + "/apps_res/v3xmain/images/personal/pic.gif";
         String isUseDefaultAvatar = getSystemSwitch("default_avatar");
@@ -155,19 +163,20 @@ public class RikazeController extends BaseController {
         }
         return imageSrc;
     }
+
     @NeedlessCheckLogin
     public ModelAndView getDepartmentListGroupByAccount(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         List<V3xOrgAccount> accountList = this.getOrgManager().getAllAccounts();
         Map<String, Object> data = new HashMap<String, Object>();
         List<RikazeAccountVo> dataList = new ArrayList<RikazeAccountVo>();
         if (accountList != null && accountList.size() > 0) {
-            for(V3xOrgAccount account:accountList){
+            for (V3xOrgAccount account : accountList) {
                 RikazeAccountVo accountVo = new RikazeAccountVo();
                 accountVo.setAccountId(String.valueOf(account.getId()));
                 accountVo.setV3xOrgAccount(account);
                 List<V3xOrgDepartment> depts = this.getOrgManager().getAllDepartments(account.getId());
                 List<RikazeDeptVo> deptVoList = new ArrayList<RikazeDeptVo>();
-                for(V3xOrgDepartment department:depts){
+                for (V3xOrgDepartment department : depts) {
                     RikazeDeptVo vo = new RikazeDeptVo();
                     vo.setAccountId(accountVo.getAccountId());
                     vo.setDeptId(String.valueOf(department.getId()));
@@ -179,34 +188,43 @@ public class RikazeController extends BaseController {
                 dataList.add(accountVo);
             }
         }
-        data.put("items",dataList);
+        data.put("items", dataList);
         com.seeyon.ctp.common.taglibs.functions.Functions funs;
-        DataKitSupporter.responseJSON(data,response);
+        DataKitSupporter.responseJSON(data, response);
         return null;
     }
+
     @NeedlessCheckLogin
     public ModelAndView getDepartmentMemberList(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
-        Map<String,Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<String, Object>();
         String deptId = request.getParameter("deptId");
-        if(deptId == null||"".equals(deptId)){
-            data.put("items",new ArrayList());
-        }else{
+        if (deptId == null || "".equals(deptId)) {
+            data.put("items", new ArrayList());
+        } else {
             List<V3xOrgMember> list = this.getOrgManager().getAllMembersByDepartmentBO(Long.parseLong(deptId));
-           List<RikazeMemberVo> dataList = new ArrayList<RikazeMemberVo>();
-           for(V3xOrgMember member:list){
-              RikazeMemberVo vo = new RikazeMemberVo();
-              vo.setDepartmentId(String.valueOf(member.getOrgDepartmentId()));
-              vo.setMemberId(String.valueOf(member.getId()));
-              vo.setMemberName(member.getName());
-              vo.setV3xOrgMember(member);
-              vo.setAvtar(getAvatarImageUrl(member.getId()));
-              dataList.add(vo);
-           }
-            data.put("items",dataList);
+            List<RikazeMemberVo> dataList = new ArrayList<RikazeMemberVo>();
+
+            for (V3xOrgMember member : list) {
+                RikazeMemberVo vo = new RikazeMemberVo();
+                vo.setDepartmentId(String.valueOf(member.getOrgDepartmentId()));
+                vo.setMemberId(String.valueOf(member.getId()));
+                vo.setMemberName(member.getName());
+                vo.setV3xOrgMember(member);
+                V3xOrgPost post = this.getOrgManager().getPostById(member.getOrgPostId());
+                if (post != null) {
+                    vo.setPostName(post.getName());
+                } else {
+                    vo.setPostName("");
+                }
+                vo.setAvtar(getAvatarImageUrl(member.getId()));
+                dataList.add(vo);
+            }
+            data.put("items", dataList);
         }
-        DataKitSupporter.responseJSON(data,response);
+        DataKitSupporter.responseJSON(data, response);
         return null;
     }
+
     @NeedlessCheckLogin
     public ModelAndView checkLogin(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
@@ -287,6 +305,20 @@ public class RikazeController extends BaseController {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("count", count);
         BulDataController bdc;
+        DataKitSupporter.responseJSON(data, response);
+        return null;
+    }
+    public ModelAndView getUserLevelName(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        Map<String,Object> data = new HashMap<String, Object>();
+        try {
+           V3xOrgLevel level =  this.getOrgManager().getLevelById(user.getLevelId());
+            data.put("level",level);
+        } catch (BusinessException e) {
+            data.put("level",null);
+            e.printStackTrace();
+        }
+
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
