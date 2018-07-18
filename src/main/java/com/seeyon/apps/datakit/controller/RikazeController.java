@@ -298,13 +298,42 @@ public class RikazeController extends BaseController {
         if (StringUtils.isEmpty(fragementId)) {
             fragementId = "-7771288622128478783";
         }
-        NewsDataController ndc;
         String ord = "1";
         Long fgId = Long.parseLong(fragementId);
         int count = pendingManager.getPendingCount(memberId, fgId, ord);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("count", count);
-        BulDataController bdc;
+      
+        DataKitSupporter.responseJSON(data, response);
+        return null;
+    }
+    public ModelAndView getPeixunCount(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        Long memberId = user.getId();
+        String fragementId = request.getParameter("fragmentId");
+        if (StringUtils.isEmpty(fragementId)) {
+            fragementId = "-7771288622128478783";
+        }
+        String ord = "0";
+        Long fgId = Long.parseLong(fragementId);
+        int count = pendingManager.getPendingCount(memberId, fgId, ord);
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("count", count);
+        DataKitSupporter.responseJSON(data, response);
+        return null;
+    }
+    public ModelAndView getKaoqinCount(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        Long memberId = user.getId();
+        String fragementId = request.getParameter("fragmentId");
+        if (StringUtils.isEmpty(fragementId)) {
+            fragementId = "-7771288622128478783";
+        }
+        String ord = "0";
+        Long fgId = Long.parseLong(fragementId);
+        int count = pendingManager.getPendingCount(memberId, fgId, ord);
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("count", count);
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
