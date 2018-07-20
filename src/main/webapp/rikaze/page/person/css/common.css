@@ -363,7 +363,7 @@ ul.ej_list .mainlevel:hover{ background:url(../images/public/nav_bg_hover.jpg) r
 
 /*整体大结构*/
 .content{ width:78%; margin:0 auto; background:#fff; padding:}
-.padd{ padding:0 36px 60px 36px;}
+.padd{ padding:0 5px 60px 5px;}
 
 /*面包屑开始*/
 .BreadcrumbNav{ line-height:44px; height:44px; font-size:12px;font-family:"宋体"; color:#000;}

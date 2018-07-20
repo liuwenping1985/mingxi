@@ -3,7 +3,7 @@
 
 /*结构*/
 body{font-family:"微软雅黑", "宋体";}
-.box{ margin-bottom:30px;}
+.box{ margin-bottom:5px;}
 .leftPart .channel_tab{ background:#dcdcdd; border-bottom:none; padding-bottom:0px; line-height:40px; height:40px;}
 .leftPart .channel_tab span,.leftPart .channel_tab span a{font-family:"FZZHUNYSK","微软雅黑","宋体"; font-size:22px;}
 
@@ -58,7 +58,7 @@ body{font-family:"微软雅黑", "宋体";}
     /*background: linear-gradient(#e6f4ff,#025194); !* 标准的语法 *!*/
 }
 .photoWall ul li dl dt:hover{ border:1px #b2b2b2 solid;}
-.photoWall ul li dl dd{ text-align:center; line-height:32px; font-size:12px}
+.photoWall ul li dl dd{ text-align:center; line-height:25px; font-size:12px}
 .w999{ width:999px;}
 
 .gwycwhy_btn{ width:auto;}
@@ -72,7 +72,7 @@ div.channel_tab2{ padding-left:0px;}
 
 /*政府工作报告*/
 .baogao .lmtit{ margin-bottom:7px;}
-.rightPart .column a {width: 254px;height: 57px;display: block;line-height: 57px;background: #c1d1d0;font-size: 22px;text-align: center;color: #333;}
+.rightPart .column a {width: 300px;height: 45px;display: block;line-height: 45px;background: #c1d1d0;font-size: 18px;text-align: center;color: #333;}
 .rightPart .column a:hover{background:#8fa6a5; color:#fff;}
 
 /*历届国务院领导机构和历任国务院总理*/
@@ -140,7 +140,7 @@ div.channel_tab2{ padding-left:0px;}
 .gwyzzjg .tit_s01 span.tabg { font-weight:normal;}
 
 /*新增右侧列表*/
-.gwy-list{ margin-bottom:25px;}
+.gwy-list{ margin-bottom:1px;}
 .gwy-list ol li { background:url(http://www.gov.cn/govweb/xhtml/images/gwy/gwy_titbg01.jpg) no-repeat 10px 8px; padding-left:30px; height:22px; margin-bottom:5px; line-height:22px;}
 .gwy-list ol li a{ font-size:14px;}
 .gwy-list ol li.libg{ background:url(http://www.gov.cn/govweb/xhtml/images/gwy/gwy_titbg02.jpg) no-repeat; height:22px; }

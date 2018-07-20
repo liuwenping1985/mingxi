@@ -24,3 +24,32 @@ a:hover{color:#025194;text-decoration:none;}
 .fr{float:right;}
 .show{display:block!important;}
 .hide{display:none!important;}
+.img_tilte{
+
+    
+        display: inline-block;
+        width: 80px;
+        height: 60px;
+        background: url('/seeyon/common/skin/default/images/pagehead/pic_b.gif') no-repeat;
+    
+}
+.word_title{
+    font-size: 24px;
+    font-weight: bold;
+    color: #6c82ac;
+    width: 380px;
+    height:60px;
+    line-height: 2;
+    display: inline-block;
+    background: url('/seeyon/common/skin/default/images/pagehead/page2.header.bg.old.gif') left no-repeat;
+   
+}
+.tr_title{
+    background: url('/seeyon/common/skin/default/images/pagehead/page2.header.line.old.gif') left repeat-x;
+   
+}
+.table_title{
+    width:100%;
+    border:0;
+
+}

@@ -32,9 +32,9 @@
 					
                     
                     <div class="input-group" style="width:320px;float:right;padding-top:15px">
-                        <input type="text" class="form-control" aria-label="">
+                        <input type="text" id="serach-text-input" class="form-control" aria-label="">
                         <div class="input-group-append">
-                            <button class="input-group-text">搜索</button>
+                            <button id="serach-btn" class="input-group-text">搜索</button>
                             <br>
 
                         </div>
@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                     <td>
-					<div id="login_info" style="color:yellow;margin-top:3px;font-size:20px;font-weight:bold" class="rkz_margin15 rkz_hide rkz_float_left">xxx欢迎您</div>
+					<div id="login_info" style="color:yellow;margin-top:3px;font-size:20px;" class="rkz_margin15 rkz_hide rkz_float_left">xxx欢迎您</div>
                     <div id="time_info" style="color:yellow;margin-top:3px;font-size:20px" class="rkz_margin15  rkz_float_right">2018年6月13日 17时25分</div>
                         
                 </td>
@@ -58,10 +58,10 @@
         <div style="width:100%;height:1px;background-color:#cccccc"></div>
         <div class="rkz_column_no_color" style="padding-top:8px;">
             <div class="alert alert-secondary" style="height:50px">
-                <div class="rkz_left rkz_width19">
+                <div class="rkz_left rkz_width19" style="cursor:pointer" id="notice_div">
 
 
-                    <img width="25px" height="25px" src="images/notice.png" />
+                    <img width="25px" height="25px"  src="images/notice.png" />
                     <span style="color:#1c2836">通知公告</span>
                 </div>
                 <div  id="notice" class="rkz_right rkz_width80">
@@ -166,6 +166,8 @@
                                     <button id="kaoqing" style="width:250px;height:65px" type="button" class="btn btn-success btn-lg rkz_btn">
                                         <img src="images/attendance.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
                                         />考勤系统
+                                        <span id="kaoqingCount" style="position:relative;right:-52px;top:-21px;display:none" class="badge badge-danger">6</span>
+                                        <span  id="kaoqingCountMask" style="position:relative;right:-41px;top:-18px;background:#28a745" class="badge badge-primary"></span>
                                     </button>
                                 </div>
                             </td>
@@ -174,6 +176,8 @@
                                     <button id="peixun" style="width:250px;height:65px" type="button" class="btn btn-dark btn-lg rkz_btn">
                                         <img src="images/training.png" width="32px" height="32px" alt="32x32" class="mr-2 rounded"
                                         />培训系统
+                                        <span id="peixunCount" style="position:relative;right:-52px;top:-21px;display:none" class="badge badge-danger">6</span>
+                                        <span  id="peixunCountMask" style="position:relative;right:-41px;top:-18px;background:#343a40" class="badge badge-primary"></span>
                                     </button>
                                 </div>
                             </td>
@@ -238,22 +242,25 @@
                 <div style="width:100%">
 
                     <ul class="nav">
-                        <li class="nav-item" style="margin-left:7%;color:#ccc">
+                        <li class="nav-item" style="margin-left:3%;color:#ccc">
                             <a style="color:cornflowerblue" class="nav-link active" href="person.html" target="_blank">人事信息</a>
                         </li>
-                        <li class="nav-item" style="margin-left:7%;color:#333">
+                        <li class="nav-item" style="margin-left:6%;color:#333">
                             <a style="color:cornflowerblue" class="nav-link" href="#">业务指南</a>
                         </li>
-                        <li class="nav-item" style="margin-left:7%;color:#333">
+                        <li class="nav-item" style="margin-left:6%;color:#333">
                             <a style="color:cornflowerblue" class="nav-link" href="#">学习交流</a>
                         </li>
-                        <li class="nav-item" style="margin-left:7%;color:#333">
+                        <li class="nav-item" style="margin-left:6%;color:#333">
+                            <a style="color:cornflowerblue" class="nav-link" href="#">下载中心</a>
+                        </li>
+                        <li class="nav-item" style="margin-left:6%;color:#333">
                             <a style="color:cornflowerblue" class="nav-link" href="#">党规法规</a>
                         </li>
-                        <li class="nav-item" style="margin-left:7%;color:#333">
+                        <li class="nav-item" style="margin-left:6%;color:#333">
                             <a style="color:cornflowerblue" class="nav-link " href="http://www.ccdi.gov.cn/" target="_blank">中央纪委国家监委网站</a>
                         </li>
-                        <li class="nav-item" style="margin-left:7%;color:#333">
+                        <li class="nav-item" style="margin-left:6%;color:#333">
                             <a style="color:cornflowerblue" class="nav-link" href="http://www.xzjjw.gov.cn/" target="_blank">自治区纪委监委网站</a>
                         </li>
                     </ul>
@@ -267,6 +274,10 @@
             <center>
                 <footer class="footer">
                     <div class="container">
+                            
+                        <span style="margin-right:5px"> <a style="color:cornflowerblue;cursor:pointer" target="_blank">操作手册</a></span> 
+                        <span style="margin-right:5px"><a style="color:cornflowerblue;cursor:pointer" target="_blank">辅助工具</a></span> 
+                        <span style="margin-right:5px"><a style="color:cornflowerblue;cursor:pointer" target="_blank">联系电话</a></span>
                         <p style="margin:0 auto;padding:10px;color:#999">© 2018 &nbsp;日喀则市纪委监委内部工作网
                         </p>
                     </div>

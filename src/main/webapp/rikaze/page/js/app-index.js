@@ -15,12 +15,16 @@ Date.prototype.Format = function (fmt) { //author: meiz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+
 function openLink(id,type){
     // if(!$_$){
     //     alert("请先登陆");
     //     return;
     // }
-    window.open("/seeyon/rikaze.do?method=userView&id="+id+"&spaceId=&auditFlag=0");
+  // alert(type);
+ 
+    window.open("/seeyon/rikaze.do?method=userView&id="+id+"&spaceId=&auditFlag=0&type="+type);
 }
 function openLink2(id,type){
     // if(!$_$){
@@ -78,9 +82,43 @@ function loadYueWenBadge(){
     });
 
 }
+function loadKaoqinBadge(){
+    if(!$_$){
+        $("#kaoqingCount").hide();
+        $("#kaoqingCountMask").show();
+        return;
+    }
+    $.get("/seeyon/rikaze.do?method=getKaoqinCount&fragmentId=2487048259612723566",function(data){
+        if(data.count==0){
+            return;
+        }
+        $("#kaoqingCount").html(data.count);
+        $("#kaoqingCount").show();
+        $("#kaoqingCountMask").hide();
+    });
+
+}
+function loadPeixunBadge(){
+    if(!$_$){
+        $("#peixunCount").hide();
+        $("#peixunCountMask").show();
+        return;
+    }
+    $.get("/seeyon/rikaze.do?method=getPeixunCount&fragmentId=-7000417139596900184",function(data){
+        if(data.count==0){
+            return;
+        }
+        $("#peixunCount").html(data.count);
+        $("#peixunCount").show();
+        $("#peixunCountMask").hide();
+    });
+
+}
 function loadAllBadge(){
     loadBanWenBadge();
-    loadYueWenBadge()
+    loadYueWenBadge();
+    loadKaoqinBadge();
+    loadPeixunBadge();
 }
 (function () {
     $(".nav-link").click(function (e) {
@@ -90,7 +128,14 @@ function loadAllBadge(){
  
     $(document).ready(function () {
       
+        $("#notice_div").click(function(){
+            if(!$_$){
+                alert("查看更多，请先登录");
+                return;
+            }
+            window.open("/seeyon/bulData.do?method=bulMore&spaceType=2&where=&homeFlag=true&typeId=1&spaceId=");
 
+        });
         $("#login-btn").click(function () {
             $('.theme-popover-mask').fadeIn(100);
             $('.theme-popover').slideDown(200);
@@ -121,7 +166,21 @@ function loadAllBadge(){
                     loadAllBadge();
 					alert("用户名或密码错误")
                 } else {
+                    if(!data.user||data.user == undefined){
+                        $("#logout-form").ajaxSubmit({
+                            success: function (data) {
+                                
+                                $_$ = false;
+                                window.location.href = "index.html";
+        
+                            },
+                            error: function (errorInfo) {
+                                window.location.href = "index.html"
+                            }
+                        });
+                        
 
+                    }
                     $("#login_info").html("欢迎您," + data.user);
                     $("#login-btn").hide();
                     $_$ = true;
@@ -191,6 +250,7 @@ function loadAllBadge(){
         $("#btn-shouwen").click(function () {
             if (!$_$) {
                 alert("请先登录");
+                return;
             }
            // window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=-2592679227520888888&app=4&sub_app=2");
             ///seeyon/govDoc/govDocController.do?method=govDocSend&amp;_resourceCode=F20_govDocSendManage
@@ -203,6 +263,19 @@ function loadAllBadge(){
                 return;
             }
             window.open("/seeyon/main.do?method=main&fragmentId=-7771288622128478783&from=menhu&type=yuewen");
+        });
+        $("#serach-btn").click(function(){
+            if (!$_$) {
+                alert("请先登录");
+                return;
+            }
+            var keyword = $("#serach-text-input").val();
+            if(!keyword){
+                alert("请输入关键字");
+                return;
+            }
+
+            window.open("/seeyon/main.do?method=main&keyword="+keyword+"&from=menhu&type=search");
         });
         $("#kaoqing").click(function(){
             if (!$_$) {
@@ -374,7 +447,7 @@ function loadAllBadge(){
                 });
                 var htmls=[];
                 $(message).each(function(index,item){
-                    htmls.push('<li><a class="bulLink" style="cursor:pointer" onClick="openLink2(\''+item.id+'\')">'+item.title+'</a></li>')
+                    htmls.push('<li><div class="tip_red"></div><a class="bulLink" style="cursor:pointer" onClick="openLink2(\''+item.id+'\')">'+item.title+'</a></li>')
                 });
                 $("#notice_ul").append(htmls.join(""));
 
