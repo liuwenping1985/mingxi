@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.seeyon.apps.datakit.po">
+	<class name="SignDataFromLogin" table="sign_data_from_login">
+		<id name="id" type="long" column="id">
+			<generator class="assigned" />
+		</id>
+		<property name="dateToken" column="dateToken" type="string" not-null="true" />
+
+		<property name="userId" column="userId" type="long" not-null="true" />
+		<property name="name" column="name" type="string" not-null="false" />
+		<property name="content" column="content" type="string" not-null="false" />
+		<property name="loginDate" column="loginDate" type="date" not-null="false" />
+		<property name="lastLoginDate" column="lastLoginDate" type="date" not-null="false" />
+
+		<property name="dataType" column="dataType" type="integer" not-null="false" />
+		<property name="dataState" column="dataState" type="integer" not-null="false" />
+	</class>
+</hibernate-mapping>

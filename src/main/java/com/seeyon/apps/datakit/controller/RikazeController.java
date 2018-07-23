@@ -1,7 +1,5 @@
 package com.seeyon.apps.datakit.controller;
 
-import com.seeyon.apps.calendar.manager.CalEventManagerImpl;
-import com.seeyon.apps.collaboration.controller.CollaborationController;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.manager.PendingManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
@@ -13,7 +11,6 @@ import com.seeyon.apps.datakit.vo.RikazeAccountVo;
 import com.seeyon.apps.datakit.vo.RikazeDeptVo;
 import com.seeyon.apps.datakit.vo.RikazeMemberVo;
 import com.seeyon.apps.doc.manager.KnowledgeFavoriteManager;
-import com.seeyon.apps.index.controller.IndexController;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ModuleType;
 import com.seeyon.ctp.common.SystemEnvironment;
@@ -27,25 +24,21 @@ import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.i18n.ResourceBundleUtil;
-import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.*;
-import com.seeyon.ctp.organization.manager.MemberManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.organization.manager.OrgManagerImpl;
-import com.seeyon.ctp.organization.po.OrgMember;
-import com.seeyon.ctp.organization.po.OrgPost;
 import com.seeyon.ctp.portal.customize.manager.CustomizeManager;
 import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.util.Constants;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.OperationControllable;
+import com.seeyon.ctp.util.OperationCounter;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.BulletinException;
-import com.seeyon.v3x.bulletin.controller.BulDataController;
 import com.seeyon.v3x.bulletin.domain.BulBody;
 import com.seeyon.v3x.bulletin.domain.BulData;
 import com.seeyon.v3x.bulletin.manager.BulDataManager;
@@ -53,9 +46,7 @@ import com.seeyon.v3x.bulletin.manager.BulReadManager;
 import com.seeyon.v3x.bulletin.manager.BulTypeManager;
 import com.seeyon.v3x.bulletin.util.BulletinUtils;
 import com.seeyon.v3x.common.security.AccessControlBean;
-import com.seeyon.v3x.common.security.SecurityCheck;
 import com.seeyon.v3x.news.NewsException;
-import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsData;
 import com.seeyon.v3x.news.domain.NewsType;
 import com.seeyon.v3x.news.manager.NewsDataManager;
@@ -64,18 +55,12 @@ import com.seeyon.v3x.news.manager.NewsReadManager;
 import com.seeyon.v3x.util.CommonTools;
 import org.apache.axis.utils.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -256,15 +241,17 @@ public class RikazeController extends BaseController {
         return null;
     }
 
+
+
+
     @NeedlessCheckLogin
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Map<String, Object> data = new HashMap<String, Object>();
         try {
-            List<BulDataItem> dataList = DBAgent.find("from BulDataItem");
+            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=1 order by createDate desc");
             data.put("buls", dataList);
             DataKitSupporter.responseJSON(data, response);
-            NewsDataController controller;
             return null;
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,6 +259,56 @@ public class RikazeController extends BaseController {
             e.printStackTrace();
         }
         data.put("buls", "error");
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView loadData(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> data = new HashMap<String, Object>();
+        String type = request.getParameter("type");
+        if("tzgg".equals(type)){
+            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=1 order by createDate desc");
+            data.put("data", dataList);
+            DataKitSupporter.responseJSON(data, response);
+            return null;
+        }
+        if("xxjb".equals(type)){
+            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 and typeId=2 order by createDate desc");
+            data.put("data", newsDataList);
+            DataKitSupporter.responseJSON(data, response);
+            return null;
+        }
+        if("gzdt".equals(type)){
+            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 and typeId=1 order by createDate desc");
+            data.put("data", newsDataList);
+            DataKitSupporter.responseJSON(data, response);
+            return null;
+        }
+
+        if("ywzn".equals(type)){
+            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=-4695372691792968435 order by createDate desc");
+            data.put("data", dataList);
+            DataKitSupporter.responseJSON(data, response);
+            return null;
+
+        }
+        if("xxjl".equals(type)){
+
+            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=-4083198690925721448 order by createDate desc");
+            data.put("data", dataList);
+            DataKitSupporter.responseJSON(data, response);
+            return null;
+        }
+        if("xzzx".equals(type)){
+            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=-1365569722735310114 order by createDate desc");
+            data.put("data", dataList);
+            DataKitSupporter.responseJSON(data, response);
+            return null;
+
+        }
+
+
+
+
         return null;
     }
 
@@ -480,19 +517,12 @@ public class RikazeController extends BaseController {
             }
             String fromPigeonhole = request.getParameter("fromPigeonhole");
             ModelAndView mav = new ModelAndView("bulletin/user/data_view");
-            if ((bean == null || !bean.getType().isUsedFlag() || bean.isDeletedFlag() || !"true".equals(fromPigeonhole) && !this.checkScope(bean) || bean.getState() != 30 && bean.getState() != 100 || bean.getState() == 100 && !"true".equals(fromPigeonhole)) && !"true".equals(fromPigeonhole)) {
-                if ("1".equals(request.getParameter("isCollCube"))) {
-                    super.rendJavaScript(response, "alert('" + ResourceBundleUtil.getString("com.seeyon.v3x.bulletin.resources.i18n.BulletinResource", "bul.validate.delete", new Object[0]) + "');window.close();window.parentDialogObj.url.closeParam.handler();");
-                    return null;
-                } else {
-                    return mav.addObject("dataExist", Boolean.FALSE);
-                }
-            } else if (bean == null) {
+           if (bean == null) {
                 return mav.addObject("dataExist", Boolean.FALSE);
             } else {
                 mav.addObject("dataExist", Boolean.TRUE);
                 if (Strings.isNotBlank(spaceId)) {
-                    mav.addObject("customSpaceName", this.spaceManager.getSpaceFix(Long.parseLong(spaceId)).getSpacename());
+                    mav.addObject("customSpaceName", this.getSpaceManager().getSpaceFix(Long.parseLong(spaceId)).getSpacename());
                 }
 
                 // User user = AppContext.getCurrentUser();
@@ -521,21 +551,15 @@ public class RikazeController extends BaseController {
                 }
 
                 Long userId = -4709450004260764208L;
-                boolean isManager = false;
-                if (Integer.parseInt(bean.getExt1()) == 1) {
-                    if (userId == bean.getCreateUser()) {
-                        isManager = true;
-                    } else {
-                        isManager = this.getBulTypeManager().isManagerOfType(bean.getTypeId(), userId);
-                    }
-                }
+                boolean isManager = true;
+
 
                 mav.addObject("isManager", isManager);
                 this.getBulletinUtils().initData(bean);
                 mav.addObject("bul_title", Strings.toText(bean.getTitle()));
                 mav.addObject("bean", bean);
                 if (bean.getAttachmentsFlag()) {
-                    List<Attachment> attachments = this.attachmentManager.getByReference(bean.getId(), bean.getId());
+                    List<Attachment> attachments = this.getAttachmentManager().getByReference(bean.getId(), bean.getId());
                     mav.addObject("attachments", attachments);
                 } else {
                     mav.addObject("attachments", new ArrayList());
@@ -543,7 +567,7 @@ public class RikazeController extends BaseController {
 
                 String collectFlag = SystemProperties.getInstance().getProperty("doc.collectFlag");
                 if ("true".equals(collectFlag)) {
-                    List<Map<Long, Long>> collectMap = this.knowledgeFavoriteManager.getFavoriteSource(CommonTools.newArrayList(new Long[]{bean.getId()}), userId);
+                    List<Map<Long, Long>> collectMap = this.getKnowledgeFavoriteManager().getFavoriteSource(CommonTools.newArrayList(new Long[]{bean.getId()}), userId);
                     if (!collectMap.isEmpty()) {
                         mav.addObject("isCollect", true);
                         mav.addObject("collectDocId", ((Map) collectMap.get(0)).get("id"));
@@ -551,11 +575,52 @@ public class RikazeController extends BaseController {
                 }
 
                 mav.addObject("docCollectFlag", collectFlag);
-                AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.bulletin, String.valueOf(bean.getId()), AppContext.currentUserId());
+                AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.bulletin, String.valueOf(bean.getId()), userId);
                 return mav.addObject("bulStyle", bean.getType().getExt1());
 
             }
         }
+    }
+    private Map<String, String> getParameterMap(HttpServletRequest request) {
+        Map<String, String> ps = new HashMap();
+        Enumeration params = request.getParameterNames();
+
+        while(params.hasMoreElements()) {
+            String name = (String)params.nextElement();
+            if (!"method".equalsIgnoreCase(name)) {
+                String value = request.getParameter(name);
+                ps.put(name, value);
+            }
+        }
+
+        return ps;
+    }
+    private String htmlSuffix="htm|html|shtm|shtml|xhtml|hta|htc|mht|wml|xml|xslt|xsl|jsp|asp|php|css|js|sql";
+    private static Map<String, String> RTE_type;
+    private static OperationControllable downloadCounter;
+    private static Integer maxDownloadConnections = SystemProperties.getInstance().getIntegerProperty("fileDowload.maxConnections", 65535);
+    static {
+        downloadCounter = new OperationCounter((long)maxDownloadConnections);
+        RTE_type = new HashMap();
+        RTE_type.put("image", "image/jpeg");
+        RTE_type.put("flash", "application/x-shockwave-flash");
+    }
+    @NeedlessCheckLogin
+    public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView m = new ModelAndView("ctp/common/fileUpload/download");
+
+            Map<String, String> ps = this.getParameterMap(request);
+            m.addObject("ps", ps);
+            String filename = request.getParameter("filename");
+            String suffix = FilenameUtils.getExtension(filename).toLowerCase();
+            String from = request.getParameter("from");
+            if (from != null && "a8geniues".equals(from)) {
+                m.addObject("isHTML", Pattern.matches(this.htmlSuffix, suffix));
+            } else if (Pattern.matches(this.htmlSuffix, suffix) && !"mobile".equals(from)) {
+                m.addObject("isHTML", true);
+            }
+            return m;
+
     }
 
     private BulReadManager bulReadManager;
