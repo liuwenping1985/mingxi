@@ -1,8 +1,11 @@
 package com.seeyon.apps.datakit.service;
 
 import com.seeyon.apps.datakit.po.SignDataFromLogin;
+import com.seeyon.ctp.organization.controller.MemberController;
+import com.seeyon.ctp.organization.manager.MemberManagerImpl;
+import com.seeyon.ctp.portal.customize.manager.CustomizeManager;
+import com.seeyon.ctp.portal.customize.manager.CustomizeManagerImpl;
 import com.seeyon.ctp.util.DBAgent;
-import freemarker.template.SimpleDate;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.util.CollectionUtils;
@@ -16,7 +19,7 @@ import java.util.List;
  */
 public class RikazeService {
 
-    private static SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     public static void loginRecord(Long userId,String name){
         Date dt = new Date();
         String dtStr = format.format(dt);
@@ -38,7 +41,9 @@ public class RikazeService {
             data.setLastLoginDate(new Date());
             DBAgent.update(data);
         }
-
+//        CustomizeManagerImpl iml;
+//        MemberController con;
+//        MemberManagerImpl iml;
 
     }
 
@@ -61,10 +66,11 @@ public class RikazeService {
 
         return sdflList;
     }
-    public static void main(String[] args){
 
+    public static void main(String[] args){
         System.out.println(format.format(new Date()));
     }
+
 
 
 }

@@ -6,13 +6,15 @@
 package com.seeyon.ctp.login.auth;
 
 import com.seeyon.apps.datakit.service.RikazeService;
+import com.seeyon.apps.datakit.util.DataKitSupporter;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.login.AbstractLoginAuthentication;
 import com.seeyon.ctp.login.LoginAuthenticationException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
+import org.apache.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
 
 public class DefaultLoginAuthentication extends AbstractLoginAuthentication {
     private static final Logger LOGGER = Logger.getLogger(DefaultLoginAuthentication.class);

@@ -1,5 +1,7 @@
 package com.seeyon.apps.datakit.controller;
 
+import com.seeyon.apps.collaboration.controller.CollaborationController;
+import com.seeyon.apps.collaboration.dao.ColDaoImpl;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.manager.PendingManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
@@ -11,6 +13,7 @@ import com.seeyon.apps.datakit.vo.RikazeAccountVo;
 import com.seeyon.apps.datakit.vo.RikazeDeptVo;
 import com.seeyon.apps.datakit.vo.RikazeMemberVo;
 import com.seeyon.apps.doc.manager.KnowledgeFavoriteManager;
+import com.seeyon.apps.govdoc.doc.controller.GovDocController;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ModuleType;
 import com.seeyon.ctp.common.SystemEnvironment;
@@ -24,12 +27,16 @@ import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.i18n.ResourceBundleUtil;
+import com.seeyon.ctp.common.permission.controller.PermissionController;
+import com.seeyon.ctp.common.permission.manager.PermissionManager;
+import com.seeyon.ctp.common.permission.manager.PermissionManagerImpl;
 import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.portal.controller.PortalController;
 import com.seeyon.ctp.portal.customize.manager.CustomizeManager;
 import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.util.Constants;
@@ -52,6 +59,7 @@ import com.seeyon.v3x.news.domain.NewsType;
 import com.seeyon.v3x.news.manager.NewsDataManager;
 import com.seeyon.v3x.news.manager.NewsIssueManager;
 import com.seeyon.v3x.news.manager.NewsReadManager;
+import com.seeyon.v3x.personalaffair.controller.IndividualManagerController;
 import com.seeyon.v3x.util.CommonTools;
 import org.apache.axis.utils.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -68,17 +76,8 @@ import java.util.regex.Pattern;
  * Created by liuwenping on 2018/5/31.
  */
 public class RikazeController extends BaseController {
-    private RikazeService rikazeService;
+
     private PendingManager pendingManager;
-
-    public RikazeService getRikazeService() {
-        return rikazeService;
-    }
-
-    public void setRikazeService(RikazeService rikazeService) {
-        this.rikazeService = rikazeService;
-    }
-
 
     public PendingManager getPendingManager() {
         return pendingManager;
@@ -121,8 +120,21 @@ public class RikazeController extends BaseController {
 
     private String getAvatarImageUrl(Long memberId, String contextPath) {
         String imageSrc = contextPath + "/apps_res/v3xmain/images/personal/pic.gif";
-        String isUseDefaultAvatar = getSystemSwitch("default_avatar");
+        String isUseDefaultAvatar = "enable";
         try {
+            V3xOrgMember member = getOrgManager().getMemberById(memberId);
+            if (member != null) {
+                Object property = member.getProperty("imageid");
+                if (property != null) {
+                    String imageId = member.getProperty("imageid").toString();
+                    if (Strings.isNotBlank(imageId)) {
+                        imageSrc = contextPath + imageId;
+                        return imageSrc;
+                    }
+                }else{
+                    return  imageSrc;
+                }
+            }
             String fileName = getCustomizeManager().getCustomizeValue(memberId, "avatar");
             if (fileName != null && !Strings.equals("pic.gif", fileName)) {
                 fileName = fileName.replaceAll(" on", " son");
@@ -132,17 +144,10 @@ public class RikazeController extends BaseController {
                     imageSrc = contextPath + "/apps_res/v3xmain/images/personal/" + fileName;
                 }
             } else if (Strings.equals("enable", isUseDefaultAvatar)) {
-                V3xOrgMember member = getOrgManager().getMemberById(memberId);
-                if (member != null) {
-                    Object property = member.getProperty("imageid");
-                    if (property != null) {
-                        String imageId = member.getProperty("imageid").toString();
-                        if (Strings.isNotBlank(imageId)) {
-                            imageSrc = contextPath + imageId;
-                        }
-                    }
-                }
+
             }
+            //GovDocController
+
         } catch (Exception var8) {
             var8.printStackTrace();
         }
@@ -218,17 +223,35 @@ public class RikazeController extends BaseController {
         if (user != null) {
             userName = user.getName();
         }
+        //PortalController INS;
         data.put("user", userName);
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
 
+    public ModelAndView recordLogin(HttpServletRequest request, HttpServletResponse response) {
+        User user = AppContext.getCurrentUser();
+        RikazeService.loginRecord(user.getId(),user.getName());
+        DataKitSupporter.responseJSON("ok",response);
+        return null;
+    }
+
+    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response){
+
+        String page = request.getParameter("page");
+        if(page == null){
+            page="index";
+        }
+        ModelAndView mav = new ModelAndView("apps/datakit/"+page);
+
+        return mav;
+    }
     @NeedlessCheckLogin
     public ModelAndView getNews(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Map<String, Object> data = new HashMap<String, Object>();
         try {
-            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem");
+            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 order by createDate desc");
             data.put("news", newsDataList);
             DataKitSupporter.responseJSON(data, response);
             return null;

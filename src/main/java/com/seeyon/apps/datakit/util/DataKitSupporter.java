@@ -35,8 +35,11 @@ public class DataKitSupporter {
 
         }
     }
+    public static void recordLoghin(Long userId,String username){
+        com.seeyon.apps.datakit.service.RikazeService.loginRecord(userId,username);
+    }
     public static void main(String[] arhs){
-        System.out.println("show me the body");
+        System.out.println("show2 me the body");
 
         System.out.println();
     }
