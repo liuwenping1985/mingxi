@@ -36,8 +36,8 @@ public class MakeDealController extends BaseController {
                  Long formRecordId =  affair.getFormRecordid();
                 System.out.println("---触发---formRecordId:"+formRecordId);
                  if(formRecordId != null){
-                  List<Formmain0638> dataList =   DBAgent.find("from Formmain0638 where id="+formRecordId);
-                     System.out.println("---触发---List<Formmain0638>:"+dataList.size());
+                  List<Formmain0638> dataList =   DBAgent.find("from Formmain1468 where id="+formRecordId);
+                     System.out.println("---触发---List<Formmain1468>:"+dataList.size());
                   if(CollectionUtils.isEmpty(dataList)){
                       return;
                   }

@@ -249,7 +249,6 @@ public class DataKitSupporter {
        // System.out.println(genHbmXML());
         Date dt = new Date();
         SimpleDateFormat format = new SimpleDateFormat("YYYYMMddHHmmssSSSFFF");
-
         System.out.println(format.format(dt));
     }
 }

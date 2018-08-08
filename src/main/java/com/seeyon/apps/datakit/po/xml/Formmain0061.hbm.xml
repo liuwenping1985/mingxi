@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.seeyon.apps.datakit.po">
  
-<class name="Formmain0061" table="formmain_0061">
+<class name="Formmain1468" table="formmain_1468">
  <id
          name="id"
          type="long"
@@ -13,92 +13,6 @@
  >
  </id>
 
- <!-- 年 -->
- <property
-         name="state"
-         column="state"
-         type="integer"
-         not-null="false"
-         length="11"
- />
- <!-- 月 -->
- <property
-         name="startMemberId"
-         column="start_member_id"
-         type="string"
-         not-null="false"
-         length="256"
- />
- <!-- 单位ID -->
- <property
-         name="startDate"
-         column="start_date"
-         type="timestamp"
-         not-null="false"
-         length="256"
- />
- <!-- 部门ID -->
- <property
-         name="approveMemberId"
-         column="approve_member_id"
-         type="string"
-         not-null="false"
-         length="256"
- />
- <property
-         name="approveDate"
-         column="approve_date"
-         type="timestamp"
-         not-null="false"
- />
- <property
-         name="finishedFlag"
-         column="finishedflag"
-         type="integer"
-         not-null="false"
-         length="11"
- />
- <property
-         name="ratifyFlag"
-         column="ratifyflag"
-         type="integer"
-         not-null="false"
-         length="11"
- />
- <property
-         name="ratifyMemberId"
-         column="ratify_member_id"
-         type="string"
-         not-null="false"
-         length="256"
- />
- <!-- 科目编号  -->
- <property
-         name="ratifyDate"
-         column="ratify_date"
-         type="timestamp"
-         not-null="false"
- />
- <property
-         name="sort"
-         column="sort"
-         type="integer"
-         not-null="false"
-         length="11"
- />
- <property
-         name="modifyMemberId"
-         column="modify_member_id"
-         type="string"
-         not-null="false"
-         length="256"
- />
- <property
-         name="modifyDate"
-         column="modify_date"
-         type="timestamp"
-         not-null="false"
- />
 <property
 name="field0001"
 column="field0001"
@@ -141,19 +55,6 @@ type="string"
 not-null="false"
  length="256"
  />
-<property
-name="field0007"
-column="field0007"
-type="string"
-not-null="false"
- length="256"
- />
-<property
-name="field0008"
-column="field0008"
-type="string"
-not-null="false"
- length="256"
- />
+
     </class>
 </hibernate-mapping>
