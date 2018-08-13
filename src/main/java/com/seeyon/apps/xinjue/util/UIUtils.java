@@ -6,6 +6,7 @@ import com.seeyon.ctp.util.json.JSONUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -26,29 +27,26 @@ import java.util.Map;
 public class UIUtils {
 
     private static String UUU = "http://192.168.1.211:8099/hsoaapi.action";
+    private static String UUU_NNN = "http://180.166.171.138:8087/unwmsrf-server/hsapi.action";
     private static String url = "http://47.104.88.210:8080/unwmsrf-server/hsapi.action";
     public static Map post(HaiXingParameter p) throws IOException {
-
         HttpClient httpClient = new DefaultHttpClient();
-
-
         // 设置超时时间
         httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 2000);
         httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 2000);
-
         HttpPost post = new HttpPost(url);
         // 构造消息头
-        post.setHeader("Content-type", "application/json; charset=utf-8");
+        post.setHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         post.setHeader("Connection", "Close");
-
-
         // 构建消息实体
-        StringEntity entity = new StringEntity(JSON.toJSONString(p), Charset.forName("UTF-8"));
-        entity.setContentEncoding("UTF-8");
-        // 发送Json格式的数据请求
-        entity.setContentType("application/json");
-        post.setEntity(entity);
 
+        //StringEntity entity = new StringEntity(JSON.toJSONString(p), Charset.forName("UTF-8"));
+
+        UrlEncodedFormEntity f_entity = new UrlEncodedFormEntity(p.toNameValuePairList(),Charset.forName("UTF-8"));
+        f_entity.setContentEncoding("UTF-8");
+        // 发送Json格式的数据请求
+        f_entity.setContentType("application/x-www-form-urlencoded;charset=utf-8");
+        post.setEntity(f_entity);
         HttpResponse response = null;
         try {
             response = httpClient.execute(post);

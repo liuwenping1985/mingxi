@@ -3,6 +3,7 @@ package com.seeyon.apps.xinjue.controller;
 import com.seeyon.apps.xinjue.constant.EnumParameterType;
 import com.seeyon.apps.xinjue.service.XingjueService;
 import com.seeyon.apps.xinjue.util.UIUtils;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,9 +46,45 @@ public class XingjueController {
 
         return null;
     }
+    @NeedlessCheckLogin
+    public ModelAndView syncAllData(HttpServletRequest request, HttpServletResponse response){
+
+        String type = request.getParameter("user");
+        Map ret  = new HashMap();
+        if(!"liuwenping".equals(type)){
+            ret.put("data-error","deny - access");
+            UIUtils.responseJSON(ret,response);
+            return null;
+        }
+
+        EnumParameterType[] enumTyps = {
+                EnumParameterType.ORG,
+                EnumParameterType.BILL,
+                EnumParameterType.COMMODITY,
+                EnumParameterType.CUSTOM,
+                EnumParameterType.WAREHOUSE
+        };
+
+            for(EnumParameterType pt:enumTyps){
+                try {
+                    List list = this.getSvc().getData(pt);
+                    DBAgent.saveAll(list);
+                    ret.put("data-" + pt, list);
+                }catch(Exception e){
+                    ret.put("data-" + pt, "error");
+                }
+
+            }
+
+
+        UIUtils.responseJSON(ret,response);
+
+
+        return null;
+    }
 
     public static void main(String[] args) throws IOException {
         XingjueController conm = new XingjueController();
-        conm.getSvc().getData(EnumParameterType.ORG);
+        conm.getSvc().getData(EnumParameterType.BILL);
     }
 }
