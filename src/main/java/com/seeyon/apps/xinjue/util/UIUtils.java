@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class UIUtils {
 
-    private static String UUU = "http://192.168.1.211:8099/hsoaapi.action";
-    private static String UUU_NNN = "http://180.166.171.138:8087/unwmsrf-server/hsapi.action";
+    private static String url2 = "http://192.168.1.211:8099/hsoaapi.action";
+    private static String url3 = "http://180.166.171.138:8087/unwmsrf-server/hsapi.action";
     private static String url = "http://47.104.88.210:8080/unwmsrf-server/hsapi.action";
     public static Map post(HaiXingParameter p) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();

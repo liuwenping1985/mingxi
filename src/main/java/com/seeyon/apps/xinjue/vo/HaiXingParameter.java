@@ -14,7 +14,8 @@ import java.util.*;
 public class HaiXingParameter {
 
     private String sign;
-    private static String APP_SERCRET  = "b9bbea2e8c48dfade3b60d99cc8f7a";
+
+    private static String APP_SERCRET  = "f8b9bbea2e8c48dfade3b60d99cc8f7a";
     private static String token = "702e7ecc6e15b6dae6ea7287af2634bd" ;
     private static String app_key = "58b1e737d0194f87855904f181b1b2ab";
     private String timestamp = DATE_FORMAT.format(new Date());
@@ -111,11 +112,13 @@ public class HaiXingParameter {
 
     public String generateSign(){
         //要排序 - -！ 参数固定写死
-        String _sign =APP_SERCRET+ "app_key="+this.getApp_key()+"&biz_content="+ this.getBiz_content()+"&format=json&method=oa&timestamp="+this.getTimestamp()+"&token="+this.getToken()+"&v=1.0"+APP_SERCRET;
+        String _sign =APP_SERCRET+ "app_key="+this.getApp_key()+"&biz_content="+ JSON.toJSONString(this.getBiz_content())+"&format=json&method=oa&timestamp="+this.getTimestamp()+"&token="+this.getToken()+"&v=1.0"+APP_SERCRET;
+        System.out.println(_sign);
         try {
             String md5String = md5(_sign);
             String sign=  new String(com.seeyon.apps.cloudapp.util.Base64.encode(md5String.getBytes()));
             this.setSign(sign);
+            System.out.println(sign);
             return sign;
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,6 +156,16 @@ public class HaiXingParameter {
        // System.out.println(data);
         return hsList;
 
+    }
+
+    public static void main(String[] args){
+
+        //"funcode":"001","bgnrptdate":"2018-04-20 00:00:00","endrptdate":"2018-04-20 01:00:00"
+        HaiXingParameter p = new HaiXingParameter();
+
+        p.getBiz_content().put("funcode","001");
+        p.getBiz_content().put("bgnrptdate","2018-04-20 00:00:00");
+        p.getBiz_content().put("endrptdate","2018-04-20 01:00:00");
     }
 
 
