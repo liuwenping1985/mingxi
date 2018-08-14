@@ -49,6 +49,7 @@ public class CassoLoginImpl implements SSOLoginHandshakeInterface {
     public LoginResult dogCheck(String arg0, String arg1, HttpServletRequest arg2) throws LoginAuthenticationException {
         System.out.print("dog");
 
+
         return null;
     }
 
