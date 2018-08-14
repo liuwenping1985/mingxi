@@ -34,7 +34,8 @@ public class XingjueParaserFactory {
 
 
         public List<Formmain1464> parseData(Map parseData) {
-            List<Map> dataList = (List)parseData.get("resultset");
+            Map response = (Map)parseData.get("biz_response");
+            List<Map> dataList = (List)response.get("resultset");
             if(CollectionUtils.isEmpty(dataList)){
                 return null;
             }
@@ -56,7 +57,8 @@ public class XingjueParaserFactory {
 
 
         public List<Formmain1465> parseData(Map parseData) {
-            List<Map> dataList = (List)parseData.get("resultset");
+            Map response = (Map)parseData.get("biz_response");
+            List<Map> dataList = (List)response.get("resultset");
             if(CollectionUtils.isEmpty(dataList)){
                 return null;
             }
@@ -77,7 +79,8 @@ public class XingjueParaserFactory {
     }
     static class ORG_PARSER implements XingjueDataParser<Formmain1468>{
         public List<Formmain1468> parseData(Map parseData) {
-            List<Map> dataList = (List)parseData.get("resultset");
+            Map response = (Map)parseData.get("biz_response");
+            List<Map> dataList = (List)response.get("resultset");
             if(CollectionUtils.isEmpty(dataList)){
                 return null;
             }
@@ -97,7 +100,8 @@ public class XingjueParaserFactory {
     }
     static class CUSTOM_PARSER implements XingjueDataParser<Formmain1466>{
         public List<Formmain1466> parseData(Map parseData) {
-            List<Map> dataList = (List)parseData.get("resultset");
+            Map response = (Map)parseData.get("biz_response");
+            List<Map> dataList = (List)response.get("resultset");
             if(CollectionUtils.isEmpty(dataList)){
                 return null;
             }
@@ -119,7 +123,8 @@ public class XingjueParaserFactory {
     }
     static class COMMODITY_PARSER implements XingjueDataParser<Formmain1467>{
         public List<Formmain1467> parseData(Map parseData) {
-            List<Map> dataList = (List)parseData.get("resultset");
+            Map response = (Map)parseData.get("biz_response");
+            List<Map> dataList = (List)response.get("resultset");
             if(CollectionUtils.isEmpty(dataList)){
                 return null;
             }

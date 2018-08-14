@@ -93,6 +93,7 @@ public class XingjueController extends BaseController {
 
     public static void main(String[] args) throws IOException {
         XingjueController conm = new XingjueController();
-        conm.getSvc().getData(EnumParameterType.ORG);
+         List list =  conm.getSvc().getData(EnumParameterType.ORG);
+         System.out.println(list);
     }
 }
