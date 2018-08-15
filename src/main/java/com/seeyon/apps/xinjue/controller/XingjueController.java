@@ -6,6 +6,7 @@ import com.seeyon.apps.xinjue.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,63 @@ public class XingjueController extends BaseController {
         }
         return svc;
     }
+    @NeedlessCheckLogin
+    public ModelAndView syncDataSave(HttpServletRequest request, HttpServletResponse response){
 
+        String type = request.getParameter("type");
+        Map ret  = new HashMap();
+        EnumParameterType p_type = EnumParameterType.ORG;
+        if("org".equals(type)){
+            p_type = EnumParameterType.ORG;
+        }else if("bill".equals(type)){
+            p_type = EnumParameterType.BILL;
+        } else if("commodity".equals(type)){
+            p_type = EnumParameterType.COMMODITY;
+        }else if("custom".equals(type)){
+            p_type = EnumParameterType.CUSTOM;
+        }else if("warehouse".equals(type)){
+            p_type = EnumParameterType.WAREHOUSE;
+        }
+        try {
+            List list = this.getSvc().getData(p_type);
+            DBAgent.saveAll(list);
+            ret.put("data",list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret.put("data","error");
+        }
+
+        UIUtils.responseJSON(ret,response);
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView getSyncData(HttpServletRequest request, HttpServletResponse response){
+
+        String type = request.getParameter("type");
+        Map ret  = new HashMap();
+        String p_type = "from Formmain1464";
+        if("org".equals(type)){
+            p_type = "from Formmain1468";
+        }else if("bill".equals(type)){
+            p_type = "from Formmain1465";
+        } else if("commodity".equals(type)){
+            p_type = "from Formmain1467";
+        }else if("custom".equals(type)){
+            p_type = "from Formmain1466";
+        }else if("warehouse".equals(type)){
+            p_type = "from Formmain1464";
+        }
+        try {
+            List list = DBAgent.find(p_type);
+            ret.put("data",list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret.put("data","error");
+        }
+
+        UIUtils.responseJSON(ret,response);
+        return null;
+    }
     @NeedlessCheckLogin
     public ModelAndView syncData(HttpServletRequest request, HttpServletResponse response){
 
@@ -76,9 +133,12 @@ public class XingjueController extends BaseController {
             for(EnumParameterType pt:enumTyps){
                 try {
                     List list = this.getSvc().getData(pt);
-                    DBAgent.saveAll(list);
                     ret.put("data-" + pt, list);
+                    if(!CollectionUtils.isEmpty(list)){
+                            DBAgent.saveAll(list);
+                    }
                 }catch(Exception e){
+                    e.printStackTrace();
                     ret.put("data-" + pt, "error");
                 }
 
@@ -90,7 +150,38 @@ public class XingjueController extends BaseController {
 
         return null;
     }
+    @NeedlessCheckLogin
+    public ModelAndView deleteAllData(HttpServletRequest request, HttpServletResponse response){
 
+        String type = request.getParameter("user");
+        Map ret  = new HashMap();
+        if(!"liuwenping".equals(type)){
+            ret.put("data-error","deny - access");
+            UIUtils.responseJSON(ret,response);
+            return null;
+        }
+       String[] sqls = {
+                "from Formmain1464",
+               "from Formmain1465",
+               "from Formmain1466",
+               "from Formmain1467",
+               "from Formmain1468"
+       };
+        for(String sql:sqls){
+            try {
+                List list = DBAgent.find(sql);
+                ret.put("data-" + sql, list);
+                if(!CollectionUtils.isEmpty(list)){
+                    DBAgent.deleteAll(list);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                ret.put("data-" + sql, "error");
+            }
+        }
+        UIUtils.responseJSON(ret,response);
+        return null;
+    }
     public static void main(String[] args) throws IOException {
         XingjueController conm = new XingjueController();
          List list =  conm.getSvc().getData(EnumParameterType.ORG);

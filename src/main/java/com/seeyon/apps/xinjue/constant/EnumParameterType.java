@@ -30,7 +30,7 @@ import com.seeyon.apps.xinjue.po.*;
  */
 public enum EnumParameterType {
 
-    BILL("001",Formmain1465.class),
+    BILL("1001",Formmain1465.class),
     WAREHOUSE("1002",Formmain1464.class),
     ORG("1003",Formmain1468.class),
     CUSTOM("1004",Formmain1466.class),
