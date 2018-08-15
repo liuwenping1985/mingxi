@@ -23,5 +23,11 @@ public class XingjueService {
         List list = parser.parseData(data);
         return list;
     }
+    public void syncAllDataByPeriod(){
+
+        
+
+
+    }
 
 }
