@@ -130,7 +130,7 @@ public class CassoLoginImpl implements SSOLoginHandshakeInterface {
         String password = md5.substring(0, 16);
         //向量
         String v16 = md5.substring(16, 32);
-        String userName = "王元哇哈哈哈哈哈哈哈哈";
+        String userName = "121";
         //encrypt(userName,password,v16);
         String ppp = encrypt(userName,password,v16);
         System.out.println(ppp);
