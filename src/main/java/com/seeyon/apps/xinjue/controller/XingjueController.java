@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,7 +185,9 @@ public class XingjueController extends BaseController {
     }
     public static void main(String[] args) throws IOException {
         XingjueController conm = new XingjueController();
-         List list =  conm.getSvc().getData(EnumParameterType.ORG);
+         Date st  = new Date(new Date().getTime()-24*3600*60*1000);
+         Date ed = new Date();
+         List list =  conm.getSvc().getData(EnumParameterType.WAREHOUSE,st,ed);
          System.out.println(list);
     }
 }
