@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping table="formmain_0230">
+
+    <fileds>
+        <field source="id" isId="true" target="" type="Long" desc=""></field>
+        <field source="number" target="" type="Long" desc=""></field>
+        <field source="customer_name" target="" type="String" desc=""></field>
+        <field source="short_name" target="" type="String" desc=""></field>
+        <field source="applicant_name" target="" type="String"></field>
+        <field source="create_time" target="" type="String"></field>
+        <field source="state_name" target="" type="String"></field>
+        <field source="our" target="" type="String"></field>
+        <field  source="products" type="List">
+            <list-item-mapping>
+                <field source="" target="" type="String"></field>
+                <field source="" target="" type="String"></field>
+                <field source="" target="" type="String"></field>
+                <field source="" target="" type="String"></field>
+            </list-item-mapping>
+        </field>
+        <field source="A_company" target="" type="String"></field>
+        <field source="A_address" target="" type="String"></field>
+        <field source="A_person" target="" type="String"></field>
+        <field source="A_tel" target="" type="String"></field>
+        <field source="type" target="" type="String"></field>
+        <field source="start_time" target="" type="String"></field>
+        <field source="end_time" target="" type="String"></field>
+        <field source="modify" target="" type="String"></field>
+        <field source="flag_charge" target="" type="String"></field>
+        <field source="flag_bulu" target="" type="String"></field>
+        <field source="discount" target="" type="String"></field>
+        <field source="note" target="" type="String"></field>
+        <field source="files" target="" type="List">
+            <list-item-mapping>
+                <field source="" target="" type="String"></field>
+                <field source="" target="" type="String"></field>
+                <field source="" target="" type="String"></field>
+
+            </list-item-mapping>
+        </field>
+        <field source="username" target="" type="String"></field>
+    </fileds>
+
+</mapping>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service>
+    <id>nbd</id>
+    <name>bairong</name>
+    <!--服务的事项定义 -->
+    <affairs>
+
+        <affair type="receive">
+            <formTempleteCode>HT0001</formTempleteCode>
+            <maping path="HT0001.mapping.xml"></maping>
+        </affair>
+
+        <affair type="event">
+            <type>FORM</type>
+            <formTempleteCode>HT0001</formTempleteCode>
+
+        </affair>
+
+        <affair type="find">
+            <type>FORM</type>
+            <formTempleteCode>HT0001</formTempleteCode>
+
+        </affair>
+        <affair type="delete">
+            <type>FORM</type>
+            <formTempleteCode>HT0001</formTempleteCode>
+
+        </affair>
+
+    </affairs>
+
+</service>
