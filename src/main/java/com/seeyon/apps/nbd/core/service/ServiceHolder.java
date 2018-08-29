@@ -1,5 +1,8 @@
 package com.seeyon.apps.nbd.core.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by liuwenping on 2018/8/21.
  */
@@ -9,17 +12,23 @@ public final class ServiceHolder {
 
     public static ServicePlugin getService(String affairType){
 
+        for(ServicePlugin sp:pluginList){
+
+            if(sp.containAffairType(affairType)){
+                return sp;
+            }
+        }
 
 
         return null;
 
     }
 
-    public static ServicePlugin addServiceRegister(ServiceRegister register){
 
 
+    private static List<ServicePlugin> pluginList = new ArrayList<ServicePlugin>();
 
-        return null;
-
+    public static void addServicePlugin(ServicePlugin servicePlugin){
+        pluginList.add(servicePlugin);
     }
 }

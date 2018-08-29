@@ -2,31 +2,53 @@
 <service>
     <id>nbd</id>
     <name>bairong</name>
-    <!--服务的事项定义 -->
-    <affairs>
+    <service-aspects>
+        <!--服务的事项定义 -->
+        <affairs name="HT">
 
-        <affair type="receive">
-            <formTempleteCode>HT0001</formTempleteCode>
-            <maping path="HT0001.mapping.xml"></maping>
-        </affair>
+            <affair type="receive">
+                <formTempleteCode>HT0001</formTempleteCode>
+                <mapping path="HT0001.mapping.xml"></mapping>
+            </affair>
 
-        <affair type="event">
-            <type>FORM</type>
-            <formTempleteCode>HT0001</formTempleteCode>
+            <affair type="event">
+                <formTempleteCode>HT0001</formTempleteCode>
 
-        </affair>
+            </affair>
 
-        <affair type="find">
-            <type>FORM</type>
-            <formTempleteCode>HT0001</formTempleteCode>
+            <affair type="find">
+                <formTempleteCode>HT0001</formTempleteCode>
 
-        </affair>
-        <affair type="delete">
-            <type>FORM</type>
-            <formTempleteCode>HT0001</formTempleteCode>
+            </affair>
 
-        </affair>
+            <affair type="delete">
+                <formTempleteCode>HT0001</formTempleteCode>
 
-    </affairs>
+            </affair>
 
+        </affairs>
+        <affairs name="FK">
+
+            <affair type="receive">
+                <formTempleteCode>FK0001</formTempleteCode>
+                <mapping path="HT0001.mapping.xml"></mapping>
+            </affair>
+
+            <affair type="event">
+                <formTempleteCode>FK0001</formTempleteCode>
+
+            </affair>
+
+            <affair type="find">
+                <formTempleteCode>FK0001</formTempleteCode>
+
+            </affair>
+
+            <affair type="delete">
+                <formTempleteCode>FK0001</formTempleteCode>
+
+            </affair>
+
+        </affairs>
+    </service-aspects>
 </service>

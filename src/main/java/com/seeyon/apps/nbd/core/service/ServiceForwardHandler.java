@@ -36,7 +36,9 @@ public class ServiceForwardHandler {
             return entity;
         }
         CommonDataVo data =  sp.getAffair(parameter);
+
         BeanUtils.copyProperties(data,entity);
+
         return entity;
     }
     public NbdResponseEntity delete(CommonParameter parameter, HttpServletRequest request, HttpServletResponse response){
@@ -61,6 +63,7 @@ public class ServiceForwardHandler {
 
             entity.setResult(true);
         }
+        System.out.println("affairType:"+affairType);
         ServicePlugin sp = ServiceHolder.getService(affairType);
         if(sp == null){
             entity.setResult(false);

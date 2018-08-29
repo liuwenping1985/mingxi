@@ -16,4 +16,6 @@ public interface ServicePlugin {
     public CommonDataVo processAffair(CommonParameter parameter);
     public List<String> getServiceTypes(CommonParameter parameter);
 
+    public boolean containAffairType(String affairType);
+
 }

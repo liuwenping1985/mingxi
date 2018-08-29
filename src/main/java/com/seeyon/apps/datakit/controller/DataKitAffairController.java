@@ -187,7 +187,6 @@ public class DataKitAffairController  extends BaseController {
         affair.setDealTermType(0);
         affair.setDealTermUserid(-1L);
         affair.setSubApp(0);
-
        // affair.setState();
       //  affair.setMemberId();
        // affair.setOrgAccountId();
