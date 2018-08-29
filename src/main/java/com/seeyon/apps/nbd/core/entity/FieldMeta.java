@@ -16,6 +16,15 @@ public class FieldMeta {
 
     private String source;
 
+    private Object value;
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
 
     public boolean isId() {
         return isId;

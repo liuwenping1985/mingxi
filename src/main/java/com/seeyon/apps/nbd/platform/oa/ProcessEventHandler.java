@@ -58,6 +58,7 @@ public class ProcessEventHandler {
     public void onFinish(CollaborationFinishEvent event) {
         Long affairId = event.getAffairId();
         String operator = "";
+        event.getSummaryId();
         try {
             CtpAffair affair = this.getAffairManager().get(affairId);
             operator =  this.getOrgManager().getMemberById(affair.getMemberId()).getLoginName();
