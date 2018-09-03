@@ -43,13 +43,13 @@ public class ServiceApplicationConfig {
 
     public static void main(String[] args) throws IOException, JSONException {
         ServiceApplicationConfig config = new ServiceApplicationConfig();
-        InputStream ins = config.getClass().getResourceAsStream("service.xml");
+        InputStream ins = config.getClass().getResourceAsStream("TABLE.XML");
         String xml = XmlUtils.xml2jsonString(ins);
       //  System.out.println(JSON.parseObject(xml,HashMap.class));
-        ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
-        BairongService service = new  BairongService(configMain);
+        //ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
+        //BairongService service = new  BairongService(configMain);
 
-        System.out.println(service.containAffairType("HT"));
+        System.out.println(xml);
        // ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
        // System.out.println(JSON.toJSONString(configMain));
     }
