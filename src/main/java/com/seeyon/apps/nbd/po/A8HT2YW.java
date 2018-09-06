@@ -9,20 +9,14 @@ import java.util.Date;
  */
 public class A8HT2YW extends BasePO{
 
-    private Long id;
-
-    private String data;
-
-    private Date createDate;
-
-    private Date updateDate;
-
-
-    private String year;
-
-    private Integer status;
-
     //FK- HT
     private String type;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
