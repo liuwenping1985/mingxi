@@ -11,6 +11,9 @@
 	<bean name="nbd.do" class="com.seeyon.apps.nbd.controller.NbdController">
 
 	</bean>
+	<bean name="thirdPartyLogin.do" class="com.seeyon.apps.nbd.controller.SsoController">
+
+	</bean>
 
 	<bean name="bairong" class="com.seeyon.apps.nbd.plugin.bairong.config.ServiceApplicationConfig">
 

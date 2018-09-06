@@ -4,14 +4,15 @@
         <entity table="formmain_0230">
             <originalFields>
                 <originalField name="id" type="Long">
-                    <entity table="formson_0231" refParentField="formmain_id" parse="com.seeyon.apps.nbd.util.BairongFileParser">
-                        <fields>
-                            <field source="files" name="field0024" type="multi" >
+                <entity table="formson_0231" refParentField="formmain_id" parse="com.seeyon.apps.nbd.util.BairongFileParser">
+                    <fields>
+                        <field source="files" name="field0024" type="multi" >
 
-                            </field>
-                        </fields>
-                    </entity>
-                </originalField>
+                        </field>
+                    </fields>
+                </entity>
+            </originalField>
+
             </originalFields>
             <fields>
 

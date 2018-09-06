@@ -6,12 +6,15 @@ import com.seeyon.apps.nbd.core.entity.ServiceAffair;
 import com.seeyon.apps.nbd.core.entity.ServiceAffairs;
 import com.seeyon.apps.nbd.core.entity.ServiceConfigMain;
 import com.seeyon.apps.nbd.core.service.ServiceHolder;
+import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
+import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.bairong.service.BairongService;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +29,7 @@ public class ServiceApplicationConfig {
         this.init();
 
     }
-
+    private ServiceConfigMain cfm;
     private void init(){
         InputStream ins = this.getClass().getResourceAsStream("service.xml");
         String xml = null;
@@ -37,25 +40,23 @@ public class ServiceApplicationConfig {
             return;
         }
         ServiceConfigMain configMain = this.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
+        this.cfm = configMain;
         BairongService service = new  BairongService(configMain);
         ServiceHolder.addServicePlugin(service);
     }
 
     public static void main(String[] args) throws IOException, JSONException {
         ServiceApplicationConfig config = new ServiceApplicationConfig();
-        InputStream ins = config.getClass().getResourceAsStream("service.xml");
-        String xml = XmlUtils.xml2jsonString(ins);
-      //  System.out.println(JSON.parseObject(xml,HashMap.class));
-        ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
-        BairongService service = new  BairongService(configMain);
-
-        System.out.println(service.containAffairType("HT"));
-       // ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
-       // System.out.println(JSON.toJSONString(configMain));
+       // ServicePlugin sp = ServiceHolder.getService("HT");
+        ServiceAffair sa = config.cfm.getAffairsList().get(0).getAffairHolder().get("receive");
+        String test1 = JSON.toJSONString(sa.getMaping().getEntity().getOriginalFields());
+        // ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
+       System.out.println(test1);
     }
 
 
     private ServiceConfigMain parseServiceConfigMain(Map data){
+        System.out.println(data);
         ServiceConfigMain config = new ServiceConfigMain();
         if(data == null){
             return config;

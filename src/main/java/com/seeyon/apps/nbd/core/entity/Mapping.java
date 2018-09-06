@@ -28,7 +28,7 @@ public class Mapping {
             try {
 
                 String xmlJson = XmlUtils.xml2jsonString(ins);
-                System.out.println(xmlJson);
+               // System.out.println(xmlJson);
                 Map mappingMap = JSON.parseObject(xmlJson,HashMap.class);
                 Map mappingInner = (Map)mappingMap.get("mapping");
                 if(mappingInner == null){
@@ -49,25 +49,31 @@ public class Mapping {
         if(entityMap == null){
             return;
         }
-
+        System.out.println(entityMap);
         entity.setTable((String)entityMap.get("table"));
-        Object originalFieldObject = entityMap.get("originalField");
-        if(originalFieldObject!=null){
-            List<OriginalField> originalFieldList = new ArrayList<OriginalField>();
-            if(originalFieldObject instanceof List){
-                //多个
-                for(Object obj:(List)originalFieldObject) {
-                    OriginalField of = toOriginalField((Map)obj);
+        entity.setParse((String)entityMap.get("parse"));
+        Object originalFieldObjects = entityMap.get("originalFields");
+        if(originalFieldObjects!=null){
+            Object originalFieldObject = ((Map)originalFieldObjects).get("originalField");
+            if(originalFieldObject!=null){
+
+                List<OriginalField> originalFieldList = new ArrayList<OriginalField>();
+                if(originalFieldObject instanceof List){
+                    //多个
+                    for(Object obj:(List)originalFieldObject) {
+                        OriginalField of = toOriginalField((Map)obj);
+                        originalFieldList.add(of);
+                    }
+                }
+                if(originalFieldObject instanceof Map){
+                    OriginalField of = toOriginalField((Map)originalFieldObject);
                     originalFieldList.add(of);
                 }
-            }
-            if(originalFieldObject instanceof Map){
-                OriginalField of = toOriginalField((Map)originalFieldObject);
-                originalFieldList.add(of);
-            }
 
-            entity.setOriginalFields(originalFieldList);
+                entity.setOriginalFields(originalFieldList);
+            }
         }
+
         Map fieldsObjectRaw = (Map)entityMap.get("fields");
         if(fieldsObjectRaw!=null){
             Object fieldsObject = fieldsObjectRaw.get("field");
@@ -99,6 +105,7 @@ public class Mapping {
         if(childEntityMap!=null){
             Entity childEntity = new Entity();
             of.setEntity(childEntity);
+
             childEntity.setRefParentField((String)childEntityMap.get("refParentField"));
             gen(childEntityMap,childEntity);
         }

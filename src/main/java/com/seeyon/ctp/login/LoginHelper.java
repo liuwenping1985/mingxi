@@ -10,10 +10,10 @@ import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.authenticate.domain.User.login_state_enum;
 import com.seeyon.ctp.common.authenticate.sso.SSOTicketManager;
 import com.seeyon.ctp.common.authenticate.sso.SSOTicketManager.TicketInfo;
-import com.seeyon.ctp.common.constants.LoginResult;
-import com.seeyon.ctp.common.constants.SystemProperties;
 import com.seeyon.ctp.common.constants.Constants.LoginOfflineOperation;
 import com.seeyon.ctp.common.constants.Constants.login_useragent_from;
+import com.seeyon.ctp.common.constants.LoginResult;
+import com.seeyon.ctp.common.constants.SystemProperties;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.flag.BrowserEnum;
 import com.seeyon.ctp.common.flag.SysFlag;
@@ -30,15 +30,16 @@ import com.seeyon.ctp.portal.sso.SSOLoginHandshakeInterface;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.TimeZoneUtil;
 import com.seeyon.ctp.util.UUIDLong;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.TimeZone;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public final class LoginHelper {
     private static final Log loginLog = LogFactory.getLog("login");

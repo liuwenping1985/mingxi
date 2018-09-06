@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.core.service;
 
+import com.seeyon.apps.nbd.core.entity.ServiceAffairs;
 import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 
@@ -15,7 +16,7 @@ public interface ServicePlugin {
     public CommonDataVo deleteAffair(CommonParameter parameter);
     public CommonDataVo processAffair(CommonParameter parameter);
     public List<String> getServiceTypes(CommonParameter parameter);
-
+    public ServiceAffairs getServiceAffairs(String affairType);
     public boolean containAffairType(String affairType);
 
 }

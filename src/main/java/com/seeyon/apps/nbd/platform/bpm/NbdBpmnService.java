@@ -1,10 +1,12 @@
 package com.seeyon.apps.nbd.platform.bpm;
 
+import com.kg.commons.utils.CollectionUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.content.comment.CommentManager;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManagerImpl;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.TemplateManager;
@@ -63,58 +65,58 @@ public class NbdBpmnService {
 
     public long sendCollaboration(String templateCode, Map<String, Object> param) throws ServiceException, Exception, BusinessException {
         String transfertype = "xml";
-        transfertype = (String)param.get("transfertype");
+        transfertype = (String) param.get("transfertype");
         Map<String, Object> mapError = new HashMap();
-        if("json".equals(transfertype)) {
+        if ("json".equals(transfertype)) {
             param = this.jsonValueToXml(param, templateCode);
             System.out.println(param);
-            if(param == null) {
+            if (param == null) {
                 mapError.put("success", Boolean.valueOf(false));
                 mapError.put("msg", "转换JSON失败！");
                 throw new RuntimeException("转换JSON失败！");
             }
         }
-        if(this.flowFactory == null) {
+        if (this.flowFactory == null) {
             this.flowFactory = (FlowFactory) AppContext.getBean("flowFactory");
         }
 
-        if(this.templateManager == null) {
-            this.templateManager = (TemplateManager)AppContext.getBean("templateManager");
+        if (this.templateManager == null) {
+            this.templateManager = (TemplateManager) AppContext.getBean("templateManager");
         }
 
-        if(this.formManager == null) {
-            this.formManager = (FormManager)AppContext.getBean("formManager");
+        if (this.formManager == null) {
+            this.formManager = (FormManager) AppContext.getBean("formManager");
         }
-        TemplateManagerImpl impl;
+        // TemplateManagerImpl impl;
         Object bodyContent = null;
         CtpTemplate template = this.templateManager.getTempleteByTemplateNumber(templateCode);
-        if(template != null && template.getWorkflowId() != null) {
-            String senderLoginName = (String)param.get("senderLoginName");
-            String subject = URLDecoder.decode((String)param.get("subject"),"UTF-8");
-            String state = (String)param.get("param");
-            String data = (String)param.get("data");
+        if (template != null && template.getWorkflowId() != null) {
+            String senderLoginName = (String) param.get("senderLoginName");
+            String subject = URLDecoder.decode((String) param.get("subject"), "UTF-8");
+            String state = (String) param.get("param");
+            String data = (String) param.get("data");
 
 
             Map<String, Object> relevantParam = new HashMap();
-            if(param.get("accountCode") != null) {
-                List<V3xOrgEntity> listEntity = this.getOrgManagerDirect().getEntityNoRelationDirect("V3xOrgAccount", "code", (String)param.get("accountCode"), (Boolean)null, (Long)null);
-                if(listEntity.size() > 0) {
-                    relevantParam.put("accountId", ((V3xOrgEntity)listEntity.get(0)).getId());
+            if (param.get("accountCode") != null) {
+                List<V3xOrgEntity> listEntity = this.getOrgManagerDirect().getEntityNoRelationDirect("V3xOrgAccount", "code", (String) param.get("accountCode"), (Boolean) null, (Long) null);
+                if (listEntity.size() > 0) {
+                    relevantParam.put("accountId", ((V3xOrgEntity) listEntity.get(0)).getId());
                 }
             }
 
             Long[] attachments;
-            if(param.get("formContentAtt") != null) {
-                attachments = this.list2LongArray((List)param.get("formContentAtt"));
+            if (param.get("formContentAtt") != null) {
+                attachments = this.list2LongArray((List) param.get("formContentAtt"));
                 relevantParam.put("formContentAtt", attachments);
             }
 
-            attachments = this.list2LongArray((List)param.get("attachments"));
+            attachments = this.list2LongArray((List) param.get("attachments"));
             boolean isForm = template.getModuleType().intValue() == 1 && Integer.valueOf(template.getBodyType()).intValue() == 20;
             FormExport formExportData = null;
             data = this.enumValueToId(data, templateCode);
-            if(isForm) {
-                if(FormUtils.getXmlVersion(data) == 2.0D) {
+            if (isForm) {
+                if (FormUtils.getXmlVersion(data) == 2.0D) {
                     formExportData = FormUtils.xmlTransformFormExport(data);
                 } else {
                     formExportData = new FormExport();
@@ -125,19 +127,18 @@ public class NbdBpmnService {
             }
 
             long summaryId;
-            if(relevantParam.size() > 0) {
-                FlowFactoryImpl impl2;
-                summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String)null, relevantParam);
+            if (relevantParam.size() > 0) {
+                summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String) null, relevantParam);
             } else {
-                summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String)null);
+                summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String) null);
             }
-
             FlowLog l = new FlowLog();
             l.setSubject(subject);
             l.setData(data);
             l.setSenderLoginName(senderLoginName);
             l.setTemplateCode(templateCode);
             this.flowLog.info(l);
+
             return summaryId;
         } else {
             throw new ServiceException(ErrorServiceMessage.flowTempleExist.getErroCode(), ErrorServiceMessage.flowTempleExist.getValue() + ":" + templateCode);
@@ -145,25 +146,26 @@ public class NbdBpmnService {
     }
 
     public OrgManagerDirect getOrgManagerDirect() {
-        if(this.orgManagerDirect == null) {
-            this.orgManagerDirect = (OrgManagerDirect)AppContext.getBean("orgManagerDirect");
+        if (this.orgManagerDirect == null) {
+            this.orgManagerDirect = (OrgManagerDirect) AppContext.getBean("orgManagerDirect");
         }
 
         return this.orgManagerDirect;
     }
+
     private Long[] list2LongArray(List list) {
-        if(list == null) {
+        if (list == null) {
             return new Long[0];
         } else {
             int size = list.size();
             Long[] array = new Long[size];
 
-            for(int i = 0; i < size; ++i) {
+            for (int i = 0; i < size; ++i) {
                 Object o = list.get(i);
-                if(o == null){
+                if (o == null) {
                     continue;
                 }
-                array[i] = Long.valueOf(((Number)o).longValue());
+                array[i] = Long.valueOf(((Number) o).longValue());
             }
 
             return array;
@@ -172,12 +174,12 @@ public class NbdBpmnService {
 
     private String enumValueToId(String data, String templateCode) {
         CtpTemplate template = this.templateManager.getTempleteByTemplateNumber(templateCode);
-        if(template == null) {
+        if (template == null) {
             return data;
         } else {
             try {
                 boolean isForm = template.getModuleType().intValue() == 1 && Integer.valueOf(template.getBodyType()).intValue() == 20;
-                if(isForm) {
+                if (isForm) {
                     FormBean formBean = this.formManager.getFormByFormCode(template);
                     List<FormFieldBean> allFields = formBean.getAllFieldBeans();
                     Map<String, FormFieldBean> columnMap = new LinkedHashMap();
@@ -185,36 +187,36 @@ public class NbdBpmnService {
                     Map<String, String> enumFieldValueMap = new LinkedHashMap();
                     Iterator var10 = allFields.iterator();
 
-                    while(true) {
+                    while (true) {
                         FormFieldBean field;
                         Iterator var12;
                         do {
-                            if(!var10.hasNext()) {
+                            if (!var10.hasNext()) {
                                 Document document = DocumentHelper.parseText(data);
-                                Element formExportEle = (Element)document.selectSingleNode("/formExport");
+                                Element formExportEle = (Element) document.selectSingleNode("/formExport");
                                 var12 = columnMap.keySet().iterator();
 
-                                while(true) {
+                                while (true) {
                                     Element subEle;
                                     String columnName;
                                     List subordinateFormExportList;
                                     do {
                                         do {
-                                            if(!var12.hasNext()) {
+                                            if (!var12.hasNext()) {
                                                 return document.asXML();
                                             }
 
-                                            columnName = (String)var12.next();
+                                            columnName = (String) var12.next();
                                             List<Element> valueExportList = formExportEle.selectNodes("./values/column[@name='" + columnName + "']");
-                                            if(valueExportList != null && valueExportList.size() > 0) {
+                                            if (valueExportList != null && valueExportList.size() > 0) {
                                                 Iterator var15 = valueExportList.iterator();
 
-                                                while(var15.hasNext()) {
-                                                    Element ele = (Element)var15.next();
+                                                while (var15.hasNext()) {
+                                                    Element ele = (Element) var15.next();
                                                     subEle = ele.element("value");
-                                                    String value = (String)subEle.getData();
-                                                    if(StringUtils.isNotEmpty(value)) {
-                                                        String enumValue = this.getEnumValue((FormFieldBean)columnMap.get(columnName), value, parentFieldMap, enumFieldValueMap);
+                                                    String value = (String) subEle.getData();
+                                                    if (StringUtils.isNotEmpty(value)) {
+                                                        String enumValue = this.getEnumValue((FormFieldBean) columnMap.get(columnName), value, parentFieldMap, enumFieldValueMap);
                                                         enumFieldValueMap.put(columnName, enumValue);
                                                         subEle.setText(enumValue);
                                                     }
@@ -222,24 +224,24 @@ public class NbdBpmnService {
                                             }
 
                                             subordinateFormExportList = formExportEle.selectNodes("./subForms/subForm");
-                                        } while(subordinateFormExportList == null);
-                                    } while(subordinateFormExportList.size() <= 0);
+                                        } while (subordinateFormExportList == null);
+                                    } while (subordinateFormExportList.size() <= 0);
 
                                     Iterator var30 = subordinateFormExportList.iterator();
 
-                                    while(var30.hasNext()) {
-                                        subEle = (Element)var30.next();
+                                    while (var30.hasNext()) {
+                                        subEle = (Element) var30.next();
                                         List<Element> recordExportList = subEle.selectNodes("./values/row");
                                         Iterator var32 = recordExportList.iterator();
 
-                                        while(var32.hasNext()) {
-                                            Element recordEle = (Element)var32.next();
-                                            Element ele = (Element)recordEle.selectSingleNode("column[@name='" + columnName + "']");
-                                            if(ele != null) {
+                                        while (var32.hasNext()) {
+                                            Element recordEle = (Element) var32.next();
+                                            Element ele = (Element) recordEle.selectSingleNode("column[@name='" + columnName + "']");
+                                            if (ele != null) {
                                                 Element valueEle = ele.element("value");
-                                                String value = (String)valueEle.getData();
-                                                if(StringUtils.isNotEmpty(value)) {
-                                                    String enumValue = this.getEnumValue((FormFieldBean)columnMap.get(columnName), value, parentFieldMap, enumFieldValueMap);
+                                                String value = (String) valueEle.getData();
+                                                if (StringUtils.isNotEmpty(value)) {
+                                                    String enumValue = this.getEnumValue((FormFieldBean) columnMap.get(columnName), value, parentFieldMap, enumFieldValueMap);
                                                     enumFieldValueMap.put(columnName, enumValue);
                                                     valueEle.setText(enumValue);
                                                 }
@@ -249,15 +251,15 @@ public class NbdBpmnService {
                                 }
                             }
 
-                            field = (FormFieldBean)var10.next();
-                        } while(field.getEnumId() == 0L);
+                            field = (FormFieldBean) var10.next();
+                        } while (field.getEnumId() == 0L);
 
-                        if(StringUtils.isNotEmpty(field.getEnumParent())) {
+                        if (StringUtils.isNotEmpty(field.getEnumParent())) {
                             var12 = allFields.iterator();
 
-                            while(var12.hasNext()) {
-                                FormFieldBean bean = (FormFieldBean)var12.next();
-                                if(field.getEnumParent().equals(bean.getName())) {
+                            while (var12.hasNext()) {
+                                FormFieldBean bean = (FormFieldBean) var12.next();
+                                if (field.getEnumParent().equals(bean.getName())) {
                                     parentFieldMap.put(field.getDisplay(), bean);
                                     break;
                                 }
@@ -286,24 +288,24 @@ public class NbdBpmnService {
             Iterator var8 = enumValues.iterator();
 
             label37:
-            while(true) {
+            while (true) {
                 CtpEnumItem item;
                 do {
-                    if(!var8.hasNext()) {
+                    if (!var8.hasNext()) {
                         break label37;
                     }
 
-                    item = (CtpEnumItem)var8.next();
-                } while(!value.equals(item.getEnumvalue()) && !value.equals(item.getId()));
+                    item = (CtpEnumItem) var8.next();
+                } while (!value.equals(item.getEnumvalue()) && !value.equals(item.getId()));
 
-                if(level == item.getLevelNum().intValue()) {
-                    FormFieldBean parentFildBean = (FormFieldBean)parentFieldMap.get(fieldBean.getDisplay());
-                    if(parentFildBean == null) {
+                if (level == item.getLevelNum().intValue()) {
+                    FormFieldBean parentFildBean = (FormFieldBean) parentFieldMap.get(fieldBean.getDisplay());
+                    if (parentFildBean == null) {
                         return String.valueOf(item.getId());
                     }
 
                     String strParentId = String.valueOf(item.getParentId());
-                    if(strParentId.equals(enumValueMap.get(parentFildBean.getDisplay()))) {
+                    if (strParentId.equals(enumValueMap.get(parentFildBean.getDisplay()))) {
                         return String.valueOf(item.getId());
                     }
                 }
@@ -325,7 +327,7 @@ public class NbdBpmnService {
     }
 
     public FlowFactory getFlowFactory() {
-        if(this.flowFactory == null) {
+        if (this.flowFactory == null) {
             this.flowFactory = (FlowFactory) AppContext.getBean("flowFactory");
         }
         return flowFactory;
@@ -344,7 +346,7 @@ public class NbdBpmnService {
     }
 
     public DocumentFactory getDocumentFactory() {
-        if(this.documentFactory == null) {
+        if (this.documentFactory == null) {
             this.documentFactory = (DocumentFactory) AppContext.getBean("documentFactory");
         }
         return documentFactory;
@@ -416,12 +418,12 @@ public class NbdBpmnService {
 
 
     private Map<String, Object> jsonValueToXml(Map<String, Object> param, String templateCode) {
-        if(this.templateManager == null) {
-            this.templateManager = (TemplateManager)AppContext.getBean("templateManager");
+        if (this.templateManager == null) {
+            this.templateManager = (TemplateManager) AppContext.getBean("templateManager");
         }
 
-        if(this.formManager == null) {
-            this.formManager = (FormManager)AppContext.getBean("formManager");
+        if (this.formManager == null) {
+            this.formManager = (FormManager) AppContext.getBean("formManager");
         }
 
         String templateXml = "";
@@ -434,31 +436,31 @@ public class NbdBpmnService {
             var28.printStackTrace();
         }
 
-        String data = (String)param.get("data");
+        String data = (String) param.get("data");
         CtpTemplate template = this.templateManager.getTempleteByTemplateNumber(templateCode);
-        if(template != null && templateXml.length() != 0 && !"".equals(templateXml)) {
+        if (template != null && templateXml.length() != 0 && !"".equals(templateXml)) {
             try {
                 Document document = DocumentHelper.parseText(templateXml);
                 Element priceTmp = document.getRootElement().element("subForms").element("subForm");
                 List<Element> subDellist = document.selectNodes("//subForms/subForm");
 
-                for(int i = 0; i < subDellist.size(); ++i) {
-                    Element delSub = (Element)subDellist.get(i);
+                for (int i = 0; i < subDellist.size(); ++i) {
+                    Element delSub = (Element) subDellist.get(i);
                     delSub.getParent().remove(delSub);
                 }
 
                 templateXml = document.asXML();
                 Map jsonObject = (Map) JSONUtil.parseJSONString(data);
-                List sub = (List)jsonObject.get("sub");
+                List sub = (List) jsonObject.get("sub");
                 boolean isForm = template.getModuleType().intValue() == 1 && Integer.valueOf(template.getBodyType()).intValue() == 20;
-                if(isForm) {
+                if (isForm) {
                     FormBean formBean = this.formManager.getFormByFormCode(template);
                     List<FormFieldBean> allFields = formBean.getAllFieldBeans();
                     Iterator var16 = allFields.iterator();
 
-                    while(var16.hasNext()) {
-                        FormFieldBean field = (FormFieldBean)var16.next();
-                        if(field.isMasterField()) {
+                    while (var16.hasNext()) {
+                        FormFieldBean field = (FormFieldBean) var16.next();
+                        if (field.isMasterField()) {
                             mainFields.add(field);
                         } else {
                             subFields.add(field);
@@ -466,37 +468,69 @@ public class NbdBpmnService {
                     }
 
                     document = DocumentHelper.parseText(templateXml);
-                    Element formExportEle = (Element)document.selectSingleNode("/formExport");
+                    Element formExportEle = (Element) document.selectSingleNode("/formExport");
                     Iterator var33 = mainFields.iterator();
 
-                    while(true) {
+                    while (true) {
                         FormFieldBean field;
                         List valueExportList;
                         Element ele;
                         Element row;
                         do {
                             do {
-                                if(!var33.hasNext()) {
+                                if (!var33.hasNext()) {
                                     Element subForms = document.getRootElement().element("subForms");
                                     List subFormslist = subForms.elements();
-                                    if(sub != null && sub.size() > 0) {
-                                        for(int i = 0; i < sub.size(); ++i) {
+                                    if (sub != null && sub.size() > 0) {
+                                        for (int i = 0; i < sub.size(); ++i) {
                                             Element subForm = new BaseElement("subForm");
-                                            ele = subForm.addElement("values");
-                                            row = ele.addElement("row");
-                                            Iterator var23 = subFields.iterator();
 
-                                            while(var23.hasNext()) {
-                                                 field = (FormFieldBean)var23.next();
-                                                Map jsonSub = (Map)JSONUtil.parseJSONString(sub.get(i).toString());
-                                                if(jsonSub.get(field.getDisplay()) != null) {
-                                                    Element column = row.addElement("column");
-                                                    column.addAttribute("name", field.getDisplay());
-                                                    Element value = column.addElement("value");
-                                                    value.setText(jsonSub.get(field.getDisplay()).toString());
+                                            Map jsonSub = (Map) JSONUtil.parseJSONString(sub.get(i).toString());
+                                            if ("YES".equals(jsonSub.get("multi"))) {
+                                                System.out.println("0000000009999999");
+                                                List list = (List) jsonSub.get("data");
+                                                System.out.println("0000000009999999："+list.size());
+                                                if(!CollectionUtils.isEmpty(list)){
+                                                    for(int o =0;o<list.size();o++){
+                                                        Map jsonSubSub =(Map)list.get(o);
+                                                        ele = subForm.addElement("values");
+                                                        row = ele.addElement("row");
+                                                        System.out.println("jsonSubSub0000000009999999："+jsonSubSub);
+                                                        Iterator var23 = subFields.iterator();
+
+                                                        while (var23.hasNext()) {
+                                                            field = (FormFieldBean) var23.next();
+                                                            if (jsonSubSub.get(field.getName()) != null) {
+                                                                Element column = row.addElement("column");
+                                                                column.addAttribute("name", field.getDisplay());
+                                                               // System.out.println("<<<<-----jsonSub----->>>>" + jsonSub);
+                                                                Element value = column.addElement("value");
+                                                                value.setText(jsonSubSub.get(field.getName()).toString());
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                }
+
+                                            } else {
+                                                ele = subForm.addElement("values");
+                                                row = ele.addElement("row");
+                                                Iterator var23 = subFields.iterator();
+
+                                                while (var23.hasNext()) {
+                                                    field = (FormFieldBean) var23.next();
+
+                                                    System.out.println("jsonSub----->>>>" + jsonSub);
+                                                    if (jsonSub.get(field.getName()) != null) {
+                                                        Element column = row.addElement("column");
+                                                        column.addAttribute("name", field.getDisplay());
+                                                        System.out.println("<<<<-----jsonSub----->>>>" + jsonSub);
+                                                        Element value = column.addElement("value");
+                                                        value.setText(jsonSub.get(field.getName()).toString());
+                                                    }
                                                 }
                                             }
-
                                             subFormslist.add(i, subForm);
                                         }
                                     }
@@ -505,18 +539,18 @@ public class NbdBpmnService {
                                     return param;
                                 }
 
-                                field = (FormFieldBean)var33.next();
+                                field = (FormFieldBean) var33.next();
                                 valueExportList = formExportEle.selectNodes("./values/column[@name='" + field.getDisplay() + "']");
-                            } while(valueExportList == null);
-                        } while(valueExportList.size() <= 0);
+                            } while (valueExportList == null);
+                        } while (valueExportList.size() <= 0);
 
                         Iterator var20 = valueExportList.iterator();
 
-                        while(var20.hasNext()) {
-                            ele = (Element)var20.next();
+                        while (var20.hasNext()) {
+                            ele = (Element) var20.next();
                             row = ele.element("value");
 
-                            if(jsonObject.get(field.getName()) != null) {
+                            if (jsonObject.get(field.getName()) != null) {
                                 row.setText(jsonObject.get(field.getName()).toString());
                             }
                         }

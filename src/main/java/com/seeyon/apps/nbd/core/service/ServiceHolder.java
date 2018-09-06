@@ -1,5 +1,7 @@
 package com.seeyon.apps.nbd.core.service;
 
+import com.seeyon.apps.nbd.core.entity.ServiceAffairs;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,12 @@ public final class ServiceHolder {
 
         return null;
 
+    }
+
+    public static ServiceAffairs getServiceAffairs(String affairType){
+
+        ServicePlugin sp = getService(affairType);
+        return sp.getServiceAffairs(affairType);
     }
 
 

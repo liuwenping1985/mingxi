@@ -16,6 +16,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -83,7 +86,12 @@ public class NbdFileUtils {
                     if ("".equals(name)) {
                         continue;
                     }
-                    String fieldName = String.valueOf(name);
+                    String fieldName = null;
+                    try {
+                        fieldName = URLDecoder.decode(String.valueOf(name),"UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        fieldName = String.valueOf(name);
+                    }
                     List<MultipartFile> fileItemList = multipartRequest.getFiles(String.valueOf(name));
 
                     for (int fileIndex = 0; fileIndex < fileItemList.size(); ++fileIndex) {
@@ -120,7 +128,12 @@ public class NbdFileUtils {
 
                             V3XFile file = new V3XFile(Long.valueOf(fileId));
                             file.setCreateDate(createDate);
-                            file.setFilename(filename);
+                            try {
+                                file.setFilename(URLDecoder.decode(filename,"UTF-8"));
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                                file.setFilename(filename);
+                            }
                             file.setSize(Long.valueOf(fi.getSize()));
                             file.setMimeType(fi.getContentType());
                             file.setType(Integer.valueOf(Constants.ATTACHMENT_TYPE.FILE.ordinal()));

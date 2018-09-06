@@ -1,6 +1,9 @@
 package com.seeyon.apps.nbd.core.resource;
 
+import com.seeyon.apps.nbd.core.entity.ServiceAffair;
+import com.seeyon.apps.nbd.core.entity.ServiceAffairs;
 import com.seeyon.apps.nbd.core.service.ServiceForwardHandler;
+import com.seeyon.apps.nbd.core.service.ServiceHolder;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.util.BairongFileParser;
@@ -13,12 +16,14 @@ import com.seeyon.ctp.common.filemanager.manager.*;
 import com.seeyon.ctp.common.log.CtpLogFactory;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.common.template.manager.TemplateManager;
 import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.po.OrgMember;
 import com.seeyon.ctp.rest.resources.BaseResource;
 import com.seeyon.ctp.util.EnumUtil;
+import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.RestInterfaceAnnotation;
 import com.seeyon.ctp.util.json.JSONUtil;
 import com.seeyon.v3x.services.ServiceException;
@@ -148,7 +153,7 @@ public class NbdAffairResource extends BaseResource {
 
         v3xFiles = NbdFileUtils.uploadFiles(req, member);
         Constants.ATTACHMENT_TYPE type = Constants.ATTACHMENT_TYPE.FILE;
-        ApplicationCategoryEnum category = ApplicationCategoryEnum.global;
+        ApplicationCategoryEnum category = ApplicationCategoryEnum.form;
         if (v3xFiles != null) {
             List<String> keys = new ArrayList(v3xFiles.keySet());
             List<Attachment> atts = new ArrayList();
@@ -157,7 +162,12 @@ public class NbdAffairResource extends BaseResource {
                 String key = (String) v3xFilesIterator.next();
                 V3XFile file = (V3XFile) v3xFiles.get(key);
                 Attachment att = new Attachment(file, category, type);
+                //att.setReference();
+                att.setSubReference(UUIDLong.longUUID());
+                att.setCategory(2);
+                att.setType(0);
                 atts.add(att);
+
                 this.getFileManager().save(file);
             }
             if(!CollectionUtils.isEmpty(atts)){
@@ -178,7 +188,7 @@ public class NbdAffairResource extends BaseResource {
 
         Constants.ATTACHMENT_TYPE type = Constants.ATTACHMENT_TYPE.FILE;
         String firstSave = "true";
-        ApplicationCategoryEnum  category = ApplicationCategoryEnum.global;
+        ApplicationCategoryEnum  category = ApplicationCategoryEnum.form;
         //this.log.warn("上传文件：v3x:fileUpload没有设定applicationCategory属性，将设置为‘全局’。");
         Long maxSize = Long.valueOf(Long.parseLong(SystemProperties.getInstance().getProperty("fileUpload.maxSize")));
         //Map v3xFiles = null;

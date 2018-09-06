@@ -20,9 +20,7 @@ import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +56,14 @@ public class UIUtils {
             }
 
         }
+    }
+    public static void responseJSON(Object data,Map param, HttpServletResponse response)
+    {
+
+        for(Object key:param.keySet()){
+            response.addHeader(String.valueOf(key),String.valueOf(param.get(key)));
+        }
+        responseJSON(data,response);
     }
 
     public static Map post(String url,Map param) throws IOException {
@@ -107,24 +113,22 @@ public class UIUtils {
        // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
 
       //  ClassPool pool = ClassPool.getDefault();
-      //  UIUtils u = new UIUtils();
-      //  byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
-       // pool.getClassLoader()
-        PortalMenuManagerImpl impl;
-        System.out.println("1");
-//        String path = "/Users/liuwenping/Documents/wmm/LoginHelper.class";
-//        File f = new File(path);
-//        if(f.exists()){
-//            f.delete();
-//            f.createNewFile();
-//
-//        }else{
-//            f.createNewFile();
-//        }
-//        FileOutputStream out = new FileOutputStream(f);
-//        out.write(bytes);
-//        out.flush();
-//        out.close();
+        UIUtils u = new UIUtils();
+        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+      //  pool.getClassLoader()
+        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+        File f = new File(path);
+        if(f.exists()){
+            f.delete();
+            f.createNewFile();
+
+        }else{
+            f.createNewFile();
+        }
+        FileOutputStream out = new FileOutputStream(f);
+        out.write(bytes);
+        out.flush();
+        out.close();
     }
 
     public byte[] loadClassData(String className) throws IOException {

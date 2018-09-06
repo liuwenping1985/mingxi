@@ -7,7 +7,7 @@
         <affairs name="HT">
 
             <affair type="receive">
-                <formTempleteCode>HT0001</formTempleteCode>
+                <formTempleteCode>HT0002</formTempleteCode>
                 <mapping path="HT0001.mapping.xml"></mapping>
             </affair>
 
