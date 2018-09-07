@@ -422,24 +422,32 @@ public class BairongService implements ServicePlugin {
                     StringBuilder stb = new StringBuilder("");
                     StringBuilder stbName = new StringBuilder("");
                     StringBuilder stbdept = new StringBuilder("");
+                    List<Map> currentUserList = new ArrayList<Map>();
                     for(CtpAffair ctpAffair:currentAffairList){
                         V3xOrgMember member =  this.getOrgManager().getMemberById(ctpAffair.getMemberId());
                         V3xOrgDepartment department = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
-                        if("".equals(stb.toString())){
-                            stb.append(member.getLoginName());
-                            stbName.append(member.getName());
-                            stbdept.append(department.getName());
-                        }else{
-                            stb.append(",").append(member.getLoginName());
-                            stbName.append(",").append(member.getName());
-                            stbdept.append(",").append(department.getName());
-                        }
-
+                        Map curUser = new HashMap();
+                        curUser.put("userLoginName",member.getLoginName());
+                        curUser.put("name",member.getName());
+                        curUser.put("department",department.getName());
+//                        if("".equals(stb.toString())){
+//                            stb.append(member.getLoginName());
+//                            stbName.append(member.getName());
+//                            stbdept.append(department.getName());
+//                            curUser.put("userLoginName",member.getLoginName());
+//                            curUser.put("name",member.getName());
+//                            curUser.put("department",department.getName());
+//                        }else{
+//                            stb.append(",").append(member.getLoginName());
+//                            stbName.append(",").append(member.getName());
+//                            stbdept.append(",").append(department.getName());
+//                        }
+                        currentUserList.add(curUser);
 
                     }
-                    data.put("currentUserName",stbName.toString());
-                    data.put("currentUserDepartmentName",stbdept.toString());
-                    data.put("currentUser",stb.toString());
+//                    data.put("currentUserName",stbName.toString());
+//                    data.put("currentUserDepartmentName",stbdept.toString());
+                    data.put("currentUser",currentUserList);
                 }
                 //com.seeyon.ctp.privilege.manager.PrivilegeMenuManagerImpl impl;
                 vo.setData(data);
