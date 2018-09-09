@@ -28,7 +28,7 @@ public class Mapping {
             try {
 
                 String xmlJson = XmlUtils.xml2jsonString(ins);
-                System.out.println(xmlJson);
+                //System.out.println(xmlJson);
                 Map mappingMap = JSON.parseObject(xmlJson,HashMap.class);
                 Map mappingInner = (Map)mappingMap.get("mapping");
                 if(mappingInner == null){

@@ -1,8 +1,7 @@
 package com.seeyon.apps.nbd.core.vo;
 
 import com.seeyon.ctp.common.po.filemanager.Attachment;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;

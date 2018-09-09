@@ -12,12 +12,15 @@ public final class ServiceHolder {
 
     public static ServicePlugin getService(String affairType){
 
+        //手工加的
         for(ServicePlugin sp:pluginList){
 
             if(sp.containAffairType(affairType)){
                 return sp;
             }
         }
+        //系统自带的标准service
+
 
 
         return null;

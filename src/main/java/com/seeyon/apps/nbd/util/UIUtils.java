@@ -1,16 +1,12 @@
 package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.xinjue.vo.HaiXingParameter;
-import com.seeyon.ctp.menu.manager.PortalMenuManagerImpl;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
 import com.seeyon.ctp.util.json.JSONUtil;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -110,7 +106,7 @@ public class UIUtils {
       //  UIUtils u = new UIUtils();
       //  byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
        // pool.getClassLoader()
-        PortalMenuManagerImpl impl;
+  //      PortalMenuManagerImpl impl;
         System.out.println("1");
 //        String path = "/Users/liuwenping/Documents/wmm/LoginHelper.class";
 //        File f = new File(path);

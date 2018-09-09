@@ -14,7 +14,8 @@ import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.v3x.services.flow.FlowUtil;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -112,22 +113,22 @@ public class ProcessEventHandler {
         processDoneEvent(summaryId,"取消",FlowUtil.FlowState.cancle.getKey());
 
     }
-    @ListenEvent(event = CollaborationTakeBackEvent.class,async = true,mode = EventTriggerMode.afterCommit)
-    public void onTakeBack(CollaborationTakeBackEvent event) {
-        Long summaryId = event.getSummaryId();
-
-        System.out.println("-----onTakeBack----");
-        processDoneEvent(summaryId,"取回",FlowUtil.FlowState.tackBack.getKey());
-//        Long affairId = event
-//        CtpAffair ctpAffair = this.getAffairManager().get(affairId);
+//    @ListenEvent(event = CollaborationTakeBackEvent.class,async = true,mode = EventTriggerMode.afterCommit)
+//    public void onTakeBack(CollaborationTakeBackEvent event) {
+//        Long summaryId = event.getSummaryId();
 //
-//        processNormalEvent(summaryId,ctpAffair);
+//        System.out.println("-----onTakeBack----");
+//        processDoneEvent(summaryId,"取回",FlowUtil.FlowState.tackBack.getKey());
+////        Long affairId = event
+////        CtpAffair ctpAffair = this.getAffairManager().get(affairId);
+////
+////        processNormalEvent(summaryId,ctpAffair);
+////
+////        System.out.println("-----TEST2----");
 //
-//        System.out.println("-----TEST2----");
-
-
-
-    }
+//
+//
+//    }
     @ListenEvent(event = CollaborationStopEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onStop(CollaborationStopEvent event) {
         Long summaryId = event.getSummaryId();
@@ -201,8 +202,8 @@ public class ProcessEventHandler {
     @ListenEvent(event = CollaborationProcessEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onProcess(CollaborationProcessEvent event) {
         Long summaryId = event.getSummaryId();
-        CtpAffair ctpAffair =  event.getAffair();
-        processNormalEvent(summaryId,ctpAffair);
+       // CtpAffair ctpAffair =  event.getAffair();
+       // processNormalEvent(summaryId,ctpAffair);
         System.out.println("-----TEST3----");
 
 
@@ -243,6 +244,7 @@ public class ProcessEventHandler {
 //        operator：操作人（用户名）
 //        note：审核说明
 //        data：其他补充数据
+
         String url = ConfigService.getPropertyByName("callback.uri","");
         try {
             System.out.println(url);

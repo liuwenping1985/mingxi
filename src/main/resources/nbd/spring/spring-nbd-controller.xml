@@ -8,11 +8,7 @@
 
 	</bean>
 
-	<bean name="nbd.do" class="com.seeyon.apps.nbd.controller.NbdController">
-
-	</bean>
-
-	<bean name="bairong" class="com.seeyon.apps.nbd.plugin.bairong.config.ServiceApplicationConfig">
+	<bean name="/nbd.do" class="com.seeyon.apps.nbd.controller.NbdController">
 
 	</bean>
 

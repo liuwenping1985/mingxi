@@ -1,7 +1,7 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 import java.util.HashMap;
@@ -89,10 +89,9 @@ public class DataBaseHandler {
 
     public static void main(String[] args){
         DataBaseHandler handler =  DataBaseHandler.getInstance();
-        handler.putData("123","456");
-        handler.putData("1234","4567");
-        handler.putData("12345","45678");
-       // System.out.println(handler.getDataByKey("123"));
+        handler.putData("12355555","456");
+
+        System.out.println(handler.getDataByKey("123"));
     }
 
 
