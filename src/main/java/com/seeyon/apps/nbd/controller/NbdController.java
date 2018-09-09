@@ -32,7 +32,13 @@ public class NbdController extends BaseController{
     private PluginServiceManager getNbdPluginServiceManager(){
 
         if(nbdPluginServiceManager == null){
-            nbdPluginServiceManager = new PluginServiceManagerImpl();
+            try {
+                nbdPluginServiceManager = new PluginServiceManagerImpl();
+            }catch(Exception e){
+                e.printStackTrace();
+            }catch(Error error){
+                error.printStackTrace();
+            }
         }
         return nbdPluginServiceManager;
     }
@@ -67,17 +73,22 @@ public class NbdController extends BaseController{
 
         String type = request.getParameter("affairType");
 
+        try {
+            ServicePlugin sp = this.getNbdPluginServiceManager().getServicePluginsByAffairType(type);
 
-        ServicePlugin sp = this.getNbdPluginServiceManager().getServicePluginsByAffairType(type);
-
-        List<A8OutputVo> formTableDefinitions = sp.exportData(type);
-        Map data = new HashMap();
-        DBAgent.saveAll(formTableDefinitions);
-        data.put("items",formTableDefinitions);
-        NbdResponseEntity entity = new NbdResponseEntity();
-        entity.setResult(true);
-        entity.setData(data);
-        UIUtils.responseJSON(entity,response);
+            List<A8OutputVo> formTableDefinitions = sp.exportData(type);
+            Map data = new HashMap();
+            DBAgent.saveAll(formTableDefinitions);
+            data.put("items", formTableDefinitions);
+            NbdResponseEntity entity = new NbdResponseEntity();
+            entity.setResult(true);
+            entity.setData(data);
+            UIUtils.responseJSON(entity, response);
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        UIUtils.responseJSON("error", response);
         return null;
 
     }

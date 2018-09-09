@@ -32,16 +32,23 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
     public static final String mtId="2019-12:31 00:00:00";
     public PluginServiceManagerImpl() {
         try {
-            JSONTokener k;
+
             initMapping();
             initPlugin();
+            System.out.println("init----ok");
             //   System.out.println(JSON.toJSONString(pluginDefinitionList));
         } catch (IOException e) {
+            System.out.println("init--not--ok");
             e.printStackTrace();
         } catch (JSONException e) {
+            System.out.println("init--not--ok");
             e.printStackTrace();
         } catch (Exception e) {
+            System.out.println("init--not--ok");
             e.printStackTrace();
+        }catch(Error error){
+            System.out.println("init--not--ok");
+            error.printStackTrace();
         }
     }
 
@@ -90,6 +97,7 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
             }
             classPath = classPath.replaceAll("\\.class", "");
             classPath = classPath.replaceAll("/", ".");
+            classPath = classPath.replaceAll("\\\\", ".");
             try {
                 Class cls = Class.forName(classPath);
                 if (cls.isInterface()) {
@@ -186,6 +194,7 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
                 formTableDefinitionList.add(ftd);
             }
         }
+        System.out.println("flag111111");
     }
 
     private List<File> getFilesByFilter(File rootFile, FileFilter filter) {

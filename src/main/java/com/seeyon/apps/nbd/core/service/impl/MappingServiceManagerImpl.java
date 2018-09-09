@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class MappingServiceManagerImpl implements MappingServiceManager {
     public FormTableDefinition parseFormTableMapping(Map data) {
-        System.out.println(data);
+
         Map tableList = (Map) data.get("TableList");
         if (CommonUtils.isEmpty(tableList)) {
             return null;
