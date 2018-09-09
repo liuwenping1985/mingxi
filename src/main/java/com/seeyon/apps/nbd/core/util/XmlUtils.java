@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.core.util;
 
+import com.seeyon.ctp.common.init.Xcyskm;
 import net.sf.json.xml.XMLSerializer;
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
@@ -35,6 +36,7 @@ public class XmlUtils {
         String xml = IOUtils.toString(ins);
         JSONObject xmlJSONObj = XML.toJSONObject(xml);
         // JSONObject xmlJSONObj = JSON.parseObject(xml);
+      //  ProductInfo info;
         return xmlJSONObj.toString();
     }
 
@@ -42,6 +44,7 @@ public class XmlUtils {
         FileInputStream ins = new FileInputStream(f);
         String xml = IOUtils.toString(ins);
         System.out.println(f.getPath());
+        Xcyskm skd;
         try {
             JSONObject xmlJSONObj = XML.toJSONObject(xml);
             return xmlJSONObj.toString();
