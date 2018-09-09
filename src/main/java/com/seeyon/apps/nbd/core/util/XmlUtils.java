@@ -48,6 +48,7 @@ public class XmlUtils {
         }catch(Exception e){
             String jsonPath = f.getPath().split("mapping.xml")[0]+"json";
             String jsonString = IOUtils.toString(new FileInputStream(jsonPath));
+            System.out.println(jsonString);
             return jsonString;
         }
     }
