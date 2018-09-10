@@ -31,10 +31,11 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
             throw new UnsupportedOperationException();
         }
         System.out.println(" i am ok");
+        System.out.println(" export master table");
         FormTableDefinition ftd = this.getFormTableDefinition(affairType);
         String sql = ftd.genAllQuery();
         try {
-            List<Object[]> list = DataBaseHelper.executeQueryByNativeSQL(sql);
+            List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
             List<List<SimpleFormField>> simpleList = ftd.filledValue(list);
             for(List<SimpleFormField> sffList:simpleList){
                 A8OutputVo  a8OutputVo = exportA8OutputVo(affairType,sffList);
@@ -47,6 +48,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(" end of export master table");
         return dataList;
 
     }

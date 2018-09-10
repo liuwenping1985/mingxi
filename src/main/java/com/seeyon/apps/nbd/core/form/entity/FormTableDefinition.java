@@ -4,6 +4,7 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/9/7.
@@ -76,7 +77,7 @@ public class FormTableDefinition {
 
     }
 
-    public List<List<SimpleFormField>> filledValue(List<Object[]> values) {
+    public List<List<SimpleFormField>> filledValue(List<Map> values) {
         List<FormField> formFields = this.getFormTable().getFormFieldList();
         List<List<SimpleFormField>> dataList = new ArrayList<List<SimpleFormField>>();
         if (CommonUtils.isEmpty(formFields)) {
@@ -85,21 +86,19 @@ public class FormTableDefinition {
         if (CommonUtils.isEmpty(values)) {
             return dataList;
         }
-        for (Object[] objs : values) {
+        for (Map objs : values) {
             if (CommonUtils.isEmpty(objs)) {
                 continue;
             }
             List<SimpleFormField> sffList = new ArrayList<SimpleFormField>();
-
-            for(int i=0;i<objs.length;i++){
+            for(FormField ff:formFields){
                 SimpleFormField sff= new SimpleFormField();
-                FormField ff =  formFields.get(i);
                 sff.setDisplay(ff.getDisplay());
                 sff.setName(ff.getName());
-                sff.setValue(objs[i]);
+                sff.setValue(objs.get(ff.getName()));
                 sffList.add(sff);
-
             }
+
             dataList.add(sffList);
         }
         return dataList;

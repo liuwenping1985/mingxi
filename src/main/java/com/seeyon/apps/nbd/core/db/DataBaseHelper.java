@@ -1,12 +1,14 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.v3x.services.flow.impl.FlowFactoryImpl;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,19 +31,36 @@ public final class DataBaseHelper {
         return sessionFactory;
     }
 
-    public static List<Object[]> executeQueryByNativeSQL(String sql) throws Exception {
+    public static List<Map> executeQueryByNativeSQL(String sql) throws Exception {
 
-        Session session = getSession();
+//        Session session = getSession();
+//
+//        if (session != null) {
+//            SQLQuery query = session.createSQLQuery(sql);
+//
+//            query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+//            return query.list();
+//        }
+        JDBCAgent jdbc = new JDBCAgent();
+        try {
+            jdbc.execute(sql.toString());
+             List<Map> list =  jdbc.resultSetToList();
 
-        if (session != null) {
-            SQLQuery query = session.createSQLQuery(sql);
-
-            query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-            return query.list();
+//             for(Object obj:list){
+//                 System.out.println("--------");
+//                 System.out.println(obj);
+//                 System.out.println("--------");
+//
+//             }
+            return list;
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            jdbc.close();
         }
        // FlowFactoryImpl impl;
         //impl.sendCollaboration()
-        throw new Exception("不能打开session");
+       return new ArrayList<Map>();
 
 
     }

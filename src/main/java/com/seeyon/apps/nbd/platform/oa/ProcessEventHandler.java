@@ -58,30 +58,12 @@ public class ProcessEventHandler {
     @ListenEvent(event = CollaborationFinishEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onFinish(CollaborationFinishEvent event) {
         Long affairId = event.getAffairId();
-        String operator = "";
-        event.getSummaryId();
         try {
-            CtpAffair affair = this.getAffairManager().get(affairId);
-            operator =  this.getOrgManager().getMemberById(affair.getMemberId()).getLoginName();
+            CtpAffair ctpAffair = this.getAffairManager().get(affairId);
+            ctpAffair.getFormAppId();
+            ctpAffair.getFormId();
         } catch (BusinessException e) {
             e.printStackTrace();
-        }
-        Long summaryId = event.getSummaryId();
-        System.out.println("-----onFinish-summaryId---->"+summaryId);
-        if(!needProcess(summaryId)){
-            System.out.println("-----NO-NEED---->"+summaryId);
-            return;
-        }
-        ColSummary summary;
-        try {
-            summary = this.getColManager().getColSummaryById(Long.valueOf(event.getSummaryId()));
-            System.out.println("-----summary---->"+summary.getSubject());
-            int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
-
-            postData(summaryId,state, operator,"结束");
-
-        } catch (Exception var6) {
-            var6.printStackTrace();
         }
 
     }

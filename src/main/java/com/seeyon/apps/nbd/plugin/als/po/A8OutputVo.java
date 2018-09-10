@@ -11,6 +11,8 @@ public class A8OutputVo extends BasePO {
 
     private Long id;
 
+    private String subject;
+
     private String data;
 
     private Long sourceId;
@@ -90,5 +92,13 @@ public class A8OutputVo extends BasePO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
