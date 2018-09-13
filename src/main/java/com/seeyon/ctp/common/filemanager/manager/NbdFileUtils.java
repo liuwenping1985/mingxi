@@ -73,9 +73,9 @@ public class NbdFileUtils {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             //System.out.println("---------Test two------"+multipartRequest.toString());
             Map<String, V3XFile> v3xFiles = new HashMap();
-            org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest r;
+            //org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest r;
             Iterator<String> fileNames = multipartRequest.getFileNames();
-            System.out.println("---------Files:" + fileNames);
+
             if (fileNames == null) {
                 return null;
             } else {
@@ -86,18 +86,22 @@ public class NbdFileUtils {
                     if ("".equals(name)) {
                         continue;
                     }
-                    String fieldName = null;
-                    try {
-                        fieldName = URLDecoder.decode(String.valueOf(name),"UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        fieldName = String.valueOf(name);
-                    }
+                    String fieldName = String.valueOf(name);
+
                     List<MultipartFile> fileItemList = multipartRequest.getFiles(String.valueOf(name));
 
                     for (int fileIndex = 0; fileIndex < fileItemList.size(); ++fileIndex) {
                         MultipartFile fileItem = (MultipartFile) fileItemList.get(fileIndex);
                         if (fileItem != null) {
-                            String filename = fileItem.getOriginalFilename().replace(' ', ' ').replace('?', ' ');
+                            String originalFileName= fileItem.getOriginalFilename();
+                            try{
+                                System.out.println("---------originalFileName:" + originalFileName);
+                                originalFileName = URLDecoder.decode(originalFileName,"UTF-8");
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+
+                            String filename = originalFileName.replace(' ', ' ').replace('?', ' ');
                             //String suffix = FilenameUtils.getExtension(filename).toLowerCase();
 
                             FileItem fi = new FileItemImpl(fileItem);
@@ -128,12 +132,7 @@ public class NbdFileUtils {
 
                             V3XFile file = new V3XFile(Long.valueOf(fileId));
                             file.setCreateDate(createDate);
-                            try {
-                                file.setFilename(URLDecoder.decode(filename,"UTF-8"));
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                                file.setFilename(filename);
-                            }
+                            file.setFilename(filename);
                             file.setSize(Long.valueOf(fi.getSize()));
                             file.setMimeType(fi.getContentType());
                             file.setType(Integer.valueOf(Constants.ATTACHMENT_TYPE.FILE.ordinal()));

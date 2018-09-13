@@ -1,35 +1,45 @@
 package com.seeyon.apps.nbd.core.resource;
 
-import com.seeyon.apps.nbd.core.entity.ServiceAffair;
-import com.seeyon.apps.nbd.core.entity.ServiceAffairs;
+import com.seeyon.apps.collaboration.controller.CollaborationController;
+import com.seeyon.apps.collaboration.manager.ColManager;
+import com.seeyon.apps.collaboration.manager.ColManagerImpl;
+import com.seeyon.apps.collaboration.po.ColSummary;
+import com.seeyon.apps.dee.exportData.FormExport;
 import com.seeyon.apps.nbd.core.service.ServiceForwardHandler;
-import com.seeyon.apps.nbd.core.service.ServiceHolder;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
-import com.seeyon.apps.nbd.util.BairongFileParser;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.constants.SystemProperties;
+import com.seeyon.ctp.common.content.affair.AffairManager;
+import com.seeyon.ctp.common.content.dao.ContentDaoImpl;
+import com.seeyon.ctp.common.content.mainbody.MainbodyController;
+import com.seeyon.ctp.common.content.mainbody.MainbodyManagerImpl;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.Constants;
-import com.seeyon.ctp.common.filemanager.manager.*;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
+import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.filemanager.manager.NbdFileUtils;
 import com.seeyon.ctp.common.log.CtpLogFactory;
+import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
-import com.seeyon.ctp.common.template.manager.TemplateManager;
+import com.seeyon.ctp.form.bean.FormBean;
+import com.seeyon.ctp.form.bean.FormDataMasterBean;
+import com.seeyon.ctp.form.modules.engin.base.formData.FormDataDAOImpl;
+import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManagerImpl;
+import com.seeyon.ctp.form.service.FormDataController;
+import com.seeyon.ctp.form.service.FormMainbodyHandler;
 import com.seeyon.ctp.form.service.FormManager;
+import com.seeyon.ctp.form.service.FormService;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.organization.po.OrgMember;
 import com.seeyon.ctp.rest.resources.BaseResource;
-import com.seeyon.ctp.util.EnumUtil;
 import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.RestInterfaceAnnotation;
 import com.seeyon.ctp.util.json.JSONUtil;
 import com.seeyon.v3x.services.ServiceException;
-import com.seeyon.v3x.services.document.DocumentFactory;
-import com.seeyon.v3x.services.flow.FlowFactory;
-import com.seeyon.v3x.services.flow.FlowService;
+import com.seeyon.v3x.services.flow.impl.FlowFactoryImpl;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -50,6 +60,21 @@ import java.util.*;
 @Path("/affair")
 public class NbdAffairResource extends BaseResource {
     private Log log = CtpLogFactory.getLog(NbdAffairResource.class);
+    private AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
+    private ColManager colManager = (ColManager)AppContext.getBean("colManager");
+    private FormManager formManager;
+//
+//    private static FormCacheManager formCacheManager = (FormCacheManager)AppContext.getBean("formCacheManager");
+//    private static FormDefinitionDAO formDefinitionDAO = (FormDefinitionDAO)AppContext.getBean("formDefinitionDAO");
+//    private static FormDataDAO formDataDAO = (FormDataDAO)AppContext.getBean("formDataDAO");
+//    private static FormAuthModuleDAO formAuthModuleDAO = (FormAuthModuleDAO)AppContext.getBean("formAuthModuleDAO");
+//    private static FormRelationManager formRelationManager = (FormRelationManager)AppContext.getBean("formRelationManager");
+//    private static FormAuthManager formAuthManager = (FormAuthManager)AppContext.getBean("formAuthManager");
+//    private static FormManager formManager = (FormManager)AppContext.getBean("formManager");
+//    private static EnumManager enumManagerNew = (EnumManager)AppContext.getBean("enumManagerNew");
+//    private static FormOperationEventBindDao formOperationEventBindDao = (FormOperationEventBindDao)AppContext.getBean("formOperationEventBindDao");
+//    private static CollaborationApi collaborationApi = (CollaborationApi)AppContext.getBean("collaborationApi");
+//    private static SeeyonreportApi seeyonreportApi = (SeeyonreportApi)AppContext.getBean("seeyonreportApi");
 
     private ServiceForwardHandler handler = new ServiceForwardHandler();
     @Context
@@ -72,12 +97,20 @@ public class NbdAffairResource extends BaseResource {
         return this.attachmentManager;
     }
 
+
     public FileManager getFileManager() {
         if (this.fileManager == null) {
             this.fileManager = (FileManager) AppContext.getBean("fileManager");
         }
 
         return this.fileManager;
+    }
+
+    public FormManager getFormManager(){
+        if(formManager == null){
+            formManager = (FormManager) AppContext.getBean("formManager");
+        }
+        return formManager;
     }
 
     @POST
@@ -127,6 +160,89 @@ public class NbdAffairResource extends BaseResource {
         //AppContext.getCurrentUser();
         CommonParameter parameter = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = handler.find(parameter, request, response);
+        return responseJson(entity);
+
+
+    }
+    @GET
+    @Consumes({"application/xml", "application/json", "multipart/form-data"})
+    @Path("/findForm")
+    @Produces({"application/json", "text/html"})
+    @RestInterfaceAnnotation
+    public Response findFormAffair() throws ServiceException, BusinessException {
+        MainbodyController mc;
+        MainbodyManagerImpl impl;
+        FormMainbodyHandler impl2;
+        ContentDaoImpl contentDao;
+        FormDataController fdc;
+        CollaborationController ccll;
+        //transShowSummary
+        ColManagerImpl colManagerImpl;
+        FormManager fm;
+        FlowFactoryImpl flowFactoryImplimpl;
+
+        FormDataDAOImpl daoImpl;
+
+        FormDataManagerImpl fdmi;
+       // FormExport formExport
+
+        //AppContext.getCurrentUser();
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+       // String param=、、
+        String affId = parameter.$("affair_id");
+        Long summaryIdAdnAffairId = Long.valueOf(affId);
+        FormDataMasterBean data = null;
+        Map mData = new HashMap();
+        Long formRecordId = null;
+        Long formId = null;
+        ColSummary summary = null;
+        NbdResponseEntity entity = new NbdResponseEntity();
+        if(null != summaryIdAdnAffairId) {
+            summary = this.colManager.getSummaryById(summaryIdAdnAffairId);
+            if(null != summary) {
+                formRecordId = summary.getFormRecordid();
+                formId = summary.getFormAppid();
+            } else {
+                CtpAffair ctpAffair = this.affairManager.get(summaryIdAdnAffairId);
+                if(null != ctpAffair) {
+                    summary = this.colManager.getSummaryById(ctpAffair.getObjectId());
+                    if(null != summary) {
+                        formRecordId = summary.getFormRecordid();
+                        formId = summary.getFormAppid();
+                    }
+                }
+            }
+        }
+        try {
+
+         //   FormDataMasterBean sessionMasterData = getFormManager().getSessioMasterDataBean(Long.valueOf(formRecordId));
+            FormBean fb = getFormManager().getForm(formId);
+            System.out.println("fb---index::::"+fb.getMasterTableBean().toXML());
+          //  FormDataMasterBean fdmb =  getFormManager().getFormDataDAO().insertData()
+          //  getFormManager().getFormDataManager().getform
+           // mData.put("sessionMasterDataJSON",fdmb.toJSON(10));
+
+          //  mData.put("sessionMasterDataXML",fdmb.toXML());
+            //data = FormService.findDataById(formRecordId.longValue(), formId.longValue());
+            mData.put("formDataMasterBean",null);
+            entity.setData(mData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            entity.setMsg(e.getMessage());
+            entity.setResult(false);
+            StackTraceElement[] stes =  e.getStackTrace();
+            Map stesMap = new HashMap();
+            StringBuilder stb = new StringBuilder();
+            stb.append(e.getCause().toString());
+            for(StackTraceElement ste:stes){
+                stb.append(ste.toString()).append("\r\n");
+            }
+            stesMap.put("trace",stb.toString());
+            entity.setData(stesMap);
+        }
+
+
+        //NbdResponseEntity entity = handler.find(parameter, request, response);
         return responseJson(entity);
 
 

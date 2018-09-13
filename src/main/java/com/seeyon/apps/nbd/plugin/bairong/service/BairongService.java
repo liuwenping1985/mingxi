@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.plugin.bairong.service;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.entity.*;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
@@ -34,6 +35,8 @@ import com.seeyon.ctp.privilege.dao.MenuDaoImpl;
 import com.seeyon.ctp.privilege.dao.PrivilegeCacheImpl;
 import com.seeyon.ctp.privilege.dao.RoleMenuDaoImpl;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.JDBCAgent;
+import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.v3x.services.document.DocumentFactory;
 import com.seeyon.v3x.services.flow.FlowFactory;
 import com.seeyon.v3x.services.flow.FlowService;
@@ -117,35 +120,6 @@ public class BairongService implements ServicePlugin {
 
     public CommonDataVo receiveAffair(CommonParameter parameter) {
         CommonDataVo vo =  new CommonDataVo();
-
-
-        try {
-            FormBean fb = getFormManager().getFormByFormCode("HT0002");
-            List<FormTableBean> list = fb.getSubTableBean();
-            //this.getFormManager().get
-            ColSummary summary = this.getColManager().getSummaryById(7024609399219550905L);
-            Long formRecordId = summary.getFormRecordid();
-            Long formId = summary.getFormAppid();
-            try {
-                FormDataMasterBean data = FormService.findDataById(formRecordId.longValue(), formId.longValue());
-
-                System.out.println("----sub-sub-sub----"+data.toJSON());
-                Map<String, List<FormDataSubBean>> subData = data.getSubTables();
-                for(String key:subData.keySet()){
-                    List<FormDataSubBean> listFormDataSubBean = subData.get(key);
-                    for(FormDataSubBean bean:listFormDataSubBean){
-                        System.out.println("--------");
-                        System.out.println(bean.toJSON());
-                        System.out.println("----------");
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         String affairType = (String)parameter.get("affairType");
         String affairId = parameter.$("affair_id");
         if(null == affairId){
@@ -168,9 +142,20 @@ public class BairongService implements ServicePlugin {
             if(!CollectionUtils.isEmpty(attachments)){
                 for(Attachment att:attachments){
                     att.setReference(flowId);
-                    att.setFilename(URLDecoder.decode(att.getFilename(),"UTF-8"));
+                    try {
+                        String attName = att.getFilename();
+                        System.out.println(attName);
+                        //attName.replaceAll("/./.",".")
+                        att.setFilename(URLDecoder.decode(att.getFilename(), "UTF-8"));
+                    }catch(Exception e){
+
+                    }
                 }
                 DBAgent.updateAll(attachments);
+                /**
+                 * 暴力一点吧 没办法了
+                 */
+                insertOtherAttachment(attachments);
             }
             String key = affairType+"_"+affairId;
             DataBaseHandler.getInstance().putData(key,flowId);
@@ -190,6 +175,81 @@ public class BairongService implements ServicePlugin {
 
         }
         return vo;
+    }
+
+    private void insertOtherAttachment(List<Attachment> attachments){
+
+
+        String table_name = ConfigService.getPropertyByName("filesubForm","formson_0231");
+       // System.out.println(table_name);
+        StringBuilder querySQL = new StringBuilder("select * from ");
+        querySQL.append(table_name);
+        StringBuilder inStatement = new StringBuilder();
+        inStatement.append("(");
+        int tag =0;
+
+        for(Attachment att:attachments){
+            if(tag == 0){
+                inStatement.append(att.getSubReference());
+            }else{
+                inStatement.append(",").append(att.getSubReference());
+            }
+            tag++;
+
+
+        }
+        inStatement.append(")");
+        querySQL.append(" where field0024 in ");
+        querySQL.append(inStatement);
+     //   System.out.println(querySQL);
+        JDBCAgent agent = new JDBCAgent();
+        try {
+
+            agent.execute(querySQL.toString());
+            Map<String,String> existInsertMap = new HashMap<String, String>();
+            List retList = agent.resultSetToList(true);
+            List<String> insertSQLList = new ArrayList<String>();
+            StringBuilder insertSQLPre = new StringBuilder();
+            insertSQLPre.append("insert into ").append(table_name);
+            insertSQLPre.append("(id,formmain_id,sort,field0024)values");
+            Object formmainId=null;
+           // System.out.println(retList);
+            if(retList != null&&retList.size()>0){
+                for(Object obj:retList){
+                    Map data = (Map)obj;
+                  //  System.out.println(data);
+                    formmainId = data.get("formmain_id");
+                    existInsertMap.put(String.valueOf(data.get("field0024")),"1");
+                }
+              //  System.out.println("formmain_id:"+formmainId);
+             //   System.out.println("----------------------------");
+                if(formmainId!=null) {
+                    int sort =1;
+                    for (Attachment att : attachments) {
+                        String isExist = existInsertMap.get(String.valueOf(att.getSubReference()));
+                        if(isExist!=null){
+                            continue;
+                        }
+                        StringBuilder insql = new StringBuilder();
+                        insql.append(insertSQLPre.toString());
+                        insql.append("(").append(UUIDLong.longUUID()).append(","+formmainId+",");
+                        insql.append(sort).append(",").append(att.getSubReference()).append(")");
+                        insertSQLList.add(insql.toString());
+                        sort++;
+                    }
+                    if(!CollectionUtils.isEmpty(insertSQLList)){
+
+                        agent.executeBatch(insertSQLList);
+                    }
+                }
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            agent.close();
+        }
     }
 
     private Map genCollaborationParam(CommonParameter inputParameter,ServiceAffair affair){
@@ -290,27 +350,27 @@ public class BairongService implements ServicePlugin {
                 setData(meta,param,inputData);
             }
         }
-        System.out.println("parse--sub-entity");
+       // System.out.println("parse--sub-entity");
         List<OriginalField> ofList = entity.getOriginalFields();
 
         if(!CollectionUtils.isEmpty(ofList)){
-            System.out.println("parse--sub2-entity");
+         //   System.out.println("parse--sub2-entity");
             for(OriginalField meta:ofList){
                 Entity subEntity =  meta.getEntity();
 
                 if(subEntity!=null){
-                    System.out.println("parse--sub3-entity");
+                    //System.out.println("parse--sub3-entity");
                     if(!StringUtils.isEmpty(subEntity.getParse())){
-                        System.out.println("parse--sub4-entity");
+                        //System.out.println("parse--sub4-entity");
                         String parse = subEntity.getParse();
-                        System.out.println("parse--sub5-entity:"+parse);
+                        //System.out.println("parse--sub5-entity:"+parse);
                         try {
                             Class cls = Class.forName(parse);
                             Object instance = cls.newInstance();
                             if(instance instanceof SubEntityFieldParser){
-                                System.out.println("parse--sub6-entity");
+                                //System.out.println("parse--sub6-entity");
                                 SubEntityFieldParser parser = (SubEntityFieldParser)instance;
-                                System.out.println("----coming----");
+                                //System.out.println("----coming----");
                                 parser.parse(inputParameter,param,inputData,subEntity);
                             }
                         } catch (Exception e) {
@@ -358,6 +418,7 @@ public class BairongService implements ServicePlugin {
         if(!StringUtils.isEmpty(id)){
            // FlowFactoryImpl fl;
            //
+          //  FlowUtil.getFlowState()
            // DataBaseHandler.getInstance().getDataByKey()
             summaryId = id;
         }else{
@@ -393,7 +454,7 @@ public class BairongService implements ServicePlugin {
                 List<CtpAffair> currentAffairList = new ArrayList<CtpAffair>();
                 int state=0;
                 int doneCount = 0;
-
+                //FlowUtil.getFlowState()
                 for(CtpAffair affair:affairs){
                     if(affair.getState().intValue() == StateEnum.col_done.key()){
                        // affair.
@@ -511,11 +572,11 @@ public class BairongService implements ServicePlugin {
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-        ThirdpartyController con;
-        String input = "%7B%22id%22%3A+2536%2C+%22number%22%3A+%22%22%2C+%22customer_name%22%3A+%22test0822%22%2C+%22short_name%22%3A+%22test0822%22%2C+%22applicant_name%22%3A+%22%5Cu5f20%5Cu5b87%22%2C+%22create_time%22%3A+%222018-08-23T14%3A17%3A41%22%2C+%22state_name%22%3A+%22%5Cu5f85%5Cu5546%5Cu52a1%5Cu5ba1%5Cu6838%5Cu5458%5Cu5ba1%5Cu6838%22%2C+%22our%22%3A+%22%5Cu767e%5Cu878d%5Cu91d1%5Cu670d%22%2C+%22A_company%22%3A+%22c0823%22%2C+%22A_address%22%3A+%22c0823%22%2C+%22A_person%22%3A+%22c0823%22%2C+%22A_tel%22%3A+%2213111111111%22%2C+%22products%22%3A+%5B%7B%22id%22%3A+1%2C+%22name%22%3A+%22%5Cu7528%5Cu6237%5Cu8bc4%5Cu4f30%22%2C+%22code%22%3A+%22pgbg%22%2C+%22type%22%3A+%22fk%22%7D%5D%2C+%22type%22%3A+%22%5Cu6b63%5Cu5f0f%5Cu670d%5Cu52a1%5Cu534f%5Cu8bae%28%5Cu516c%5Cu53f8%5Cu6a21%5Cu677f%29%22%2C+%22start_time%22%3A+%222018-08-23T00%3A00%3A00%22%2C+%22end_time%22%3A+%222019-08-29T00%3A00%3A00%22%2C+%22modify%22%3A+%22%5Cu5408%5Cu540c%5Cu6a21%5Cu677f%28%5Cu6709%5Cu4fee%5Cu6539%29%22%2C+%22flag_charge%22%3A+1%2C+%22flag_bulu%22%3A+0%2C+%22discount%22%3A+%22c0823%22%2C+%22note%22%3A+%22c0823%22%2C+%22files%22%3A+%5B%5D%2C+%22username%22%3A+%22yu.zhang%22%2C+%22zone%22%3A+%22%5Cu4e1c%5Cu5317%22%7D";
+       
+        String input = "BR-%E8%AE%A1%E8%B4%B9%E5%87%86%E7%A1%AE%E6%80%A7%E8%B0%83%E6%95%B4%E6%96%B9%E6%A1%88%E7%9B%B8%E5%85%B3%E9%9C%80%E6%B1.docx";
 
         System.out.println(URLDecoder.decode(input,"UTF-8"));
-        System.out.println(unicodeStr2String(URLDecoder.decode(input,"UTF-8")));
+        //System.out.println(unicodeStr2String(URLDecoder.decode(input,"UTF-8")));
 
     }
 

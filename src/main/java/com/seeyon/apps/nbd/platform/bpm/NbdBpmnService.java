@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.platform.bpm;
 
 import com.kg.commons.utils.CollectionUtils;
+import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.content.comment.CommentManager;
@@ -32,7 +33,9 @@ import com.seeyon.v3x.services.flow.impl.FlowFactoryImpl;
 import com.seeyon.v3x.services.flow.log.FlowLog;
 import com.seeyon.v3x.services.flow.log.FlowLogFactory;
 import com.seeyon.v3x.services.form.FormUtils;
+import com.seeyon.v3x.services.form.bean.DefinitionExport;
 import com.seeyon.v3x.services.form.bean.FormExport;
+import com.seeyon.v3x.services.form.bean.SubordinateFormExport;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -491,9 +494,10 @@ public class NbdBpmnService {
                                                 List list = (List) jsonSub.get("data");
                                                 System.out.println("0000000009999999："+list.size());
                                                 if(!CollectionUtils.isEmpty(list)){
+                                                    ele = subForm.addElement("values");
                                                     for(int o =0;o<list.size();o++){
                                                         Map jsonSubSub =(Map)list.get(o);
-                                                        ele = subForm.addElement("values");
+
                                                         row = ele.addElement("row");
                                                         System.out.println("jsonSubSub0000000009999999："+jsonSubSub);
                                                         Iterator var23 = subFields.iterator();

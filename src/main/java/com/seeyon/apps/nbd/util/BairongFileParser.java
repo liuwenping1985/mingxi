@@ -38,16 +38,16 @@ public class BairongFileParser implements SubEntityFieldParser {
 
                     System.out.println("attList:" + attList.isEmpty() + ",attList-size:" + attList.size());
                     if (!CollectionUtils.isEmpty(attList)) {
-                        List ll = new ArrayList();
-                        Map subMap = new HashMap();
-                        subMap.put("multi","YES");
+                      //  List ll = new ArrayList();
+                       // Map subMap = new HashMap();
+                       // subMap.put("multi","YES");
                         for (Attachment att : attList) {
                             Map subsubMap = new HashMap();
                             subsubMap.put(meta.getName(), att.getSubReference());
-                            ll.add(subsubMap);
+                            ((List)sub).add(subsubMap);
                         }
-                        subMap.put("data",ll);
-                        ((List)sub).add(subMap);
+                        //subMap.put("data",ll);
+                        //((List)sub).add(subMap);
 
                     }
                     System.out.println("<<---------sub--map----------->>" + JSON.toJSONString(sub));

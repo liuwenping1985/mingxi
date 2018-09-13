@@ -51,25 +51,25 @@ public class ServiceApplicationConfig {
         ServiceAffair sa = config.cfm.getAffairsList().get(0).getAffairHolder().get("receive");
         String test1 = JSON.toJSONString(sa.getMaping().getEntity().getOriginalFields());
         // ServiceConfigMain configMain = config.parseServiceConfigMain(JSON.parseObject(xml,HashMap.class));
-       System.out.println(test1);
+       //System.out.println(test1);
     }
 
 
     private ServiceConfigMain parseServiceConfigMain(Map data){
-        System.out.println(data);
+        //System.out.println(data);
         ServiceConfigMain config = new ServiceConfigMain();
         if(data == null){
             return config;
         }
         Map<String,Object> serviceMap = (Map)data.get("service");
-      //  System.out.println(serviceMap);
+      //  //System.out.println(serviceMap);
         if(serviceMap == null){
             return config;
         }
         config.setName((String)serviceMap.get("name"));
         config.setId((String)serviceMap.get("id"));
         Map affairsMap = (Map)serviceMap.get("service-aspects");
-       // System.out.println(affairsMap);
+       // //System.out.println(affairsMap);
         if(affairsMap == null){
             return config;
         }
@@ -96,7 +96,7 @@ public class ServiceApplicationConfig {
                     sa.setType(type);
 
                     Map mapping = (Map)afMap.get("mapping");
-                    //System.out.println(afMap);
+                    ////System.out.println(afMap);
                     sas.getAffairHolder().put(type,sa);
                     if(mapping==null){
                         continue;

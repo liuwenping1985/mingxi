@@ -100,7 +100,6 @@ import com.seeyon.v3x.common.security.SecurityCheck;
 import com.seeyon.v3x.peoplerelate.manager.PeopleRelateManager;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -323,9 +322,9 @@ public class CollaborationController extends BaseController {
         boolean canEditColPigeonhole = true;
         CtpTemplate template = null;
         vobj.setFrom(from);
-        vobj.setSummaryId(Strings.isBlank(summaryId) ? String.valueOf(UUIDUtil.getUUIDLong()) : summaryId);
+        vobj.setSummaryId(Strings.isBlank(summaryId)?String.valueOf(UUIDUtil.getUUIDLong()):summaryId);
         vobj.setTempleteId(templateId);
-        vobj.setProjectId(Strings.isNotBlank(projectID) ? Long.parseLong(projectID) : null);
+        vobj.setProjectId(Strings.isNotBlank(projectID)?Long.valueOf(Long.parseLong(projectID)):null);
         vobj.setAffairId(affairId);
         vobj.setUser(user);
         vobj.setCanDeleteOriginalAtts(true);
@@ -338,24 +337,24 @@ public class CollaborationController extends BaseController {
         Long projectId;
         String trackValue;
         boolean isSpecialSteped;
-        if (Strings.isNotBlank(templateId)) {
+        if(Strings.isNotBlank(templateId)) {
             branch = "template";
             vobj.setSummaryId(String.valueOf(UUIDUtil.getUUIDLong()));
 
             try {
                 template = this.templateManager.getCtpTemplate(Long.valueOf(templateId));
                 isSpecialSteped = this.templateManager.isTemplateEnabled(template, user.getId());
-                if (!user.hasResourceCode("F01_newColl") && isSpecialSteped && null != template && !TemplateUtil.isSystemTemplate(template)) {
+                if(!user.hasResourceCode("F01_newColl") && isSpecialSteped && null != template && !TemplateUtil.isSystemTemplate(template)) {
                     isSpecialSteped = false;
                 }
 
-                if (!isSpecialSteped) {
-                    if ("templateNewColl".equals(from)) {
-                        this.newCollAlert(response, StringEscapeUtils.escapeJavaScript("模板已经被删除，或者您已经没有该模板的使用权限"));
+                if(!isSpecialSteped) {
+                    if("templateNewColl".equals(from)) {
+                        this.newCollAlert(response, StringEscapeUtils.escapeJavaScript(ResourceUtil.getString("collaboration.send.fromSend.templeteDelete")));
                     } else {
                         PrintWriter out = response.getWriter();
                         out.println("<script>");
-                        out.println("alert('模板已经被删除，或者您已经没有该模板的使用权限');");
+                        out.println("alert('" + ResourceUtil.getString("collaboration.send.fromSend.templeteDelete") + "');");
                         out.print("parent.window.close();");
                         out.println("</script>");
                         out.flush();
@@ -368,17 +367,17 @@ public class CollaborationController extends BaseController {
                 vobj = this.colManager.transferTemplate(vobj);
                 template = vobj.getTemplate();
                 modelAndView.addObject("zwContentType", template.getBodyType());
-                AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.collaboration, vobj.getSummaryId(), user.getId());
-            } catch (Throwable var33) {
-                LOG.info("", var33);
-                this.newCollAlert(response, StringEscapeUtils.escapeJavaScript("模板已经被删除，或者您已经没有该模板的使用权限"));
+                AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.collaboration, vobj.getSummaryId(), user.getId().longValue());
+            } catch (Throwable var37) {
+                LOG.info("", var37);
+                this.newCollAlert(response, StringEscapeUtils.escapeJavaScript(ResourceUtil.getString("collaboration.send.fromSend.templeteDelete")));
                 return null;
             }
 
             canEditColPigeonhole = vobj.isCanEditColPigeonhole();
         } else {
             Long referenceId;
-            if ("resend".equals(from)) {
+            if("resend".equals(from)) {
                 branch = "resend";
                 vobj = this.colManager.transResend(vobj);
                 vobj.setSummaryId(String.valueOf(UUIDLong.longUUID()));
@@ -388,28 +387,28 @@ public class CollaborationController extends BaseController {
                 vobj.getSummary().setId(Long.valueOf(vobj.getSummaryId()));
                 projectId = process.getTempleteId();
                 CtpTemplate ctpTemplate = null;
-                if (projectId != null) {
+                if(projectId != null) {
                     ctpTemplate = this.templateManager.getCtpTemplate(projectId);
-                    if (ctpTemplate != null) {
+                    if(ctpTemplate != null) {
                         ColSummary tSummary = (ColSummary)XMLCoder.decoder(ctpTemplate.getSummary());
-                        vobj.setTempleteHasDeadline(tSummary.getDeadline() != null && tSummary.getDeadline() != 0L);
-                        vobj.setTempleteHasRemind(tSummary.getAdvanceRemind() != null && tSummary.getAdvanceRemind() != 0L && tSummary.getAdvanceRemind() != -1L);
+                        vobj.setTempleteHasDeadline(tSummary.getDeadline() != null && tSummary.getDeadline().longValue() != 0L);
+                        vobj.setTempleteHasRemind(tSummary.getAdvanceRemind() != null && tSummary.getAdvanceRemind().longValue() != 0L && tSummary.getAdvanceRemind().longValue() != -1L);
                         vobj.setCanEditColPigeonhole(tSummary.getArchiveId() != null);
                         vobj.setParentWrokFlowTemplete(this.colManager.isParentWrokFlowTemplete(ctpTemplate.getFormParentid()));
                         vobj.setParentTextTemplete(this.colManager.isParentTextTemplete(ctpTemplate.getFormParentid()));
                         vobj.setParentColTemplete(this.colManager.isParentColTemplete(ctpTemplate.getFormParentid()));
-                        vobj.setFromSystemTemplete(ctpTemplate.isSystem());
+                        vobj.setFromSystemTemplete(ctpTemplate.isSystem().booleanValue());
                         trackValue = "0";
-                        if (template != null && null != template.getScanCodeInput() && template.getScanCodeInput()) {
+                        if(template != null && null != template.getScanCodeInput() && template.getScanCodeInput().booleanValue()) {
                             trackValue = "1";
                         }
 
-                        if (tSummary.getAttachmentArchiveId() != null && AppContext.hasPlugin("doc")) {
+                        if(tSummary.getAttachmentArchiveId() != null && AppContext.hasPlugin("doc")) {
                             boolean docResourceExist = this.docApi.isDocResourceExisted(tSummary.getAttachmentArchiveId());
-                            if (docResourceExist) {
+                            if(docResourceExist) {
                                 vobj.setAttachmentArchiveId(tSummary.getAttachmentArchiveId());
-                                if (null != vobj.getSummary()) {
-                                    vobj.getSummary().setCanArchive(true);
+                                if(null != vobj.getSummary()) {
+                                    vobj.getSummary().setCanArchive(Boolean.valueOf(true));
                                 }
                             }
                         }
@@ -422,76 +421,86 @@ public class CollaborationController extends BaseController {
                 modelAndView.addObject("isResend", "1");
             } else {
                 String formTitleText;
-                if (vobj.getSummaryId() != null && "waitSend".equals(from)) {
+                String attListJSON;
+                if(vobj.getSummaryId() != null && "waitSend".equals(from)) {
                     branch = "waitSend";
                     vobj.setNewBusiness("0");
-                    if (Strings.isNotBlank(affairId)) {
+                    if(Strings.isNotBlank(affairId)) {
                         CtpAffair valAffair = this.affairManager.get(Long.valueOf(affairId));
-                        if (null != valAffair && !valAffair.getMemberId().equals(user.getId())) {
-                            this.newCollAlert(response, StringEscapeUtils.escapeJavaScript("您无权查看该主题!"));
+                        if(null != valAffair && !valAffair.getMemberId().equals(user.getId())) {
+                            this.newCollAlert(response, StringEscapeUtils.escapeJavaScript(ResourceUtil.getString("collaboration.error.common.permission.no")));
                             return null;
                         }
                     }
 
-                    String stiitle;
                     try {
                         vobj = this.colManager.transComeFromWaitSend(vobj);
                         formTitleText = ReqUtil.getString(request, "subState", "");
-                        stiitle = ReqUtil.getString(request, "oldSubState", "");
-                        if (Strings.isNotBlank(stiitle) && stiitle != "1") {
-                            formTitleText = stiitle;
+                        String oldSubState = ReqUtil.getString(request, "oldSubState", "");
+                        if(Strings.isNotBlank(oldSubState) && oldSubState != "1") {
+                            formTitleText = oldSubState;
                         }
 
                         CtpAffair vaffair = vobj.getAffair();
-                        if (Strings.isBlank(formTitleText)) {
-                            formTitleText = null != vaffair ? String.valueOf(vaffair.getSubState()) : "1";
+                        if(Strings.isBlank(formTitleText)) {
+                            formTitleText = null != vaffair?String.valueOf(vaffair.getSubState().intValue()):"1";
                         }
 
                         modelAndView.addObject("subState", formTitleText);
                         showTraceWorkflows = this.showTraceWorkflows(formTitleText, vaffair);
                         template = vobj.getTemplate();
+                        if(null != template && Boolean.TRUE.equals(template.isDelete()) && "20".equals(template.getBodyType())) {
+                            attListJSON = StringEscapeUtils.escapeJavaScript(ResourceUtil.getString("collaboration.send.fromSend.templeteDelete"));
+                            this.newCollAlert(response, attListJSON);
+                            PrintWriter out = response.getWriter();
+                            out.println("<script>");
+                            out.print("window.close();");
+                            out.println("</script>");
+                            out.flush();
+                            return null;
+                        }
+
                         this.getTrackInfo(modelAndView, vobj, vobj.getSummaryId());
-                    } catch (Exception var32) {
-                        this.newCollAlert(response, StringEscapeUtils.escapeJavaScript("模板已经被删除，或者您已经没有该模板的使用权限"));
+                    } catch (Exception var36) {
+                        this.newCollAlert(response, StringEscapeUtils.escapeJavaScript(ResourceUtil.getString("collaboration.send.fromSend.templeteDelete")));
                         return null;
                     }
 
                     canEditColPigeonhole = vobj.isCanEditColPigeonhole();
-                    modelAndView.addObject("alertSuperviseSet", true);
+                    modelAndView.addObject("alertSuperviseSet", Boolean.valueOf(true));
                     formTitleText = request.getParameter("formTitleText");
-                    if (Strings.isNotBlank(formTitleText)) {
-                        stiitle = URLDecoder.decode(formTitleText, "UTF-8");
-                        modelAndView.addObject("_formTitleText", stiitle);
-                        vobj.setCollSubject(stiitle);
-                        if (null != vobj.getSummary()) {
-                            vobj.getSummary().setSubject(stiitle);
+                    if(Strings.isNotBlank(formTitleText)) {
+                        modelAndView.addObject("_formTitleText", formTitleText);
+                        vobj.setCollSubject(formTitleText);
+                        if(null != vobj.getSummary()) {
+                            vobj.getSummary().setSubject(formTitleText);
                         }
                     }
 
-                    if ("bizconfig".equals(request.getParameter("reqFrom"))) {
+                    if("bizconfig".equals(request.getParameter("reqFrom"))) {
                         vobj.setFrom("bizconfig");
                     }
 
                     vobj.setAttachmentArchiveId(vobj.getSummary().getAttachmentArchiveId());
-                } else if ("relatePeople".equals(from)) {
+                } else if("relatePeople".equals(from)) {
                     branch = "relatePeople";
                     vobj.setNewBusiness("1");
                     formTitleText = request.getParameter("memberId");
                     this.setWorkFlowMember(formTitleText, user, modelAndView);
-                } else if ("a8genius".equals(from)) {
+                } else if("a8genius".equals(from)) {
                     branch = "a8genius";
-                    referenceId = UUIDLong.longUUID();
+                    referenceId = Long.valueOf(UUIDLong.longUUID());
                     String[] attachids = request.getParameterValues("attachid");
-                    if (attachids != null && attachids.length > 0) {
+                    if(attachids != null && attachids.length > 0) {
                         Long[] attId = new Long[attachids.length];
 
                         for(int count = 0; count < attachids.length; ++count) {
                             attId[count] = Long.valueOf(attachids[count]);
                         }
 
-                        if (attId.length > 0) {
+                        if(attId.length > 0) {
                             this.attachmentManager.create(attId, ApplicationCategoryEnum.collaboration, referenceId, referenceId);
-                            String attListJSON = this.attachmentManager.getAttListJSON(referenceId);
+                            attListJSON = this.attachmentManager.getAttListJSON(referenceId);
                             vobj.setAttListJSON(attListJSON);
                         }
                     }
@@ -503,35 +512,34 @@ public class CollaborationController extends BaseController {
             }
         }
 
-        modelAndView.addObject("showTraceWorkflows", showTraceWorkflows);
-        if (vobj.getSummary() == null) {
+        modelAndView.addObject("showTraceWorkflows", Boolean.valueOf(showTraceWorkflows));
+        if(vobj.getSummary() == null) {
             summary = new ColSummary();
             vobj.setSummary(summary);
-            summary.setCanForward(true);
-            summary.setCanArchive(true);
-            summary.setCanDueReminder(true);
-            summary.setCanEditAttachment(true);
-            summary.setCanModify(true);
-            summary.setCanTrack(true);
-            summary.setCanEdit(true);
-            summary.setAdvanceRemind(-1L);
+            summary.setCanForward(Boolean.valueOf(true));
+            summary.setCanArchive(Boolean.valueOf(true));
+            summary.setCanDueReminder(Boolean.valueOf(true));
+            summary.setCanEditAttachment(Boolean.valueOf(true));
+            summary.setCanModify(Boolean.valueOf(true));
+            summary.setCanTrack(Boolean.valueOf(true));
+            summary.setCanEdit(Boolean.valueOf(true));
+            summary.setAdvanceRemind(Long.valueOf(-1L));
         }
 
         this.initNewCollTranVO(vobj, summary, modelAndView, user, request);
-        isSpecialSteped = vobj.getAffair() != null && vobj.getAffair().getSubState() == SubStateEnum.col_pending_specialBacked.key();
-        process = null;
-        BPMProcess process1 = null;
-        if (template != null && template.getWorkflowId() != null && !isSpecialSteped && !"resend".equals(from)) {
-            process1 = this.wapi.getTemplateProcess(template.getWorkflowId());
+        isSpecialSteped = vobj.getAffair() != null && vobj.getAffair().getSubState().intValue() == SubStateEnum.col_pending_specialBacked.key();
+        BPMProcess bpmnprocess;
+        if(template != null && template.getWorkflowId() != null && !isSpecialSteped && !"resend".equals(from)) {
+            bpmnprocess = this.wapi.getTemplateProcess(template.getWorkflowId());
         } else {
-            process1 = this.wapi.getBPMProcessForM1(vobj.getSummary().getProcessId());
+            bpmnprocess = this.wapi.getBPMProcessForM1(vobj.getSummary().getProcessId());
         }
 
-        if (vobj.isParentColTemplete() && null != vobj.getTemplate() && null != vobj.getTemplate().getProjectId()) {
+        if(vobj.isParentColTemplete() && null != vobj.getTemplate() && null != vobj.getTemplate().getProjectId()) {
             modelAndView.addObject("disabledProjectId", "1");
         }
 
-        if (!relateProjectFlag) {
+        if(!relateProjectFlag) {
             projectId = vobj.getSummary().getProjectId();
             vobj.setProjectId(projectId);
         }
@@ -539,126 +547,126 @@ public class CollaborationController extends BaseController {
         ContentConfig config = ContentConfig.getConfig(ModuleType.collaboration);
         modelAndView.addObject("contentCfg", config);
         ContentViewRet context;
-        if (summaryId == null && Strings.isBlank(templateId) || Strings.isNotBlank(templateId) && Type.workflow.name().equals(template.getType())) {
+        if(summaryId == null && Strings.isBlank(templateId) || Strings.isNotBlank(templateId) && Type.workflow.name().equals(template.getType())) {
             context = this.setWorkflowParam((Long)null, ModuleType.collaboration);
         } else {
             Long originalContentId = null;
             trackValue = null;
-            if (summaryId != null) {
-                originalContentId = Long.parseLong(summaryId);
-            } else if (Strings.isNotBlank(templateId)) {
+            if(summaryId != null) {
+                originalContentId = Long.valueOf(Long.parseLong(summaryId));
+            } else if(Strings.isNotBlank(templateId)) {
                 originalContentId = Long.valueOf(templateId);
             }
 
-            if (template != null && MainbodyType.FORM.getKey() == Integer.parseInt(template.getBodyType())) {
-                trackValue = this.wapi.getNodeFormViewAndOperationName(process1, (String)null);
+            if(template != null && MainbodyType.FORM.getKey() == Integer.parseInt(template.getBodyType())) {
+                trackValue = this.wapi.getNodeFormViewAndOperationName(bpmnprocess, (String)null);
             }
 
             ColSummary fromToSummary = vobj.getSummary();
             int viewState = 1;
-            if (fromToSummary.getParentformSummaryid() != null && !fromToSummary.getCanEdit()) {
+            if(fromToSummary.getParentformSummaryid() != null && !fromToSummary.getCanEdit().booleanValue()) {
                 ColSummary parentSummary = this.colManager.getSummaryById(fromToSummary.getParentformSummaryid());
-                if (parentSummary != null && String.valueOf(MainbodyType.FORM.getKey()).equals(parentSummary.getBodyType())) {
+                if(parentSummary != null && String.valueOf(MainbodyType.FORM.getKey()).equals(parentSummary.getBodyType())) {
                     viewState = 2;
                 }
             }
 
             modelAndView.addObject("contentViewState", Integer.valueOf(viewState));
-            modelAndView.addObject("uuidlong", UUIDLong.longUUID());
+            modelAndView.addObject("uuidlong", Long.valueOf(UUIDLong.longUUID()));
             modelAndView.addObject("zwModuleId", originalContentId);
-            trackValue = trackValue == null ? null : trackValue.replaceAll("[|]", "_");
+            trackValue = trackValue == null?null:trackValue.replaceAll("[|]", "_");
             modelAndView.addObject("zwRightId", trackValue);
-            modelAndView.addObject("_formOperationId", trackValue != null && trackValue.split("[.]").length == 2 ? trackValue.split("[.]")[1] : "");
+            modelAndView.addObject("_formOperationId", trackValue != null && trackValue.split("[.]").length == 2?trackValue.split("[.]")[1]:"");
             modelAndView.addObject("zwIsnew", "false");
             modelAndView.addObject("zwViewState", Integer.valueOf(viewState));
             context = this.setWorkflowParam(originalContentId, ModuleType.collaboration);
             context.setCanReply(false);
-            if ("waitSend".equals(branch) || "resend".equals(branch)) {
-                ContentUtil.commentView(request, config, ModuleType.collaboration, originalContentId, (Long)null);
+            if("waitSend".equals(branch) || "resend".equals(branch)) {
+                ContentUtil.findSenderCommentLists(request, config, ModuleType.collaboration, originalContentId, (Long)null);
             }
         }
 
-        if (context != null) {
+        if(context != null) {
             EnumManager em = (EnumManager)AppContext.getBean("enumManagerNew");
             Map<String, CtpEnumBean> ems = em.getEnumsMap(ApplicationCategoryEnum.collaboration);
             CtpEnumBean nodePermissionPolicy = (CtpEnumBean)ems.get(EnumNameEnum.col_flow_perm_policy.name());
             String xml = "";
             CtpTemplate t = vobj.getTemplate();
             context.setWfProcessId(vobj.getSummary().getProcessId());
-            context.setWfCaseId(vobj.getCaseId() == null ? -1L : vobj.getCaseId());
+            context.setWfCaseId(Long.valueOf(vobj.getCaseId() == null?-1L:vobj.getCaseId().longValue()));
             String processId = vobj.getSummary().getProcessId();
-            if (t != null && t.getWorkflowId() != null) {
-                if (!isSpecialSteped && !"resend".equals(from)) {
-                    if (TemplateUtil.isSystemTemplate(vobj.getTemplate())) {
+            if(t != null && t.getWorkflowId() != null) {
+                if(!isSpecialSteped && !"resend".equals(from)) {
+                    if(TemplateUtil.isSystemTemplate(vobj.getTemplate())) {
                         context.setProcessTemplateId(String.valueOf(vobj.getTemplate().getWorkflowId()));
                         context.setWfProcessId("");
                     } else {
                         modelAndView.addObject("ordinalTemplateIsSys", "no");
                         xml = this.wapi.selectWrokFlowTemplateXml(t.getWorkflowId().toString());
                     }
-                } else if ("resend".equals(from)) {
+                } else if("resend".equals(from)) {
                     xml = this.wapi.selectWrokFlowXml(processId);
                     context.setWfProcessId("");
                 }
             } else {
-                if (!isSpecialSteped) {
+                if(!isSpecialSteped) {
                     xml = this.wapi.selectWrokFlowXml(processId);
                 }
 
-                if ("resend".equals(from)) {
+                if("resend".equals(from)) {
                     context.setWfProcessId("");
                 }
             }
 
-            String[] workflowNodesInfo = this.wapi.getWorkflowInfos(process1, ModuleType.collaboration.name(), nodePermissionPolicy);
+            String[] workflowNodesInfo = this.wapi.getWorkflowInfos(bpmnprocess, ModuleType.collaboration.name(), nodePermissionPolicy);
             context.setWorkflowNodesInfo(workflowNodesInfo[0]);
             modelAndView.addObject("DR", workflowNodesInfo[1]);
             vobj.setWfXMLInfo(Strings.escapeJavascript(xml));
             modelAndView.addObject("contentContext", context);
         }
 
-        if (null != vobj.getTemplate() && !Type.text.name().equals(vobj.getTemplate().getType())) {
-            modelAndView.addObject("onlyViewWF", true);
+        if(null != vobj.getTemplate() && !Type.text.name().equals(vobj.getTemplate().getType())) {
+            modelAndView.addObject("onlyViewWF", Boolean.valueOf(true));
         }
 
         modelAndView.addObject("postName", Functions.showOrgPostName(user.getPostId()));
         V3xOrgDepartment department = Functions.getDepartment(user.getDepartmentId());
-        if (department != null) {
+        if(department != null) {
             modelAndView.addObject("departName", Functions.getDepartment(user.getDepartmentId()).getName());
         }
 
         modelAndView.addObject("currentUserName", Strings.toHTML(AppContext.currentUserName()));
         AppContext.putRequestContext("moduleId", vobj.getSummaryId());
-        AppContext.putRequestContext("canDeleteISigntureHtml", true);
-        if (vobj.getSummary().getDeadlineDatetime() != null) {
+        AppContext.putRequestContext("canDeleteISigntureHtml", Boolean.valueOf(true));
+        if(vobj.getSummary().getDeadlineDatetime() != null) {
             vobj.setDeadLineDateTimeHidden(Datetimes.formatDatetimeWithoutSecond(vobj.getSummary().getDeadlineDatetime()));
         }
 
         LOG.info("vobj.processId=" + vobj.getProcessId());
         modelAndView.addObject("vobj", vobj);
-        trackValue = this.customizeManager.getCustomizeValue(user.getId(), "track_send");
-        if (Strings.isBlank(trackValue)) {
+        trackValue = this.customizeManager.getCustomizeValue(user.getId().longValue(), "track_send");
+        if(Strings.isBlank(trackValue)) {
             modelAndView.addObject("customSetTrack", "true");
         } else {
             modelAndView.addObject("customSetTrack", trackValue);
         }
 
         String officeOcxUploadMaxSize = SystemProperties.getInstance().getProperty("officeFile.maxSize");
-        modelAndView.addObject("officeOcxUploadMaxSize", Strings.isBlank(officeOcxUploadMaxSize) ? "8192" : officeOcxUploadMaxSize);
-        modelAndView.addObject("canEditColPigeonhole", canEditColPigeonhole);
+        modelAndView.addObject("officeOcxUploadMaxSize", Strings.isBlank(officeOcxUploadMaxSize)?"8192":officeOcxUploadMaxSize);
+        modelAndView.addObject("canEditColPigeonhole", Boolean.valueOf(canEditColPigeonhole));
         NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(user.getLoginAccount());
         modelAndView.addObject("newColNodePolicy", Strings.escapeJson(JSONUtil.toJSONString(newColNodePolicy)));
         modelAndView.addObject("newColNodePolicyVO", newColNodePolicy);
         String recentPeoplesStr = this.orgIndexManager.getRecentDataStr(user.getId(), (String)null);
         List<WebEntity4QuickIndex> list = (List)JSONUtil.parseJSONString(recentPeoplesStr, List.class);
         modelAndView.addObject("recentPeoples", list);
-        modelAndView.addObject("recentPeoplesLength", list.size());
+        modelAndView.addObject("recentPeoplesLength", Integer.valueOf(list.size()));
         PermissionVO permission = this.permissionManager.getDefaultPermissionByConfigCategory(EnumNameEnum.col_flow_perm_policy.name(), user.getLoginAccount());
         modelAndView.addObject("defaultNodeName", permission.getName());
         modelAndView.addObject("defaultNodeLable", permission.getLabel());
         Map<String, Object> jval = new HashMap();
-        jval.put("hasProjectPlugin", AppContext.hasPlugin("project"));
-        jval.put("hasDocPlugin", AppContext.hasPlugin("doc") && newColNodePolicy.isPigeonhole());
+        jval.put("hasProjectPlugin", Boolean.valueOf(AppContext.hasPlugin("project")));
+        jval.put("hasDocPlugin", Boolean.valueOf(AppContext.hasPlugin("doc") && newColNodePolicy.isPigeonhole()));
         modelAndView.addObject("jval", Strings.escapeJson(JSONUtil.toJSONString(jval)));
         List<CtpEnumItem> commonImportances = this.enumManagerNew.getEnumItems(EnumNameEnum.common_importance);
         List<CtpEnumItem> collaborationDeadlines = this.enumManagerNew.getEnumItems(EnumNameEnum.collaboration_deadline);
@@ -666,32 +674,46 @@ public class CollaborationController extends BaseController {
         modelAndView.addObject("comImportanceMetadata", commonImportances);
         modelAndView.addObject("collaborationDeadlines", collaborationDeadlines);
         modelAndView.addObject("commonRemindTimes", commonRemindTimes);
+        Map<Long, List<String>> logDescMap = new HashMap();
+        String jsonString = JSONUtil.toJSONString(logDescMap);
+        modelAndView.addObject("logDescMap", jsonString);
+        Boolean canPraise = Boolean.valueOf(true);
+        Boolean isFormTemplete = Boolean.valueOf(false);
+        if(template != null) {
+            canPraise = template.getCanPraise();
+            if(String.valueOf(MainbodyType.FORM.getKey()).equals(template.getBodyType())) {
+                isFormTemplete = Boolean.valueOf(true);
+            }
+        }
+
+        modelAndView.addObject("isFormTemplete", isFormTemplete);
+        modelAndView.addObject("canPraise", canPraise);
         return modelAndView;
     }
 
     private void initNewCollTranVO(NewCollTranVO vobj, ColSummary summary, ModelAndView modelAndView, User user, HttpServletRequest request) throws BusinessException {
         String cashId = request.getParameter("cashId");
         Object object = V3xShareMap.get(cashId);
-        if (object != null) {
+        if(object != null) {
             Map<String, String> map = (Map)object;
-            String subject = map.get("subject") == null ? "" : (String)map.get("subject");
-            String manual = map.get("manual") == null ? "" : (String)map.get("manual");
-            String handlerName = map.get("handlerName") == null ? "" : (String)map.get("handlerName");
-            String sourceId = map.get("sourceId") == null ? "" : (String)map.get("sourceId");
-            String extendInfo = map.get("ext") == null ? "" : (String)map.get("ext");
-            String bodyTypes = map.get("bodyType") == null ? "" : (String)map.get("bodyType");
-            String bodyContent = map.get("bodyContent") == null ? "" : (String)map.get("bodyContent");
-            String personId = map.get("personId") == null ? "" : (String)map.get("personId");
-            String from = map.get("from") == null ? "" : (String)map.get("from");
+            String subject = map.get("subject") == null?"":(String)map.get("subject");
+            String manual = map.get("manual") == null?"":(String)map.get("manual");
+            String handlerName = map.get("handlerName") == null?"":(String)map.get("handlerName");
+            String sourceId = map.get("sourceId") == null?"":(String)map.get("sourceId");
+            String extendInfo = map.get("ext") == null?"":(String)map.get("ext");
+            String bodyTypes = map.get("bodyType") == null?"":(String)map.get("bodyType");
+            String bodyContent = map.get("bodyContent") == null?"":(String)map.get("bodyContent");
+            String personId = map.get("personId") == null?"":(String)map.get("personId");
+            String from = map.get("from") == null?"":(String)map.get("from");
             summary.setSubject(subject);
             NewCollDataHandler handler = NewCollDataHelper.getHandler(handlerName);
             Map<String, Object> params = null;
-            if (handler != null) {
+            if(handler != null) {
                 params = handler.getParams(sourceId, extendInfo);
             }
 
-            if ("true".equalsIgnoreCase(manual) && handler != null) {
-                if (Strings.isBlank(subject)) {
+            if("true".equalsIgnoreCase(manual) && handler != null) {
+                if(Strings.isBlank(subject)) {
                     summary.setSubject(handler.getSubject(params));
                 }
 
@@ -700,26 +722,26 @@ public class CollaborationController extends BaseController {
             }
 
             int bodyType = MainbodyType.HTML.getKey();
-            if (Strings.isNotBlank(bodyTypes)) {
+            if(Strings.isNotBlank(bodyTypes)) {
                 bodyType = Integer.parseInt(bodyTypes);
             }
 
-            if (MainbodyType.HTML.getKey() != bodyType && MainbodyType.FORM.getKey() != bodyType) {
-                modelAndView.addObject("zwContentType", bodyType);
+            if(MainbodyType.HTML.getKey() != bodyType && MainbodyType.FORM.getKey() != bodyType) {
+                modelAndView.addObject("zwContentType", Integer.valueOf(bodyType));
                 modelAndView.addObject("transOfficeId", bodyContent);
             } else {
                 StringBuilder buf = new StringBuilder();
-                buf.append(bodyContent == null ? "" : Strings.toHTML(bodyContent.replace("\t", "").replace("\n", ""), false));
+                buf.append(bodyContent == null?"":Strings.toHTML(bodyContent.replace("\t", "").replace("\n", ""), false));
                 bodyContent = buf.toString();
             }
 
             summary.setBodyType(String.valueOf(bodyType));
             modelAndView.addObject("contentTextData", bodyContent);
             modelAndView.addObject("transtoColl", "true");
-            if (handler != null) {
+            if(handler != null) {
                 List<Attachment> atts = handler.getAttachments(params);
                 vobj.setAtts(atts);
-                if (Strings.isNotEmpty(atts)) {
+                if(Strings.isNotEmpty(atts)) {
                     String attListJSON = this.attachmentManager.getAttListJSON(atts);
                     vobj.setAttListJSON(attListJSON);
                 }
@@ -733,7 +755,7 @@ public class CollaborationController extends BaseController {
     }
 
     private void setWorkFlowMember(String memberId, User user, ModelAndView modelAndView) throws BusinessException {
-        if (Strings.isNotBlank(memberId)) {
+        if(Strings.isNotBlank(memberId)) {
             V3xOrgMember sender = this.orgManager.getMemberById(Long.valueOf(memberId));
             V3xOrgAccount account = this.orgManager.getAccountById(sender.getOrgAccountId());
             modelAndView.addObject("accountObj", account);
@@ -746,24 +768,24 @@ public class CollaborationController extends BaseController {
     private ContentViewRet setWorkflowParam(Long moduleId, ModuleType moduleType) {
         ContentViewRet context = new ContentViewRet();
         context.setModuleId(moduleId);
-        context.setModuleType(moduleType.getKey());
+        context.setModuleType(Integer.valueOf(moduleType.getKey()));
         context.setCommentMaxPath("00");
         return context;
     }
 
     private void getTrackInfo(ModelAndView modelAndView, NewCollTranVO vobj, String smmaryId) throws BusinessException {
         CtpAffair affairSent = this.affairManager.getSenderAffair(Long.valueOf(smmaryId));
-        if ("waitSend".equals(vobj.getFrom()) && Strings.isNotBlank(vobj.getAffairId()) && !"null".equals(vobj.getAffairId())) {
+        if("waitSend".equals(vobj.getFrom()) && Strings.isNotBlank(vobj.getAffairId()) && !"null".equals(vobj.getAffairId())) {
             affairSent = this.affairManager.get(Long.valueOf(vobj.getAffairId()));
         }
 
-        if (affairSent != null) {
-            Integer trackType = affairSent.getTrack();
+        if(affairSent != null) {
+            Integer trackType = Integer.valueOf(affairSent.getTrack().intValue());
             modelAndView.addObject("trackType", trackType);
             List<CtpTrackMember> tList = this.trackManager.getTrackMembers(affairSent.getId());
             StringBuilder trackNames = new StringBuilder();
             StringBuilder trackIds = new StringBuilder();
-            if (tList.size() > 0) {
+            if(tList.size() > 0) {
                 Iterator var9 = tList.iterator();
 
                 while(var9.hasNext()) {
@@ -772,7 +794,7 @@ public class CollaborationController extends BaseController {
                     trackIds.append(ctpT.getTrackMemberId() + ",");
                 }
 
-                if (trackNames.length() > 0) {
+                if(trackNames.length() > 0) {
                     vobj.setForGZShow(trackNames.substring(0, trackNames.length() - 1));
                     modelAndView.addObject("forGZIds", trackIds.substring(0, trackIds.length() - 1));
                 }
@@ -787,12 +809,12 @@ public class CollaborationController extends BaseController {
         String isBorrow = request.getParameter("isBorrow");
         String vForDocDownload = request.getParameter("v");
         PrintWriter out;
-        if (!Strings.isBlank(userId) && userId.equals(String.valueOf(AppContext.currentUserId()))) {
-
+        if(!Strings.isBlank(userId) && userId.equals(String.valueOf(AppContext.currentUserId()))) {
+            out = null;
             String context = SystemEnvironment.getContextPath();
             V3XFile vf = this.fileManager.getV3XFile(Long.valueOf(docId));
             String result = "0#" + context + "/fileDownload.do?method=doDownload&viewMode=download&fileId=" + vf.getId() + "&filename=" + URLEncoder.encode(vf.getFilename(), "UTF-8") + "&createDate=" + Datetimes.formatDate(vf.getCreateDate()) + "&v=" + vForDocDownload;
-            out = response.getWriter();
+             out = response.getWriter();
             out.print(result);
             out.close();
             return null;
@@ -824,7 +846,7 @@ public class CollaborationController extends BaseController {
         info.setDR((String)para.get("DR"));
         ColSummary summary = (ColSummary)ParamUtil.mapToBean(para, new ColSummary(), false);
         String selectProjectId = ParamUtil.getString(para, "selectProjectId", "-1");
-        if ("-1".equals(selectProjectId)) {
+        if("-1".equals(selectProjectId)) {
             summary.setProjectId((Long)null);
         } else {
             summary.setProjectId(Long.valueOf(selectProjectId));
@@ -834,45 +856,45 @@ public class CollaborationController extends BaseController {
         Comment comment = (Comment)ParamUtil.mapToBean(para1, new Comment(), false);
         boolean saveProcessFlag = true;
         CtpTemplate ct = null;
-        if (Strings.isNotBlank((String)para.get("tId"))) {
+        if(Strings.isNotBlank((String)para.get("tId"))) {
             Long templateIdLong = Long.valueOf((String)para.get("tId"));
             info.settId(templateIdLong);
             ct = this.templateManager.getCtpTemplate(templateIdLong);
-            if (!"text".equals(ct.getType())) {
+            if(!"text".equals(ct.getType())) {
                 saveProcessFlag = false;
             }
         }
 
-        if (Strings.isNotBlank((String)para.get("curTemId"))) {
+        if(Strings.isNotBlank((String)para.get("curTemId"))) {
             info.setCurTemId(Long.valueOf((String)para.get("curTemId")));
         }
 
         String subjectForCopy = (String)para.get("subjectForCopy");
         info.setSubjectForCopy(subjectForCopy);
         String isNewBusiness = (String)para.get("newBusiness");
-        info.setNewBusiness("1".equals(isNewBusiness));
+        info.setNewBusiness(Boolean.valueOf("1".equals(isNewBusiness)));
         info.setSummary(summary);
         info.setCurrentUser(user);
         Object canTrack = para.get("canTrack");
         int track = 0;
-        if (null != canTrack) {
+        if(null != canTrack) {
             track = 1;
-            if (null != para.get("radiopart")) {
+            if(null != para.get("radiopart")) {
                 track = 2;
             }
 
-            info.getSummary().setCanTrack(true);
+            info.getSummary().setCanTrack(Boolean.valueOf(true));
         } else {
-            info.getSummary().setCanTrack(false);
+            info.getSummary().setCanTrack(Boolean.valueOf(false));
         }
 
         info.setTrackType(track);
         String newSubject = "";
-        if (ct != null && "template".equals(ct.getType())) {
+        if(ct != null && "template".equals(ct.getType())) {
             ColSummary summary1 = (ColSummary)XMLCoder.decoder(ct.getSummary());
-            if (summary1 != null && Boolean.TRUE.equals(summary1.getUpdateSubject())) {
+            if(summary1 != null && Boolean.TRUE.equals(summary1.getUpdateSubject())) {
                 newSubject = ColUtil.makeSubject(ct, summary, user);
-                if (Strings.isBlank(newSubject)) {
+                if(Strings.isBlank(newSubject)) {
                     newSubject = "{" + ResourceUtil.getString("collaboration.subject.default") + "}";
                 }
 
@@ -888,7 +910,7 @@ public class CollaborationController extends BaseController {
 
         try {
             String retJs = "parent.endSaveDraft('" + map.get("summaryId").toString() + "','" + map.get("contentId").toString() + "','" + map.get("affairId").toString() + "')";
-            if (Strings.isNotBlank(newSubject)) {
+            if(Strings.isNotBlank(newSubject)) {
                 retJs = "parent.endSaveDraft('" + map.get("summaryId").toString() + "','" + map.get("contentId").toString() + "','" + map.get("affairId").toString() + "','" + newSubject + "')";
             }
 
@@ -901,78 +923,78 @@ public class CollaborationController extends BaseController {
     }
 
     public ModelAndView send(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (!this.checkHttpParamValid(request, response)) {
+        if(!this.checkHttpParamValid(request, response)) {
             return null;
         } else {
             Map para = ParamUtil.getJsonDomain("colMainData");
             ColSummary summary = (ColSummary)ParamUtil.mapToBean(para, new ColSummary(), false);
             String clientDeadTime = (String)para.get("deadLineDateTime");
-            if (Strings.isNotBlank(clientDeadTime)) {
+            if(Strings.isNotBlank(clientDeadTime)) {
                 Date serviceDeadTime = Datetimes.parse(clientDeadTime);
                 summary.setDeadlineDatetime(serviceDeadTime);
             }
 
             summary.setSubject(Strings.nobreakSpaceToSpace(summary.getSubject()));
             String dls = (String)para.get("deadLineselect");
-            if (Strings.isNotBlank(dls)) {
+            if(Strings.isNotBlank(dls)) {
                 summary.setDeadline(Long.valueOf(dls));
             }
 
             ColInfo info = new ColInfo();
             info.setDR((String)para.get("DR"));
-            if (para.get("canAutostopflow") == null) {
-                summary.setCanAutostopflow(false);
+            if(para.get("canAutostopflow") == null) {
+                summary.setCanAutostopflow(Boolean.valueOf(false));
             }
 
-            if (null != para.get("phaseId") && Strings.isNotBlank((String)para.get("phaseId"))) {
+            if(null != para.get("phaseId") && Strings.isNotBlank((String)para.get("phaseId"))) {
                 info.setPhaseId((String)para.get("phaseId"));
             }
 
-            if (Strings.isNotBlank((String)para.get("tId"))) {
+            if(Strings.isNotBlank((String)para.get("tId"))) {
                 info.settId(Long.valueOf((String)para.get("tId")));
             }
 
-            if (Strings.isNotBlank((String)para.get("curTemId"))) {
+            if(Strings.isNotBlank((String)para.get("curTemId"))) {
                 info.setCurTemId(Long.valueOf((String)para.get("curTemId")));
             }
 
-            if (Strings.isNotBlank((String)para.get("parentSummaryId"))) {
+            if(Strings.isNotBlank((String)para.get("parentSummaryId"))) {
                 summary.setParentformSummaryid(Long.valueOf((String)para.get("parentSummaryId")));
             }
 
-            if (!String.valueOf(MainbodyType.FORM.getKey()).equals(summary.getBodyType())) {
+            if(!String.valueOf(MainbodyType.FORM.getKey()).equals(summary.getBodyType())) {
                 summary.setFormRecordid((Long)null);
                 summary.setFormAppid((Long)null);
             }
 
             String isNewBusiness = (String)para.get("newBusiness");
-            info.setNewBusiness("1".equals(isNewBusiness));
+            info.setNewBusiness(Boolean.valueOf("1".equals(isNewBusiness)));
             info.setSummary(summary);
             SendType sendType = SendType.normal;
             User user = AppContext.getCurrentUser();
             info.setCurrentUser(user);
             Object canTrack = para.get("canTrack");
             int track = 0;
-            if (null != canTrack) {
+            if(null != canTrack) {
                 track = 1;
-                if (null != para.get("radiopart")) {
+                if(null != para.get("radiopart")) {
                     track = 2;
                 }
 
-                info.getSummary().setCanTrack(true);
+                info.getSummary().setCanTrack(Boolean.valueOf(true));
             } else {
-                info.getSummary().setCanTrack(false);
+                info.getSummary().setCanTrack(Boolean.valueOf(false));
             }
 
             info.setTrackType(track);
             info.setTrackMemberId((String)para.get("zdgzry"));
             String caseId = (String)para.get("caseId");
-            info.setCaseId(StringUtil.checkNull(caseId) ? null : Long.parseLong(caseId));
+            info.setCaseId(StringUtil.checkNull(caseId)?null:Long.valueOf(Long.parseLong(caseId)));
             String currentaffairId = (String)para.get("currentaffairId");
-            info.setCurrentAffairId(StringUtil.checkNull(currentaffairId) ? null : Long.parseLong(currentaffairId));
+            info.setCurrentAffairId(StringUtil.checkNull(currentaffairId)?null:Long.valueOf(Long.parseLong(currentaffairId)));
             String currentProcessId = (String)para.get("oldProcessId");
             LOG.info("老协同的currentProcessId=" + currentProcessId);
-            info.setCurrentProcessId(StringUtil.checkNull(currentProcessId) ? null : Long.parseLong(currentProcessId));
+            info.setCurrentProcessId(StringUtil.checkNull(currentProcessId)?null:Long.valueOf(Long.parseLong(currentProcessId)));
             info.setTemplateHasPigeonholePath(String.valueOf(Boolean.TRUE).equals(para.get("isTemplateHasPigeonholePath")));
             String formOperationId = (String)para.get("formOperationId");
             info.setFormOperationId(formOperationId);
@@ -984,9 +1006,9 @@ public class CollaborationController extends BaseController {
                 ;
             }
 
-            if (bodyType > 40 && bodyType < 46) {
+            if(bodyType > 40 && bodyType < 46) {
                 List<CtpContentAll> contents = this.ctpMainbodyManager.getContentListByModuleIdAndModuleType(ModuleType.collaboration, summary.getId());
-                if (Strings.isEmpty(contents)) {
+                if(Strings.isEmpty(contents)) {
                     ColUtil.webAlertAndClose(response, "正文保存失败，请重新新建后发送!");
                     return null;
                 }
@@ -999,10 +1021,10 @@ public class CollaborationController extends BaseController {
                 CtpAffair sendAffair;
                 try {
                     isLock = this.colLockManager.canGetLock(summary.getId());
-                    if (isLock) {
+                    if(isLock) {
                         sendAffair = this.affairManager.getSenderAffair(summary.getId());
-                        if (sendAffair != null && StateEnum.col_waitSend.getKey() != sendAffair.getState()) {
-
+                        if(sendAffair != null && StateEnum.col_waitSend.getKey() != sendAffair.getState().intValue()) {
+                            lshsb = null;
                             return null;
                         }
 
@@ -1014,7 +1036,7 @@ public class CollaborationController extends BaseController {
                     LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作-send,affairId" + summary.getId());
                     sendAffair = null;
                 } finally {
-                    if (isLock) {
+                    if(isLock) {
                         this.colLockManager.unlock(summary.getId());
                     }
 
@@ -1023,14 +1045,14 @@ public class CollaborationController extends BaseController {
                 return null;
             }
 
-            if ("a8genius".equals(request.getParameter("from"))) {
+            if("a8genius".equals(request.getParameter("from"))) {
                 super.rendJavaScript(response, "try{parent.parent.parent.closeWindow();}catch(e){window.close()}");
                 return null;
             } else {
                 Map<String, Object> lshmap = (Map)request.getAttribute("lshMap");
                 lshsb = new StringBuilder();
-                if (null == lshmap) {
-                    if ("true".equals(para.get("isOpenWindow"))) {
+                if(null == lshmap) {
+                    if("true".equals(para.get("isOpenWindow"))) {
                         super.rendJavaScript(response, "window.close();");
                         return null;
                     } else {
@@ -1063,32 +1085,32 @@ public class CollaborationController extends BaseController {
     public ModelAndView sendImmediate(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, String> wfdef = ParamUtil.getJsonDomain("workflow_definition");
         String workflowDataFlag = (String)wfdef.get("workflow_data_flag");
-        if (Strings.isBlank(workflowDataFlag) || "undefined".equals(workflowDataFlag.trim()) || "null".equals(workflowDataFlag.trim())) {
+        if(Strings.isBlank(workflowDataFlag) || "undefined".equals(workflowDataFlag.trim()) || "null".equals(workflowDataFlag.trim())) {
             LOG.info("来自立即发送sendImmediate");
         }
 
         Map params = ParamUtil.getJsonParams();
         String summaryIds = (String)params.get("summaryId");
         String affairIds = (String)params.get("affairId");
-        if (summaryIds != null && affairIds != null) {
+        if(summaryIds != null && affairIds != null) {
             boolean sentFlag = false;
             String workflowNodePeoplesInput = "";
             String workflowNodeConditionInput = "";
             String workflowNewflowInput = "";
             String toReGo = "";
-            if (null != params.get("workflow_node_peoples_input")) {
+            if(null != params.get("workflow_node_peoples_input")) {
                 workflowNodePeoplesInput = (String)params.get("workflow_node_peoples_input");
             }
 
-            if (null != params.get("workflow_node_condition_input")) {
+            if(null != params.get("workflow_node_condition_input")) {
                 workflowNodeConditionInput = (String)params.get("workflow_node_condition_input");
             }
 
-            if (null != params.get("workflow_newflow_input")) {
+            if(null != params.get("workflow_newflow_input")) {
                 workflowNewflowInput = (String)params.get("workflow_newflow_input");
             }
 
-            if (null != params.get("toReGo")) {
+            if(null != params.get("toReGo")) {
                 toReGo = (String)params.get("toReGo");
             }
 
@@ -1097,16 +1119,19 @@ public class CollaborationController extends BaseController {
 
             try {
                 summary = this.colManager.getColSummaryById(Long.valueOf(summaryIds));
-                if (null != summary) {
-                    bodyType = Integer.parseInt(summary.getBodyType());
+                if(null == summary) {
+                    LOG.info("协同已经被删除，不能发送该协同！");
+                    return this.redirectModelAndView("collaboration.do?method=listWaitSend");
                 }
+
+                bodyType = Integer.parseInt(summary.getBodyType());
             } catch (Exception var21) {
                 ;
             }
 
-            if (bodyType > 40 && bodyType < 46 && summary != null) {
+            if(bodyType > 40 && bodyType < 46 && summary != null) {
                 List<CtpContentAll> contents = this.ctpMainbodyManager.getContentListByModuleIdAndModuleType(ModuleType.collaboration, summary.getId());
-                if (Strings.isEmpty(contents)) {
+                if(Strings.isEmpty(contents)) {
                     this.logger.info("正文不存在不能立即 发送，请重新编辑后发送!");
                     return this.redirectModelAndView("collaboration.do?method=listSent");
                 }
@@ -1114,31 +1139,30 @@ public class CollaborationController extends BaseController {
 
             boolean isLock = false;
 
-            Object var17;
             try {
                 isLock = this.colLockManager.canGetLock(summary.getId());
                 CtpAffair sendAffair;
-                if (!isLock) {
+                if(!isLock) {
                     LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作sendImmediate,affairId" + summary.getId());
-
+                   // sendAffair = null;
                     return null;
                 }
 
                 sendAffair = this.affairManager.getSenderAffair(summary.getId());
-                if (sendAffair != null && StateEnum.col_waitSend.getKey() == sendAffair.getState()) {
-                    this.colManager.transSendImmediate(summaryIds, sendAffair, sentFlag, workflowNodePeoplesInput, workflowNodeConditionInput, workflowNewflowInput, toReGo);
-                    return this.redirectModelAndView("collaboration.do?method=listSent");
+                if(sendAffair == null || StateEnum.col_waitSend.getKey() != sendAffair.getState().intValue()) {
+                    ModelAndView var17 = this.redirectModelAndView("collaboration.do?method=listWaitSend");
+                    return var17;
                 }
 
-                var17 = null;
+                this.colManager.transSendImmediate(summaryIds, sendAffair, sentFlag, workflowNodePeoplesInput, workflowNodeConditionInput, workflowNewflowInput, toReGo);
             } finally {
-                if (isLock) {
+                if(isLock) {
                     this.colLockManager.unlock(summary.getId());
                 }
 
             }
 
-            return (ModelAndView)var17;
+            return this.redirectModelAndView("collaboration.do?method=listSent");
         } else {
             return null;
         }
@@ -1149,12 +1173,12 @@ public class CollaborationController extends BaseController {
         FlipInfo fi = new FlipInfo();
         Map<String, String> param = this.getWebQueryCondition(fi, request);
         request.setAttribute("fflistSent", this.colManager.getSentList(fi, param));
-        NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(AppContext.currentAccountId());
+        NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(Long.valueOf(AppContext.currentAccountId()));
         boolean isHaveNewColl = MenuPurviewUtil.isHaveNewColl(AppContext.getCurrentUser());
         modelAndView.addObject("newColNodePolicy", Strings.escapeJson(JSONUtil.toJSONString(newColNodePolicy)));
-        modelAndView.addObject("isHaveNewColl", isHaveNewColl);
+        modelAndView.addObject("isHaveNewColl", Boolean.valueOf(isHaveNewColl));
         modelAndView.addObject("paramMap", param);
-        modelAndView.addObject("hasDumpData", DumpDataVO.isHasDumpData());
+        modelAndView.addObject("hasDumpData", Boolean.valueOf(DumpDataVO.isHasDumpData()));
         return modelAndView;
     }
 
@@ -1162,7 +1186,7 @@ public class CollaborationController extends BaseController {
         ModelAndView modelAndView = new ModelAndView("apps/collaboration/list4Quote");
         FlipInfo fi = new FlipInfo();
         this.getWebQueryCondition(fi, request);
-        modelAndView.addObject("hasDumpData", DumpDataVO.isHasDumpData());
+        modelAndView.addObject("hasDumpData", Boolean.valueOf(DumpDataVO.isHasDumpData()));
         return modelAndView;
     }
 
@@ -1170,7 +1194,7 @@ public class CollaborationController extends BaseController {
         String condition = request.getParameter("condition");
         String textfield = request.getParameter("textfield");
         Map<String, String> query = new HashMap();
-        if (Strings.isNotBlank(condition) && Strings.isNotBlank(textfield)) {
+        if(Strings.isNotBlank(condition) && Strings.isNotBlank(textfield)) {
             query.put(condition, textfield);
             fi.setParams(query);
         }
@@ -1184,7 +1208,7 @@ public class CollaborationController extends BaseController {
         Map<String, String> param = this.getWebQueryCondition(fi, request);
         request.setAttribute("fflistDone", this.colManager.getDoneList(fi, param));
         modelAndView.addObject("paramMap", param);
-        modelAndView.addObject("hasDumpData", DumpDataVO.isHasDumpData());
+        modelAndView.addObject("hasDumpData", Boolean.valueOf(DumpDataVO.isHasDumpData()));
         return modelAndView;
     }
 
@@ -1202,20 +1226,18 @@ public class CollaborationController extends BaseController {
         FlipInfo fi = new FlipInfo();
         Map<String, String> param = this.getWebQueryCondition(fi, request);
         request.setAttribute("fflistWaitSend", this.colManager.getWaitSendList(fi, param));
-        NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(AppContext.currentAccountId());
+        NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(Long.valueOf(AppContext.currentAccountId()));
         modelAndView.addObject("newColNodePolicy", Strings.escapeJson(JSONUtil.toJSONString(newColNodePolicy)));
         modelAndView.addObject("paramMap", param);
         return modelAndView;
     }
 
     public ModelAndView summary(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String affairId = request.getParameter("affairId");
-        affairManager.getAffairs(0L,StateEnum.col_pending);
         response.setContentType("text/html;charset=UTF-8");
         ModelAndView mav = new ModelAndView("apps/collaboration/summary");
         ColSummaryVO summaryVO = new ColSummaryVO();
         User user = AppContext.getCurrentUser();
-
+        String affairId = request.getParameter("affairId");
         String summaryId = request.getParameter("summaryId");
         String processId = request.getParameter("processId");
         String operationId = request.getParameter("operationId");
@@ -1229,31 +1251,31 @@ public class CollaborationController extends BaseController {
         String dumpData = request.getParameter("dumpData");
         boolean isHistoryFlag = "1".equals(dumpData);
         summaryVO.setHistoryFlag(isHistoryFlag);
-        if ((!Strings.isNotBlank(affairId) || NumberUtils.isNumber(affairId)) && (!Strings.isNotBlank(summaryId) || NumberUtils.isNumber(summaryId)) && (!Strings.isNotBlank(processId) || NumberUtils.isNumber(processId))) {
-            if (Strings.isBlank(affairId) && Strings.isBlank(summaryId) && Strings.isBlank(processId)) {
+        if((!Strings.isNotBlank(affairId) || NumberUtils.isNumber(affairId)) && (!Strings.isNotBlank(summaryId) || NumberUtils.isNumber(summaryId)) && (!Strings.isNotBlank(processId) || NumberUtils.isNumber(processId))) {
+            if(Strings.isBlank(affairId) && Strings.isBlank(summaryId) && Strings.isBlank(processId)) {
                 ColUtil.webAlertAndClose(response, "无法访问该协同，请求参数中必须有affairId,summaryId,processId 三个参数中的一个！");
                 LOG.info("无法访问该协同，请求参数中必须有affairId,summaryId,processId 三个参数中的一个！");
                 return null;
             } else {
                 summaryVO.setProcessId(processId);
                 summaryVO.setSummaryId(summaryId);
-                if (ColOpenFrom.subFlow.name().equals(openFrom)) {
+                if(ColOpenFrom.subFlow.name().equals(openFrom)) {
                     summaryVO.setOperationId(formMutilOprationIds);
                 } else {
                     summaryVO.setOperationId(operationId);
                 }
 
-                summaryVO.setAffairId(Strings.isBlank(affairId) ? null : Long.parseLong(affairId));
+                summaryVO.setAffairId(Strings.isBlank(affairId)?null:Long.valueOf(Long.parseLong(affairId)));
                 summaryVO.setOpenFrom(openFrom);
                 summaryVO.setType(type);
                 summaryVO.setCurrentUser(user);
                 summaryVO.setLenPotent(request.getParameter("lenPotent"));
                 boolean isBlank = Strings.isBlank(pigeonholeType) || "null".equals(pigeonholeType) || "undefined".equals(pigeonholeType);
-                summaryVO.setPigeonholeType(isBlank ? PigeonholeType.edoc_dept.ordinal() : Integer.valueOf(pigeonholeType));
+                summaryVO.setPigeonholeType(Integer.valueOf(isBlank?PigeonholeType.edoc_dept.ordinal():Integer.valueOf(pigeonholeType).intValue()));
 
                 try {
                     summaryVO = this.colManager.transShowSummary(summaryVO);
-                    if (summaryVO == null) {
+                    if(summaryVO == null) {
                         return null;
                     }
                 } catch (Exception var22) {
@@ -1262,7 +1284,7 @@ public class CollaborationController extends BaseController {
                     return null;
                 }
 
-                if (Strings.isNotBlank(summaryVO.getErrorMsg())) {
+                if(Strings.isNotBlank(summaryVO.getErrorMsg())) {
                     ColUtil.webAlertAndClose(response, summaryVO.getErrorMsg());
                     return null;
                 } else {
@@ -1272,24 +1294,24 @@ public class CollaborationController extends BaseController {
                     mav.addObject("summaryVO", summaryVO);
                     mav.addObject("currentUserName", Strings.toHTML(AppContext.currentUserName()));
                     String messsageAnchor = "";
-                    if (Strings.isNotBlank(contentAnchor)) {
+                    if(Strings.isNotBlank(contentAnchor)) {
                         messsageAnchor = contentAnchor;
                     }
 
                     int superNodestatus = 0;
-                    if (null != summaryVO.getActivityId() && summaryVO.getProcessId() != null) {
+                    if(null != summaryVO.getActivityId() && summaryVO.getProcessId() != null) {
                         superNodestatus = this.wapi.getSuperNodeStatus(summaryVO.getProcessId(), String.valueOf(summaryVO.getActivityId()));
                     }
 
                     mav.addObject("moduleId", summaryVO.getSummary().getId());
-                    mav.addObject("moduleType", ModuleType.collaboration.getKey());
+                    mav.addObject("moduleType", Integer.valueOf(ModuleType.collaboration.getKey()));
                     mav.addObject("MainbodyType", summaryVO.getAffair().getBodyType());
-                    mav.addObject("superNodestatus", superNodestatus);
+                    mav.addObject("superNodestatus", Integer.valueOf(superNodestatus));
                     mav.addObject("contentAnchor", messsageAnchor);
                     mav.addObject("nodeDesc", Strings.toHTML((String)request.getAttribute("nodeDesc")));
                     mav.addObject("signetProtectInput", request.getAttribute("signetProtectInput"));
                     boolean canCreateMeeting = user.hasResourceCode("F09_meetingArrange");
-                    mav.addObject("canCreateMeeting", canCreateMeeting);
+                    mav.addObject("canCreateMeeting", Boolean.valueOf(canCreateMeeting));
                     return mav;
                 }
             }
@@ -1303,9 +1325,9 @@ public class CollaborationController extends BaseController {
         ModelAndView mav = new ModelAndView("apps/collaboration/repealDialog");
         String affairId = request.getParameter("affairId");
         String objectId = request.getParameter("objectId");
-        if (Strings.isNotBlank(affairId)) {
+        if(Strings.isNotBlank(affairId)) {
             CtpAffair ctpAffair = this.affairManager.get(Long.valueOf(affairId));
-            if (null != ctpAffair && null != ctpAffair.getTempleteId()) {
+            if(null != ctpAffair && null != ctpAffair.getTempleteId()) {
                 CtpTemplate ctpTemplate = this.templateManager.getCtpTemplate(ctpAffair.getTempleteId());
                 mav.addObject("template", ctpTemplate.getCanTrackWorkflow());
             }
@@ -1320,7 +1342,7 @@ public class CollaborationController extends BaseController {
         response.setContentType("text/html;charset=UTF-8");
         Map<String, String> wfdef = ParamUtil.getJsonDomain("workflow_definition");
         String workflowDataFlag = (String)wfdef.get("workflow_data_flag");
-        if (!Strings.isBlank(workflowDataFlag) && !"undefined".equals(workflowDataFlag.trim()) && !"null".equals(workflowDataFlag.trim())) {
+        if(!Strings.isBlank(workflowDataFlag) && !"undefined".equals(workflowDataFlag.trim()) && !"null".equals(workflowDataFlag.trim())) {
             return true;
         } else {
             PrintWriter out = null;
@@ -1337,7 +1359,7 @@ public class CollaborationController extends BaseController {
 
             Enumeration es = request.getHeaderNames();
             StringBuilder stringBuilder = new StringBuilder();
-            if (es != null) {
+            if(es != null) {
                 while(es.hasMoreElements()) {
                     Object name = es.nextElement();
                     String header = request.getHeader(name.toString());
@@ -1354,39 +1376,39 @@ public class CollaborationController extends BaseController {
     public ModelAndView finishWorkItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
         String viewAffairId = request.getParameter("affairId");
-        Long affairId = Strings.isBlank(viewAffairId) ? 0L : Long.parseLong(viewAffairId);
+        Long affairId = Long.valueOf(Strings.isBlank(viewAffairId)?0L:Long.parseLong(viewAffairId));
         User user = AppContext.getCurrentUser();
         ColSummary summary = null;
         boolean isLock = false;
         CtpAffair affair = null;
         affair = this.affairManager.get(affairId);
-        if (affair != null) {
+        if(affair != null) {
             summary = this.colManager.getSummaryById(affair.getObjectId());
         }
 
         String msg;
         try {
-            if (this.checkHttpParamValid(request, response)) {
+            if(this.checkHttpParamValid(request, response)) {
                 isLock = this.colLockManager.canGetLock(affairId);
-                if (!isLock) {
+                if(!isLock) {
                     LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作finishWorkItem,affairId" + affairId);
-
+                    msg = null;
                     return null;
                 }
 
                 HashMap params;
-                if (affair == null || affair.getState() != StateEnum.col_pending.key()) {
+                if(affair == null || affair.getState().intValue() != StateEnum.col_pending.key()) {
                     msg = ColUtil.getErrorMsgByAffair(affair);
-                    if (Strings.isNotBlank(msg)) {
+                    if(Strings.isNotBlank(msg)) {
                         ColUtil.webAlertAndClose(response, msg);
-
+                        params = null;
                         return null;
                     }
                 }
 
                 boolean canDeal = ColUtil.checkAgent(affair, summary, true);
-                if (!canDeal) {
-
+                if(!canDeal) {
+                    params = null;
                     return null;
                 }
 
@@ -1402,11 +1424,11 @@ public class CollaborationController extends BaseController {
 
             msg = null;
         } finally {
-            if (isLock) {
+            if(isLock) {
                 this.colLockManager.unlock(affairId);
             }
 
-            if (summary != null) {
+            if(summary != null) {
                 this.colManager.colDelLock(summary, affair, true);
             }
 
@@ -1418,11 +1440,11 @@ public class CollaborationController extends BaseController {
     public ModelAndView doZCDB(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setContentType("text/html;charset=UTF-8");
         String viewAffairId = request.getParameter("affairId");
-        Long affairId = Long.parseLong(viewAffairId);
+        Long affairId = Long.valueOf(Long.parseLong(viewAffairId));
         CtpAffair affair = this.affairManager.get(affairId);
-        if (affair == null || affair.getState() != StateEnum.col_pending.key()) {
+        if(affair == null || affair.getState().intValue() != StateEnum.col_pending.key()) {
             String msg = ColUtil.getErrorMsgByAffair(affair);
-            if (Strings.isNotBlank(msg)) {
+            if(Strings.isNotBlank(msg)) {
                 PrintWriter out = response.getWriter();
                 out.println("<script>");
                 out.println("alert('" + StringEscapeUtils.escapeJavaScript(msg) + "');");
@@ -1434,7 +1456,7 @@ public class CollaborationController extends BaseController {
 
         ColSummary summary = this.colManager.getColSummaryById(affair.getObjectId());
         boolean canDeal = ColUtil.checkAgent(affair, summary, true);
-        if (!canDeal) {
+        if(!canDeal) {
             return null;
         } else {
             Map<String, Object> params = new HashMap();
@@ -1445,25 +1467,24 @@ public class CollaborationController extends BaseController {
             params.put("templateWorkflowId", templateMap.get("templateWorkflowId"));
             boolean isLock = false;
 
-            Object var12;
             try {
                 isLock = this.colLockManager.canGetLock(affairId);
-                if (isLock) {
-                    this.colManager.transDoZcdb(summary, affair, params);
-                    return null;
+                if(!isLock) {
+                    LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作doZCDB,affairId" + affairId);
+                    Object var12 = null;
+                    return (ModelAndView)var12;
                 }
 
-                LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作doZCDB,affairId" + affairId);
-                var12 = null;
+                this.colManager.transDoZcdb(summary, affair, params);
             } finally {
-                if (isLock) {
+                if(isLock) {
                     this.colLockManager.unlock(affairId);
                 }
 
                 this.colManager.colDelLock(summary, affair);
             }
 
-            return (ModelAndView)var12;
+            return null;
         }
     }
 
@@ -1477,11 +1498,11 @@ public class CollaborationController extends BaseController {
 
         for(int var9 = 0; var9 < var8; ++var9) {
             String d1 = var7[var9];
-            if (!Strings.isBlank(d1)) {
+            if(!Strings.isBlank(d1)) {
                 String[] d1s = d1.split("[_]");
                 long summaryId = Long.parseLong(d1s[0]);
                 long affairId = Long.parseLong(d1s[1]);
-                this.colManager.transDoForward(user, summaryId, affairId, para);
+                this.colManager.transDoForward(user, Long.valueOf(summaryId), Long.valueOf(affairId), para);
             }
         }
 
@@ -1494,7 +1515,7 @@ public class CollaborationController extends BaseController {
     }
 
     public ModelAndView showForward(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(AppContext.currentAccountId());
+        NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(Long.valueOf(AppContext.currentAccountId()));
         request.setAttribute("newColNodePolicy", newColNodePolicy);
         return new ModelAndView("apps/collaboration/forward");
     }
@@ -1506,19 +1527,24 @@ public class CollaborationController extends BaseController {
         tempMap.put("affairId", affairId);
         boolean isLock = false;
 
-        PrintWriter out;
         label65: {
+            Map trackPara;
             try {
                 isLock = this.colLockManager.canGetLock(Long.valueOf(affairId));
-                if (isLock) {
+                if(isLock) {
+                    trackPara = ParamUtil.getJsonDomain("trackDiv_detail");
+                    tempMap.put("trackParam", trackPara);
+                    Map<String, Object> templateMap = ParamUtil.getJsonDomain("colSummaryData");
+                    tempMap.put("templateColSubject", templateMap.get("templateColSubject"));
+                    tempMap.put("templateWorkflowId", templateMap.get("templateWorkflowId"));
                     this.colManager.transStepStop(tempMap);
                     break label65;
                 }
 
                 LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作stepStop,affairId" + affairId);
-                out = null;
+                trackPara = null;
             } finally {
-                if (isLock) {
+                if(isLock) {
                     this.colLockManager.unlock(Long.valueOf(affairId));
                 }
 
@@ -1528,7 +1554,7 @@ public class CollaborationController extends BaseController {
             return null;
         }
 
-        out = response.getWriter();
+        PrintWriter out = response.getWriter();
         out.println("<script>");
         out.println("window.parent.$('#summary').attr('src','');");
         out.println("window.parent.$('.slideDownBtn').trigger('click');");
@@ -1550,32 +1576,27 @@ public class CollaborationController extends BaseController {
         tempMap.put("isWFTrace", trackWorkflowType);
         boolean isLock = false;
 
-        label81: {
+        try {
+            isLock = this.colLockManager.canGetLock(Long.valueOf(affairId));
             String msg;
-            try {
-                isLock = this.colLockManager.canGetLock(Long.valueOf(affairId));
-                if (isLock) {
-                    msg = this.colManager.transStepBack(tempMap);
-                    if (!Strings.isNotBlank(msg)) {
-                        break label81;
-                    }
-
-                    ColUtil.webAlertAndClose(response, msg);
-                    Object var9 = null;
-                    return (ModelAndView)var9;
-                }
-
+            if(!isLock) {
                 LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作stepBack,affairId:" + affairId);
                 msg = null;
-            } finally {
-                if (isLock) {
-                    this.colLockManager.unlock(Long.valueOf(affairId));
-                }
-
-                this.colManager.colDelLock(Long.valueOf(affairId));
+                return null;
             }
 
-            return null;
+            msg = this.colManager.transStepBack(tempMap);
+            if(Strings.isNotBlank(msg)) {
+                ColUtil.webAlertAndClose(response, msg);
+                Object var9 = null;
+                return (ModelAndView)var9;
+            }
+        } finally {
+            if(isLock) {
+                this.colLockManager.unlock(Long.valueOf(affairId));
+            }
+
+            this.colManager.colDelLock(Long.valueOf(affairId));
         }
 
         PrintWriter out = response.getWriter();
@@ -1611,25 +1632,30 @@ public class CollaborationController extends BaseController {
         tempMap.put("summaryId", summaryId);
         tempMap.put("isWFTrace", isWfTrace);
         tempMap.put("isCircleBack", isCircleBack);
-        CtpAffair currentAffair = this.affairManager.get(Long.parseLong(affairId));
-        ColSummary summary = this.colManager.getColSummaryById(Long.parseLong(summaryId));
+        CtpAffair currentAffair = this.affairManager.get(Long.valueOf(Long.parseLong(affairId)));
+        ColSummary summary = this.colManager.getColSummaryById(Long.valueOf(Long.parseLong(summaryId)));
         User user = AppContext.getCurrentUser();
         Comment comment = new Comment();
         ParamUtil.getJsonDomainToBean("comment_deal", comment);
         comment.setModuleId(summary.getId());
         comment.setCreateDate(new Timestamp(System.currentTimeMillis()));
-        if (!user.getId().equals(currentAffair.getMemberId())) {
+        if(!user.getId().equals(currentAffair.getMemberId())) {
             comment.setExtAtt2(user.getName());
         }
 
         comment.setCreateId(currentAffair.getMemberId());
         comment.setExtAtt3("collaboration.dealAttitude.rollback");
-        comment.setModuleType(ModuleType.collaboration.getKey());
-        comment.setPid(0L);
+        comment.setModuleType(Integer.valueOf(ModuleType.collaboration.getKey()));
+        comment.setPid(Long.valueOf(0L));
         tempMap.put("affair", currentAffair);
         tempMap.put("summary", summary);
         tempMap.put("comment", comment);
         tempMap.put("user", user);
+        Map<String, String> trackPara = ParamUtil.getJsonDomain("trackDiv_detail");
+        tempMap.put("trackParam", trackPara);
+        Map<String, Object> templateMap = ParamUtil.getJsonDomain("colSummaryData");
+        tempMap.put("templateColSubject", templateMap.get("templateColSubject"));
+        tempMap.put("templateWorkflowId", templateMap.get("templateWorkflowId"));
 
         try {
             this.colManager.updateAppointStepBack(tempMap);
@@ -1645,6 +1671,20 @@ public class CollaborationController extends BaseController {
         out.println("</script>");
         out.close();
         return null;
+    }
+
+    public ModelAndView listRecord(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ModelAndView modelAndView = new ModelAndView("common/supervise/superviseDetail/recordDetailList");
+        String recordType = request.getParameter("record");
+        String showPigonHoleBtn = request.getParameter("showPigonHoleBtn");
+        String hasDumpData = request.getParameter("hasDumpData");
+        String srcFrom = request.getParameter("srcFrom");
+        modelAndView.addObject("recordType", recordType);
+        modelAndView.addObject("showPigonHoleBtn", showPigonHoleBtn);
+        modelAndView.addObject("hasDumpData", hasDumpData);
+        modelAndView.addObject("openFrom", "listDone");
+        modelAndView.addObject("srcFrom", srcFrom);
+        return modelAndView;
     }
 
     public ModelAndView repeal(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1706,7 +1746,7 @@ public class CollaborationController extends BaseController {
         ModelAndView mav = new ModelAndView("apps/collaboration/showPortalCatagory");
         request.setAttribute("openFrom", request.getParameter("openFrom"));
         String category = ReqUtil.getString(request, "category", "");
-        if (Strings.isNotBlank(category)) {
+        if(Strings.isNotBlank(category)) {
             mav = new ModelAndView("apps/collaboration/showPortalCatagory4MyTemplate");
         }
 
@@ -1717,7 +1757,7 @@ public class CollaborationController extends BaseController {
         ModelAndView mav = new ModelAndView("apps/collaboration/showPortalImportLevel");
         List<CtpEnumItem> secretLevelItems = this.enumManagerNew.getEnumItems(EnumNameEnum.edoc_urgent_level);
         ColUtil.putImportantI18n2Session();
-        mav.addObject("itemCount", secretLevelItems.size());
+        mav.addObject("itemCount", Integer.valueOf(secretLevelItems.size()));
         return mav;
     }
 
@@ -1728,7 +1768,7 @@ public class CollaborationController extends BaseController {
 
     public ModelAndView forwordMail(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map query = new HashMap();
-        query.put("summaryId", Long.parseLong(request.getParameter("id")));
+        query.put("summaryId", Long.valueOf(Long.parseLong(request.getParameter("id"))));
         query.put("formContent", String.valueOf(request.getParameter("formContent")));
         ModelAndView mv = this.colManager.getforwordMail(query);
         return mv;
@@ -1743,19 +1783,19 @@ public class CollaborationController extends BaseController {
         String defaultValue = request.getParameter("defaultValue");
         String ctype = request.getParameter("ctype");
         String temType = request.getParameter("temType");
-        if ("hasnotTemplate".equals(temType)) {
+        if("hasnotTemplate".equals(temType)) {
             mav.addObject("canSelectType", "all");
-        } else if ("template".equals(temType)) {
+        } else if("template".equals(temType)) {
             mav.addObject("canSelectType", "template");
-        } else if ("workflow".equals(temType)) {
+        } else if("workflow".equals(temType)) {
             mav.addObject("canSelectType", "workflow");
-        } else if ("text".equals(temType)) {
+        } else if("text".equals(temType)) {
             mav.addObject("canSelectType", "text");
         }
 
-        if (Strings.isNotBlank(ctype)) {
+        if(Strings.isNotBlank(ctype)) {
             int n = Integer.parseInt(ctype);
-            if (n == 20) {
+            if(n == 20) {
                 mav.addObject("onlyTemplate", Boolean.TRUE);
             }
         }
@@ -1775,7 +1815,7 @@ public class CollaborationController extends BaseController {
     public ModelAndView updateContentPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView mav = new ModelAndView("apps/collaboration/updateContentPage");
         String summaryId = request.getParameter("summaryId");
-        ContentViewRet context = ContentUtil.contentView(ModuleType.collaboration, Long.parseLong(summaryId), (Long)null, 1, (String)null);
+        ContentViewRet context = ContentUtil.contentView(ModuleType.collaboration, Long.valueOf(Long.parseLong(summaryId)), (Long)null, 1, (String)null);
         return mav;
     }
 
@@ -1787,21 +1827,21 @@ public class CollaborationController extends BaseController {
         String openFrom = request.getParameter("openFrom");
         String isHistoryFlagView = request.getParameter("isHistoryFlag");
         String canPraise = request.getParameter("canPraise");
-        boolean isHistoryFlag = Strings.isBlank(isHistoryFlagView) ? false : Boolean.valueOf(isHistoryFlagView);
-        canPraise = canPraise == null ? "true" : canPraise;
+        boolean isHistoryFlag = Strings.isBlank(isHistoryFlagView)?false:Boolean.valueOf(isHistoryFlagView).booleanValue();
+        canPraise = canPraise == null?"true":canPraise;
         mav.addObject("canPraise", Boolean.valueOf(canPraise));
         mav.addObject("isHasPraise", request.getParameter("isHasPraise"));
         List<String> trackType = new ArrayList();
         trackType.add(String.valueOf(workflowTrackType.step_back_repeal.getKey()));
         trackType.add(String.valueOf(workflowTrackType.special_step_back_repeal.getKey()));
         trackType.add(String.valueOf(workflowTrackType.circle_step_back_repeal.getKey()));
-        if (trackType.contains(request.getParameter("trackType")) && "stepBackRecord".equals(openFrom)) {
+        if(trackType.contains(request.getParameter("trackType")) && "stepBackRecord".equals(openFrom)) {
             openFrom = "repealRecord";
         }
 
         CtpAffair affair = null;
         ColSummary summary = null;
-        if (isHistoryFlag) {
+        if(isHistoryFlag) {
             affair = this.affairManager.getByHis(Long.valueOf(affairId));
             summary = this.colManager.getColSummaryByIdHistory(affair.getObjectId());
         } else {
@@ -1813,47 +1853,48 @@ public class CollaborationController extends BaseController {
         mav.addObject("moduleId", summary.getId().toString());
         mav.addObject("affair", affair);
         boolean signatrueShowFlag = Integer.valueOf(StateEnum.col_pending.getKey()).equals(affair.getState()) && "listPending".equals(openFrom);
-        mav.addObject("canDeleteISigntureHtml", signatrueShowFlag);
-        mav.addObject("isShowMoveMenu", signatrueShowFlag);
-        mav.addObject("isShowDocLockMenu", signatrueShowFlag);
+        mav.addObject("canDeleteISigntureHtml", Boolean.valueOf(signatrueShowFlag));
+        mav.addObject("isShowMoveMenu", Boolean.valueOf(signatrueShowFlag));
+        mav.addObject("isShowDocLockMenu", Boolean.valueOf(signatrueShowFlag));
         boolean isFormQuery = ColOpenFrom.formQuery.name().equals(openFrom);
         boolean isFormStatistical = ColOpenFrom.formStatistical.name().equals(openFrom);
         boolean ifFromstepBackRecord = ColOpenFrom.stepBackRecord.name().equalsIgnoreCase(openFrom);
         boolean isFromrepealRecord = ColOpenFrom.repealRecord.name().equalsIgnoreCase(openFrom);
-        if (!isFormQuery && !isFormStatistical && !ifFromstepBackRecord && !isFromrepealRecord) {
-            if (!SecurityCheck.isLicit(AppContext.getRawRequest(), AppContext.getRawResponse(), ApplicationCategoryEnum.collaboration, user, affair.getId(), affair, summary.getArchiveId())) {
+        if(!isFormQuery && !isFormStatistical && !ifFromstepBackRecord && !isFromrepealRecord) {
+            if(!SecurityCheck.isLicit(AppContext.getRawRequest(), AppContext.getRawResponse(), ApplicationCategoryEnum.collaboration, user, affair.getId(), affair, summary.getArchiveId())) {
                 return null;
             }
 
-            AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.collaboration, String.valueOf(affair.getObjectId()), user.getId());
+            AccessControlBean.getInstance().addAccessControl(ApplicationCategoryEnum.collaboration, String.valueOf(affair.getObjectId()), user.getId().longValue());
         }
 
         int viewState = 2;
-        if (String.valueOf(MainbodyType.FORM.getKey()).equals(String.valueOf(affair.getBodyType())) && Integer.valueOf(StateEnum.col_pending.key()).equals(affair.getState()) && !"inform".equals(ColUtil.getPolicyByAffair(affair).getId()) && !AffairUtil.isFormReadonly(affair) && !"glwd".equals(openFrom) && !"listDone".equals(openFrom)) {
+        if(String.valueOf(MainbodyType.FORM.getKey()).equals(String.valueOf(affair.getBodyType())) && Integer.valueOf(StateEnum.col_pending.key()).equals(affair.getState()) && !"inform".equals(ColUtil.getPolicyByAffair(affair).getId()) && !AffairUtil.isFormReadonly(affair) && !"glwd".equals(openFrom) && !"listDone".equals(openFrom)) {
             viewState = 1;
         }
 
         ContentUtil.contentViewForDetail_col(ModuleType.collaboration, summary.getId(), affair.getId(), viewState, rightId, isHistoryFlag);
         mav.addObject("_viewState", Integer.valueOf(viewState));
-        Map<Long, List<String>> logDescMap = this.getCommentLog(summary.getProcessId());
-        mav.addObject("logDescMap", logDescMap);
+        Map<String, List<String>> logDescMap = this.getCommentLog(summary.getProcessId());
+        String jsonString = JSONUtil.toJSONString(logDescMap);
+        mav.addObject("logDescMap", jsonString);
         List<CtpContentAllBean> contentList = (List)request.getAttribute("contentList");
         request.setAttribute("contentList", contentList);
-        if (summary.getParentformSummaryid() != null && !summary.getCanEdit()) {
-            mav.addObject("isFromTransform", true);
+        if(summary.getParentformSummaryid() != null && !summary.getCanEdit().booleanValue()) {
+            mav.addObject("isFromTransform", Boolean.valueOf(true));
         }
 
         List memberIds;
-        if ("repealRecord".equals(openFrom)) {
+        if("repealRecord".equals(openFrom)) {
             List<WorkflowTracePO> dataByParams = this.traceWorkflowManager.getDataByModuleIdAndAffairId(summary.getId(), affair.getId());
-            Long currentUserId = AppContext.currentUserId();
-            if (null != dataByParams && dataByParams.size() > 0) {
+            Long currentUserId = Long.valueOf(AppContext.currentUserId());
+            if(null != dataByParams && dataByParams.size() > 0) {
                 boolean flag = true;
                 memberIds = this.ctpMainbodyManager.getContentListByModuleIdAndModuleType(ModuleType.collaboration, summary.getId());
 
                 for(int a = 0; a < dataByParams.size(); ++a) {
-                    if (((WorkflowTracePO)dataByParams.get(a)).getMemberId().equals(currentUserId)) {
-                        if (Strings.isNotEmpty(memberIds) && Strings.isNotBlank(((WorkflowTracePO)dataByParams.get(a)).getFormContent())) {
+                    if(((WorkflowTracePO)dataByParams.get(a)).getMemberId().equals(currentUserId)) {
+                        if(Strings.isNotEmpty(memberIds) && Strings.isNotBlank(((WorkflowTracePO)dataByParams.get(a)).getFormContent())) {
                             ((CtpContentAll)memberIds.get(0)).setContent(((WorkflowTracePO)dataByParams.get(a)).getFormContent());
                             this.ctpMainbodyManager.saveOrUpdateContentAll((CtpContentAll)memberIds.get(0));
                             flag = false;
@@ -1862,7 +1903,7 @@ public class CollaborationController extends BaseController {
                     }
                 }
 
-                if (flag && Strings.isNotEmpty(memberIds) && Strings.isNotBlank(((WorkflowTracePO)dataByParams.get(0)).getFormContent())) {
+                if(flag && Strings.isNotEmpty(memberIds) && Strings.isNotBlank(((WorkflowTracePO)dataByParams.get(0)).getFormContent())) {
                     ((CtpContentAll)memberIds.get(0)).setContent(((WorkflowTracePO)dataByParams.get(0)).getFormContent());
                     this.ctpMainbodyManager.saveOrUpdateContentAll((CtpContentAll)memberIds.get(0));
                 }
@@ -1871,34 +1912,34 @@ public class CollaborationController extends BaseController {
 
         mav.addObject("_rightId", rightId);
         mav.addObject("_moduleId", summary.getId());
-        mav.addObject("_moduleType", ModuleType.collaboration.getKey());
+        mav.addObject("_moduleType", Integer.valueOf(ModuleType.collaboration.getKey()));
         mav.addObject("_contentType", summary.getBodyType());
         ContentViewRet ret = (ContentViewRet)request.getAttribute("contentContext");
         String workflowTraceType = request.getParameter("trackType");
-        Integer intWorkflowTraceType = Strings.isNotBlank(workflowTraceType) ? Integer.valueOf(workflowTraceType) : 0;
-        if (Integer.valueOf(workflowTrackType.repeal.getKey()).equals(intWorkflowTraceType) || Integer.valueOf(workflowTrackType.step_back_repeal.getKey()).equals(intWorkflowTraceType)) {
+        Integer intWorkflowTraceType = Integer.valueOf(Strings.isNotBlank(workflowTraceType)?Integer.valueOf(workflowTraceType).intValue():0);
+        if(Integer.valueOf(workflowTrackType.repeal.getKey()).equals(intWorkflowTraceType) || Integer.valueOf(workflowTrackType.step_back_repeal.getKey()).equals(intWorkflowTraceType)) {
             readonly = "true";
         }
 
-        if (Boolean.valueOf(readonly)) {
+        if(Boolean.valueOf(readonly).booleanValue()) {
             ret.setCanReply(false);
         }
 
-        if (ColOpenFrom.formQuery.name().equals(openFrom) || ColOpenFrom.formStatistical.name().equals(openFrom)) {
+        if(ColOpenFrom.formQuery.name().equals(openFrom) || ColOpenFrom.formStatistical.name().equals(openFrom)) {
             AppContext.putThreadContext("THREAD_CTX_NO_HIDDEN_COMMENT", "true");
         }
 
         AppContext.putThreadContext("THREAD_CTX_NOT_HIDE_TO_ID_KEY", summary.getStartMemberId());
-        if (!ColOpenFrom.supervise.name().equals(openFrom) && !ColOpenFrom.repealRecord.name().equals(openFrom)) {
+        if(!ColOpenFrom.supervise.name().equals(openFrom) && !ColOpenFrom.repealRecord.name().equals(openFrom)) {
             AppContext.putThreadContext("THREAD_CTX_DOCUMENT_AFFAIR_MEMBER_ID", affair.getMemberId());
         }
 
-        if (ColOpenFrom.glwd.name().equals(openFrom)) {
+        if(ColOpenFrom.glwd.name().equals(openFrom)) {
             memberIds = this.affairManager.getAffairMemberIds(ApplicationCategoryEnum.collaboration, summary.getId());
-            AppContext.putThreadContext("THREAD_CTX_PROCESS_MEMBERS", Strings.isNotEmpty(memberIds) ? memberIds : new ArrayList());
+            AppContext.putThreadContext("THREAD_CTX_PROCESS_MEMBERS", Strings.isNotEmpty(memberIds)?memberIds:new ArrayList());
         }
 
-        if (Integer.valueOf(flowState.finish.ordinal()).equals(summary.getState()) || Integer.valueOf(flowState.terminate.ordinal()).equals(summary.getState()) || ColOpenFrom.glwd.name().equals(openFrom) || Boolean.valueOf(readonly)) {
+        if(Integer.valueOf(flowState.finish.ordinal()).equals(summary.getState()) || Integer.valueOf(flowState.terminate.ordinal()).equals(summary.getState()) || ColOpenFrom.glwd.name().equals(openFrom) || Boolean.valueOf(readonly).booleanValue()) {
             mav.addObject("_isffin", "1");
         }
 
@@ -1907,7 +1948,8 @@ public class CollaborationController extends BaseController {
         ret.setContentSenderId(summary.getStartMemberId());
         NodePolicyVO newColNodePolicy = this.colManager.getNewColNodePolicy(user.getLoginAccount());
         mav.addObject("newColNodePolicy", newColNodePolicy);
-        mav.addObject("isNewColNode", (affair.getState().equals(StateEnum.col_sent.getKey()) || affair.getState().equals(StateEnum.col_waitSend.getKey())) && !ColOpenFrom.supervise.name().equals(openFrom));
+        mav.addObject("isNewColNode", Boolean.valueOf((affair.getState().equals(Integer.valueOf(StateEnum.col_sent.getKey())) || affair.getState().equals(Integer.valueOf(StateEnum.col_waitSend.getKey()))) && !ColOpenFrom.supervise.name().equals(openFrom)));
+        mav.addObject("isHistoryFlagView", isHistoryFlagView);
         return mav;
     }
 
@@ -1921,8 +1963,8 @@ public class CollaborationController extends BaseController {
 
     public ModelAndView doDraftOpinion(HttpServletRequest request, HttpServletResponse response) throws Exception {
         long summaryId = Long.parseLong(request.getParameter("summaryId"));
-        long affairId = Long.valueOf(request.getParameter("affairId"));
-        this.colManager.saveOpinionDraft(affairId, summaryId);
+        long affairId = Long.valueOf(request.getParameter("affairId")).longValue();
+        this.colManager.saveOpinionDraft(Long.valueOf(affairId), Long.valueOf(summaryId));
         return null;
     }
 
@@ -1959,10 +2001,10 @@ public class CollaborationController extends BaseController {
         String affairId = request.getParameter("affairId");
         ColSummary summary = this.colManager.getColSummaryById(Long.valueOf(objectId));
         CtpAffair affair = this.affairManager.get(Long.valueOf(affairId));
-        int trackType = affair.getTrack();
+        int trackType = affair.getTrack().intValue();
         Long startMemberId = summary.getStartMemberId();
-        int state = summary.getState();
-        if (trackType == 2) {
+        int state = summary.getState().intValue();
+        if(trackType == 2) {
             List<CtpTrackMember> trackList = this.trackManager.getTrackMembers(Long.valueOf(affairId));
             String zdgzrStr = "";
             StringBuilder sb = new StringBuilder();
@@ -1974,15 +2016,15 @@ public class CollaborationController extends BaseController {
             }
 
             zdgzrStr = sb.toString();
-            if (Strings.isNotBlank(zdgzrStr)) {
+            if(Strings.isNotBlank(zdgzrStr)) {
                 mav.addObject("zdgzrStr", zdgzrStr.substring(0, zdgzrStr.length() - 1));
             }
         }
 
         mav.addObject("objectId", objectId);
         mav.addObject("affairId", affairId);
-        mav.addObject("trackType", trackType);
-        mav.addObject("state", state);
+        mav.addObject("trackType", Integer.valueOf(trackType));
+        mav.addObject("state", Integer.valueOf(state));
         mav.addObject("startMemberId", startMemberId);
         return mav;
     }
@@ -1990,28 +2032,28 @@ public class CollaborationController extends BaseController {
     private Map<String, String> getStatisticSearchCondition(FlipInfo fi, HttpServletRequest request) {
         Map<String, String> query = new HashMap();
         User user = AppContext.getCurrentUser();
-        if (user == null) {
+        if(user == null) {
             return query;
         } else {
             String bodyType = request.getParameter("bodyType");
-            if (Strings.isNotBlank(bodyType)) {
+            if(Strings.isNotBlank(bodyType)) {
                 query.put(ColQueryCondition.bodyType.name(), bodyType);
             }
 
             String collType = request.getParameter("CollType");
-            if (Strings.isNotBlank(collType)) {
+            if(Strings.isNotBlank(collType)) {
                 query.put(ColQueryCondition.CollType.name(), collType);
             }
 
             String templateId = request.getParameter("templateId");
-            if (Strings.isNotBlank(templateId) && !"null".equals(templateId)) {
+            if(Strings.isNotBlank(templateId) && !"null".equals(templateId)) {
                 query.put(ColQueryCondition.templeteIds.name(), templateId);
             }
 
             String state = request.getParameter("state");
             List<Integer> states = new ArrayList();
             String userId;
-            if (Strings.isNotBlank(state) && !"null".equals(state)) {
+            if(Strings.isNotBlank(state) && !"null".equals(state)) {
                 String[] stateStrs = state.split(",");
                 String[] var11 = stateStrs;
                 int var12 = stateStrs.length;
@@ -2021,17 +2063,17 @@ public class CollaborationController extends BaseController {
                     states.add(Integer.valueOf(userId));
                 }
 
-                if (states.contains(1)) {
+                if(states.contains(Integer.valueOf(1))) {
                     query.put(ColQueryCondition.archiveId.name(), "archived");
-                    states.remove(states.indexOf(1));
+                    states.remove(states.indexOf(Integer.valueOf(1)));
                 }
 
-                if (states.contains(0)) {
+                if(states.contains(Integer.valueOf(0))) {
                     query.put(ColQueryCondition.subState.name(), String.valueOf(SubStateEnum.col_pending_ZCDB.getKey()));
-                    states.remove(states.indexOf(0));
+                    states.remove(states.indexOf(Integer.valueOf(0)));
                 }
 
-                if (states.size() > 0) {
+                if(states.size() > 0) {
                     state = Functions.join(states, ",");
                     query.put(ColQueryCondition.state.name(), state);
                 }
@@ -2040,43 +2082,43 @@ public class CollaborationController extends BaseController {
             String startTime = request.getParameter("start_time");
             String endTime = request.getParameter("end_time");
             String queryTime = "";
-            if (Strings.isEmpty(startTime) && Strings.isEmpty(endTime)) {
+            if(Strings.isEmpty(startTime) && Strings.isEmpty(endTime)) {
                 queryTime = null;
             } else {
                 queryTime = startTime + "#" + endTime;
             }
 
-            if (Strings.isNotBlank(queryTime)) {
-                if (states.size() == 1) {
-                    if (Integer.valueOf(StateEnum.col_sent.getKey()).equals(states.get(0))) {
+            if(Strings.isNotBlank(queryTime)) {
+                if(states.size() == 1) {
+                    if(Integer.valueOf(StateEnum.col_sent.getKey()).equals(states.get(0))) {
                         query.put(ColQueryCondition.createDate.name(), queryTime);
-                    } else if (Integer.valueOf(StateEnum.col_pending.getKey()).equals(states.get(0))) {
+                    } else if(Integer.valueOf(StateEnum.col_pending.getKey()).equals(states.get(0))) {
                         query.put(ColQueryCondition.receiveDate.name(), queryTime);
-                    } else if (Integer.valueOf(StateEnum.col_done.getKey()).equals(states.get(0))) {
+                    } else if(Integer.valueOf(StateEnum.col_done.getKey()).equals(states.get(0))) {
                         query.put(ColQueryCondition.completeDate.name(), queryTime);
                     }
-                } else if (String.valueOf(SubStateEnum.col_pending_ZCDB.getKey()).equals(query.get(ColQueryCondition.subState.name()))) {
+                } else if(String.valueOf(SubStateEnum.col_pending_ZCDB.getKey()).equals(query.get(ColQueryCondition.subState.name()))) {
                     query.put(ColQueryCondition.updateDate.name(), queryTime);
                 }
 
-                if ("archived".equals(query.get(ColQueryCondition.archiveId.name())) || states.size() > 1) {
+                if("archived".equals(query.get(ColQueryCondition.archiveId.name())) || states.size() > 1) {
                     query.put("statisticDate", queryTime);
                 }
             }
 
             String coverTime = request.getParameter("coverTime");
-            if (Strings.isNotBlank(coverTime)) {
+            if(Strings.isNotBlank(coverTime)) {
                 query.put(ColQueryCondition.coverTime.name(), coverTime);
             }
 
             userId = request.getParameter("user_id");
-            if (Strings.isNotBlank(userId)) {
+            if(Strings.isNotBlank(userId)) {
                 query.put(ColQueryCondition.currentUser.name(), userId);
             }
 
             query.put("statistic", "true");
             String isGroup = request.getParameter("isGroup");
-            if (Strings.isNotBlank(isGroup)) {
+            if(Strings.isNotBlank(isGroup)) {
                 query.put("isTeamReport", isGroup);
             }
 
@@ -2090,19 +2132,19 @@ public class CollaborationController extends BaseController {
         String summaryId = request.getParameter("summaryId");
         String affairId = request.getParameter("affairId");
         CtpAffair affair = this.affairManager.get(Long.valueOf(affairId));
-        if (affair == null) {
+        if(affair == null) {
             affair = this.affairManager.getByHis(Long.valueOf(affairId));
         }
 
         ColSummary summary = this.colManager.getColSummaryById(affair.getObjectId());
         User user = AppContext.getCurrentUser();
         String memberId = String.valueOf(affair.getMemberId());
-        if (!SecurityCheck.isLicit(AppContext.getRawRequest(), AppContext.getRawResponse(), ApplicationCategoryEnum.collaboration, user, affair.getId(), affair, summary.getArchiveId(), false)) {
+        if(!SecurityCheck.isLicit(AppContext.getRawRequest(), AppContext.getRawResponse(), ApplicationCategoryEnum.collaboration, user, affair.getId(), affair, summary.getArchiveId(), false)) {
             SecurityCheck.printInbreakTrace(AppContext.getRawRequest(), AppContext.getRawResponse(), user, ApplicationCategoryEnum.collaboration);
             return null;
         } else {
             String openFrom = request.getParameter("openFromList");
-            if (!ColOpenFrom.supervise.name().equals(openFrom) && Strings.isNotBlank(memberId)) {
+            if(!ColOpenFrom.supervise.name().equals(openFrom) && Strings.isNotBlank(memberId)) {
                 AppContext.putThreadContext("THREAD_CTX_DOCUMENT_AFFAIR_MEMBER_ID", Long.valueOf(memberId));
             }
 
@@ -2112,15 +2154,20 @@ public class CollaborationController extends BaseController {
 
             while(var13.hasNext()) {
                 AttachmentVO attachmentVO = (AttachmentVO)var13.next();
-                if (attachmentVO.isCanLook()) {
+                if(attachmentVO.isCanLook()) {
+                    canLook = true;
+                    break;
+                }
+
+                if("jpg".equals(attachmentVO.getFileType()) || "gif".equals(attachmentVO.getFileType()) || "jpeg".equals(attachmentVO.getFileType()) || "png".equals(attachmentVO.getFileType()) || "bmp".equals(attachmentVO.getFileType()) || "pdf".equals(attachmentVO.getFileType())) {
                     canLook = true;
                     break;
                 }
             }
 
-            mv.addObject("canLook", canLook);
+            mv.addObject("canLook", Boolean.valueOf(canLook));
             mv.addObject("attachmentVOs", attachmentVOs);
-            mv.addObject("attSize", attachmentVOs.size());
+            mv.addObject("attSize", Integer.valueOf(attachmentVOs.size()));
             mv.addObject("isHistoryFlag", request.getParameter("isHistoryFlag"));
             return mv;
         }
@@ -2152,11 +2199,11 @@ public class CollaborationController extends BaseController {
                 DataRow dataRow = new DataRow();
                 dataRow.addDataCell(data.getSubject(), 1);
                 dataRow.addDataCell(data.getStartMemberName(), 1);
-                dataRow.addDataCell(data.getStartDate() != null ? Datetimes.format(data.getStartDate(), "yyyy-MM-dd HH:mm").toString() : "-", 5);
-                dataRow.addDataCell(data.getReceiveTime() != null ? Datetimes.format(data.getReceiveTime(), "yyyy-MM-dd HH:mm").toString() : "-", 5);
-                dataRow.addDataCell(data.getDealTime() != null ? Datetimes.format(data.getDealTime(), "yyyy-MM-dd HH:mm").toString() : "-", 5);
+                dataRow.addDataCell(data.getStartDate() != null?Datetimes.format(data.getStartDate(), "yyyy-MM-dd HH:mm").toString():"-", 5);
+                dataRow.addDataCell(data.getReceiveTime() != null?Datetimes.format(data.getReceiveTime(), "yyyy-MM-dd HH:mm").toString():"-", 5);
+                dataRow.addDataCell(data.getDealTime() != null?Datetimes.format(data.getDealTime(), "yyyy-MM-dd HH:mm").toString():"-", 5);
                 dataRow.addDataCell(data.getDeadLineDateName(), 1);
-                dataRow.addDataCell(data.getTrack() == 1 ? ResourceUtil.getString("message.yes.js") : ResourceUtil.getString("message.no.js"), 1);
+                dataRow.addDataCell(data.getTrack().intValue() == 1?ResourceUtil.getString("message.yes.js"):ResourceUtil.getString("message.no.js"), 1);
                 dataRecord.addDataRow(new DataRow[]{dataRow});
             }
 
@@ -2170,19 +2217,19 @@ public class CollaborationController extends BaseController {
 
     public ModelAndView combinedQuery(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView modelAndView = new ModelAndView("apps/collaboration/col_com_query");
-        if ("templeteAll".equals(request.getParameter("condition")) && "all".equals(request.getParameter("textfield"))) {
+        if("templeteAll".equals(request.getParameter("condition")) && "all".equals(request.getParameter("textfield"))) {
             modelAndView.addObject("condition1", "1");
         }
 
-        if ("bizcofnig".equals(request.getParameter("srcFrom"))) {
+        if("bizcofnig".equals(request.getParameter("srcFrom"))) {
             modelAndView.addObject("condition2", "1");
         }
 
-        if ("1".equals(request.getParameter("bisnissMap"))) {
+        if("1".equals(request.getParameter("bisnissMap"))) {
             modelAndView.addObject("condition3", "1");
         }
 
-        if ("templeteCategorys".equals(request.getParameter("condition"))) {
+        if("templeteCategorys".equals(request.getParameter("condition"))) {
             modelAndView.addObject("condition4", "1");
         }
 
@@ -2202,7 +2249,7 @@ public class CollaborationController extends BaseController {
         try {
             isLock = this.colLockManager.canGetLock(Long.valueOf(affairId));
             String message;
-            if (!isLock) {
+            if(!isLock) {
                 LOG.error(AppContext.currentAccountName() + "不能获取到map缓存锁，不能执行操作finishWorkItem,affairId" + affairId);
                 message = null;
                 return null;
@@ -2211,7 +2258,7 @@ public class CollaborationController extends BaseController {
             message = this.colManager.transColTransfer(params);
             modelAndView.addObject("message", message);
         } finally {
-            if (isLock) {
+            if(isLock) {
                 this.colLockManager.unlock(Long.valueOf(affairId));
             }
 
@@ -2224,9 +2271,9 @@ public class CollaborationController extends BaseController {
         ModelAndView modelAndView = new ModelAndView("apps/collaboration/tabOffice");
         Locale locale = AppContext.getLocale();
         String localeStr = "zh-cn";
-        if (locale.equals(Locale.ENGLISH)) {
+        if(locale.equals(Locale.ENGLISH)) {
             localeStr = "en";
-        } else if (locale.equals(Locale.TRADITIONAL_CHINESE)) {
+        } else if(locale.equals(Locale.TRADITIONAL_CHINESE)) {
             localeStr = "zh-tw";
         }
 
@@ -2234,18 +2281,18 @@ public class CollaborationController extends BaseController {
         return modelAndView;
     }
 
-    private Map<Long, List<String>> getCommentLog(String processId) throws BusinessException {
+    private Map<String, List<String>> getCommentLog(String processId) throws BusinessException {
         List<Integer> actionList = new ArrayList();
-        actionList.add(ProcessLogAction.insertPeople.getKey());
-        actionList.add(ProcessLogAction.colAssign.getKey());
-        actionList.add(ProcessLogAction.deletePeople.getKey());
-        actionList.add(ProcessLogAction.inform.getKey());
-        actionList.add(ProcessLogAction.processColl.getKey());
-        actionList.add(ProcessLogAction.addAttachment.getKey());
-        actionList.add(ProcessLogAction.deleteAttachment.getKey());
-        actionList.add(ProcessLogAction.updateAttachmentOnline.getKey());
-        Map<Long, List<String>> logDescStrMap = new HashMap();
-        if (Strings.isBlank(processId)) {
+        actionList.add(Integer.valueOf(ProcessLogAction.insertPeople.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.colAssign.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.deletePeople.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.inform.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.processColl.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.addAttachment.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.deleteAttachment.getKey()));
+        actionList.add(Integer.valueOf(ProcessLogAction.updateAttachmentOnline.getKey()));
+        Map<String, List<String>> logDescStrMap = new HashMap();
+        if(Strings.isBlank(processId)) {
             return logDescStrMap;
         } else {
             List<ProcessLog> processLogs = this.processLogManager.getLogsByProcessIdAndActionId(Long.valueOf(processId), actionList);
@@ -2253,11 +2300,11 @@ public class CollaborationController extends BaseController {
 
             Iterator var6;
             ProcessLog log;
-            List<ProcessLog> logs;
+            List<ProcessLog>  logs;
             for(var6 = processLogs.iterator(); var6.hasNext(); processLogMap.put(log.getCommentId(), logs)) {
                 log = (ProcessLog)var6.next();
                 logs = (List)processLogMap.get(log.getCommentId());
-                if (null != logs) {
+                if(null != logs) {
                     ((List)logs).add(log);
                 } else {
                     logs = new ArrayList();
@@ -2267,43 +2314,43 @@ public class CollaborationController extends BaseController {
 
             ArrayList logDescs;
             Long commentId;
-            for(var6 = processLogMap.keySet().iterator(); var6.hasNext(); logDescStrMap.put(commentId, logDescs)) {
+            for(var6 = processLogMap.keySet().iterator(); var6.hasNext(); logDescStrMap.put(String.valueOf(commentId), logDescs)) {
                 commentId = (Long)var6.next();
-                List<ProcessLog> logs1 = (List)processLogMap.get(commentId);
-                Boolean addAttachment = false;
-                Boolean deleteAttachment = false;
-                Boolean updateAttachment = false;
+                logs = (List)processLogMap.get(commentId);
+                Boolean addAttachment = Boolean.valueOf(false);
+                Boolean deleteAttachment = Boolean.valueOf(false);
+                Boolean updateAttachment = Boolean.valueOf(false);
                 logDescs = new ArrayList();
                 Map<Integer, String> logDescMap = new HashMap();
-                Iterator var14 = logs1.iterator();
+                Iterator var14 = logs.iterator();
 
                 String logString;
                 while(var14.hasNext()) {
-                    ProcessLog log2 = (ProcessLog)var14.next();
-                    if (actionList.contains(log2.getActionId())) {
-                        if (Integer.valueOf(ProcessLogAction.addAttachment.getKey()).equals(log2.getActionId())) {
-                            if (Strings.isNotBlank(log2.getParam0()) && !addAttachment) {
-                                addAttachment = true;
+                    log = (ProcessLog)var14.next();
+                    if(actionList.contains(log.getActionId())) {
+                        if(Integer.valueOf(ProcessLogAction.addAttachment.getKey()).equals(log.getActionId())) {
+                            if(Strings.isNotBlank(log.getParam0()) && !addAttachment.booleanValue()) {
+                                addAttachment = Boolean.valueOf(true);
                             }
-                        } else if (Integer.valueOf(ProcessLogAction.deleteAttachment.getKey()).equals(log2.getActionId())) {
-                            if (Strings.isNotBlank(log2.getParam0()) && !deleteAttachment) {
-                                deleteAttachment = true;
+                        } else if(Integer.valueOf(ProcessLogAction.deleteAttachment.getKey()).equals(log.getActionId())) {
+                            if(Strings.isNotBlank(log.getParam0()) && !deleteAttachment.booleanValue()) {
+                                deleteAttachment = Boolean.valueOf(true);
                             }
-                        } else if (Integer.valueOf(ProcessLogAction.updateAttachmentOnline.getKey()).equals(log2.getActionId())) {
-                            if (Strings.isNotBlank(log2.getParam0()) && !updateAttachment) {
-                                updateAttachment = true;
+                        } else if(Integer.valueOf(ProcessLogAction.updateAttachmentOnline.getKey()).equals(log.getActionId())) {
+                            if(Strings.isNotBlank(log.getParam0()) && !updateAttachment.booleanValue()) {
+                                updateAttachment = Boolean.valueOf(true);
                             }
                         } else {
-                            logString = (String)logDescMap.get(log2.getActionId());
-                            if (logString != null) {
+                            logString = (String)logDescMap.get(log.getActionId());
+                            if(logString != null) {
                                 StringBuilder desc = new StringBuilder(logString);
-                                desc.append(",").append(log2.getParam0());
+                                desc.append(",").append(log.getParam0());
                                 logString = desc.toString();
                             } else {
-                                logString = log2.getActionUserDesc();
+                                logString = log.getActionUserDesc();
                             }
 
-                            logDescMap.put(log2.getActionId(), logString);
+                            logDescMap.put(log.getActionId(), logString);
                         }
                     }
                 }
@@ -2313,25 +2360,25 @@ public class CollaborationController extends BaseController {
                 while(var14.hasNext()) {
                     Integer action = (Integer)var14.next();
                     logString = (String)logDescMap.get(action);
-                    if (null != logString) {
+                    if(null != logString) {
                         logDescs.add(logString);
                     }
                 }
 
                 List<String> attachmentOperation = new ArrayList();
-                if (addAttachment) {
+                if(addAttachment.booleanValue()) {
                     attachmentOperation.add(ResourceUtil.getString("processLog.action.user.attchement.add"));
                 }
 
-                if (deleteAttachment) {
+                if(deleteAttachment.booleanValue()) {
                     attachmentOperation.add(ResourceUtil.getString("processLog.action.user.attchement.delete"));
                 }
 
-                if (updateAttachment) {
+                if(updateAttachment.booleanValue()) {
                     attachmentOperation.add(ResourceUtil.getString("processLog.action.user.attchement.update"));
                 }
 
-                if (attachmentOperation.size() != 0) {
+                if(attachmentOperation.size() != 0) {
                     logDescs.add(ResourceUtil.getString("processLog.action.user.0", Strings.join(attachmentOperation, ",")));
                 }
             }
@@ -2347,13 +2394,13 @@ public class CollaborationController extends BaseController {
         String summaryId = request.getParameter("summaryId");
         List<CtpAffair> affairs = this.affairManager.getAffairsByObjectIdAndNodeId(Long.valueOf(summaryId), Long.valueOf(nodeId));
         List<Object[]> node2Affairs = new ArrayList();
-        if (Strings.isNotEmpty(affairs)) {
+        if(Strings.isNotEmpty(affairs)) {
             Iterator it = affairs.iterator();
 
             CtpAffair a;
             while(it.hasNext()) {
                 a = (CtpAffair)it.next();
-                if (!this.affairManager.isAffairValid(a, true)) {
+                if(!this.affairManager.isAffairValid(a, Boolean.valueOf(true))) {
                     it.remove();
                 }
             }
@@ -2364,13 +2411,13 @@ public class CollaborationController extends BaseController {
             while(true) {
                 do {
                     do {
-                        if (!it.hasNext()) {
+                        if(!it.hasNext()) {
                             break label32;
                         }
 
                         a = (CtpAffair)it.next();
                     } while(a.getActivityId() == null);
-                } while(a.getState() != StateEnum.col_done.getKey() && a.getState() != StateEnum.col_pending.getKey());
+                } while(a.getState().intValue() != StateEnum.col_done.getKey() && a.getState().intValue() != StateEnum.col_pending.getKey());
 
                 Object[] o = new Object[]{a.getMemberId(), Functions.showMemberName(a.getMemberId()), a.getState(), a.getSubState(), a.getBackFromId()};
                 node2Affairs.add(o);
@@ -2398,11 +2445,11 @@ public class CollaborationController extends BaseController {
     }
 
     private boolean showTraceWorkflows(String subState, CtpAffair affair) throws BusinessException {
-        if (!Strings.isEmpty(subState) && affair != null) {
+        if(!Strings.isEmpty(subState) && affair != null) {
             int intSubState = Integer.parseInt(subState);
-            if (SubStateEnum.col_waitSend_stepBack.key() == intSubState || SubStateEnum.col_waitSend_cancel.key() == intSubState || SubStateEnum.col_pending_specialBackToSenderCancel.key() == intSubState) {
+            if(SubStateEnum.col_waitSend_stepBack.key() == intSubState || SubStateEnum.col_waitSend_cancel.key() == intSubState || SubStateEnum.col_pending_specialBackToSenderCancel.key() == intSubState) {
                 List<WorkflowTracePO> traceWorkflows = this.traceWorkflowManager.getShowDataByParams(affair.getObjectId(), affair.getActivityId(), affair.getMemberId());
-                if (Strings.isNotEmpty(traceWorkflows)) {
+                if(Strings.isNotEmpty(traceWorkflows)) {
                     return true;
                 }
             }
