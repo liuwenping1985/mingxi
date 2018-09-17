@@ -25,6 +25,9 @@
                 <!--<field source="state_name" name="field0007" desc="当前状态" type="String"></field>-->
                 <field source="our" name="field0008" desc="我方签署主体" type="String"></field>
                 <field  source="products" name="field0013"  desc="产品类型" type="String"></field>
+                <field  source="customer_type" name="field0025"  desc="客户类型" type="String"></field>
+                <field  source="customer_level" name="field0026"  desc="客户级别" type="String"></field>
+
                 <!--<field  source="products" ignore="true" desc="产品类型" type="String">-->
                 <!--<list-item-mapping>-->
                 <!--<field source="" name="" type="String"></field>-->
