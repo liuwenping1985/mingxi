@@ -42,7 +42,6 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 if(a8OutputVo!=null){
                     dataList.add(a8OutputVo);
                 }
-
             }
 
         } catch (Exception e) {
