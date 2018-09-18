@@ -74,9 +74,9 @@ public class ProcessEventHandler {
         try {
             summary = this.getColManager().getColSummaryById(Long.valueOf(event.getSummaryId()));
             System.out.println("-----summary---->"+summary.getSubject());
-            int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
+            //int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
 
-            postData(summaryId,state, operator,"结束");
+            postData(summaryId, FlowUtil.FlowState.finish.getKey(), operator,"结束");
 
         } catch (Exception var6) {
             var6.printStackTrace();
@@ -233,7 +233,6 @@ public class ProcessEventHandler {
         dataParam.put("operator",operator);
         dataParam.put("note","");
         dataParam.put("data","{}");
-
 //        affair_id：外部数据id
 //        id：OA数据id
 //        affairType：事务类型
