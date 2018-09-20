@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.seeyon.apps.nbd.po.AddressbookEntity" table="addressbook" schema="v61sp22">
+        <id name="id" column="ID"/>
+        <property name="memberId" column="MEMBER_ID"/>
+        <property name="createDate" column="CREATE_DATE"/>
+        <property name="updateDate" column="UPDATE_DATE"/>
+        <property name="extAttr1" column="EXT_ATTR_1"/>
+        <property name="extAttr2" column="EXT_ATTR_2"/>
+        <property name="extAttr3" column="EXT_ATTR_3"/>
+        <property name="extAttr4" column="EXT_ATTR_4"/>
+        <property name="extAttr5" column="EXT_ATTR_5"/>
+        <property name="extAttr6" column="EXT_ATTR_6"/>
+        <property name="extAttr7" column="EXT_ATTR_7"/>
+        <property name="extAttr8" column="EXT_ATTR_8"/>
+        <property name="extAttr9" column="EXT_ATTR_9"/>
+        <property name="extAttr10" column="EXT_ATTR_10"/>
+        <property name="extAttr11" column="EXT_ATTR_11"/>
+        <property name="extAttr12" column="EXT_ATTR_12"/>
+        <property name="extAttr13" column="EXT_ATTR_13"/>
+        <property name="extAttr14" column="EXT_ATTR_14"/>
+        <property name="extAttr15" column="EXT_ATTR_15"/>
+        <property name="extAttr16" column="EXT_ATTR_16"/>
+        <property name="extAttr17" column="EXT_ATTR_17"/>
+        <property name="extAttr18" column="EXT_ATTR_18"/>
+        <property name="extAttr19" column="EXT_ATTR_19"/>
+        <property name="extAttr20" column="EXT_ATTR_20"/>
+        <property name="extAttr21" column="EXT_ATTR_21"/>
+        <property name="extAttr22" column="EXT_ATTR_22"/>
+        <property name="extAttr23" column="EXT_ATTR_23"/>
+        <property name="extAttr24" column="EXT_ATTR_24"/>
+        <property name="extAttr25" column="EXT_ATTR_25"/>
+        <property name="extAttr26" column="EXT_ATTR_26"/>
+        <property name="extAttr27" column="EXT_ATTR_27"/>
+        <property name="extAttr28" column="EXT_ATTR_28"/>
+        <property name="extAttr29" column="EXT_ATTR_29"/>
+        <property name="extAttr30" column="EXT_ATTR_30"/>
+    </class>
+</hibernate-mapping>

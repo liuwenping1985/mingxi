@@ -46,15 +46,24 @@ public class DataBaseHandler {
         if(f.exists()){
             f.delete();
         }
+        FileWriter fw = null;
         try {
             f.createNewFile();
-            FileWriter fw = new FileWriter(f);
+            fw = new FileWriter(f);
             fw.write(dbMapString);
             fw.flush();
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
 
+        }finally {
+            if(fw!=null){
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }

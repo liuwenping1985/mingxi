@@ -11,8 +11,18 @@ public class DataBaseController extends BaseController {
 
     public ModelAndView executeQuery(){
 
+        String text="";
 
 
         return null;
     }
+
+
+//    public ModelAndView executeQuery(){
+//
+//
+//
+//        return null;
+//    }
+
 }

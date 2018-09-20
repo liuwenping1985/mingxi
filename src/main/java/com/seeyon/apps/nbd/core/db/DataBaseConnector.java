@@ -11,6 +11,8 @@ public class DataBaseConnector {
 
     private String user;
 
+    private Integer port;
+
     private String password;
 
     private String databseName;
@@ -21,6 +23,13 @@ public class DataBaseConnector {
 
     private int maxConn = 50;
 
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
 
     public String getType() {
         return type;

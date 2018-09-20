@@ -15,5 +15,4 @@ public final class DriverConstant {
 
     public static final String SQLITE_JDBC_URL="org.sqlite.JDBC";
 
-
 }
