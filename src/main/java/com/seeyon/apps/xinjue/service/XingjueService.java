@@ -27,6 +27,14 @@ public class XingjueService {
         parameter.generateSign();
         return parameter;
     }
+    public HaiXingParameter getHaixingParameterByType(EnumParameterType type,Long comserialno){
+        HaiXingParameter parameter = new HaiXingParameter();
+        //comserialno
+        parameter.getBiz_content().put("funcode",type.getCode());
+        parameter.getBiz_content().put("comserialno",comserialno);
+        parameter.generateSign();
+        return parameter;
+    }
     public List getData(EnumParameterType type) throws IOException {
         HaiXingParameter parameter = getHaixingParameterByType(type);
         XingjueDataParser parser = XingjueParaserFactory.getParser(type);
@@ -49,6 +57,14 @@ public class XingjueService {
         List list = parser.parseData(data);
         return list;
     }
+    public List getData(EnumParameterType type,Long no) throws IOException {
+        HaiXingParameter parameter = getHaixingParameterByType(type,no);
+        XingjueDataParser parser = XingjueParaserFactory.getParser(type);
+        Map data = UIUtils.post(parameter);
+        List list = parser.parseData(data);
+        return list;
+    }
+
     private Timer scheduleTimer;
 
     public void syncAllDataByPeriod(){

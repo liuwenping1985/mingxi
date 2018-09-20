@@ -29,6 +29,7 @@ public class Formmain1467 {
 
     private Long id;
     private Date modifyDate;
+    private Integer sort;
     private String field0001;
     private String field0002;
     private String field0003;
@@ -49,6 +50,14 @@ public class Formmain1467 {
     private String field0018;
     private String field0019;
     private String field0020;
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
     public Long getId() {
         return id;

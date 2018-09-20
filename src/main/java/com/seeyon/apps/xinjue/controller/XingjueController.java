@@ -1,8 +1,10 @@
 package com.seeyon.apps.xinjue.controller;
 
 import com.seeyon.apps.xinjue.constant.EnumParameterType;
+import com.seeyon.apps.xinjue.service.SyncThread;
 import com.seeyon.apps.xinjue.service.XingjueService;
 import com.seeyon.apps.xinjue.util.UIUtils;
+import com.seeyon.apps.xinjue.vo.HaiXingParameter;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
@@ -33,23 +35,34 @@ public class XingjueController extends BaseController {
 
         String type = request.getParameter("type");
         Map ret = new HashMap();
-        EnumParameterType p_type = EnumParameterType.ORG;
+        SyncThread th = new SyncThread();
+        th.setService(this.getSvc());
         try {
         if ("org".equals(type)) {
-            p_type = EnumParameterType.ORG;
+           // p_type = EnumParameterType.ORG;
+            List list = th.syncORG();
+            ret.put("data-size", list.size());
         } else if ("bill".equals(type)) {
-            p_type = EnumParameterType.BILL;
+          //  p_type = EnumParameterType.BILL;
+            List list = th.syncBILL();
+            //DBAgent.saveAll(list);
+            ret.put("data-size", list.size());
         } else if ("commodity".equals(type)) {
-            p_type = EnumParameterType.COMMODITY;
+            List list = th.syncCOMMODITY();
+            //DBAgent.saveAll(list);
+            ret.put("data-size", list.size());
+
         } else if ("custom".equals(type)) {
-            p_type = EnumParameterType.CUSTOM;
+            List list = th.syncCUSTOM();
+            //DBAgent.saveAll(list);
+            ret.put("data-size", list.size());
         } else if ("warehouse".equals(type)) {
-            p_type = EnumParameterType.WAREHOUSE;
+            List list = th.syncWAREHOUSE();
+            //DBAgent.saveAll(list);
+            ret.put("data-size", list.size());
         }
 
-            List list = this.getSvc().getData(p_type);
-            DBAgent.saveAll(list);
-            ret.put("data", list);
+
         } catch (Exception e) {
             e.printStackTrace();
             ret.put("data", "error");
@@ -124,6 +137,11 @@ public class XingjueController extends BaseController {
     public ModelAndView syncData(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("type");
+        String num = request.getParameter("num");
+        Long no = 0l;
+        if(num!=null){
+            no = Long.parseLong(num);
+        }
         Map ret = new HashMap();
         EnumParameterType p_type = EnumParameterType.ORG;
         try {
@@ -138,14 +156,17 @@ public class XingjueController extends BaseController {
                  list = this.getSvc().getData(p_type);
             } else if ("commodity".equals(type)) {
                 p_type = EnumParameterType.COMMODITY;
-                 list = this.getSvc().getData(p_type,start,end);
+                HaiXingParameter p =  this.getSvc().getHaixingParameterByType(p_type,no);
+                 list = this.getSvc().getData(p_type,p);
                 ret.put("data", list);
             } else if ("custom".equals(type)) {
                 p_type = EnumParameterType.CUSTOM;
-                list = this.getSvc().getData(p_type,start,end);
+                HaiXingParameter p =  this.getSvc().getHaixingParameterByType(p_type,no);
+                list = this.getSvc().getData(p_type,p);
             } else if ("warehouse".equals(type)) {
                 p_type = EnumParameterType.WAREHOUSE;
-                list = this.getSvc().getData(p_type,start,end);
+                HaiXingParameter p =  this.getSvc().getHaixingParameterByType(p_type,no);
+                list = this.getSvc().getData(p_type,p);
             }
 
             ret.put("data", list);
@@ -186,12 +207,31 @@ public class XingjueController extends BaseController {
                     list = this.getSvc().getData(pt);
 
                 }else{
-                    list = this.getSvc().getData(pt,dt,ed);
+                    list = this.getSvc().getData(pt,0L);
                 }
-                ret.put("data-" + pt, list);
                 if (!CollectionUtils.isEmpty(list)) {
                     DBAgent.saveAll(list);
                 }
+                if(list!=null){
+                    int size = list.size();
+                    Long start = 1000l;
+                    while(size==1000){
+                        List tempList = this.getSvc().getData(pt,start);
+                        if(tempList!=null){
+                            size = tempList.size();
+                            start = start+size;
+                            DBAgent.saveAll(tempList);
+                        }else{
+                            size = 0;
+                        }
+
+                    }
+                    ret.put("data-size", start);
+                }
+
+                ret.put("data-" + pt, list);
+
+
             } catch (Exception e) {
                 e.printStackTrace();
                 ret.put("data-" + pt, "error");

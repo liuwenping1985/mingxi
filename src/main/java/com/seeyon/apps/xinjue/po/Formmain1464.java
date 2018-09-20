@@ -20,6 +20,15 @@ public class Formmain1464 {
     private String field0005;
     private String field0006;
     private Date modifyDate;
+    private Integer sort;
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
     public Long getId() {
         return id;

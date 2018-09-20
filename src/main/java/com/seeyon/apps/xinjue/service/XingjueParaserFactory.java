@@ -41,11 +41,25 @@ public class XingjueParaserFactory {
                 return null;
             }
             List<Formmain1464> fm1464List = new ArrayList<Formmain1464>();
+            int tag = 0;
             for(Map data:dataList){
                 Formmain1464 fm1464 = new Formmain1464();
+                if(tag==0){
+                    System.out.println(data);
+                }
+                tag++;
                 fm1464.setField0001(String.valueOf(data.get("orgcode")));
                 fm1464.setField0002(String.valueOf(data.get("ckcode")));
                 fm1464.setField0003(String.valueOf(data.get("ckname")));
+                Object no = data.get("comserialno");
+                if(no!=null){
+                    try {
+                        fm1464.setSort(Integer.parseInt(String.valueOf(no)));
+                    }finally{
+
+                    }
+                }
+
                 fm1464.setModifyDate(new Date());
                 fm1464.setField0004(String.valueOf(data.get("ckaddr")));
                 fm1464.setId(UUIDLong.longUUID());
@@ -94,6 +108,7 @@ public class XingjueParaserFactory {
                 fm1468.setField0002(String.valueOf(data.get("orgname")));
                 fm1468.setField0003(String.valueOf(data.get("orgtype")));
                 fm1468.setField0004(String.valueOf(data.get("preorgcode")));
+
                 fm1468.setId(UUIDLong.longUUID());
                 fm1468List.add(fm1468);
 
@@ -110,7 +125,12 @@ public class XingjueParaserFactory {
             }
 
             List<Formmain1466> fm1466List = new ArrayList<Formmain1466>();
+            int tag = 0;
             for(Map data:dataList){
+                if(tag==0){
+                    System.out.println(data);
+                }
+                tag++;
                 Formmain1466 fm1466 = new Formmain1466();
                 fm1466.setField0001(String.valueOf(data.get("orgcode")));
                 fm1466.setField0002(String.valueOf(data.get("etpcode")));
@@ -118,6 +138,14 @@ public class XingjueParaserFactory {
                 fm1466.setField0004(String.valueOf(data.get("address")));
                 fm1466.setField0005(String.valueOf(data.get("linkman")));
                 fm1466.setField0006(String.valueOf(data.get("lkmtel")));
+                Object no = data.get("comserialno");
+                if(no!=null){
+                    try {
+                        fm1466.setSort(Integer.parseInt(String.valueOf(no)));
+                    }finally{
+
+                    }
+                }
                 fm1466.setId(UUIDLong.longUUID());
                 fm1466.setModifyDate(new Date());
                 fm1466List.add(fm1466);
@@ -133,9 +161,13 @@ public class XingjueParaserFactory {
                 return null;
             }
             List<Formmain1467> fm1467List = new ArrayList<Formmain1467>();
+            int tag = 0;
             for(Map data:dataList){
                 Formmain1467 fm1467 = new Formmain1467();
-
+                if(tag==0){
+                    System.out.println(data);
+                }
+                tag++;
                 fm1467.setField0001(String.valueOf(data.get("pluid")));
                 fm1467.setField0002(String.valueOf(data.get("plucode")));
                 fm1467.setField0003(String.valueOf(data.get("pluname")));
@@ -152,6 +184,14 @@ public class XingjueParaserFactory {
                 fm1467.setField0014(String.valueOf(data.get("brandcode")));
                 fm1467.setField0017(String.valueOf(data.get("isweight")));
                 fm1467.setField0018(String.valueOf(data.get("iskc")));
+                Object no = data.get("comserialno");
+                if(no!=null){
+                    try {
+                        fm1467.setSort(Integer.parseInt(String.valueOf(no)));
+                    }finally{
+
+                    }
+                }
                 fm1467.setModifyDate(new Date());
                 fm1467.setId(UUIDLong.longUUID());
                 fm1467List.add(fm1467);

@@ -1,6 +1,8 @@
 package com.seeyon.apps.xinjue.util;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.xinjue.constant.EnumParameterType;
+import com.seeyon.apps.xinjue.service.XingjueService;
 import com.seeyon.apps.xinjue.vo.HaiXingParameter;
 import com.seeyon.ctp.util.json.JSONUtil;
 import org.apache.http.HttpResponse;
@@ -21,6 +23,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -99,6 +102,15 @@ public class UIUtils {
     }
 
     public static void main(String[] args){
+
+//        XingjueService svc = new XingjueService();
+//        HaiXingParameter p = svc.getHaixingParameterByType(EnumParameterType.CUSTOM,0);
+//        try {
+//           // List dataList = svc.getData(EnumParameterType.CUSTOM,p);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         System.out.println("1112111");
     }
 }

@@ -22,7 +22,7 @@ public class HaiXingParameter {
     private String format = "json";
     private String v = "1.0";
     private String method = "oa";
-    private Map<String,String> biz_content = new HashMap<String, String>();
+    private Map<String,Object> biz_content = new HashMap<String, Object>();
 
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -81,11 +81,11 @@ public class HaiXingParameter {
         this.method = method;
     }
 
-    public Map<String, String> getBiz_content() {
+    public Map<String, Object> getBiz_content() {
         return biz_content;
     }
 
-    public void setBiz_content(Map<String, String> biz_content) {
+    public void setBiz_content(Map<String, Object> biz_content) {
         this.biz_content = biz_content;
     }
 

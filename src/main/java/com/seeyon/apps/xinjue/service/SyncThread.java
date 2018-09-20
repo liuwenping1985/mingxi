@@ -17,6 +17,7 @@ public class SyncThread extends TimerTask {
     private Date startDate;
     private Date endDate;
     private static final String SYNC_DATE = "modify_date";
+    private static final String SYNC_SORT = "sort";
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
     private XingjueService service;
     private EnumParameterType[] enumTyps = {
@@ -84,13 +85,13 @@ public class SyncThread extends TimerTask {
         }
     }
 
-    private void syncORG() {
+    public List syncORG() {
         //全量
         String check_field="field0001";
         try {
             List list = this.service.getData(EnumParameterType.ORG);
             if(list == null||list.size()==0){
-                return;
+                return null;
             }
             String sql = "from Formmain1468";
             List<Formmain1468> listData = DBAgent.find(sql);
@@ -120,17 +121,20 @@ public class SyncThread extends TimerTask {
             if(!updateList.isEmpty()){
                 DBAgent.updateAll(updateList);
             }
+             createList.addAll(updateList);
+            return createList;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    private void syncBILL() {
+    public List syncBILL() {
         //全量
         try {
             List list = this.service.getData(EnumParameterType.BILL);
             if(list == null||list.size()==0){
-                return;
+                return null;
             }
             String sql = "from Formmain1465";
             List<Formmain1465> listData = DBAgent.find(sql);
@@ -159,50 +163,88 @@ public class SyncThread extends TimerTask {
             if(!updateList.isEmpty()){
                 DBAgent.updateAll(updateList);
             }
+            createList.addAll(updateList);
+            return createList;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 
     //增量
-    private void syncCOMMODITY() {
-        syncIncrementData(EnumParameterType.COMMODITY);
+    public List syncCOMMODITY() {
+        return syncIncrementData(EnumParameterType.COMMODITY);
     }
 
-    private void syncCUSTOM() {
-        syncIncrementData(EnumParameterType.CUSTOM);
+    public List syncCUSTOM() {
+        return syncIncrementData(EnumParameterType.CUSTOM);
     }
 
-    private void syncWAREHOUSE() {
-        syncIncrementData(EnumParameterType.WAREHOUSE);
+    public List syncWAREHOUSE() {
+        return syncIncrementData(EnumParameterType.WAREHOUSE);
     }
 
-    private void syncIncrementData(EnumParameterType type) {
+    private List syncIncrementData(EnumParameterType type) {
         String tableName = type.getTableName();
-        Date dt = getMaxDateFromTable(tableName);
+        Integer maxSort = getMaxSortFromTable(tableName);
         HaiXingParameter parameter;
-        if (dt != null) {
-            Date startDate = new Date(dt.getTime()+1000);
-            Date endDate = new Date();
-            parameter = this.service.getHaixingParameterByType(type,startDate,endDate);
+        if (maxSort != null) {
+            parameter = this.service.getHaixingParameterByType(type,Long.parseLong(""+maxSort));
         }else{
 
-            parameter = this.service.getHaixingParameterByType(type);
+            parameter = this.service.getHaixingParameterByType(type,0l);
         }
         try {
             List list = this.service.getData(type,parameter);
             if(list!=null&&list.size()!=0){
                 DBAgent.saveAll(list);
             }
-
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
 
 
     }
+    public static Integer getMaxSortFromTable(String tableName) {
+        String sql = "select max(" + SYNC_SORT + ") as max_sort from " + tableName;
+        JDBCAgent agent = new JDBCAgent();
 
+        try {
+            agent.execute(sql);
+            List dataList = agent.resultSetToList(true);
+            if (dataList == null || dataList.size() == 0) {
+                return null;
+            }
+            Map data = (Map) dataList.get(0);
+            if (data != null) {
+                Object oriSort = data.get("max_sort");
+                if (oriSort instanceof Integer) {
+                    return (Integer)oriSort;
+                }
+                String val = String.valueOf(oriSort);
+
+                return Integer.parseInt(val);
+
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                agent.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
     private Date getMaxDateFromTable(String tableName) {
         String sql = "select max(" + SYNC_DATE + ") as max_date from " + tableName;
         JDBCAgent agent = new JDBCAgent();
