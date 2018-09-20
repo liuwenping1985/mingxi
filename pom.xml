@@ -31,7 +31,7 @@
         </includes>
         <filtering>true</filtering>
     </resource>
-    <!--mybatis 接口xml编译到源码下面 -->
+    <!--资源文件 -->
     <resource>
         <directory>src/main/java</directory>
         <includes>
