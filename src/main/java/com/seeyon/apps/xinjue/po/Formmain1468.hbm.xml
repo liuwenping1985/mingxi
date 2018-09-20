@@ -41,15 +41,9 @@
                 not-null="false"
                 length="255"
         />
-        <property
-                name="field0005"
-                column="field0005"
-                type="string"
-                not-null="false"
-                length="255"
-        />
 
-       
+
+
 
     </class>
 </hibernate-mapping>

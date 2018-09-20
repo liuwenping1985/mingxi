@@ -22,134 +22,151 @@ public class XingjueController extends BaseController {
     private XingjueService svc;
 
     public XingjueService getSvc() {
-        if(svc == null){
+        if (svc == null) {
             svc = new XingjueService();
         }
         return svc;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView syncDataSave(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView syncDataSave(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("type");
-        Map ret  = new HashMap();
+        Map ret = new HashMap();
         EnumParameterType p_type = EnumParameterType.ORG;
-        if("org".equals(type)){
+        try {
+        if ("org".equals(type)) {
             p_type = EnumParameterType.ORG;
-        }else if("bill".equals(type)){
+        } else if ("bill".equals(type)) {
             p_type = EnumParameterType.BILL;
-        } else if("commodity".equals(type)){
+        } else if ("commodity".equals(type)) {
             p_type = EnumParameterType.COMMODITY;
-        }else if("custom".equals(type)){
+        } else if ("custom".equals(type)) {
             p_type = EnumParameterType.CUSTOM;
-        }else if("warehouse".equals(type)){
+        } else if ("warehouse".equals(type)) {
             p_type = EnumParameterType.WAREHOUSE;
         }
-        try {
+
             List list = this.getSvc().getData(p_type);
             DBAgent.saveAll(list);
-            ret.put("data",list);
+            ret.put("data", list);
         } catch (Exception e) {
             e.printStackTrace();
-            ret.put("data","error");
+            ret.put("data", "error");
         }
 
-        UIUtils.responseJSON(ret,response);
+        UIUtils.responseJSON(ret, response);
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView getSyncData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getSyncData(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("type");
-        Map ret  = new HashMap();
+        Map ret = new HashMap();
         String p_type = "from Formmain1464";
-        if("org".equals(type)){
+        if ("org".equals(type)) {
             p_type = "from Formmain1468";
-        }else if("bill".equals(type)){
+        } else if ("bill".equals(type)) {
             p_type = "from Formmain1465";
-        } else if("commodity".equals(type)){
+        } else if ("commodity".equals(type)) {
             p_type = "from Formmain1467";
-        }else if("custom".equals(type)){
+        } else if ("custom".equals(type)) {
             p_type = "from Formmain1466";
-        }else if("warehouse".equals(type)){
+        } else if ("warehouse".equals(type)) {
             p_type = "from Formmain1464";
         }
         try {
             List list = DBAgent.find(p_type);
-            ret.put("data",list);
+            ret.put("data", list);
         } catch (Exception e) {
             e.printStackTrace();
-            ret.put("data","error");
+            ret.put("data", "error");
         }
 
-        UIUtils.responseJSON(ret,response);
+        UIUtils.responseJSON(ret, response);
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView startSyncData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView startSyncData(HttpServletRequest request, HttpServletResponse response) {
         Map data = new HashMap();
         try {
             this.getSvc().syncAllDataByPeriod();
-            data.put("isOk",true);
-        }catch(Exception e){
+            data.put("isOk", true);
+        } catch (Exception e) {
             e.printStackTrace();
-            data.put("isOk",false);
-            data.put("msg",e.getMessage());
+            data.put("isOk", false);
+            data.put("msg", e.getMessage());
         }
-        UIUtils.responseJSON(data,response);
+        UIUtils.responseJSON(data, response);
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView stopSyncData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView stopSyncData(HttpServletRequest request, HttpServletResponse response) {
 
         Map data = new HashMap();
         try {
             this.getSvc().stopDataSync();
-            data.put("isOk",true);
-        }catch(Exception e){
+            data.put("isOk", true);
+        } catch (Exception e) {
             e.printStackTrace();
-            data.put("isOk",false);
-            data.put("msg",e.getMessage());
+            data.put("isOk", false);
+            data.put("msg", e.getMessage());
         }
-        UIUtils.responseJSON(data,response);
-       // UIUtils.responseJSON(ret,response);
+        UIUtils.responseJSON(data, response);
+        // UIUtils.responseJSON(ret,response);
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView syncData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView syncData(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("type");
-        Map ret  = new HashMap();
+        Map ret = new HashMap();
         EnumParameterType p_type = EnumParameterType.ORG;
-        if("org".equals(type)){
-             p_type = EnumParameterType.ORG;
-        }else if("bill".equals(type)){
-            p_type = EnumParameterType.BILL;
-        } else if("commodity".equals(type)){
-            p_type = EnumParameterType.COMMODITY;
-        }else if("custom".equals(type)){
-            p_type = EnumParameterType.CUSTOM;
-        }else if("warehouse".equals(type)){
-            p_type = EnumParameterType.WAREHOUSE;
-        }
         try {
-            List list = this.getSvc().getData(p_type);
-            ret.put("data",list);
+            List list = null;
+            Date start = new Date(0);
+            Date end = new Date();
+            if ("org".equals(type)) {
+                p_type = EnumParameterType.ORG;
+                 list = this.getSvc().getData(p_type);
+            } else if ("bill".equals(type)) {
+                p_type = EnumParameterType.BILL;
+                 list = this.getSvc().getData(p_type);
+            } else if ("commodity".equals(type)) {
+                p_type = EnumParameterType.COMMODITY;
+                 list = this.getSvc().getData(p_type,start,end);
+                ret.put("data", list);
+            } else if ("custom".equals(type)) {
+                p_type = EnumParameterType.CUSTOM;
+                list = this.getSvc().getData(p_type,start,end);
+            } else if ("warehouse".equals(type)) {
+                p_type = EnumParameterType.WAREHOUSE;
+                list = this.getSvc().getData(p_type,start,end);
+            }
+
+            ret.put("data", list);
+
         } catch (IOException e) {
             e.printStackTrace();
-            ret.put("data","error");
+            ret.put("data", "error");
         }
 
-        UIUtils.responseJSON(ret,response);
+        UIUtils.responseJSON(ret, response);
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView syncAllData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView syncAllData(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("user");
-        Map ret  = new HashMap();
-        if(!"liuwenping".equals(type)){
-            ret.put("data-error","deny - access");
-            UIUtils.responseJSON(ret,response);
+        Map ret = new HashMap();
+        if (!"liuwenping".equals(type)) {
+            ret.put("data-error", "deny - access");
+            UIUtils.responseJSON(ret, response);
             return null;
         }
 
@@ -160,64 +177,73 @@ public class XingjueController extends BaseController {
                 EnumParameterType.CUSTOM,
                 EnumParameterType.WAREHOUSE
         };
+        Date dt = new Date(0);
+        Date ed = new Date();
+        for (EnumParameterType pt : enumTyps) {
+            try {
+                List list = null;
+                if(pt == EnumParameterType.ORG||pt==EnumParameterType.BILL){
+                    list = this.getSvc().getData(pt);
 
-            for(EnumParameterType pt:enumTyps){
-                try {
-                    List list = this.getSvc().getData(pt);
-                    ret.put("data-" + pt, list);
-                    if(!CollectionUtils.isEmpty(list)){
-                            DBAgent.saveAll(list);
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                    ret.put("data-" + pt, "error");
+                }else{
+                    list = this.getSvc().getData(pt,dt,ed);
                 }
-
+                ret.put("data-" + pt, list);
+                if (!CollectionUtils.isEmpty(list)) {
+                    DBAgent.saveAll(list);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                ret.put("data-" + pt, "error");
             }
 
+        }
 
-        UIUtils.responseJSON(ret,response);
+
+        UIUtils.responseJSON(ret, response);
 
 
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView deleteAllData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView deleteAllData(HttpServletRequest request, HttpServletResponse response) {
 
         String type = request.getParameter("user");
-        Map ret  = new HashMap();
-        if(!"liuwenping".equals(type)){
-            ret.put("data-error","deny - access");
-            UIUtils.responseJSON(ret,response);
+        Map ret = new HashMap();
+        if (!"liuwenping".equals(type)) {
+            ret.put("data-error", "deny - access");
+            UIUtils.responseJSON(ret, response);
             return null;
         }
-       String[] sqls = {
+        String[] sqls = {
                 "from Formmain1464",
-               "from Formmain1465",
-               "from Formmain1466",
-               "from Formmain1467",
-               "from Formmain1468"
-       };
-        for(String sql:sqls){
+                "from Formmain1465",
+                "from Formmain1466",
+                "from Formmain1467",
+                "from Formmain1468"
+        };
+        for (String sql : sqls) {
             try {
                 List list = DBAgent.find(sql);
                 ret.put("data-" + sql, list);
-                if(!CollectionUtils.isEmpty(list)){
+                if (!CollectionUtils.isEmpty(list)) {
                     DBAgent.deleteAll(list);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 ret.put("data-" + sql, "error");
             }
         }
-        UIUtils.responseJSON(ret,response);
+        UIUtils.responseJSON(ret, response);
         return null;
     }
+
     public static void main(String[] args) throws IOException {
         XingjueController conm = new XingjueController();
-         Date st  = new Date(new Date().getTime()-24*3600*60*1000);
-         Date ed = new Date();
-         List list =  conm.getSvc().getData(EnumParameterType.WAREHOUSE,st,ed);
-         System.out.println(list);
+        Date st = new Date(new Date().getTime() - 24 * 3600 * 60 * 1000);
+        Date ed = new Date();
+        List list = conm.getSvc().getData(EnumParameterType.WAREHOUSE, st, ed);
+        System.out.println(list);
     }
 }
