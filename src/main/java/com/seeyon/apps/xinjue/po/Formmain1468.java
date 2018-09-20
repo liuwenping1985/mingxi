@@ -14,7 +14,6 @@ public class Formmain1468 {
     private String field0003;
     private String field0004;
     private String field0005;
-    private String field0006;
     public Long getId() {
         return id;
     }
@@ -39,13 +38,6 @@ public class Formmain1468 {
         this.field0002 = field0002;
     }
 
-    public String getField0006() {
-        return field0006;
-    }
-
-    public void setField0006(String field0006) {
-        this.field0006 = field0006;
-    }
 
     public String getField0003() {
         return field0003;

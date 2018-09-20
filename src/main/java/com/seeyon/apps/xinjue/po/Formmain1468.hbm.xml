@@ -49,13 +49,7 @@
                 length="255"
         />
 
-        <property
-                name="field0006"
-                column="field0006"
-                type="string"
-                not-null="false"
-                length="255"
-        />
+       
 
     </class>
 </hibernate-mapping>
