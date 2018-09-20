@@ -26,9 +26,9 @@ import java.util.Map;
 
 public class UIUtils {
 
-    private static String url2 = "http://192.168.1.211:8099/hsoaapi.action";
-    private static String url12= "http://192.168.18.248:8087/unwmsrf-server/hsapi.action";
-    private static String url = "http://47.104.88.210:8080/unwmsrf-server/hsapi.action";
+    private static String url1 = "http://192.168.1.211:8099/hsoaapi.action";
+    private static String url= "http://192.168.18.248:8087/unwmsrf-server/hsapi.action";
+    private static String url2 = "http://47.104.88.210:8080/unwmsrf-server/hsapi.action";
     public static Map post(HaiXingParameter p) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         // 设置超时时间
@@ -96,5 +96,9 @@ public class UIUtils {
             }
 
         }
+    }
+
+    public static void main(String[] args){
+        System.out.println("111111");
     }
 }

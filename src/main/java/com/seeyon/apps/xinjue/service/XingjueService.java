@@ -12,14 +12,14 @@ import java.util.Map;
 import java.util.Timer;
 
 public class XingjueService {
-    private HaiXingParameter getHaixingParameterByType(EnumParameterType type){
+    public HaiXingParameter getHaixingParameterByType(EnumParameterType type){
         HaiXingParameter parameter = new HaiXingParameter();
         parameter.getBiz_content().put("funcode",type.getCode());
         parameter.generateSign();
         return parameter;
     }
     private SimpleDateFormat pFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private HaiXingParameter getHaixingParameterByType(EnumParameterType type,Date startDate,Date endDate){
+    public HaiXingParameter getHaixingParameterByType(EnumParameterType type,Date startDate,Date endDate){
         HaiXingParameter parameter = new HaiXingParameter();
         parameter.getBiz_content().put("funcode",type.getCode());
         parameter.getBiz_content().put("bgndate",pFormat.format(startDate));
@@ -34,6 +34,7 @@ public class XingjueService {
         List list = parser.parseData(data);
         return list;
     }
+
     public List getData(EnumParameterType type,HaiXingParameter haiXingParameter) throws IOException {
         //HaiXingParameter parameter = getHaixingParameterByType(type);
         XingjueDataParser parser = XingjueParaserFactory.getParser(type);
@@ -62,7 +63,7 @@ public class XingjueService {
         }
         SyncThread st = new SyncThread();
         st.setService(this);
-        timer.schedule(st,1000,24*3600*60);
+        timer.schedule(st,1000,24*3600*1000);
 
     }
     public void stopDataSync(){

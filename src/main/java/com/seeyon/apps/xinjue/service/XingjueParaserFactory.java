@@ -6,6 +6,7 @@ import com.seeyon.ctp.util.UUIDLong;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ public class XingjueParaserFactory {
                 fm1464.setField0001(String.valueOf(data.get("orgcode")));
                 fm1464.setField0002(String.valueOf(data.get("ckcode")));
                 fm1464.setField0003(String.valueOf(data.get("ckname")));
+                fm1464.setModifyDate(new Date());
                 fm1464.setField0004(String.valueOf(data.get("ckaddr")));
                 fm1464.setId(UUIDLong.longUUID());
                 fm1464List.add(fm1464);
@@ -72,6 +74,7 @@ public class XingjueParaserFactory {
                 fm1465.setField0001(String.valueOf(data.get("ywtype")));
                 fm1465.setField0002(String.valueOf(data.get("ywtypename")));
                 fm1465.setId(UUIDLong.longUUID());
+
                 fm1465List.add(fm1465);
             }
             return fm1465List;
@@ -116,6 +119,7 @@ public class XingjueParaserFactory {
                 fm1466.setField0005(String.valueOf(data.get("linkman")));
                 fm1466.setField0006(String.valueOf(data.get("lkmtel")));
                 fm1466.setId(UUIDLong.longUUID());
+                fm1466.setModifyDate(new Date());
                 fm1466List.add(fm1466);
             }
             return fm1466List;
@@ -148,6 +152,7 @@ public class XingjueParaserFactory {
                 fm1467.setField0014(String.valueOf(data.get("brandcode")));
                 fm1467.setField0017(String.valueOf(data.get("isweight")));
                 fm1467.setField0018(String.valueOf(data.get("iskc")));
+                fm1467.setModifyDate(new Date());
                 fm1467.setId(UUIDLong.longUUID());
                 fm1467List.add(fm1467);
             }

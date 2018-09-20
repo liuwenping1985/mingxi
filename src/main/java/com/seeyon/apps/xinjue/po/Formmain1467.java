@@ -1,5 +1,7 @@
 package com.seeyon.apps.xinjue.po;
 
+import java.util.Date;
+
 public class Formmain1467 {
     /**
      * 商品信息
@@ -26,6 +28,7 @@ public class Formmain1467 {
      */
 
     private Long id;
+    private Date modifyDate;
     private String field0001;
     private String field0002;
     private String field0003;
@@ -53,6 +56,14 @@ public class Formmain1467 {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
     public String getField0001() {

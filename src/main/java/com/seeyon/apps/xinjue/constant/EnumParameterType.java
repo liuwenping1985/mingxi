@@ -30,22 +30,29 @@ import com.seeyon.apps.xinjue.po.*;
  */
 public enum EnumParameterType {
 
-    BILL("1001",Formmain1465.class),
-    WAREHOUSE("1002",Formmain1464.class),
-    ORG("1003",Formmain1468.class),
-    CUSTOM("1004",Formmain1466.class),
-    COMMODITY("1007",Formmain1467.class);
+    BILL("1001",Formmain1465.class,"formmain_1465"),
+    WAREHOUSE("1002",Formmain1464.class,"formmain_1464"),
+    ORG("1003",Formmain1468.class,"formmain_1468"),
+    CUSTOM("1004",Formmain1466.class,"formmain_1466"),
+    COMMODITY("1007",Formmain1467.class,"formmain_1467");
     private String code;
     private Class cls;
+    private String tableName;
     public String getCode(){
         return this.code;
     }
+
+    public String getTableName() {
+        return tableName;
+    }
+
     public Class getCls(){
         return this.cls;
     }
-    private EnumParameterType(String code,Class cls){
+    private EnumParameterType(String code,Class cls,String tableName){
         this.code = code;
         this.cls = cls;
+        this.tableName = tableName;
     }
 
 }

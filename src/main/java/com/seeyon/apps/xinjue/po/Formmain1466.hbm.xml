@@ -14,6 +14,12 @@
         >
         </id>
         <property
+                name="modifyDate"
+                column="modify_date"
+                type="timestamp"
+                not-null="false"
+        />
+        <property
                 name="field0001"
                 column="field0001"
                 type="string"

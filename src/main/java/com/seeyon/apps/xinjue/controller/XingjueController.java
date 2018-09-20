@@ -85,6 +85,36 @@ public class XingjueController extends BaseController {
         return null;
     }
     @NeedlessCheckLogin
+    public ModelAndView startSyncData(HttpServletRequest request, HttpServletResponse response){
+        Map data = new HashMap();
+        try {
+            this.getSvc().syncAllDataByPeriod();
+            data.put("isOk",true);
+        }catch(Exception e){
+            e.printStackTrace();
+            data.put("isOk",false);
+            data.put("msg",e.getMessage());
+        }
+        UIUtils.responseJSON(data,response);
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView stopSyncData(HttpServletRequest request, HttpServletResponse response){
+
+        Map data = new HashMap();
+        try {
+            this.getSvc().stopDataSync();
+            data.put("isOk",true);
+        }catch(Exception e){
+            e.printStackTrace();
+            data.put("isOk",false);
+            data.put("msg",e.getMessage());
+        }
+        UIUtils.responseJSON(data,response);
+       // UIUtils.responseJSON(ret,response);
+        return null;
+    }
+    @NeedlessCheckLogin
     public ModelAndView syncData(HttpServletRequest request, HttpServletResponse response){
 
         String type = request.getParameter("type");
