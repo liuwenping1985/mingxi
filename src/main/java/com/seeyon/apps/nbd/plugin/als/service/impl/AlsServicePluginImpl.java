@@ -8,7 +8,6 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import com.seeyon.apps.nbd.plugin.als.service.AbstractAlsServicePlugin;
-import com.seeyon.ctp.common.ctpenum.manager.EnumManagerImpl;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 
 import java.util.*;
@@ -69,6 +68,9 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         vo.setCreateDate(new Date());
         vo.setUpdateDate(vo.getCreateDate());
         vo.setType(affairType);
+        //处理子表
+
+        //end of 处理
         for(SimpleFormField sff :sffList){
             if(sff.getName().toLowerCase().equals("id")){
                 vo.setSourceId(CommonUtils.paserLong(sff.getValue()));
@@ -79,8 +81,6 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                vo.setCreateDate(CommonUtils.parseDate(String.valueOf(obj)));
                vo.setUpdateDate(vo.getCreateDate());
             }
-
-
             dataMap.put(sff.getDisplay(),sff.getValue());
         }
         vo.setData(JSON.toJSONString(dataMap));

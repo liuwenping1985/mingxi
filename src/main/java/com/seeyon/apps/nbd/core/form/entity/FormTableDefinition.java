@@ -90,11 +90,13 @@ public class FormTableDefinition {
             if (CommonUtils.isEmpty(objs)) {
                 continue;
             }
+
             List<SimpleFormField> sffList = new ArrayList<SimpleFormField>();
             for(FormField ff:formFields){
                 SimpleFormField sff= new SimpleFormField();
                 sff.setDisplay(ff.getDisplay());
                 sff.setName(ff.getName());
+
                 sff.setValue(objs.get(ff.getName()));
                 sffList.add(sff);
             }
