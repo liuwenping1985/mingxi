@@ -1,0 +1,15 @@
+@charset "utf-8";
+.contentText 
+{
+	height: 100%;
+	background-color: #ffffff;
+	padding: 20px;
+	margin: 0px;
+}
+.meetingtimecss{
+   color:#1039b2;
+   font-weight:bold;
+}
+.meetingabsent{
+  color:#ff0000;
+}

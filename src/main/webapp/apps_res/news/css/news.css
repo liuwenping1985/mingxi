@@ -1,0 +1,40 @@
+@charset "utf-8";
+.newsTitle{
+	font-size:24px;
+	line-height:24px; 
+	font-family:Arial, Helvetica;
+}
+.newsBorder{
+	border: 1px solid #A4A4A4;
+}
+
+#newsSummary{
+	height: 60px;
+	border: 1px solid #A4A4A4;
+	background-color: #d9ecff;
+	padding: 4px 6px 4px 6px;
+}
+
+#newsContentDIV{
+	font-size: 16px;
+	line-height: 24px;
+	padding: 6px;
+}
+
+.contentText{
+	
+}
+
+.tableTopBorder{
+border-top: 1px #a4a4a4 solid;
+}
+.passText{
+text-align: left;
+padding:6px 6px 2px 6px;
+font-size: 13px;
+color: #20417B;
+}
+.passbg{
+background: #D2D8E2;
+padding:0 6px;
+}

@@ -1,0 +1,32 @@
+@charset "utf-8";
+.info-title-back-middle{
+	background: url(../images/title-back.gif) ;
+	height: 24px;
+	width: 150px;
+	font-weight: bold;
+	padding-left: 10px;
+}
+
+.separatorLine{
+	background: url(../images/separator.gif) repeat-x;
+	height: 1px;
+}
+
+.noWrap{
+	word-break:break-all;
+	word-wrap:break-word;
+}
+.info-title-back-middle-other{
+	background: url(../images/title-back.gif) ;
+	height: 24px;
+	width: 350px;
+	font-weight: bold;
+}
+.ellipsis{
+	table-layout: fixed;
+}
+.text-overflow{
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}

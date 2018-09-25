@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>A8</title>
+<base target="_blank">
+<link rel="stylesheet" type="text/css" href="../../common/css/default.css">
+<script type="text/javascript" src="../../common/js/V3X.js"></script>
+<script type="text/javascript">
+var key = getParameter("key");
+var html = null;
+if(parent.htmlTempleteContent){
+	html = parent.htmlTempleteContent[key];
+}
+
+function show(){
+	var iframeKey = parent.document.getElementById('htmlTempleteOfIframe' + key);
+	if(iframeKey){
+		iframeKey.innerHTML = document.body.innerHTML
+	}
+}
+</script>
+</head>
+<body style="overflow:hidden;" oncontextmenu="self.event.returnValue=false" class="bg_color_none">
+<script type="text/javascript">
+var v3x=new V3X();
+if(html){
+	document.write(html);
+}
+</script>
+</body>
+</html>

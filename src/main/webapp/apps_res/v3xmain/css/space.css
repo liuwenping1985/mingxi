@@ -1,0 +1,61 @@
+@charset "utf-8";
+TD.head{
+	height:30px;
+}
+TD.addSection{
+	color:blue;
+	cursor:pointer;
+	font-weight:bold;
+	background:#F0F0F0;
+	padding-right:12px;
+}
+TD.content{
+	color:blue;
+	bgcolor:#E0E0E0; 
+	font-weight:bold;
+}
+TD.content div{
+	color:blue;
+	width:100%;
+	height:100%;
+	padding: 40px 12px 0 12px;
+}
+TD.content div.edit{
+	color:black;
+	font-weight:normal;
+	padding: 6px 6px 0 6px;
+}
+TR.sectionTitleTr{
+	background: #f0f7f9;
+	border-bottom:#CCCCCC  solid 1px ;
+}
+.fragmentTable{
+	border:solid #CCCCCC 1px;
+}
+span{
+	height:29px;
+	padding:5px 6px 0px 6px;
+	margin: 0px;
+}
+span.normal{
+	height:18px;
+	padding:2px 6px 0px 6px;
+	margin: 0px;
+}
+div.canEdit{
+	background:#D1E1F0;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	font-weight: bold;
+	padding-left: 5px;
+}
+div.canEditCursor{
+	cursor:pointer;
+	background: url(../images/edit.gif) no-repeat 90% center #D1E1F0;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	font-weight: bold;
+	padding-left: 5px;
+}

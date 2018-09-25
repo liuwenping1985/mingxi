@@ -1,0 +1,125 @@
+@charset "utf-8";
+/**二级菜单*/
+.info_left_nav{
+    width:100%;
+    height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+    background-color: #F3F8FF;
+    font-family: "微软雅黑";
+}
+.info_box_title{
+    /*height:45px;*/
+    /*padding:10px 10px;*/
+    padding:10px;
+    font-size:14px;
+    font-weight:bold;
+    color: #414141;
+    border-top: 1px solid #F9FCFF;
+    border-bottom: 1px solid #D0DEF1;
+}
+.info_box_title_first{
+    border-top: none;
+}
+.info_box_title:hover{
+    cursor: pointer;
+    background-color: #CDE9F9;
+}
+.info_box_title_font {
+    /*height:45px;*/
+    /*line-height:45px;*/
+    display:inline-block;
+    /*float:left;*/
+}
+.info_box_title_hook{
+    float: right;
+    display: inline-block;
+    margin-top: 9px;
+    width: 12px;
+    height: 6px;
+    background: url("images/blue_hook_1.png") no-repeat;
+}
+.info_box_title_hook_2{
+    background: url("images/blue_hook_2.png") no-repeat;
+}
+.info_box_title_no_hook{
+    background: none;
+}
+.info_report{
+    /*float: left;*/
+    /*margin: 10px 10px 0 0;*/
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_report_blue.png") no-repeat;
+}
+.info_audit{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_audit_blue.png") no-repeat;
+}
+.info_journal{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_journal_blue.png") no-repeat;
+}
+.info_inquiry{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_inquiry_blue.png") no-repeat;
+}
+.info_apply{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_apply_blue.png") no-repeat;
+}
+.info_box_display{
+	padding: 6px 0;
+	background-color: #E6F4FD;
+	border-top: 1px solid #F9FCFF;
+	border-bottom: 1px solid #B8D4F9;
+}
+.info_box_display a {
+    display:block;
+    width:100%;
+    height:26px;
+    padding-top: 2px;
+    padding-left: 40px;
+    *padding-left:34px;
+    font: 14px "微软雅黑";
+    color:#414141;
+    text-decoration: none;
+    text-align: left;
+}
+.info_box_title,.info_box_display a{
+    color:#414141;
+}
+.info_box_display a:hover{
+    background-color: #CDE9F9;
+    color: #414141;
+}
+.info_box_display .info_content_active:hover{
+    background-color: #115DBD;
+    color: #fff;
+}
+/**-三级菜单选中*/
+.info_box_display .info_content_active{
+    background-color: #115DBD;
+    color: #fff;
+}
+.info_box_display a span{
+    height:16px;
+    line-height:15px;
+    *line-height:18px;
+    display: inline-block;
+    vertical-align:middle;
+}

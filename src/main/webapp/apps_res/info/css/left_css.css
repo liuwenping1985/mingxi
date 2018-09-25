@@ -1,0 +1,87 @@
+@charset "utf-8";
+/* CSS Document */
+
+.warp {
+	width:135px;
+	height:300px;
+}
+.info_left_nav {
+	width:100%;
+	height:100%;
+	background:#eeeeee;
+	border:1px solid #b6b6b6;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+.info_box_title {
+	height:45px;
+	padding:0 10px;
+	color:#6096cf;
+	font-size:12px;
+	border-bottom:2px solid #a8c3df;
+	font-weight:bold;
+}
+.info_box_title_font {
+	height:45px;
+	line-height:45px;
+	display:inline-block;
+	float:left;
+}
+.info_box_display a {
+	width:100%;
+	height:40px;
+	line-height:40px;
+	font-size:12px;
+	color:#888d9a;
+	display:block;
+	border-bottom:1px solid #b6b6b6;
+}
+.info_box_display a:hover {
+	background:url(../images/info_left_hover.png) no-repeat;
+	color:#578ac2;
+}
+.info_box_display a:hover .info_box_ico1 {
+	background:url(../images/info_left_ico1.png) no-repeat;
+}
+.info_box_display a.info_box_act {
+	background:url(../images/info_left_hover.png) no-repeat;
+	color:#578ac2;
+}
+.info_box_display a span {
+	width:60px;
+	height:16px;
+	line-height:15px;
+	display: inline-block;
+	vertical-align:middle;
+	margin-left:15px;
+}
+.info_box_ico1 {
+	width:16px !important;
+	height:16px;
+	background:url(../images/info_left_ico.png) no-repeat;
+	display: inline-block;
+	vertical-align:middle;
+	
+}
+.info_box_icojia{
+
+}
+.info_cursor{
+	cursor:pointer;
+}
+.info_box_ico_show{
+	width:16px !important;
+	height:16px;
+	background:url(../images/info_left_jia.png) no-repeat;
+	display: inline-block;
+	margin-top:13px;
+	float:right;
+}
+.info_box_ico_hide{
+	width:16px !important;
+	height:16px;
+	background:url(../images/info_left_jian.png) no-repeat;
+	display: inline-block;
+	margin-top:13px;
+	float:right;
+}

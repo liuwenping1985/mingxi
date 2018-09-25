@@ -1,0 +1,57 @@
+@CHARSET "UTF-8";
+.opinion_noborder {
+	BORDER-bottom-STYLE: none; 
+	BORDER-LEFT-STYLE:none; 
+	BORDER-RIGHT-STYLE: none; 
+	BORDER-TOP-STYLE: none;
+		display:inline-block;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+		padding:1px;
+		margin:1px;
+		color:windowtext;
+		background-color:window;overflow:hidden;
+		text-align:left;
+}
+
+.xdLayout2{
+	border-top-width: medium;
+	border-right-width: medium;
+	border-bottom-width: medium;
+	border-left-width: medium;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+.xdTextBox{
+	display:inline-block;
+	text-overflow:ellipsis;
+	padding-top:1px;
+	padding-bottom:1px;
+	padding-left:0px;
+	padding-right:0px;
+	margin:1px;
+	border: 1pt solid #dcdcdc;
+	color:windowtext;
+	background-color:window;
+	text-align:left;
+	white-space:normal;
+}
+
+.input_date {
+    font-family: "Microsoft YaHei",SimSun, Arial,Helvetica,sans-serif;
+    font-size: 14px;
+}
+
+/**以下样式来自seeyon\common\print\print.jsp, 下面的样式影响的文字的样式**/
+#context div,#context form,#context input,#context textarea,#context p,#context th,#context td,#context ul,#context li,#context sapn{
+    /** font-family: inherit; 修改前 **/
+    font-family: "Microsoft YaHei",SimSun, Arial,Helvetica,sans-serif;
+    font-size: 14px;
+}
+
+div font span{
+    font-family: "Microsoft YaHei",SimSun, Arial,Helvetica,sans-serif;
+    font-size: 14px;
+}

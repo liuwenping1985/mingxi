@@ -1,0 +1,11 @@
+@charset "utf-8";
+.selected {
+	background: url("images/selectCalander.gif");
+}
+.noSelected {
+	background: #ffffff;
+}
+.calanderTitle{
+height: 24px;
+/*background: url("images/calendarTitle.gif") repeat-x;*/
+}

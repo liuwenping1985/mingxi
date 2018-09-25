@@ -1,0 +1,25 @@
+@charset "utf-8";
+.xdLayout2{
+	border-top-width: medium;
+	border-right-width: medium;
+	border-bottom-width: medium;
+	border-left-width: medium;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+.xdTextBox{
+	display:inline-block;
+	text-overflow:ellipsis;
+	padding-top:1px;
+	padding-bottom:1px;
+	padding-left:0px;
+	padding-right:0px;
+	margin:1px;
+	border: 1pt solid #dcdcdc;
+	color:windowtext;
+	background-color:window;
+	text-align:left;
+	white-space:normal;
+}

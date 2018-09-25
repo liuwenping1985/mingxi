@@ -1,0 +1,114 @@
+div,p,ul{
+    padding:0;
+    margin:0;
+    font-size: 12px;
+    font-family: "微软雅黑","宋体";
+}
+ul,li{
+    list-style: none;
+}
+a{
+    color:#000;
+    text-decoration: none;
+}
+.layout_center{
+    width:1119px;
+    margin:0 auto;
+    border:1px solid #ccc;
+}
+.common_toolbar_box{
+    width:100%;
+    height:60px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background: #f6f6f6;
+    border-bottom: 1px solid #ccc;
+}
+.left:after{
+    content:"";
+    display: table;
+    clear:both;
+}
+.left{
+    width:100%;
+}
+.left>li{
+    padding:0;
+    margin:0 10px;
+    margin-top:2px;
+}
+.left>li.current{
+    background: #80b4ec;
+}
+.left>li.current>a{
+    color:#fff;
+}
+.left>li{
+    float:left;
+}
+.left>li>a{
+	line-height:22px;
+	height:32px;
+}
+.left>li.selectLi{
+    padding:2px 15px;
+}
+.set_search{
+    padding:0 0 0 10px;
+}
+.set_search>span{
+    display: inline-block;
+    margin-right:10px;
+}
+.set_search>span>a{
+    padding-left:20px;
+}
+.absolute{
+    padding:10px 0;
+}
+.absolute>div{
+    text-align: center;
+    font-size: 14px;
+}
+.absolute>p{
+    width:50%;
+    margin:0 auto;
+    text-align: right;
+}
+.absolute>table{
+    width:100%;
+    border-collapse: collapse;
+    border:none;
+}
+.absolute>table td{
+    text-align: center;
+    padding:10px 0;
+    border-color: #ccc;
+}
+.absolute>table thead tr{
+    background: #f3f3f3;
+}
+.reportTitle{
+	text-align:center;
+	font-size:18px;
+	font-weight:bold;
+}
+.xl_time{
+	text-align:right;
+	margin-right:300px;
+	padding:10px 0;
+}
+.only_table{
+	border-collapse:collapse;
+}
+.only_table thead{
+	background:#f4f4f4;
+}
+.only_table td{
+	padding:5px 0;
+	border:1px solid #ccc;
+	text-align:center;
+}
+.td_content{
+	color:#296fbe;
+}

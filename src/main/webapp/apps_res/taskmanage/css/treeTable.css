@@ -1,0 +1,25 @@
+.width100 {
+	WIDTH: 100%
+}
+.list {
+	BORDER-RIGHT: #cccccc 1px solid; 
+	BORDER-TOP: #9eb850 2px solid;
+	WIDTH: 100%; BACKGROUND-COLOR: #fcfcfc
+}
+.list TD {
+	FONT-SIZE: 12px; 
+	BORDER-LEFT: #cccccc 0px; 
+	BORDER-BOTTOM: #cccccc 1px solid;
+}
+.list TR.top {
+	WHITE-SPACE: nowrap; BACKGROUND-COLOR: #edf5fe;
+}
+.list TR.top TD {
+	TEXT-ALIGN: left;
+	font-weight: bold;
+	FONT-SIZE: 13px;
+}
+.list TR.fstr {
+	BACKGROUND-COLOR: #f4f4f4
+}
+

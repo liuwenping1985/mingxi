@@ -1,0 +1,46 @@
+@charset "utf-8";
+button {
+	height: 24px;
+	width: 30px;
+	line-height: 18px;
+}
+.todyaColor {
+	BACKGROUND-COLOR: aqua;
+}
+body{
+srcoll: no;
+overflow: hidden;
+}
+#detail{
+position: absolute;
+}
+.font9pt{
+font-size: 9pt;
+}
+
+.bgfont{
+color: #f0f0f0;
+font-family: 'Arial Black';
+font-size: 90pt;
+}
+.clanderDateNumber{
+size: 5;
+}
+.colorRed{
+color: red;
+}
+.colorBlue{
+color: blue;
+}
+.colorGreen{
+color: green;
+}
+.colorBlack{
+color: black;
+}
+.titleBg{
+background-color: #F8F8F8;
+}
+.weekBg{
+background-color: #CFE3FF;
+}

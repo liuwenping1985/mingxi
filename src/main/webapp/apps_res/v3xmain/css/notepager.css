@@ -1,0 +1,48 @@
+@charset "utf-8";
+.notepager-table {
+	border-collapse: collapse;
+	border:1px solid #b7b7b7;
+	margin-top:0px;
+	font-size:12px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.notepager-td{
+	border:0px;
+	margin:0;
+	padding:0px  1px 1px 1px;
+	font-size:12px;
+}
+.notepage-title-style {
+ background: url(../../../common/js/menu/images/toolbar_bg.gif) repeat-x;
+ color:#fff;
+ font-size: 12px;
+ font-weight:bold;
+ padding-left:6px;
+}
+.textarea-bg{	
+background:#ededed;
+}
+.bottom{
+padding-left:6px;
+padding-right:16px;
+background:#ededed;
+}
+#message{
+height: 300px;
+border:1px solid #b7b7b7;
+}
+#descriptonDiv{
+float: left;
+}
+#exportDiv{
+float: right;
+}
+.notepager-title{
+height: 30px;
+line-height:30px;
+vertical-align:middle;
+background:#ededed;
+border-top: 1px #b7b7b7 solid;
+padding-left: 5px;
+}

@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+.dialog_main{
+	background:none repeat scroll 0 0 #FAFAFA; 
+	box-shadow:0 0 10px #333333;
+	border：1px solid #E4E4E4;
+	color:#58666E;
+}
+.dialog_close{
+	background:url("../img/dialog_close.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	cursor: pointer;
+    height: 32px;
+    margin: 0;
+    width: 34px;
+}
+.absolute{
+	position:absolute;
+}
+.dialog_main_head{
+	background: none repeat scroll 0 0 #B82B2B;
+    cursor: move;
+    height: 28px;
+}
+.dialog_main_content{
+	z-index:899px;
+	
+}
+.dialog_main_content_html{
+	background:none repeat scroll 0 0 #FFFFFF;
+	font-size:12px;
+}

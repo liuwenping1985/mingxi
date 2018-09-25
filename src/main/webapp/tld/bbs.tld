@@ -1,0 +1,27 @@
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+  http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+
+	<display-name>bbs</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>bbs</short-name>
+	<uri>http://v3x.seeyon.com/taglib/bbs</uri>
+	<function>
+		<name>showSubject</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.BbsFunction</function-class>
+		<function-signature>java.lang.String showSubject(com.seeyon.v3x.bbs.webmodel.ArticleModel, int, javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>showName</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.BbsFunction</function-class>
+		<function-signature>java.lang.String showName(com.seeyon.v3x.bbs.webmodel.ArticleModel, javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>showBoardName</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.BbsFunction</function-class>
+		<function-signature>java.lang.String showBoardName(com.seeyon.v3x.bbs.webmodel.ArticleModel)</function-signature>
+	</function>
+	</taglib>

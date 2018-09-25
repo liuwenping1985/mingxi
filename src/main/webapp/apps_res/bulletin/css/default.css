@@ -1,0 +1,208 @@
+@charset "utf-8";
+input,select{
+	font-size:12px;
+}
+
+#content{
+	height:100%;
+	width:100%;
+}
+
+.detailBody,.editBody{
+	background-color:#EFEFEF;
+}
+
+.newTable ,.detailTable{
+	width:100%;
+}
+
+.label{
+	text-align:right;
+	width:10%;
+}
+
+.value{
+	text-align:left;
+	width:40%;
+}
+
+.operBar{
+	text-align:right;
+	float:right;
+}
+
+.operBtn{
+	width:70px;
+	margin:5px;
+}
+
+.createFieldset{
+	margin:5px;
+}
+
+.my-tab-body-bg{
+	border-left: solid 1px #bdbdbd;
+	border-right: solid 1px #bdbdbd;
+	border-bottom: solid 1px #bdbdbd;
+	
+	padding: 0px 0px 0px 0px;
+	vertical-align: top;
+}
+
+.hyper_link2{
+	text-decoration: none;
+	color:##007cd2;
+	vertical-align:middle;		
+}
+
+.bg-summary{
+	/*background-color: #e9e9e9;*/
+} 
+
+.bg-gray {
+	text-align: right;
+	padding-right: 8px;
+}
+#attachmentTr{
+	padding-top: 4px;
+}
+
+#advanceButton{
+	color: blue;
+	text-decoration: underline;
+}
+.subjectView{
+	font-size: 12px;
+	text-align: right;
+	padding-right: 12px;
+	padding-top: 10px;
+}
+.subjectView2{
+	font-size: 12px;
+	padding-top: 10px;
+}
+.subjectView3{
+	font-size: 12px;
+	text-align: right;
+	padding-right: 12px;
+}
+.sender{
+	text-align: right;
+	padding-right: 12px;
+	font-size: 12px;
+	padding-top: 10px;
+}
+.sender2{
+	font-size: 12px;
+	padding-top: 10px;
+}
+
+.paddingLR{
+	padding:0 30px;
+}
+.appendInfo{
+	background-color: #FFFFFF;
+	font-size: 12px;
+	BORDER-BOTTOM: buttonshadow 0px solid;
+	BORDER-LEFT: #c5cad2 1px solid;
+	BORDER-RIGHT: #c5cad2 1px solid;
+	BORDER-TOP: #c5cad2 1px solid;
+}
+.rightBorder{
+	BORDER-RIGHT: #c5cad2 1px solid;
+}
+.titleCss{
+	font-size:24px;
+	line-height:24px; 
+	font-family:黑体, Arial, Helvetica;
+}
+
+.tophrCss{
+  border-bottom:solid 1px #A4A4A4;
+}
+
+.titleDefaultCss{
+  color: #1858ba;
+  text-decoration: none;
+}
+
+.body-bgcolor-audit{
+	background-color: #9099ae;
+	/* text-align: center; */
+}
+
+.scrollList-audit{
+	float: left;
+	clear: left;
+	height: 90%;
+	width: 100%;
+	overflow: auto;
+	margin: 0px;
+	padding: 0px;
+}
+
+.bulletinContentArea{
+	width: 788px;
+}
+
+.body-detail-HTML,.body-detail-office{
+	border: solid 0px black;
+}
+
+.body-detail-table{
+	width: 765px;
+}
+
+.tableTopBorder{
+border-top: 1px #a4a4a4 solid;
+}
+
+.tab-body-bg-bull{
+	border-left: solid 1px #bdbdbd;
+	border-right: solid 1px #bdbdbd;
+	border-bottom: solid 1px #bdbdbd;
+	padding: 0px;
+	vertical-align: top;
+}
+
+.departmentChange{
+	width: 100px;
+}
+.black_link{
+	color: #000;
+	text-decoration: none;
+}
+.passText{
+	text-align: left;
+	padding:6px 6px 2px 6px;
+	font-size: 13px;
+	color: #20417B;
+}
+.passbg{
+	background: #D2D8E2;
+	padding:0 6px;
+}
+.index-bottom {
+	padding:5px 5px 10px 5px;
+}
+.index-bottom-left {
+	float:left;
+	padding:5px 0;
+}
+.index-bottom-right {
+	float:right;
+}
+.index-type-body {
+	float:left;
+	
+}
+.index-type-border {
+	border-left: solid 1px #b6b6b6;
+	border-right: solid 1px #b6b6b6;
+}
+.view-bulletin-title {
+	padding: 20px 0px 10px 0px; 	
+	font-size:24px;  
+	line-height:24px;	
+	font-family:黑体, Arial, Helvetica;
+}

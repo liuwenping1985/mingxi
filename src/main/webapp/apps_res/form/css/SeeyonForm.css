@@ -1,0 +1,178 @@
+@charset "utf-8";
+TABLE.xdLayout TD {
+		BORDER-RIGHT: medium none;
+		BORDER-TOP: medium none;
+		BORDER-LEFT: medium none; 
+		BORDER-BOTTOM: medium none;
+}
+TABLE {
+		BEHAVIOR: url (#default#urn::tables/NDTable)
+}
+
+BODY{		
+		color:windowtext;
+		background-color:#ffffff;
+		layout-grid:none;
+}
+strong input, strong select , strong textarea{
+	font-weight: bold;
+}
+.xdListItem {
+		display:inline-block;width:100%;
+		vertical-align:text-top;
+} 		
+.xdListBox,.xdComboBox{
+		margin:1px;
+} 		
+.xdInlinePicture{
+		margin:1px; 
+		BEHAVIOR: url(#default#urn::xdPicture); 
+} 		
+.xdLinkedPicture{
+		margin:1px; 
+		BEHAVIOR: url(#default#urn::xdPicture) url(#default#urn::controls/Binder); 
+} 		
+.xdSection{
+		border:1pt solid #FFFFFF;
+		margin:6px 0px 6px 0px;
+		padding:1px 1px 1px 5px;
+} 		
+.xdRepeatingSection{
+		border:1pt solid #FFFFFF;
+		margin:6px 0px 6px 0px;
+		padding:1px 1px 1px 5px;
+} 		
+.xdBehavior_Formatting {
+		BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting);
+} 	 
+.xdBehavior_FormattingNoBUI{
+		BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting);
+} 	
+.xdExpressionBox{
+		margin: 1px;
+		padding:1px;
+		word-wrap: break-word;text-overflow: ellipsis;overflow-x:hidden;
+}
+.xdBehavior_GhostedText,.xdBehavior_GhostedTextNoBUI{
+		BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField) url(#default#GhostedText);
+}	
+.xdBehavior_GTFormatting{
+		BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);
+}	
+.xdBehavior_GTFormattingNoBUI{
+		BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);
+}	
+.xdBehavior_Boolean{
+		BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper);
+}	
+.xdBehavior_Select{
+		BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper);
+		border: 1pt solid;
+}	
+.xdRepeatingTable{
+		BORDER-TOP-STYLE: none;
+		BORDER-RIGHT-STYLE: none; 
+		BORDER-LEFT-STYLE: none; 
+		BORDER-BOTTOM-STYLE: none; 
+		BORDER-COLLAPSE: collapse; 
+		WORD-WRAP: break-word;
+}
+.xdTextBox{
+		display:block;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+		padding:1px;margin:1px;
+		border: 1pt solid #dcdcdc;
+		color:windowtext;
+		background-color:window;
+		text-align:left;
+}
+.xdRichTextBox{
+		display:inline-block;
+		border: 1pt solid #dcdcdc;
+		color:windowtext;
+		background-color:window;
+		overflow-x:hidden;
+		word-wrap:break-word;
+		text-overflow:ellipsis;
+		text-align:left;
+	
+		font-style:normal;
+		text-decoration:none;
+		vertical-align:baseline;
+		padding:1px;margin:1px;
+} 		
+.xdDTPicker{
+		display:inline;
+		margin:1px;
+		margin-bottom: 2px;
+		border: 1pt solid #dcdcdc;
+		color:windowtext;
+		background-color:window;
+		overflow:hidden;
+} 		
+.xdDTText{
+		height:100%;
+		width:100%;
+		margin-right:22px;
+		overflow:hidden;
+		padding:0px;
+		white-space:nowrap;
+} 		
+.xdDTButton{
+		margin-left:-21px;
+		height:18px;
+		width:20px;
+		behavior: url(#default#DTPicker);
+}
+
+.xdRepeatingTable TD {
+		VERTICAL-ALIGN: top;
+}
+
+BODY,TABLE,SELECT{
+		FONT-FAMILY: SimSun
+}
+DIV{
+    line-height: 1.5;
+    layout-grid-mode:none!important;
+}
+.optionalPlaceholder {
+		PADDING-LEFT: 20px; 
+		FONT-WEIGHT: normal; 
+		FONT-SIZE: 9pt; 
+		BEHAVIOR: url(#default#xOptional); 
+		COLOR: #333333; 
+		FONT-STYLE: normal; 
+		FONT-FAMILY: SimSun; 
+		TEXT-DECORATION: none
+}
+.langFont{
+		FONT-FAMILY: SimSun;
+}
+.input-noborder{
+BORDER-bottom-STYLE: none; 
+BORDER-LEFT-STYLE:none; 
+BORDER-RIGHT-STYLE: none; 
+BORDER-TOP-STYLE: none;
+background-color:#f6f6f6;
+}
+.input-noborder1{
+BORDER-bottom-STYLE: none; 
+BORDER-LEFT-STYLE:none; 
+BORDER-RIGHT-STYLE: none; 
+BORDER-TOP-STYLE: none;
+}
+.prestyle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	display:inline;
+}
+span {
+	font-family:"Microsoft YaHei", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.headcenter THEAD TD {
+	text-align: center;
+	white-space:nowrap;
+}

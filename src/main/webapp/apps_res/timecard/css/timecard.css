@@ -1,0 +1,21 @@
+@charset "utf-8";
+.timecard-table {
+	border-collapse: collapse;
+	border:2px solid #75b8c0;
+	background:#f1f1f1;
+	margin-top:0px;
+	font-size:12px;
+}
+.timecard-td{
+	border:0px;
+	margin:0;
+	padding:0px  1px 1px 1px;
+	font-size:12px;
+}
+.timecard-title-style {
+ background: url(../images/toolbar_bg.gif) repeat-x;
+ color:#fff;
+ font-size: 12px;
+ font-weight:bold;
+ padding-left:6px;
+}

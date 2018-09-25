@@ -1,0 +1,46 @@
+/**
+ *
+ *  File Authors: lucx
+ */
+
+var BBSLang = {
+		bbs:"文化建设 - 讨论",
+		bbs_dept_manage:"部门讨论管理",
+		bbs_account_manage:"单位讨论管理",
+		bbs_group_manage:"集团讨论管理",
+		bbs_article_content_should_not_be_null : "讨论主题正文内容不能为空!",
+		bbs_bbsmanage_alert_update : "请您先选择要修改的板块!",
+		bbs_bbsmanage_alert_delete : "请您先选择要删除的板块!",
+		bbs_bbsmanage_alert_chooseObe:"请选择一项进行操作",
+		bbs_bbsmanage_alert_topSequence:"讨论《{0}》已经置顶.",
+		bbs_bbsmanage_delConfirmed : "确认要删除吗? 该操作不能恢复！",
+		bbs_bbsmanage_createboard_sameness : "与已有板块重名，请重新输入!",
+		bbs_bbsmanage_createboard_choice : "请选择讨论管理员!",
+		bbs_boarduse_issuePost_issuearea : "请选择发布范围!",
+		bbs_boardmanage_boardAuth_accredit : "请选择授权范围!",
+		bbs_boardmanager_boardM_putter : "请您先选择要置顶的主题!",
+		bbs_boardmanager_boardM_noexcess : "该板块置顶个数不得超过",
+		bbs_boardmanager_boardM_cancleTopic : "请您先选择要取消置顶的主题!",
+		bbs_boardmanager_boardM_setElite : "请您先选择要设置精华的主题!",
+		bbs_boardmanager_boardM_cancelElite : "请您先选择要取消精华的主题!",
+		bbs_boardmanager_boardM_delMotif : "请您先选择要删除的主题!",
+		bbs_boardmanager_boardM_delFullnote	: "您确定要删除主题贴及其下的所回贴吗?",
+		bbs_bbsmanage_spaceType_not_delete  : "您无权删除该板块!",
+		bbs_bbsmanage_alert_same            : "已有同名标题，是否继续发布?",
+		bbs_startDate_late_than_endDate:"开始时间不能晚于结束时间!",
+		bbs_description_too_long:"描述输入过长,请输入300字以內!",
+		bbs_name_too_long:"名称输入过长,请输入200字以內!",
+		bbs_reply_content_too_long:"回复内容过长,请输入1024字以內!",
+		bbs_board_hasArticle:"删除讨论板块时,将连同板块下的讨论一起删除，删除不可恢复，确认吗？",
+		bbs_board_has_del:"该讨论板块已被管理员删除!",
+		bbs_board_noAuth_post:"你无权发贴!",
+		bbs_board_no_pers : "你没有讨论管理的权限!",
+		bbs_reply_can_not_be_null:"回复内容不能为空！",
+		bbs_delete_article_notice : "删除这条主贴将连同其下的所有回复贴一起删除,您确定吗?",
+		bbs_delete_reply_notice : "您确定要删除这条回复贴吗?",
+	    detail_info_8004 : "<li></li>",
+		detail_info_8004_1 : "<li></li>",
+		detail_info_8004_2 : "<li></li>",
+		detail_info_bbs_setup: "<li>单击“新建”菜单，新建讨论板块,对讨论板块的管理进行授权。</li><li>勾选一条讨论板块记录后单击“修改”菜单或双击列表中的讨论板块，修改讨论板块信息并设置板块管理授权。</li><li>勾选列表中的讨论板块记录，单击“删除”菜单，删除选定的讨论板块。</li><li>不允许删除包含讨论文章的板块。</li>",
+		bbs_boardmanage_boardAuth_success : "授权成功!"
+}

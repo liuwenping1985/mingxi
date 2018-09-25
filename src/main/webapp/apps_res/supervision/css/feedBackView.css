@@ -1,0 +1,122 @@
+/*初始化样式*/
+body,div,p,ul,textarea{
+	padding:0;
+	margin:0;
+	font-family: "微软雅黑","宋体";
+	font-size:14px;
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color:#000;
+}
+textarea{
+	height:40px;
+}
+/*xl 6-30修改*/
+textarea.xl_completion{
+	height:70px;
+}
+.xl_box{
+	/* border:1px solid #ddd; */
+	border-radius: 5px;
+	background: #fff;
+	width:500px;
+	/* margin:60px auto;*/
+	padding:10px 0px; 
+}
+.xl_box:after{
+	content:"";
+	display: table;
+	clear:both;
+	border:1px solid #ddd;
+}
+.xl_table{
+	width:100%;
+	border-collapse: collapse;
+}
+/*xl 6-26*/
+.xl_table>tbody>tr>td>div{
+	margin:5px 0;
+}
+.xl_cancel{
+    display: inline-block;
+    width:24px;
+    height:24px;
+    text-align: center;
+    line-height: 23px;
+    font-size: 18px;
+    background: #EBEBEB;
+    border-radius: 5px;
+    font-weight: bold;
+    color:#999;
+    float:right;
+    cursor: pointer;
+}
+.xl_road,.xl_period,.xl_unit,.xl_completion{
+	width:100%;
+	border:1px solid #ddd;
+	border-radius: 5px;
+}
+.xl_period{
+	padding:5px 0;
+}
+/*进度条样式*/
+.progressbar_1{
+    display:inline-block;
+    background-color:#eee;
+    height:10px;
+    width:50%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius:5px;
+    color:#222;
+    text-align:left;
+    position: relative;
+    margin:10px 0 14px;
+    vertical-align: middle;
+}
+.progressbar_1 .bar {
+    display: inline-block;
+    background-color:rgb(141,208,122);
+    height:10px;
+    width:0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius:5px;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.xl_num{
+	padding-top:5px;
+}
+/*xl 6-30修改*/
+.xl_content{
+	height:70px;
+	
+	overflow-y:scroll; 
+	padding:5px 0;
+	border:1px solid #ddd;
+	margin:5px 0;
+	border-radius: 5px;
+}
+.xl_content>li{
+	padding:2px;
+}
+.xl_btn{
+	border-radius: 5px;
+	background: #E1ECF8;
+	margin-top:10px;
+    border:none;
+    padding:8px 32px;
+    cursor: pointer;
+    float:right;
+    color: #4C87DD;
+    font-size: 14px;
+}
+.xl_btn:hover{
+	background: #b9c2cb;
+}

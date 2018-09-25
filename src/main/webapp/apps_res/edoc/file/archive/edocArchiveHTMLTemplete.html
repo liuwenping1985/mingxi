@@ -1,0 +1,37 @@
+<!-- 
+    create by : xuqw
+	用于与东方飞扬档案或其他档案系统集成， HTML正文的模版，最终由档案管理模块读取
+ -->
+<!DOCTYPE html>
+<html class="h100b content_view">
+<head>
+<title></title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="${tempFolderName}/common/images/A8/favicon.ico" type="image/x-icon" rel="icon"/>
+<link rel="stylesheet" href="${tempFolderName}/common/all-min.css">
+<link rel="stylesheet" href="${tempFolderName}/skin/default/skin.css">
+<link rel="stylesheet" href="${tempFolderName}/common/css/dd.css">
+<link rel="stylesheet" href="common/js/orgIndex/token-input.css" type="text/css" />
+<link href="${tempFolderName}/common/skin/default/skin.css" type="text/css" rel="stylesheet">
+<style>
+.content_text a {
+  line-height: 1.5;
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+    <div id='htmlContentDiv'>
+    <table align="center" border="0" cellspacing="0" cellpadding="0" class="body-detail-HTML" id="col-contentTable">
+      <tr>
+        <td class="padding355"><div style="position:absolute;height:0px;width:0px" id="inputPosition"></div>
+          <div id=iSignatureHtmlDiv name=iSignatureHtmlDiv style=border:0px;width:1px;height:1px></div>
+          <div class="contentText" id="edoc-contentText">
+              ${contentHtml}          
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,302 @@
+@CHARSET "UTF-8";
+
+/*xl 6-30背景修改为白色*/
+#supTypeDialog .dialog_main,#feedBackView .dialog_main,#feedbackWin .dialog_main,#breakSup .dialog_main,#commentsSup .dialog_main,#hasten .dialog_main,#remindSup .dialog_main,#othervaluate .dialog_main,#plan .dialog_main,#selfevaluate .dialog_main
+	{
+	background-color:#fff;
+	box-shadow: none;
+	color: #58666E;
+}
+/*xl 6-30删除#feedbackWin .dialog_close,,#feedBackView .dialog_close#plan .dialog_close,#commentsSup .dialog_close,,#selfevaluate .dialog_close,#othervaluate .dialog_close,#remindSup .dialog_close*/
+#supTypeDialog .dialog_close,#breakSup .dialog_close
+	{
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#checkformError .absolute,.supervision .absolute,#supTypeDialog .absolute,#feedBackView .absolute,#feedbackWin .absolute,#breakSup .absolute,#commentsSup .absolute,#hasten .absolute,#remindSup .absolute,#othervaluate .absolute,#plan .absolute,#selfevaluate .absolute
+	{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	position: absolute;
+}
+/*xl 6-30将#feedbackWin .dialog_main_head，,#feedBackView .dialog_main_head#plan .dialog_main_head,,#hasten .dialog_main_head,#othervaluate .dialog_main_head,#commentsSup .dialog_main_head,#selfevaluate .dialog_main_head,#remindSup .dialog_main_head显示*/
+#supTypeDialog .dialog_main_head,#breakSup .dialog_main_head
+	{
+	display: none;
+}
+/*xl 6-30设置头部背景为白色*/
+#feedbackWin .dialog_main_head,
+#plan .dialog_main_head,
+#hasten .dialog_main_head,
+#othervaluate .dialog_main_head,
+#commentsSup .dialog_main_head,
+#selfevaluate .dialog_main_head,
+#feedBackView .dialog_main_head,
+#remindSup .dialog_main_head
+{
+	background-color:#fff;
+	position:relative;
+	border-radius:5px;
+}
+#feedbackWin .dialog_main_head .dialog_close,
+#plan .dialog_main_head .dialog_close,
+#hasten .dialog_main_head .dialog_close,
+#othervaluate .dialog_main_head .dialog_close,
+#commentsSup .dialog_main_head .dialog_close,
+#selfevaluate .dialog_main_head .dialog_close,
+#feedBackView .dialog_main_head .dialog_close,
+#remindSup .dialog_main_head .dialog_close{
+	width:45px;
+	height:24px;
+	background-image:url(../img/canl.png);
+	position:absolute;
+	bottom:0;
+	right:0;
+}
+#feedbackWin .dialog_main_head .dialog_title,
+#plan .dialog_main_head .dialog_title,
+#hasten .dialog_main_head .dialog_title,
+#othervaluate .dialog_main_head .dialog_title,
+#commentsSup .dialog_main_head .dialog_title,
+#selfevaluate .dialog_main_head .dialog_title,
+#feedBackView .dialog_main_head .dialog_title,
+#remindSup .dialog_main_head .dialog_title{
+	color:#58666E;
+	font-size:14px;
+	margin: 8px 10px;
+}
+#feedBackView .dialog_main_head .dialog_close{
+	width:60px;
+}
+/*xl 6-30删除#feedbackWin .dialog_close,#feedBackView .dialog_main_content,#plan .dialog_main_content,,#selfevaluate .dialog_main_content,,#hasten .dialog_main_content#othervaluate .dialog_main_content,#remindSup .dialog_main_content,#commentsSup .dialog_main_content,*/
+#supTypeDialog .dialog_main_content,#breakSup .dialog_main_content
+	{
+	padding-top: 10px;
+}
+
+.supervision .dialog_main_content_html,#supTypeDialog .dialog_main_content_html,#feedBackView .dialog_main_content_html,#feedbackWin .dialog_main_content_html,#breakSup .dialog_main_content_html,#commentsSup .dialog_main_content_html,#hasten .dialog_main_content_html,#remindSup .dialog_main_content_html,#othervaluate .dialog_main_content_html,#plan .dialog_main_content_html,#selfevaluate .dialog_main_content_html
+	{
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-radius: 0px 0px 5px 5px;
+	font-size: 14px;
+}
+
+#supTypeDialog .dialog_shadow,#feedBackView .dialog_shadow,#feedbackWin .dialog_shadow,#breakSup .dialog_shadow,#commentsSup .dialog_shadow,#hasten .dialog_shadow,#remindSup .dialog_shadow,#othervaluate .dialog_shadow,#plan .dialog_shadow,#selfevaluate .dialog_shadow
+	{
+	opacity: 0;
+}
+/*以下样式是页面提示、警告、确认信息框样式*/
+.supervision .dialog_main,#checkformError .dialog_main {
+	border: none;
+	background: none;
+	box-shadow: none;
+}
+
+.supervision .dialog_box,#checkformError .dialog_box {
+	z-index: 1000;
+	width: 350px;
+	min-height: 230px;
+	border: 1px solid #ccc;
+}
+
+.supervision .dialog_main_head ,#checkformError .dialog_main_head{
+	/*xl 将头部高度从28px修改为40px*/
+	height: 40px;
+	cursor: move;
+	background: #45a5ce;
+	/*xl 添加边框倒角样式*/
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.supervision .dialog_close_msg ,#checkformError .dialog_close_msg{
+	position: absolute;
+	cursor: pointer;
+	background: url(../img/canl.png) no-repeat;
+	_background: url(../img/canl.png) no-repeat;
+	margin: 0;
+	z-index: 1000;
+	/*xl 修改取消按钮的宽高和位置*/
+	width: 24px;
+	height: 24px;
+	right: 10px;
+	top: 10px;
+}
+
+.supervision .padding_t_10 ,#checkformError .padding_t_10{
+	padding-top: 0px;
+}
+/*xl 7-1恢复弹框底部原有的高度*/
+.supervision .dialog_main_footer ,#checkformError .dialog_main_footer{
+	/*height: 0px;*/
+	height:50px;
+	border-top:1px solid #e8e8e8;
+	border-radius:0 0 5px 5px;
+}
+/*xl 7-1 设置footer里面span的大小为白色*/
+.supervision .dialog_main_footer span,#checkformError .dialog_main_footer span{
+	display:inline-block;
+	width:100%;
+	height:100%;
+	background-color:#fff;
+	border-radius:0 0 5px 5px;
+}
+/*xl 7-1*/
+.supervision .dialog_main_content_html ,#checkformError .dialog_main_content_html {
+	box-sizing:border-box;
+	padding-top:10px;
+}
+.supervision .right ,#checkformError .right{
+	float: none;
+}
+
+.supervision .margin_r_10 ,#checkformError .margin_r_10{
+	margin-right: 0px;
+}
+
+.supervision .common_button ,#checkformError .common_button{
+	font-size: 14px;
+	padding: 7px 31px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: none;
+	color: #111;
+	background: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 90px;
+	display: inline-block;
+	line-height: 18px;
+	height: 18px;
+	vertical-align: middle;
+	_vertical-align: baseline;
+	display: inline-block;
+}
+/*xl 7-1*/
+.supervision .common_button_emphasize ,#checkformError .common_button_emphasize{
+	color: #fff;
+	background: #4180DB;
+	position: absolute;
+	bottom: 9px;
+	right: 10px;
+	z-index: 99999;
+}
+
+.supervision .common_button_emphasize:hover ,#checkformError .common_button_emphasize:hover{
+	background: #3561a0;
+}
+
+.supervision .common_button ,#checkformError .common_button{
+	/*将宽度需从44px 修改为 28px*/
+	min-width: 28px;
+	text-align: center;
+	height: 18px;
+	line-height: 18px;
+}
+/*xl 7-1*/
+.supervision .common_button_gray ,#checkformError .common_button_gray{
+	background: #E1ECF8;
+	color: #4c87dd;
+	position: absolute;
+	bottom: 9px;
+	right: 122px;
+	z-index: 99999;
+}
+
+.supervision .common_button_gray:hover ,#checkformError .common_button_gray:hover{
+	background: #b9c2cb;
+	border: none;
+}
+
+.supervision .margin_t_20,#checkformError .margin_t_20 {
+	margin-top: 0px;
+}
+
+.supervision .msgbox_img_4,.supervision .msgbox_img_2{
+	/* width: 50px; */
+	/* height: 30px; */
+	width: 24px;
+	height: 24px;
+	display: block;
+	background: url(../img/alert.png) center no-repeat;
+	line-height: 20px;
+}
+.supervision .msgbox_img_0{
+	width: 24px;
+	height: 24px;
+	display: block;
+	background: url(../img/info.png) center no-repeat;
+	margin-top:3px;
+}
+#checkformError .msgbox_img_2{
+	width: 24px;
+	height: 24px;
+	background: url(../img/error.png) no-repeat;
+	display: block;
+	margin-top:3px;
+}
+.supervision .msgbox_content{
+	font-size: 14px;
+	color: #6f737a;
+}
+.supervision .dialog_main_content_html table td{
+	/* padding: 5px 0; */
+	box-sizing:content-box;
+	height:auto;
+}
+
+.supervision .dialog_main_footer ,#checkformError .dialog_main_footer{
+	position: relative;
+}
+
+/*表单弹出框提示信息*/
+#checkformError .msgbox_content{
+	color:#e15d42;
+	font-size: 12px;
+}
+#checkformError .padding_l_10 {
+	padding-left: 0px;
+}
+#checkformError .dialog_main_content_html{
+	font-size: 12px;
+	background: white;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+/*提交保存成功提示信息*/
+.xl_success {
+	height: 36px;
+	/* min-width:116px; */
+	padding: 0px 10px;
+	font-size: 16px;
+	color: #fff;
+	line-height: 36px;
+	text-align: center;
+	box-sizing: border-box;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background: #61b814;
+	/* opacity:0;
+    filter:alpha(opacity=0); */
+	position: fixed;
+	top: 48%;
+	left: 46%;
+	z-index: 9999;
+	-webkit-animation-name: fadeIn;
+	-webkit-animation-duration: 3s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-delay: 0;
+	-webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+}
+
+.xl_success>img {
+	vertical-align: middle;
+	margin-right: 5px;
+}

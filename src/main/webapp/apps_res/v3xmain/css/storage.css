@@ -1,0 +1,17 @@
+@charset "utf-8";
+.sorttd {
+	BORDER-BOTTOM: #c5cad2 1px solid;
+	BORDER-LEFT: #FFFFFF 1px solid;
+	BORDER-RIGHT: #c5cad2 1px solid;
+	CURSOR: default;
+	HEIGHT: 20px;
+	PADDING-TOP: 2px;
+	PADDING-LEFT: 5px;
+	PADDING-RIGHT: 5px;
+}
+.manage-stat-2{
+	border-top: solid 1px #DBDBDB;
+	border-right: solid 1px #DBDBDB;
+	border-left: solid 1px #DBDBDB;
+	background: url(../images/manage.stat.bg2.gif) repeat-x;
+}

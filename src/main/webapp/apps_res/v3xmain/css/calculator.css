@@ -1,0 +1,59 @@
+@charset "utf-8";
+p{ 
+ font-size:  9pt; font-family: "Verdana"; 
+} 
+td{ 
+ font-size:  9pt; line-height: normal ;
+} 
+a{ 
+ font-size:  9pt; text-transform : none; color: #326969; text-decoration: none ;
+} 
+a:hover { 
+ font-size:  9pt; left: 1px; color: #0000ff; position: relative; top: 1px; text-decoration: none ;
+} 
+body{ 
+ font-size:  9pt; cursor: url('body.cur'); scrollbar-arrow-color: #ffffff; scrollbar-base-color: #cde0c2;overflow: hidden; 
+} 
+.diary_tb{ 
+ width: 100%; word-break: break-all; font-family: "Verdana","宋体"; position: relative; text-align: center; word-wrap: break-word ;
+} 
+.diary_main{ 
+ table-layout: fixed; background-position: left top; font-size:  12px; color: #005782; word-break: break-all; line-height: 24px; font-family: "宋体"; line-break: strict; height: 2px; text-align: left; 
+}
+input.button{
+ height:24px;	
+ width:46px;
+ line-height:18px;
+}
+.calanderBorder{
+border:1px solid #b7b7b7;
+background-color: #ededed;
+height:260px;
+width:540px;
+}
+.calanderBorder tbody{
+background-color: #ededed;
+}
+.calanderTop{
+height: 50px;
+}
+.calanderTop input{
+height: 25px;}
+
+.lightgrey{
+background-color: lightgrey;
+}
+.colorRed{
+color: red;
+}
+.colorBlue{
+color: blue;
+}
+.colorPink{
+color: #ff00ff;
+}
+.paddingTop20{
+padding-top: 20px;
+}
+.paddingRight5{
+padding-right: 5px;}

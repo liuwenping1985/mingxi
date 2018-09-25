@@ -1,0 +1,138 @@
+@CHARSET "UTF-8";
+/****div old dialog***/
+.mxt-window {
+    position: absolute;
+    border: 1px #b6b6b6 solid;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    background: #ededed;
+}
+
+.mxt-window .mxt-window-head {
+    vertical-align: middle;
+    /*background: url(images/popwindow/titlebg.gif?V=3_50_2_29) no-repeat;*/
+    cursor: move;
+    overflow: hidden;
+    height: 29px;
+}
+
+.mxt-window .mxt-window-head .mxt-window-head-title {
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 10px;
+    /*margin-left: 61px;*/
+}
+
+.mxt-window .mxt-window-head .mxt-window-head-close {
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+    float: right;
+    background: url(../images/popwindow/closewin.gif?V=3_50_2_29) no-repeat;
+    margin: 10px 3px 0 0;
+    cursor: pointer;
+}
+
+.mxt-window .mxt-window-body {
+    background: #ededed;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.mxt-window .mxt-window-body .mxt-window-body-content {
+    background: #ffffff;
+    padding: 5px;
+    border: 1px #b6b6b6 solid;
+}
+
+.mxt-window .mxt-window-body .mxt-window-body-iframe {
+    border: 1px #b6b6b6 solid;
+    background: #ffffff;
+}
+
+.mxt-window .mxt-window-footer {
+    background: #ededed;
+    overflow: hidden;
+    text-align: right;
+    padding: 5px;
+    height: 41px;
+}
+
+.mxt-window .mxt-window-footer input {
+    margin:0px 15px;
+    padding: 2px 15px;
+    border: 1px #b6b6b6 solid;
+    background: url(../images/popwindow/btnbg.gif?V=3_50_2_29) repeat-x;
+}
+
+/***panel***/
+.mxt-window .mxt-panel-head {
+    vertical-align: middle;
+    padding-left: 5px;
+    background: #ededed;
+    cursor: move;
+    overflow: hidden;
+}
+
+.mxt-window .mxt-panel-head .mxt-panel-head-title {
+    line-height: 20px;
+    vertical-align: middle;
+    float: left;
+    color: #15428B;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.mxt-window .mxt-panel-head .mxt-panel-head-close {
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+    float: right;
+    background: url(../images/popwindow/closewin.gif?V=3_50_2_29) no-repeat;
+    margin: 3px 3px 0 0;
+    cursor: pointer;
+}
+
+.mxt-window .mxt-panel-body {
+    background: #ededed;
+    padding: 5px;
+    padding-top: 0;
+    overflow: hidden;
+}
+
+.mxt-window .mxt-panel-body .mxt-panel-body-content {
+    background: #ededed;
+    padding: 5px;
+    border: 1px #b6b6b6 solid;
+}
+
+.mxt-window .mxt-panel-body .mxt-panel-body-iframe {
+    border: 1px #b6b6b6 solid;
+    background: #ffffff;
+}
+
+.mxt-window .mxt-panel-footer {
+    background: #ededed;
+    overflow: hidden;
+    text-align: right;
+    padding: 0 5px;
+    vertical-align: middle;
+}
+.mxt-window .discriptionDiv{
+    padding:5px;
+    float:left;
+}
+.mxt-window .buttonsDiv{
+    padding:5px;
+    float:right;
+}
+.mxt-window .mxt-panel-footer .buttonsDiv input {
+    margin: 0 5px;
+    margin-top: 5px;
+    min-width: 70px;
+    width: auto !important;
+    width: 70px;
+}

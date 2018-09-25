@@ -1,0 +1,71 @@
+@charset "utf-8";
+body {
+	font-size: 12px;
+
+}
+
+.bottom_line{
+	border-bottom: 1px solid #b8b8b8;
+}
+
+
+.line_dochome {
+	border: 1px solid #676977;
+	text-align: left;
+	text-indent: 5px;
+
+}
+
+.line1 {
+	border: 1px solid #b8b8b8;
+	text-align: left;
+	text-indent: 5px;
+
+}
+.txt_1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #494949;
+}
+.tex_2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	color: #6c82ac;
+	background-image: url(../images/pic.gif);
+	background-repeat: no-repeat;
+	width: 375px;
+}
+.picline {
+	background-image: url(../images/picline.gif);
+}
+
+.time{
+	color: #666666;
+}
+.line2 {
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #999999;
+}
+.link {
+	color: #0000FF;
+}
+
+.home-onmoseover{
+	cursor: pointer;
+	
+	color:red;
+}
+.home-onmoseout{
+	text-decoration:none ;
+	color:black;
+}
+
+.dotted_line_dochome{
+   border-bottom: 1px dotted #CCCCCC;
+ }
+ a{
+ color: #000000;
+ }

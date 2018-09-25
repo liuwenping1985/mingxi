@@ -474,6 +474,7 @@ public class CollaborationController extends BaseController {
         boolean isWaitSend = false;
         boolean isWaitSendFenban = false;
         Long contentTemplateId = null;
+        com.seeyon.ctp.common.taglibs.AttachmentDefineTag tag;
         String templateId = request.getParameter("templateId");
         String isFenbanFlag = request.getParameter("isFenbanFlag");
         String curSummaryID = request.getParameter("curSummaryID");

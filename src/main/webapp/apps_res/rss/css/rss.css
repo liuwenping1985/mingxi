@@ -1,0 +1,58 @@
+@charset "utf-8";
+body{
+	font-size:12px;
+	font:Arial, Helvetica, sans-seriff
+}
+.line {
+	border: 1px solid #96969e;
+}
+.line1 {
+	border-left-width: 1px;
+	border-left-style: dashed;
+	border-left-color: #666666;
+}
+.tex_1 {
+	padding: 1px;
+	height: 1px;
+}
+.line2 {
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #666666;
+}
+.STYLE2 {color: #0000FF}
+.STYLE3 {
+	color: #ff6600;
+	font-weight: bold;
+	font-size: 14px;
+}
+.STYLE4 {color: #666666}
+.rss-div-float-left{
+	float: left;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 0px;
+	
+	font-size: 14;
+	font-weight : bolder;	
+	vertical-align:middle; 
+	
+	color: #000000;
+	text-decoration: none;
+}
+.rss-title-bar{
+	background: url(../../../apps_res/rss/images/bj.gif);
+}
+.rss-onmoseover{
+	cursor: pointer;
+	text-decoration:underline ;
+	color:blue;
+}
+.rss-onmoseout{
+	text-decoration:none ;
+	color:black;
+}
+.time{
+	color: #666666
+}

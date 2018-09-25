@@ -1,0 +1,258 @@
+﻿.rkz_header{
+    width: 80%;
+    margin: 0 auto;
+    padding-left:63px;
+    padding-top: 80px;
+    height: 64px;
+}
+.rkz_container{
+    width:100%;
+    height:100%;
+}
+.rkz_top{
+    width:100%;
+    background-image: url('../images/timg2.jpg');
+    height:200px;
+	background-repeat: repeat-x;
+    background-position: -90px -360px;
+
+    /*margin-left:-50px;*/
+
+    /*margin-right:-50px;*/
+}
+.rkz_infor_item{
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width:500px;
+	float:left;
+}
+.rkz_left{
+    float:left;
+}
+.rkz_right{
+    float:right;
+    overflow: hidden;
+    position: relative;
+    height:20px;
+    line-height:1.5;
+}
+.rkz_width80{
+    width:90%;
+}
+.rkz_width19{
+    width:8%;
+}
+.rkz_column{
+    width: 78%;
+    margin: 0 auto;
+    padding-top:10px;
+    padding-left:10px;
+    padding-right:10px;
+    background-color:rgb(245,245,245);
+}
+.rkz_card{
+    width: 78%;
+    margin: 0 auto;
+    padding: 0;
+    background-color:rgb(245,245,245);
+}
+.rkz_body{
+    background-color:rgb(245,245,245);
+    margin: 0;
+
+}
+.rkz_column_no_color{
+    width: 79%;
+    margin: 0 auto;
+    padding-top:18px;
+    padding-left:10px;
+    padding-right:10px;
+}
+.rkz_float_left{
+    float:left;
+    vertical-align: middle;
+    height:100%;
+}
+.rkz_float_right{
+    float:right;
+    vertical-align:middle;
+    height:100%;
+    padding-right:15px;
+}
+.rkz_margin15{
+    margin:15px 0 15px 15px;
+}
+.rkz_hide{
+    display:none;
+}
+.rkz_show{
+    display: inherit;
+}
+.rkz_logo{
+    width:44px;
+    height:47px;
+    float:left;
+}
+.rkz_banner{
+    color:white;
+    font-weight: bold;
+    font-size: 35px;
+    padding-left:10px;
+    float:left;
+    font-family: "Microsoft Yahei";
+}
+.rkz_link{
+    font-weight:bold;
+    cursor:pointer;
+    font-size: 18px;
+    color:#cccccc;
+}
+.rkz_btn{
+    color:#cccccc;
+    /*border:1px solid #ccc;*/
+}
+.rkz_notice{
+    height:80px;
+}
+.rkz_width{
+    width:1100px;
+}
+.rkz_btn{
+   /* width:133px;*/
+    /* 32 82 142*/
+    margin-bottom:20px;
+}
+.rkz_li{
+    width:120%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.rkz_split_line{
+    width:76%;
+    margin: 0 auto;
+    height:1px;
+    background-color: #c7bfd3;
+
+}
+
+#notice li {
+    list-style:none;
+    color:#ccc;
+}
+#notice a {
+    text-decoration:none;
+}
+#notice .scroll {
+    /*width的大小是根据下面li的长度和多少个li而定的，需注意！*/
+    width:250%;
+    position:absolute;
+    left:0px;
+    top:0px;
+    color:#ccc;
+}
+#notice .scroll li {
+    /*width:300px;*/
+    float:left;
+    line-height:1.5;
+    padding-right:40px;
+    text-align:center;
+    color:#cccccc !important;
+    /*overflow: hidden;*/
+    /*text-overflow:ellipsis;*/
+    /*white-space: nowrap;*/
+}
+#notice .scroll li a{
+    /*width:300px;*/
+
+    color:rgb(138, 137, 137);
+    /*overflow: hidden;*/
+    /*text-overflow:ellipsis;*/
+    /*white-space: nowrap;*/
+}
+.rkz_newslist li{
+    width:380px;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    padding-bottom: 20px;
+}
+
+.theme-popover-mask {
+    z-index: 9998;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#000;
+    opacity:0.4;
+    filter:alpha(opacity=40);
+    display:none
+}
+.theme-popover {
+    z-index:9999;
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:500px;
+    height:340px;
+    margin:-180px 0 0 -330px;
+    border-radius:5px;
+    border:solid 2px #666;
+    background-color:#fff;
+    display:none;
+    box-shadow: 0 0 10px #666;
+}
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.carousel-caption2{
+    position: absolute;
+
+    bottom: 0px;
+
+    z-index: 10;
+
+    color: #fff;
+    text-align: center;
+}
+ol.carousel-indicators {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 15;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+    bottom:-10px;
+}
+
+.btn_style_one {
+    color: #fff;
+    background-color:#8E44AD;
+    border-color:#8E44AD;
+}
+
+.btn_style_two {
+    color: #fff;
+    background-color:#F39C12;
+    border-color: #F39C12;
+}
+.btn_style_three {
+    color: #fff;
+    background-color : #DA70D6;
+    border-color : #DA70D6;
+}

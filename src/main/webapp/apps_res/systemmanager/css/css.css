@@ -1,0 +1,176 @@
+@charset "utf-8";
+body {
+	font-size: 12px;
+}
+.line {
+	border: 1px solid #A4A4A4;
+	text-align: left;
+	text-indent: 5px;
+}
+.line1 {
+	border: 1px solid #b8b8b8;
+	text-align: left;
+	text-indent: 5px;
+}
+.txt_1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #494949;
+}
+.tex_2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	color: #6c82ac;
+	background-image: url(../images/pic.gif);
+	background-repeat: no-repeat;
+	width: 385px;
+}
+.picline {
+	background: url(../images/picline.gif) repeat-x;
+	padding-top: 4px;
+}
+.rlbg {
+	background-image: url(../images/rlbg.gif);
+}
+.time{
+	color: #666666
+}
+.line2 {
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #999999;
+}
+.link {
+	color: #002090;
+}
+.kalendar {
+	border: 1px solid #c6c7c9;
+}
+.kalendar1 {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-top-color: #c6c7c9;
+	border-right-color: #c6c7c9;
+}
+.kalendar2 {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-right-style: none;
+	border-left-style: none;
+	border-top-color: #c6c7c9;
+}
+.departmentSpace-left{
+	border-left: solid 1px #d7d7d7;
+}
+.departmentSpace-right{
+	border-right: solid 1px #d7d7d7;
+}
+.departmentSpace-top-left{
+	background: url(../images/1.gif) no-repeat;
+}
+.departmentSpace-top-center{
+	background: url(../images/2.gif) repeat-x;
+	padding-top: 5px
+}
+.departmentSpace-top-right{
+	background: url(../images/3.gif) no-repeat;
+}
+.departmentSpace-bottom-left{
+	background: url(../images/1.1.gif) no-repeat;
+}
+.departmentSpace-bottom-center{
+	background: url(../images/1.2.gif) repeat-x center bottom;
+}
+.departmentSpace-bottom-right{
+	background: url(../images/1.3.gif) no-repeat;
+}
+.departmentSpace-dotted{
+	background: url(../images/4.gif) no-repeat left center;
+	padding-left: 12px;
+	font-weight: bolder;
+	height: 18px;
+}
+.departmentSpace-sp{
+	border-top: solid 1px #d7d7d7;
+	height: 5px;
+}
+.departmentSpace-memberName{
+	padding: 8px 2px 0px 10px; 
+}
+.departmentSpace-motto{
+	padding: 10px; 
+	color: #666666;
+	line-height: 20px;
+	word-break:break-all;
+}
+
+.titleDefaultCss{
+  color: #1858ba;
+  text-decoration: none;
+}
+.mobileCountTRBg {
+	background: #C0C0C0;
+}
+.fontNormal{
+font-weight: normal;
+}
+legend{
+color: #000000;
+}
+.nowrap{
+	white-space: nowrap;
+}
+.inputWidth{
+	width: 480px;
+}
+.group-administrator{
+	height: 70px;
+	width: 600px;
+}
+.init-password-border{
+	border-right: 1px #BDBDBD solid;
+}
+.black-color{
+	color:#000000;
+}
+.fieldset-height{
+	height:60px;
+}
+.message-search{
+	color: #666666;
+	margin-bottom: 5px;
+}
+.separateTd{
+border-bottom:1px #D1D7E3 solid; 
+}
+.peopleListTitle{
+	line-height: 30px;
+	vertical-align: middle;
+	font-size: 13px;
+	font-weight: bold;
+	margin-left: 5px;
+	margin-top: 10px;
+	color: #7892AD;
+}
+.member-div{
+width: 62px;
+text-align: center;
+margin: 5px;
+height: 85px;
+overflow: hidden;
+}
+.member-div .imgPhoto{
+display:block;
+border: 1px #CCCCCC solid;
+padding: 2px;
+background: #ffffff;
+}
+.member-div .member-div-name{
+line-height: 22px;
+vertical-align: middle;
+color: #29396D；
+}

@@ -1,0 +1,19 @@
+@charset "utf-8";
+BODY {
+	FONT-SIZE: 12px
+}
+
+TABLE {
+	FONT-SIZE: 12px; MARGIN: 0px; CURSOR: default
+}
+
+DIV.rm_div {
+	DISPLAY: none;
+	WIDTH: 110px; 
+	border: 1px solid #C5C5C5;
+	POSITION: absolute; 
+	HEIGHT: auto; 
+	background: white;
+	overflow: hidden;
+	z-index: 100;
+}

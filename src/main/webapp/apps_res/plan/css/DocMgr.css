@@ -1,0 +1,111 @@
+@charset "utf-8";
+.12pt {
+	FONT-SIZE: 12pt
+}
+.10pt {
+	FONT-SIZE: 10.5pt
+}
+.9pt {
+	FONT-SIZE: 9pt
+}
+SELECT {
+	FONT-SIZE: 9pt
+}
+TABLE {
+	FONT-SIZE: 9pt; CURSOR: default
+}
+.normal {
+	BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid; BORDER-BOTTOM: 0px solid
+}
+.over {
+	BORDER-RIGHT: #808080 1px solid; BORDER-TOP: #ffffff 1px solid; BORDER-LEFT: #ffffff 1px solid; BORDER-BOTTOM: #808080 1px solid
+}
+.out {
+	BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid; BORDER-BOTTOM: 0px solid
+}
+.down {
+	BORDER-RIGHT: #ffffff 1px solid; BORDER-TOP: #808080 1px solid; PADDING-LEFT: 2px; BORDER-LEFT: #808080 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #ffffff 1px solid
+}
+.up {
+	BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid; BORDER-BOTTOM: 0px solid
+}
+FORM {
+	MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px
+}
+INPUT {
+	FONT-SIZE: 9pt
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #999999; TEXT-DECORATION: none
+}
+A:hover {
+	FONT-WEIGHT: normal; COLOR: #ff6633; TEXT-DECORATION: underline
+}
+A.write:link {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.write:visited {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A.write:hover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.block {
+	BACKGROUND-COLOR: #6487dc
+}
+.block_left {
+	BACKGROUND-COLOR: #6487dc
+}
+.black {
+	BACKGROUND-COLOR: #000000
+}
+.input2 {
+	BORDER-RIGHT: white 1px solid; BORDER-TOP: white 1px solid; FONT-WEIGHT: normal; FONT-SIZE: 9pt; BACKGROUND: #ff7f2c; BORDER-LEFT: black 1px solid; COLOR: #ffffff; BORDER-BOTTOM: black 1px solid; FONT-STYLE: normal; HEIGHT: 18px; FONT-VARIANT: normal
+}
+.input3 {
+	BORDER-RIGHT: white 1px solid; BORDER-TOP: white 1px solid; FONT-SIZE: 9pt; BACKGROUND: #ff7f2c; BORDER-LEFT: black 1px solid; COLOR: #ffffff; BORDER-BOTTOM: black 1px solid
+}
+.input {
+	BORDER-RIGHT: #ff9933 1px solid; BORDER-TOP: #ff9933 1px solid; FONT-SIZE: 9pt; BORDER-LEFT: #ff9933 1px solid; BORDER-BOTTOM: #ff9933 1px solid; BACKGROUND-COLOR: #ffefdf
+}
+.disp {
+	BORDER-TOP-STYLE: inset; BORDER-RIGHT-STYLE: inset; BORDER-LEFT-STYLE: inset; BACKGROUND-COLOR: #fff8eb; BORDER-BOTTOM-STYLE: inset
+}
+.nodisp {
+	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BACKGROUND-COLOR: #000000; BORDER-BOTTOM-STYLE: none
+}
+.12pt {
+	FONT-SIZE: 12pt
+}
+.10pt {
+	FONT-SIZE: 10.5pt
+}
+.9pt {
+	FONT-SIZE: 9pt
+}
+.bk {
+	BACKGROUND-POSITION: right top; BACKGROUND-REPEAT: no-repeat
+}
+P {
+	FONT-SIZE: 9pt
+}
+FONT {
+	FONT-SIZE: 9pt
+}
+.calenderTitle {
+	text-align:center;
+	height:24px; 
+	line-height:24px; 
+	font-weight:bold; 
+	background: url("../images/calendarTitle.gif") repeat-x;
+	border-top: 3px #fff solid;
+}
+#calanderContent div{
+	padding: 1px;
+}

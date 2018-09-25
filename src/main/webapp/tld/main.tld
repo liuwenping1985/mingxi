@@ -1,0 +1,82 @@
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+  http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+
+	<display-name>Main Apllication Taglib</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>main</short-name>
+	<uri>http://v3x.seeyon.com/taglib/main</uri>
+	<function>
+		<name>showMessageLink</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.lang.String showMessageLink(javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>accountList2Tree</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.lang.String accountList2Tree(java.util.List, java.lang.Long, java.lang.Long, int, javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>getSectionNames</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.util.List getSectionNames(java.lang.Long, java.lang.String, java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>containSection</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>boolean containSection(java.util.List, java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getDepartmentMotto</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.lang.String getDepartmentMotto(java.lang.Long)</function-signature>
+	</function>
+	<function>
+		<name>showMenu</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>void showMenu(javax.servlet.jsp.PageContext, java.lang.String, java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>showMenuOfTree</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>void showMenuOfTree(java.util.List, java.util.Set, javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>showCustomMenuOfTree</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>void showCustomMenuOfTree(java.util.List, java.util.Set, javax.servlet.jsp.PageContext, boolean)</function-signature>
+	</function>
+	<function>
+		<name>showSysMenuOfTree</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>void showSysMenuOfTree(java.util.List, javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>isSelectedOfMessageSetting</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>boolean isSelectedOfMessageSetting(java.util.Map, java.lang.String, int, java.lang.String)</function-signature>
+		<example><![CDATA[ ${main:isSelectedOfMessageSetting(map,configType,1,'onlyImportant')} ]]></example>
+	</function>
+	<function>
+		<name>accountNcTree</name>
+		<function-class>com.seeyon.apps.nc.NCFunctions</function-class>
+		<function-signature>java.lang.String accountNcTree(java.util.List, java.lang.String, java.util.List, java.lang.String,int, javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>getAllRoleNames</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.util.Map getAllRoleNames(javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>showRoleName</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.lang.String showRoleName(java.lang.String,javax.servlet.jsp.PageContext)</function-signature>
+	</function>
+	<function>
+		<name>autocomplete</name>
+		<function-class>com.seeyon.v3x.common.taglibs.functions.MainFunction</function-class>
+		<function-signature>java.lang.String autocomplete(java.lang.String,java.lang.String)</function-signature>
+	</function>
+</taglib>

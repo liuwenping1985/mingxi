@@ -1,0 +1,544 @@
+/*初始换样式*/
+body,div,p,ul,ol{
+    padding:0;
+    margin:0;
+    font-family: "微软雅黑","宋体";
+}
+body{
+   /*background: #f6f6f6;*/
+}
+ul,ol{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color:#000;
+}
+.container{
+    width:100%;
+    margin:0;
+    padding-bottom:10px;
+    background: #F5F5F5;
+    font-size: 16px;
+}
+.form-header:after,
+.form-thead:after{
+    content:"";
+    display: table;
+    clear:both;
+}
+/*第一部分：页面顶端部分*/
+.form-header{
+    height:54px;
+    background: #4180DB;
+    padding:5px 20px;
+    color:#fff;
+    box-sizing: border-box;
+    line-height: 54px;
+    font-size: 16px;
+}
+.form-header>div>b{
+    display: inline-block;
+    width:18px;
+    height:18px;
+    background-image: url(../img/form.png);
+    background-repeat: no-repeat;
+    background-position: -30px -82px;
+}
+.form-header-left{
+    position: relative;
+    width:150px;
+    height:20px;
+    float:left;
+}
+.form-header-right{
+    float:right;
+}
+.form-header-left>span{
+    display:inline-block ;
+    height:20px;
+    position: absolute;
+    top:-3px;
+    left:22px;
+}
+.form-header-right>a{
+    display: inline-block;
+    width:40px;
+    height:40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-image: url(../img/form.png);
+    background-repeat: no-repeat;
+    background-position: -76px -84px;
+}
+/*第二部分：表单主体部分*/
+.form-main{
+    margin:10px;
+    padding:10px 10px 0 10px;
+    background: #fff;
+    border:1px solid #ddd;
+    border-radius:5px;
+    position: relative;
+}
+/*表单页签头部*/
+.xl_toolbar{
+	width:100%;
+    background: #F6F6F6;
+}
+.form-thead{
+	width:630px;
+	margin:0 auto;
+}
+.form-thead>li{
+    float:left;
+    text-align: center;
+    padding-bottom:5px;
+    height:65px;
+    cursor: pointer;
+    position: relative;
+}
+.form-thead>li>a{
+    color: #8FA1BB;
+}
+li.bg_click{
+    background: #fff;
+    border-top:2px solid #4180DB;
+}
+li.bg_click>a{
+    color:#4180DB;
+}
+/*此处缺少图片*/
+.form-thead>li>a>p{
+    background-image: url(../img/form.png);
+    background-repeat: no-repeat;
+    margin:10px 32px 3px 32px;
+    height:25px;
+}
+.basic_msg{
+    width:25px;
+    background-position: -27px -18px;
+}
+.bg_click>a>.basic_msg{
+    background-position: -176px -73px;
+}
+.urge{
+    width:25px;
+    background-position: -206px -70px;
+}
+.bg_click>a>.urge{
+    background-position: -59px -15px;
+}
+.urge_num{
+    position: absolute;
+    top:4px;
+    left:59px;
+    display: inline-block;
+    width:18px;
+    height:18px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 18px;
+    background: #EF6161;
+    border-radius: 50%;
+    color:#fff;
+}
+.concern{
+    width:30px;
+    background-position: -240px -70px;
+}
+.bg_click>a>.concern{
+    background-position: -93px -14px;
+}
+.instructions{
+    width:24px;
+    background-position: -292px -70px;
+}
+.bg_click>a>.instructions{
+    background-position: -131px -16px;
+}
+.change{
+    width:25px;
+    background-position: -326px -73px;
+}
+.bg_click>a>.change{
+    background-position: -176px -14px;
+}
+.feedback{
+    width:26px;
+    background-position: -360px -73px;
+}
+.bg_click>a>.feedback{
+    background-position: -213px -13px;
+}
+.evaluate{
+    width:25px;
+    background-position: -398px -68px;
+}
+.bg_click>a>.evaluate{
+    background-position: -256px -14px;
+}
+/*xl 6-29表单内容部分*/
+#frametable{
+    width:100%;
+    box-sizing: border-box;
+}
+
+/*基本情况表单样式*/
+/*6-22*/
+.basic_msg_container,
+.urge_container,
+.concern_container,
+.instruction_container,
+.change_container,
+.feedback_container,
+.evaluate_container{
+    width:100%;
+    box-sizing: border-box;
+    padding:10px 0;
+    margin:0 auto;
+    font-family: "微软雅黑","宋体";
+}
+table{
+    width:100%;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0 auto;
+}
+.xl-container table td{
+    height:35px;
+    box-sizing: border-box;
+}
+/*催办表单样式*/
+/*关注表单样式*/
+/*批示表单样式*/
+/*变更表单样式*/
+/*反馈表单样式*/
+/*评价表单样式*/
+.urge_container>table td,
+.concern_container>table td,
+.instruction_container>table td,
+.change_container>table td,
+.feedback_container>table td,
+.evaluate_container>table td{
+    width:100%;
+    text-align: left; 
+    padding:5px;
+    height:33px;
+    line-height:33px;
+}
+
+/*xl 6-29反馈，催办记录，变更记录最多显示1行*/
+.feedback_container>table td>div,
+.change_container>table td>div,
+.urge_container>table.xl-urge-record td>div{
+     width:100%;
+    text-align: left;
+    height:33px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    line-height:33px;
+}
+.feedback_container>table td>div{
+	cursor:pointer;
+}
+/*xl 6-27除反馈,变更，催办记录之外，设置每行最多显示4行文字样式*/
+.urge_container>table.xl-remind-record td>div,
+.concern_container>table td>div,
+.instruction_container>table td>div,
+.evaluate_container>table td>div{
+    width:100%;
+    text-align: left;
+    max-height:80px;
+    overflow: hidden;
+    line-height:20px;
+}
+/*6-23*/
+.urge_container>table td,
+.concern_container>table td,
+.instruction_container>table td,
+.change_container>table td,
+.feedback_container>table td,
+.evaluate_container>table td{
+	border-bottom:1px solid #e8e8e8;
+	cursor:default;
+}
+/*xl 6-29只有反馈显示hover事件*/
+.feedback_container>table tr:hover{
+	background-color:#f5f8fc;
+}
+table>thead td{
+    color:#4180DB;
+    background: #EEF3F8;
+    font-size: 16px;
+    border-bottom:1px solid #ddd;
+}
+
+/*反馈中完成率的样式*/
+.progressbar_1{
+    display:inline-block;
+    background-color:#eee;
+    height:8px;
+    width:80px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius:5px;
+    color:#222;
+    text-align:left;
+    position: relative;
+}
+.progressbar_1 .bar {
+    display: inline-block;
+    background-color:rgb(141,208,122);
+    height:8px;
+    width:0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius:5px;
+    position: absolute;
+    top:0;
+    left:0;
+}
+/*评价表单样式*/
+.urge_container>p,.evaluate_container>p,.feedback_container>p{
+   text-align: center;
+    padding:10px 0;
+}
+.exam_evaluate{
+    margin-top:20px;
+}
+
+/*xl 7-3修改白色遮罩的大小*/
+.xl-mask{
+	width:300px;
+    height:300px;
+    background-image:url(../img/mask.png);
+    background-repeat:no-repeat;
+    position: absolute;
+    bottom:0;
+    right:0;
+    z-index: 1;
+    display:none;
+}
+/*用于显示隐藏遮罩层的class名*/
+.xl-mask-hidden{
+    display: block;
+}
+/*xl 7-3快捷弹出按钮样式*/
+.quick-menu{
+	width:61px;
+    height:61px;
+	position: absolute;
+	bottom:120px;
+	right:120px;
+	font-size:14px;
+	color:#3E3E3E;
+	z-index: 2;
+}
+.add{
+    width:61px;
+    height:61px;
+    -webkit-border-radius:50%;
+    -moz-border-radius:50%;
+    border-radius:50%;
+    cursor: pointer;
+    background-image: url(../img/menu-quick.png);
+    background-repeat: no-repeat;
+    background-position:-5px -105px;
+    position:absolute;
+    top:0;
+    left:0;
+}
+/*点击加号按钮的样式*/
+.add_click{
+    background-position:-145px -105px;
+}
+
+.style_menu{
+    width:50px;
+    height:50px;
+    -webkit-border-radius:50%;
+    -moz-border-radius:50%;
+    border-radius:50%;
+    background-image: url(../img/menu-quick.png);
+    background-repeat: no-repeat;
+}
+/*6-22*/
+.quick-menu>div>div>span{
+    padding-left:12px;
+    color:#000;
+}
+
+/*批示按钮样式*/
+.instructionsDiv{
+    position: absolute;
+    top:-93px;
+    left:30px;
+}
+.instructions_menu{
+    background-position: 0px 0px;
+}
+.instructions_menu:hover{
+    background-position: 0px -50px;
+}
+
+/*关注按钮样式*/
+.concernDiv{
+    position: absolute;
+    top:-70px;
+    left:-57px;
+}
+.concern_menu{
+    background-position: -200px 0px;
+}
+.concern_menu:hover{
+	background-position: -200px -50px;
+}
+/*取消关注样式*/
+.cancel_concern_menu{
+    background-position: -550px 0px;
+}
+.cancel_concern_menu:hover{
+	background-position: -550px -50px;
+}
+/*评价按钮的样式*/
+.evaluateDiv{
+    position: absolute;
+    top:29px;
+    left:-83px;
+}
+.evaluate_menu{
+    background-position: -100px 0px;
+}
+.evaluate_menu:hover{
+    background-position: -100px -50px;
+}
+
+/*6-22销账按钮样式*/
+.writeOffDiv{
+    position: absolute;
+    top:-93px;
+    left:30px;
+}
+.write_off_menu{
+    background-position: -150px 0px;
+}
+.write_off_menu:hover{
+    background-position: -150px -50px;
+}
+
+/*6-22催办按钮样式*/
+.urgeDiv{
+    position: absolute;
+    top:-70px;
+    left:-57px;
+}
+.urge_menu{
+    background-position: -50px 0px;
+}
+.urge_menu:hover{
+    background-position: -50px -50px;
+}
+
+/*6-9签收按钮样式*/
+.signDiv{
+    position: absolute;
+    top:-74px;
+    left:70px;
+}
+.sign_menu{
+    background-position: -300px 0px;
+}
+.sign_menu:hover{
+    background-position: -300px -50px;
+}
+
+/*6-9计划按钮样式*/
+.planDiv{
+    position: absolute;
+    top:-95px;
+    left:5px;
+}
+.plan_menu{
+    background-position: -250px 0px;
+}
+.plan_menu:hover{
+    background-position: -250px -50px;
+}
+
+/*6-9自评按钮的样式*/
+.self_evaluateDiv{
+    position: absolute;
+    top:-72px;
+    left:-62px;
+}
+.self_evaluate_menu{
+    background-position: -350px 0px;
+}
+.self_evaluate_menu:hover{
+    background-position: -350px -50px;
+}
+
+/*6-9变更按钮样式*/
+.changeDiv{
+    position: absolute;
+    top:3px;
+    left:-90px;
+}
+.change_menu{
+    background-position: -450px 0px;
+}
+.change_menu:hover{
+    background-position: -450px -50px;
+}
+
+/*6-9反馈按钮样式*/
+.feedbackDiv{
+    position: absolute;
+    top:74px;
+    left:-62px;
+}
+.feedback_menu{
+    background-position: -400px 0px;
+}
+.feedback_menu:hover{
+    background-position: -400px -50px;
+}
+
+/*默认隐藏所有按钮*/
+.quick-menu>div{
+    display: none;
+}
+/*通过js添加class名控制哪些按钮的显示*/
+.quick-menu>div.xl-menu-hidden{
+    display: block;
+}
+/*6-9 发送成功 淡入淡出效果*/
+.xl_success{
+    height:36px;
+    padding:0px 10px;
+    font-size: 16px;
+    color:#fff;
+    line-height: 36px;
+    text-align: center;
+    box-sizing:border-box;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius: 5px;
+    background: #61b814;
+    position: fixed;
+    top:50%;
+    left:50%;
+    -webkit-box-shadow:0 0 7px rgba(0,0,0,0.2);
+    -moz-box-shadow:0 0 7px rgba(0,0,0,0.2);
+    box-shadow:0 0 7px rgba(0,0,0,0.2);
+}
+
+.xl_success>img{
+    vertical-align: middle;
+    margin-right:5px;
+}

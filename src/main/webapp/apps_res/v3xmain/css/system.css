@@ -1,0 +1,113 @@
+@charset "utf-8";
+a {
+	color: #333333;
+	text-decoration: none;
+}
+a:visited {
+	color: #333333;
+	text-decoration: none;
+}
+.sectionTitle{
+	font-size: 12px;
+	font-weight: bolder;
+}
+.sectionTitleLeft{
+	height: 25px;
+	background: url(../images/systemManage/title_left.gif) no-repeat;
+	width: 10px;
+}
+.sectionTitleMiddel{
+	padding: 0px 0px 0px 12px;
+	background: url(../images/systemManage/title_middle.gif) repeat-x center center;
+	height: 25px;
+	color: #01156c;
+	font-weight: bold;
+}
+.sectionTitleRight{
+	height: 25px;
+	background: url(../images/systemManage/title_right.gif) no-repeat;
+	width: 10px;
+}
+.sectionTitleSp{
+	float: left;
+	height: 25px;
+	background: url(../images/section/7.gif) repeat-x;
+	width: 5px;
+}
+.sectionTitleLine{
+	height: 25px;
+	width:100%;
+}
+.sectionBody{
+	border: solid 1px #d1d1d1;
+	padding: 0px 10px 0px 10px;
+	height: 180px;
+}
+.sectionBodyWithBg{
+	border-left: solid 1px #d1d1d1;
+	border-right: solid 1px #d1d1d1;
+	border-bottom: solid 1px #d1d1d1;
+	padding: 0px 10px 0px 10px;
+	height: 180px;
+	background: url(../images/systemManage/pic.gif) no-repeat right bottom;
+}
+.sectionBody-main{
+	height: 100px;
+}
+.portal-layout-TwoColumns
+{
+	float: left;
+	border: 0px solid blue;
+	width: 100%;
+	
+}
+.portal-layout-TwoColumns .portal-layout-column 
+{
+	width: 47%;
+	float: left;
+	display: inline;
+	border: 0px solid red;
+}
+.portal-layout-cell{
+	float: none;
+	padding: 0px 12px 20px 10px;
+	border: 0px solid green;
+}
+.portal-header-label{
+	height: 75px;
+	float: right;
+	padding: 30px 20px 0px 0px;
+}
+.menuItemStyle{
+	font-size: 14px;
+	padding-left: 6px;
+}
+.menuListDIV{
+	height:35px;
+	background: url(../images/subject-icon.gif) no-repeat left 2px;
+	padding-left:16px;
+}
+.separator{
+	height:20px;
+	width:100%;
+}
+
+.firstPageBody{
+	border: solid 1px #d1d1d1;
+	padding: 0px 10px 0px 10px;
+	height: 180px;
+}
+.portal-layout-fcolumn 
+{
+	width: 47%;
+	float: left;
+	display: inline;
+	border: 0px solid red;
+}
+.main_div_portal{
+	background:#ededed;
+	border:1px solid #c7c7c7;
+	#border:0px solid #c7c7c7;
+	_border:0px solid #c7c7c7;
+}
+.system_header{border-bottom:1px solid #d8d8d8;height:55px;}

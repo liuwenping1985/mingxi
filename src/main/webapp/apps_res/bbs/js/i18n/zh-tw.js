@@ -1,0 +1,46 @@
+/**
+ *
+ *  File Authors: lucx
+ */
+
+var BBSLang = {
+		bbs:"文化建設 - 討論",
+		bbs_dept_manage:"部門討論管理",
+		bbs_account_manage:"單位討論管理",
+		bbs_group_manage:"集團討論管理",
+		bbs_article_content_should_not_be_null : "討論主題正文內容不能為空!",
+		bbs_bbsmanage_alert_update : "請您先選擇要修改的板塊!",
+		bbs_bbsmanage_alert_delete : "請您先選擇要刪除的板塊!",
+		bbs_bbsmanage_alert_chooseObe:"請選擇一項進行操作",
+		bbs_bbsmanage_alert_topSequence:"討論《{0}》已经置頂.",
+		bbs_bbsmanage_delConfirmed : "確認要刪除嗎？該操作不能恢復！",
+		bbs_bbsmanage_createboard_sameness : "與已有板塊重名，請重新輸入!",
+		bbs_bbsmanage_createboard_choice : "請選擇討論管理員!",
+		bbs_boarduse_issuePost_issuearea : "請選擇發布范圍!",
+		bbs_boardmanage_boardAuth_accredit : "請選擇授權范圍!",
+		bbs_boardmanager_boardM_putter : "請您先選擇要置頂的主題!",
+		bbs_boardmanager_boardM_noexcess : "該板塊置頂個數不得超過",
+		bbs_boardmanager_boardM_cancleTopic : "請您先選擇要取消置頂的主題!",
+		bbs_boardmanager_boardM_setElite : "請您先選擇要設置精華的主題!",
+		bbs_boardmanager_boardM_cancelElite : "請您先選擇要取消精華的主題!",
+		bbs_boardmanager_boardM_delMotif : "請您先選擇要刪除的主題!",
+		bbs_boardmanager_boardM_delFullnote	: "您確定要刪除主題貼及其下的所回貼嗎?",
+		bbs_bbsmanage_spaceType_not_delete  : "您無權刪除該板塊!",
+		bbs_bbsmanage_alert_same            : "已有同名標題，是否繼續發布?",
+		bbs_startDate_late_than_endDate:"開始時間不能晚于結束時間!",
+		bbs_description_too_long:"描述輸入過長,請輸入300字以內!",
+		bbs_name_too_long:"名稱輸入過長,請輸入200字以內!",
+		bbs_reply_content_too_long:"回覆內容過過長,請輸入1024字以內!",
+		bbs_board_hasArticle:"刪除討論版塊時，將連同版塊下的討論一起刪除，刪除不可恢復，確認嗎？",
+		bbs_board_has_del:"該討論板塊已被管理員刪除!",
+		bbs_board_noAuth_post:"你無權發貼!",
+		bbs_board_no_pers : "你沒有討論管理的權限!",
+		bbs_reply_can_not_be_null:"回覆內容不能為空！",
+		bbs_delete_article_notice : "刪除這條主貼將連同其下的所有回復貼一起刪除,您確定嗎?",
+		bbs_delete_reply_notice : "您確定要刪除這條回復貼嗎?",
+		detail_info_8004 : "<li></li>",
+		detail_info_8004_1 : "<li></li>",
+		detail_info_8004_2 : "<li></li>",
+		detail_info_bbs_setup: "<li>按一下“新建”功能表，新建討論板塊,對討論板塊的管理進行授權。</li><li>勾選一條討論板塊記錄後按一下“修改”功能表或按兩下清單中的討論板塊，修改討論板塊資訊並設置板塊管理授權。</li><li>勾選清單中的討論板塊記錄，按一下“刪除”功能表，刪除選定的討論板塊。</li><li>不允許刪除包含討論文章的板塊。</li>",
+		bbs_boardmanage_boardAuth_success : "授權成功!"
+}

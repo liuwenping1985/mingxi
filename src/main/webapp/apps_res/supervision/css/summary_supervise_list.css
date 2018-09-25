@@ -1,0 +1,94 @@
+
+body,div,p,ul{
+    padding:0;
+    margin:0;
+    list-style: none;
+    font-family: "微软雅黑","宋体";
+    font-size: 14px;
+    color:#3e3e3e
+}
+a{
+    color: #000;
+    text-decoration: none;
+}
+/*xl 6-29 修改*/
+.xl_box{
+    position: absolute;
+    top:0;
+    right:-350px;
+    width:350px;
+    margin:0 auto;
+    background:#fff;
+}
+.xl_box_hidden{
+	right:0;
+	z-index:1000;
+}
+/*xl 7-3修改*/
+.xl_container{
+    width:350px;
+    height:100%;
+    -webkit-box-shadow: 0 0 5px #D0D0D0;
+    -moz-box-shadow: 0 0 5px #D0D0D0;
+    box-shadow: 0 0 5px #D0D0D0;
+}
+/*xl 6-30修改*/
+.xl_menu{
+    position: absolute;
+    top:0px;
+    left:-23px;
+    width:22px;
+    height:57px;
+    line-height: 14px;
+    padding:5px 0;
+    background: #438DD4;
+    color:#fff;
+    text-align: center;
+    border-radius: 5px 0 0 5px;
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 5px #438DD4;
+    -moz-box-shadow: 0 0 5px #438DD4;
+    box-shadow: 0 0 5px #438DD4;
+    z-index:1000;
+    font-size:12px;
+}
+.xl_container>p{
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color:#438DD4;
+    padding:10px 0;
+    border-bottom:1px solid #438DD4;
+}
+.xl_container>a>ul{
+    padding:5px;
+}
+/*xl 6-29取消倒角*/
+.xl_container>ul>li{
+    background:#F8F8F8;
+    margin-bottom:5px;
+    padding:10px;
+}
+.xl_container>ul>li>a{
+	display:inline-block;
+	width:100%;
+	height:100%;
+}
+.xl_container>ul>li:hover{
+    background: #e7e7e7;
+}
+
+.xl_title>span{
+    display: inline-block;
+    width:260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left:18px;
+}
+.xl_footer{
+    padding-left:48px;
+    color:#9B9B9B;
+    font-size:12px;
+    margin:5px 0;
+}

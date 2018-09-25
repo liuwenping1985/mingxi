@@ -1,0 +1,12 @@
+.tab-tag{ padding:0!important}
+#add_column{ display:inline-block; height:22px; width:30px; text-align:center; line-height:22px; font-size:20px; font-weight: bolder; color:#42b3e5; cursor: pointer; margin-left:10px;}
+#add_column:hover{ color:red}
+.table_column{ font-size: 12px}
+.dialog_style{ padding:10px;}
+.assortment{  margin:30px 70px 10px; font-size: 12px}
+.assortment input{ height: 30px; line-height:30px; width:300px; margin-left:10px; text-indent:10px }
+.assortment_method{ font-size: 12px; padding-left:40px}
+.assortment_method .span2{ margin-left: 10px}
+.table_style1{ border:1px solid #ccc; margin-top: 30px}
+.table_style1 td{ padding-left:35px;}
+#btn1{ background: red}

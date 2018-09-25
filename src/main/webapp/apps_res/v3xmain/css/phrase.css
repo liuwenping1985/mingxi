@@ -1,0 +1,61 @@
+@charset "utf-8";
+.phrase-div{
+	float: left;
+	background-color: #EEE;
+	border-bottom: solid 1px #cccccc;
+	padding: 2px 0px 2px 0px;
+}
+.phrase-div-0{
+	float: left;
+	padding: 2px 5px 2px 5px;
+}
+.phrase-div-1{
+	margin: 2px 0px 2px 0px;
+	border-bottom: solid 1px #cccccc;
+	cursor: pointer;
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+	word-break: break-all;
+}
+.phrase-div-2{
+	padding: 10px 5px 10px 5px;
+}
+.phrase-close{
+	width: 16px;
+	float: right;
+	background: url(../../../common/images/attachmentICON/delete.gif) no-repeat;
+}
+.phrase-iframe{
+	padding: 0px 10px 0px 10px;
+}
+.phrase-edit-title{
+	font-weight: bolder;
+	padding-left: 10px;
+}
+.phrase-edit{
+	width: 13px;
+	background: url(../images/edit.gif) no-repeat;
+}
+.phrase-edit-icon{
+	width: 13px;
+	background: url(../images/editicon.gif) no-repeat;
+}
+.phrase-delete{
+	width: 13px;
+	background: url(../images/delete.gif) no-repeat;
+}
+.phrase-textarea{
+	padding: 20px;
+}
+.phrase-help{
+	padding-left: 20px;
+	color: green;
+	vertical-align: top;
+}
+.phrase-type-1{
+	background: url(../images/phrase.type.ystem.gif) no-repeat;
+	padding-left: 2px;
+	width: 18px;
+	float: left;
+}

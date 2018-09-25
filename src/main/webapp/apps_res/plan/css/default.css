@@ -1,0 +1,80 @@
+@charset "utf-8";
+.plan-toolbar {
+	cursor: pointer;
+	float:	left;
+	clear:	none;
+	height: 22px;
+	white-space: nowrap;
+	padding-top: 3px;
+	padding-right: 10px;	
+	text-decoration:none;
+	color:#FFFFFF;
+}
+
+.plan-toolbar-sel {	
+	cursor: pointer;
+	float:	left;
+	clear:	none;
+	height: 22px;
+	white-space: nowrap;
+	padding-top: 3px;
+	padding-right: 10px;	
+	text-decoration:none;
+	color: #000000;	
+}
+
+.plan-input-date {
+	width: 110px;
+}
+
+.a-summary-reply {
+	font-size: 12px;
+	text-decoration: none;
+	clear:	right;
+	padding: 0px 0px 0px 523px;
+	text-align: right;
+}
+
+.plan-summary-reply {
+	font-size: 12px;
+	padding: 0px 100px 30px 100px;
+}
+
+.comment-reply-div {
+	width: 100%;
+	padding: 0px 180px 10px 180px;
+	font-size: 12px;
+}
+
+.comment-reply-content{
+	padding: 0px 220px 10px 220px;
+	margin: 0px;
+	font-size: 12px;
+}
+
+.count-authed-table{
+    border-top: solid 1px #DBDBDB;
+	border-right: solid 1px #DBDBDB;
+	border-left: solid 1px #DBDBDB;
+}
+
+a {
+	font-size: 12px;
+	color:#1039b2;
+    text-decoration: none;
+}
+a:HOVER {
+	color: #ff6633;	
+}
+.scroll{
+text-align: left;
+height: 100px;
+overflow: auto;
+overflow-x: hidden;
+}
+.planContent {
+	width:788px;
+    height: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}

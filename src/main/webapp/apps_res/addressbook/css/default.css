@@ -1,0 +1,66 @@
+@charset "utf-8";
+@CHARSET "UTF-8";
+.addressbook-toolbar {
+	cursor: pointer;
+	float:	left;
+	clear:	none;
+	height: 22px;
+	white-space: nowrap;
+	padding-top: 3px;
+	padding-right: 10px;	
+	text-decoration:none;
+	color:#FFFFFF;
+}
+
+.addressbook-toolbar-sel {	
+	cursor: pointer;
+	float:	left;
+	clear:	none;
+	height: 22px;
+	white-space: nowrap;
+	padding-top: 3px;
+	padding-right: 10px;	
+	text-decoration:	none;
+	color: #000000;	
+}
+.tab-body-bg-pm0{
+	border-left: solid 1px #bdbdbd;
+	border-right: solid 1px #bdbdbd;
+	border-bottom: solid 1px #bdbdbd;
+	padding: 0px;
+	vertical-align: top;
+}
+.margin5{
+margin: 5px;
+}
+.colorRed{
+color: red;
+}
+.hr-blue-font{
+
+color: #000000;
+padding: 4px 0px 0px 0px;	
+}
+.editContent{
+	background: url("../images/editContent.gif") no-repeat;
+	width: 20px;
+}
+.editContentImg{
+	background: url("../images/button.gif") no-repeat;
+	width: 10px;
+}
+
+DIV.rm_div {
+    DISPLAY: none;
+    WIDTH: 110px; 
+    border: 1px solid #C5C5C5;
+    POSITION: absolute; 
+    HEIGHT: auto; 
+    background: white;
+    overflow: hidden;
+    z-index: 100;
+}
+.addressbook-toolbar-button-text {
+    color:#0052B8;
+    margin-top: 4px;
+}

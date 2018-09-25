@@ -1,0 +1,280 @@
+@charset "UTF-8";
+
+ul.ztree {
+	margin-top: 5px;
+	border: 1px solid #617775;
+	background: #fff;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+.select_input_div {
+	background: url(../image/select.gif?V=5_0_8_30) center right no-repeat;
+	border: 1px solid #b6b6b6;
+	text-align: left;
+	height: 24px;
+	overflow: hidden;
+}
+/******去掉链接样式*******/
+.divhref a {
+	color:#000;
+}
+.divhref a:hover {
+	color:#000;
+}
+
+.padding_tb_2 {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.margin_tb_2 {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.margin_l_2 {
+	margin-left: 2px;
+}
+
+.margin_r_2 {
+	margin-right: 2px;
+}
+
+#currentAccountId,.select_input {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.w120 {
+	width: 120px;
+}
+
+.margin_l_12 {
+	margin-left: 12px;
+}
+
+#showSelectTimes {
+	margin-left: 10px;
+	width: 180px;
+	border: 0px;
+	color: blue;
+	font-size: 12px;
+	background: transparent;
+}
+
+.messageHeaderContent {
+	color: #000000;
+	text-decoration: none;
+	height: 25px;
+	line-height: 25px;
+}
+
+.cursor-hand {
+	cursor: pointer;
+}
+
+.ucFaceImage .myOnlineState {
+	position: absolute;
+	left: 84px;
+	top: 84px;
+}
+
+.vst_state {
+	position: absolute;
+	display: none;
+	top: 16px;
+	left: 8px;
+	width: 100px;
+	background: #fff;
+	border: 1px solid #ccc;
+	padding: 2px;
+}
+
+.vst_state_item {
+	font-size: 12px;
+	display: block;
+	height: 26px;
+	line-height: 26px;
+	vertical-align: middle;
+	color: #000;
+}
+
+.vst_state_item:hover {
+	background: #276cbb;
+	color: #fff;
+}
+
+#pageChatTabs a {
+	max-width: 90px;
+	width: 90px;
+}
+
+#pageChatTabs .more {
+	max-width: 40px;
+	width: 40px;
+}
+.groupnick_king{
+	width:11px;
+	height:10px; 
+	display: inline-block;
+	background: url(../image/king_head.png?V=5_0_8_30) center no-repeat;
+	_background: url(../image/king_head.gif?V=5_0_8_30) center no-repeat;
+}
+/******banner*******/
+#stadic_layout_head .area {
+	margin: 7px 10px 0 10px;
+	overflow: hidden; *
+	zoom: 1;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	background: url(../image/bg_1.png?V=5_0_8_30) center repeat-x;
+}
+
+#stadic_layout_head .area .area_l {
+	float: left;
+	padding:0;
+	width: 300px;
+	height: 67px;
+	background: url(../image/logo.png?V=5_0_8_30) center no-repeat;
+}
+
+#stadic_layout_head .area .area_l a {
+	display: block;
+	width: 142px;
+	height: 46px;
+	background: url(../image/logo.png?V=5_0_8_30) center no-repeat;
+	_background: url(../image/logo.gif?V=5_0_8_30) center no-repeat;
+}
+#stadic_layout_head .area .area_c{
+	float:right;
+	overflow:auto;
+	width:960px;
+	height:67px;
+	background: url(../image/right_bg.png?V=5_0_8_30) center no-repeat;
+}
+
+#stadic_layout_head .area .area_r {
+	float: right;
+	width: 372px;
+	height: 44px;
+	background: #4393ee;
+	padding-right: 30px;
+	padding-top: 24px;
+	text-align: right;
+}
+
+#main_layout {
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	padding: 0px;
+}
+
+.uc_tool_font {
+	height: 54px;
+	line-height: 54px;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: middle;
+	margin: 5px;
+}
+
+.uc_yj_true {
+}
+
+.uc_yj_false {
+}
+
+.uc_sphy_true {
+}
+
+.uc_sphy_false {
+}
+
+.uc_dx_true {
+}
+
+.uc_dx_false {
+}
+
+.uc_dzcz_true {
+}
+
+.uc_dzcz_false {
+}
+
+.teamName {
+	display: inline-block;
+	width: 140px;
+	margin-left: 5px;
+	color: #296FBE;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.only_table {
+	border: 1px solid #d2d2d2;
+	border-right: none;
+	font-size: 12px;
+	border-collapse: inherit;
+}
+
+.uc_layout .signiture_w1 {
+  width: 220px;
+}
+
+.uc_layout .signiture_w2 {
+  width: 402px;
+}
+
+.maxHeight_300{
+  max-height:150px;
+  max-width:150px;
+}
+.maxHeight_150{
+  max-height:100px;
+  max-width:100px;
+}
+.maxHeight_680{
+  max-height:400px;
+  max-width:400px;
+}
+
+.uc_tabs { border: 0;}
+.uc_tabs a{ color: #414141;}
+.uc_tabs .current { background: #E5E6E5; }
+.uc_tabs .current a{ background: none; color: #414141; }
+
+
+.chatList_content { overflow: hidden; margin-top: 5px; height: 36px; word-wrap:break-word; line-height: 18px; font-size: 12px;}
+.margin_r_15 {
+  margin-right: 13px;
+}
+.common_send_people_box_uc {
+  float: left;
+  margin-top:2px;
+  margin-right:2px;
+  padding:2px 3px;
+  height :16px;
+  background: #ccc;
+  color : #fff;
+  cursor: pointer;
+}
+
+.uc_face16 { 
+  display: inline-block;
+  vertical-align: middle;
+  height: 16px;
+  width: 50px;
+  line-height: 16px;
+  padding-left : 20px;
+  background: url(../image/face16.png?v=5_0_8_30) no-repeat;
+}

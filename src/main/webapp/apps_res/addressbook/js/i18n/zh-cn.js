@@ -1,0 +1,61 @@
+/**
+ *
+ *  File Authors: paul
+ */
+
+var ADDRESSBOOKLang = {
+	addressbook_tree_root_label : "类别",
+	addressbook_operation_return_message : "操作成功",
+	addressbook_operation_destroy_member_confirm_message: "确定要删除选择的外部联系人吗?",
+	addressbook_operation_destroy_ownteam_confirm_message: "确定要解散选择的个人组吗?",
+	addressbook_operation_destroy_category_confirm_message: "确定要删除选择的组吗?",
+	addressbook_operation_add_team_members_message: "没有选中外部联系人",
+	addressbook_operation_send_message_onlyone_message: "短信一次只能发给一个人",
+	addressbook_operation_send_message_dontself_message: "短信不能发给自己",
+	addressbook_operation_send_message_must_message: "请选择一个人",
+	addressbook_operation_destroy_choose_message:"请选择一条要解散的组",
+	addressbook_operation_add_category_message: "请填写类别名称",
+	addressbook_operation_remove_choose_message:"请选择要删除的{0}",
+	addressbook_operation_modify_choose_message:"请选择要修改的{0}",
+	addressbook_operation_modify_choose_group:"未分类联系人不可修改,请选择其他组!",
+	addressbook_operation_is_exist:"该{0}已经存在，请重新输入",
+	addressbook_operation_right_phone:"请输入正确的{0}",
+	addressbook_operation_company_phone:"单位电话",
+	addressbook_operation_family_phone:"固定电话",
+	addressbook_search_no_condition:"请选择查询条件！",
+	addressbook_search_no_content:"请输入查询内容！",
+	addressbook_form_email:"邮件地址",
+	addressbook_form_category:"类别",
+	addressbook_form_ownteam:"个人组",
+	detail_addressbook_110201:"<li>员工通讯录为您提供了本单位所有员工的通讯记录，<br>为您与他人之间的沟通工作提供了便利的条件。</li>",
+	detail_addressbook_110203:"<li>系统组由管理员建立，为您提供了本单位系统的员工信息记录，<br>为您与单位人员之间的沟通工作提供了便利的条件。</li>",
+	detail_addressbook_110204:"<li>个人组由个人建立，为您提供了本单位所有员工的信息记录，<br>为您与他人之间的沟通工作提供了便利的条件。</li>",
+	detail_addressbook_110202:"<li>私人通讯录由个人建立。<br>为您与他人之间的沟通工作提供了便利的条件。</li>",
+	addressbook_group_download_label :"请选择组后再下载！",
+	addressbook_print_label : "页面显示不完整，请等待!",
+	addressbook_delete_member_label : "该人员已被删除!",
+	addressbook_no_category_label : "当前没有类别，请先创建类别!",
+	addressbook_vcard_export_least_one : "请选择用户!",
+	addressbook_vcard_export_many_forbidden : "每次只允许导出一人",
+	addressbook_zu_label : "组",
+	
+	alert_noSelectMember: "请选择联系人！",
+	alert_noPhoneMember: "您选择的联系人未填写手机号码，不能发送短信！",
+	addressbook_isexist_name:"私人通讯录中存在相同姓名的人！",
+	addressbook_isexist_ownteam_name:"已经存在相同的组!",
+	
+	addressbook_companyPhone_name:"办公电话输入不要超过20个字符！",
+	addressbook_familyPhone_name:"固定电话输入不要超过20个字符！",
+	addressbook_fax_name:"传真号码输入不要超过20个字符！",
+	addressbook_email_name:"电子邮件输入太长或者不符合规范！",
+	addressbook_blog_name:"博客输入太长或者不符合规范！",
+	addressbook_website_name:"网址输入太长或者不符合规范！",
+	send_message:"发送消息",
+	ok:"确定",
+	cancel:"取消",
+	view:"查看",
+	member_add:"新增人员",
+	category_add:"新增组",
+	category_edit:"修改组"
+	
+}

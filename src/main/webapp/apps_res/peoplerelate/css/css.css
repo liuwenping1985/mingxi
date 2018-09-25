@@ -1,0 +1,177 @@
+@charset "utf-8";
+body {
+	font-size: 12px;
+}
+.line_project {
+	border: 1px solid #676977;
+	text-align: left;
+	text-indent: 5px;
+}
+.line1 {
+	border: 1px solid #b8b8b8;
+	text-align: left;
+	text-indent: 5px;
+}
+.txt_1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #494949;
+}
+
+.rlbg {
+	background-image: url(../images/rlbg.gif);
+}
+.time{
+	color: #666666
+}
+.line2 {
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #999999;
+}
+.link {
+	color: #002090;
+}
+
+.kalendar {
+	border: 1px solid #c6c7c9;
+}
+
+.kalendar1 {
+	border-top: 1px #fff solid;
+	border-bottom: 1px #ADD1FF solid;
+	height: 21px;
+}
+
+.kalendar2 {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-right-style: none;
+	border-left-style: none;
+	border-top-color: #c6c7c9;
+}
+
+.kalendar3 {
+	border-bottom: 1px solid #c6c7c9;
+	border-top: 0px;
+	border-left: 1px solid #c6c7c9;
+	border-right:0;
+}
+
+.tab-td{
+	padding: 0px 20px 0px 20px;
+	vertical-align: top;
+}
+
+.title-td{
+	padding: 0px 20px 0px 20px;
+	border-top: solid 1px #DBDBDB;
+	border-right: solid 1px #DBDBDB;
+	border-left: solid 1px #DBDBDB;
+}
+
+.left-td{
+	vertical-align: top;
+	padding: 10px 0px 0px 10px;
+}
+
+.bottom-td{
+	background: url(../images/d.gif) repeat-x;
+	width: 100%;
+	height: 1px;
+}
+
+.dashed {
+	border-left-width: 1px;
+	border-left-style: dashed;
+	border-left-color: #666666;
+}
+
+.leader-td-bg{
+	text-align: center;
+}
+
+.over-td-bg{
+	background: url(../../publicManager/images/bj.gif) no-repeat;
+	background-position: center;
+	text-align: center;
+	font-weight: bold;
+	border-bottom: solid 2px #FFD44D;
+	border-left: solid 1px #FFD44D;
+	border-right: solid 1px #FFD44D;
+	border-top: solid 1px #FFD44D;
+}
+
+.dash-line{
+	background: url(../images/d-1.gif) repeat-y;
+	width: 1px;
+	padding: 10px 10px 10px 10px;
+}
+
+a {
+	font-size: 12px;
+	color:#1039b2;
+	text-decoration: none;
+}
+a:HOVER {
+	color: #ff6633;	
+}
+.defaulttitlecss{
+	color: #333333;
+	text-decoration: none;
+}
+
+.relatepepleTitleCss {
+	font-size: 24px;
+	font-weight: bold;
+	color: #6c82ac;	
+	background-image: url(../common/images/page2.header.bg.gif);
+	background-repeat: no-repeat;
+}
+.calanderTitle{
+height: 24px;
+background: url("../images/calendarTitle.gif") repeat-x;
+border-bottom: 1px #85B4E1 solid;
+}
+.hand{
+cursor:pointer;
+}
+.kalendar3 td{
+padding: 0px;
+margin: 0px;
+height: 25px;
+}
+.relatveCalander{
+	display: block;
+	width: 100%;
+	height:100%;
+	line-height: 25px;
+	vertical-align: middle;
+}
+.relatveCalander:hover{
+background: url("../images/cellbg.gif") repeat-x;
+}
+.div-list{
+	width: 281px;
+	height: 135px;
+	border: 1px #999999 solid;
+	background: #ffffff;
+	overflow: auto;
+	overflow-x:hide; 
+}
+.member-div{
+	height: 21px;
+	line-height: 21px;
+	vertical-align: middle;
+	border-bottom: 1px #EDEDED solid;
+	cursor: pointer;
+}
+.member-div-selected{
+	height: 21px;
+	line-height: 21px;
+	vertical-align: middle;
+	border-bottom: 1px #EDEDED solid;
+	background: #EFF3F4;
+	cursor: pointer;
+}

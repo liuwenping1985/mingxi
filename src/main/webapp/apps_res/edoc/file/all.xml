@@ -1,0 +1,2569 @@
+&&&&&& sendstart &&&&&&<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my="www.seeyon.com/form/2007" xmlns:msxsl="www.seeyon.com/form/2007" xmlns:xd="www.seeyon.com/form/2007" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:xdExtension="www.seeyon.com/form/2007" xmlns:xdXDocument="www.seeyon.com/form/2007" xmlns:xdSolution="www.seeyon.com/form/2007" xmlns:xdFormatting="www.seeyon.com/form/2007" xmlns:xdImage="www.seeyon.com/form/2007" version="1.0"><xsl:output method="html" indent="no"/>
+	<xsl:template match="my:myFields">
+		
+	<style controlStyle="controlStyle">@media screen 			{ 			_BODY{margin-left:21px;background-position:21px 0px;} 			} 		_BODY{color:windowtext;background-color:window;layout-grid:none;} 		.xdListItem {display:inline-block;width:100%;vertical-align:text-top;} 		.xdListBox,.xdComboBox{margin:1px;} 		.xdInlinePicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) } 		.xdLinkedPicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) url(#default#urn::controls/Binder) } 		.xdHyperlinkBox{word-wrap:break-word; text-overflow:ellipsis;overflow-x:hidden; OVERFLOW-Y: hidden; WHITE-SPACE:nowrap; display:inline-block;margin:1px;padding:5px;border: 1pt solid #dcdcdc;color:windowtext;BEHAVIOR: url(#default#urn::controls/Binder) url(#default#DataBindingUI)} 		.xdSection{border:1pt solid transparent ;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdRepeatingSection{border:1pt solid transparent;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdMultiSelectList{margin:1px;display:inline-block; border:1pt solid #dcdcdc; padding:1px 1px 1px 5px; text-indent:0; color:windowtext; background-color:window; overflow:auto; behavior: url(#default#DataBindingUI) url(#default#urn::controls/Binder) url(#default#MultiSelectHelper) url(#default#ScrollableRegion);} 		.xdMultiSelectListItem{display:block;white-space:nowrap}		.xdMultiSelectFillIn{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:left;}		.xdBehavior_Formatting {BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting);} 	 .xdBehavior_FormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting);} 	.xdExpressionBox{margin: 1px;padding:1px;word-wrap: break-word;text-overflow: ellipsis;overflow-x:hidden;}.xdBehavior_GhostedText,.xdBehavior_GhostedTextNoBUI{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField) url(#default#GhostedText);}	.xdBehavior_GTFormatting{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_GTFormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_Boolean{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper);}	.xdBehavior_Select{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper);}	.xdBehavior_ComboBox{BEHAVIOR: url(#default#ComboBox)} 	.xdBehavior_ComboBoxTextField{BEHAVIOR: url(#default#ComboBoxTextField);} 	.xdRepeatingTable{BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none; BORDER-COLLAPSE: collapse; WORD-WRAP: break-word;}.xdScrollableRegion{BEHAVIOR: url(#default#ScrollableRegion);} 		.xdLayoutRegion{display:inline-block;} 		.xdMaster{BEHAVIOR: url(#default#MasterHelper);} 		.xdActiveX{margin:1px; BEHAVIOR: url(#default#ActiveX);} 		.xdFileAttachment{display:inline-block;margin:1px;BEHAVIOR:url(#default#urn::xdFileAttachment);} 		.xdSharePointFileAttachment{display:inline-block;margin:2px;BEHAVIOR:url(#default#xdSharePointFileAttachment);} 		.xdAttachItem{display:inline-block;width:100%%;height:25px;margin:1px;BEHAVIOR:url(#default#xdSharePointFileAttachItem);} 		.xdSignatureLine{display:inline-block;margin:1px;background-color:transparent;border:1pt solid transparent;BEHAVIOR:url(#default#SignatureLine);} 		.xdHyperlinkBoxClickable{behavior: url(#default#HyperlinkBox)} 		.xdHyperlinkBoxButtonClickable{border-width:1px;border-style:outset;behavior: url(#default#HyperlinkBoxButton)} 		.xdPictureButton{background-color: transparent; padding: 0px; behavior: url(#default#PictureButton);} 		.xdPageBreak{display: none;}_BODY{margin-right:21px;} 		.xdTextBoxRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:right;word-wrap:normal;} 		.xdRichTextBoxRTL{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:right;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTTextRTL{height:100%;width:100%;margin-left:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButtonRTL{margin-right:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdMultiSelectFillinRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:right;}.xdTextBox{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:left;word-wrap:normal;} 		.xdRichTextBox{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:left;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTPicker{;display:inline;margin:1px;margin-bottom: 2px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-indent:0; layout-grid: none} 		.xdDTText{height:100%;width:100%;margin-right:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButton{margin-left:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdRepeatingTable TD {VERTICAL-ALIGN: top;}</style><style tableEditor="TableStyleRulesID">TABLE.xdLayout TD {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TABLE.msoUcTable TD {
+	BORDER-TOP: 1pt solid; BORDER-RIGHT: 1pt solid; BORDER-BOTTOM: 1pt solid; BORDER-LEFT: 1pt solid
+}
+TABLE {
+	BEHAVIOR: url (#default#urn::tables/NDTable)
+}
+</style><style languageStyle="languageStyle">BODY {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+SELECT {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+TABLE {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; TEXT-TRANSFORM: none; FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+.optionalPlaceholder {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun; FONT-WEIGHT: normal; COLOR: #333333; FONT-STYLE: normal; PADDING-LEFT: 20px; TEXT-DECORATION: none; BEHAVIOR: url(#default#xOptional)
+}
+.langFont {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; WIDTH: 150px
+}
+.defaultInDocUI {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun
+}
+.optionalPlaceholder {
+	PADDING-RIGHT: 20px
+}
+</style><style themeStyle="urn:office.microsoft.com:themeSummer">TABLE {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TD {
+	BORDER-TOP-COLOR: #d8d8d8; BORDER-BOTTOM-COLOR: #d8d8d8; BORDER-RIGHT-COLOR: #d8d8d8; BORDER-LEFT-COLOR: #d8d8d8
+}
+TH {
+	BORDER-TOP-COLOR: #000000; COLOR: black; BORDER-BOTTOM-COLOR: #000000; BORDER-RIGHT-COLOR: #000000; BACKGROUND-COLOR: #f2f2f2; BORDER-LEFT-COLOR: #000000
+}
+.xdTableHeader {
+	COLOR: black; BACKGROUND-COLOR: #f2f2f2
+}
+.light1 {
+	BACKGROUND-COLOR: #ffffff
+}
+.dark1 {
+	BACKGROUND-COLOR: #000000
+}
+.light2 {
+	BACKGROUND-COLOR: #f7f8f4
+}
+.dark2 {
+	BACKGROUND-COLOR: #2b4b4d
+}
+.accent1 {
+	BACKGROUND-COLOR: #6c9a7f
+}
+.accent2 {
+	BACKGROUND-COLOR: #bb523d
+}
+.accent3 {
+	BACKGROUND-COLOR: #c89d11
+}
+.accent4 {
+	BACKGROUND-COLOR: #fccf10
+}
+.accent5 {
+	BACKGROUND-COLOR: #568ea1
+}
+.accent6 {
+	BACKGROUND-COLOR: #decf28
+}
+</style><style tableStyle="Professional">TR.xdTitleRow {
+	MIN-HEIGHT: 83px
+}
+TD.xdTitleCell {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithHeading {
+	MIN-HEIGHT: 69px
+}
+TD.xdTitleCellWithHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithSubHeading {
+	MIN-HEIGHT: 75px
+}
+TD.xdTitleCellWithSubHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 6px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithOffsetBody {
+	MIN-HEIGHT: 72px
+}
+TD.xdTitleCellWithOffsetBody {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleHeadingRow {
+	MIN-HEIGHT: 37px
+}
+TD.xdTitleHeadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TR.xdTitleSubheadingRow {
+	MIN-HEIGHT: 70px
+}
+TD.xdTitleSubheadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 16px; PADDING-TOP: 8px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdVerticalFill {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; BORDER-LEFT: #bfbfbf 1pt solid; BACKGROUND-COLOR: #354d3f
+}
+TD.xdTableContentCellWithVerticalOffset {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 95px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTableContentRow {
+	MIN-HEIGHT: 140px
+}
+TD.xdTableContentCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableContentCellWithVerticalFill {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 1px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 1px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableStyleOneCol {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px
+}
+TR.xdContentRowOneCol {
+	MIN-HEIGHT: 45px; valign: center
+}
+TR.xdHeadingRow {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCell {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRow {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCell {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdHeadingRowEmphasis {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCellEmphasis {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRowEmphasis {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCellEmphasis {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdTableLabelControlStackedRow {
+	MIN-HEIGHT: 45px
+}
+TD.xdTableLabelControlStackedCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableLabelControlStackedCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TR.xdTableRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TD.xdTableMiddleCell {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px
+}
+TR.xdTableEmphasisRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableEmphasisCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableEmphasisCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableMiddleCellEmphasis {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TR.xdTableOffsetRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableOffsetCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableOffsetCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+P {
+	FONT-SIZE: 11pt; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H1 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 24pt; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H2 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 16pt; FONT-WEIGHT: bold; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H3 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 12pt; TEXT-TRANSFORM: uppercase; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H4 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H5 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: #354d3f; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H6 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; MARGIN-TOP: 0px
+}
+BODY {
+	COLOR: black
+}
+</style><div align="center">
+					<table class="xdFormLayout" style="BORDER-TOP-STYLE: none; WORD-WRAP: break-word; BORDER-LEFT-STYLE: none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; WIDTH: 629px">
+						<colgroup>
+							<col style="WIDTH: 629px"/>
+						</colgroup>
+						<tbody>
+							<tr class="xdTableContentRow">
+								<td style="BORDER-RIGHT: #bfbfbf 1pt; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #bfbfbf 1pt; BORDER-LEFT: #bfbfbf 1pt" class="xdTableContentCell">
+									<div align="center">
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 627px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 66px">
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="6" face="SimSun">
+																<strong>发文稿纸</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 86px"/>
+												<col style="WIDTH: 205px"/>
+												<col style="WIDTH: 87px"/>
+												<col style="WIDTH: 94px"/>
+												<col style="WIDTH: 54px"/>
+												<col style="WIDTH: 101px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 36px">
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="SimSun">
+																<strong>发文文号</strong>
+															</font>
+														</div>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:doc_mark" xd:CtrlId="CTRL1" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 26px; FONT-FAMILY: 宋体; WIDTH: 162px">
+																	
+																<pre><xsl:if test="my:doc_mark[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:doc_mark/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:doc_mark"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>紧急程度</strong>
+															</font>
+														</div>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:urgent_level" xd:CtrlId="CTRL2" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 26px; FONT-FAMILY: 宋体; WIDTH: 100%">
+																	
+																<pre><xsl:if test="my:urgent_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:urgent_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:urgent_level"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>密级</strong>
+															</font>
+														</div>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:secret_level" xd:CtrlId="CTRL3" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 26px; FONT-FAMILY: 宋体; WIDTH: 100%">
+																	
+																<pre><xsl:if test="my:secret_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:secret_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:secret_level"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 104px"/>
+												<col style="WIDTH: 105px"/>
+												<col style="WIDTH: 104px"/>
+												<col style="WIDTH: 105px"/>
+												<col style="WIDTH: 104px"/>
+												<col style="WIDTH: 105px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 35px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>签&#27;发</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>会&#27;签</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 137px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:qianfa" xd:CtrlId="CTRL4" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:qianfa[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:qianfa/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:qianfa"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:huiqian" xd:CtrlId="CTRL5" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:huiqian[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:huiqian/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:huiqian"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 40px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>审 核</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>复 核</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 138px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:shenhe" xd:CtrlId="CTRL6" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:shenhe[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:shenhe/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:shenhe"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:fuhe" xd:CtrlId="CTRL7" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:fuhe[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:fuhe/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:fuhe"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>拟稿单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:send_unit" xd:CtrlId="CTRL8" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:send_unit[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_unit/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_unit"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>签发日期</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:signing_date" xd:CtrlId="CTRL9" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:signing_date[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:signing_date/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:signing_date"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>拟稿人</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:create_person" xd:CtrlId="CTRL10" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:create_person[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:create_person/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:create_person"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>联系电话</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:phone" xd:CtrlId="CTRL11" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:phone[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:phone/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:phone"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>印发份数</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:copies" xd:CtrlId="CTRL12" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:copies[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:copies/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:copies"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>标题</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:subject" xd:CtrlId="CTRL13" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:subject[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:subject/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:subject"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>主送单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:send_to" xd:CtrlId="CTRL14" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:send_to[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_to/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_to"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>抄送单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:copy_to" xd:CtrlId="CTRL15" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:copy_to[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:copy_to/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:copy_to"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>附件</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:attachments" xd:CtrlId="CTRL16" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:attachments[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:attachments/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:attachments"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><div align="center">&#27;</div><div style="display:none;">formStyleHasUpgrade</div></xsl:template>
+</xsl:stylesheet>
+&&&&&& sendend &&&&&&
+&&&&&& recstart &&&&&&<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my="www.seeyon.com/form/2007" xmlns:msxsl="www.seeyon.com/form/2007" xmlns:xd="www.seeyon.com/form/2007" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:xdExtension="www.seeyon.com/form/2007" xmlns:xdXDocument="www.seeyon.com/form/2007" xmlns:xdSolution="www.seeyon.com/form/2007" xmlns:xdFormatting="www.seeyon.com/form/2007" xmlns:xdImage="www.seeyon.com/form/2007" version="1.0"><xsl:output method="html" indent="no"/>
+	<xsl:template match="my:myFields">
+		
+	<style controlStyle="controlStyle">@media screen 			{ 			_BODY{margin-left:21px;background-position:21px 0px;} 			} 		_BODY{color:windowtext;background-color:window;layout-grid:none;} 		.xdListItem {display:inline-block;width:100%;vertical-align:text-top;} 		.xdListBox,.xdComboBox{margin:1px;} 		.xdInlinePicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) } 		.xdLinkedPicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) url(#default#urn::controls/Binder) } 		.xdHyperlinkBox{word-wrap:break-word; text-overflow:ellipsis;overflow-x:hidden; OVERFLOW-Y: hidden; WHITE-SPACE:nowrap; display:inline-block;margin:1px;padding:5px;border: 1pt solid #dcdcdc;color:windowtext;BEHAVIOR: url(#default#urn::controls/Binder) url(#default#DataBindingUI)} 		.xdSection{border:1pt solid transparent ;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdRepeatingSection{border:1pt solid transparent;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdMultiSelectList{margin:1px;display:inline-block; border:1pt solid #dcdcdc; padding:1px 1px 1px 5px; text-indent:0; color:windowtext; background-color:window; overflow:auto; behavior: url(#default#DataBindingUI) url(#default#urn::controls/Binder) url(#default#MultiSelectHelper) url(#default#ScrollableRegion);} 		.xdMultiSelectListItem{display:block;white-space:nowrap}		.xdMultiSelectFillIn{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:left;}		.xdBehavior_Formatting {BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting);} 	 .xdBehavior_FormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting);} 	.xdExpressionBox{margin: 1px;padding:1px;word-wrap: break-word;text-overflow: ellipsis;overflow-x:hidden;}.xdBehavior_GhostedText,.xdBehavior_GhostedTextNoBUI{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField) url(#default#GhostedText);}	.xdBehavior_GTFormatting{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_GTFormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_Boolean{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper);}	.xdBehavior_Select{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper);}	.xdBehavior_ComboBox{BEHAVIOR: url(#default#ComboBox)} 	.xdBehavior_ComboBoxTextField{BEHAVIOR: url(#default#ComboBoxTextField);} 	.xdRepeatingTable{BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none; BORDER-COLLAPSE: collapse; WORD-WRAP: break-word;}.xdScrollableRegion{BEHAVIOR: url(#default#ScrollableRegion);} 		.xdLayoutRegion{display:inline-block;} 		.xdMaster{BEHAVIOR: url(#default#MasterHelper);} 		.xdActiveX{margin:1px; BEHAVIOR: url(#default#ActiveX);} 		.xdFileAttachment{display:inline-block;margin:1px;BEHAVIOR:url(#default#urn::xdFileAttachment);} 		.xdSharePointFileAttachment{display:inline-block;margin:2px;BEHAVIOR:url(#default#xdSharePointFileAttachment);} 		.xdAttachItem{display:inline-block;width:100%%;height:25px;margin:1px;BEHAVIOR:url(#default#xdSharePointFileAttachItem);} 		.xdSignatureLine{display:inline-block;margin:1px;background-color:transparent;border:1pt solid transparent;BEHAVIOR:url(#default#SignatureLine);} 		.xdHyperlinkBoxClickable{behavior: url(#default#HyperlinkBox)} 		.xdHyperlinkBoxButtonClickable{border-width:1px;border-style:outset;behavior: url(#default#HyperlinkBoxButton)} 		.xdPictureButton{background-color: transparent; padding: 0px; behavior: url(#default#PictureButton);} 		.xdPageBreak{display: none;}_BODY{margin-right:21px;} 		.xdTextBoxRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:right;word-wrap:normal;} 		.xdRichTextBoxRTL{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:right;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTTextRTL{height:100%;width:100%;margin-left:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButtonRTL{margin-right:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdMultiSelectFillinRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:right;}.xdTextBox{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:left;word-wrap:normal;} 		.xdRichTextBox{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:left;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTPicker{;display:inline;margin:1px;margin-bottom: 2px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-indent:0; layout-grid: none} 		.xdDTText{height:100%;width:100%;margin-right:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButton{margin-left:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdRepeatingTable TD {VERTICAL-ALIGN: top;}</style><style tableEditor="TableStyleRulesID">TABLE.xdLayout TD {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TABLE.msoUcTable TD {
+	BORDER-TOP: 1pt solid; BORDER-RIGHT: 1pt solid; BORDER-BOTTOM: 1pt solid; BORDER-LEFT: 1pt solid
+}
+TABLE {
+	BEHAVIOR: url (#default#urn::tables/NDTable)
+}
+</style><style languageStyle="languageStyle">BODY {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+SELECT {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+TABLE {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; TEXT-TRANSFORM: none; FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+.optionalPlaceholder {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun; FONT-WEIGHT: normal; COLOR: #333333; FONT-STYLE: normal; PADDING-LEFT: 20px; TEXT-DECORATION: none; BEHAVIOR: url(#default#xOptional)
+}
+.langFont {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; WIDTH: 150px
+}
+.defaultInDocUI {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun
+}
+.optionalPlaceholder {
+	PADDING-RIGHT: 20px
+}
+</style><style themeStyle="urn:office.microsoft.com:themeSummer">TABLE {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TD {
+	BORDER-TOP-COLOR: #d8d8d8; BORDER-BOTTOM-COLOR: #d8d8d8; BORDER-RIGHT-COLOR: #d8d8d8; BORDER-LEFT-COLOR: #d8d8d8
+}
+TH {
+	BORDER-TOP-COLOR: #000000; COLOR: black; BORDER-BOTTOM-COLOR: #000000; BORDER-RIGHT-COLOR: #000000; BACKGROUND-COLOR: #f2f2f2; BORDER-LEFT-COLOR: #000000
+}
+.xdTableHeader {
+	COLOR: black; BACKGROUND-COLOR: #f2f2f2
+}
+.light1 {
+	BACKGROUND-COLOR: #ffffff
+}
+.dark1 {
+	BACKGROUND-COLOR: #000000
+}
+.light2 {
+	BACKGROUND-COLOR: #f7f8f4
+}
+.dark2 {
+	BACKGROUND-COLOR: #2b4b4d
+}
+.accent1 {
+	BACKGROUND-COLOR: #6c9a7f
+}
+.accent2 {
+	BACKGROUND-COLOR: #bb523d
+}
+.accent3 {
+	BACKGROUND-COLOR: #c89d11
+}
+.accent4 {
+	BACKGROUND-COLOR: #fccf10
+}
+.accent5 {
+	BACKGROUND-COLOR: #568ea1
+}
+.accent6 {
+	BACKGROUND-COLOR: #decf28
+}
+</style><style tableStyle="Professional">TR.xdTitleRow {
+	MIN-HEIGHT: 83px
+}
+TD.xdTitleCell {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithHeading {
+	MIN-HEIGHT: 69px
+}
+TD.xdTitleCellWithHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithSubHeading {
+	MIN-HEIGHT: 75px
+}
+TD.xdTitleCellWithSubHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 6px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithOffsetBody {
+	MIN-HEIGHT: 72px
+}
+TD.xdTitleCellWithOffsetBody {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleHeadingRow {
+	MIN-HEIGHT: 37px
+}
+TD.xdTitleHeadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TR.xdTitleSubheadingRow {
+	MIN-HEIGHT: 70px
+}
+TD.xdTitleSubheadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 16px; PADDING-TOP: 8px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdVerticalFill {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; BORDER-LEFT: #bfbfbf 1pt solid; BACKGROUND-COLOR: #354d3f
+}
+TD.xdTableContentCellWithVerticalOffset {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 95px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTableContentRow {
+	MIN-HEIGHT: 140px
+}
+TD.xdTableContentCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableContentCellWithVerticalFill {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 1px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 1px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableStyleOneCol {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px
+}
+TR.xdContentRowOneCol {
+	MIN-HEIGHT: 45px; valign: center
+}
+TR.xdHeadingRow {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCell {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRow {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCell {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdHeadingRowEmphasis {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCellEmphasis {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRowEmphasis {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCellEmphasis {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdTableLabelControlStackedRow {
+	MIN-HEIGHT: 45px
+}
+TD.xdTableLabelControlStackedCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableLabelControlStackedCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TR.xdTableRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TD.xdTableMiddleCell {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px
+}
+TR.xdTableEmphasisRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableEmphasisCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableEmphasisCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableMiddleCellEmphasis {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TR.xdTableOffsetRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableOffsetCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableOffsetCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+P {
+	FONT-SIZE: 11pt; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H1 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 24pt; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H2 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 16pt; FONT-WEIGHT: bold; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H3 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 12pt; TEXT-TRANSFORM: uppercase; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H4 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H5 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: #354d3f; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H6 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; MARGIN-TOP: 0px
+}
+BODY {
+	COLOR: black
+}
+</style><div align="center">
+					<table class="xdFormLayout" style="BORDER-TOP-STYLE: none; WORD-WRAP: break-word; BORDER-LEFT-STYLE: none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; WIDTH: 629px">
+						<colgroup>
+							<col style="WIDTH: 629px"/>
+						</colgroup>
+						<tbody>
+							<tr class="xdTableContentRow">
+								<td style="BORDER-RIGHT: #bfbfbf 1pt; BORDER-BOTTOM: #bfbfbf 1pt; BORDER-LEFT: #bfbfbf 1pt" class="xdTableContentCell">
+									<div align="center">
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 627px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 41px">
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="6">
+																<strong>收文处理笺</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>&#27;</div>
+									<div align="center">
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 122px"/>
+												<col style="WIDTH: 191px"/>
+												<col style="WIDTH: 124px"/>
+												<col style="WIDTH: 190px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文标题</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL17" xd:binding="my:subject" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 497px">
+																	
+																<pre><xsl:if test="my:subject[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:subject/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:subject"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 54px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL18" xd:binding="my:send_unit" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 497px">
+																	
+																<pre><xsl:if test="my:send_unit[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_unit/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_unit"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 53px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文文号</strong>
+															</font>
+														</div>
+														<!--EndFragment-->
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL19" xd:binding="my:doc_mark" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:doc_mark[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:doc_mark/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:doc_mark"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>紧急程度</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL20" xd:binding="my:urgent_level" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:urgent_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:urgent_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:urgent_level"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 53px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>收文编号</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL21" xd:binding="my:serial_no" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:serial_no[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:serial_no/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:serial_no"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>密&#27; 级</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL22" xd:binding="my:secret_level" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:secret_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:secret_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:secret_level"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 55px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文日期</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL23" xd:binding="my:registration_date" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:registration_date[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:registration_date/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:registration_date"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>承办人</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL24" xd:binding="my:undertaker" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:undertaker[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:undertaker/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:undertaker"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 35px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 领导批示</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL25" xd:binding="my:pishi" style="FONT-SIZE: medium; HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:pishi[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:pishi/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:pishi"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 37px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 拟办意见</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL26" xd:binding="my:niban" style="HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:niban[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:niban/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:niban"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 41px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 承办意见</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL27" xd:binding="my:chengban" style="FONT-SIZE: medium; HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:chengban[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:chengban/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:chengban"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 37px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 办理结果</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL28" xd:binding="my:banli" style="FONT-SIZE: medium; HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																		
+																	<pre><xsl:if test="my:banli[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:banli/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:banli"/></pre></span>
+																</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><div align="center">&#27;</div><div style="display:none;">formStyleHasUpgrade</div></xsl:template>
+</xsl:stylesheet>
+&&&&&& recend &&&&&&
+&&&&&& recyuewenstart &&&&&&<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my="www.seeyon.com/form/2007" xmlns:msxsl="www.seeyon.com/form/2007" xmlns:xd="www.seeyon.com/form/2007" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:xdExtension="www.seeyon.com/form/2007" xmlns:xdXDocument="www.seeyon.com/form/2007" xmlns:xdSolution="www.seeyon.com/form/2007" xmlns:xdFormatting="www.seeyon.com/form/2007" xmlns:xdImage="www.seeyon.com/form/2007" version="1.0"><xsl:output method="html" indent="no"/>
+	<xsl:template match="my:myFields">
+		
+	<style controlStyle="controlStyle">@media screen 			{ 			_BODY{margin-left:21px;background-position:21px 0px;} 			} 		_BODY{color:windowtext;background-color:window;layout-grid:none;} 		.xdListItem {display:inline-block;width:100%;vertical-align:text-top;} 		.xdListBox,.xdComboBox{margin:1px;} 		.xdInlinePicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) } 		.xdLinkedPicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) url(#default#urn::controls/Binder) } 		.xdHyperlinkBox{word-wrap:break-word; text-overflow:ellipsis;overflow-x:hidden; OVERFLOW-Y: hidden; WHITE-SPACE:nowrap; display:inline-block;margin:1px;padding:5px;border: 1pt solid #dcdcdc;color:windowtext;BEHAVIOR: url(#default#urn::controls/Binder) url(#default#DataBindingUI)} 		.xdSection{border:1pt solid transparent ;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdRepeatingSection{border:1pt solid transparent;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdMultiSelectList{margin:1px;display:inline-block; border:1pt solid #dcdcdc; padding:1px 1px 1px 5px; text-indent:0; color:windowtext; background-color:window; overflow:auto; behavior: url(#default#DataBindingUI) url(#default#urn::controls/Binder) url(#default#MultiSelectHelper) url(#default#ScrollableRegion);} 		.xdMultiSelectListItem{display:block;white-space:nowrap}		.xdMultiSelectFillIn{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:left;}		.xdBehavior_Formatting {BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting);} 	 .xdBehavior_FormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting);} 	.xdExpressionBox{margin: 1px;padding:1px;word-wrap: break-word;text-overflow: ellipsis;overflow-x:hidden;}.xdBehavior_GhostedText,.xdBehavior_GhostedTextNoBUI{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField) url(#default#GhostedText);}	.xdBehavior_GTFormatting{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_GTFormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_Boolean{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper);}	.xdBehavior_Select{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper);}	.xdBehavior_ComboBox{BEHAVIOR: url(#default#ComboBox)} 	.xdBehavior_ComboBoxTextField{BEHAVIOR: url(#default#ComboBoxTextField);} 	.xdRepeatingTable{BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none; BORDER-COLLAPSE: collapse; WORD-WRAP: break-word;}.xdScrollableRegion{BEHAVIOR: url(#default#ScrollableRegion);} 		.xdLayoutRegion{display:inline-block;} 		.xdMaster{BEHAVIOR: url(#default#MasterHelper);} 		.xdActiveX{margin:1px; BEHAVIOR: url(#default#ActiveX);} 		.xdFileAttachment{display:inline-block;margin:1px;BEHAVIOR:url(#default#urn::xdFileAttachment);} 		.xdSharePointFileAttachment{display:inline-block;margin:2px;BEHAVIOR:url(#default#xdSharePointFileAttachment);} 		.xdAttachItem{display:inline-block;width:100%%;height:25px;margin:1px;BEHAVIOR:url(#default#xdSharePointFileAttachItem);} 		.xdSignatureLine{display:inline-block;margin:1px;background-color:transparent;border:1pt solid transparent;BEHAVIOR:url(#default#SignatureLine);} 		.xdHyperlinkBoxClickable{behavior: url(#default#HyperlinkBox)} 		.xdHyperlinkBoxButtonClickable{border-width:1px;border-style:outset;behavior: url(#default#HyperlinkBoxButton)} 		.xdPictureButton{background-color: transparent; padding: 0px; behavior: url(#default#PictureButton);} 		.xdPageBreak{display: none;}_BODY{margin-right:21px;} 		.xdTextBoxRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:right;word-wrap:normal;} 		.xdRichTextBoxRTL{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:right;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTTextRTL{height:100%;width:100%;margin-left:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButtonRTL{margin-right:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdMultiSelectFillinRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:right;}.xdTextBox{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:left;word-wrap:normal;} 		.xdRichTextBox{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:left;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTPicker{;display:inline;margin:1px;margin-bottom: 2px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-indent:0; layout-grid: none} 		.xdDTText{height:100%;width:100%;margin-right:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButton{margin-left:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdRepeatingTable TD {VERTICAL-ALIGN: top;}</style><style tableEditor="TableStyleRulesID">TABLE.xdLayout TD {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TABLE.msoUcTable TD {
+	BORDER-TOP: 1pt solid; BORDER-RIGHT: 1pt solid; BORDER-BOTTOM: 1pt solid; BORDER-LEFT: 1pt solid
+}
+TABLE {
+	BEHAVIOR: url (#default#urn::tables/NDTable)
+}
+</style><style languageStyle="languageStyle">BODY {
+	FONT-SIZE: 10pt; FONT-FAMILY: Microsoft YaHei
+}
+SELECT {
+	FONT-SIZE: 10pt; FONT-FAMILY: Microsoft YaHei
+}
+TABLE {
+	FONT-SIZE: 10pt; FONT-FAMILY: Microsoft YaHei; TEXT-TRANSFORM: none; FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+.optionalPlaceholder {
+	FONT-SIZE: 9pt; FONT-FAMILY: Microsoft YaHei; FONT-WEIGHT: normal; COLOR: #333333; FONT-STYLE: normal; PADDING-LEFT: 20px; TEXT-DECORATION: none; BEHAVIOR: url(#default#xOptional)
+}
+.langFont {
+	FONT-SIZE: 10pt; FONT-FAMILY: Microsoft YaHei; WIDTH: 150px
+}
+.defaultInDocUI {
+	FONT-SIZE: 9pt; FONT-FAMILY: Microsoft YaHei
+}
+.optionalPlaceholder {
+	PADDING-RIGHT: 20px
+}
+</style><style themeStyle="urn:office.microsoft.com:themeSummer">TABLE {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TD {
+	BORDER-TOP-COLOR: #d8d8d8; BORDER-BOTTOM-COLOR: #d8d8d8; BORDER-RIGHT-COLOR: #d8d8d8; BORDER-LEFT-COLOR: #d8d8d8
+}
+TH {
+	BORDER-TOP-COLOR: #000000; COLOR: black; BORDER-BOTTOM-COLOR: #000000; BORDER-RIGHT-COLOR: #000000; BACKGROUND-COLOR: #f2f2f2; BORDER-LEFT-COLOR: #000000
+}
+.xdTableHeader {
+	COLOR: black; BACKGROUND-COLOR: #f2f2f2
+}
+.light1 {
+	BACKGROUND-COLOR: #ffffff
+}
+.dark1 {
+	BACKGROUND-COLOR: #000000
+}
+.light2 {
+	BACKGROUND-COLOR: #f7f8f4
+}
+.dark2 {
+	BACKGROUND-COLOR: #2b4b4d
+}
+.accent1 {
+	BACKGROUND-COLOR: #6c9a7f
+}
+.accent2 {
+	BACKGROUND-COLOR: #bb523d
+}
+.accent3 {
+	BACKGROUND-COLOR: #c89d11
+}
+.accent4 {
+	BACKGROUND-COLOR: #fccf10
+}
+.accent5 {
+	BACKGROUND-COLOR: #568ea1
+}
+.accent6 {
+	BACKGROUND-COLOR: #decf28
+}
+</style><style tableStyle="Professional">TR.xdTitleRow {
+	MIN-HEIGHT: 83px
+}
+TD.xdTitleCell {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithHeading {
+	MIN-HEIGHT: 69px
+}
+TD.xdTitleCellWithHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithSubHeading {
+	MIN-HEIGHT: 75px
+}
+TD.xdTitleCellWithSubHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 6px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithOffsetBody {
+	MIN-HEIGHT: 72px
+}
+TD.xdTitleCellWithOffsetBody {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleHeadingRow {
+	MIN-HEIGHT: 37px
+}
+TD.xdTitleHeadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TR.xdTitleSubheadingRow {
+	MIN-HEIGHT: 70px
+}
+TD.xdTitleSubheadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 16px; PADDING-TOP: 8px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdVerticalFill {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; BORDER-LEFT: #bfbfbf 1pt solid; BACKGROUND-COLOR: #354d3f
+}
+TD.xdTableContentCellWithVerticalOffset {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 95px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTableContentRow {
+	MIN-HEIGHT: 140px
+}
+TD.xdTableContentCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableContentCellWithVerticalFill {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 1px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 1px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableStyleOneCol {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px
+}
+TR.xdContentRowOneCol {
+	MIN-HEIGHT: 45px; valign: center
+}
+TR.xdHeadingRow {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCell {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRow {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCell {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdHeadingRowEmphasis {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCellEmphasis {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRowEmphasis {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCellEmphasis {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdTableLabelControlStackedRow {
+	MIN-HEIGHT: 45px
+}
+TD.xdTableLabelControlStackedCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableLabelControlStackedCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TR.xdTableRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TD.xdTableMiddleCell {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px
+}
+TR.xdTableEmphasisRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableEmphasisCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableEmphasisCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableMiddleCellEmphasis {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TR.xdTableOffsetRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableOffsetCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableOffsetCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+P {
+	FONT-SIZE: 11pt; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H1 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 24pt; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H2 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 16pt; FONT-WEIGHT: bold; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H3 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 12pt; TEXT-TRANSFORM: uppercase; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H4 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H5 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: #354d3f; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H6 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; MARGIN-TOP: 0px
+}
+BODY {
+	COLOR: black
+}
+</style><div align="center">
+					<table class="xdFormLayout" style="BORDER-TOP-STYLE: none; WORD-WRAP: break-word; BORDER-LEFT-STYLE: none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; WIDTH: 639px">
+						<colgroup>
+							<col style="WIDTH: 101px"/>
+							<col style="WIDTH: 210px"/>
+							<col style="WIDTH: 98px"/>
+							<col style="WIDTH: 230px"/>
+						</colgroup>
+						<tbody>
+							<tr class="xdTitleRow" style="MIN-HEIGHT: 83px">
+								<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt" class="xdTitleCell">
+									<div style="FONT-WEIGHT: normal" align="center">
+										<font color="#ff0000" size="6" face="宋体">
+											<strong>收文传阅笺</strong>
+										</font>
+									</div>
+								</td>
+							</tr>
+							<tr class="xdTableContentRow" style="MIN-HEIGHT: 54px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>来文标题</strong>
+										</font>
+									</div>
+								</td>
+								<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:subject" xd:CtrlId="CTRL9" xd:xctname="PlainText" style="HEIGHT: 46px; FONT-FAMILY: 宋体; WIDTH: 532px">
+													
+												<pre><xsl:if test="my:subject[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:subject/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:subject"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 45px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4">
+											<strong>
+												<font color="#ff0000" size="4" face="宋体">
+													<strong>来文单位</strong>
+												</font>
+											</strong>
+										</font>
+									</div>
+								</td>
+								<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:send_unit" xd:CtrlId="CTRL10" xd:xctname="PlainText" style="HEIGHT: 27px; FONT-FAMILY: 宋体; WIDTH: 532px">
+													
+												<pre><xsl:if test="my:send_unit[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_unit/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_unit"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 52px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4">
+											<strong>
+												<font color="#ff0000" size="4" face="宋体">
+													<strong>来文字号</strong>
+												</font>
+											</strong>
+										</font>
+									</div>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:doc_mark" xd:CtrlId="CTRL23" xd:xctname="PlainText" style="HEIGHT: 34px; FONT-FAMILY: 宋体; WIDTH: 200px">
+													
+												<pre><xsl:if test="my:doc_mark[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:doc_mark/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:doc_mark"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>紧急程度</strong>
+										</font>
+									</div>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:urgent_level" xd:CtrlId="CTRL4" xd:xctname="PlainText" style="HEIGHT: 34px; FONT-FAMILY: 宋体; WIDTH: 224px">
+													
+												<pre><xsl:if test="my:urgent_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:urgent_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:urgent_level"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 52px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>收文编号</strong>
+										</font>
+									</div>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:serial_no" xd:CtrlId="CTRL11" xd:xctname="PlainText" style="HEIGHT: 34px; FONT-FAMILY: 宋体; WIDTH: 200px">
+													
+												<pre><xsl:if test="my:serial_no[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:serial_no/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:serial_no"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>密&#27; 级</strong>
+										</font>
+									</div>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:secret_level" xd:CtrlId="CTRL3" xd:xctname="PlainText" style="HEIGHT: 34px; FONT-FAMILY: 宋体; WIDTH: 224px">
+													
+												<pre><xsl:if test="my:secret_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:secret_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:secret_level"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 52px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>来文日期</strong>
+										</font>
+									</div>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:registration_date" xd:CtrlId="CTRL2" xd:xctname="PlainText" style="HEIGHT: 34px; FONT-FAMILY: 宋体; WIDTH: 200px">
+													
+												<pre><xsl:if test="my:registration_date[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:registration_date/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:registration_date"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>承办人</strong>
+										</font>
+									</div>
+								</td>
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<font color="#ff0000" size="4" face="仿宋">
+										<strong>
+											<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:undertaker" xd:CtrlId="CTRL1" xd:xctname="PlainText" style="HEIGHT: 34px; FONT-FAMILY: 宋体; WIDTH: 224px">
+													
+												<pre><xsl:if test="my:undertaker[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:undertaker/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:undertaker"/></pre></span>
+											</div>
+										</strong>
+									</font>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 44px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ffffff 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>领导批示</strong>
+										</font>
+									</div>
+								</td>
+								<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; BORDER-LEFT: #ffffff 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong/>
+										</font>&#27;</div>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 99px">
+								<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="仿宋">
+											<strong><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:pishi" xd:CtrlId="CTRL6" xd:xctname="PlainText" style="HEIGHT: 83px; FONT-FAMILY: 宋体; WIDTH: 631px">
+													
+												<pre><xsl:if test="my:pishi[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:pishi/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:pishi"/></pre></span>
+											</strong>
+										</font>
+									</div>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 46px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ffffff 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ffffff 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>拟办意见</strong>
+										</font>
+									</div>
+								</td>
+								<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ffffff 1pt solid; BORDER-LEFT: #ffffff 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong/>
+										</font>&#27;</div>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 98px">
+								<td colSpan="4" style="BORDER-TOP: #ffffff 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="仿宋">
+											<strong><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:niban" xd:CtrlId="CTRL5" xd:xctname="PlainText" style="HEIGHT: 89px; FONT-FAMILY: 宋体; WIDTH: 631px">
+													
+												<pre><xsl:if test="my:niban[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:niban/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:niban"/></pre></span>
+											</strong>
+										</font>
+									</div>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 48px">
+								<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ffffff 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ffffff 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong>传阅意见</strong>
+										</font>
+									</div>
+								</td>
+								<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ffffff 1pt solid; BORDER-LEFT: #ffffff 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="宋体">
+											<strong/>
+										</font>&#27;</div>
+								</td>
+							</tr>
+							<tr style="MIN-HEIGHT: 205px">
+								<td colSpan="4" style="BORDER-TOP: #ffffff 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 0px" class="xdTableContentCell">
+									<div align="center">
+										<font color="#ff0000" size="4" face="仿宋">
+											<strong><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:chengban" xd:CtrlId="CTRL7" xd:xctname="PlainText" style="HEIGHT: 193px; FONT-FAMILY: 宋体; WIDTH: 631px">
+													
+												<pre><xsl:if test="my:chengban[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:chengban/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:chengban"/></pre></span>
+											</strong>
+										</font>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><div align="center">&#27;</div><div style="display:none;">formStyleHasUpgrade</div></xsl:template>
+</xsl:stylesheet>
+&&&&&& reyuewencend &&&&&&
+&&&&&& signstart &&&&&&<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my="www.seeyon.com/form/2007" xmlns:msxsl="www.seeyon.com/form/2007" xmlns:xd="www.seeyon.com/form/2007" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:xdExtension="www.seeyon.com/form/2007" xmlns:xdXDocument="www.seeyon.com/form/2007" xmlns:xdSolution="www.seeyon.com/form/2007" xmlns:xdFormatting="www.seeyon.com/form/2007" xmlns:xdImage="www.seeyon.com/form/2007" version="1.0"><xsl:output method="html" indent="no"/>
+	<xsl:template match="my:myFields">
+		
+	<style controlStyle="controlStyle">@media screen 			{ 			_BODY{margin-left:21px;background-position:21px 0px;} 			} 		_BODY{color:windowtext;background-color:window;layout-grid:none;} 		.xdListItem {display:inline-block;width:100%;vertical-align:text-top;} 		.xdListBox,.xdComboBox{margin:1px;} 		.xdInlinePicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) } 		.xdLinkedPicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) url(#default#urn::controls/Binder) } 		.xdHyperlinkBox{word-wrap:break-word; text-overflow:ellipsis;overflow-x:hidden; OVERFLOW-Y: hidden; WHITE-SPACE:nowrap; display:inline-block;margin:1px;padding:5px;border: 1pt solid #dcdcdc;color:windowtext;BEHAVIOR: url(#default#urn::controls/Binder) url(#default#DataBindingUI)} 		.xdSection{border:1pt solid transparent ;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdRepeatingSection{border:1pt solid transparent;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdMultiSelectList{margin:1px;display:inline-block; border:1pt solid #dcdcdc; padding:1px 1px 1px 5px; text-indent:0; color:windowtext; background-color:window; overflow:auto; behavior: url(#default#DataBindingUI) url(#default#urn::controls/Binder) url(#default#MultiSelectHelper) url(#default#ScrollableRegion);} 		.xdMultiSelectListItem{display:block;white-space:nowrap}		.xdMultiSelectFillIn{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:left;}		.xdBehavior_Formatting {BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting);} 	 .xdBehavior_FormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting);} 	.xdExpressionBox{margin: 1px;padding:1px;word-wrap: break-word;text-overflow: ellipsis;overflow-x:hidden;}.xdBehavior_GhostedText,.xdBehavior_GhostedTextNoBUI{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField) url(#default#GhostedText);}	.xdBehavior_GTFormatting{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_GTFormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_Boolean{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper);}	.xdBehavior_Select{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper);}	.xdBehavior_ComboBox{BEHAVIOR: url(#default#ComboBox)} 	.xdBehavior_ComboBoxTextField{BEHAVIOR: url(#default#ComboBoxTextField);} 	.xdRepeatingTable{BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none; BORDER-COLLAPSE: collapse; WORD-WRAP: break-word;}.xdScrollableRegion{BEHAVIOR: url(#default#ScrollableRegion);} 		.xdLayoutRegion{display:inline-block;} 		.xdMaster{BEHAVIOR: url(#default#MasterHelper);} 		.xdActiveX{margin:1px; BEHAVIOR: url(#default#ActiveX);} 		.xdFileAttachment{display:inline-block;margin:1px;BEHAVIOR:url(#default#urn::xdFileAttachment);} 		.xdSharePointFileAttachment{display:inline-block;margin:2px;BEHAVIOR:url(#default#xdSharePointFileAttachment);} 		.xdAttachItem{display:inline-block;width:100%%;height:25px;margin:1px;BEHAVIOR:url(#default#xdSharePointFileAttachItem);} 		.xdSignatureLine{display:inline-block;margin:1px;background-color:transparent;border:1pt solid transparent;BEHAVIOR:url(#default#SignatureLine);} 		.xdHyperlinkBoxClickable{behavior: url(#default#HyperlinkBox)} 		.xdHyperlinkBoxButtonClickable{border-width:1px;border-style:outset;behavior: url(#default#HyperlinkBoxButton)} 		.xdPictureButton{background-color: transparent; padding: 0px; behavior: url(#default#PictureButton);} 		.xdPageBreak{display: none;}_BODY{margin-right:21px;} 		.xdTextBoxRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:right;word-wrap:normal;} 		.xdRichTextBoxRTL{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:right;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTTextRTL{height:100%;width:100%;margin-left:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButtonRTL{margin-right:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdMultiSelectFillinRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:right;}.xdTextBox{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:left;word-wrap:normal;} 		.xdRichTextBox{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:left;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTPicker{;display:inline;margin:1px;margin-bottom: 2px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-indent:0; layout-grid: none} 		.xdDTText{height:100%;width:100%;margin-right:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButton{margin-left:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdRepeatingTable TD {VERTICAL-ALIGN: top;}</style><style tableEditor="TableStyleRulesID">TABLE.xdLayout TD {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TABLE.msoUcTable TD {
+	BORDER-TOP: 1pt solid; BORDER-RIGHT: 1pt solid; BORDER-BOTTOM: 1pt solid; BORDER-LEFT: 1pt solid
+}
+TABLE {
+	BEHAVIOR: url (#default#urn::tables/NDTable)
+}
+</style><style languageStyle="languageStyle">BODY {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+SELECT {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+TABLE {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; TEXT-TRANSFORM: none; FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+.optionalPlaceholder {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun; FONT-WEIGHT: normal; COLOR: #333333; FONT-STYLE: normal; PADDING-LEFT: 20px; TEXT-DECORATION: none; BEHAVIOR: url(#default#xOptional)
+}
+.langFont {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; WIDTH: 150px
+}
+.defaultInDocUI {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun
+}
+.optionalPlaceholder {
+	PADDING-RIGHT: 20px
+}
+</style><style themeStyle="urn:office.microsoft.com:themeSummer">TABLE {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TD {
+	BORDER-TOP-COLOR: #d8d8d8; BORDER-BOTTOM-COLOR: #d8d8d8; BORDER-RIGHT-COLOR: #d8d8d8; BORDER-LEFT-COLOR: #d8d8d8
+}
+TH {
+	BORDER-TOP-COLOR: #000000; COLOR: black; BORDER-BOTTOM-COLOR: #000000; BORDER-RIGHT-COLOR: #000000; BACKGROUND-COLOR: #f2f2f2; BORDER-LEFT-COLOR: #000000
+}
+.xdTableHeader {
+	COLOR: black; BACKGROUND-COLOR: #f2f2f2
+}
+.light1 {
+	BACKGROUND-COLOR: #ffffff
+}
+.dark1 {
+	BACKGROUND-COLOR: #000000
+}
+.light2 {
+	BACKGROUND-COLOR: #f7f8f4
+}
+.dark2 {
+	BACKGROUND-COLOR: #2b4b4d
+}
+.accent1 {
+	BACKGROUND-COLOR: #6c9a7f
+}
+.accent2 {
+	BACKGROUND-COLOR: #bb523d
+}
+.accent3 {
+	BACKGROUND-COLOR: #c89d11
+}
+.accent4 {
+	BACKGROUND-COLOR: #fccf10
+}
+.accent5 {
+	BACKGROUND-COLOR: #568ea1
+}
+.accent6 {
+	BACKGROUND-COLOR: #decf28
+}
+</style><style tableStyle="Professional">TR.xdTitleRow {
+	MIN-HEIGHT: 83px
+}
+TD.xdTitleCell {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithHeading {
+	MIN-HEIGHT: 69px
+}
+TD.xdTitleCellWithHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithSubHeading {
+	MIN-HEIGHT: 75px
+}
+TD.xdTitleCellWithSubHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 6px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithOffsetBody {
+	MIN-HEIGHT: 72px
+}
+TD.xdTitleCellWithOffsetBody {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleHeadingRow {
+	MIN-HEIGHT: 37px
+}
+TD.xdTitleHeadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TR.xdTitleSubheadingRow {
+	MIN-HEIGHT: 70px
+}
+TD.xdTitleSubheadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 16px; PADDING-TOP: 8px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdVerticalFill {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; BORDER-LEFT: #bfbfbf 1pt solid; BACKGROUND-COLOR: #354d3f
+}
+TD.xdTableContentCellWithVerticalOffset {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 95px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTableContentRow {
+	MIN-HEIGHT: 140px
+}
+TD.xdTableContentCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableContentCellWithVerticalFill {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 1px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 1px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableStyleOneCol {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px
+}
+TR.xdContentRowOneCol {
+	MIN-HEIGHT: 45px; valign: center
+}
+TR.xdHeadingRow {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCell {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRow {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCell {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdHeadingRowEmphasis {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCellEmphasis {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRowEmphasis {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCellEmphasis {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdTableLabelControlStackedRow {
+	MIN-HEIGHT: 45px
+}
+TD.xdTableLabelControlStackedCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableLabelControlStackedCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TR.xdTableRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TD.xdTableMiddleCell {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px
+}
+TR.xdTableEmphasisRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableEmphasisCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableEmphasisCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableMiddleCellEmphasis {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TR.xdTableOffsetRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableOffsetCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableOffsetCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+P {
+	FONT-SIZE: 11pt; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H1 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 24pt; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H2 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 16pt; FONT-WEIGHT: bold; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H3 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 12pt; TEXT-TRANSFORM: uppercase; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H4 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H5 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: #354d3f; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H6 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; MARGIN-TOP: 0px
+}
+BODY {
+	COLOR: black
+}
+</style><div align="center">
+					<table class="xdFormLayout" style="BORDER-TOP-STYLE: none; WORD-WRAP: break-word; BORDER-LEFT-STYLE: none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; WIDTH: 629px">
+						<colgroup>
+							<col style="WIDTH: 629px"/>
+						</colgroup>
+						<tbody>
+							<tr class="xdTableContentRow">
+								<td style="BORDER-RIGHT: #bfbfbf 1pt; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #bfbfbf 1pt; BORDER-LEFT: #bfbfbf 1pt" class="xdTableContentCell">
+									<div align="center">
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 627px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 66px">
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="6" face="SimSun">
+																<strong>
+																	<font face="SimSun">签报</font>稿纸</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 86px"/>
+												<col style="WIDTH: 205px"/>
+												<col style="WIDTH: 87px"/>
+												<col style="WIDTH: 94px"/>
+												<col style="WIDTH: 54px"/>
+												<col style="WIDTH: 101px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 36px">
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="SimSun">
+																<strong>公文文号</strong>
+															</font>
+														</div>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL1" xd:binding="my:doc_mark" style="FONT-SIZE: medium; HEIGHT: 26px; FONT-FAMILY: 宋体; WIDTH: 162px">
+																	
+																<pre><xsl:if test="my:doc_mark[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:doc_mark/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:doc_mark"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>紧急程度</strong>
+															</font>
+														</div>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL2" xd:binding="my:urgent_level" style="FONT-SIZE: large; HEIGHT: 26px; FONT-FAMILY: 宋体; WIDTH: 100%">
+																	
+																<pre><xsl:if test="my:urgent_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:urgent_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:urgent_level"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>密级</strong>
+															</font>
+														</div>
+													</td>
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL3" xd:binding="my:secret_level" style="FONT-SIZE: large; HEIGHT: 26px; FONT-FAMILY: 宋体; WIDTH: 100%">
+																	
+																<pre><xsl:if test="my:secret_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:secret_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:secret_level"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 104px"/>
+												<col style="WIDTH: 105px"/>
+												<col style="WIDTH: 104px"/>
+												<col style="WIDTH: 105px"/>
+												<col style="WIDTH: 104px"/>
+												<col style="WIDTH: 105px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 35px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>签&#27;发</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>会&#27;签</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 137px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL4" xd:binding="my:qianfa" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:qianfa[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:qianfa/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:qianfa"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL5" xd:binding="my:huiqian" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:huiqian[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:huiqian/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:huiqian"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 40px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>审 核</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>办 理</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 138px">
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL6" xd:binding="my:shenhe" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:shenhe[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:shenhe/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:shenhe"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4" face="宋体"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL7" xd:binding="my:banli" style="FONT-SIZE: medium; HEIGHT: 126px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:banli[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:banli/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:banli"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>拟稿单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL8" xd:binding="my:send_unit" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 307px">
+																	
+																<pre><xsl:if test="my:send_unit[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_unit/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_unit"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>签发日期</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL9" xd:binding="my:signing_date" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:signing_date[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:signing_date/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:signing_date"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>拟稿人</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL10" xd:binding="my:create_person" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:create_person[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:create_person/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:create_person"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>联系电话</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL11" xd:binding="my:phone" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:phone[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:phone/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:phone"/></pre></span>
+															</div>
+														</font>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>印发份数</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL12" xd:binding="my:copies" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 98px">
+																	
+																<pre><xsl:if test="my:copies[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:copies/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:copies"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>标题</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL13" xd:binding="my:subject" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:subject[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:subject/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:subject"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>主送单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL14" xd:binding="my:send_to" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:send_to[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_to/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_to"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>抄送单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL15" xd:binding="my:copy_to" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:copy_to[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:copy_to/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:copy_to"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 48px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 5px">
+														<div align="right">
+															<font color="#ff0000" size="4" face="宋体">
+																<strong>附件</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="5" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<font color="#ff0000" size="4" face="宋体">
+															<div align="left"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:xctname="PlainText" xd:CtrlId="CTRL16" xd:binding="my:attachments" style="FONT-SIZE: medium; HEIGHT: 48px; FONT-FAMILY: 宋体; WIDTH: 517px">
+																	
+																<pre><xsl:if test="my:attachments[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:attachments/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:attachments"/></pre></span>
+															</div>
+														</font>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><div align="center">&#27;</div><div style="display:none;">formStyleHasUpgrade</div></xsl:template>
+</xsl:stylesheet>
+&&&&&& signend &&&&&&
+&&&&&& recopinionstart &&&&&&<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:my="www.seeyon.com/form/2007" xmlns:msxsl="www.seeyon.com/form/2007" xmlns:xd="www.seeyon.com/form/2007" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:xdExtension="www.seeyon.com/form/2007" xmlns:xdXDocument="www.seeyon.com/form/2007" xmlns:xdSolution="www.seeyon.com/form/2007" xmlns:xdFormatting="www.seeyon.com/form/2007" xmlns:xdImage="www.seeyon.com/form/2007" version="1.0"><xsl:output method="html" indent="no"/>
+	<xsl:template match="my:myFields">
+		
+	<style controlStyle="controlStyle">@media screen 			{ 			_BODY{margin-left:21px;background-position:21px 0px;} 			} 		_BODY{color:windowtext;background-color:window;layout-grid:none;} 		.xdListItem {display:inline-block;width:100%;vertical-align:text-top;} 		.xdListBox,.xdComboBox{margin:1px;} 		.xdInlinePicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) } 		.xdLinkedPicture{margin:1px; BEHAVIOR: url(#default#urn::xdPicture) url(#default#urn::controls/Binder) } 		.xdHyperlinkBox{word-wrap:break-word; text-overflow:ellipsis;overflow-x:hidden; OVERFLOW-Y: hidden; WHITE-SPACE:nowrap; display:inline-block;margin:1px;padding:5px;border: 1pt solid #dcdcdc;color:windowtext;BEHAVIOR: url(#default#urn::controls/Binder) url(#default#DataBindingUI)} 		.xdSection{border:1pt solid transparent ;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdRepeatingSection{border:1pt solid transparent;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;} 		.xdMultiSelectList{margin:1px;display:inline-block; border:1pt solid #dcdcdc; padding:1px 1px 1px 5px; text-indent:0; color:windowtext; background-color:window; overflow:auto; behavior: url(#default#DataBindingUI) url(#default#urn::controls/Binder) url(#default#MultiSelectHelper) url(#default#ScrollableRegion);} 		.xdMultiSelectListItem{display:block;white-space:nowrap}		.xdMultiSelectFillIn{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:left;}		.xdBehavior_Formatting {BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting);} 	 .xdBehavior_FormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting);} 	.xdExpressionBox{margin: 1px;padding:1px;word-wrap: break-word;text-overflow: ellipsis;overflow-x:hidden;}.xdBehavior_GhostedText,.xdBehavior_GhostedTextNoBUI{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#TextField) url(#default#GhostedText);}	.xdBehavior_GTFormatting{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_GTFormattingNoBUI{BEHAVIOR: url(#default#CalPopup) url(#default#urn::controls/Binder) url(#default#Formatting) url(#default#GhostedText);}	.xdBehavior_Boolean{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#BooleanHelper);}	.xdBehavior_Select{BEHAVIOR: url(#default#urn::controls/Binder) url(#default#SelectHelper);}	.xdBehavior_ComboBox{BEHAVIOR: url(#default#ComboBox)} 	.xdBehavior_ComboBoxTextField{BEHAVIOR: url(#default#ComboBoxTextField);} 	.xdRepeatingTable{BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none; BORDER-COLLAPSE: collapse; WORD-WRAP: break-word;}.xdScrollableRegion{BEHAVIOR: url(#default#ScrollableRegion);} 		.xdLayoutRegion{display:inline-block;} 		.xdMaster{BEHAVIOR: url(#default#MasterHelper);} 		.xdActiveX{margin:1px; BEHAVIOR: url(#default#ActiveX);} 		.xdFileAttachment{display:inline-block;margin:1px;BEHAVIOR:url(#default#urn::xdFileAttachment);} 		.xdSharePointFileAttachment{display:inline-block;margin:2px;BEHAVIOR:url(#default#xdSharePointFileAttachment);} 		.xdAttachItem{display:inline-block;width:100%%;height:25px;margin:1px;BEHAVIOR:url(#default#xdSharePointFileAttachItem);} 		.xdSignatureLine{display:inline-block;margin:1px;background-color:transparent;border:1pt solid transparent;BEHAVIOR:url(#default#SignatureLine);} 		.xdHyperlinkBoxClickable{behavior: url(#default#HyperlinkBox)} 		.xdHyperlinkBoxButtonClickable{border-width:1px;border-style:outset;behavior: url(#default#HyperlinkBoxButton)} 		.xdPictureButton{background-color: transparent; padding: 0px; behavior: url(#default#PictureButton);} 		.xdPageBreak{display: none;}_BODY{margin-right:21px;} 		.xdTextBoxRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:right;word-wrap:normal;} 		.xdRichTextBoxRTL{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:right;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTTextRTL{height:100%;width:100%;margin-left:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButtonRTL{margin-right:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdMultiSelectFillinRTL{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;overflow:hidden;text-align:right;}.xdTextBox{display:inline-block;white-space:nowrap;text-overflow:ellipsis;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-align:left;word-wrap:normal;} 		.xdRichTextBox{display:inline-block;;padding:1px;margin:1px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow-x:hidden;word-wrap:break-word;text-overflow:ellipsis;text-align:left;font-weight:normal;font-style:normal;text-decoration:none;vertical-align:baseline;} 		.xdDTPicker{;display:inline;margin:1px;margin-bottom: 2px;border: 1pt solid #dcdcdc;color:windowtext;background-color:window;overflow:hidden;text-indent:0; layout-grid: none} 		.xdDTText{height:100%;width:100%;margin-right:22px;overflow:hidden;padding:0px;white-space:nowrap;} 		.xdDTButton{margin-left:-21px;height:17px;width:20px;behavior: url(#default#DTPicker);} 		.xdRepeatingTable TD {VERTICAL-ALIGN: top;}</style><style tableEditor="TableStyleRulesID">TABLE.xdLayout TD {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TABLE.msoUcTable TD {
+	BORDER-TOP: 1pt solid; BORDER-RIGHT: 1pt solid; BORDER-BOTTOM: 1pt solid; BORDER-LEFT: 1pt solid
+}
+TABLE {
+	BEHAVIOR: url (#default#urn::tables/NDTable)
+}
+</style><style languageStyle="languageStyle">BODY {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+SELECT {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun
+}
+TABLE {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; TEXT-TRANSFORM: none; FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+.optionalPlaceholder {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun; FONT-WEIGHT: normal; COLOR: #333333; FONT-STYLE: normal; PADDING-LEFT: 20px; TEXT-DECORATION: none; BEHAVIOR: url(#default#xOptional)
+}
+.langFont {
+	FONT-SIZE: 10pt; FONT-FAMILY: SimSun; WIDTH: 150px
+}
+.defaultInDocUI {
+	FONT-SIZE: 9pt; FONT-FAMILY: SimSun
+}
+.optionalPlaceholder {
+	PADDING-RIGHT: 20px
+}
+</style><style themeStyle="urn:office.microsoft.com:themeSummer">TABLE {
+	BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none
+}
+TD {
+	BORDER-TOP-COLOR: #d8d8d8; BORDER-BOTTOM-COLOR: #d8d8d8; BORDER-RIGHT-COLOR: #d8d8d8; BORDER-LEFT-COLOR: #d8d8d8
+}
+TH {
+	BORDER-TOP-COLOR: #000000; COLOR: black; BORDER-BOTTOM-COLOR: #000000; BORDER-RIGHT-COLOR: #000000; BACKGROUND-COLOR: #f2f2f2; BORDER-LEFT-COLOR: #000000
+}
+.xdTableHeader {
+	COLOR: black; BACKGROUND-COLOR: #f2f2f2
+}
+.light1 {
+	BACKGROUND-COLOR: #ffffff
+}
+.dark1 {
+	BACKGROUND-COLOR: #000000
+}
+.light2 {
+	BACKGROUND-COLOR: #f7f8f4
+}
+.dark2 {
+	BACKGROUND-COLOR: #2b4b4d
+}
+.accent1 {
+	BACKGROUND-COLOR: #6c9a7f
+}
+.accent2 {
+	BACKGROUND-COLOR: #bb523d
+}
+.accent3 {
+	BACKGROUND-COLOR: #c89d11
+}
+.accent4 {
+	BACKGROUND-COLOR: #fccf10
+}
+.accent5 {
+	BACKGROUND-COLOR: #568ea1
+}
+.accent6 {
+	BACKGROUND-COLOR: #decf28
+}
+</style><style tableStyle="Professional">TR.xdTitleRow {
+	MIN-HEIGHT: 83px
+}
+TD.xdTitleCell {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithHeading {
+	MIN-HEIGHT: 69px
+}
+TD.xdTitleCellWithHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithSubHeading {
+	MIN-HEIGHT: 75px
+}
+TD.xdTitleCellWithSubHeading {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 6px; TEXT-ALIGN: center; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleRowWithOffsetBody {
+	MIN-HEIGHT: 72px
+}
+TD.xdTitleCellWithOffsetBody {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTitleHeadingRow {
+	MIN-HEIGHT: 37px
+}
+TD.xdTitleHeadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 14px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TR.xdTitleSubheadingRow {
+	MIN-HEIGHT: 70px
+}
+TD.xdTitleSubheadingCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; PADDING-BOTTOM: 16px; PADDING-TOP: 8px; PADDING-LEFT: 22px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdVerticalFill {
+	BORDER-TOP: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; BORDER-LEFT: #bfbfbf 1pt solid; BACKGROUND-COLOR: #354d3f
+}
+TD.xdTableContentCellWithVerticalOffset {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: left; PADDING-TOP: 32px; PADDING-LEFT: 95px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: bottom
+}
+TR.xdTableContentRow {
+	MIN-HEIGHT: 140px
+}
+TD.xdTableContentCell {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableContentCellWithVerticalFill {
+	BORDER-RIGHT: #bfbfbf 1pt solid; BORDER-BOTTOM: #bfbfbf 1pt solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 1px; BORDER-LEFT: #bfbfbf 1pt solid; PADDING-RIGHT: 1px; BACKGROUND-COLOR: #ffffff; valign: top
+}
+TD.xdTableStyleOneCol {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px
+}
+TR.xdContentRowOneCol {
+	MIN-HEIGHT: 45px; valign: center
+}
+TR.xdHeadingRow {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCell {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRow {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCell {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdHeadingRowEmphasis {
+	MIN-HEIGHT: 27px
+}
+TD.xdHeadingCellEmphasis {
+	BORDER-TOP: #a6c2b2 1pt solid; BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 2px; TEXT-ALIGN: center; PADDING-TOP: 2px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #e1eae5; valign: bottom
+}
+TR.xdSubheadingRowEmphasis {
+	MIN-HEIGHT: 28px
+}
+TD.xdSubheadingCellEmphasis {
+	BORDER-BOTTOM: #a6c2b2 1pt solid; PADDING-BOTTOM: 4px; TEXT-ALIGN: center; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 22px; valign: bottom
+}
+TR.xdTableLabelControlStackedRow {
+	MIN-HEIGHT: 45px
+}
+TD.xdTableLabelControlStackedCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableLabelControlStackedCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TR.xdTableRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px
+}
+TD.xdTableCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px
+}
+TD.xdTableMiddleCell {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px
+}
+TR.xdTableEmphasisRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableEmphasisCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableEmphasisCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableMiddleCellEmphasis {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TR.xdTableOffsetRow {
+	MIN-HEIGHT: 30px
+}
+TD.xdTableOffsetCellLabel {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 22px; PADDING-RIGHT: 5px; BACKGROUND-COLOR: #c4d6cb
+}
+TD.xdTableOffsetCellComponent {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 5px; PADDING-RIGHT: 22px; BACKGROUND-COLOR: #c4d6cb
+}
+P {
+	FONT-SIZE: 11pt; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H1 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 24pt; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H2 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 16pt; FONT-WEIGHT: bold; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H3 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 12pt; TEXT-TRANSFORM: uppercase; FONT-WEIGHT: normal; COLOR: #354d3f; MARGIN-TOP: 0px
+}
+H4 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H5 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: #354d3f; FONT-STYLE: italic; MARGIN-TOP: 0px
+}
+H6 {
+	MARGIN-BOTTOM: 0px; FONT-SIZE: 10pt; FONT-WEIGHT: normal; COLOR: #262626; MARGIN-TOP: 0px
+}
+BODY {
+	COLOR: black
+}
+</style><div align="center">
+					<table class="xdFormLayout" style="BORDER-TOP-STYLE: none; WORD-WRAP: break-word; BORDER-LEFT-STYLE: none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; WIDTH: 629px">
+						<colgroup>
+							<col style="WIDTH: 629px"/>
+						</colgroup>
+						<tbody>
+							<tr class="xdTableContentRow">
+								<td style="BORDER-RIGHT: #bfbfbf 1pt; BORDER-BOTTOM: #bfbfbf 1pt; BORDER-LEFT: #bfbfbf 1pt" class="xdTableContentCell">
+									<div align="center">
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 627px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr style="MIN-HEIGHT: 41px">
+													<td style="VERTICAL-ALIGN: middle; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="6">
+																<strong>收文处理笺</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div>&#27;</div>
+									<div align="center">
+										<table class="xdLayout" style="WORD-WRAP: break-word; BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; TABLE-LAYOUT: fixed; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; WIDTH: 627px" borderColor="buttontext" border="1">
+											<colgroup>
+												<col style="WIDTH: 122px"/>
+												<col style="WIDTH: 191px"/>
+												<col style="WIDTH: 124px"/>
+												<col style="WIDTH: 190px"/>
+											</colgroup>
+											<tbody vAlign="top">
+												<tr>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文标题</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:subject" xd:CtrlId="CTRL17" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 497px">
+																	
+																<pre><xsl:if test="my:subject[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:subject/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:subject"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 54px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文单位</strong>
+															</font>
+														</div>
+													</td>
+													<td colSpan="3" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:send_unit" xd:CtrlId="CTRL18" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 497px">
+																	
+																<pre><xsl:if test="my:send_unit[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:send_unit/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:send_unit"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 53px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文文号</strong>
+															</font>
+														</div>
+														<!--EndFragment-->
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:doc_mark" xd:CtrlId="CTRL19" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:doc_mark[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:doc_mark/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:doc_mark"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>紧急程度</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:urgent_level" xd:CtrlId="CTRL20" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:urgent_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:urgent_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:urgent_level"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 53px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>收文编号</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:serial_no" xd:CtrlId="CTRL21" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:serial_no[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:serial_no/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:serial_no"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>密&#27; 级</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:secret_level" xd:CtrlId="CTRL22" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:secret_level[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:secret_level/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:secret_level"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 55px">
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>来文日期</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:registration_date" xd:CtrlId="CTRL23" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:registration_date[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:registration_date/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:registration_date"/></pre></span>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div align="center">
+															<font color="#ff0000" size="4">
+																<strong>承办人</strong>
+															</font>
+														</div>
+													</td>
+													<td style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt solid; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:undertaker" xd:CtrlId="CTRL24" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 45px; FONT-FAMILY: 宋体; WIDTH: 184px">
+																	
+																<pre><xsl:if test="my:undertaker[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:undertaker/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:undertaker"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 35px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 领导批示</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:pishi" xd:CtrlId="CTRL25" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:pishi[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:pishi/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:pishi"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 37px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 拟办意见</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:niban" xd:CtrlId="CTRL26" xd:xctname="PlainText" style="HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:niban[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:niban/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:niban"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 41px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 承办意见</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:chengban" xd:CtrlId="CTRL27" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:chengban[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:chengban/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:chengban"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 39px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27;上级意见汇报</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 111px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:report" xd:CtrlId="CTRL29" xd:xctname="PlainText" style="HEIGHT: 102px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																	
+																<pre><xsl:if test="my:report[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:report/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:report"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 46px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 5px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27;下级意见反馈</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 126px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font size="4"><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:feedback" xd:CtrlId="CTRL30" xd:xctname="PlainText" style="HEIGHT: 116px; FONT-FAMILY: 宋体; WIDTH: 620px">
+																	
+																<pre><xsl:if test="my:feedback[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:feedback/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:feedback"/></pre></span>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 37px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt solid; BORDER-RIGHT: #ff0000 1pt solid; VERTICAL-ALIGN: middle; BORDER-BOTTOM: #ff0000 1pt; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong>&#27; 办理结果</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+												<tr style="MIN-HEIGHT: 113px">
+													<td colSpan="4" style="BORDER-TOP: #ff0000 1pt; BORDER-RIGHT: #ff0000 1pt solid; BORDER-BOTTOM: #ff0000 1pt solid; BORDER-LEFT: #ff0000 1pt solid; PADDING-RIGHT: 1px">
+														<div>
+															<font color="#ff0000" size="4">
+																<strong><span title="" class="xdTextBox" hideFocus="1" tabIndex="0" xd:binding="my:banli" xd:CtrlId="CTRL28" xd:xctname="PlainText" style="FONT-SIZE: medium; HEIGHT: 103px; FONT-FAMILY: 宋体; WIDTH: 619px">
+																		
+																	<pre><xsl:if test="my:banli[@value]"><xsl:attribute  name="default"><xsl:value-of select="my:banli/@value"/></xsl:attribute ></xsl:if><xsl:value-of select="my:banli"/></pre></span>
+																</strong>
+															</font>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div><div align="center">&#27;</div><div style="display:none;">formStyleHasUpgrade</div></xsl:template>
+</xsl:stylesheet>
+&&&&&& recopinionend &&&&&&
+

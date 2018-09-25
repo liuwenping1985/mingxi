@@ -1,0 +1,49 @@
+body{border-top: 2px #CDCDCD solid; overflow:hidden}
+#table{ width:60%; height:90%;}
+    #ipad_v1{position: relative;z-index:0;left:10px;width:660px;height:510px;text-align:center;display:none;}
+	#ipad_bgv{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#ipad_v2{filter:alpha(opacity=55);background:#ffffff;position: absolute;left:66px;top:77px;width:532px;height:390px;display:none;}
+	#ipad_loginpage{vertical-align:middle; width:100%; height:100%;}
+	#ipad_h1{position: relative;z-index:0;left:0;width:440px;height:490px;display:none;}
+	#ipad_bgh{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#ipad_h2{filter:alpha(opacity=55);position: absolute;left: 52px;top:58px;width:337px;height:384px;display:none;}
+	#ipad_indexpage{vertical-align:middle; width:100%; height:100%;}
+
+	
+	  
+	
+	#eben_v1{position: relative;z-index:0;left:10px;width:390px;height:470px;text-align:center;display:none;}
+	#eben_bgv{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#eben_v2{filter:alpha(opacity=55);background:#ffffff;position: absolute;left:49;top:53px;width:266px;height:329px;display:none;}
+	#eben_loginpage{vertical-align:middle; width:100%; height:100%;}
+	#eben_h1{position: relative;z-index:0;left:0;width:390px;height:470px;display:none;}
+	#eben_bgh{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#eben_h2{position: absolute;left: 49px;top:58;width:30px;height:30px;display:none;}
+	#eben_indexpage{vertical-align:middle; width:100%; height:100%;}
+	#eben_h3{filter:alpha(opacity=35);background:#ffffff;position: absolute;left:82px;top:65px;width:230px;height:30px;text-align:left;}
+
+	#android_v1{position: relative;z-index:0;left:10;width:260px;height:470px;text-align:center;display:none;}
+	#android_bgv{ position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#android_v2{position: relative;z-index:2;left:10px;top:113px;width:120px;height:85px;display:none;}
+	#android_v3{filter:alpha(opacity=55);background:#ffffff;position: absolute;left:30;top:93px;width:200px;height:300px;display:none;}
+	
+	#android_loginlogo{vertical-align:middle; width:100%; height:100%;}
+	#android_loginpage{vertical-align:middle;width:100%; height:100%;}
+	#android_h1{position: relative;z-index:0;left:0;width:260px;height:470px;display:none;}
+	#android_bgh{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#android_h2{position: absolute;left: 27px;top:90;width:40px;height:40px;display:none;}
+	#android_indexpage{vertical-align:middle; width:100%; height:100%;}
+	#android_h3{filter:alpha(opacity=35);background:#ffffff;position: absolute;left:70px;top:95px;width:165px;height:35px;text-align:left;}
+
+
+	
+	#iphone_v1{position: relative;z-index:0;left:10;width:270px;height:510px;text-align:center;}
+	#iphone_bgv{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#iphone_bgh{position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1;}
+	#iphone_h1{position:relative;z-index:0;left:0;width:270px;height:510px;text-align:center;display:none;}
+	#iphone_h2{filter:alpha(opacity=35);background:#ffffff;position: relative;top:116;width:120px;height:24px;display:none;}
+	#iphone_v2{filter:alpha(opacity=75);background:#ffffff;position: relative;top:114px;width:210px;height:290px;}
+	#iphone_loginpage{vertical-align:middle; width:100%;height:100%;}
+	#iphone_indexpage{vertical-align:middle;width:100%;height:100%;}
+	#iphone_bgtd{text-align:center;  width:36%;}
+    

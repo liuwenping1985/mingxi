@@ -1,0 +1,61 @@
+/**
+ *
+ *  File Authors: paul
+ */
+
+var ADDRESSBOOKLang = {
+	addressbook_tree_root_label : "Category",
+	addressbook_operation_return_message : "Success",
+	addressbook_operation_destroy_member_confirm_message: "Are you sure to delete the selected external linkman?",
+	addressbook_operation_destroy_ownteam_confirm_message: "Are you sure to delete the selected individual group?",
+	addressbook_operation_destroy_category_confirm_message: "Are you sure to delete the selected team?",
+	addressbook_operation_add_team_members_message: "No external linkman has been selected",
+	addressbook_operation_send_message_onlyone_message: "The short message can be sent to only one person at one time",
+	addressbook_operation_send_message_dontself_message: "The short message can not be sent to yourself",
+	addressbook_operation_send_message_must_message: "Please select one person",
+	addressbook_operation_destroy_choose_message:"Please select a group to be deleted",
+	addressbook_operation_add_category_message: "Complete the category name",
+	addressbook_operation_remove_choose_message:"Select the {0} to be deleted",
+	addressbook_operation_modify_choose_message:"Select the {0} to be modified",
+	addressbook_operation_modify_choose_group:"Unclassified contact can not be modified, select the other groups!",
+	addressbook_operation_is_exist:"The {0} exists, input again",
+    addressbook_operation_right_phone:"Please input the correct with{0}",
+    addressbook_operation_company_phone:"Company phone",
+	addressbook_operation_family_phone:"Family phone",
+	addressbook_search_no_condition:"Select search condition!",
+    addressbook_search_no_content:"Please input the content of searching！",
+	addressbook_form_email:"Email address",
+	addressbook_form_category:"Category",
+	addressbook_form_ownteam:"Individual group",
+	detail_addressbook_110201:"<li>The Employees Address Book contains basic data of all employees of the unit. It facilitates communications among the employees.</li>",
+	detail_addressbook_110203:"<li>The System Address Book contains basic data of all system administrators of the unit. It facilitates communications among them.</li>",
+	detail_addressbook_110204:"<li>The Team Address Book can be set up for a group of individuals; it contains basic data of all members of the team. It facilitates communications among them.</li><li>The team can be modified or dissolved subsequently by using the 'Modify' or the 'Dissolve' button.</li>",
+    detail_addressbook_110202:"<li>The Private Address Book can be set up by an individual; it contains basic data of the individual. It facilitates communications between the individual and the co-workers.</li>",
+    addressbook_group_download_label :"Please select group then download!",
+	addressbook_print_label : "Page displays incomplete, please wait!",
+	addressbook_delete_member_label : "The staff has been deleted!",
+	addressbook_no_category_label : "There currently are no categories, please create a category!",
+	addressbook_vcard_export_least_one : "Please select the staff!",
+	addressbook_vcard_export_many_forbidden : "Only one member can be exported every time",	
+	addressbook_zu_label : "Team",
+	
+	alert_noSelectMember: "Please select contact！",
+	alert_noPhoneMember: "You choose not to fill in the contact phone number, can not send text messages!",
+	addressbook_isexist_name:"Belong in the same group the same name exist people!",
+	addressbook_isexist_ownteam_name:"The same group already exists!",
+	
+	addressbook_companyPhone_name: "Office Phone enter no more than 20 characters!",
+	addressbook_familyPhone_name: "fixed-line telephone input should not exceed 20 characters!",
+	addressbook_fax_name: "Fax Number type should not exceed 20 characters!",
+	addressbook_email_name: "E-mail entered is too long or does not meet the standard!",
+	addressbook_blog_name: "blog entries is too long or does not meet the standard!",
+	addressbook_website_name: "Enter the URL is too long or does not meet the standard!",
+	send_message:"send message",
+	ok:"ok",
+	cancel:"cancel",
+	view:"view",
+	member_add:"add member",
+	category_add:"add category",
+	category_edit:"modify category"
+	
+}

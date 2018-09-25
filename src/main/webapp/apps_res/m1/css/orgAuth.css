@@ -1,0 +1,15 @@
+    body{border: 1px #CDCDCD solid; overflow:none; overflow: hidden;}
+	#message{width:80%;padding:40px 0 0 40px;}
+	#tablestyle{width:60%; border-color:black; text-align:center;}
+	#authe_div{width:80%;padding:20px 0 0 40px;text-align:center;}
+	.trstyle{height:22px;}
+	.bg-gray{width:20%;}
+	.bg-grayspe{width:20%; vertical-align:top;}
+	.new-column{width:80%;}
+	fieldset{padding:12px;}
+	.new-column{text-align:left;width:80%;}
+	.success{color:green;}
+	.failed{color:red;}
+	#edit_tr{display:none;}
+	.countle_div{display:none;width:80%;padding:20px 0 0 40px;text-align:center;color:red;}
+	.available_div{width:80%;padding:20px 0 0 40px;text-align:center;color:red;}

@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd" version="2.0">
+	<tlib-version>1.1</tlib-version>
+	<short-name>CTP Tag Libirary</short-name>
+	<uri>http://www.seeyon.com/ctp</uri>
+
+    <function>
+        <description>SecurityHelper digest generator</description>
+        <name>digest_1</name>
+        <function-class>com.seeyon.ctp.common.security.SecurityHelper</function-class>
+        <function-signature>
+            java.lang.String func_digest(java.lang.Object)
+        </function-signature>
+    </function>
+    <function>
+        <description>SecurityHelper digest generator</description>
+        <name>digest_2</name>
+        <function-class>com.seeyon.ctp.common.security.SecurityHelper</function-class>
+        <function-signature>
+            java.lang.String func_digest(java.lang.Object,java.lang.Object)
+        </function-signature>
+    </function>
+    <function>
+        <description>SecurityHelper digest generator</description>
+        <name>digest_3</name>
+        <function-class>com.seeyon.ctp.common.security.SecurityHelper</function-class>
+        <function-signature>
+            java.lang.String func_digest(java.lang.Object,java.lang.Object,java.lang.Object)
+        </function-signature>
+    </function>
+    <function>
+        <description>SecurityHelper digest generator</description>
+        <name>digest_4</name>
+        <function-class>com.seeyon.ctp.common.security.SecurityHelper</function-class>
+        <function-signature>
+            java.lang.String func_digest(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+        </function-signature>
+    </function>
+    <function>
+        <description>SecurityHelper digest generator</description>
+        <name>digest_5</name>
+        <function-class>com.seeyon.ctp.common.security.SecurityHelper</function-class>
+        <function-signature>
+            java.lang.String func_digest(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+        </function-signature>
+    </function>
+    <function>
+        <description>SecurityHelper digest generator</description>
+        <name>digest_6</name>
+        <function-class>com.seeyon.ctp.common.security.SecurityHelper</function-class>
+        <function-signature>
+            java.lang.String func_digest(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)
+        </function-signature>
+    </function>
+	<function>
+		<description>Get i18n resource by key</description>
+		<name>i18n</name>
+		<function-class>com.seeyon.ctp.common.i18n.ResourceUtil</function-class>
+		<function-signature>
+			java.lang.String getString(java.lang.String)
+		</function-signature>
+	</function>
+
+	<function>
+        <description>Get i18n resource by key</description>
+        <name>i18n_1</name>
+        <function-class>com.seeyon.ctp.common.i18n.ResourceUtil</function-class>
+        <function-signature>
+            java.lang.String getString(java.lang.String, java.lang.Object)
+        </function-signature>
+    </function>
+    
+    <function>
+        <description>Get i18n resource by key</description>
+        <name>i18n_2</name>
+        <function-class>com.seeyon.ctp.common.i18n.ResourceUtil</function-class>
+        <function-signature>
+            java.lang.String getString(java.lang.String, java.lang.Object, java.lang.Object)
+        </function-signature>
+    </function>
+    
+    <function>
+        <description>Get i18n resource by key</description>
+        <name>i18n_3</name>
+        <function-class>com.seeyon.ctp.common.i18n.ResourceUtil</function-class>
+        <function-signature>
+            java.lang.String getString(java.lang.String, java.lang.Object, java.lang.Object, java.lang.Object)
+        </function-signature>
+    </function>
+    
+    <function>
+        <description>Get i18n resource by key</description>
+        <name>i18n_4</name>
+        <function-class>com.seeyon.ctp.common.i18n.ResourceUtil</function-class>
+        <function-signature>
+            java.lang.String getString(java.lang.String, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)
+        </function-signature>
+    </function>
+    
+    <function>
+        <description>Get i18n resource by key</description>
+        <name>i18n_5</name>
+        <function-class>com.seeyon.ctp.common.i18n.ResourceUtil</function-class>
+        <function-signature>
+            java.lang.String getString(java.lang.String, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object, java.lang.Object)
+        </function-signature>
+    </function>
+    
+    <function>
+        <description>Format Date by pattern yyyy-MM-dd</description>
+        <name>formatDate</name>
+        <function-class>com.seeyon.ctp.util.DateUtil</function-class>
+        <function-signature>
+            java.lang.String format(java.util.Date)
+        </function-signature>
+    </function>
+
+    <function>
+        <description>Format Date by pattern yyyy-MM-dd HH:mm</description>
+        <name>formatDateTime</name>
+        <function-class>com.seeyon.ctp.util.DateUtil</function-class>
+        <function-signature>
+            java.lang.String formatDateTime(java.util.Date)
+        </function-signature>
+    </function>
+
+    <function>
+        <description>Format Date by customize pattern</description>
+        <name>formatDateByPattern</name>
+        <function-class>com.seeyon.ctp.util.DateUtil</function-class>
+        <function-signature>
+            java.lang.String format(java.util.Date, java.lang.String)
+        </function-signature>
+    </function>
+   <function>   
+        <name>showMemberLeave</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberLeave(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:showMemberLeave(memberid)} ]]></example>
+    </function>
+    <function>  
+        <name>showOrgAccountNameByMemberid</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showOrgAccountNameByMemberid(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:showOrgAccountNameByMemberid(memberid)} ]]></example>
+    </function>
+    <function>  
+        <name>showOrgPostNameByMemberid</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showOrgPostNameByMemberid(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:showOrgPostNameByMemberid(memberid)} ]]></example>
+    </function> 
+    
+        
+    <function>
+        <description>same as out.println(condition ? y : n);</description>
+        <name>outConditionExpression</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String outConditionExpression(java.lang.Boolean, java.lang.String, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:outConditionExpression(track, 'checked', '')} ]]></example>
+    </function>
+    <function>
+        <name>suffixInJS</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String suffixInJS()</function-signature>
+        <example>${ctp:suffixInJS()}</example>
+    </function>
+    <!-- 
+    <function>
+        <name>sysSuffix</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String sysSuffix()</function-signature>
+        <example>${ctp:sysSuffix()}</example>
+    </function>
+     -->
+    <function>
+        <name>oemSuffix</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String oemSuffix()</function-signature>
+        <example>${ctp:suffixInJS()}</example>
+    </function>
+    <function>
+        <name>encodeURI</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String encodeURI(java.lang.String)</function-signature>
+        <example><![CDATA[ <a href="***?name=${ctp:encodeURI('zhong wen wen zi')"} ]]></example>
+    </function>
+    <function>
+        <name>messageFromBundle</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String messageFromBundle(javax.servlet.jsp.jstl.fmt.LocalizationContext, java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>mapKeys</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.util.Set keys(java.util.Map)</function-signature>
+    </function>
+    <function>
+        <name>mapValues</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.util.Collection mapValues(java.util.Map)</function-signature>
+    </function>
+    <function>
+        <name>parseElements</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String parseElements(java.util.Collection, java.lang.String, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:parseElements(templete.templeteAuths, 'authId', 'authType')} ]]></example>
+    </function>
+    <function>
+        <name>parseElementsOfTypeAndId</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String parseElements(java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:parseElementsOfTypeAndId("Member|1234,Department|43532,Account|2345")} ]]></example>
+    </function>
+    <function>
+        <name>parseElementsOfIds</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String parseElements(java.lang.String, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:parseElementsOfIds("1234,43532,2345", "Member")} ]]></example>
+    </function>
+    <function>
+        <name>showMemberNameOnly</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberNameOnly(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:showMemberNameOnly(memberId)} ]]></example>
+    </function>
+    <function>
+        <name>showOrgEntities</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showOrgEntities(java.util.Collection, java.lang.String, java.lang.String, javax.servlet.jsp.PageContext)</function-signature>
+        <example><![CDATA[ ${ctp:showOrgEntities(List, "authId", "authType", pageContext)} ]]></example>
+    </function>
+    <function>
+        <name>showOrgEntitiesOfTypeAndId</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showOrgEntities(java.lang.String, javax.servlet.jsp.PageContext)</function-signature>
+        <example><![CDATA[ ${ctp:showOrgEntitiesOfIds("Member|1234324,Department|1234,Account|1234", pageContext)} ]]></example>
+    </function>
+    <function>
+        <name>showOrgEntitiesOfIds</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showOrgEntities(java.lang.String, java.lang.String, javax.servlet.jsp.PageContext)</function-signature>
+        <example><![CDATA[ ${ctp:showOrgEntitiesOfIds("1234324,1234,1234", "Member", pageContext)} ]]></example>
+    </function>
+
+    <function>
+        <description>Tests if a collection contains the specified object.</description>
+        <name>containInCollection</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean containInCollection(java.util.Collection, java.lang.Object)</function-signature>
+        <example><![CDATA[ ${ctp:containInCollection(actions, 'Opinion')} ]]></example>
+    </function>
+    <function>
+        <description>Tests if a collection contains the specified object.</description>
+        <name>isIntegerInCollection</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isIntegerInCollection(java.util.Collection, java.lang.Integer)</function-signature>
+        <example><![CDATA[ ${ctp:isIntegerInCollection(integerList, 101)} ]]></example>
+    </function>
+    
+    <function>
+        <description><![CDATA[ i18n, same as <fmt:message key=""> auto scan v3xCommonI18N ]]></description>
+        <name>_</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String _(javax.servlet.jsp.PageContext, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:_(pageContext, "collaboration.type.labe_")}]]></example>
+    </function>
+    <function>
+        <name>showRate</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showRate(java.lang.Float)</function-signature>
+        <example><![CDATA[ ${ctp:showRate(10.3)}]]></example>
+    </function>
+    <function>
+        <description><![CDATA[ Escapes the characters in a String using HTML entities.Escapes \r \n < > & Space characters. ]]></description>
+        <name>toHTML</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String toHTML(java.lang.String)</function-signature>
+        <example>${ctp:toHTML(comment.content)}</example>
+    </function>
+    <function>
+        <description><![CDATA[ Escapes the characters in a String using HTML entities.Escapes \r  < > & Space characters. ]]></description>
+        <name>toHTMLAlt</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String toHTMLAlt(java.lang.String)</function-signature>
+        <example>${ctp:toHTMLAlt(comment.content)}</example>
+    </function>
+    <function>
+        <name>toHTMLWithoutSpace</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String toHTMLWithoutSpace(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>toHTMLWithoutSpaceEscapeQuote</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String toHTMLWithoutSpaceEscapeQuote(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <description>get current language.eg. zh-cn. Used in JavaScript</description>
+        <name>getLanguage</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getLanguage(javax.servlet.http.HttpServletRequest)</function-signature>
+        <example>${ctp:getLanguage(pageContext.request)}</example>
+    </function>
+    <function>
+        <description>i18n</description>
+        <name>join</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String join(java.util.Collection, java.lang.String, javax.servlet.jsp.PageContext)</function-signature>
+        <example><![CDATA[ ${ctp:join(list, "name", pageContext)}   ${ctp:join(list, "department.name", pageContext)} ]]></example>
+    </function>
+    <function>
+        <name>joinDirect</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String join(java.util.Collection, javax.servlet.jsp.PageContext)</function-signature>
+        <example>${ctp:joinDirect(list, pageContext)}</example>
+    </function>
+    <function>
+        <name>joinDirectWithSpecialSeparator</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String join(java.util.Collection, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:joinDirect(list, "_")} ]]></example>
+    </function>
+    <function>
+        <name>joinWithSpecialSeparator</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String join(java.util.Collection, java.lang.String, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:joinWithSpecialSeparator(list, "id", ",")} ]]></example>
+    </function>
+    <function>
+        <name>escapeJavascript</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String escapeJavascript(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>escapeQuot</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String escapeQuot(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>getLimitLengthString</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getLimitLengthString(java.lang.String, java.lang.Integer, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:getLimitLengthString(content, 20, '...')} ]]></example>
+    </function>
+    <function>
+        <name>getLimitLengthStringUTF8</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getLimitLengthStringUTF8(java.lang.String, java.lang.Integer, java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:getLimitLengthStringUTF8(content, 20, '...')} ]]></example>
+    </function>
+    <function>
+        <name>isBlank</name>
+        <function-class>com.seeyon.ctp.util.Strings</function-class>
+        <function-signature>boolean isBlank(java.lang.String)</function-signature>
+        <example>${ctp:isBlank()}</example>
+    </function>
+    <function>
+        <name>isNotBlank</name>
+        <function-class>com.seeyon.ctp.util.Strings</function-class>
+        <function-signature>boolean isNotBlank(java.lang.String)</function-signature>
+        <example>${ctp:isNotBlank()}</example>
+    </function>
+    <function>
+        <name>showException</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showException(com.seeyon.ctp.common.exceptions.BusinessException, javax.servlet.jsp.PageContext)</function-signature>
+        <example><![CDATA[ <c:if test="${e ne null}">
+    <script type="text/javascript">
+    alert("${ctp:showException(e, pageContext)}
+");
+    </script>
+</c:if> ]]></example>
+    </function>
+    <function>
+        <description>get current user locale </description>
+        <name>getLocale</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.util.Locale getLocale(javax.servlet.http.HttpServletRequest)</function-signature>
+        <example>${ctp:getLocale(pageContext.request)}</example>
+    </function>
+    <function>
+        <name>getSystemProperty</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getSystemProperty(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>toString</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String toString(java.lang.Object)</function-signature>
+    </function>
+    <function>
+        <description>return com.seeyon.ctp.common.authenticate.domain.User</description>
+        <name>currentUser</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.common.authenticate.domain.User currentUser()</function-signature>
+        <example>${ctp:currentUser()}</example>
+    </function>
+    
+    <function>
+        <name>concurrentAccount</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.util.List concurrentAccount()</function-signature>
+    </function>
+    <function>
+        <name>isGroupAccessable</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isGroupAccessable(java.lang.Long)</function-signature>
+    </function> 
+    <function>
+        <name>accessableAccounts</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.util.List accessableAccounts()</function-signature>
+    </function>
+    <function>
+        <description>return V3xOrgAccount</description>
+        <name>getAccount</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.organization.bo.V3xOrgAccount getAccount(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:getAccount(v3x:currentUser().loginAccount).shortname} ]]></example>
+    </function>
+    <function>
+        <description>return V3xOrgDepartment</description>
+        <name>getDepartment</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.organization.bo.V3xOrgDepartment getDepartment(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:getDepartment(v3x:currentUser().departmentId).name} ]]></example>
+    </function>
+    <function>
+        <description>return V3xOrgMember</description>
+        <name>getMember</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.organization.bo.V3xOrgMember getMember(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:getMember(v3x:currentUser().id).name} ]]></example>
+    </function>
+    <function>
+        <description>return V3xOrgTeam</description>
+        <name>getTeam</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.organization.bo.V3xOrgTeam getTeam(java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:getTeam(teamId).name} ]]></example>
+    </function>
+    <function>
+        <name>messageOfParameterXML</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String messageOfParameterXML(javax.servlet.jsp.PageContext, java.lang.String, java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>messageFromResource</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String messageFromResource(java.lang.String, java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>getOrgEntity</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.organization.bo.V3xOrgEntity getEntity(java.lang.String, java.lang.Long)</function-signature>
+        <example><![CDATA[ ${ctp:getOrgEntity("Member", 1234123412L).name} ]]></example>
+    </function>
+    <function>
+        <name>showMemberName</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberName(java.lang.Long)</function-signature>
+    </function>
+    <function>
+        <name>showOrgMemberAlt</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberAlt(com.seeyon.ctp.organization.bo.V3xOrgMember)</function-signature>
+    </function>
+        
+    <function>
+        <name>isRole</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isRole(java.lang.String,com.seeyon.ctp.common.authenticate.domain.User)</function-signature>
+        <example>${ctp:isRole("AccountEdocAdmin", v3x:currentUser())}</example>
+    </function>
+    
+    <function>
+        <name>showOrgMemberAltWithFullDeptPath</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberAltWithFullDeptPath(com.seeyon.ctp.organization.bo.V3xOrgMember)</function-signature>
+    </function>
+    <function>
+        <name>showOrgMemberName</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberName(com.seeyon.ctp.organization.bo.V3xOrgMember)</function-signature>
+    </function>
+    <function>
+        <name>showMemberAlt</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberAlt(java.lang.Long)</function-signature>
+    </function>
+    <function>
+        <name>showMemberAltWithFullDeptPath</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showMemberAltWithFullDeptPath(java.lang.Long)</function-signature>
+    </function>
+    <function>
+        <name>addToList</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.util.List addToList(java.util.List, java.lang.Object)</function-signature>
+    </function>
+    <function>
+        <name>isMyAccount</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isMyAccount(java.lang.Long)</function-signature>
+        <example>${ctp:isMyAccount(accountId)}</example>
+    </function>
+    <function>
+        <name>getSysFlagByName</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.Object getSysFlag(java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:getSysFlagByName("selectPeople_showAccounts")} ]]></example>
+    </function>
+    <function>
+        <name>getSysFlag</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.Object getSysFlag(com.seeyon.ctp.common.flag.SysFlag)</function-signature>
+        <example>${ctp:getSysFlag(sysFlagEnumObj)}</example>
+    </function>
+    <function>
+        <name>getBrowserFlagByUser</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.Object getBrowserFlag(java.lang.String, com.seeyon.ctp.common.authenticate.domain.User)</function-signature>
+        <example>${ctp:getBrowserFlagByUser("A8Allow", v3x:currentUser())}</example>
+    </function>
+    <function>
+        <name>getBrowserFlagByRequest</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.Object getBrowserFlag(java.lang.String, javax.servlet.http.HttpServletRequest)</function-signature>
+        <example>${ctp:getBrowserFlagByRequest("A8Allow", pageContext.request)}</example>
+    </function>
+    <function>
+        <name>hasPlugin</name>
+        <function-class>com.seeyon.ctp.common.AppContext</function-class>
+        <function-signature>boolean hasPlugin(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>hasResourceCode</name>
+        <function-class>com.seeyon.ctp.common.AppContext</function-class>
+        <function-signature>boolean hasResourceCode(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>urlEncoder</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String urlEncoder(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>urlDecoder</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String urlDecoder(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>encodeStr</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String encodeStr(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>decodeStr</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String decodeStr(java.lang.String)</function-signature>
+    </function>
+    <function>
+        <name>getApplicationCategoryName</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getApplicationCategoryName(java.lang.Integer, javax.servlet.jsp.PageContext)</function-signature>
+        <example>${ctp:getApplicationCategoryName(1, pageContext)}</example>
+    </function>
+    <function>
+        <name>isAccountInGroup</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isAccountInGroup(java.lang.Long)</function-signature>
+        <example>${ctp:isAccountInGroup(accountId)}</example>
+    </function>
+    
+    <function>
+        <name>getMapValueOfIntegerKey</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.Object getMapValueOfIntegerKey(java.util.Map, java.lang.Integer)</function-signature>
+        <example>${ctp:checkLevelScope(currentMemberId, memberId)}</example>
+    </function>
+    <function>
+        <name>isUsersMainAccount</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isUsersMainAccount(java.lang.Long, java.lang.Long)</function-signature>
+        <example>${ctp:isUsersMainAccount(memberId,accountId)}</example>
+    </function>
+    <function>
+        <name>checkLevelScope</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean checkLevelScope(java.lang.Long, java.lang.Long)</function-signature>
+    </function>
+    <function>
+        <name>addCookie</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>void addCookie(javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, boolean, boolean)</function-signature>
+    </function>
+    <function>
+        <name>getCookie</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getCookie(javax.servlet.http.HttpServletRequest, java.lang.String, boolean)</function-signature>
+    </function>
+    <function>
+        <name>getSkin</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getSkin()</function-signature>
+        <example>${ctp:getSkin()}</example>
+    </function>
+    <function>
+        <name>skin</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String skin()</function-signature>
+        <example>${ctp:skin()}</example>
+    </function>
+    <function>
+        <name>suffix</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String suffix()</function-signature>
+        <example>${ctp:suffix()}</example>
+    </function>
+    <function>
+        <name>resSuffix</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String resSuffix()</function-signature>
+        <example>${ctp:resSuffix()}</example>
+    </function>
+    <function>
+        <name>getVersion</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getVersion()</function-signature>
+        <example>${ctp:getVersion()}</example>
+    </function>
+
+    <function>
+        <name>isEnableSwitch</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean isEnableSwitch(java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:isEnableSwitch('RSS')} ]]></example>
+    </function>
+
+    <function>
+        <name>showDepartmentFullPath</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showDepartmentFullPath(java.lang.Long)</function-signature>
+    </function>
+    <function>
+        <name>getGroup</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.organization.bo.V3xOrgAccount getGroup()</function-signature>
+        <example>${ctp:getGroup()}</example>
+    </function>
+    <function>
+        <name>getOnlineUser</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>com.seeyon.ctp.common.online.OnlineUser getOnlineUser(java.lang.Long)</function-signature>
+        <example>${ctp:getOnlineUser(123456)}</example>
+    </function>
+
+    <function>
+        <name>selectTree</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>void selectTree(java.util.Collection, java.lang.String, java.lang.String, java.lang.String, javax.servlet.jsp.PageContext)</function-signature>
+        <example><![CDATA[ ${ctp:selectTree(accountList, 'id', 'superior', 'name', pageContext)} ]]></example>
+    </function>
+    <function>
+        <name>getSystemSwitch</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>boolean getSystemSwitch(java.lang.String)</function-signature>
+        <example><![CDATA[ ${ctp:getSystemSwitch("verify_code")} ]]></example>
+    </function>
+    <function>
+        <name>showNumber2Percent</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String showNumber2Percent(java.lang.Number)</function-signature>
+        <example><![CDATA[ ${ctp:showNumber2Percent(0.2121)} ]]></example>
+    </function>
+    <function>
+        <name>getEnumOrdinal</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>int getEnumOrdinal(java.lang.Enum)</function-signature>
+        <example><![CDATA[ ${ctp:showNumber2Percent(0.2121)} ]]></example>
+    </function>
+     <function>
+        <name>avatarImageUrl</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getAvatarImageUrl(java.lang.Long)</function-signature>
+        <example>${ctp:avatarImageUrl(123456789)}</example>
+    </function>
+    <function>
+        <name>getXUA</name>
+        <function-class>com.seeyon.ctp.common.taglibs.functions.Functions</function-class>
+        <function-signature>java.lang.String getXUA()</function-signature>
+        <example>${ctp:getXUA()}</example>
+    </function>
+</taglib> 

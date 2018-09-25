@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--<link rel="stylesheet" href="left_css.css"/>-->
+    <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="red.css"/>
+    <!--<link rel="stylesheet" href="red.css"/>-->
+    <script type="text/javascript">
+        //JavaScript Document
+
+        var listType = '${listType}';
+
+        $(document).ready(function() {
+             $(".info_box_display").show();
+           $(".info_box_title").click(function(){
+            alert("11111");
+            $(this).next(".info_box_display").hide();
+            initInfoLeftLocation();
+            initInfoBoxDisplay();
+//            initUrl();
+        
+        })
+        });
+
+        function infoBoxDisplay() {
+            var utype = $(this).attr("utype");
+            if(utype == 'block') {//收起
+                $(this).attr("utype","none");
+                $(this).removeClass("info_box_ico_hide");
+                $(this).addClass("info_box_ico_show");
+                $(this).parent().parent().find(".info_box_display").attr("style", "display:none");
+                //$(this).parent().parent().find(".info_box_display").hide();
+            }else{//打开
+                $(this).attr("utype","block");
+                $(this).removeClass("info_box_ico_show");
+                $(this).addClass("info_box_ico_hide");
+                $(this).parent().parent().find(".info_box_display").attr("style", "display:block");
+                //$(this).parent().parent().find(".info_box_display").show();
+            }
+        }
+
+        function initInfoBoxDisplay() {
+            $(".info_box_icojia").bind("click", infoBoxDisplay);
+            $(".info_left_nav").find(".info_box_icojia").each(function() {
+                if($(this).parents(".info_box").find(".info_box_act").size()==0) {
+                    $(this).attr("utype", "none");
+                    $(this).parent().parent().find(".info_box_display").attr("style", "display:none");
+                    $(this).parent().parent().find(".info_box_icojia").removeClass("info_box_ico_hide");
+                    $(this).parent().parent().find(".info_box_icojia").addClass("info_box_ico_show");
+                } else {
+                    $(this).attr("utype", "block");
+                    $(this).parent().parent().find(".info_box_display").attr("style", "display:block");
+                    $(this).parent().parent().find(".info_box_icojia").removeClass("info_box_ico_show");
+                    $(this).parent().parent().find(".info_box_icojia").addClass("info_box_ico_hide");
+                }
+                //$(this).toggle(infoBoxDisplay);
+            });
+        }
+
+        function initInfoLeftLocation(listType2) {
+            $(".info_left_nav a").each(function(obj) {
+                var listId = $(this).attr("listType");
+                if(listType2) {
+                    listType = listType2;
+                }
+                if(listId == listType) {
+                    $(this).addClass("info_box_act");
+                }
+                $(this).click(function() {
+                    $(".info_left_nav a").removeClass("info_box_act");
+                    $(this).addClass("info_box_act");
+                });
+            });
+        }
+        function leftClickEvent(listType) {
+            $(".info_left_nav").find("a[listType='"+listType+"']").trigger("click");
+        }
+        function initUrl() {
+            $("div[resCode='F18_infoReport']").find("a").eq(0).click(function() {//待发列表
+                var url = "infoList.do?method=listInfoDraft&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("div[resCode='F18_infoReport']").find("a").eq(1).click(function() {//已发列表
+                var url = "infoList.do?method=listInfoSend&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("div[resCode='F18_infoAudit']").find("a").eq(0).click(function() {//待审核列表
+                var url = "infoList.do?method=listInfoPending&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("div[resCode='F18_infoAudit']").find("a").eq(1).click(function() {//已审核列表
+                var url = "infoList.do?method=listInfoDone&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("div[resCode='F18_magazine']").find("a").eq(0).click(function() {//期刊管理
+                var url = "magazinelist.do?method=listMagazineManager&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("span[resCode='F18_magazineAudit']").find("a").eq(0).click(function() {//待审核期刊
+                var url = "magazinelist.do?method=listMagazineAuditPending&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("span[resCode='F18_magazineAudit']").find("a").eq(1).click(function() {//已审核期刊
+                var url = "magazinelist.do?method=listMagazineAuditDone&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("span[resCode='F18_magazinePublish']").find("a").eq(0).click(function() {//待发布期刊
+                var url = "magazinelist.do?method=listMagazinePublishPending&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("span[resCode='F18_magazinePublish']").find("a").eq(1).click(function() {//已发布期刊
+                var url = "magazinelist.do?method=listMagazinePublishDone&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+            $("span[resCode='F18_magazineCheck']").find("a").eq(0).click(function() {//信息积分表
+                var url = "publishscore.do?method=listInfoPublishScoreDetail&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+
+            $("div[resCode='F18_infoDatabase']").find("a").eq(0).click(function() {//应用设置
+                var url = "infomain.do?method=dataBaseIndex&listType=listTemplate";
+                $("#tab_iframe").attr("src", url);
+            });
+
+            $("span[resCode='F18_infoStat']").find("a").eq(0).click(function() {//信息统计
+                var url = "infoStat.do?method=listInfoStat&listType="+$(this).attr("listType");
+                $("#tab_iframe").attr("src", url);
+            });
+
+            $("div[resCode='F18_infoDatabase']").find("a").click(function() {//信息统计
+                var url = "infomain.do?method=dataBaseIndex&listType=listTemplate";
+                $("#tab_iframe").attr("src", url);
+            });
+
+        }
+    </script>
+</head>
+<body>
+<div class="info_left_nav">
+    <div class="info_box resCode" resCode="F18_infoReport">
+        <div class="info_box_title">
+            <span class="info_report"></span>
+            <!--<span class="info_box_title_font">${ctp:i18n("infosend.label.infoReport")}</span>-->
+            <span class="info_box_title_font">信息上报</span>
+        </div>
+        <div class="info_box_display">
+            <a href="#" listType="listInfoDraft" parentListType="">
+                <!--<span>${ctp:i18n("infosend.label.reportPending")}</span>-->
+                <span>待发</span>
+            </a>
+            <a href="#" listType="listInfoReported" parentListType="">
+                <span>已上报</span>
+            </a>
+            <a href="#" listType="listInfoReported" parentListType="">
+                <!--<span>${ctp:i18n("infosend.label.reportSent")}</span>-->
+                <span>已审核</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="info_box resCode" resCode="F18_infoAudit">
+        <div class="info_box_title">
+            <span class="info_audit"></span>
+            <!--<span class="info_box_title_font">${ctp:i18n("infosend.label.audit")}</span>-->
+            <span class="info_box_title_font">信息审核</span>
+        </div>
+        <div class="info_box_display">
+            <a href="#" listType="listInfoPending">
+
+                <!--<span>${ctp:i18n("infosend.label.waitAudit")}</span>-->
+                <span>通过</span>
+            </a>
+            <a href="#" listType="listInfoDone">
+
+                <!--<span>${ctp:i18n("infosend.label.Audited")}</span>-->
+                <span>不通过</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="info_box resCode" resCode="F18_magazine">
+        <div class="info_box_title">
+            <span class="info_journal"></span>
+            <!--<span class="info_box_title_font">${ctp:i18n("infosend.label.magazine")}</span>-->
+            <span class="info_box_title_font">期刊编审</span>
+        </div>
+        <div class="info_box_display">
+
+         <span class="resCode" resCode="F18_magazineManager">
+	        	<a href="#" listType="listMagazineManager">
+
+                    <!--<span>${ctp:i18n("infosend.label.magazineManager")}</span>-->
+                    <span>正在进行</span>
+                </a>
+            </span>
+
+        	<span class="resCode" resCode="F18_magazineAudit">
+	        	<a href="#" listType="listMagazineAuditPending">
+
+                    <!--<span>${ctp:i18n("infosend.label.magazineWaitAudit")}</span>-->
+                    <span>完成</span>
+                </a>
+            </span>
+
+            <span class="resCode" resCode="F18_magazineAudit">
+	            <a href="#" listType="listMagazineAuditDone">
+
+                    <!--<span>${ctp:i18n("infosend.label.magazineAudited")}</span>-->
+                    <span>完成</span>
+                </a>
+            </span>
+
+            <span class="resCode" resCode="F18_magazinePublish">
+				<a href="#" listType="listMagazinePublishPending">
+
+                    <!--<span>${ctp:i18n("infosend.label.magazineWaitPublish")}</span>-->
+                    <span>完成</span>
+                </a>
+        	</span>
+
+        	<span class="resCode" resCode="F18_magazinePublish">
+				<a href="#" listType="listMagazinePublishDone">
+
+                    <!--<span>${ctp:i18n("infosend.label.magazinePublished")}</span>-->
+                    <span>完成</span>
+                </a>
+            </span>
+
+            <span class="resCode" resCode="F18_magazineCheck">
+	            <a href="#" listType="listInfoPublishScoreDetail">
+
+                    <!--<span>${ctp:i18n("infosend.label.infoScore")}</span>-->
+                    <span>完成</span>
+                </a>
+            </span>
+        </div>
+    </div>
+
+    <div class="info_box resCode" resCode="F18_infoQueryAndStat">
+        <div class="info_box_title">
+            <span class="info_inquiry"></span>
+            <!--<span class="info_box_title_font">${ctp:i18n("infosend.label.stat")}</span>-->
+            <span class="info_box_title_font">查寻统计</span>
+        </div>
+        <div class="info_box_display">
+        	<span class="resCode" resCode="F18_infoQuery">
+	        	<a href="#" listType="infoQuery">
+
+                    <!--<span>${ctp:i18n("infosend.label.infoQuery")}</span>-->
+                    <span>问题1</span>
+                </a>
+           	</span>
+            <span class="resCode" resCode="F18_infoStat">
+	            <a href="#" listType="infoStat">
+
+                    <!--<span>${ctp:i18n("infosend.label.statInfo")}</span>-->
+                    <span>问题1</span>
+                </a>
+            </span>
+        </div>
+
+    </div>
+    <div class="info_box resCode" resCode="F18_infoQueryAndStat">
+        <div class="info_box_title">
+            <span class="info_apply"></span>
+            <!--<span class="info_box_title_font">${ctp:i18n("infosend.label.stat")}</span>-->
+            <span class="info_box_title_font">应用设置</span>
+        </div>
+        <div class="info_box_display">
+        	<span class="resCode" resCode="F18_infoQuery">
+	        	<a href="#" listType="infoQuery">
+                    <!--<span>${ctp:i18n("infosend.label.infoQuery")}</span>-->
+                    <span>问题1</span>
+                </a>
+           	</span>
+            <span class="resCode" resCode="F18_infoStat">
+	            <a href="#" listType="infoStat">
+
+                    <!--<span>${ctp:i18n("infosend.label.statInfo")}</span>-->
+                    <span>问题1</span>
+                </a>
+            </span>
+        </div>
+
+    </div>
+
+    <!--<%-- 应用设置 --%>-->
+    <!--<c:if test="${ctp:hasResourceCode('F18_infoDatabase')}">-->
+        <!--<div class="info_box resCode" resCode="F18_infoDatabase">-->
+            <!--<div class="info_box_title">-->
+                <!--<a href="#" listType="infoDatabase">-->
+                    <!--<span class="info_box_title_font">${ctp:i18n("infosend.label.settings")}</span>-->
+                <!--</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</c:if>-->
+
+</div>
+</body>
+</html>

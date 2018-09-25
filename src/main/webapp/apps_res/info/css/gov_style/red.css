@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+.info_left_nav{
+    width:100%;
+    height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+    background-color: #FFF6F2;
+    font-family: "微软雅黑";
+}
+.info_box_title{
+    padding:10px;
+    font-size:14px;
+    font-weight:bold;
+    color: #414141;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #EFD3C8;
+}
+.info_box_title_first{
+    border-top: none;
+}
+.info_box_title:hover{
+    cursor: pointer;
+    background-color: #FDEDE6;
+}
+.info_box_title_font {
+    display:inline-block;
+}
+.info_box_title_hook{
+    float: right;
+    display: inline-block;
+    margin-top: 9px;
+    width: 12px;
+    height: 6px;
+    background: url("images/red_hook_1.png") no-repeat;
+}
+.info_box_title_hook_2{
+    background: url("images/red_hook_2.png") no-repeat;
+}
+.info_box_title_no_hook{
+    background: none;
+}
+.info_report{
+    /*float: left;*/
+    /*margin: 10px 10px 0 0;*/
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_report_red.png") no-repeat;
+}
+.info_audit{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_audit_red.png") no-repeat;
+}
+.info_journal{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_journal_red.png") no-repeat;
+}
+.info_inquiry{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_inquiry_red.png") no-repeat;
+}
+.info_apply{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background: url("images/info_apply_red.png") no-repeat;
+}
+.info_box_display{
+    padding: 6px 0;
+    background-color: #FDEDE6;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #EFD3C8;
+}
+.info_box_display a {
+    display:block;
+    width:100%;
+    height:26px;
+    padding-top: 2px;
+    padding-left: 40px;
+    *padding-left:34px;
+    font: 14px "微软雅黑";
+    color:#414141;
+    text-decoration: none;
+    text-align: left;
+}
+.info_box_title,.info_box_display a{
+    color:#414141;
+}
+.info_box_display a:hover{
+    background-color: #FBDCD0;
+    color: #414141;
+}
+.info_box_display .info_content_active:hover{
+   background-color: #B14922;
+    color: #fff;
+}
+.info_box_display .info_content_active{
+    background-color: #B14922;
+    color: #fff;
+}
+.info_box_display a span{
+    height:16px;
+    line-height:15px;
+    *line-height:18px;
+    display: inline-block;
+    vertical-align:middle;
+}

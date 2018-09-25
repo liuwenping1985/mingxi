@@ -1,0 +1,46 @@
+/**
+ *
+ *  File Authors: lucx
+ */
+
+var BBSLang = {
+		bbs:"Public Infomation - Discuss",
+		bbs_dept_manage:"Department BBS Manage",
+		bbs_account_manage:"Account BBS Manage",
+		bbs_group_manage:"Group BBS Manage",
+		bbs_article_content_should_not_be_null   : "Content of the article should not be null!",
+		bbs_bbsmanage_alert_update : "Select board to be modified!",
+		bbs_bbsmanage_alert_delete : "Select board to be deleted!",
+		bbs_bbsmanage_alert_chooseObe:"Please choose one to edit!",
+		bbs_bbsmanage_alert_topSequence:"Discuss《{0}》Has top.",
+		bbs_bbsmanage_delConfirmed : "Are you sure to delete the board? You can't get it back!",
+		bbs_bbsmanage_createboard_sameness : "Duplicate name with the existing board, input again!",
+		bbs_bbsmanage_createboard_choice : "Select the discussion administrator!",
+		bbs_boarduse_issuePost_issuearea : "Select the issue area!",
+		bbs_boardmanage_boardAuth_accredit : "Select the scope of authorization!",
+		bbs_boardmanager_boardM_putter : "Please select the topic to be moved to the top! ",
+		bbs_boardmanager_boardM_noexcess : "The number of top posts in this board can not be exceeded",
+		bbs_boardmanager_boardM_cancleTopic : "Please select the topic to be removed from the top!",
+		bbs_boardmanager_boardM_setElite : "Please select the topic to be set as Elite!",
+		bbs_boardmanager_boardM_cancelElite : "Please select the topic to be removed from Elites!",
+		bbs_boardmanager_boardM_delMotif : "Please select a topic to be deleted!",
+		bbs_boardmanager_boardM_delFullnote	: "Are you sure to delete the topic post and all response posts under it?",
+		bbs_bbsmanage_spaceType_not_delete  : "No right to delete the board!",
+		bbs_bbsmanage_alert_same            : "There exists a topic with duplicate name. Continue?",
+		bbs_startDate_late_than_endDate:"The starting time can't be later than finishing time !",
+		bbs_description_too_long:"The description is too long !",
+		bbs_name_too_long:"The name is too long !",
+		bbs_reply_content_too_long:"The reply content is too long!",
+		bbs_board_hasArticle:"Sure to delete the bbs board with bbs under it? You can't get them back!",
+		bbs_board_has_del:"The board has deleted by admin!",
+		bbs_board_noAuth_post:"you don't have the Permissions of publish the bbs!",
+		bbs_board_no_pers : "you don't have the manager permissions of publish the bbs!!",
+		bbs_reply_can_not_be_null:"The content of the reply cannot be empty!",
+		bbs_delete_article_notice : "Are you sure to delete the main post with all response posts under it?",
+		bbs_delete_reply_notice : "Are you sure to delete the response post?",
+		detail_info_8004 : "<li></li>",
+		detail_info_8004_1 : "<li></li>",
+		detail_info_8004_2 : "<li></li>",
+		detail_info_bbs_setup: "<li>To create a new forum template, click the 'New' button to open a dialog form and fill in the relevant info; also configure whether or not anonymity can be allowed for this forum.</li><li>To modify a forum template, select an item on the list, and then click the 'Modify' button; also you can modify its 'anonymity' option.</li><li>To delete a forum template, select an item on the list, and then click the 'Delete' button.</li><li>It is not allowed to delete a forum template which has existing forum items.</li>",
+		bbs_boardmanage_boardAuth_success : "Authorized to success!"
+}
