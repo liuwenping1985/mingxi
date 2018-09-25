@@ -8,6 +8,8 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import com.seeyon.apps.nbd.plugin.als.service.AbstractAlsServicePlugin;
+import com.seeyon.ctp.common.ctpenum.manager.EnumManagerImpl;
+import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 
 import java.util.*;
 
@@ -16,7 +18,11 @@ import java.util.*;
  */
 public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
+    public EnumManager getEnumManager(Long id){
+       // Enumcon
 
+        return null;
+    }
     public List<String> getSupportAffairTypes() {
         return this.getPluginDefinition().getSupportAffairTypes();
     }
@@ -70,7 +76,11 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
             if(sff.getName().toLowerCase().equals("start_date")){
                Object obj =  sff.getValue();
                vo.setYear(String.valueOf(CommonUtils.getYear(String.valueOf(obj))));
+               vo.setCreateDate(CommonUtils.parseDate(String.valueOf(obj)));
+               vo.setUpdateDate(vo.getCreateDate());
             }
+
+
             dataMap.put(sff.getDisplay(),sff.getValue());
         }
         vo.setData(JSON.toJSONString(dataMap));

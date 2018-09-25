@@ -60,8 +60,8 @@ public class ProcessEventHandler {
         Long affairId = event.getAffairId();
         try {
             CtpAffair ctpAffair = this.getAffairManager().get(affairId);
-            ctpAffair.getFormAppId();
-            ctpAffair.getFormId();
+           // ctpAffair.getFormAppId();
+            //ctpAffair.getFormId();
         } catch (BusinessException e) {
             e.printStackTrace();
         }
