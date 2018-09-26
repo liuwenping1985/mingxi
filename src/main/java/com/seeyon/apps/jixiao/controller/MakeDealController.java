@@ -8,6 +8,7 @@ package com.seeyon.apps.jixiao.controller;
 import com.seeyon.apps.collaboration.event.CollaborationFinishEvent;
 import com.seeyon.apps.jixiao.po.Formmain0638;
 import com.seeyon.apps.jixiao.po.Formmain0651;
+import com.seeyon.apps.jixiao.util.Utils;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.util.DBAgent;
@@ -15,12 +16,60 @@ import com.seeyon.ctp.util.annotation.ListenEvent;
 
 import java.util.*;
 
+import org.apache.http.HttpRequest;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class MakeDealController extends BaseController {
     private long templateId = 6196498814069326934L;
 
     public MakeDealController() {
+    }
+
+    public ModelAndView fixData(HttpServletRequest request, HttpServletResponse response){
+
+        String section = request.getParameter("section");
+
+
+        if(section==null||"".equals(section)){
+
+            Utils.responseJSON("error",response);
+            return null;
+        }
+        try {
+            List<Formmain0651> data2List = DBAgent.find("from Formmain0651 where field0001='" + section + "'order by field0006 desc");
+            System.out.println("---触发---formmain0651:" + data2List.size());
+            //来个分组---
+            Map<Long, List<Formmain0651>> dataMap = new HashMap<Long, List<Formmain0651>>();
+            if (data2List != null && !data2List.isEmpty()) {
+                for (Formmain0651 f0651 : data2List) {
+
+                    List<Formmain0651> list = dataMap.get(f0651.getField0028());
+                    if (list == null) {
+                        list = new ArrayList<Formmain0651>();
+                        dataMap.put(f0651.getField0028(), list);
+                    }
+                    list.add(f0651);
+                }
+            }
+            //分组完毕
+            for (List<Formmain0651> data3List : dataMap.values()) {
+                syncDataList(data3List);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            Utils.responseJSON("error",response);
+            return null;
+        }
+        Utils.responseJSON("ok",response);
+
+        return null;
+
+
+
     }
 
     @ListenEvent(
