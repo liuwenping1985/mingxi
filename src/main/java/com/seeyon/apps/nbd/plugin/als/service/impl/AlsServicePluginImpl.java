@@ -144,15 +144,19 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
             /**
              * 翻译
              */
-
-
-            dataMap.put(sff.getDisplay(), sff.getValue());
+           // this.getCtpEnumItemById()
+            dataMap.put(sff.getDisplay(), getDisplayText(sff));
         }
         vo.setData(JSON.toJSONString(dataMap));
         vo.setIdIfNew();
         return vo;
     }
+    private Object getDisplayText(SimpleFormField sff){
+        Object val = sff.getValue();
 
+
+        return val;
+    }
     public List<A8OutputVo> exportData(String affairType, CommonParameter parameter) {
         if (!this.getSupportAffairTypes().contains(affairType)) {
             throw new UnsupportedOperationException();
