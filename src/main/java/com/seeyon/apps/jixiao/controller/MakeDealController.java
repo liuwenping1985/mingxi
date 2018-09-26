@@ -13,15 +13,12 @@ import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.ListenEvent;
-
-import java.util.*;
-
-import org.apache.http.HttpRequest;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 public class MakeDealController extends BaseController {
     private long templateId = 6196498814069326934L;
@@ -97,12 +94,20 @@ public class MakeDealController extends BaseController {
                 Long formRecordId = affair.getFormRecordid();
                 System.out.println("---触发---formRecordId:" + formRecordId);
                 if(formRecordId != null) {
-                    List<Formmain0638> dataList = DBAgent.find("from Formmain0638 where id=" + formRecordId);
+                    List<Formmain0638> dataList = null;
+                    try {
+                         dataList = DBAgent.find("from Formmain0638 where id=" + formRecordId);
+
+                    }catch(Exception e){
+                        e.printStackTrace();
+                        System.out.println("《《《《---触发---错误----》》》》》");
+
+                    }
+
                     System.out.println("---触发---List<Formmain0638>:" + dataList.size());
                     if(CollectionUtils.isEmpty(dataList)) {
                         return;
                     }
-
                     Formmain0638 formmain0638 = (Formmain0638)dataList.get(0);
                     String khzq = formmain0638.getField0001();
                     System.out.println("---触发---formmain0638:" + khzq);
@@ -149,14 +154,12 @@ public class MakeDealController extends BaseController {
                 }
                 Float ret = (of2-of1)*100;
                 return ret.intValue();
-
             }
         });
         int len = data2List.size();
         if(len < 5) {
             return;
         }
-
         int tag = 1;
         int total = data2List.size();
         Float youxiu = Float.valueOf((float)total * 0.2F);
@@ -191,6 +194,9 @@ public class MakeDealController extends BaseController {
         list.add(6l);
         list.add(1l);
         list.add(10l);
+        list.add(11l);
+        list.add(12l);
+        list.add(13l);
         list.add(5l);
         list.add(9l);
         list.add(6l);
