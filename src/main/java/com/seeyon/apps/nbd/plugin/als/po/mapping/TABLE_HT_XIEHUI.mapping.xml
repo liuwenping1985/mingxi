@@ -50,18 +50,18 @@
             <Field id="-3225650132828337893" name="field0047" display="费用所属" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
             <Field id="3250833034356673508" name="field0049" display="条件控制-勿删" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="8004856475087751103" name="field0039" display="品牌-联合劝募" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="5332898391520202008" name="field0057" display="项目建议书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-5520538419796425582" name="field0059" display="项目申请书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="5282617242866633218" name="field0060" display="财务手册" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-1692581246987055115" name="field0062" display="品牌管理规则" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-4574455135667927684" name="field0063" display="财务管理及监测评估办法" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="5332898391520202008" name="field0057" display="项目建议书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="-5520538419796425582" name="field0059" display="项目申请书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="5282617242866633218" name="field0060" display="财务手册" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="-1692581246987055115" name="field0062" display="品牌管理规则" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="-4574455135667927684" name="field0063" display="财务管理及监测评估办法" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-2710956626162400646" name="field0064" display="项目评审意见" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-672351014812169450" name="field0037" display="合同内容" fieldtype="LONGTEXT" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-151595309329527693" name="field0046" display="品牌项目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="7341216862605361879" name="field0065" display="财务进度报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="1130936204225826043" name="field0061" display="项目进展报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-7720280797565858001" name="field0058" display="预算执行表" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="4172763623353434449" name="field0066" display="项目结项报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7341216862605361879" name="field0065" display="财务进度报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="1130936204225826043" name="field0061" display="项目进展报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="-7720280797565858001" name="field0058" display="预算执行表" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="4172763623353434449" name="field0066" display="项目结项报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
         </FieldList>
         <IndexList></IndexList>
     </Table>

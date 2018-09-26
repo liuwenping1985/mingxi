@@ -48,10 +48,13 @@ public class FormTableDefinition {
     }
 
     public String genAllQuery() {
+        return genAllQuery(this.getFormTable());
+    }
+    public static String genAllQuery(FormTable formTable) {
 
         // String table
-        String tableName = this.getFormTable().getName();
-        List<FormField> formFields = this.getFormTable().getFormFieldList();
+        String tableName = formTable.getName();
+        List<FormField> formFields = formTable.getFormFieldList();
 
         StringBuilder stb = new StringBuilder();
         if (CommonUtils.isEmpty(formFields)) {
@@ -96,9 +99,11 @@ public class FormTableDefinition {
                 SimpleFormField sff= new SimpleFormField();
                 sff.setDisplay(ff.getDisplay());
                 sff.setName(ff.getName());
-
                 sff.setValue(objs.get(ff.getName()));
                 sffList.add(sff);
+                if(sff.getName().toLowerCase().equals("id")){
+                    //寻找slave
+                }
             }
 
             dataList.add(sffList);

@@ -51,13 +51,13 @@
             <Field id="131235958371075855" name="field0049" display="条件控制-勿删" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="3171166386809032319" name="field0039" display="品牌-联合劝募" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-8281776967113619328" name="field0057" display="项目建议书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="8080237371089043701" name="field0059" display="项目申请书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-2762995386072216735" name="field0060" display="财务手册" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-5011027641247710481" name="field0062" display="品牌管理规则" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8080237371089043701" name="field0059" display="项目申请书" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="-2762995386072216735" name="field0060" display="财务手册" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
+            <Field id="-5011027641247710481" name="field0062" display="品牌管理规则" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-5393393651792919022" name="field0063" display="财务管理及监测评估办法" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-8069017200560748456" name="field0064" display="项目评审意见" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="4480243130066421113" name="field0037" display="合同内容" fieldtype="LONGTEXT" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-7016176258919413996" name="field0046" display="品牌项目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7016176258919413996" name="field0046" display="品牌项目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-2092234614717790433" name="field0065" display="财务进度报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="2233683018823978634" name="field0061" display="项目进展报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-2331038404153553185" name="field0058" display="预算执行表" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
