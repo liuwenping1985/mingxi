@@ -79,7 +79,17 @@ public class FormTableDefinition {
 
 
     }
+    public static String genRawAllQuery(FormTable formTable) {
 
+        // String table
+        StringBuilder stb = new StringBuilder();
+        String tableName = formTable.getName();
+        stb.append("select *");
+        stb.append(" from ").append(tableName);
+        return stb.toString();
+
+
+    }
     public List<List<SimpleFormField>> filledValue(List<Map> values) {
         List<FormField> formFields = this.getFormTable().getFormFieldList();
         List<List<SimpleFormField>> dataList = new ArrayList<List<SimpleFormField>>();
@@ -99,11 +109,9 @@ public class FormTableDefinition {
                 SimpleFormField sff= new SimpleFormField();
                 sff.setDisplay(ff.getDisplay());
                 sff.setName(ff.getName());
+                sff.setClassName(ff.getClassname());
                 sff.setValue(objs.get(ff.getName()));
                 sffList.add(sff);
-                if(sff.getName().toLowerCase().equals("id")){
-                    //寻找slave
-                }
             }
 
             dataList.add(sffList);

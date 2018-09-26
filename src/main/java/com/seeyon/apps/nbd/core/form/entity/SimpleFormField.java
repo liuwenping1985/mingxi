@@ -7,6 +7,7 @@ public class SimpleFormField {
     private String name;
     private String display;
     private Object value;
+    private String className;
 
     public String getName() {
         return name;
@@ -26,6 +27,14 @@ public class SimpleFormField {
 
     public Object getValue() {
         return value;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public void setValue(Object value) {

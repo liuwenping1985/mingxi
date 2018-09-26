@@ -30,7 +30,7 @@
             <Field id="2699613008755248170" name="field0018" display="支付类型" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-3742371392745552949" name="field0019" display="合同周期永久" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
             <Field id="2321162372140385159" name="field0020" display="币种" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-5979538943994149648" name="field0021" display="合同附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-5979538943994149648" name="field0021" display="合同附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-6403052216355503563" name="field0022" display="部门负责人意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-178726404380407949" name="field0023" display="部门总监审核" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-2847537044134867265" name="field0024" display="会计审核" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>

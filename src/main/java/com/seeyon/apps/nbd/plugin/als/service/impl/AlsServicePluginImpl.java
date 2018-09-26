@@ -12,8 +12,22 @@ import com.seeyon.apps.nbd.plugin.als.service.AbstractAlsServicePlugin;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.filemanager.dao.V3XFileDAO;
+import com.seeyon.ctp.common.filemanager.dao.V3XFileDAOImpl;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManagerImpl;
+import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.filemanager.manager.FileManagerImpl;
+import com.seeyon.ctp.common.fileupload.FileUploadController;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
+import com.seeyon.ctp.common.po.filemanager.Attachment;
+import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.oainterface.impl.exportdata.FileDownloadExporter;
 
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -21,35 +35,28 @@ import java.util.*;
  */
 public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
     private EnumManager enumManager;
+
+    private OrgManager orgManager;
+
+    private FileManager fileManager = (FileManager)AppContext.getBean("fileManager");
+
+
     public EnumManager getEnumManager() {
-        // Enumcon
-        if(enumManager==null){
+
+        if (enumManager == null) {
             enumManager = (EnumManager) AppContext.getBean("enumManagerNew");
         }
         return enumManager;
     }
 
-    public CtpEnumItem getCtpEnumItemById(Long enumId){
+    public OrgManager getOrgManager() {
 
-        CtpEnumItem item = null;
-        try {
-            item = getEnumManager().getCacheEnumItem(enumId);
-        } catch (BusinessException e) {
-            e.printStackTrace();
+        if (orgManager == null) {
+            orgManager = (OrgManager) AppContext.getBean("orgManager");
         }
-        if(item == null){
-
-
-        }
-
-        return null;
-
+        return orgManager;
     }
 
-    public String getFieldDisplayName(Object val){
-
-        return null;
-    }
 
     public List<String> getSupportAffairTypes() {
         return this.getPluginDefinition().getSupportAffairTypes();
@@ -79,20 +86,39 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 for (Map masterMap : list) {
                     Object id = masterMap.get("id");
                     if (id != null) {
-                        masterTempMap.put((Long) id, masterMap);
+                        if (id instanceof Long) {
+                            masterTempMap.put((Long) id, masterMap);
+                        }
+                        if (id instanceof BigDecimal) {
+                            masterTempMap.put(((BigDecimal) id).longValue(), masterMap);
+                        }
                     }
                 }
 
                 for (FormTable ft : slaveTables) {
                     System.out.println("[<---->]export slave table:" + ft.getName());
-                    String slaveTableSql = FormTableDefinition.genAllQuery(ft);
-                    List<Map> slaveDataList = DataBaseHelper.executeQueryByNativeSQL(slaveTableSql);
+                    String slaveTableSql = FormTableDefinition.genRawAllQuery(ft);
+                    System.out.println("[<---->] slave table sql:" + slaveTableSql);
+                    List<Map> slaveDataList = new ArrayList<Map>();
+                    try {
+                        slaveDataList = DataBaseHelper.executeQueryByNativeSQL(slaveTableSql);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     //onwerfield
                     if (!CommonUtils.isEmpty(slaveDataList)) {
+                        System.out.println("[<---->] slave table"+ft.getName()+" data-size:" + slaveDataList.size());
                         for (Map slaveTableMap : slaveDataList) {
                             Object fmId = slaveTableMap.get("formmain_id");
                             if (fmId != null) {
-                                Map masterMap = masterTempMap.get((Long) fmId);
+                                Long key = null;
+                                if (fmId instanceof Long) {
+                                    key = (Long) fmId;
+                                }
+                                if (fmId instanceof BigDecimal) {
+                                    key = ((BigDecimal) fmId).longValue();
+                                }
+                                Map masterMap = masterTempMap.get(key);
                                 if (!CommonUtils.isEmpty(masterMap)) {
                                     masterMap.putAll(slaveTableMap);
                                 }
@@ -144,19 +170,159 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
             /**
              * 翻译
              */
-           // this.getCtpEnumItemById()
+            // this.getCtpEnumItemById()
             dataMap.put(sff.getDisplay(), getDisplayText(sff));
         }
         vo.setData(JSON.toJSONString(dataMap));
         vo.setIdIfNew();
         return vo;
     }
-    private Object getDisplayText(SimpleFormField sff){
+
+    private Object getDisplayText(SimpleFormField sff) {
         Object val = sff.getValue();
+        Long sid = null;
+        try {
+            if(val instanceof Long){
+                sid = (Long)val;
+            }else if(val instanceof BigDecimal){
+                sid = ((BigDecimal)val).longValue();
+            }else{
+                try{
+                    sid = Long.parseLong(String.valueOf(val));
+                }catch(Exception e){
+                    return val;
+                }
+            }
+            if(sid.intValue() ==0||sid.intValue()==1){
+                return val;
+            }
 
+        } catch (Exception e) {
 
+        }
+        try {
+
+            CtpEnumItem item = this.getCtpEnumItemById(sid);
+            if (item != null) {
+                return item.getShowvalue();
+            }
+
+            String dept = getMemberOrDepartmentById(sid);
+            if (!CommonUtils.isEmpty(dept)) {
+                return dept;
+            }
+
+        } catch (Exception e) {
+
+        }
+        //是否是时间
+
+        if (("" + sff.getDisplay()).contains("日期") || ("" + sff.getDisplay()).contains("时间")) {
+            try {
+
+                Date dt = new Date(sid);
+                String dtStr = CommonUtils.parseDate(dt);
+                if(!CommonUtils.isEmpty(dtStr)){
+                    return dtStr;
+                }
+            } catch (Exception e) {
+
+            }
+        }
+
+        if(!CommonUtils.isEmpty(sff.getClassName())){
+            if("attachment".equals(sff.getClassName())){
+                System.out.println("---I am in attchment---:"+sff.getValue());
+                String sql = "select * from ctp_attachment where id="+sid+" or reference="+sid+" or sub_reference="+sid;
+                try {
+                    List<Map> dataList =  DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if(!CommonUtils.isEmpty(dataList)){
+
+                       Map fileMap= dataList.get(0);
+                       Object fileName = fileMap.get("filename");
+                        System.out.println("---I find a attchment---:"+fileName);
+                       Object mimeType = fileMap.get("mime_type");
+                       Object fileSize = fileMap.get("attachment_size");
+                       Object fileIdRaw = fileMap.get("file_url");
+                       Long file_id = null;
+                       if(fileIdRaw instanceof Long){
+                           file_id = (Long)fileIdRaw;
+                       }
+                        if(fileIdRaw instanceof BigDecimal){
+                            file_id = ((BigDecimal)fileIdRaw).longValue();
+                        }
+                       // System.out.println("---I find a attchment file_url---:"+file_id);
+                        if(file_id!=null){
+
+                            V3XFile v3xFile = fileManager.getV3XFile(file_id);
+                            System.out.println("---v3xFile---:"+v3xFile);
+                           if(v3xFile!=null){
+                               //System.out.println("---I find a v3xFile file_url---:"+v3xFile.getId());
+                               File file = fileManager.getFile(file_id, v3xFile.getCreateDate());
+                               System.out.println("file---->>>>"+file);
+                                if(file!=null){
+                                    Map ret = new HashMap();
+                                    ret.put("file_path",file.getAbsolutePath());
+                                    ret.put("file_name",fileName);
+                                    ret.put("file_id",fileIdRaw);
+                                    ret.put("mime_type",mimeType);
+                                    ret.put("file_size",fileSize);
+                                    System.out.println(ret);
+                                    return JSON.toJSONString(ret);
+                                }else{
+
+                                    return fileName;
+                                }
+
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("error:"+e.getMessage());
+                }
+            }
+
+        }
         return val;
     }
+
+    private CtpEnumItem getCtpEnumItemById(Long enumId) {
+
+        CtpEnumItem item = null;
+        try {
+            item = getEnumManager().getCacheEnumItem(enumId);
+            return item;
+        } catch (BusinessException e) {
+
+        }
+        return null;
+    }
+
+    private String getMemberOrDepartmentById(Long enumId) {
+
+        try {
+            V3xOrgMember member = this.getOrgManager().getMemberById(enumId);
+            if (member != null) {
+                return member.getName();
+            }
+
+        } catch (Exception e) {
+        }
+
+        try {
+            V3xOrgDepartment department = this.getOrgManager().getDepartmentById(enumId);
+            if (department != null) {
+                return department.getName();
+            }
+        } catch (Exception e) {
+
+
+        }
+
+
+        return null;
+    }
+
     public List<A8OutputVo> exportData(String affairType, CommonParameter parameter) {
         if (!this.getSupportAffairTypes().contains(affairType)) {
             throw new UnsupportedOperationException();

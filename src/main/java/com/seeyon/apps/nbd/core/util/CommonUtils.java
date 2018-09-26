@@ -69,6 +69,15 @@ public class CommonUtils {
         return null;
     }
 
+    public static String parseDate(Date date) {
+        try {
+            return sdf.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static int getYear(String dtStr) {
 
         return getYear(parseDate(dtStr));
