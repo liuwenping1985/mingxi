@@ -170,18 +170,18 @@ public class NbdController extends BaseController{
 
 
     @NeedlessCheckLogin
-    public ModelAndView selectCommdityMall(HttpServletRequest request, HttpServletResponse response)
-
-
-    @NeedlessCheckLogin
     public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String fileId = request.getParameter("file_id");
         if(CommonUtils.isEmpty(fileId)){
 
+            return null;
 
         }
-        String path = "";
+        String path = "D:/Seeyon/A8/base/temporary/";
+        path = path+fileId;
+        String downloadSuffix = "decryption";
+        path+=downloadSuffix;
         // path是指欲下载的文件的路径。
         File file = new File(path);
         // 取得文件名。

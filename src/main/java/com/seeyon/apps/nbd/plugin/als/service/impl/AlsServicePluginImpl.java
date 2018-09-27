@@ -262,7 +262,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                                System.out.println("file---->>>>"+file);
                                 if(file!=null){
                                     Map ret = new HashMap();
-                                    ret.put("file_path",file.getAbsolutePath());
+                                    ret.put("file_path","/seeyon/nbd.do?method=download&file_id="+fileIdRaw);
                                     ret.put("file_name",fileName);
                                     ret.put("file_id",fileIdRaw);
                                     ret.put("mime_type",mimeType);
