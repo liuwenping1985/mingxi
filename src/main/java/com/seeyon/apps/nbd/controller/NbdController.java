@@ -8,14 +8,17 @@ import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
+import com.seeyon.apps.nbd.util.StringUtils;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.fileupload.FileUploadController;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,8 +170,40 @@ public class NbdController extends BaseController{
 
 
     @NeedlessCheckLogin
-    public ModelAndView selectCommdityMall(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView selectCommdityMall(HttpServletRequest request, HttpServletResponse response)
 
+
+    @NeedlessCheckLogin
+    public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String fileId = request.getParameter("file_id");
+        if(CommonUtils.isEmpty(fileId)){
+
+
+        }
+        String path = "";
+        // path是指欲下载的文件的路径。
+        File file = new File(path);
+        // 取得文件名。
+        String filename = file.getName();
+        // 取得文件的后缀名。
+        String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+
+        // 以流的形式下载文件。
+        InputStream fis = new BufferedInputStream(new FileInputStream(path));
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        // 清空response
+        response.reset();
+        // 设置response的Header
+        response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+        response.addHeader("Content-Length", "" + file.length());
+        OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+        response.setContentType("application/octet-stream");
+        toClient.write(buffer);
+        toClient.flush();
+        toClient.close();
 
 
 
@@ -177,5 +212,6 @@ public class NbdController extends BaseController{
         return null;
 
     }
+
 
 }
