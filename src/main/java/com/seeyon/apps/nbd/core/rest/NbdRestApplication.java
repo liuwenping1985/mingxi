@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.core.rest;
 
 import com.seeyon.apps.nbd.core.resource.NbdAffairResource;
 import com.seeyon.apps.nbd.core.resource.NbdSSOResource;
+import com.seeyon.ctp.rest.CTPResourceConfig;
 import com.seeyon.ctp.rest.CTPRestApplication;
 import org.apache.log4j.Logger;
 
@@ -22,6 +23,7 @@ public class NbdRestApplication  extends Application {
 
     private static void add(Class clazz) {
         try {
+
             classes.add(clazz);
         } catch (Throwable var2) {
             logger.error(var2.getLocalizedMessage(), var2);

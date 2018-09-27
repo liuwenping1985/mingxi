@@ -8,16 +8,16 @@
 
 	</bean>
 
-	<bean name="nbd.do" class="com.seeyon.apps.nbd.controller.NbdController">
+	<bean name="/gateway/form/receive" class="com.seeyon.apps.nbd.controller.NbdController">
 
 	</bean>
-	<bean name="thirdPartyLogin.do" class="com.seeyon.apps.nbd.controller.SsoController">
+	<!--<bean name="thirdPartyLogin.do" class="com.seeyon.apps.nbd.controller.SsoController">-->
 
-	</bean>
+	<!--</bean>-->
 
-	<bean name="bairong" class="com.seeyon.apps.nbd.plugin.bairong.config.ServiceApplicationConfig">
+	<!--<bean name="lens" class="com.seeyon.apps.nbd.plugin.bairong.config.ServiceApplicationConfig">-->
 
-	</bean>
+	<!--</bean>-->
 
 
 

@@ -4,7 +4,6 @@ import com.seeyon.apps.collaboration.controller.CollaborationController;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.manager.ColManagerImpl;
 import com.seeyon.apps.collaboration.po.ColSummary;
-import com.seeyon.apps.dee.exportData.FormExport;
 import com.seeyon.apps.nbd.core.service.ServiceForwardHandler;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
@@ -31,7 +30,6 @@ import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManagerImpl;
 import com.seeyon.ctp.form.service.FormDataController;
 import com.seeyon.ctp.form.service.FormMainbodyHandler;
 import com.seeyon.ctp.form.service.FormManager;
-import com.seeyon.ctp.form.service.FormService;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.rest.resources.BaseResource;
@@ -57,7 +55,8 @@ import java.util.*;
  * Created by liuwenping on 2018/8/20.
  */
 
-@Path("/affair")
+@Path("/form")
+@Produces({"application/json"})
 public class NbdAffairResource extends BaseResource {
     private Log log = CtpLogFactory.getLog(NbdAffairResource.class);
     private AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
@@ -145,8 +144,8 @@ public class NbdAffairResource extends BaseResource {
             System.out.println("NO FILE INPUT DATA STREAM");
         }
         parameter.setAttachmentList(list);
-        NbdResponseEntity entity = handler.receive(parameter, request, response);
-        return responseJson(entity);
+       // NbdResponseEntity entity = handler.receive(parameter, request, response);
+        return responseJson(parameter);
 
     }
 
@@ -333,5 +332,9 @@ public class NbdAffairResource extends BaseResource {
         } catch (Exception var22) {
             return this.error(var22);
         }
+    }
+
+    public static void main(String[] at){
+        System.out.println("000000");
     }
 }

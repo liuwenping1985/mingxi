@@ -1,17 +1,14 @@
 package com.seeyon.apps.nbd.platform.bpm;
 
 import com.kg.commons.utils.CollectionUtils;
-import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.content.comment.CommentManager;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
-import com.seeyon.ctp.common.filemanager.manager.AttachmentManagerImpl;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.TemplateManager;
-import com.seeyon.ctp.common.template.manager.TemplateManagerImpl;
 import com.seeyon.ctp.form.bean.FormBean;
 import com.seeyon.ctp.form.bean.FormFieldBean;
 import com.seeyon.ctp.form.service.FormManager;
@@ -21,7 +18,6 @@ import com.seeyon.ctp.organization.manager.OrgManagerDirect;
 import com.seeyon.ctp.rest.resources.FlowResource;
 import com.seeyon.ctp.services.CTPLocator;
 import com.seeyon.ctp.util.json.JSONUtil;
-import com.seeyon.ctp.workflow.supernode.WorkflowSuperNodeApi;
 import com.seeyon.oainterface.common.PropertyList;
 import com.seeyon.v3x.edoc.dao.EdocOpinionDao;
 import com.seeyon.v3x.services.ErrorServiceMessage;
@@ -29,13 +25,10 @@ import com.seeyon.v3x.services.ServiceException;
 import com.seeyon.v3x.services.document.DocumentFactory;
 import com.seeyon.v3x.services.flow.FlowFactory;
 import com.seeyon.v3x.services.flow.FlowService;
-import com.seeyon.v3x.services.flow.impl.FlowFactoryImpl;
 import com.seeyon.v3x.services.flow.log.FlowLog;
 import com.seeyon.v3x.services.flow.log.FlowLogFactory;
 import com.seeyon.v3x.services.form.FormUtils;
-import com.seeyon.v3x.services.form.bean.DefinitionExport;
 import com.seeyon.v3x.services.form.bean.FormExport;
-import com.seeyon.v3x.services.form.bean.SubordinateFormExport;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,7 +56,7 @@ public class NbdBpmnService {
     private OrgManager orgManager;
     private OrgManagerDirect orgManagerDirect;
     private CommentManager commentManager;
-    private WorkflowSuperNodeApi api;
+   // private WorkflowSuperNodeApi api;
 
 
     public long sendCollaboration(String templateCode, Map<String, Object> param) throws ServiceException, Exception, BusinessException {
@@ -411,13 +404,7 @@ public class NbdBpmnService {
         this.commentManager = commentManager;
     }
 
-    public WorkflowSuperNodeApi getApi() {
-        return api;
-    }
 
-    public void setApi(WorkflowSuperNodeApi api) {
-        this.api = api;
-    }
 
 
     private Map<String, Object> jsonValueToXml(Map<String, Object> param, String templateCode) {
