@@ -27,7 +27,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             return null;
         }
 
-        // Map<String,>
+        //Map<String,>
         //分别解析各个table，然后组装关联关系
         List<FormTable> slaveTableList = new ArrayList<FormTable>();
         for (Map table : tables) {
@@ -47,7 +47,6 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             }
             if ("slave".equals(ft.getTabletype())) {
                 slaveTableList.add(ft);
-
             } else {
                 ft.setSlaveTableList(slaveTableList);
                 definition.setFormTable(ft);
