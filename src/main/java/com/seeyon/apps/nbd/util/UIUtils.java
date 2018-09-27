@@ -22,6 +22,8 @@ import www.seeyon.com.utils.Base64Util;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -145,5 +147,25 @@ public class UIUtils {
 
 
         return classData;
+    }
+
+    private static SimpleDateFormat year_month_day = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat year_month_day_hour_min_sec = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+    public static Date parseDateYearMonthDay(String startDate){
+        try{
+            return year_month_day.parse(startDate);
+        }catch(Exception e){
+            return null;
+        }
+
+    }
+
+    public static Date parseDate(String startDate){
+        try{
+            return year_month_day_hour_min_sec.parse(startDate);
+        }catch(Exception e){
+            return null;
+        }
     }
 }

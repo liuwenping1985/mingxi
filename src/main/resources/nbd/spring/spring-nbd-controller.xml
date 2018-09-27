@@ -8,7 +8,7 @@
 
 	</bean>
 
-	<bean name="/gateway/form/receive" class="com.seeyon.apps.nbd.controller.NbdController">
+	<bean name="/gateway/form/receive.do" class="com.seeyon.apps.nbd.controller.NbdController">
 
 	</bean>
 	<!--<bean name="thirdPartyLogin.do" class="com.seeyon.apps.nbd.controller.SsoController">-->
