@@ -10,8 +10,12 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import com.seeyon.apps.nbd.util.StringUtils;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.fileupload.FileUploadController;
+import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +34,9 @@ import java.util.Map;
 public class NbdController extends BaseController{
 
     private PluginServiceManager nbdPluginServiceManager;
+
+
+    private FileManager fileManager = (FileManager) AppContext.getBean("fileManager");
 
 
     private PluginServiceManager getNbdPluginServiceManager(){
@@ -178,19 +185,27 @@ public class NbdController extends BaseController{
             return null;
 
         }
-        String path = "D:/Seeyon/A8/base/temporary/";
-        path = path+fileId;
-        String downloadSuffix = "decryption";
-        path+=downloadSuffix;
-        // path是指欲下载的文件的路径。
-        File file = new File(path);
+//        String path = "D:/Seeyon/A8/base/temporary/";
+//        path = path+fileId;
+//        String downloadSuffix = "decryption";
+//        path+=downloadSuffix;
+//        // path是指欲下载的文件的路径。
+//        File file = new File(path);
+//        if(!file.exists()){
+//
+//        }
+        try {
+            V3XFile v3xfile = fileManager.getV3XFile(Long.parseLong(fileId));
+            File file = fileManager.getFile(Long.parseLong(fileId), v3xfile.getCreateDate());
+            String filename = v3xfile.getFilename();
+
         // 取得文件名。
-        String filename = file.getName();
+
         // 取得文件的后缀名。
-        String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+        //String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
 
         // 以流的形式下载文件。
-        InputStream fis = new BufferedInputStream(new FileInputStream(path));
+        InputStream fis = new BufferedInputStream(new FileInputStream(file));
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
@@ -205,7 +220,9 @@ public class NbdController extends BaseController{
         toClient.flush();
         toClient.close();
 
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
