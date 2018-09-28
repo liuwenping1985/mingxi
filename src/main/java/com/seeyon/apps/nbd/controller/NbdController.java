@@ -214,7 +214,7 @@ public class NbdController extends BaseController {
            if(ret!=null){
                return String.valueOf(ret);
            }
-            String sql = "select * from ctp_enum_item where ref_enumid="+enumId;
+           String sql = "select * from ctp_enum_item where ref_enumid="+enumId;
            System.out.println(sql);
             JDBCAgent jdbcAgent = new JDBCAgent();
             try {
