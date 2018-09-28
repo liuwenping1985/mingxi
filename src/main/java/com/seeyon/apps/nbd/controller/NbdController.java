@@ -55,7 +55,7 @@ public class NbdController extends BaseController {
 
     @NeedlessCheckLogin
     public ModelAndView selectCommdityMall(HttpServletRequest request, HttpServletResponse response) {
-
+        //com.seeyon.ctp.portal.sso.login.SSOTicketLoginAuthentication ghl;
 
         return null;
 
@@ -106,6 +106,15 @@ public class NbdController extends BaseController {
                 return null;
             }
             formmain0635.setField0004(String.valueOf(memberId));
+            formmain0635.setStartMemberId(formmain0635.getField0004());
+            formmain0635.setModifyMemberId("0");
+            formmain0635.setStartDate(new Date());
+            formmain0635.setApproveDate(new Date());
+            formmain0635.setState(0);
+            formmain0635.setFinishedFlag(0);
+            formmain0635.setApproveMemberId("0");
+            formmain0635.setRatifyFlag(0);
+            formmain0635.setRatifyMemberId("0");
             String department = parameter.$("department");
             Long unitId = getDepartmentIdByCode(department);
             formmain0635.setField0005(String.valueOf(unitId));
@@ -198,7 +207,7 @@ public class NbdController extends BaseController {
     private Map<String,Long> cacheEnumMap = new HashMap<String, Long>();
     private String getEnumIdByState(String state){
        String enumId =  ConfigService.getPropertyByName("state_enum_id","");
-        System.out.println("enumId:"+enumId);
+      //  System.out.println("enumId:"+enumId);
        if(!StringUtils.isEmpty(enumId)){
 
            Long ret = cacheEnumMap.get(state);
@@ -218,8 +227,8 @@ public class NbdController extends BaseController {
                         Long id = Long.parseLong(String.valueOf(data.get("id")));
                         cacheEnumMap.put(String.valueOf(data.get("showvalue")),id);
                     }
-                    System.out.println(cacheEnumMap);
-                    System.out.println(state);
+                    //System.out.println(cacheEnumMap);
+                    //System.out.println(state);
 
                     ret = cacheEnumMap.get(state);
                     System.out.println(ret);

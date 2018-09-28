@@ -8,7 +8,18 @@ import java.util.Date;
  * Created by liuwenping on 2018/9/27.
  */
 public class Formmain0635 extends BasePO{
-
+    private Integer state;
+    private String startMemberId;
+    private Date startDate;
+    private String approveMemberId;
+    private Date approveDate;
+    private Integer finishedFlag;
+    private Integer ratifyFlag;
+    private String ratifyMemberId;
+    private Date ratifyDate;
+    private Integer sort;
+    private String modifyMemberId;
+    private Date modifyDate;
     private String field0001;
     private String field0002;
     private String field0003;
@@ -108,5 +119,101 @@ public class Formmain0635 extends BasePO{
 
     public void setField0011(Date field0011) {
         this.field0011 = field0011;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public String getStartMemberId() {
+        return startMemberId;
+    }
+
+    public void setStartMemberId(String startMemberId) {
+        this.startMemberId = startMemberId;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getApproveMemberId() {
+        return approveMemberId;
+    }
+
+    public void setApproveMemberId(String approveMemberId) {
+        this.approveMemberId = approveMemberId;
+    }
+
+    public Date getApproveDate() {
+        return approveDate;
+    }
+
+    public void setApproveDate(Date approveDate) {
+        this.approveDate = approveDate;
+    }
+
+    public Integer getFinishedFlag() {
+        return finishedFlag;
+    }
+
+    public void setFinishedFlag(Integer finishedFlag) {
+        this.finishedFlag = finishedFlag;
+    }
+
+    public Integer getRatifyFlag() {
+        return ratifyFlag;
+    }
+
+    public void setRatifyFlag(Integer ratifyFlag) {
+        this.ratifyFlag = ratifyFlag;
+    }
+
+    public String getRatifyMemberId() {
+        return ratifyMemberId;
+    }
+
+    public void setRatifyMemberId(String ratifyMemberId) {
+        this.ratifyMemberId = ratifyMemberId;
+    }
+
+    public Date getRatifyDate() {
+        return ratifyDate;
+    }
+
+    public void setRatifyDate(Date ratifyDate) {
+        this.ratifyDate = ratifyDate;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getModifyMemberId() {
+        return modifyMemberId;
+    }
+
+    public void setModifyMemberId(String modifyMemberId) {
+        this.modifyMemberId = modifyMemberId;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 }
