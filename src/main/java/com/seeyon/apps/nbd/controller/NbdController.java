@@ -7,27 +7,40 @@ import com.seeyon.apps.nbd.po.Formmain0635;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.apps.nbd.vo.CheckResult;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.constants.Constants;
+import com.seeyon.ctp.common.constants.LoginResult;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.flag.BrowserEnum;
+import com.seeyon.ctp.common.flag.SysFlag;
+import com.seeyon.ctp.common.i18n.LocaleContext;
+import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
+import com.seeyon.ctp.login.LoginControlImpl;
+import com.seeyon.ctp.login.online.OnlineRecorder;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.po.OrgMember;
 import com.seeyon.ctp.organization.po.OrgUnit;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.JDBCAgent;
+import com.seeyon.ctp.util.Strings;
+import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2018/8/17.
@@ -36,6 +49,18 @@ import java.util.Map;
 public class NbdController extends BaseController {
 
 
+    private LoginControlImpl loginControl;
+
+
+    private LoginControlImpl getLoginControl(){
+        if(loginControl == null){
+            loginControl = (LoginControlImpl)AppContext.getBean("loginControl");
+            if(loginControl == null){
+                loginControl = (LoginControlImpl)AppContext.getBean("loginControlImpl");
+            }
+        }
+        return loginControl;
+    }
     @NeedlessCheckLogin
     public ModelAndView selectTable(HttpServletRequest request, HttpServletResponse response) {
 
@@ -60,6 +85,31 @@ public class NbdController extends BaseController {
         return null;
 
     }
+    @NeedlessCheckLogin
+    public ModelAndView sso(HttpServletRequest request, HttpServletResponse response) {
+//        String user_name = request.getParameter("user_name");
+//
+//        String password = request.getParameter("password");
+//
+//        String skey="oa";
+//
+//        Map ret = null;
+//        try {
+//            String url= ConfigService.getPropertyByName("lens_url","");
+//            url = url+"?loginname="+user_name+"&spassword="+password+"skey="+skey;
+//            ret = UIUtils.get(url);
+//            String retStatus = String.valueOf(ret.get("result"));
+//            if("1".equals(retStatus)){
+//
+//
+//
+//
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        return null;
+    }
 
     @NeedlessCheckLogin
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
@@ -75,7 +125,8 @@ public class NbdController extends BaseController {
         }
         Map retMap = new HashMap();
         /**
-         * "name":"朗斯卫浴项目",
+
+         "name":"朗斯卫浴项目",
          "number":"123456",
          "region":"143223",
          "people":"245634562",//存的id
@@ -86,6 +137,7 @@ public class NbdController extends BaseController {
          " remark ":"待商务待商务待商务待商务待商务待商务待商务",
          " createdate ":"2018-08-22 19:07:40",
          " updatedate ":"2018-08-22 19:07:40"
+
          */
         Formmain0635 formmain0635 = new Formmain0635();
 
@@ -97,7 +149,7 @@ public class NbdController extends BaseController {
             String region = parameter.$("region");
             formmain0635.setField0003(region);
             String people = parameter.$("people");
-            Long memberId = getMemberIdByCode(people);
+            Long memberId = UIUtils.getMemberIdByCode(people);
             if(memberId==null){
                 cr.setResult(false);
                 cr.setMsg("通过人员编码找不到对应人员");
@@ -116,14 +168,14 @@ public class NbdController extends BaseController {
             formmain0635.setRatifyFlag(0);
             formmain0635.setRatifyMemberId("0");
             String department = parameter.$("department");
-            Long unitId = getDepartmentIdByCode(department);
+            Long unitId = UIUtils.getDepartmentIdByCode(department);
             formmain0635.setField0005(String.valueOf(unitId));
             String startdate = parameter.$("startdate");
             formmain0635.setField0006(UIUtils.parseDateYearMonthDay(startdate));
             String enddate = parameter.$("enddate");
             formmain0635.setField0007(UIUtils.parseDateYearMonthDay(enddate));
             String state = parameter.$("state");
-            String stateId = getEnumIdByState(state);
+            String stateId = UIUtils.getEnumIdByState(state);
             formmain0635.setField0008(stateId);
             String remark = parameter.$("remark");
             formmain0635.setField0009(remark);
@@ -204,85 +256,5 @@ public class NbdController extends BaseController {
 
 
     }
-    private Map<String,Long> cacheEnumMap = new HashMap<String, Long>();
-    private String getEnumIdByState(String state){
-       String enumId =  ConfigService.getPropertyByName("state_enum_id","");
-      //  System.out.println("enumId:"+enumId);
-       if(!StringUtils.isEmpty(enumId)){
-
-           Long ret = cacheEnumMap.get(state);
-           if(ret!=null){
-               return String.valueOf(ret);
-           }
-           String sql = "select * from ctp_enum_item where ref_enumid="+enumId;
-           System.out.println(sql);
-            JDBCAgent jdbcAgent = new JDBCAgent();
-            try {
-                jdbcAgent.execute(sql);
-                List<Map> dataList = jdbcAgent.resultSetToList();
-                System.out.println(dataList);
-                if(!CollectionUtils.isEmpty(dataList)){
-
-                    for(Map data:dataList){
-                        Long id = Long.parseLong(String.valueOf(data.get("id")));
-                        cacheEnumMap.put(String.valueOf(data.get("showvalue")),id);
-                    }
-                    //System.out.println(cacheEnumMap);
-                    //System.out.println(state);
-
-                    ret = cacheEnumMap.get(state);
-                    System.out.println(ret);
-                    if(ret!=null){
-                        return String.valueOf(ret);
-                    }
-                }
-
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally {
-                jdbcAgent.close();
-            }
-       }
-
-       return state;
-    }
-    private Long getMemberIdByCode(String code){
-
-
-       return getIdByCodeAndType(code,"org_member");
-    }
-    private Long getDepartmentIdByCode(String code){
-
-        return getIdByCodeAndType(code,"org_unit");
-    }
-
-    private Long getIdByCodeAndType(String code,String tableName){
-        JDBCAgent jdbcAgent = new JDBCAgent();
-        try {
-            String sql ="select * from "+tableName+" where is_enable=1 and is_deleted=0 and code='"+code+"'";
-            System.out.println(sql);
-            jdbcAgent.execute(sql);
-
-            List<Map> ret = jdbcAgent.resultSetToList();
-
-            if(CollectionUtils.isEmpty(ret)){
-                return null;
-            }
-            Object id =   ret.get(0).get("id");
-            if(id instanceof  Long){
-                return (Long)id;
-            }
-            if(id instanceof BigDecimal){
-                return ((BigDecimal)id).longValue();
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
-            jdbcAgent.close();
-        }
-        return null;
-
-    }
-
 
 }

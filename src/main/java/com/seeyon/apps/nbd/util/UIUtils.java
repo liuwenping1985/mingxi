@@ -1,30 +1,37 @@
 package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.xinjue.vo.HaiXingParameter;
 import com.seeyon.ctp.menu.manager.PortalMenuManagerImpl;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
+import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.ctp.util.json.JSONUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,6 +73,37 @@ public class UIUtils {
             response.addHeader(String.valueOf(key),String.valueOf(param.get(key)));
         }
         responseJSON(data,response);
+    }
+    public static Map get(String url) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        // 设置超时时间
+        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 2000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 2000);
+        // 构建消息实体
+        //UrlEncodedFormEntity f_entity = new UrlEncodedFormEntity(BrNameValuePair.toNameValuePairList(param), Charset.forName("UTF-8"));
+        HttpGet httpGet = new HttpGet(url);
+        HttpResponse response = null;
+        try {
+            response = httpClient.execute(httpGet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 检验返回码
+        int statusCode = response.getStatusLine().getStatusCode();
+        System.out.println("statusCode:"+statusCode);
+        if(statusCode == HttpStatus.SC_OK){
+            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+            // System.out.println("content:"+str);
+            return  JSON.parseObject(str,HashMap.class);
+
+        }else {
+            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+            System.out.println("content:"+str);
+            return  JSON.parseObject(str,HashMap.class);
+
+        }
+
     }
 
     public static Map post(String url,Map param) throws IOException {
@@ -168,4 +206,85 @@ public class UIUtils {
             return null;
         }
     }
+    private static Map<String,Long> cacheEnumMap = new HashMap<String, Long>();
+    public static String getEnumIdByState(String state){
+        String enumId =  ConfigService.getPropertyByName("state_enum_id","");
+        //  System.out.println("enumId:"+enumId);
+        if(!StringUtils.isEmpty(enumId)){
+
+            Long ret = cacheEnumMap.get(state);
+            if(ret!=null){
+                return String.valueOf(ret);
+            }
+            String sql = "select * from ctp_enum_item where ref_enumid="+enumId;
+            System.out.println(sql);
+            JDBCAgent jdbcAgent = new JDBCAgent();
+            try {
+                jdbcAgent.execute(sql);
+                List<Map> dataList = jdbcAgent.resultSetToList();
+                System.out.println(dataList);
+                if(!CollectionUtils.isEmpty(dataList)){
+
+                    for(Map data:dataList){
+                        Long id = Long.parseLong(String.valueOf(data.get("id")));
+                        cacheEnumMap.put(String.valueOf(data.get("showvalue")),id);
+                    }
+                    //System.out.println(cacheEnumMap);
+                    //System.out.println(state);
+
+                    ret = cacheEnumMap.get(state);
+                    System.out.println(ret);
+                    if(ret!=null){
+                        return String.valueOf(ret);
+                    }
+                }
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally {
+                jdbcAgent.close();
+            }
+        }
+
+        return state;
+    }
+    public static Long getMemberIdByCode(String code){
+
+
+        return getIdByCodeAndType(code,"org_member");
+    }
+    public static Long getDepartmentIdByCode(String code){
+
+        return getIdByCodeAndType(code,"org_unit");
+    }
+
+    public static Long getIdByCodeAndType(String code,String tableName){
+        JDBCAgent jdbcAgent = new JDBCAgent();
+        try {
+            String sql ="select * from "+tableName+" where is_enable=1 and is_deleted=0 and code='"+code+"'";
+            System.out.println(sql);
+            jdbcAgent.execute(sql);
+
+            List<Map> ret = jdbcAgent.resultSetToList();
+
+            if(CollectionUtils.isEmpty(ret)){
+                return null;
+            }
+            Object id =   ret.get(0).get("id");
+            if(id instanceof  Long){
+                return (Long)id;
+            }
+            if(id instanceof BigDecimal){
+                return ((BigDecimal)id).longValue();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            jdbcAgent.close();
+        }
+        return null;
+
+    }
+
+
 }

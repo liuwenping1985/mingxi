@@ -13,17 +13,12 @@ import com.seeyon.ctp.common.flag.BrowserEnum;
 import com.seeyon.ctp.common.flag.SysFlag;
 import com.seeyon.ctp.common.i18n.LocaleContext;
 import com.seeyon.ctp.common.i18n.ResourceUtil;
-import com.seeyon.ctp.login.LoginControl;
 import com.seeyon.ctp.login.LoginControlImpl;
-import com.seeyon.ctp.login.SSOTicketLoginAuthentication;
-import com.seeyon.ctp.login.controller.MainController;
 import com.seeyon.ctp.login.online.OnlineRecorder;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.organization.po.OrgMember;
 import com.seeyon.ctp.rest.resources.BaseResource;
-import com.seeyon.ctp.util.StringUtil;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.RestInterfaceAnnotation;
@@ -40,6 +35,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -128,7 +124,8 @@ public class NbdSSOResource  extends BaseResource {
         return (OrgManager)AppContext.getBean("orgManager");
     }
 
-    private User login(V3xOrgMember handleMember) throws BusinessException {
+    public User login(V3xOrgMember handleMember) throws BusinessException {
+
         User user = new User();
         user.setId(handleMember.getId());
         user.setDepartmentId(handleMember.getOrgDepartmentId());
@@ -161,6 +158,14 @@ public class NbdSSOResource  extends BaseResource {
         this.getLoginControl().getTopFrame(user, request);
         response.addHeader("LoginOK", "ok");
         response.addHeader("VJA", user.isAdmin()?"1":"0");
+
+        try {
+            response.sendRedirect("/seeyon/main.do?method=main");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         return user;
     }
 
