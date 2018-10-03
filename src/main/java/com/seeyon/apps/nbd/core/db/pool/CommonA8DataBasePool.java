@@ -15,7 +15,7 @@ public class CommonA8DataBasePool {
 
     public void sync(){
 
-        ComboPooledDataSource source = new ComboPooledDataSource();
+         source = new ComboPooledDataSource();
 
         source.setAcquireIncrement(2);
         try {
@@ -25,7 +25,7 @@ public class CommonA8DataBasePool {
         }
         source.setAutoCommitOnClose(false);
         source.setJdbcUrl("");
-        //source.getConnection();
+
     }
 
     public Connection getConnection() throws SQLException {

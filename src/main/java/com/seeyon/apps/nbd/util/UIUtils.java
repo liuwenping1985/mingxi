@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.ctp.common.init.MclclzUtil;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
 import com.seeyon.ctp.util.json.JSONUtil;
@@ -16,9 +17,7 @@ import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,27 +99,27 @@ public class UIUtils {
     }
 
     public static void main(String[] args) throws InterruptedException, IOException {
-       // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
+        //Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.product.ProductInfo");
 
       //  ClassPool pool = ClassPool.getDefault();
-      //  UIUtils u = new UIUtils();
-      //  byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
+        UIUtils u = new UIUtils();
+        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
        // pool.getClassLoader()
   //      PortalMenuManagerImpl impl;
         System.out.println("1");
-//        String path = "/Users/liuwenping/Documents/wmm/LoginHelper.class";
-//        File f = new File(path);
-//        if(f.exists()){
-//            f.delete();
-//            f.createNewFile();
-//
-//        }else{
-//            f.createNewFile();
-//        }
-//        FileOutputStream out = new FileOutputStream(f);
-//        out.write(bytes);
-//        out.flush();
-//        out.close();
+        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+        File f = new File(path);
+        if(f.exists()){
+            f.delete();
+            f.createNewFile();
+
+        }else{
+            f.createNewFile();
+        }
+        FileOutputStream out = new FileOutputStream(f);
+        out.write(bytes);
+        out.flush();
+        out.close();
     }
 
     public byte[] loadClassData(String className) throws IOException {

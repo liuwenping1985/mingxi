@@ -42,6 +42,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,6 +58,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernet.utils.OutNa;
@@ -76,6 +78,11 @@ public final class ProductInfo {
     private static int maxOnlineSize = 0;
     private static int maxRegisterSize = 0;
     private static int maxCompanySize = 0;
+    private static int maxVjOnlineSize = 0;
+    private static int maxVjRegisterSize = 0;
+    private static Date vjoinOverDate = null;
+    private static Date rongCloudDate = null;
+    private static int rongCloudRegisterSize = -1;
     private static Map<String, Map<String, Object>> dogBindingMap = new HashMap();
     private static final String fileSeparator;
     private static MSGMocnoyees mocnoyeesA;
@@ -94,9 +101,12 @@ public final class ProductInfo {
     private static String mxProductLine;
     private Connection con = null;
     private boolean isSignatureDisabled = true;
+    private static boolean isVJoinInited;
     private static final Class<?> c3;
     private static String ClusterTempHostNo;
     private static boolean ClusterSlaveOK;
+    public static final int PERMISSION_TYPE_RES = 1;
+    public static final int PERMISSION_TYPE_ONLINE = 2;
     public static final Integer DELAY_SHUTDOWN_MINUTES;
     private static Integer expireDayNum;
 
@@ -120,6 +130,7 @@ public final class ProductInfo {
         oldDog = null;
         isOldTG = false;
         mxProductLine = "M1";
+        isVJoinInited = false;
         c3 = MclclzUtil.ioiekc("com.seeyon.ctp.permission.bo.LicensePerInfo");
         ClusterTempHostNo = String.valueOf(UUID.randomUUID().getMostSignificantBits());
         ClusterSlaveOK = false;
@@ -133,18 +144,17 @@ public final class ProductInfo {
     public synchronized void init() {
         try {
             ClusterConfigBean clusterConfigBean = ClusterConfigBean.getInstance();
-            ClusterConfigValidator clusterConfigValidator = ClusterConfigValidator.getInstance();
             boolean isLoadDog = true;
             if(clusterConfigBean.isClusterEnabled()) {
                 this.initCluster();
                 if(!clusterConfigBean.isClusterMain()) {
                     logger.info("当前是从服务器，开始从主服务器同步产品加密信息(最长需要20秒)...");
-                    int var4 = 0;
+                    int var3 = 0;
 
-                    while(!ClusterSlaveOK && var4++ < 10) {
+                    while(!ClusterSlaveOK && var3++ < 10) {
                         try {
                             Thread.sleep(2000L);
-                        } catch (InterruptedException var12) {
+                        } catch (InterruptedException var11) {
                             ;
                         }
                     }
@@ -158,14 +168,17 @@ public final class ProductInfo {
                     isLoadDog = false;
                 }
 
+                ClusterConfigValidator clusterConfigValidator = ClusterConfigValidator.getInstance();
                 clusterConfigValidator.validate();
             }
 
             if(isLoadDog) {
                 try {
                     mocnoyeesVer = new VERMocnoyees(versionFileFullPath);
-                } catch (Throwable var11) {
-                    out("验证产品版本文件无效: " + var11.getMessage());
+                    String oem = mocnoyeesVer.methodg("");
+                    logger.info(mocnoyeesVer.methode("") + " " + mocnoyeesVer.methodc("") + " " + (oem == null?"":oem));
+                } catch (Throwable var10) {
+                    out("验证产品版本文件无效: " + var10.getMessage());
                     return;
                 }
 
@@ -184,7 +197,7 @@ public final class ProductInfo {
                         if(mocnoyeesVer.methoddev(developEditionFileFullPath)) {
                             isVerDev = true;
                         }
-                    } catch (Throwable var10) {
+                    } catch (Throwable var9) {
                         logger.info("不是开发版");
                     }
 
@@ -194,8 +207,8 @@ public final class ProductInfo {
                         oldDog = new OutNa();
                         oldDog.proc1(1);
                         isOldTG = oldDog.proc9();
-                    } catch (Throwable var16) {
-                        msg = var16.getMessage();
+                    } catch (Throwable var15) {
+                        msg = var15.getMessage();
                         if(msg.contains("3023") || msg.contains("1008") || msg.contains("2021") || msg.contains("2022") || msg.contains("2023")) {
                             out("D-" + msg);
                             return;
@@ -249,8 +262,8 @@ public final class ProductInfo {
                                 if(!String.valueOf(UserTypeEnum.internal.getKey()).equals(mocnoyeesA.methoda(productLine))) {
                                     this.checkProductInfo4DogAndProgram();
                                 }
-                            } catch (Throwable var13) {
-                                out("验证版本号和版本匹配情况异常: " + var13.getMessage());
+                            } catch (Throwable var12) {
+                                out("验证版本号和版本匹配情况异常: " + var12.getMessage());
                                 return;
                             }
 
@@ -261,22 +274,23 @@ public final class ProductInfo {
                                 CHKUMocnoyees.checkFile(signatureFileFullPath, rootFolder);
                             }
                         }
-                    } catch (DogException var14) {
+                    } catch (DogException var13) {
+                        out("验证产品加密狗无效: " + var13.getErrorMsg());
+                        var13.printStackTrace();
+                        throw var13;
+                    } catch (Throwable var14) {
+                        out("验证产品加密狗无效: " + var14.getMessage());
                         var14.printStackTrace();
-                        out("验证产品加密狗无效: " + var14.getErrorMsg());
-                        return;
-                    } catch (Throwable var15) {
-                        var15.printStackTrace();
-                        out("验证产品加密狗无效: " + var15.getMessage());
-                        return;
+                        throw new DogException(var14);
                     }
 
                     this.initOnlineSize(isVerDev);
                     this.initRegisterSize(isVerDev);
                     this.initCompanySize(isVerDev);
                     this.initDog2Cache();
-                    this.checkCompnayCount();
+                    this.checkCompanyCount();
                     initLocalMxDogBinding();
+                    initVJoinDogInfo();
                 }
             }
 
@@ -285,12 +299,12 @@ public final class ProductInfo {
             if(this.con != null) {
                 try {
                     this.con.close();
-                } catch (SQLException var9) {
+                } catch (SQLException var8) {
                     ;
                 }
             }
-        } catch (Exception var17) {
-            var17.printStackTrace();
+        } catch (Exception var16) {
+            var16.printStackTrace();
         }
 
         this.runExpireCheck((Map)null);
@@ -298,8 +312,8 @@ public final class ProductInfo {
 
     private void expireInfo() {
         try {
-            if((new Date()).before(DateUtil.parse("2017-06-30 23:59:00"))) {
-                System.out.println("当前运行的产品为beta版本，仅可在2017年6月30日前使用，请注意及时升级！");
+            if((new Date()).before(DateUtil.parse("2018-06-30 23:59:00"))) {
+                System.out.println("当前运行的产品为beta版本，仅可在2018年6月30日前使用，请注意及时升级！");
                 System.out.println("**************************************************************************");
             } else {
                 out("您使用的是beta版，已到使用期限，请进行升级！");
@@ -311,7 +325,7 @@ public final class ProductInfo {
     }
 
     private void updateAccountBind() {
-        if(mocnoyeesA.methodzz("accountbind")) {
+        if(mocnoyeesA != null && mocnoyeesA.methodzz("accountbind")) {
             boolean isGroup = ((Boolean)SysFlag.sys_isGroupVer.getFlag()).booleanValue();
             long id = isGroup?-1730833917365171641L:670869647114347L;
             String sql = "UPDATE org_unit SET name =? WHERE id = ?";
@@ -338,7 +352,7 @@ public final class ProductInfo {
         return versionFileFullPath;
     }
 
-    private void checkCompnayCount() {
+    private void checkCompanyCount() {
         String sql = "SELECT count(*) FROM org_unit WHERE TYPE = 'Account' AND IS_ENABLE = 1 AND IS_DELETED = 0 AND STATUS = 1 AND IS_GROUP = 0";
         long companyCount = 0L;
         Statement s = null;
@@ -387,17 +401,21 @@ public final class ProductInfo {
         return name;
     }
 
+    private Date getMaxLoginTime() {
+        return null;
+    }
+
     private void checkRegisterSize() {
-//        try {
-//            Object o = MclclzUtil.invoke(c3, "getInstance", new Class[]{String.class}, (Object)null, new Object[]{""});
-//            Integer serverType = (Integer)MclclzUtil.invoke(c3, "getserverType", (Class[])null, o, (Object[])null);
-//            boolean licensePerServerValid = ((Boolean)MclclzUtil.invoke(c3, "licensePerServerValid", (Class[])null, o, (Object[])null)).booleanValue();
-//            if(serverType.intValue() == 1 && !licensePerServerValid) {
-//                out("系统启动失败，当前系统实际注册用户数超出授权注册用户数限制！" + getMaxRegisterSize());
-//            }
-//        } catch (Exception var4) {
-//            out("系统启动失败，注册数授权验证异常：" + var4.getMessage());
-//        }
+        try {
+            Object o = MclclzUtil.invoke(c3, "getInstance", new Class[]{String.class}, (Object)null, new Object[]{""});
+            Integer serverType = (Integer)MclclzUtil.invoke(c3, "getserverType", (Class[])null, o, (Object[])null);
+            boolean licensePerServerValid = ((Boolean)MclclzUtil.invoke(c3, "licensePerServerValid", (Class[])null, o, (Object[])null)).booleanValue();
+            if(serverType.intValue() == 1 && !licensePerServerValid) {
+                out("系统启动失败，当前系统实际注册用户数超出授权注册用户数限制！" + getMaxRegisterSize());
+            }
+        } catch (Exception var4) {
+            out("系统启动失败，注册数授权验证异常：" + var4.getMessage());
+        }
 
     }
 
@@ -507,12 +525,11 @@ public final class ProductInfo {
                         String text = result.substring(b + 5, e);
                         String lic = decrypt(text, privateExponent, modulus);
                         String[] lics = lic.split("[#]");
-                        maxOnlineSize = Integer.parseInt(lics[0]);
-                       // int maxM1OnlineSize = false;
+                        maxOnlineSize = NumberUtils.toInt(lics[0], 0);
                         int maxM1OnlineSize;
                         if(maxOnlineSize > 0) {
-                            maxM1OnlineSize = Integer.parseInt(lics[1]);
-                            maxCompanySize = Integer.parseInt(lics[2]);
+                            maxM1OnlineSize = NumberUtils.toInt(lics[1], 0);
+                            maxCompanySize = NumberUtils.toInt(lics[2], 0);
 
                             for(int i = 3; i < lics.length; ++i) {
                                 String p = lics[i];
@@ -595,11 +612,90 @@ public final class ProductInfo {
 
                 return result;
             } catch (Throwable var11) {
-                return new HashMap();
+                return Collections.EMPTY_MAP;
             }
         } else {
             return null;
         }
+    }
+
+    private static void initVJoinDogInfo() {
+        if(!isVJoinInited) {
+            String maxOnline = "5";
+            String maxReg = "0";
+            String overDateStr = "";
+            if(isValidPlugin("vjoin")) {
+                if(!isVerDev && !isTongDog()) {
+                    maxOnline = mocnoyeesA.methodz("vjoin.vj1");
+                    maxReg = mocnoyeesA.methodz("vjoin.vj2");
+                    overDateStr = mocnoyeesA.methodz("vjoin.vj3");
+                    String pattern = "yyyy-MM-dd";
+                    overDateStr = overDateStr == null?"":overDateStr;
+                    if(!overDateStr.contains("-")) {
+                        pattern = "yyyyMMdd";
+                    }
+
+                    try {
+                        vjoinOverDate = DateUtil.parse(overDateStr, pattern);
+                    } catch (ParseException var5) {
+                        logger.error("VJoin overDate Parse Error:" + overDateStr);
+                    }
+
+                    if(vjoinOverDate != null) {
+                        Date today = DateUtil.currentDate();
+                        if(today.after(vjoinOverDate)) {
+                            maxOnline = "0";
+                            maxReg = "0";
+                            logger.error("VJoin加密狗校验失败，已过期。" + overDateStr);
+                        }
+                    }
+                }
+
+                maxVjOnlineSize = NumberUtils.toInt(maxOnline, 0);
+                maxVjRegisterSize = NumberUtils.toInt(maxReg, 0);
+                logger.info("V-JOIN加密信息初始化完毕： " + maxOnline + " " + maxReg + " " + overDateStr);
+                isVJoinInited = true;
+            } else {
+                if(isVerDev || isTongDog()) {
+                    maxVjOnlineSize = NumberUtils.toInt(maxOnline, 0);
+                    maxVjRegisterSize = NumberUtils.toInt(maxReg, 0);
+                    logger.info("V-JOIN加密信息初始化完毕： " + maxVjOnlineSize + " " + maxVjRegisterSize + " ");
+                }
+
+                isVJoinInited = true;
+            }
+        }
+    }
+
+    private static boolean checkRongCloud() {
+        if(!isVerDev && !isTongDog()) {
+            Date rongCloudOverDate = null;
+            String overDateStr = mocnoyeesA.methodz("zx.overdate");
+            String pattern = "yyyy-MM-dd";
+            overDateStr = overDateStr == null?"":overDateStr;
+            if(!overDateStr.contains("-")) {
+                pattern = "yyyyMMdd";
+            }
+
+            try {
+                rongCloudOverDate = DateUtil.parse(overDateStr, pattern);
+            } catch (ParseException var4) {
+                logger.error("致信有效期解析错误:" + overDateStr);
+            }
+
+            rongCloudDate = rongCloudOverDate;
+            if(rongCloudOverDate != null) {
+                Date today = DateUtil.currentDate();
+                if(today.after(rongCloudOverDate)) {
+                    logger.error("致信已过期：" + overDateStr);
+                    return false;
+                }
+
+                logger.info("致信有效期为：" + overDateStr);
+            }
+        }
+
+        return true;
     }
 
     public static void initLocalMxDogBinding() {
@@ -627,7 +723,7 @@ public final class ProductInfo {
 
         Map<String, String> initM1 = new HashMap();
         initM1.put("M1MaxOnlineSize", maxOnline);
-        initM1.put("M1MaxRegisterSize", "120");
+        initM1.put("M1MaxRegisterSize","500");
         initM1.put("M1VersionName", "1.5.0");
         initM1.put("M1OverDate", overDate);
         initM1.put("M1DogType", "1");
@@ -718,7 +814,7 @@ public final class ProductInfo {
         } else if(isOldTG) {
             maxOnlineSize = 10;
         } else {
-            maxOnlineSize = Integer.parseInt(mocnoyeesA.methodj(productLine));
+            maxOnlineSize = NumberUtils.toInt(mocnoyeesA.methodj(productLine), 0);
         }
 
     }
@@ -729,7 +825,7 @@ public final class ProductInfo {
         } else if(isOldTG) {
             maxRegisterSize = 0;
         } else {
-            maxRegisterSize = 120;//Integer.parseInt(mocnoyeesA.methodq(productLine));
+            maxRegisterSize = 500;//NumberUtils.toInt(mocnoyeesA.methodq(productLine), 0);
         }
 
     }
@@ -743,7 +839,7 @@ public final class ProductInfo {
             maxCompanySize = 0;
         } else {
             try {
-                maxCompanySize = Integer.parseInt(mocnoyeesA.methodz("orgMaxCompany.orgMaxCompany1"));
+                maxCompanySize = NumberUtils.toInt(mocnoyeesA.methodz("orgMaxCompany.orgMaxCompany1"), 0);
             } catch (Exception var3) {
                 maxCompanySize = 0;
             }
@@ -796,44 +892,53 @@ public final class ProductInfo {
             return true;
         } else {
             try {
-                boolean valid;
+                boolean isValid;
                 if(isVerDev || isOldTG) {
-                    valid = false;
+                    isValid = false;
                     if("mm1".equals(pluginId)) {
                         if(getM1MaxOnline() > 0 || getM1MaxRegisterSize() > 0) {
-                            valid = true;
+                            isValid = true;
                         }
                     } else {
                         Info info = (Info)PlugInList.getAllPluginList4ProductLine().get(pluginId);
                         if(info == null) {
-                            valid = false;
+                            isValid = false;
                         } else {
-                            valid = true;
+                            isValid = true;
                         }
                     }
 
-                    if(valid) {
+                    if(isValid) {
                         pluginInfos.add(pluginId);
                     }
 
-                    return valid;
+                    return isValid;
                 }
 
                 if("indexResume".equals(pluginId)) {
-                    valid = isValidPlugin("index");
+                    isValid = isValidPlugin("index");
                 } else if("mm1".equals(pluginId)) {
                     if(getM1MaxOnline() <= 0 && getM1MaxRegisterSize() <= 0) {
-                        valid = false;
+                        isValid = false;
                     } else {
-                        valid = true;
+                        isValid = true;
                     }
-                } else if(!"m3".equals(pluginId)) {
-                    valid = isValidPlugin(pluginId);
+                } else if("m3".equals(pluginId)) {
+                    isValid = "M3".equals(mxProductLine) && (getM1MaxOnline() > 0 || getM1MaxRegisterSize() > 0);
+                } else if(!"vjoin".equals(pluginId)) {
+                    if("zx".equals(pluginId)) {
+                        isValid = isValidPlugin(pluginId);
+                        if(isValid) {
+                            isValid = checkRongCloud();
+                        }
+                    } else {
+                        isValid = isValidPlugin(pluginId);
+                    }
                 } else {
-                    valid = "M3".equals(mxProductLine) && (getM1MaxOnline() > 0 || getM1MaxRegisterSize() > 0);
+                    isValid = getVJoinMaxOnline() > 0 || getVJoinMaxRegisterSize() > 0;
                 }
 
-                if(valid) {
+                if(isValid) {
                     pluginInfos.add(pluginId);
                     return true;
                 }
@@ -871,6 +976,10 @@ public final class ProductInfo {
 
     public static boolean isExceedMaxLoginNumberMx(int number) {
         return isExceedMaxLoginNumberM1(number);
+    }
+
+    public static boolean isExceedMaxLoginNumberVJoin(int number) {
+        return number > getVJoinMaxOnline();
     }
 
     private Connection getConnection() {
@@ -1011,7 +1120,7 @@ public final class ProductInfo {
 
             Map<String, String> initM1 = new HashMap();
             initM1.put("M1MaxOnlineSize", maxOnlineSize);
-            initM1.put("M1MaxRegisterSize", maxRegistSize);
+            initM1.put("M1MaxRegisterSize", "500");
             initM1.put("M1VersionName", versionName);
             initM1.put("M1OverDate", overDate);
             initM1.put("M1DogType", dogType);
@@ -1102,10 +1211,10 @@ public final class ProductInfo {
     /** @deprecated */
     public static int getM1MaxOnline() {
         if(isU8OEM()) {
-            return SeeyonDog.getInstance().getM1();
+            return 0;
         } else {
             Map bindMap = (Map)dogBindingMap.get("M1");
-            return bindMap != null?Integer.parseInt((String)bindMap.get("MaxOnlineSize")):0;
+            return bindMap != null?NumberUtils.toInt((String)bindMap.get("MaxOnlineSize"), 0):0;
         }
     }
 
@@ -1113,11 +1222,54 @@ public final class ProductInfo {
         return getM1MaxOnline();
     }
 
+    public static int getVJoinMaxRegisterSize() {
+        if(maxVjRegisterSize <= 0 && maxVjOnlineSize <= 0) {
+            if(!isValidPlugin("vjoin")) {
+                return 0;
+            }
+
+            initVJoinDogInfo();
+        }
+
+        return maxVjRegisterSize;
+    }
+
+    public static int getVJoinMaxOnline() {
+        if(maxVjRegisterSize <= 0 && maxVjOnlineSize <= 0) {
+            if(!isValidPlugin("vjoin")) {
+                return 0;
+            }
+
+            initVJoinDogInfo();
+        }
+
+        return maxVjOnlineSize;
+    }
+
+    public static Date getVJoinOverDate() {
+        if(maxVjRegisterSize <= 0 && maxVjOnlineSize <= 0) {
+            if(!isValidPlugin("vjoin")) {
+                return null;
+            }
+
+            initVJoinDogInfo();
+        }
+
+        return vjoinOverDate;
+    }
+
+    public static int getVJoinPermissionType() {
+        return maxVjOnlineSize > 0?2:1;
+    }
+
     /** @deprecated */
     public static int getM1MaxRegisterSize() {
-        Map bindMap = (Map)dogBindingMap.get("M1");
-        //return bindMap != null?Integer.parseInt((String)bindMap.get("MaxRegisterSize")):0;
-        return 120;
+        if(isU8OEM()) {
+            return SeeyonDog.getInstance().getM1();
+        } else {
+            Map bindMap = (Map)dogBindingMap.get("M1");
+            return bindMap != null?NumberUtils.toInt((String)bindMap.get("MaxRegisterSize"), 0):0;
+        }
     }
 
     public static int getMxMaxRegisterSize() {
@@ -1129,13 +1281,15 @@ public final class ProductInfo {
     }
 
     public static String getDogNo() {
-        String dogNo = (String)((Map)dogBindingMap.get("dog")).get("dogNo");
+        Map<String, Object> map = (Map)dogBindingMap.get("dog");
+        String dogNo = (String)map.get("dogNo");
         dogNo = TextEncoder.encode(dogNo);
         return dogNo;
     }
 
     public static String getUserType() {
-        return "" + ((Map)dogBindingMap.get("dog")).get("userType");
+        Map<String, Object> map = (Map)dogBindingMap.get("dog");
+        return "" + map.get("userType");
     }
 
     public static String getVersion() {
@@ -1144,46 +1298,117 @@ public final class ProductInfo {
     }
 
     public static String getVersionNo() {
-        return (String)((Map)dogBindingMap.get("dog")).get("versionNo");
+        Map<String, Object> map = (Map)dogBindingMap.get("dog");
+        return map == null?"":(String)map.get("versionNo");
     }
 
     public static String getVersionName() {
-        return (String)((Map)dogBindingMap.get("dog")).get("versionName");
+        Map<String, Object> map = (Map)dogBindingMap.get("dog");
+        return map == null?"":(String)map.get("versionName");
     }
 
     public static String getCustomName() {
-        return (String)((Map)dogBindingMap.get("dog")).get("customName");
+        Map<String, Object> map = (Map)dogBindingMap.get("dog");
+        return map == null?"":(String)map.get("customName");
     }
 
     public static String getUseEndDate() {
-        return (String)((Map)dogBindingMap.get("dog")).get("useEndDate");
+        Map<String, Object> map = (Map)dogBindingMap.get("dog");
+        return map == null?null:(String)map.get("useEndDate");
     }
 
     public static int getVDIOSRegisterSize() {
-        return hasPlugin("VoiceDistinguish")?Integer.parseInt(mocnoyeesA.methodz("VoiceDistinguish.vdios")):0;
+        return isValidPlugin("VoiceDistinguish")?NumberUtils.toInt(mocnoyeesA.methodz("VoiceDistinguish.vdios"), 0):0;
     }
 
     public static int getVDAndroidRegisterSize() {
-        return hasPlugin("VoiceDistinguish")?Integer.parseInt(mocnoyeesA.methodz("VoiceDistinguish.vdandroid")):0;
+        return isValidPlugin("VoiceDistinguish")?NumberUtils.toInt(mocnoyeesA.methodz("VoiceDistinguish.vdandroid"), 0):0;
     }
 
     public static Date getVDEndDate() {
-        if(hasPlugin("VoiceDistinguish")) {
-            String overdueDateStr = mocnoyeesA.methodz("VoiceDistinguish.vdenddate");
-            String pattern = "yyyy-MM-dd";
-            if(!overdueDateStr.contains("-")) {
-                pattern = "yyyyMMdd";
-            }
-
-            try {
-                return DateUtil.parse(overdueDateStr, pattern);
-            } catch (ParseException var3) {
-                logger.error(var3.getLocalizedMessage());
+        if(isValidPlugin("VoiceDistinguish")) {
+            if(mocnoyeesA == null) {
                 return null;
+            } else {
+                String overdueDateStr = mocnoyeesA.methodz("VoiceDistinguish.vdenddate");
+                String pattern = "yyyy-MM-dd";
+                if(!overdueDateStr.contains("-")) {
+                    pattern = "yyyyMMdd";
+                }
+
+                try {
+                    return DateUtil.parse(overdueDateStr, pattern);
+                } catch (ParseException var3) {
+                    logger.error(var3.getLocalizedMessage());
+                    return null;
+                }
             }
         } else {
             return null;
         }
+    }
+
+    public static Date getServiceEndDate() {
+        if(isValidPlugin("service")) {
+            if(mocnoyeesA == null) {
+                return null;
+            } else {
+                String overdueDateStr = mocnoyeesA.methodz("service.service10");
+                String pattern = "yyyy-MM-dd";
+                if(!overdueDateStr.contains("-")) {
+                    pattern = "yyyyMMdd";
+                }
+
+                try {
+                    return DateUtil.parse(overdueDateStr, pattern);
+                } catch (ParseException var3) {
+                    logger.error(var3.getLocalizedMessage());
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public static String getServiceLevel() {
+        return isValidPlugin("service")?(mocnoyeesA == null?null:mocnoyeesA.methodz("service.service20")):null;
+    }
+
+    public static String getServiceCaptcha() {
+        return isValidPlugin("service")?(mocnoyeesA == null?null:mocnoyeesA.methodz("service.service30")):null;
+    }
+
+    public static String getRongCloudDevKey() {
+        return isValidPlugin("zx")?mocnoyeesA.methodz("zx.devkey"):"";
+    }
+
+    public static String getRongCloudDevSecret() {
+        return isValidPlugin("zx")?mocnoyeesA.methodz("zx.devsecret"):"";
+    }
+
+    public static String getRongCloudProductionKey() {
+        return isValidPlugin("zx")?mocnoyeesA.methodz("zx.productionkey"):"";
+    }
+
+    public static String getRongCloudProductionSecret() {
+        return isValidPlugin("zx")?mocnoyeesA.methodz("zx.productionsecret"):"";
+    }
+
+    public static int getRongCloudRegisterSize() {
+        if(rongCloudRegisterSize == -1) {
+            if(isValidPlugin("zx")) {
+                rongCloudRegisterSize = NumberUtils.toInt(mocnoyeesA.methodz("zx.registerSize"), 0);
+            } else {
+                rongCloudRegisterSize = 0;
+            }
+        }
+
+        return rongCloudRegisterSize;
+    }
+
+    public static Date getRongCloudOverDate() {
+        return hasPlugin("zx")?rongCloudDate:null;
     }
 
     public static String getProductLine() {
@@ -1219,9 +1444,13 @@ public final class ProductInfo {
             if(StringUtils.isNotBlank(endDateStr) && endDateStr.length() >= 8) {
                 executeDate = DateUtil.parse(endDateStr);
                 Date currentDate = DateUtil.currentDate();
+                if(mocnoyeesA != null) {
+                    currentDate = mocnoyeesA.now();
+                }
+
                 expireDayNum = Integer.valueOf(DateUtil.beforeDays(currentDate, executeDate));
                 if(expireDayNum.intValue() < 0) {
-                    logger.error(MessageFormat.format("产品授权期限（{0}）已过，系统即将停止服务，请及时联系管理员处理", new Object[]{endDateStr}));
+                    logger.fatal(MessageFormat.format("产品授权期限（{0}）已过，系统即将停止服务，请及时联系管理员处理", new Object[]{endDateStr}));
                     SystemEnvironment.exit(0);
                 } else if(addCronCheck.booleanValue()) {
                     Calendar c = Calendar.getInstance();
@@ -1234,9 +1463,11 @@ public final class ProductInfo {
                 expireDayNum = null;
             }
         } catch (Exception var8) {
-            logger.error("", var8);
+            logger.error(var8.getLocalizedMessage(), var8);
         }
 
         return executeDate;
     }
+
+
 }
