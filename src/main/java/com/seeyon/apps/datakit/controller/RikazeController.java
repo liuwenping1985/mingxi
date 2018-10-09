@@ -61,6 +61,7 @@ import org.apache.axis.utils.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.servlet.ModelAndView;
+import sun.plugin.util.UIUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -891,6 +892,20 @@ public class RikazeController extends BaseController {
         return mav;
     }
     @NeedlessCheckLogin
+    public ModelAndView statPeixun(HttpServletRequest request, HttpServletResponse response){
+
+        String startDate = request.getParameter("start");
+        String endDate = request.getParameter("start");
+        String state = request.getParameter("state");
+        String ext = request.getParameter("ext");
+        ModelAndView mav = new ModelAndView("apps/datakit/peixun_stat");
+        mav.addObject("startDate",startDate);
+        mav.addObject("endDate",endDate);
+        mav.addObject("state",state);
+        mav.addObject("ext",ext);
+        return mav;
+    }
+    @NeedlessCheckLogin
     public ModelAndView getStatKaoqinData(HttpServletRequest request, HttpServletResponse response){
         Integer userCount = getUserCount();
        // Long
@@ -898,16 +913,19 @@ public class RikazeController extends BaseController {
 
 
         List<Map> enumItems =  getEnumItems();
+
         //id 为key showvalue为值
         Map<Long,String> enumDataMap = transEnumItems(enumItems);
+        System.out.println(enumDataMap);
 
         KaoqinStatVo vo = new KaoqinStatVo();
         vo.initStatData(enumDataMap);
         vo.setUserCount(userCount);
         //3人 7事由 10天数
-        List<Map> dataList = this.getKaoQinDataList(new Date(0),new Date());
+        List<Map> dataList = this.getKaoQinDataList(new Date(24*3600*1000*365),new Date());
         Map<Long,KaoqinPersonStat> personStatMap = new HashMap<Long, KaoqinPersonStat>();
         for(Map data:dataList){
+            System.out.println("data:"+data);
             Long userId = getLong(data.get("field0003"));
             KaoqinPersonStat oldStat = personStatMap.get(userId);
             KaoqinPersonStat stat = null;
@@ -920,6 +938,8 @@ public class RikazeController extends BaseController {
                V3xOrgMember om =  orgManager.getMemberById(userId);
                stat.setAccountId(om.getOrgAccountId());
                stat.setDeptId(om.getOrgDepartmentId());
+               V3xOrgDepartment dept = orgManager.getDepartmentById(om.getOrgDepartmentId());
+               stat.setDeptName(dept.getName());
                stat.setNo(om.getIdNum());
                stat.setSortId(om.getSortId());
                stat.setUserId(om.getId());
@@ -929,15 +949,14 @@ public class RikazeController extends BaseController {
                 System.out.println("ren gg le");
                 continue;
             }
-            Long enumId = getLong(data.get("field0007"));
-
+            Long enumId = getLong(data.get("field0021"));
+            System.out.println("enumId:"+enumId);
             String type = enumDataMap.get(enumId);
             if(type == null||"".equals(type.trim())){
                 System.out.println("bu ren shi de enum le");
                 continue;
             }
             KaoqinItem item =new KaoqinItem();
-
             item.setTypeId(enumId);
             item.setTypeName(type);
             Float num = getFloat(data.get("field0010"));
@@ -948,7 +967,8 @@ public class RikazeController extends BaseController {
             }
 
         }
-
+        vo.addKaoqinPerson(personStatMap.values());
+        DataKitSupporter.responseJSON(vo,response);
         return null;
     }
 
@@ -1004,7 +1024,7 @@ public class RikazeController extends BaseController {
 
         BigDecimal num = new BigDecimal("-7.75217287289653E18");
 
-        System.out.println(String.valueOf(num));
+        System.out.println(format.format(new Date()));
     }
 
 
@@ -1040,15 +1060,19 @@ public class RikazeController extends BaseController {
 
     private List<Map> getEnumItems(){
 
-        String sql="select * from ctp_enum_item where ref_enum="+(-7752172872896526022l);
+        String sql="select * from ctp_enum_item where ref_enumid="+(-7752172872896526022l);
 
         return getDataBySQL(sql);
 
     }
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    private String toSQLDate(Date dt){
+        return "to_date('"+format.format(dt)+"','yyyy-mm-dd hh24:mi:ss')";
+    }
     private List<Map> getKaoQinDataList(Date start,Date end){
 
-        String sql="select * from formmain_0140 where field0008 between '"+format.format(start)+"' and '"+format.format(end)+"'";
+        String sql="select * from formmain_0140 where field0008 between "+toSQLDate(start)+" and "+toSQLDate(end);
 
         return getDataBySQL(sql);
 
