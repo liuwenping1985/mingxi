@@ -68,6 +68,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -877,5 +878,34 @@ public class RikazeController extends BaseController {
         }
     }
 
+    @NeedlessCheckLogin
+    public ModelAndView statKaoqin(HttpServletRequest request, HttpServletResponse response){
+
+        String startDate = request.getParameter("start");
+        String endDate = request.getParameter("start");
+        String state = request.getParameter("state");
+        String ext = request.getParameter("ext");
+        ModelAndView mav = new ModelAndView("apps/datakit/kaoqin_stat");
+        mav.addObject("startDate",startDate);
+        mav.addObject("endDate",endDate);
+        mav.addObject("state",state);
+        mav.addObject("ext",ext);
+        return mav;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView getStatKaoqinData(HttpServletRequest request, HttpServletResponse response){
+
+       // Long
+
+
+        return null;
+    }
+
+    public static void main(String[] args){
+
+        BigDecimal num = new BigDecimal("-7.75217287289653E18");
+
+        System.out.println(num.longValue());
+    }
 
 }
