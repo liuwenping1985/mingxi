@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -290,6 +292,53 @@ public class UIUtils {
             e.printStackTrace();
         }finally {
             jdbcAgent.close();
+        }
+        return null;
+
+    }
+    public static Long getLong(Object obj){
+
+        if(obj instanceof Long){
+            return (Long)obj;
+        }
+        if(obj instanceof BigDecimal){
+            return ((BigDecimal)obj).longValue();
+        }
+        try{
+
+            return Long.parseLong(obj.toString());
+
+        }catch(Exception e){
+
+            return null;
+        }
+
+
+
+
+
+    }
+    public static Date getDate(Object obj){
+
+        if(obj instanceof Timestamp){
+            return (Timestamp)obj;
+        }
+        if(obj instanceof Date){
+            return ((Date)obj);
+        }
+        if(obj instanceof String){
+
+            try {
+                return year_month_day_hour_min_sec.parse(obj.toString());
+            } catch (Exception e) {
+                return null;
+            }
+        }
+        if(obj instanceof Long){
+            Long sec = (Long)obj;
+            if(sec>0){
+                return new Date(sec);
+            }
         }
         return null;
 
