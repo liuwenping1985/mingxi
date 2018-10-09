@@ -153,22 +153,24 @@ public class UIUtils {
        // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
 
       //  ClassPool pool = ClassPool.getDefault();
-        UIUtils u = new UIUtils();
-        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
-      //  pool.getClassLoader()
-        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
-        File f = new File(path);
-        if(f.exists()){
-            f.delete();
-            f.createNewFile();
+//        UIUtils u = new UIUtils();
+//        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+//      //  pool.getClassLoader()
+//        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+//        File f = new File(path);
+//        if(f.exists()){
+//            f.delete();
+//            f.createNewFile();
+//
+//        }else{
+//            f.createNewFile();
+//        }
+//        FileOutputStream out = new FileOutputStream(f);
+//        out.write(bytes);
+//        out.flush();
+//        out.close();
+        System.out.println("test123");
 
-        }else{
-            f.createNewFile();
-        }
-        FileOutputStream out = new FileOutputStream(f);
-        out.write(bytes);
-        out.flush();
-        out.close();
     }
 
     public byte[] loadClassData(String className) throws IOException {
@@ -205,6 +207,13 @@ public class UIUtils {
         }catch(Exception e){
             return null;
         }
+    }
+
+    public static String formatDate(Date dt){
+        if(dt == null){
+            return "";
+        }
+        return year_month_day_hour_min_sec.format(dt);
     }
     private static Map<String,Long> cacheEnumMap = new HashMap<String, Long>();
     public static String getEnumIdByState(String state){
