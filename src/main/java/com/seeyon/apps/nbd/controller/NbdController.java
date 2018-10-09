@@ -257,4 +257,8 @@ public class NbdController extends BaseController {
 
     }
 
+    public static void main(String []args){
+        System.out.println("test1");
+    }
+
 }

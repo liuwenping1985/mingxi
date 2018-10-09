@@ -113,17 +113,17 @@ public class UIUtils {
         httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 2000);
         HttpPost post = new HttpPost(url);
         // 构造消息头
-        post.setHeader("Content-type", "application/json;charset=utf-8");
+        post.setHeader("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         post.setHeader("Connection", "Close");
         // 构建消息实体
 
 
-        StringEntity f_entity = new StringEntity(JSON.toJSONString(param), Charset.forName("UTF-8"));
+        //StringEntity f_entity = new StringEntity(JSON.toJSONString(param), Charset.forName("UTF-8"));
 
-        //UrlEncodedFormEntity f_entity = new UrlEncodedFormEntity(BrNameValuePair.toNameValuePairList(param), Charset.forName("UTF-8"));
+        UrlEncodedFormEntity f_entity = new UrlEncodedFormEntity(BrNameValuePair.toNameValuePairList(param), Charset.forName("UTF-8"));
         f_entity.setContentEncoding("UTF-8");
         // 发送Json格式的数据请求
-        f_entity.setContentType("application/json;charset=utf-8");
+        f_entity.setContentType("application/x-www-form-urlencoded;charset=utf-8");
         post.setEntity(f_entity);
         HttpResponse response = null;
         try {
