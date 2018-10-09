@@ -917,7 +917,7 @@ public class RikazeController extends BaseController {
                 stat = oldStat;
             }
             try {
-               V3xOrgMember om =  orgManager.getMemberById();
+               V3xOrgMember om =  orgManager.getMemberById(userId);
                stat.setAccountId(om.getOrgAccountId());
                stat.setDeptId(om.getOrgDepartmentId());
                stat.setNo(om.getIdNum());
@@ -941,7 +941,8 @@ public class RikazeController extends BaseController {
             item.setTypeId(enumId);
             item.setTypeName(type);
             Float num = getFloat(data.get("field0010"));
-
+            item.setNum(num);
+            stat.addKaoqinItem(item);
             if(oldStat == null){
                 personStatMap.put(userId,stat);
             }

@@ -1,5 +1,7 @@
 package com.seeyon.apps.datakit.vo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +27,22 @@ public class KaoqinPersonStat {
 
     private Long sortId;
     //按照事由归类
-    private Map<String,KaoqinItem> data;
+    private Map<String,List<KaoqinItem>> data;
+
+    public void addKaoqinItem(KaoqinItem item){
+
+        if(data == null){
+            data = new HashMap<String, List<KaoqinItem>>();
+        }
+        String key = item.getTypeName();
+        List<KaoqinItem> itemList =  data.get(key);
+        if(itemList == null){
+            itemList = new ArrayList<KaoqinItem>();
+            data.put(key,itemList);
+        }
+        itemList.add(item);
+
+    }
 
     public String getUserName() {
         return userName;
@@ -68,11 +85,11 @@ public class KaoqinPersonStat {
         this.accountName = accountName;
     }
 
-    public Map<String, KaoqinItem> getData() {
+    public Map<String, List<KaoqinItem>> getData() {
         return data;
     }
 
-    public void setData(Map<String, KaoqinItem> data) {
+    public void setData(Map<String, List<KaoqinItem>> data) {
         this.data = data;
     }
 

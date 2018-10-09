@@ -9,7 +9,7 @@ public class KaoqinItem {
     //事由名字
     private String typeName;
     //天数
-    private Double num;
+    private Float num;
 
     public Long getTypeId() {
         return typeId;
@@ -27,11 +27,11 @@ public class KaoqinItem {
         this.typeName = typeName;
     }
 
-    public Double getNum() {
+    public Float getNum() {
         return num;
     }
 
-    public void setNum(Double num) {
+    public void setNum(Float num) {
         this.num = num;
     }
 }

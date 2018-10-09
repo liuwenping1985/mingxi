@@ -18,6 +18,10 @@ public class KaoqinStatVo {
     //按照事由名字统计
     private Map<String,List<KaoqinPersonStat>> statData;
 
+    public void addKaoqinPerson(List<KaoqinPersonStat> statList){
+
+    }
+
     public String getMemo() {
         return memo;
     }
