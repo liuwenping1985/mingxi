@@ -4,16 +4,11 @@
 <beans default-autowire="byName">
 
 
-	<bean name="processEventHandler" class="com.seeyon.apps.nbd.platform.oa.ProcessEventHandler">
-
-	</bean>
 
 	<bean name="/gateway/form/receive.do" class="com.seeyon.apps.nbd.controller.NbdController">
 
 	</bean>
-	<bean name="/gateway/sso.do" class="com.seeyon.apps.nbd.controller.SsoController">
 
-	</bean>
 	<!--<bean name="thirdPartyLogin.do" class="com.seeyon.apps.nbd.controller.SsoController">-->
 
 	<!--</bean>-->

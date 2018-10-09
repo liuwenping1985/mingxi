@@ -266,7 +266,13 @@ public class SsoController extends BaseController {
          "delflag" : 0,
          "modifydate" : "2018-7-11"
          */
-        //UIUtils.post()
+        Map ret = null;
+        try {
+            ret = UIUtils.post(url,param);
+            System.out.println(ret);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
