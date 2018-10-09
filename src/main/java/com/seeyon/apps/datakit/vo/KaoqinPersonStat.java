@@ -17,11 +17,15 @@ public class KaoqinPersonStat {
 
     private String deptName;
 
-    private String accountId;
+    private Long accountId;
 
     private String accountName;
 
-    private Map<Long,KaoqinItem> data;
+    private String no;
+
+    private Long sortId;
+    //按照事由归类
+    private Map<String,KaoqinItem> data;
 
     public String getUserName() {
         return userName;
@@ -55,13 +59,6 @@ public class KaoqinPersonStat {
         this.deptName = deptName;
     }
 
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
 
     public String getAccountName() {
         return accountName;
@@ -71,11 +68,35 @@ public class KaoqinPersonStat {
         this.accountName = accountName;
     }
 
-    public Map<Long, KaoqinItem> getData() {
+    public Map<String, KaoqinItem> getData() {
         return data;
     }
 
-    public void setData(Map<Long, KaoqinItem> data) {
+    public void setData(Map<String, KaoqinItem> data) {
         this.data = data;
+    }
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public Long getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Long sortId) {
+        this.sortId = sortId;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 }

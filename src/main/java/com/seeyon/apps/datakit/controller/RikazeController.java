@@ -9,9 +9,7 @@ import com.seeyon.apps.datakit.po.BulDataItem;
 import com.seeyon.apps.datakit.po.NewsDataItem;
 import com.seeyon.apps.datakit.service.RikazeService;
 import com.seeyon.apps.datakit.util.DataKitSupporter;
-import com.seeyon.apps.datakit.vo.RikazeAccountVo;
-import com.seeyon.apps.datakit.vo.RikazeDeptVo;
-import com.seeyon.apps.datakit.vo.RikazeMemberVo;
+import com.seeyon.apps.datakit.vo.*;
 import com.seeyon.apps.doc.manager.KnowledgeFavoriteManager;
 import com.seeyon.apps.govdoc.doc.controller.GovDocController;
 import com.seeyon.ctp.common.AppContext;
@@ -36,14 +34,12 @@ import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.organization.po.OrgMember;
 import com.seeyon.ctp.portal.controller.PortalController;
 import com.seeyon.ctp.portal.customize.manager.CustomizeManager;
 import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.util.Constants;
-import com.seeyon.ctp.util.DBAgent;
-import com.seeyon.ctp.util.OperationControllable;
-import com.seeyon.ctp.util.OperationCounter;
-import com.seeyon.ctp.util.Strings;
+import com.seeyon.ctp.util.*;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.BulletinException;
 import com.seeyon.v3x.bulletin.domain.BulBody;
@@ -69,6 +65,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -894,18 +892,167 @@ public class RikazeController extends BaseController {
     }
     @NeedlessCheckLogin
     public ModelAndView getStatKaoqinData(HttpServletRequest request, HttpServletResponse response){
-
+        Integer userCount = getUserCount();
        // Long
+        OrgManager orgManager = (OrgManager)AppContext.getBean("orgManager");
 
+
+        List<Map> enumItems =  getEnumItems();
+        //id 为key showvalue为值
+        Map<Long,String> enumDataMap = transEnumItems(enumItems);
+
+        KaoqinStatVo vo = new KaoqinStatVo();
+        vo.initStatData(enumDataMap);
+        vo.setUserCount(userCount);
+        //3人 7事由 10天数
+        List<Map> dataList = this.getKaoQinDataList(new Date(0),new Date());
+        Map<Long,KaoqinPersonStat> personStatMap = new HashMap<Long, KaoqinPersonStat>();
+        for(Map data:dataList){
+            Long userId = getLong(data.get("field0003"));
+            KaoqinPersonStat oldStat = personStatMap.get(userId);
+            KaoqinPersonStat stat = null;
+            if(oldStat == null){
+                stat =  new KaoqinPersonStat();
+            }else{
+                stat = oldStat;
+            }
+            try {
+               V3xOrgMember om =  orgManager.getMemberById();
+               stat.setAccountId(om.getOrgAccountId());
+               stat.setDeptId(om.getOrgDepartmentId());
+               stat.setNo(om.getIdNum());
+               stat.setSortId(om.getSortId());
+               stat.setUserId(om.getId());
+               stat.setUserName(om.getName());
+            } catch (BusinessException e) {
+                e.printStackTrace();
+                System.out.println("ren gg le");
+                continue;
+            }
+            Long enumId = getLong(data.get("field0007"));
+
+            String type = enumDataMap.get(enumId);
+            if(type == null||"".equals(type.trim())){
+                System.out.println("bu ren shi de enum le");
+                continue;
+            }
+            KaoqinItem item =new KaoqinItem();
+
+            item.setTypeId(enumId);
+            item.setTypeName(type);
+            Float num = getFloat(data.get("field0010"));
+
+            if(oldStat == null){
+                personStatMap.put(userId,stat);
+            }
+
+        }
 
         return null;
+    }
+
+    private Map<Long,String> transEnumItems(List<Map> enumItems){
+        Map<Long,String> ret = new HashMap<Long,String>();
+        for(Map map:enumItems){
+           Long id = getLong(map.get("id"));
+           String val = String.valueOf(map.get("showvalue"));
+            ret.put(id,val);
+        }
+        return ret;
+    }
+
+    private Long getLong(Object obj){
+        Long key = null;
+        if(obj instanceof BigDecimal){
+            key = ((BigDecimal)obj).longValue();
+        }else if(obj instanceof Long){
+
+            key =  (Long)obj;
+
+        }else{
+            try {
+                key = Long.parseLong(String.valueOf(obj));
+            }catch (Exception e){
+                key = null;
+            }
+        }
+        return key;
+    }
+    private Float getFloat(Object obj){
+        Float key = null;
+        if(obj instanceof BigDecimal){
+            key = ((BigDecimal)obj).floatValue();
+        }else if(obj instanceof Float){
+
+            key =  (Float) obj;
+
+        }else if(obj instanceof Double){
+            return ((Double) obj).floatValue();
+        }
+        else{
+            try {
+                key = Float.parseFloat(String.valueOf(obj));
+            }catch (Exception e){
+                key = null;
+            }
+        }
+        return key;
     }
 
     public static void main(String[] args){
 
         BigDecimal num = new BigDecimal("-7.75217287289653E18");
 
-        System.out.println(num.longValue());
+        System.out.println(String.valueOf(num));
     }
+
+
+    public Integer getUserCount(){
+        String sql = "select count(*) as u_count from org_member where is_enable=1 and is_deleted=0";
+        List<Map> dataList = getDataBySQL(sql);
+        if(dataList==null||dataList.isEmpty()){
+            return 0;
+        }
+        Map data = dataList.get(0);
+        try {
+            return Integer.parseInt(String.valueOf(data.get("u_count")));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    private List<Map> getDataBySQL(String sql){
+
+        JDBCAgent agent = new JDBCAgent();
+        try {
+            System.out.println("---begin query:"+sql);
+            agent.execute(sql);
+            System.out.println("---end query");
+            return agent.resultSetToList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            agent.close();
+        }
+        return new ArrayList<Map>();
+    }
+
+    private List<Map> getEnumItems(){
+
+        String sql="select * from ctp_enum_item where ref_enum="+(-7752172872896526022l);
+
+        return getDataBySQL(sql);
+
+    }
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    private List<Map> getKaoQinDataList(Date start,Date end){
+
+        String sql="select * from formmain_0140 where field0008 between '"+format.format(start)+"' and '"+format.format(end)+"'";
+
+        return getDataBySQL(sql);
+
+    }
+
+
 
 }
