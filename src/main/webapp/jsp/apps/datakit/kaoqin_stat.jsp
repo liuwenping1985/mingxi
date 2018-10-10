@@ -16,24 +16,23 @@
     <fmt:setBundle basename="com.seeyon.v3x.edoc.resources.i18n.EdocResource"  var="v3xEdocI18N"/>
     <link rel="stylesheet" type="text/css" href="<c:url value="/common/css/default.css${v3x:resSuffix()}" />">
     <link href="<c:url value="${v3x:getSkin()}/skin.css${v3x:resSuffix()}" />" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/common/css/default.css${v3x:resSuffix()}" />">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/common/css/stat.css${v3x:resSuffix()}" />">
 
     <script type="text/javascript" charset="UTF-8" src="<c:url value="/common/js/jquery-1.11.3.min.js" />"></script>
 
 </head>
-<body srcoll="no" style="overflow: hidden;border:0;" class="tab-body">
+<body >
 
 　<center><h2>考勤统计表（开始时间-结束时间）</h2></center>
-<div>统计条件： 开始时间:<input type="text"> 结束时间:<input type="text"> </div>状态：<select>
-    <option value="222">已报备</option>
-    <option value="333">待报备</option>
-    <option value="444">待处理</option>
-
-</select>
-<table border="1">
+<div>统计条件： 开始时间:<input type="text"> 结束时间:<input type="text"> </div>
+<table border="1" bordercolor="#a0c6e5" style="border-collapse:collapse;">
 
     <tr><td rowspan="2">序号</td>
         <td rowspan="2">姓名</td>
         <td rowspan="2">部门</td>
+        <td rowspan="2">请假次数</td>
+        <td rowspan="2">请假天数</td>
         <td colspan="7">请假类型（次数）</td>
         <td colspan="7">请假类型（天数）</td>
         <td rowspan="2">备注</td>
@@ -50,12 +49,9 @@
         <td>休假</td><td>病假</td><td>产假（护理假）</td><td>丧假</td><td>婚假</td><td>事假</td><td>因公外出</td>
     </tr>
     <tbody id="body_data">
-    <tr>
-        <td>
 
-        </td>
-    </tr>
     </tbody>
+
 
 
 </table>
@@ -85,44 +81,37 @@
             "user_count":0
         }
         function getTypeData(typeId,item){
-            var datas = item.data[out_types_[typeId]];
+            var datas = item["dataDays"]||item["allDays"];
+            datas = datas[out_types_[typeId]];
             if(datas==null){
                 return "0";
             }
-            var num=0;
-            for(var p=0;p<datas.length;p++){
-                var data = datas[p];
-                if(data.typeId==typeId){
-                    num=num+data.num;
-                }
-            }
-            if(num == 0){
-                return "0";
-            }
-            return ""+num;
+            return ""+datas;
 
         }
         function getTypeFreqData(typeId,item){
-            var datas = item.data[out_types_[typeId]];
+            var datas = item["dataFreq"]||item["allFreq"];
+            datas = datas[out_types_[typeId]];
 
             if(datas==null){
                 return "0";
             }
-            var num=0;
-            for(var p=0;p<datas.length;p++){
-                var data = datas[p];
-                if(data.typeId==typeId){
-                    num=num+1;
-                }
-            }
-            if(num == 0){
-                return "0";
-            }
-            return ""+num;
-        }
-        function getStat(){
 
-            return "";
+            return ""+datas;
+        }
+        function getStat(data){
+            var htmls = [];
+            var stat = data.statData;
+            var cp = data.cleanPerson;
+            htmls.push("未休假");
+            htmls.push("("+cp.length+")人:");
+            htmls.push(cp.join(","));
+            for(p in stat){
+                htmls.push("<br>"+p);
+                htmls.push("("+stat[p].length+")人:");
+                htmls.push(stat[p].join(","));
+            }
+            return htmls.join("");
         }
         $.get("/seeyon/rikaze.do?method=getStatKaoqinData",function(datas){
 
@@ -137,6 +126,8 @@
                     htmls.push("<td>"+(index+1)+"</td>");
                     htmls.push("<td>"+item.userName+"</td>");
                     htmls.push("<td>"+item.deptName+"</td>");
+                    htmls.push("<td>"+item.freq+"</td>");
+                    htmls.push("<td>"+item.days+"</td>");
                     htmls.push("<td>"+getTypeFreqData(seq_types[0],item)+"</td>");
                     htmls.push("<td>"+getTypeFreqData(seq_types[1],item)+"</td>");
                     htmls.push("<td>"+getTypeFreqData(seq_types[2],item)+"</td>");
@@ -156,8 +147,29 @@
                     }
                     htmls.push("</tr>");
                 });
+                //heji
+                htmls.push("<tr>");
+                htmls.push("<td colspan='3'>合计</td>");
+                htmls.push("<td>"+datas.freq+"</td>");
+                htmls.push("<td>"+datas.days+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[0],datas)+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[1],datas)+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[2],datas)+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[3],datas)+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[4],datas)+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[5],datas)+"</td>");
+                htmls.push("<td>"+getTypeFreqData(seq_types[6],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[0],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[1],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[2],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[3],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[4],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[5],datas)+"</td>");
+                htmls.push("<td>"+getTypeData(seq_types[6],datas)+"</td>");
+
+                htmls.push("</tr>");
                 $("#body_data").html(htmls.join(""));
-                $("#memo").html(getStat());
+                $("#memo").html(getStat(datas));
 
             }
 

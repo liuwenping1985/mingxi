@@ -138,7 +138,7 @@
             
         }
         if(resCode == "stat_type"){
-            window.open("/seeyon/report/queryReport.do?method=goIndexRight&reportId=2852760056941922668&type=query");
+            window.open("/seeyon/rikaze.do?method=statPeixun");
             
         }
         if(resCode == "stat_level"){

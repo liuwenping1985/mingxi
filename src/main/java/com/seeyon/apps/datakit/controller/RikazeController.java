@@ -67,6 +67,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -131,8 +132,8 @@ public class RikazeController extends BaseController {
                         imageSrc = contextPath + imageId;
                         return imageSrc;
                     }
-                }else{
-                    return  imageSrc;
+                } else {
+                    return imageSrc;
                 }
             }
             String fileName = getCustomizeManager().getCustomizeValue(memberId, "avatar");
@@ -231,21 +232,22 @@ public class RikazeController extends BaseController {
 
     public ModelAndView recordLogin(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
-        RikazeService.loginRecord(user.getId(),user.getName());
-        DataKitSupporter.responseJSON("ok",response);
+        RikazeService.loginRecord(user.getId(), user.getName());
+        DataKitSupporter.responseJSON("ok", response);
         return null;
     }
 
-    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
 
         String page = request.getParameter("page");
-        if(page == null){
-            page="index";
+        if (page == null) {
+            page = "index";
         }
-        ModelAndView mav = new ModelAndView("apps/datakit/"+page);
+        ModelAndView mav = new ModelAndView("apps/datakit/" + page);
 
         return mav;
     }
+
     @NeedlessCheckLogin
     public ModelAndView getNews(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -265,8 +267,6 @@ public class RikazeController extends BaseController {
     }
 
 
-
-
     @NeedlessCheckLogin
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -284,52 +284,51 @@ public class RikazeController extends BaseController {
         data.put("buls", "error");
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView loadData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView loadData(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> data = new HashMap<String, Object>();
         String type = request.getParameter("type");
-        if("tzgg".equals(type)){
+        if ("tzgg".equals(type)) {
             List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=1 order by createDate desc");
             data.put("data", dataList);
             DataKitSupporter.responseJSON(data, response);
             return null;
         }
-        if("xxjb".equals(type)){
+        if ("xxjb".equals(type)) {
             List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 and typeId=2 order by createDate desc");
             data.put("data", newsDataList);
             DataKitSupporter.responseJSON(data, response);
             return null;
         }
-        if("gzdt".equals(type)){
+        if ("gzdt".equals(type)) {
             List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 and typeId=1 order by createDate desc");
             data.put("data", newsDataList);
             DataKitSupporter.responseJSON(data, response);
             return null;
         }
 
-        if("ywzn".equals(type)){
+        if ("ywzn".equals(type)) {
             List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=-4695372691792968435 order by createDate desc");
             data.put("data", dataList);
             DataKitSupporter.responseJSON(data, response);
             return null;
 
         }
-        if("xxjl".equals(type)){
+        if ("xxjl".equals(type)) {
 
             List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=-4083198690925721448 order by createDate desc");
             data.put("data", dataList);
             DataKitSupporter.responseJSON(data, response);
             return null;
         }
-        if("xzzx".equals(type)){
+        if ("xzzx".equals(type)) {
             List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30 and typeId=-1365569722735310114 order by createDate desc");
             data.put("data", dataList);
             DataKitSupporter.responseJSON(data, response);
             return null;
 
         }
-
-
 
 
         return null;
@@ -363,10 +362,11 @@ public class RikazeController extends BaseController {
         int count = pendingManager.getPendingCount(memberId, fgId, ord);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("count", count);
-      
+
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
+
     public ModelAndView getPeixunCount(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
         Long memberId = user.getId();
@@ -382,6 +382,7 @@ public class RikazeController extends BaseController {
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
+
     public ModelAndView getKaoqinCount(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
         Long memberId = user.getId();
@@ -397,14 +398,15 @@ public class RikazeController extends BaseController {
         DataKitSupporter.responseJSON(data, response);
         return null;
     }
+
     public ModelAndView getUserLevelName(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
-        Map<String,Object> data = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<String, Object>();
         try {
-           V3xOrgLevel level =  this.getOrgManager().getLevelById(user.getLevelId());
-            data.put("level",level);
+            V3xOrgLevel level = this.getOrgManager().getLevelById(user.getLevelId());
+            data.put("level", level);
         } catch (BusinessException e) {
-            data.put("level",null);
+            data.put("level", null);
             e.printStackTrace();
         }
 
@@ -540,7 +542,7 @@ public class RikazeController extends BaseController {
             }
             String fromPigeonhole = request.getParameter("fromPigeonhole");
             ModelAndView mav = new ModelAndView("bulletin/user/data_view");
-           if (bean == null) {
+            if (bean == null) {
                 return mav.addObject("dataExist", Boolean.FALSE);
             } else {
                 mav.addObject("dataExist", Boolean.TRUE);
@@ -604,12 +606,13 @@ public class RikazeController extends BaseController {
             }
         }
     }
+
     private Map<String, String> getParameterMap(HttpServletRequest request) {
         Map<String, String> ps = new HashMap();
         Enumeration params = request.getParameterNames();
 
-        while(params.hasMoreElements()) {
-            String name = (String)params.nextElement();
+        while (params.hasMoreElements()) {
+            String name = (String) params.nextElement();
             if (!"method".equalsIgnoreCase(name)) {
                 String value = request.getParameter(name);
                 ps.put(name, value);
@@ -618,31 +621,34 @@ public class RikazeController extends BaseController {
 
         return ps;
     }
-    private String htmlSuffix="htm|html|shtm|shtml|xhtml|hta|htc|mht|wml|xml|xslt|xsl|jsp|asp|php|css|js|sql";
+
+    private String htmlSuffix = "htm|html|shtm|shtml|xhtml|hta|htc|mht|wml|xml|xslt|xsl|jsp|asp|php|css|js|sql";
     private static Map<String, String> RTE_type;
     private static OperationControllable downloadCounter;
     private static Integer maxDownloadConnections = SystemProperties.getInstance().getIntegerProperty("fileDowload.maxConnections", 65535);
+
     static {
-        downloadCounter = new OperationCounter((long)maxDownloadConnections);
+        downloadCounter = new OperationCounter((long) maxDownloadConnections);
         RTE_type = new HashMap();
         RTE_type.put("image", "image/jpeg");
         RTE_type.put("flash", "application/x-shockwave-flash");
     }
+
     @NeedlessCheckLogin
     public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws Exception {
         ModelAndView m = new ModelAndView("ctp/common/fileUpload/download");
 
-            Map<String, String> ps = this.getParameterMap(request);
-            m.addObject("ps", ps);
-            String filename = request.getParameter("filename");
-            String suffix = FilenameUtils.getExtension(filename).toLowerCase();
-            String from = request.getParameter("from");
-            if (from != null && "a8geniues".equals(from)) {
-                m.addObject("isHTML", Pattern.matches(this.htmlSuffix, suffix));
-            } else if (Pattern.matches(this.htmlSuffix, suffix) && !"mobile".equals(from)) {
-                m.addObject("isHTML", true);
-            }
-            return m;
+        Map<String, String> ps = this.getParameterMap(request);
+        m.addObject("ps", ps);
+        String filename = request.getParameter("filename");
+        String suffix = FilenameUtils.getExtension(filename).toLowerCase();
+        String from = request.getParameter("from");
+        if (from != null && "a8geniues".equals(from)) {
+            m.addObject("isHTML", Pattern.matches(this.htmlSuffix, suffix));
+        } else if (Pattern.matches(this.htmlSuffix, suffix) && !"mobile".equals(from)) {
+            m.addObject("isHTML", true);
+        }
+        return m;
 
     }
 
@@ -878,149 +884,304 @@ public class RikazeController extends BaseController {
     }
 
     @NeedlessCheckLogin
-    public ModelAndView statKaoqin(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView statKaoqin(HttpServletRequest request, HttpServletResponse response) {
 
         String startDate = request.getParameter("start");
         String endDate = request.getParameter("start");
         String state = request.getParameter("state");
         String ext = request.getParameter("ext");
         ModelAndView mav = new ModelAndView("apps/datakit/kaoqin_stat");
-        mav.addObject("startDate",startDate);
-        mav.addObject("endDate",endDate);
-        mav.addObject("state",state);
-        mav.addObject("ext",ext);
+        mav.addObject("startDate", startDate);
+        mav.addObject("endDate", endDate);
+        mav.addObject("state", state);
+        mav.addObject("ext", ext);
         return mav;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView statPeixun(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView statPeixun(HttpServletRequest request, HttpServletResponse response) {
 
         String startDate = request.getParameter("start");
         String endDate = request.getParameter("start");
         String state = request.getParameter("state");
         String ext = request.getParameter("ext");
         ModelAndView mav = new ModelAndView("apps/datakit/peixun_stat");
-        mav.addObject("startDate",startDate);
-        mav.addObject("endDate",endDate);
-        mav.addObject("state",state);
-        mav.addObject("ext",ext);
+        mav.addObject("startDate", startDate);
+        mav.addObject("endDate", endDate);
+        mav.addObject("state", state);
+        mav.addObject("ext", ext);
         return mav;
     }
-    @NeedlessCheckLogin
-    public ModelAndView getStatKaoqinData(HttpServletRequest request, HttpServletResponse response){
-        Integer userCount = getUserCount();
-       // Long
-        OrgManager orgManager = (OrgManager)AppContext.getBean("orgManager");
 
+    //    @NeedlessCheckLogin
+//    public ModelAndView getStatKaoqinData2(HttpServletRequest request, HttpServletResponse response){
+//        Integer userCount = getUserCount();
+//       // Long
+//        OrgManager orgManager = (OrgManager)AppContext.getBean("orgManager");
+//
+//
+//        List<Map> enumItems =  getEnumItems();
+//
+//        //id 为key showvalue为值
+//        Map<Long,String> enumDataMap = transEnumItems(enumItems);
+//        System.out.println(enumDataMap);
+//
+//        KaoqinStatVo vo = new KaoqinStatVo();
+//        vo.initStatData(enumDataMap);
+//        vo.setUserCount(userCount);
+//        //3人 7事由 10天数
+//        List<Map> dataList = this.getKaoQinDataList(new Date(24*3600*1000*365),new Date());
+//        Map<Long,KaoqinPersonStat> personStatMap = new HashMap<Long, KaoqinPersonStat>();
+//        for(Map data:dataList){
+//            System.out.println("data:"+data);
+//            Long userId = getLong(data.get("field0003"));
+//            KaoqinPersonStat oldStat = personStatMap.get(userId);
+//            KaoqinPersonStat stat = null;
+//            if(oldStat == null){
+//                stat =  new KaoqinPersonStat();
+//            }else{
+//                stat = oldStat;
+//            }
+//            try {
+//               V3xOrgMember om =  orgManager.getMemberById(userId);
+//               stat.setAccountId(om.getOrgAccountId());
+//               stat.setDeptId(om.getOrgDepartmentId());
+//               V3xOrgDepartment dept = orgManager.getDepartmentById(om.getOrgDepartmentId());
+//               stat.setDeptName(dept.getName());
+//               stat.setNo(om.getIdNum());
+//               stat.setSortId(om.getSortId());
+//               stat.setUserId(om.getId());
+//               stat.setUserName(om.getName());
+//            } catch (BusinessException e) {
+//                e.printStackTrace();
+//                System.out.println("ren gg le");
+//                continue;
+//            }
+//            Long enumId = getLong(data.get("field0021"));
+//            System.out.println("enumId:"+enumId);
+//            String type = enumDataMap.get(enumId);
+//            if(type == null||"".equals(type.trim())){
+//                System.out.println("bu ren shi de enum le");
+//                continue;
+//            }
+//            KaoqinItem item =new KaoqinItem();
+//            item.setTypeId(enumId);
+//            item.setTypeName(type);
+//            Float num = getFloat(data.get("field0010"));
+//            item.setNum(num);
+//            stat.addKaoqinItem(item);
+//            if(oldStat == null){
+//                personStatMap.put(userId,stat);
+//            }
+//
+//        }
+//        vo.addKaoqinPerson(personStatMap.values());
+//        DataKitSupporter.responseJSON(vo,response);
+//        return null;
+//    }
+    // private static SimpleDateFormat s_format = new SimpleDateFormat("yyyy-mm-dd hh:MM:ss")
+    @NeedlessCheckLogin
+    public ModelAndView getPeixunStatData(HttpServletRequest request, HttpServletResponse response) {
+        String start = request.getParameter("startDate");
+        String end = request.getParameter("endDate");
+        Date startDate = null;
+        Date endDate = null;
+        if (start == null) {
+            startDate = new Date(0);
+        } else {
+            startDate = s_format(start);
+        }
+        if (end == null) {
+            endDate = new Date();
+        } else {
+            endDate = s_format(end);
+        }
+
+        Map<Long, Map> users = getUsers();
+        List<Map> enumLevelItems =  getPeixunLevel();
+        //id 为key showvalue为值
+        Map<Long,String> enumLevelDataMap = transEnumItems(enumLevelItems);
+        System.out.println(enumLevelDataMap);
+        List<Map> enumTypeItems = getPeixunType();
+        Map<Long,String> enumTypeDataMap = transEnumItems(enumTypeItems);
+        System.out.println(enumTypeDataMap);
+        PeixunStatVo vo = new PeixunStatVo();
+        vo.initBase(enumLevelDataMap,enumTypeDataMap);
+        Map<Long,PeixunPersonStat> baseData = genPeixunBaseData(users,enumLevelDataMap,enumTypeDataMap);
+        List<Map> peixunDataList = getPeixunDataList(startDate, endDate);
+        for(Map data:peixunDataList){
+            Long userId = getLong(data.get("field0003"));
+            Long enumLevelId = getLong(data.get("field0008"));
+            Long enumTypeId = getLong(data.get("field0017"));
+            String enumLevelName = enumLevelDataMap.get(enumLevelId);
+            String enumTypeName = enumTypeDataMap.get(enumTypeId);
+            Float num = getFloat(data.get("field0012"));
+            PeixunPersonStat stat = baseData.get(userId);
+            if(stat!=null){
+                stat.addRawData(enumLevelName,enumTypeName,num);
+            }
+        }
+        vo.addPeixunPersonStatList(baseData.values());
+        DataKitSupporter.responseJSON(vo,response);
+        return null;
+    }
+    private Map<Long,PeixunPersonStat> genPeixunBaseData(Map<Long, Map> users,Map<Long,String> enumLevelMap,Map<Long,String> typeLevelMap){
+        Map<Long,PeixunPersonStat> ret = new HashMap<Long, PeixunPersonStat>();
+
+        for(Map data:users.values()){
+            PeixunPersonStat stat = new PeixunPersonStat();
+            Long uid = getLong(data.get("id"));
+            stat.setUserId(uid);
+            stat.setUserName(""+data.get("name"));
+            stat.setSortId(getLong(data.get("sort_id")));
+            Long deptId = getLong(data.get("org_department_id"));
+            String deptName = getDepartName(deptId);
+            if("".equals(deptName)){
+                continue;
+            }
+            stat.setDeptName(deptName);
+            stat.setDeptId(deptId);
+            stat.initBase(enumLevelMap,typeLevelMap);
+            ret.put(uid,stat);
+            //stat.setAccountId();
+            // stat.setSortId(getLong(data.get("sort_id")));
+        }
+        return ret;
+
+
+    }
+    @NeedlessCheckLogin
+    public ModelAndView getStatKaoqinData(HttpServletRequest request, HttpServletResponse response) {
+        String start = request.getParameter("startDate");
+        String end = request.getParameter("endDate");
+        Date startDate = null;
+        Date endDate = null;
+        if (start == null) {
+            startDate = new Date(0);
+        } else {
+            startDate = s_format(start);
+        }
+        if (end == null) {
+            endDate = new Date();
+        } else {
+            endDate = s_format(end);
+        }
+        List<Map> kaoqinList = getKaoQinDataList(startDate, endDate);
+        Map<Long, Map> users = getUsers();
 
         List<Map> enumItems =  getEnumItems();
-
         //id 为key showvalue为值
         Map<Long,String> enumDataMap = transEnumItems(enumItems);
-        System.out.println(enumDataMap);
-
-        KaoqinStatVo vo = new KaoqinStatVo();
-        vo.initStatData(enumDataMap);
-        vo.setUserCount(userCount);
-        //3人 7事由 10天数
-        List<Map> dataList = this.getKaoQinDataList(new Date(24*3600*1000*365),new Date());
-        Map<Long,KaoqinPersonStat> personStatMap = new HashMap<Long, KaoqinPersonStat>();
-        for(Map data:dataList){
-            System.out.println("data:"+data);
+        Map<Long,KaoqinPersonStat> baseData = genBaseData(users,enumDataMap);
+        for(Map data:kaoqinList){
             Long userId = getLong(data.get("field0003"));
-            KaoqinPersonStat oldStat = personStatMap.get(userId);
-            KaoqinPersonStat stat = null;
-            if(oldStat == null){
-                stat =  new KaoqinPersonStat();
-            }else{
-                stat = oldStat;
-            }
-            try {
-               V3xOrgMember om =  orgManager.getMemberById(userId);
-               stat.setAccountId(om.getOrgAccountId());
-               stat.setDeptId(om.getOrgDepartmentId());
-               V3xOrgDepartment dept = orgManager.getDepartmentById(om.getOrgDepartmentId());
-               stat.setDeptName(dept.getName());
-               stat.setNo(om.getIdNum());
-               stat.setSortId(om.getSortId());
-               stat.setUserId(om.getId());
-               stat.setUserName(om.getName());
-            } catch (BusinessException e) {
-                e.printStackTrace();
-                System.out.println("ren gg le");
-                continue;
-            }
             Long enumId = getLong(data.get("field0021"));
-            System.out.println("enumId:"+enumId);
-            String type = enumDataMap.get(enumId);
-            if(type == null||"".equals(type.trim())){
-                System.out.println("bu ren shi de enum le");
-                continue;
-            }
-            KaoqinItem item =new KaoqinItem();
-            item.setTypeId(enumId);
-            item.setTypeName(type);
+            String enumName = enumDataMap.get(enumId);
             Float num = getFloat(data.get("field0010"));
-            item.setNum(num);
-            stat.addKaoqinItem(item);
-            if(oldStat == null){
-                personStatMap.put(userId,stat);
+            KaoqinPersonStat stat = baseData.get(userId);
+            if(stat!=null){
+                stat.addKaoqinRawData(enumId,enumName,num);
             }
-
         }
-        vo.addKaoqinPerson(personStatMap.values());
+        KaoqinStatVo vo = new KaoqinStatVo();
+        //加入统计
+        vo.addKaoqinPerson(baseData.values());
         DataKitSupporter.responseJSON(vo,response);
         return null;
     }
 
-    private Map<Long,String> transEnumItems(List<Map> enumItems){
-        Map<Long,String> ret = new HashMap<Long,String>();
-        for(Map map:enumItems){
-           Long id = getLong(map.get("id"));
-           String val = String.valueOf(map.get("showvalue"));
-            ret.put(id,val);
+    private Map<Long,KaoqinPersonStat> genBaseData(Map<Long, Map> users,Map<Long,String> enumDataMap){
+        Map<Long,KaoqinPersonStat> ret = new HashMap<Long, KaoqinPersonStat>();
+
+        for(Map data:users.values()){
+            KaoqinPersonStat stat = new KaoqinPersonStat();
+            Long uid = getLong(data.get("id"));
+            stat.setUserId(uid);
+            stat.setUserName(""+data.get("name"));
+            stat.setSortId(getLong(data.get("sort_id")));
+            Long deptId = getLong(data.get("org_department_id"));
+            String deptName = getDepartName(deptId);
+            if("".equals(deptName)){
+                continue;
+            }
+            stat.setDeptName(deptName);
+            stat.setDeptId(deptId);
+            stat.initData(enumDataMap);
+            ret.put(uid,stat);
+            //stat.setAccountId();
+           // stat.setSortId(getLong(data.get("sort_id")));
+        }
+        return ret;
+
+
+    }
+    private String getDepartName(Long deptId){
+        try {
+            return getOrgManager().getDepartmentById(deptId).getName();
+        } catch (Exception e) {
+           // e.printStackTrace();
+        }
+        return "";
+    }
+
+    private Date s_format(String dateStr) {
+        try {
+            return format.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Map<Long, String> transEnumItems(List<Map> enumItems) {
+        Map<Long, String> ret = new HashMap<Long, String>();
+        for (Map map : enumItems) {
+            Long id = getLong(map.get("id"));
+            String val = String.valueOf(map.get("showvalue"));
+            ret.put(id, val);
         }
         return ret;
     }
 
-    private Long getLong(Object obj){
+    private Long getLong(Object obj) {
         Long key = null;
-        if(obj instanceof BigDecimal){
-            key = ((BigDecimal)obj).longValue();
-        }else if(obj instanceof Long){
+        if (obj instanceof BigDecimal) {
+            key = ((BigDecimal) obj).longValue();
+        } else if (obj instanceof Long) {
 
-            key =  (Long)obj;
+            key = (Long) obj;
 
-        }else{
+        } else {
             try {
                 key = Long.parseLong(String.valueOf(obj));
-            }catch (Exception e){
+            } catch (Exception e) {
                 key = null;
             }
         }
         return key;
     }
-    private Float getFloat(Object obj){
+
+    private Float getFloat(Object obj) {
         Float key = null;
-        if(obj instanceof BigDecimal){
-            key = ((BigDecimal)obj).floatValue();
-        }else if(obj instanceof Float){
+        if (obj instanceof BigDecimal) {
+            key = ((BigDecimal) obj).floatValue();
+        } else if (obj instanceof Float) {
 
-            key =  (Float) obj;
+            key = (Float) obj;
 
-        }else if(obj instanceof Double){
+        } else if (obj instanceof Double) {
             return ((Double) obj).floatValue();
-        }
-        else{
+        } else {
             try {
                 key = Float.parseFloat(String.valueOf(obj));
-            }catch (Exception e){
+            } catch (Exception e) {
                 key = null;
             }
         }
         return key;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         BigDecimal num = new BigDecimal("-7.75217287289653E18");
 
@@ -1028,56 +1189,103 @@ public class RikazeController extends BaseController {
     }
 
 
-    public Integer getUserCount(){
+    public Integer getUserCount() {
         String sql = "select count(*) as u_count from org_member where is_enable=1 and is_deleted=0";
         List<Map> dataList = getDataBySQL(sql);
-        if(dataList==null||dataList.isEmpty()){
+        if (dataList == null || dataList.isEmpty()) {
             return 0;
         }
         Map data = dataList.get(0);
         try {
             return Integer.parseInt(String.valueOf(data.get("u_count")));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
-    private List<Map> getDataBySQL(String sql){
+
+    public Map<Long, Map> getUsers() {
+        String sql = "select * from org_member where is_enable=1 and is_deleted=0";
+        List<Map> dataList = getDataBySQL(sql);
+        Map<Long, Map> ret = new HashMap<Long, Map>();
+        for (Map data : dataList) {
+
+            Long uid = getLong(data.get("id"));
+            if (uid != null) {
+                ret.put(uid, data);
+            }
+        }
+        return ret;
+    }
+
+    private List<Map> getDataBySQL(String sql) {
 
         JDBCAgent agent = new JDBCAgent();
         try {
-            System.out.println("---begin query:"+sql);
+            System.out.println("---begin query:" + sql);
             agent.execute(sql);
             System.out.println("---end query");
-            return agent.resultSetToList();
+            List<Map>  dataList = agent.resultSetToList();
+            if(dataList == null){
+                dataList = new ArrayList<Map>();
+            }
+            return dataList;
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             agent.close();
         }
         return new ArrayList<Map>();
     }
 
-    private List<Map> getEnumItems(){
+    private List<Map> getEnumItems() {
 
-        String sql="select * from ctp_enum_item where ref_enumid="+(-7752172872896526022l);
+        String sql = "select * from ctp_enum_item where ref_enumid=" + (-7752172872896526022l);
 
         return getDataBySQL(sql);
 
     }
+
+    private List<Map> getPeixunLevel() {
+        String sql = "select * from ctp_enum_item where ref_enumid=" + (4280254977537164761L);
+
+        List<Map> dataList =  getDataBySQL(sql);
+       // System.out.println(dataList);
+        return dataList;
+
+
+    }
+
+    private List<Map> getPeixunType() {
+        String sql = "select * from ctp_enum_item where ref_enumid=" + (7331224213700562779L);
+        List<Map> dataList =  getDataBySQL(sql);
+       // System.out.println(dataList);
+        return dataList;
+
+
+    }
+
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private String toSQLDate(Date dt){
-        return "to_date('"+format.format(dt)+"','yyyy-mm-dd hh24:mi:ss')";
+    private String toSQLDate(Date dt) {
+        return "to_date('" + format.format(dt) + "','yyyy-mm-dd hh24:mi:ss')";
     }
-    private List<Map> getKaoQinDataList(Date start,Date end){
 
-        String sql="select * from formmain_0140 where field0008 between "+toSQLDate(start)+" and "+toSQLDate(end);
+    private List<Map> getKaoQinDataList(Date start, Date end) {
+
+        String sql = "select * from formmain_0140 where field0008 between " + toSQLDate(start) + " and " + toSQLDate(end);
 
         return getDataBySQL(sql);
 
     }
 
+    private List<Map> getPeixunDataList(Date start, Date end) {
+
+        String sql = "select * from formmain_0036 where field0010 between " + toSQLDate(start) + " and " + toSQLDate(end);
+
+        return getDataBySQL(sql);
+
+    }
 
 
 }

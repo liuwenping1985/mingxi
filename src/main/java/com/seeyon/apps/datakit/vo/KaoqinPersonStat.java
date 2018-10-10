@@ -26,21 +26,32 @@ public class KaoqinPersonStat {
     private String no;
 
     private Long sortId;
-    //按照事由归类
-    private Map<String,List<KaoqinItem>> data;
+    private Float days=0f;
+    private Integer freq=0;
 
-    public void addKaoqinItem(KaoqinItem item){
+    private Map<String,Integer> dataFreq = new HashMap<String, Integer>();
+    private Map<String,Float> dataDays = new HashMap<String, Float>();
 
-        if(data == null){
-            data = new HashMap<String, List<KaoqinItem>>();
+    public void initData(Map<Long,String> enumValues){
+
+        for(String key:enumValues.values()){
+            dataFreq.put(key,0);
+            dataDays.put(key,0f);
         }
-        String key = item.getTypeName();
-        List<KaoqinItem> itemList =  data.get(key);
-        if(itemList == null){
-            itemList = new ArrayList<KaoqinItem>();
-            data.put(key,itemList);
+
+
+    }
+    public void addKaoqinRawData(Long typeId,String typeName,Float num){
+
+        Float days = dataDays.get(typeName);
+        if(days==null){
+            days = 0f;
         }
-        itemList.add(item);
+        this.days+=num;
+        this.freq+=1;
+        dataDays.put(typeName,days+num);
+        Integer freq = dataFreq.get(typeName);
+        dataFreq.put(typeName,freq+1);
 
     }
 
@@ -84,15 +95,6 @@ public class KaoqinPersonStat {
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
-
-    public Map<String, List<KaoqinItem>> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, List<KaoqinItem>> data) {
-        this.data = data;
-    }
-
     public String getNo() {
         return no;
     }
@@ -111,6 +113,38 @@ public class KaoqinPersonStat {
 
     public Long getAccountId() {
         return accountId;
+    }
+
+    public Map<String, Integer> getDataFreq() {
+        return dataFreq;
+    }
+
+    public void setDataFreq(Map<String, Integer> dataFreq) {
+        this.dataFreq = dataFreq;
+    }
+
+    public Map<String, Float> getDataDays() {
+        return dataDays;
+    }
+
+    public void setDataDays(Map<String, Float> dataDays) {
+        this.dataDays = dataDays;
+    }
+
+    public Float getDays() {
+        return days;
+    }
+
+    public void setDays(Float days) {
+        this.days = days;
+    }
+
+    public Integer getFreq() {
+        return freq;
+    }
+
+    public void setFreq(Integer freq) {
+        this.freq = freq;
     }
 
     public void setAccountId(Long accountId) {
