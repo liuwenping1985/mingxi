@@ -60,8 +60,6 @@ public class ProcessEventHandler {
         Long affairId = event.getAffairId();
         try {
             CtpAffair ctpAffair = this.getAffairManager().get(affairId);
-            ctpAffair.getFormAppId();
-            ctpAffair.getFormId();
         } catch (BusinessException e) {
             e.printStackTrace();
         }
@@ -78,7 +76,7 @@ public class ProcessEventHandler {
 //
       System.out.println("-----onStepBack----");
 
-        processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
+       // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 
     }
     @ListenEvent(event = CollaborationCancelEvent.class,async = true,mode = EventTriggerMode.afterCommit)
@@ -92,7 +90,7 @@ public class ProcessEventHandler {
 //
         System.out.println("-----onCancel----");
 
-        processDoneEvent(summaryId,"取消",FlowUtil.FlowState.cancle.getKey());
+      //  processDoneEvent(summaryId,"取消",FlowUtil.FlowState.cancle.getKey());
 
     }
 //    @ListenEvent(event = CollaborationTakeBackEvent.class,async = true,mode = EventTriggerMode.afterCommit)
@@ -115,7 +113,7 @@ public class ProcessEventHandler {
     public void onStop(CollaborationStopEvent event) {
         Long summaryId = event.getSummaryId();
         System.out.println("-----onStop----");
-        processDoneEvent(summaryId,"停止",FlowUtil.FlowState.teminal.getKey());
+       // processDoneEvent(summaryId,"停止",FlowUtil.FlowState.teminal.getKey());
 
     }
 
