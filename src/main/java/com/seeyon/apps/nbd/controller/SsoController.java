@@ -169,6 +169,29 @@ public class SsoController extends BaseController {
     }
 
     @NeedlessCheckLogin
+    public ModelAndView openLink(HttpServletRequest request, HttpServletResponse response){
+        //http://127.0.0.1:701/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=-5367598530848996210
+
+        String affId = request.getParameter("affairId");
+        String memberId = request.getParameter("memberId");
+        try {
+
+        V3xOrgMember member = this.getOrgManager().getMemberById(Long.valueOf(memberId));
+        String url="/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId="+affId;
+
+            User user2 = AppContext.getCurrentUser();
+            if(user2==null||!user2.getId().equals(member.getId())){
+                doLogin(member,request,response);
+            }
+            response.sendRedirect(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            UIUtils.responseJSON("error",response);
+        }
+        return null;
+    }
+
+    @NeedlessCheckLogin
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
 
         String user_name = request.getParameter("loginname");
@@ -181,30 +204,21 @@ public class SsoController extends BaseController {
         Map ret = null;
         try {
             String url = ConfigService.getPropertyByName("lens_url", "");
-            url = url + "?loginname=" + user_name + "&spassword=" + password + "&syskey=" + skey;
+            url = url + "?loginname=" + user_name + "&password=" + password + "&syskey=" + skey;
             System.out.println(url);
             ret = UIUtils.get(url);
             System.out.println(ret);
             String retStatus = String.valueOf(ret.get("result"));
             if ("0".equals(retStatus)) {
-                Long memId = UIUtils.getMemberIdByCode(user_name);
+               V3xOrgMember member =  this.getOrgManager().getMemberByLoginName(user_name);
 
-                if (memId == null) {
-                    V3xOrgMember memebr = this.getOrgManager().getMemberByLoginName(user_name);
-                    if (memebr != null) {
-                        memId = memebr.getId();
-                    } else {
-                        dataMap.put("result", false);
-                        dataMap.put("msg", "根据用户名无法找到用户");
-                    }
+                if (member != null) {
 
-                }
-                try {
-                    V3xOrgMember member = this.getOrgManager().getMemberById(memId);
                     this.login(member, request, response);
                     return null;
-                } catch (BusinessException e) {
-                    e.printStackTrace();
+                } else {
+                    dataMap.put("result", false);
+                    dataMap.put("msg", "根据用户名无法找到用户");
                 }
             } else {
                 dataMap.put("result", false);
@@ -225,7 +239,26 @@ public class SsoController extends BaseController {
     }
 
     public User login(V3xOrgMember handleMember, HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        User user2 = AppContext.getCurrentUser();
+        if(user2!=null&&user2.getId().equals(handleMember.getId())){
+            try {
+                response.sendRedirect("/seeyon/main.do?method=main");
+                return user2;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        User user = doLogin(handleMember,request,response);
+        try {
+            response.sendRedirect("/seeyon/main.do?method=main");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+
+        return user;
+    }
+    private User doLogin(V3xOrgMember handleMember, HttpServletRequest request, HttpServletResponse response){
         User user = new User();
         user.setId(handleMember.getId());
         user.setDepartmentId(handleMember.getOrgDepartmentId());
@@ -238,6 +271,10 @@ public class SsoController extends BaseController {
         String remoteAddr = Strings.getRemoteAddr(request);
         user.setRemoteAddr(remoteAddr);
         HttpSession session = request.getSession(true);
+        HttpSession session2 = (HttpSession)AppContext.getThreadContext("THREAD_CONTEXT_SESSION_KEY");
+        if(session2==null){
+            AppContext.putThreadContext("THREAD_CONTEXT_SESSION_KEY",session);
+        }
         String sessionId = session.getId();
         user.setSessionId(sessionId);
         user.setTimeZone(TimeZone.getDefault());
@@ -258,14 +295,6 @@ public class SsoController extends BaseController {
         this.getLoginControl().getTopFrame(user, request);
         response.addHeader("LoginOK", "ok");
         response.addHeader("VJA", user.isAdmin() ? "1" : "0");
-
-        try {
-            response.sendRedirect("/seeyon/main.do?method=main");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         return user;
     }
 
@@ -340,6 +369,7 @@ public class SsoController extends BaseController {
     //流程更新
     @ListenEvent(event = CollaborationStartEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onStart(CollaborationStartEvent event) {
+
 
         CtpAffair affair = event.getAffair();
         System.out.println("流程开始：" + affair.getId());
@@ -458,7 +488,9 @@ public class SsoController extends BaseController {
         } catch (BusinessException e) {
             e.printStackTrace();
         }
-        param.put("slink", "http://113.104.5.249/seeyon/main.do?method=main");
+
+        String oaUrl = ConfigService.getPropertyByName("oa_url","http://113.104.5.249");
+        param.put("slink", oaUrl+"/seeyon/gateway/sso.do?method=openLink&affairId="+affair.getId()+"&memberId="+memberId);
         Date cr = affair.getCreateDate();
         param.put("senddatetime", UIUtils.formatDate(cr));
         Date re = affair.getReceiveTime();
