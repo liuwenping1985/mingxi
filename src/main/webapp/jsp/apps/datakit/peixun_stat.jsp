@@ -25,9 +25,9 @@
 <body class="tab-body">
 
 　<center><h2>培训统计表（开始时间-结束时间）</h2></center>
-<div>统计条件： 开始时间:<input type="text"> 结束时间:<input type="text"> </div>
-<table border="1" bordercolor="#a0c6e5" style="border-collapse:collapse;">
-
+<div>统计条件： 开始时间:<input type="text"> 结束时间:<input type="text"><input type="button" value="query"/> </div>
+<table class="stat_table">
+    <thead  class="stat_thead2">
     <tr><td rowspan="2">序号</td>
         <td rowspan="2">姓名</td>
         <td rowspan="2">部门</td>
@@ -37,7 +37,7 @@
         <td colspan="5">培训类型（次数）</td>
         <td colspan="7">培训层次（天数）</td>
         <td colspan="5">培训类型（天数）</td>
-        <td rowspan="2">备注</td>
+        <td rowspan="2" style="width:4%;text-align:top;">备注</td>
     </tr>
     <tr>
         <td>国家级培训</td>
@@ -65,7 +65,8 @@
         <td>其他业务类培训</td>
         <td>其他</td>
     </tr>
-    <tbody id="body_data">
+    </thead>
+    <tbody class="stat_body" id="body_data">
 
     </tbody>
 
@@ -97,7 +98,7 @@
             }else{
                 data= item['typeDayStat'];
             }
-           var num = data[typeName];
+            var num = data[typeName];
             if(num==null){
                 return "0";
             }
@@ -129,11 +130,16 @@
 
             var  items = datas.items;
             if(items&&items.length>0){
-                console.log(datas);
+                // console.log(datas);
                 var htmls =[];
-
+                var cls = "even"
                 $(items).each(function(index,item){
-                    htmls.push("<tr>");
+                    if(index%2==0){
+                        cls="odd";
+                    }else{
+                        cls="even";
+                    }
+                    htmls.push("<tr class='"+cls+"'>");
                     htmls.push("<td>"+(index+1)+"</td>");
                     htmls.push("<td>"+item.userName+"</td>");
                     htmls.push("<td>"+item.deptName+"</td>");
@@ -169,7 +175,7 @@
                     htmls.push("</tr>");
                 });
                 //heji
-                htmls.push("<tr>");
+                htmls.push("<tr class='stat_total'>");
                 htmls.push("<td colspan='3'>合计</td>");
                 htmls.push("<td>"+datas.freq+"</td>");
                 htmls.push("<td>"+datas.days+"</td>");

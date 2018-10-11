@@ -913,90 +913,27 @@ public class RikazeController extends BaseController {
         return mav;
     }
 
-    //    @NeedlessCheckLogin
-//    public ModelAndView getStatKaoqinData2(HttpServletRequest request, HttpServletResponse response){
-//        Integer userCount = getUserCount();
-//       // Long
-//        OrgManager orgManager = (OrgManager)AppContext.getBean("orgManager");
-//
-//
-//        List<Map> enumItems =  getEnumItems();
-//
-//        //id 为key showvalue为值
-//        Map<Long,String> enumDataMap = transEnumItems(enumItems);
-//        System.out.println(enumDataMap);
-//
-//        KaoqinStatVo vo = new KaoqinStatVo();
-//        vo.initStatData(enumDataMap);
-//        vo.setUserCount(userCount);
-//        //3人 7事由 10天数
-//        List<Map> dataList = this.getKaoQinDataList(new Date(24*3600*1000*365),new Date());
-//        Map<Long,KaoqinPersonStat> personStatMap = new HashMap<Long, KaoqinPersonStat>();
-//        for(Map data:dataList){
-//            System.out.println("data:"+data);
-//            Long userId = getLong(data.get("field0003"));
-//            KaoqinPersonStat oldStat = personStatMap.get(userId);
-//            KaoqinPersonStat stat = null;
-//            if(oldStat == null){
-//                stat =  new KaoqinPersonStat();
-//            }else{
-//                stat = oldStat;
-//            }
-//            try {
-//               V3xOrgMember om =  orgManager.getMemberById(userId);
-//               stat.setAccountId(om.getOrgAccountId());
-//               stat.setDeptId(om.getOrgDepartmentId());
-//               V3xOrgDepartment dept = orgManager.getDepartmentById(om.getOrgDepartmentId());
-//               stat.setDeptName(dept.getName());
-//               stat.setNo(om.getIdNum());
-//               stat.setSortId(om.getSortId());
-//               stat.setUserId(om.getId());
-//               stat.setUserName(om.getName());
-//            } catch (BusinessException e) {
-//                e.printStackTrace();
-//                System.out.println("ren gg le");
-//                continue;
-//            }
-//            Long enumId = getLong(data.get("field0021"));
-//            System.out.println("enumId:"+enumId);
-//            String type = enumDataMap.get(enumId);
-//            if(type == null||"".equals(type.trim())){
-//                System.out.println("bu ren shi de enum le");
-//                continue;
-//            }
-//            KaoqinItem item =new KaoqinItem();
-//            item.setTypeId(enumId);
-//            item.setTypeName(type);
-//            Float num = getFloat(data.get("field0010"));
-//            item.setNum(num);
-//            stat.addKaoqinItem(item);
-//            if(oldStat == null){
-//                personStatMap.put(userId,stat);
-//            }
-//
-//        }
-//        vo.addKaoqinPerson(personStatMap.values());
-//        DataKitSupporter.responseJSON(vo,response);
-//        return null;
-//    }
+
     // private static SimpleDateFormat s_format = new SimpleDateFormat("yyyy-mm-dd hh:MM:ss")
     @NeedlessCheckLogin
     public ModelAndView getPeixunStatData(HttpServletRequest request, HttpServletResponse response) {
+        //startDate=&endDate=&deptId=dd&person=
         String start = request.getParameter("startDate");
         String end = request.getParameter("endDate");
         Date startDate = null;
         Date endDate = null;
-        if (start == null) {
+        if (start == null||"".equals(start)) {
             startDate = new Date(0);
         } else {
             startDate = s_format(start);
         }
-        if (end == null) {
+        if (end == null||"".equals(start)) {
             endDate = new Date();
         } else {
             endDate = s_format(end);
         }
-
+        String person = request.getParameter("person");
+        String deptId = request.getParameter("deptId");
         Map<Long, Map> users = getUsers();
         List<Map> enumLevelItems =  getPeixunLevel();
         //id 为key showvalue为值
@@ -1007,7 +944,7 @@ public class RikazeController extends BaseController {
         System.out.println(enumTypeDataMap);
         PeixunStatVo vo = new PeixunStatVo();
         vo.initBase(enumLevelDataMap,enumTypeDataMap);
-        Map<Long,PeixunPersonStat> baseData = genPeixunBaseData(users,enumLevelDataMap,enumTypeDataMap);
+        Map<Long,PeixunPersonStat> baseData = genPeixunBaseData(users,enumLevelDataMap,enumTypeDataMap,person,deptId);
         List<Map> peixunDataList = getPeixunDataList(startDate, endDate);
         for(Map data:peixunDataList){
             Long userId = getLong(data.get("field0003"));
@@ -1025,7 +962,7 @@ public class RikazeController extends BaseController {
         DataKitSupporter.responseJSON(vo,response);
         return null;
     }
-    private Map<Long,PeixunPersonStat> genPeixunBaseData(Map<Long, Map> users,Map<Long,String> enumLevelMap,Map<Long,String> typeLevelMap){
+    private Map<Long,PeixunPersonStat> genPeixunBaseData(Map<Long, Map> users,Map<Long,String> enumLevelMap,Map<Long,String> typeLevelMap,String filterPerson,String filterDeptId){
         Map<Long,PeixunPersonStat> ret = new HashMap<Long, PeixunPersonStat>();
 
         for(Map data:users.values()){
@@ -1035,6 +972,19 @@ public class RikazeController extends BaseController {
             stat.setUserName(""+data.get("name"));
             stat.setSortId(getLong(data.get("sort_id")));
             Long deptId = getLong(data.get("org_department_id"));
+            if(null!=filterDeptId&&!"-1".equals(filterDeptId)){
+                Long fid = getLong(filterDeptId);
+                if(fid!=null){
+                    if(!fid.equals(deptId)){
+                        continue;
+                    }
+                }
+            }
+            if(null!=filterPerson&&!"".equals(filterPerson)){
+                if(!stat.getUserName().contains(filterPerson)){
+                    continue;
+                }
+            }
             String deptName = getDepartName(deptId);
             if("".equals(deptName)){
                 continue;
@@ -1051,28 +1001,45 @@ public class RikazeController extends BaseController {
 
     }
     @NeedlessCheckLogin
+    public ModelAndView getDeptBaseData(HttpServletRequest request, HttpServletResponse response){
+
+        List<Map> depts = getdepts();
+        Map ret = new HashMap();
+        ret.put("items",depts);
+        DataKitSupporter.responseJSON(ret,response);
+        return null;
+    }
+    @NeedlessCheckLogin
     public ModelAndView getStatKaoqinData(HttpServletRequest request, HttpServletResponse response) {
         String start = request.getParameter("startDate");
         String end = request.getParameter("endDate");
         Date startDate = null;
         Date endDate = null;
-        if (start == null) {
+        if (start == null||"".equals(start)) {
             startDate = new Date(0);
         } else {
             startDate = s_format(start);
+            if(startDate==null){
+                startDate = new Date(0);
+            }
         }
-        if (end == null) {
+        if (end == null||"".equals(end)) {
             endDate = new Date();
         } else {
             endDate = s_format(end);
+            if(endDate==null){
+                endDate = new Date();
+            }
         }
+        String person = request.getParameter("person");
+        String deptId = request.getParameter("deptId");
         List<Map> kaoqinList = getKaoQinDataList(startDate, endDate);
         Map<Long, Map> users = getUsers();
 
         List<Map> enumItems =  getEnumItems();
         //id 为key showvalue为值
         Map<Long,String> enumDataMap = transEnumItems(enumItems);
-        Map<Long,KaoqinPersonStat> baseData = genBaseData(users,enumDataMap);
+        Map<Long,KaoqinPersonStat> baseData = genBaseData(users,enumDataMap,person,deptId);
         for(Map data:kaoqinList){
             Long userId = getLong(data.get("field0003"));
             Long enumId = getLong(data.get("field0021"));
@@ -1090,7 +1057,7 @@ public class RikazeController extends BaseController {
         return null;
     }
 
-    private Map<Long,KaoqinPersonStat> genBaseData(Map<Long, Map> users,Map<Long,String> enumDataMap){
+    private Map<Long,KaoqinPersonStat> genBaseData(Map<Long, Map> users,Map<Long,String> enumDataMap,String filterPerson,String filterDeptId){
         Map<Long,KaoqinPersonStat> ret = new HashMap<Long, KaoqinPersonStat>();
 
         for(Map data:users.values()){
@@ -1098,8 +1065,23 @@ public class RikazeController extends BaseController {
             Long uid = getLong(data.get("id"));
             stat.setUserId(uid);
             stat.setUserName(""+data.get("name"));
-            stat.setSortId(getLong(data.get("sort_id")));
             Long deptId = getLong(data.get("org_department_id"));
+            if(null!=filterDeptId&&!"-1".equals(filterDeptId)){
+                Long fid = getLong(filterDeptId);
+                if(fid!=null){
+                    if(!fid.equals(deptId)){
+                        continue;
+                    }
+                }
+            }
+            if(null!=filterPerson&&!"".equals(filterPerson)){
+                if(!stat.getUserName().contains(filterPerson)){
+                    continue;
+                }
+            }
+            stat.setSortId(getLong(data.get("sort_id")));
+
+
             String deptName = getDepartName(deptId);
             if("".equals(deptName)){
                 continue;
@@ -1126,7 +1108,7 @@ public class RikazeController extends BaseController {
 
     private Date s_format(String dateStr) {
         try {
-            return format.parse(dateStr);
+            return s_s_format.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -1217,6 +1199,13 @@ public class RikazeController extends BaseController {
         }
         return ret;
     }
+    public List<Map> getdepts() {
+
+        String sql = "select * from org_unit where is_enable=1 and is_deleted=0 and type='Department' order by sort_id asc";
+        List<Map> dataList = getDataBySQL(sql);
+
+        return dataList;
+    }
 
     private List<Map> getDataBySQL(String sql) {
 
@@ -1266,6 +1255,7 @@ public class RikazeController extends BaseController {
     }
 
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat s_s_format = new SimpleDateFormat("yyyy-MM-dd");
 
     private String toSQLDate(Date dt) {
         return "to_date('" + format.format(dt) + "','yyyy-mm-dd hh24:mi:ss')";
