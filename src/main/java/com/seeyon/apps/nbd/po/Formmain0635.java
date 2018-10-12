@@ -31,6 +31,7 @@ public class Formmain0635 extends BasePO{
     private String field0009;
     private Date field0010;
     private Date field0011;
+    private String field0012;
 
 
     public String getField0001() {
@@ -215,5 +216,13 @@ public class Formmain0635 extends BasePO{
 
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
+    }
+
+    public String getField0012() {
+        return field0012;
+    }
+
+    public void setField0012(String field0012) {
+        this.field0012 = field0012;
     }
 }

@@ -126,35 +126,35 @@
         />
         <property
                 name="field0004"
-                column="field0005"
+                column="field0004"
                 type="string"
                 not-null="false"
                 length="510"
         />
         <property
                 name="field0005"
-                column="field0006"
+                column="field0005"
                 type="string"
                 not-null="false"
                 length="510"
         />
         <property
                 name="field0006"
-                column="field0007"
+                column="field0006"
                 type="timestamp"
                 not-null="false"
 
         />
         <property
                 name="field0007"
-                column="field0008"
+                column="field0007"
                 type="timestamp"
                 not-null="false"
 
         />
         <property
                 name="field0008"
-                column="field0004"
+                column="field0008"
                 type="string"
                 not-null="false"
                 length="510"
@@ -180,12 +180,6 @@
                 not-null="false"
 
         />
-        <property
-                name="field0012"
-                column="field0012"
-                type="string"
-                not-null="false"
-                length="510"
-        />
+
     </class>
 </hibernate-mapping>

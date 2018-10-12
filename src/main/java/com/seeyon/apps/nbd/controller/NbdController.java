@@ -183,6 +183,8 @@ public class NbdController extends BaseController {
             formmain0635.setField0010(UIUtils.parseDate(createdate));
             String updatedate = parameter.$("updatedate");
             formmain0635.setField0011(UIUtils.parseDate(updatedate));
+            String address = parameter.$("address");
+            formmain0635.setField0012(address);
             formmain0635.setIdIfNew();
             DBAgent.save(formmain0635);
         } catch (Exception e) {
