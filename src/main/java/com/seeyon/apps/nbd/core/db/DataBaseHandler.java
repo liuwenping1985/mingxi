@@ -4,8 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2018/8/24.
@@ -16,10 +15,42 @@ public class DataBaseHandler {
 
     private static Map dbMap = new HashMap();
 
+    private static String DEFAULT_DB = "DataBase";
+
+    private static String EXT_DB = "ExtDataBase";
+
+    private static Map<String,String> extDbMap = new HashMap<String,String>();
+
+    private static Map<String,Map> dbContainerMap = new HashMap<String,Map>();
+
     private  DataBaseHandler(){
+        StringBuilder stb = initDataBase(DEFAULT_DB);
+        if(!StringUtils.isEmpty(stb.toString())){
+            dbMap = JSON.parseObject(stb.toString(),HashMap.class);
+        }
+         stb =initDataBase(EXT_DB);
+        if(!StringUtils.isEmpty(stb.toString())){
+            extDbMap = JSON.parseObject(stb.toString(),HashMap.class);
+        }
+        if(!extDbMap.isEmpty()){
+            Set<String> keySet = extDbMap.keySet();
+            for(String key:keySet){
+                stb = initDataBase(key);
+                if(stb.length()==0){
+                    stb.append("{}");
+                }
+                Map db = JSON.parseObject(stb.toString(),HashMap.class);
+                dbContainerMap.put(key,db);
+            }
+
+
+        }
+
+    }
+    private StringBuilder initDataBase(String dataBaseName){
         StringBuilder stb = new StringBuilder();
         try {
-            FileReader fr = new FileReader(this.getFile());
+            FileReader fr = new FileReader(this.getFile(dataBaseName));
             BufferedReader reader = new BufferedReader(fr);
             String line = null;
 
@@ -32,24 +63,38 @@ public class DataBaseHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(!StringUtils.isEmpty(stb.toString())){
-            dbMap = JSON.parseObject(stb.toString(),HashMap.class);
-        }
-
+        return stb;
 
     }
 
-    private void store(){
 
+    private void store(){
         String dbMapString = JSON.toJSONString(dbMap);
         File f = this.getFile();
+        doStore(f,dbMapString);
+
+    }
+    private void store(String dataBaseName){
+        Map map =null;
+        if(EXT_DB.equals(dataBaseName)){
+            map = extDbMap;
+        }else{
+            map = dbContainerMap.get(dataBaseName);
+        }
+
+        String dbMapString = JSON.toJSONString(map);
+        File f = this.getFile(dataBaseName);
+        doStore(f,dbMapString);
+
+    }
+    private void doStore(File f,String content){
         if(f.exists()){
             f.delete();
         }
         try {
             f.createNewFile();
             FileWriter fw = new FileWriter(f);
-            fw.write(dbMapString);
+            fw.write(content);
             fw.flush();
             fw.close();
         } catch (IOException e) {
@@ -62,6 +107,13 @@ public class DataBaseHandler {
     private File getFile(){
         String path = this.getClass().getResource("DataBase.json").getPath();
 
+        File f = new File(path);
+        return f;
+
+    }
+    private File getFile(String dbName){
+        String path = this.getClass().getResource("").getPath();
+        path=path+dbName+".json";
         File f = new File(path);
         return f;
 
@@ -79,20 +131,69 @@ public class DataBaseHandler {
 
         return dbMap.get(key);
     }
+    public Object getDataByKey(String dbName,String key){
+        Map db= dbContainerMap.get(dbName);
+        if(db==null){
+            return null;
+        }
+        return db.get(key);
+    }
 
     public void putData(String key,Object obj){
 
          dbMap.put(key,obj);
          store();
     }
+    public void putAllData(Map obj){
+
+        dbMap.putAll(obj);
+        store();
+    }
+    public void putData(String dbName,String key,Object obj){
+        Map db= dbContainerMap.get(dbName);
+        db.put(key,obj);
+        store(dbName);
+    }
+    public void putAllData(String dbName,Map data){
+        Map db= dbContainerMap.get(dbName);
+        db.putAll(data);
+        store(dbName);
+    }
+    public boolean isDBExit(String dbName){
+        String db= extDbMap.get(dbName);
+        if(db!=null){
+            return true;
+        }
+        return false;
+    }
+    public boolean createNewDataBaseByName(String dataBaseName){
+        if(isDBExit(dataBaseName)){
+            return false;
+        }
+        dbContainerMap.put(dataBaseName,new HashMap());
+        extDbMap.put(dataBaseName,"1");
+        this.store(dataBaseName);
+        this.store(EXT_DB);
+        return true;
+    }
 
 
     public static void main(String[] args){
-        DataBaseHandler handler =  DataBaseHandler.getInstance();
-        handler.putData("123","456");
-        handler.putData("1234","4567");
-        handler.putData("12345","45678");
-       // System.out.println(handler.getDataByKey("123"));
+  //      DataBaseHandler handler =  DataBaseHandler.getInstance();
+//        String dbName = "pending";
+//        if(!handler.isDBExit(dbName)){
+//            boolean isOk = handler.createNewDataBaseByName("pending");
+//            if(!isOk){
+//                System.out.println("oooooo");
+//                return;
+//            }
+//        }
+//        handler.putData(dbName,"test123","sdsdsd");
+//        // System.out.println(handler.getDataByKey("123"));
+//        handler.putData(dbName,"test1234",1L);
+//        System.out.println(handler.getDataByKey(dbName,"test123"));
+//
+
     }
 
 

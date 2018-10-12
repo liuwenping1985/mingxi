@@ -26,17 +26,17 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.MemberManagerImpl;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.rest.resources.MessageResource;
+import com.seeyon.ctp.util.*;
 import com.seeyon.ctp.util.Base64;
-import com.seeyon.ctp.util.JDBCAgent;
-import com.seeyon.ctp.util.Strings;
-import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.dee.common.base.util.MD5;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import www.seeyon.com.mocnoyees.MSGTMocnoyees;
 import www.seeyon.com.utils.MD5Util;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +53,7 @@ public class SsoController extends BaseController {
 
     private LoginControlImpl loginControl;
     private OrgManager orgManager;
+    private AffairManager aff;
 
     private OrgManager getOrgManager() {
 
@@ -60,6 +61,14 @@ public class SsoController extends BaseController {
             orgManager = (OrgManager) AppContext.getBean("orgManager");
         }
         return orgManager;
+
+    }
+
+    private AffairManager getAffairManager() {
+        if (aff == null) {
+            aff = (AffairManager) AppContext.getBean("affairManager");
+        }
+        return aff;
 
     }
 
@@ -96,7 +105,7 @@ public class SsoController extends BaseController {
                 //param.put("slink", "http://113.104.5.249/seeyon/main.do?method=main");
                 Date cr = UIUtils.getDate(msg.get("creation_date"));
                 param.put("senddatetime", UIUtils.formatDate(cr));
-                Date stt = new Date(cr.getTime()+1000*3600*72);
+                Date stt = new Date(cr.getTime() + 1000 * 3600 * 72);
                 param.put("readdatetime", UIUtils.formatDate(stt));
                 param.put("scontent", msg.get("message_content"));
                 param.put("iview", 2);
@@ -111,8 +120,8 @@ public class SsoController extends BaseController {
             public void run() {
                 System.out.println("read-msg");
                 JDBCAgent agent = new JDBCAgent();
-                Map ret = (Map)DataBaseHandler.getInstance().getDataByKey("msg_sender");
-                if(ret == null){
+                Map ret = (Map) DataBaseHandler.getInstance().getDataByKey("msg_sender");
+                if (ret == null) {
                     ret = new HashMap();
                 }
                 try {
@@ -125,18 +134,18 @@ public class SsoController extends BaseController {
                     String skey = "oa";
                     url = url + "&syskey=" + skey;
 
-                    if(!CollectionUtils.isEmpty(msgList)){
-                        for(Map map:msgList){
+                    if (!CollectionUtils.isEmpty(msgList)) {
+                        for (Map map : msgList) {
                             Long id = UIUtils.getLong(map.get("id"));
-                            String isRet = (String)ret.get(id);
-                            if(StringUtils.isEmpty(isRet)){
+                            String isRet = (String) ret.get(id);
+                            if (StringUtils.isEmpty(isRet)) {
                                 Map param = genMsgParam(map);
-                                System.out.println("param:"+param);
-                                if(param!=null){
-                                    Map data = UIUtils.post(url,param);
+                                System.out.println("param:" + param);
+                                if (param != null) {
+                                    Map data = UIUtils.post(url, param);
                                     System.out.println(data);
                                 }
-                                ret.put(id,"1");
+                                ret.put(String.valueOf(id), "1");
                             }
 
                         }
@@ -145,11 +154,11 @@ public class SsoController extends BaseController {
                     e.printStackTrace();
                 } finally {
                     agent.close();
-                    DataBaseHandler.getInstance().putData("msg_sender",ret);
+                    DataBaseHandler.getInstance().putData("msg_sender", ret);
                 }
 
             }
-        }, 248000, 5*60 * 1000);
+        }, 248000, 5 * 60 * 1000);
 
     }
 
@@ -169,24 +178,24 @@ public class SsoController extends BaseController {
     }
 
     @NeedlessCheckLogin
-    public ModelAndView openLink(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView openLink(HttpServletRequest request, HttpServletResponse response) {
         //http://127.0.0.1:701/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=-5367598530848996210
 
         String affId = request.getParameter("affairId");
         String memberId = request.getParameter("memberId");
         try {
 
-        V3xOrgMember member = this.getOrgManager().getMemberById(Long.valueOf(memberId));
-        String url="/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId="+affId;
+            V3xOrgMember member = this.getOrgManager().getMemberById(Long.valueOf(memberId));
+            String url = "/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=" + affId;
 
             User user2 = AppContext.getCurrentUser();
-            if(user2==null||!user2.getId().equals(member.getId())){
-                doLogin(member,request,response);
+            if (user2 == null || !user2.getId().equals(member.getId())) {
+                doLogin(member, request, response);
             }
             response.sendRedirect(url);
         } catch (Exception e) {
             e.printStackTrace();
-            UIUtils.responseJSON("error",response);
+            UIUtils.responseJSON("error", response);
         }
         return null;
     }
@@ -197,7 +206,9 @@ public class SsoController extends BaseController {
         String user_name = request.getParameter("loginname");
 
         String password = request.getParameter("spassword");
-
+        if (StringUtils.isEmpty(password)) {
+            password = request.getParameter("password");
+        }
         String skey = "oa";
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("result", false);
@@ -210,7 +221,7 @@ public class SsoController extends BaseController {
             System.out.println(ret);
             String retStatus = String.valueOf(ret.get("result"));
             if ("0".equals(retStatus)) {
-               V3xOrgMember member =  this.getOrgManager().getMemberByLoginName(user_name);
+                V3xOrgMember member = this.getOrgManager().getMemberByLoginName(user_name);
 
                 if (member != null) {
 
@@ -240,7 +251,7 @@ public class SsoController extends BaseController {
 
     public User login(V3xOrgMember handleMember, HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         User user2 = AppContext.getCurrentUser();
-        if(user2!=null&&user2.getId().equals(handleMember.getId())){
+        if (user2 != null && user2.getId().equals(handleMember.getId())) {
             try {
                 response.sendRedirect("/seeyon/main.do?method=main");
                 return user2;
@@ -248,7 +259,7 @@ public class SsoController extends BaseController {
                 e.printStackTrace();
             }
         }
-        User user = doLogin(handleMember,request,response);
+        User user = doLogin(handleMember, request, response);
         try {
             response.sendRedirect("/seeyon/main.do?method=main");
         } catch (IOException e) {
@@ -258,7 +269,8 @@ public class SsoController extends BaseController {
 
         return user;
     }
-    private User doLogin(V3xOrgMember handleMember, HttpServletRequest request, HttpServletResponse response){
+
+    private User doLogin(V3xOrgMember handleMember, HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         user.setId(handleMember.getId());
         user.setDepartmentId(handleMember.getOrgDepartmentId());
@@ -271,9 +283,9 @@ public class SsoController extends BaseController {
         String remoteAddr = Strings.getRemoteAddr(request);
         user.setRemoteAddr(remoteAddr);
         HttpSession session = request.getSession(true);
-        HttpSession session2 = (HttpSession)AppContext.getThreadContext("THREAD_CONTEXT_SESSION_KEY");
-        if(session2==null){
-            AppContext.putThreadContext("THREAD_CONTEXT_SESSION_KEY",session);
+        HttpSession session2 = (HttpSession) AppContext.getThreadContext("THREAD_CONTEXT_SESSION_KEY");
+        if (session2 == null) {
+            AppContext.putThreadContext("THREAD_CONTEXT_SESSION_KEY", session);
         }
         String sessionId = session.getId();
         user.setSessionId(sessionId);
@@ -370,40 +382,70 @@ public class SsoController extends BaseController {
     @ListenEvent(event = CollaborationStartEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onStart(CollaborationStartEvent event) {
 
-
+/**
+ *
+ "sname" : "通知",
+ "scode" : "mes001",
+ "istate" : 1,
+ "itype" : 1,
+ "usercode" : "YG02",
+ "username" : "user",
+ "senddatetime" : "2018-7-11 05:07:12",
+ "accdatetime" : "2018-7-11 06:07:12",
+ "dealusercode" : "YG001",
+ "dealusername" : "admin",
+ "slink" : "www.baidu.com",
+ "enddatetime" : "2018-7-11 06:07:12",
+ "iview" : 1,
+ "delflag" : 0,
+ "modifydate" : "2018-7-11"
+ */
         CtpAffair affair = event.getAffair();
         System.out.println("流程开始：" + affair.getId());
-        String url = ConfigService.getPropertyByName("lens_flow_add_url", "");
-        String skey = getSysKey(false);
-        url = url + "&syskey=" + skey;
-        Map param = genParam(affair, 0);
-        /**
-         *
-         "sname" : "通知",
-         "scode" : "mes001",
-         "istate" : 1,
-         "itype" : 1,
-         "usercode" : "YG02",
-         "username" : "user",
-         "senddatetime" : "2018-7-11 05:07:12",
-         "accdatetime" : "2018-7-11 06:07:12",
-         "dealusercode" : "YG001",
-         "dealusername" : "admin",
-         "slink" : "www.baidu.com",
-         "enddatetime" : "2018-7-11 06:07:12",
-         "iview" : 1,
-         "delflag" : 0,
-         "modifydate" : "2018-7-11"
-         */
-        Map ret = null;
-        try {
-            ret = UIUtils.post(url, param);
-            System.out.println(ret);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Long summaryId = affair.getObjectId();
+        List<CtpAffair> affairList = DBAgent.find("from CtpAffair where state=3 and objectId= " + summaryId);
+        if(!CollectionUtils.isEmpty(affairList)){
+            String url = ConfigService.getPropertyByName("lens_flow_add_url", "");
+            String skey = getSysKey(false);
+            url = url + "&syskey=" + skey;
+           for (CtpAffair af:affairList) {
+                if(!isAffairSended(af.getId())){
+                    Map param = genParam(af, 0);
+                    System.out.println("开始发送：" + param);
+                    Map ret = null;
+                    try {
+                        ret = UIUtils.post(url, param);
+                        System.out.println(ret);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
         }
 
 
+
+
+
+    }
+
+    private DataBaseHandler getDataBaseHandler(){
+        String key = "pending";
+        DataBaseHandler handler= DataBaseHandler.getInstance();
+        if(!handler.isDBExit(key)){
+           handler.createNewDataBaseByName(key);
+        }
+        return handler;
+    }
+    private boolean isAffairSended(Long affairId){
+        String key = "pending";
+        DataBaseHandler handler = getDataBaseHandler();
+        Object obj = handler.getDataByKey(key,String.valueOf(affairId));
+        if(obj!=null){
+            return true;
+        }
+        return false;
     }
 
     //流程更新
@@ -411,6 +453,29 @@ public class SsoController extends BaseController {
     public void onProcess(CollaborationProcessEvent event) {
 
         CtpAffair affair = event.getAffair();
+        Long summaryId = affair.getObjectId();
+        List<CtpAffair> affairList = DBAgent.find("from CtpAffair where state=3 and objectId= " + summaryId);
+        //new send
+        if(!CollectionUtils.isEmpty(affairList)){
+            String addurl = ConfigService.getPropertyByName("lens_flow_add_url", "");
+            String skey = getSysKey(false);
+            addurl = addurl + "&syskey=" + skey;
+            for (CtpAffair af:affairList) {
+                if(!isAffairSended(af.getId())){
+                    Map param = genParam(af, 0);
+                    System.out.println("开始发送：" + param);
+                    Map ret = null;
+                    try {
+                        ret = UIUtils.post(addurl, param);
+                        System.out.println(ret);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
         String url = ConfigService.getPropertyByName("lens_flow_update_url", "");
         String skey = getSysKey(false);
         url = url + "&syskey=" + skey;
@@ -489,13 +554,16 @@ public class SsoController extends BaseController {
             e.printStackTrace();
         }
 
-        String oaUrl = ConfigService.getPropertyByName("oa_url","http://113.104.5.249");
-        param.put("slink", oaUrl+"/seeyon/gateway/sso.do?method=openLink&affairId="+affair.getId()+"&memberId="+memberId);
+        String oaUrl = ConfigService.getPropertyByName("oa_url", "http://113.104.5.249");
+        param.put("slink", oaUrl + "/seeyon/gateway/sso.do?method=openLink&affairId=" + affair.getId() + "&memberId=" + memberId);
         Date cr = affair.getCreateDate();
         param.put("senddatetime", UIUtils.formatDate(cr));
         Date re = affair.getReceiveTime();
         param.put("accdatetime", UIUtils.formatDate(re));
         Date ext = affair.getExpectedProcessTime();
+        if (ext == null) {
+            ext = new Date(affair.getCreateDate().getTime() + 365 * 3600 * 24 * 1000L);
+        }
         param.put("enddatetime", UIUtils.formatDate(ext));
         param.put("iview", 2);
         param.put("delflag", 0);
@@ -506,8 +574,7 @@ public class SsoController extends BaseController {
 
         }
         if (1 == type) {
-
-
+            param.put("istate", 2);
         }
 
         if (2 == type) {

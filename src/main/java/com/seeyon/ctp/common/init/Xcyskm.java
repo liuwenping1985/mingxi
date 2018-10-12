@@ -11,21 +11,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import javax.crypto.Cipher;
 import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 public class Xcyskm extends ClassLoader {
-    private static Cipher cipher;
     private static final List<String> seekretList = new ArrayList();
 
     static {
         seekretList.add("com.seeyon.ctp.common.init.SystemLoader");
-        seekretList.add("com.seeyon.ctp.common.plugin.PluginSystemInit");
+       // seekretList.add("com.seeyon.ctp.common.plugin.PluginSystemInit");
         seekretList.add("com.seeyon.ctp.login.LoginHelper");
-        //seekretList.add("com.seeyon.ctp.product.ProductInfo");
+        seekretList.add("com.seeyon.ctp.product.ProductInfo");
         seekretList.add("com.seeyon.ctp.permission.bo.LicensePerInfo");
         seekretList.add("com.seeyon.v3x.dee.context.EngineController");
+        seekretList.add("com.seeyon.apps.mplus.a.v.a");
     }
 
     public Xcyskm(ClassLoader parent) {

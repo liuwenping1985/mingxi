@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.util;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.xinjue.vo.HaiXingParameter;
+import com.seeyon.ctp.common.init.Xcyskm;
 import com.seeyon.ctp.menu.manager.PortalMenuManagerImpl;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
@@ -31,10 +32,17 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.html.simpleparser.HTMLWorker;
+import com.lowagie.text.html.simpleparser.StyleSheet;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Created by liuwenping on 2018/8/17.
@@ -153,12 +161,12 @@ public class UIUtils {
 
     public static void main(String[] args) throws InterruptedException, IOException {
        // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
-
+      //  Xcyskm k;
       //  ClassPool pool = ClassPool.getDefault();
 //        UIUtils u = new UIUtils();
-//        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+//        byte[] bytes = u.loadClassData("com.seeyon.ctp.common.plugin.PluginSystemInit");
 //      //  pool.getClassLoader()
-//        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+//        String path = "/Users/liuwenping/Documents/wmm/PluginSystemInit.class";
 //        File f = new File(path);
 //        if(f.exists()){
 //            f.delete();
@@ -171,8 +179,50 @@ public class UIUtils {
 //        out.write(bytes);
 //        out.flush();
 //        out.close();
+
+            //TestIText ih = new TestIText();
+            //ihtmlCodeComeFromFile("D://Test//iText.html", "D://Test//iText_1.pdf");
+        htmlCodeComeString("test123Hello中文test123", "/Users/liuwenping/Documents/wmm/iText_2.pdf");
+
         System.out.println("test123");
 
+
+    }
+    public static void htmlCodeComeFromFile(String filePath, String pdfPath) {
+        Document document = new Document();
+        try {
+            StyleSheet st = new StyleSheet();
+            st.loadTagStyle("body", "leading", "16,0");
+            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+            document.open();
+            ArrayList p = HTMLWorker.parseToList(new FileReader(filePath), st);
+            for(int k = 0; k < p.size(); ++k) {
+                document.add((Element)p.get(k));
+            }
+            document.close();
+            System.out.println("文档创建成功");
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void htmlCodeComeString(String htmlCode, String pdfPath) {
+        Document doc = new Document(PageSize.A4);
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(pdfPath));
+            doc.open();
+            com.itextpdf.tool.xml.html.HTMLUtils u;
+            com.itextpdf.tool.xml.css.apply.ChunkCssApplier c;
+            // 解决中文问题
+            //BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            //Font FontChinese = new Font(bfChinese, 12, Font.NORMAL);
+            Font f = new Font();
+            Paragraph t = new Paragraph(htmlCode, f);
+            doc.add(t);
+            doc.close();
+            System.out.println("文档创建成功");
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public byte[] loadClassData(String className) throws IOException {
