@@ -23,27 +23,23 @@ import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.login.online.OnlineRecorder;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
-import com.seeyon.ctp.organization.manager.MemberManagerImpl;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.rest.resources.MessageResource;
-import com.seeyon.ctp.util.*;
-import com.seeyon.ctp.util.Base64;
+import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.JDBCAgent;
+import com.seeyon.ctp.util.Strings;
+import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
-import com.seeyon.v3x.dee.common.base.util.MD5;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import www.seeyon.com.mocnoyees.MSGTMocnoyees;
 import www.seeyon.com.utils.MD5Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**

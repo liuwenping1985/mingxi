@@ -1,46 +1,26 @@
 package com.seeyon.apps.nbd.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.po.Formmain0635;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.apps.nbd.vo.CheckResult;
 import com.seeyon.ctp.common.AppContext;
-import com.seeyon.ctp.common.authenticate.domain.User;
-import com.seeyon.ctp.common.constants.Constants;
-import com.seeyon.ctp.common.constants.LoginResult;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.common.exceptions.BusinessException;
-import com.seeyon.ctp.common.flag.BrowserEnum;
-import com.seeyon.ctp.common.flag.SysFlag;
-import com.seeyon.ctp.common.i18n.LocaleContext;
-import com.seeyon.ctp.common.i18n.ResourceUtil;
-import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.login.LoginControlImpl;
-import com.seeyon.ctp.login.online.OnlineRecorder;
-import com.seeyon.ctp.organization.bo.V3xOrgAccount;
-import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.organization.po.OrgMember;
-import com.seeyon.ctp.organization.po.OrgUnit;
 import com.seeyon.ctp.util.DBAgent;
-import com.seeyon.ctp.util.JDBCAgent;
-import com.seeyon.ctp.util.Strings;
-import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/8/17.
@@ -116,7 +96,7 @@ public class NbdController extends BaseController {
 
 
         CommonParameter parameter = CommonParameter.parseParameter(request);
-        CheckResult cr = validParameter(parameter);
+        CheckResult cr = validParameter(parameter,0);
         if (!cr.isResult()) {
 
             UIUtils.responseJSON(cr, response);
@@ -124,21 +104,6 @@ public class NbdController extends BaseController {
             return null;
         }
         Map retMap = new HashMap();
-        /**
-
-         "name":"朗斯卫浴项目",
-         "number":"123456",
-         "region":"143223",
-         "people":"245634562",//存的id
-         "department":"987534",//存的部门id
-         " startdate ":"2018-08-22",
-         " enddate ":"2018-09-22",
-         " state ":"0",
-         " remark ":"待商务待商务待商务待商务待商务待商务待商务",
-         " createdate ":"2018-08-22 19:07:40",
-         " updatedate ":"2018-08-22 19:07:40"
-
-         */
         Formmain0635 formmain0635 = new Formmain0635();
 
         try {
@@ -196,13 +161,151 @@ public class NbdController extends BaseController {
         retMap.put("data", JSON.toJSONString(parameter));
 
         //agent.execute("insert into formmain_0395");
-
-
-        UIUtils.responseJSON(parameter, response);
+        UIUtils.responseJSON(retMap, response);
         return null;
 
     }
+    @NeedlessCheckLogin
+    public ModelAndView update(HttpServletRequest request, HttpServletResponse response) {
 
+
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+        CheckResult cr = validParameter(parameter,1);
+        if (!cr.isResult()) {
+
+            UIUtils.responseJSON(cr, response);
+
+            return null;
+        }
+        Map retMap = new HashMap();
+        String number = parameter.$("number");
+
+        String sql ="from Formmain0635 where field0002='"+number+"'";
+        List<Formmain0635> fmList = DBAgent.find(sql);
+        if(CollectionUtils.isEmpty(fmList)){
+            cr.setResult(false);
+            cr.setData(parameter);
+            cr.setMsg("通过项目编码无法找到数据");
+            UIUtils.responseJSON(cr, response);
+
+            return null;
+        }
+        Formmain0635 formmain0635 = fmList.get(0);
+        try {
+            String name = parameter.$("name");
+            if(!StringUtils.isEmpty(name)){
+                formmain0635.setField0001(name);
+            }
+            String region = parameter.$("region");
+            if(!StringUtils.isEmpty(region)){
+                formmain0635.setField0003(region);
+            }
+            String people = parameter.$("people");
+            if(!StringUtils.isEmpty(people)){
+                Long memberId = UIUtils.getMemberIdByCode(people);
+                if(memberId==null){
+                    cr.setResult(false);
+                    cr.setMsg("更新时通过人员编码找不到对应人员");
+                    cr.setData(parameter);
+                    UIUtils.responseJSON(cr, response);
+                    return null;
+                }
+                formmain0635.setField0004(String.valueOf(memberId));
+            }
+            String department = parameter.$("department");
+            if(!StringUtils.isEmpty(department)){
+                Long unitId = UIUtils.getDepartmentIdByCode(department);
+                formmain0635.setField0005(String.valueOf(unitId));
+            }
+            String startdate = parameter.$("startdate");
+            if(!StringUtils.isEmpty(startdate)){
+                formmain0635.setField0006(UIUtils.parseDateYearMonthDay(startdate));
+            }
+
+            String enddate = parameter.$("enddate");
+            if(!StringUtils.isEmpty(enddate)){
+                formmain0635.setField0007(UIUtils.parseDateYearMonthDay(enddate));
+            }
+
+            String state = parameter.$("state");
+            if(!StringUtils.isEmpty(state)){
+                String stateId = UIUtils.getEnumIdByState(state);
+                formmain0635.setField0008(stateId);
+            }
+            String remark = parameter.$("remark");
+            if(!StringUtils.isEmpty(remark)){
+                formmain0635.setField0009(remark);
+            }
+
+
+            String createdate = parameter.$("createdate");
+            if(!StringUtils.isEmpty(remark)){
+                formmain0635.setField0010(UIUtils.parseDate(createdate));
+            }
+
+            String updatedate = parameter.$("updatedate");
+            if(!StringUtils.isEmpty(remark)){
+                formmain0635.setField0011(UIUtils.parseDate(updatedate));
+            }
+            String address = parameter.$("address");
+            if(!StringUtils.isEmpty(address)){
+                formmain0635.setField0012(address);
+            }
+            DBAgent.update(formmain0635);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        retMap.put("result", true);
+        retMap.put("msg", "");
+        retMap.put("data", JSON.toJSONString(parameter));
+
+        //agent.execute("insert into formmain_0395");
+        UIUtils.responseJSON(retMap, response);
+        return null;
+
+    }
+    @NeedlessCheckLogin
+    public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) {
+
+
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+        CheckResult cr = validParameter(parameter,2);
+        if (!cr.isResult()) {
+
+            UIUtils.responseJSON(cr, response);
+
+            return null;
+        }
+        String number = parameter.$("number");
+        Map retMap = new HashMap();
+       // Formmain0635 formmain0635 = new Formmain0635();
+        String sql ="from Formmain0635 where field0002='"+number+"'";
+        List<Formmain0635> fmList = DBAgent.find(sql);
+        if(CollectionUtils.isEmpty(fmList)){
+            cr.setResult(false);
+            cr.setData(parameter);
+            cr.setMsg("删除时通过项目编码无法找到数据");
+            UIUtils.responseJSON(cr, response);
+
+            return null;
+        }
+        Formmain0635 formmain0635 =fmList.get(0);
+        try {
+            DBAgent.delete(formmain0635);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        retMap.put("result", true);
+        retMap.put("msg", "");
+        retMap.put("data", JSON.toJSONString(parameter));
+
+        //agent.execute("insert into formmain_0395");
+        UIUtils.responseJSON(retMap, response);
+        return null;
+
+    }
     private OrgManager orgManager;
 
     private OrgManager getOrgManager() {
@@ -215,11 +318,22 @@ public class NbdController extends BaseController {
     }
 
 
-    private CheckResult validParameter(CommonParameter parameter) {
+    private CheckResult validParameter(CommonParameter parameter,int mode) {
 
         String name = parameter.$("name");
         CheckResult ret = new CheckResult();
         ret.setResult(true);
+        String number = parameter.$("number");
+        if (StringUtils.isEmpty(number)) {
+            ret.setResult(false);
+            ret.setMsg("项目编码不能为空");
+            ret.setData(parameter);
+            return ret;
+        }
+        //删除
+        if(mode==2||mode==1){
+            return ret;
+        }
         if (StringUtils.isEmpty(name)) {
 
             ret.setResult(false);
@@ -228,13 +342,7 @@ public class NbdController extends BaseController {
             return ret;
 
         }
-        String number = parameter.$("number");
-        if (StringUtils.isEmpty(number)) {
-            ret.setResult(false);
-            ret.setMsg("项目编码不能为空");
-            ret.setData(parameter);
-            return ret;
-        }
+
         String startdate = parameter.$("startdate");
 
         if (StringUtils.isEmpty(startdate)) {

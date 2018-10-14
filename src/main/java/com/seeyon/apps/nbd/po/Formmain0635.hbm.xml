@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.seeyon.apps.nbd.po">
     <!-- 业务管理配置表 -->
-    <class name="Formmain0635" table="formmain_0028">
+    <class name="Formmain0635" table="formmain_0477">
         <id
                 name="id"
                 type="long"
