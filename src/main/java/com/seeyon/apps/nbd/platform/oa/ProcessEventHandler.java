@@ -3,17 +3,26 @@ package com.seeyon.apps.nbd.platform.oa;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
+import com.seeyon.apps.formtalk.form.FormFactoryImpl4ft;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
+import com.seeyon.apps.nbd.core.service.PluginServiceManager;
+import com.seeyon.apps.nbd.core.service.ServicePlugin;
+import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
+import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.event.EventTriggerMode;
+import com.seeyon.ctp.form.bean.FormBean;
+import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.v3x.services.flow.FlowUtil;
+import com.seeyon.v3x.services.form.impl.FormFactoryImpl;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -31,6 +40,18 @@ public class ProcessEventHandler {
     private AffairManager affairManager;
 
     private OrgManager orgManager;
+
+    private PluginServiceManager nbdPluginServiceManager;
+
+    private FormManager formManager;
+
+    public FormManager getFormManager() {
+        if(this.formManager == null) {
+            this.formManager = (FormManager)AppContext.getBean("formManager");
+        }
+
+        return this.formManager;
+    }
 
     public ColManager getColManager() {
         if(this.colManager == null) {
@@ -53,13 +74,36 @@ public class ProcessEventHandler {
 
         return this.orgManager;
     }
+    private PluginServiceManager getNbdPluginServiceManager(){
+
+        if(nbdPluginServiceManager == null){
+            try {
+                nbdPluginServiceManager =  PluginServiceManagerImpl.getInstance();
+            }catch(Exception e){
+                e.printStackTrace();
+            }catch(Error error){
+                error.printStackTrace();
+            }
+        }
+        return nbdPluginServiceManager;
+    }
   //  private ServiceForwardHandler handler = new ServiceForwardHandler();
 
     @ListenEvent(event = CollaborationFinishEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onFinish(CollaborationFinishEvent event) {
         Long affairId = event.getAffairId();
         try {
-            CtpAffair ctpAffair = this.getAffairManager().get(affairId);
+            String code = event.getTemplateCode();
+
+            ServicePlugin sp =  this.getNbdPluginServiceManager().getServicePluginsByAffairType(code);
+            if(sp!=null){
+                CommonParameter parameter = new CommonParameter();
+                parameter.$("affairType",event.getTemplateCode());
+                parameter.$("affairId",event.getAffairId());
+                CtpAffair affair = this.getColManager().getAffairById(affairId);
+                parameter.$("form_record_id",affair.getFormRecordid());
+                sp.processAffair(parameter);
+            }
         } catch (BusinessException e) {
             e.printStackTrace();
         }

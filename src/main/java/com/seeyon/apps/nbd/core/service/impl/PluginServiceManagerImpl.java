@@ -51,6 +51,13 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
             error.printStackTrace();
         }
     }
+    private static PluginServiceManager manager;
+    public static PluginServiceManager getInstance(){
+        if(manager==null){
+            manager = new PluginServiceManagerImpl();
+        }
+        return manager;
+    }
 
     private FileFilter mapping_filter = new FileFilter() {
         public boolean accept(File pathname) {

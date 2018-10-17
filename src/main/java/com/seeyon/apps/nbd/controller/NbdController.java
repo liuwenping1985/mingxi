@@ -35,7 +35,7 @@ public class NbdController extends BaseController{
 
         if(nbdPluginServiceManager == null){
             try {
-                nbdPluginServiceManager = new PluginServiceManagerImpl();
+                nbdPluginServiceManager =  PluginServiceManagerImpl.getInstance();
             }catch(Exception e){
                 e.printStackTrace();
             }catch(Error error){
@@ -177,6 +177,18 @@ public class NbdController extends BaseController{
 
 
         return null;
+
+    }
+
+    public static void main(String[] args){
+
+        NbdController con = new NbdController();
+        ServicePlugin sp =  con.getNbdPluginServiceManager().getServicePluginsByAffairType("HTFKSQD1");
+        CommonParameter parameter = new CommonParameter();
+        parameter.$("affairType","HTFKSQD1");
+        parameter.$("form_record_id","123453334");
+        sp.processAffair(parameter);
+
 
     }
 

@@ -51,30 +51,26 @@ public class FormTableDefinition {
 
         // String table
         String tableName = this.getFormTable().getName();
-        List<FormField> formFields = this.getFormTable().getFormFieldList();
-
         StringBuilder stb = new StringBuilder();
-        if (CommonUtils.isEmpty(formFields)) {
-            return null;
-        }
-        stb.append("select ");
-        int tag = 0;
-        for (FormField field : formFields) {
-            if (tag == 0) {
-                stb.append("t.").append(field.getName());
-
-            } else {
-                stb.append(",t.").append(field.getName());
-            }
-
-            tag++;
-
-        }
-        stb.append(" from ").append(tableName).append(" t");
-
+        stb.append("select * from ");
+        stb.append(tableName);
         return stb.toString();
+    }
+    public String genQueryById(Object id) {
 
+        // String table
+        String tableName = this.getFormTable().getName();
+        StringBuilder stb = new StringBuilder();
+        stb.append("select * from ");
+        stb.append(tableName);
+        stb.append(" where id=");
 
+        if(id instanceof Long||id instanceof Integer){
+            stb.append(id);
+        }else {
+            stb.append("'").append(id).append("'");
+        }
+        return stb.toString();
     }
 
     public List<List<SimpleFormField>> filledValue(List<Map> values) {

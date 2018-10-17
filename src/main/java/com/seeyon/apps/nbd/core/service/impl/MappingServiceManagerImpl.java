@@ -22,7 +22,17 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             return null;
         }
         FormTableDefinition definition = JSON.parseObject(JSON.toJSONString(tableList), FormTableDefinition.class);
-        List<Map> tables = (List<Map>) tableList.get("Table");
+        List<Map> tables = new ArrayList<Map>();
+
+        Object obj = tableList.get("Table");
+        if(obj instanceof List){
+            tables = (List<Map>) obj;
+        }else{
+            if(obj instanceof Map){
+                tables.add((Map)obj);
+            }
+        }
+
         if (CommonUtils.isEmpty(tables)) {
             return null;
         }

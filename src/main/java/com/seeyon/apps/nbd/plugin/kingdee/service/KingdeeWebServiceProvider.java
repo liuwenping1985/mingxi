@@ -1,4 +1,4 @@
-package com.seeyon.apps.nbd.platform.oa;
+package com.seeyon.apps.nbd.plugin.kingdee.service;
 
 
 import com.seeyon.apps.nbd.core.config.ConfigService;

@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.plugin;
 
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
+import com.seeyon.apps.nbd.platform.plugin.constant.EnumPluginType;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public interface PluginDefinition {
      * @return
      */
      ServicePlugin getServicePlugin();
+
+     public List<EnumPluginType> getPluginType();
 
 
 

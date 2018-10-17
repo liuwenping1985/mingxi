@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.plugin.als;
 
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
+import com.seeyon.apps.nbd.platform.plugin.constant.EnumPluginType;
 import com.seeyon.apps.nbd.plugin.PluginDefinition;
 import com.seeyon.apps.nbd.plugin.als.service.impl.AlsServicePluginImpl;
 
@@ -21,8 +22,6 @@ public class AlsPluginDefinition implements PluginDefinition{
     private AlsServicePluginImpl service = new AlsServicePluginImpl();
 
     static{
-        AFFAIR_TYPE_LIST.add("HT0001");
-        AFFAIR_TYPE_LIST.add("HT0002");
         AFFAIR_TYPE_LIST.add("FK0001");
     }
 
@@ -56,5 +55,14 @@ public class AlsPluginDefinition implements PluginDefinition{
 
     public ServicePlugin getServicePlugin() {
         return service;
+    }
+    private static List<EnumPluginType> list = new ArrayList<EnumPluginType>();
+    static{
+
+        list.add(EnumPluginType.EXPORT_DB);
+    }
+    public List<EnumPluginType> getPluginType() {
+
+        return list;
     }
 }
