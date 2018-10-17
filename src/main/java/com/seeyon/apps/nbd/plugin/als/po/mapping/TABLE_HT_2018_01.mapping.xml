@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 
-<TableList affairType="HT0002" modes="export,push" is_push="true">
+<TableList affairType="HT0003" modes="export,push" is_push="true">
     <Table id="-469802932704886773" name="formmain_2434" display="formmain_1626" tabletype="master" onwertable="" onwerfield="">
         <FieldList>
             <Field id="2960685546049521502" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname=""/>
@@ -56,13 +57,13 @@
             <Field id="-5011027641247710481" name="field0062" display="品牌管理规则" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-5393393651792919022" name="field0063" display="财务管理及监测评估办法" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-8069017200560748456" name="field0064" display="项目评审意见" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
-            <Field id="4480243130066421113" name="field0037" display="合同内容" fieldtype="LONGTEXT" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4480243130066421113" name="field0037" display="合同内容" fieldtype="LONGTEXT" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-7016176258919413996" name="field0046" display="品牌项目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-2092234614717790433" name="field0065" display="财务进度报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="2233683018823978634" name="field0061" display="项目进展报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="-2331038404153553185" name="field0058" display="预算执行表" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
             <Field id="2316711745453900451" name="field0066" display="项目结项报告" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
-            <Field id="-6347123111808447787" name="field0067" display="其它附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false"  is_primary="false" classname="attachment"/>
+            <Field id="-6347123111808447787" name="field0067" display="其它附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="attachment"/>
         </FieldList>
         <IndexList></IndexList>
     </Table>

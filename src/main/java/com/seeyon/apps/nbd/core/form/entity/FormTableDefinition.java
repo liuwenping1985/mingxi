@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.core.form.entity;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +113,48 @@ public class FormTableDefinition {
                 sff.setClassName(ff.getClassname());
                 sff.setValue(objs.get(ff.getName()));
                 sffList.add(sff);
+            }
+            int tag=0;
+            List<FormTable> slaveTables = this.getFormTable().getSlaveTableList();
+            if(!CommonUtils.isEmpty(slaveTables)){
+
+                for(FormTable stable:slaveTables){
+                    List<FormField> fList = stable.getFormFieldList();
+                    Map<String,String> fieldNameMap = new HashMap<String, String>();
+                    for(FormField f1:fList){
+                        fieldNameMap.put(f1.getName(),f1.getDisplay());
+                    }
+                    List<Map> sDatas = (List<Map>)objs.get(stable.getDisplay());
+                    SimpleFormField sf = new SimpleFormField();
+                    sf.setDisplay(stable.getDisplay());
+                    sf.setClassName("");
+                    sf.setName(stable.getName());
+                    if(!CommonUtils.isEmpty(sDatas)){
+                        if(tag == 0){
+                            System.out.println("filled Value");
+                            System.out.println(sDatas);
+                            System.out.println(" end of filled Value");
+                            tag++;
+                        }
+
+                        List<Map> retData = new ArrayList<Map>();
+                        for(Map data:sDatas){
+                            Map ret = new HashMap();
+                            for(Object key:data.keySet()){
+                                String dispaly = fieldNameMap.get(String.valueOf(key));
+                                if(!CommonUtils.isEmpty(dispaly)){
+                                    ret.put(dispaly,data.get(key));
+                                }
+
+                            }
+                            retData.add(ret);
+                        }
+                        sf.setValue(retData);
+                        sffList.add(sf);
+                    }
+
+
+                }
             }
 
             dataList.add(sffList);

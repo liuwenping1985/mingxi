@@ -106,14 +106,17 @@ public class NbdController extends BaseController{
     @NeedlessCheckLogin
     public ModelAndView syncDataAll(HttpServletRequest request, HttpServletResponse response){
 
-        List<ServicePlugin> spList = nbdPluginServiceManager.getServicePlugins();
-        
+        List<ServicePlugin> spList = this.getNbdPluginServiceManager().getServicePlugins();
+        Map ret = new HashMap();
         if(!CommonUtils.isEmpty(spList)){
             for(ServicePlugin sp:spList){
-                sp.exportAllData();
+               Map<String,List<A8OutputVo>> data =  sp.exportAllData();
+               for(Map.Entry<String,List<A8OutputVo>> entry:data.entrySet()){
+                   ret.put(entry.getKey(),entry.getValue()==null?0:entry.getValue().size());
+               }
             }
         }
-
+        UIUtils.responseJSON(ret, response);
 
         return null;
 

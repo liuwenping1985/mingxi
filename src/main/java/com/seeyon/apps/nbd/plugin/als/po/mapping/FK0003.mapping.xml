@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableList affairType="FK0003" modes="export,push" is_push="true">
+    <Table id="-8037498579083179270" name="formmain_1841" display="formmain_1841" tabletype="master" onwertable="" onwerfield="">
+        <FieldList>
+            <Field id="-2866736027181036269" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname=""/>
+            <Field id="-1210876775659582114" name="state" display="审核状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="-5078258770434964726" name="start_member_id" display="发起人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="-3741691955878016927" name="start_date" display="发起时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="-4559171983406182578" name="approve_member_id" display="审核人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="-3465871646638653103" name="approve_date" display="审核时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="4556498929671815339" name="finishedflag" display="流程状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="-8295561360413605111" name="ratifyflag" display="核定状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="5215903503664694941" name="ratify_member_id" display="核定人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="4934279610742359885" name="ratify_date" display="核定时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="-5163940286506843843" name="field0001" display="经办人" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4432206839970511768" name="field0002" display="部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7992950121047766388" name="field0003" display="合同" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2894055441735172358" name="field0004" display="发票" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7280382265838290905" name="field0005" display="借方金额合计" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname=""/>
+            <Field id="8934815001751867334" name="field0006" display="人民币大写" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7905483261485953790" name="field0007" display="收款方名称及地址" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4723631658415050219" name="field0008" display="收款方账号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7116453084194321586" name="field0009" display="收款方开户银行名称及地址" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6015524499579292652" name="field0010" display="SORTCODE银行代码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="9082124696754013422" name="field0011" display="SWIFICODE银行国际电汇代码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-5106957380855970557" name="field0013" display="所属部门" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="617633736492010012" name="field0014" display="特殊情况说明" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-1135234550395944268" name="field0015" display="发起日期" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4784721172251130710" name="field0016" display="ERP帐套配置" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1820364255853889763" name="field0017" display="编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1227022406936577773" name="field0018" display="本部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="9173292530943019085" name="field0019" display="币种" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8769516255501726810" name="field0020" display="是否枚举" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-3959403884847217699" name="field0021" display="资金性质" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2454593344623365249" name="field0022" display="资金种类" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6889245725074829749" name="field0023" display="合同编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2700401240363191639" name="field0024" display="合同名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4897540141786643941" name="field0025" display="合同分期期数" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3505931545384665431" name="field0026" display="机构名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8423537255028208893" name="field0027" display="贷方金额合计" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname=""/>
+            <Field id="8522706495175346819" name="field0028" display="部门经理意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-148878975234586185" name="field0029" display="项目中心基金经理" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7042196896035746302" name="field0030" display="费用所属部门负责人" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3650462853887509646" name="field0031" display="部门总监意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7520092407591842410" name="field0032" display="财务审核意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2289635746212627309" name="field0033" display="副秘书长运营总监意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="9151225659448181683" name="field0034" display="项目委员会主席" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2456165620664779950" name="field0035" display="副秘书长意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2975633829243172721" name="field0036" display="秘书长审核意见" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8548842433143487901" name="field0053" display="资助项目编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8792462103745742948" name="field0054" display="资助项目名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8475314382217823754" name="field0012" display="合计小写" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6745280969041163500" name="field0055" display="所属议题编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7659789826174925357" name="field0056" display="所属议题名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7491712071117815033" name="field0057" display="借方摘要" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6649308757822782595" name="field0058" display="资金来源" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8011474411843111443" name="field0059" display="条件控制-勿删" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList></IndexList>
+    </Table>
+    <Table id="8020972577355942277" name="formson_1842" display="group6" tabletype="slave" onwertable="formmain_1841" onwerfield="formmain_id">
+        <FieldList>
+            <Field id="4493088743106039311" name="field0037" display="序号" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6175653875604016704" name="field0038" display="项目编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-5782553960219655418" name="field0039" display="项目名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6534466630220037688" name="field0040" display="发起部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2558108087447077941" name="field0041" display="ERP费用类型" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7862975041694579208" name="field0043" display="借方科目编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1941159764146539462" name="field0044" display="借方科目名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-436869388392445087" name="field0045" display="供应商编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4569576167407173939" name="field0046" display="供应商名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-80538957220068028" name="field0047" display="借方金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8639481345908193789" name="field0042" display="借摘" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList></IndexList>
+    </Table>
+    <Table id="8319919973691048710" name="formson_1843" display="group8" tabletype="slave" onwertable="formmain_1841" onwerfield="formmain_id">
+        <FieldList>
+            <Field id="-7902597393303584399" name="field0048" display="ERP报账方式" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2514231944667642156" name="field0049" display="贷方摘要" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="433418861462178912" name="field0050" display="贷方科目编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="5729936499001674788" name="field0051" display="贷方科目名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-5118454275254235831" name="field0052" display="贷方金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList></IndexList>
+    </Table>
+</TableList>

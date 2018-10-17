@@ -23,7 +23,16 @@ public class AlsPluginDefinition implements PluginDefinition{
     static{
         AFFAIR_TYPE_LIST.add("HT0001");
         AFFAIR_TYPE_LIST.add("HT0002");
+        AFFAIR_TYPE_LIST.add("HT0003");
+        AFFAIR_TYPE_LIST.add("HT0004");
+        AFFAIR_TYPE_LIST.add("HT0005");
+        AFFAIR_TYPE_LIST.add("HT0006");
+        AFFAIR_TYPE_LIST.add("HT0007");
         AFFAIR_TYPE_LIST.add("FK0001");
+        AFFAIR_TYPE_LIST.add("FK0002");
+        AFFAIR_TYPE_LIST.add("FK0003");
+        AFFAIR_TYPE_LIST.add("FK0004");
+        AFFAIR_TYPE_LIST.add("FK0005");
     }
 
     public AlsPluginDefinition (){

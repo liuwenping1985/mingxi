@@ -22,7 +22,15 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             return null;
         }
         FormTableDefinition definition = JSON.parseObject(JSON.toJSONString(tableList), FormTableDefinition.class);
-        List<Map> tables = (List<Map>) tableList.get("Table");
+        List<Map> tables = new ArrayList<Map>();
+        Object obj = tableList.get("Table");
+        if(obj instanceof List){
+            tables.addAll((List<Map>) tableList.get("Table"));
+        }else{
+            tables.add((Map)obj);
+        }
+
+
         if (CommonUtils.isEmpty(tables)) {
             return null;
         }
@@ -32,7 +40,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         List<FormTable> slaveTableList = new ArrayList<FormTable>();
         for (Map table : tables) {
             String jString = JSON.toJSONString(table);
-           // System.out.println(table);
+            System.out.println(jString);
             FormTable ft = JSON.parseObject(jString, FormTable.class);
             Map fieldList = (Map) table.get("FieldList");
             if (!CommonUtils.isEmpty(fieldList)) {

@@ -24,6 +24,7 @@ import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.oainterface.impl.exportdata.FileDownloadExporter;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
     private OrgManager orgManager;
 
-    private FileManager fileManager = (FileManager)AppContext.getBean("fileManager");
+    private FileManager fileManager = (FileManager) AppContext.getBean("fileManager");
 
 
     public EnumManager getEnumManager() {
@@ -63,7 +64,21 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
     }
 
     public Map<String, List<A8OutputVo>> exportAllData() {
-        throw new UnsupportedOperationException();
+        Map<String, List<A8OutputVo>> ret = new HashMap<String, List<A8OutputVo>>();
+        List<String> allSupports = this.getPluginDefinition().getSupportAffairTypes();
+        for(String arrairType:allSupports){
+            try {
+                List<A8OutputVo> afList = exportData(arrairType);
+                ret.put(arrairType, afList);
+                if (!CommonUtils.isEmpty(afList)) {
+                    DBAgent.saveAll(afList);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                ret.put(arrairType, new ArrayList<A8OutputVo>());
+            }
+        }
+        return ret;
     }
 
     public List<A8OutputVo> exportData(String affairType) {
@@ -88,13 +103,20 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     if (id != null) {
                         if (id instanceof Long) {
                             masterTempMap.put((Long) id, masterMap);
-                        }
-                        if (id instanceof BigDecimal) {
+                        } else if (id instanceof BigDecimal) {
                             masterTempMap.put(((BigDecimal) id).longValue(), masterMap);
+                        } else {
+                            try {
+                                Long r_id = Long.parseLong(String.valueOf(id));
+                                masterTempMap.put(r_id, masterMap);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
+
                     }
                 }
-
+                System.out.println("master map:" + masterTempMap.values().size());
                 for (FormTable ft : slaveTables) {
                     System.out.println("[<---->]export slave table:" + ft.getName());
                     String slaveTableSql = FormTableDefinition.genRawAllQuery(ft);
@@ -107,20 +129,41 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     }
                     //onwerfield
                     if (!CommonUtils.isEmpty(slaveDataList)) {
-                        System.out.println("[<---->] slave table"+ft.getName()+" data-size:" + slaveDataList.size());
+                        System.out.println("[<---->] slave table" + ft.getName() + " data-size:" + slaveDataList.size());
+                        int tag = 0;
                         for (Map slaveTableMap : slaveDataList) {
                             Object fmId = slaveTableMap.get("formmain_id");
+                            // System.out.println("fmId:"+fmId);
                             if (fmId != null) {
                                 Long key = null;
                                 if (fmId instanceof Long) {
                                     key = (Long) fmId;
-                                }
-                                if (fmId instanceof BigDecimal) {
+                                } else if (fmId instanceof BigDecimal) {
                                     key = ((BigDecimal) fmId).longValue();
+                                } else {
+                                    key = Long.parseLong(String.valueOf(fmId));
                                 }
                                 Map masterMap = masterTempMap.get(key);
                                 if (!CommonUtils.isEmpty(masterMap)) {
-                                    masterMap.putAll(slaveTableMap);
+                                    //getDisplayText
+                                    for (Object skey : slaveTableMap.keySet()) {
+                                        slaveTableMap.put(skey, getDisplayTextByValue("" + skey, "", slaveTableMap.get(skey)));
+
+                                    }
+                                    List<Map> slaveMaps = (List<Map>)masterMap.get(ft.getDisplay());
+                                    if (slaveMaps == null) {
+                                        slaveMaps = new ArrayList<Map>();
+                                        masterMap.put(ft.getDisplay(),slaveMaps);
+
+                                    }
+                                    slaveMaps.add(slaveTableMap);
+                                    if(tag==0){
+                                        System.out.println(slaveTableMap);
+                                        tag++;
+                                    }
+                                } else {
+
+                                    System.out.println(key + "--master not found--->>>" + "<<<---");
                                 }
                             }
                         }
@@ -180,20 +223,24 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
     private Object getDisplayText(SimpleFormField sff) {
         Object val = sff.getValue();
+        return getDisplayTextByValue(sff.getDisplay(), sff.getClassName(), val);
+    }
+
+    private Object getDisplayTextByValue(String displayName, String className, Object val) {
         Long sid = null;
         try {
-            if(val instanceof Long){
-                sid = (Long)val;
-            }else if(val instanceof BigDecimal){
-                sid = ((BigDecimal)val).longValue();
-            }else{
-                try{
+            if (val instanceof Long) {
+                sid = (Long) val;
+            } else if (val instanceof BigDecimal) {
+                sid = ((BigDecimal) val).longValue();
+            } else {
+                try {
                     sid = Long.parseLong(String.valueOf(val));
-                }catch(Exception e){
+                } catch (Exception e) {
                     return val;
                 }
             }
-            if(sid.intValue() ==0||sid.intValue()==1){
+            if (sid.intValue() == 0 || sid.intValue() == 1) {
                 return val;
             }
 
@@ -217,12 +264,12 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         }
         //是否是时间
 
-        if (("" + sff.getDisplay()).contains("日期") || ("" + sff.getDisplay()).contains("时间")) {
+        if (("" + displayName).contains("日期") || ("" + displayName).contains("时间")) {
             try {
 
                 Date dt = new Date(sid);
                 String dtStr = CommonUtils.parseDate(dt);
-                if(!CommonUtils.isEmpty(dtStr)){
+                if (!CommonUtils.isEmpty(dtStr)) {
                     return dtStr;
                 }
             } catch (Exception e) {
@@ -230,61 +277,68 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
             }
         }
 
-        if(!CommonUtils.isEmpty(sff.getClassName())){
-            if("attachment".equals(sff.getClassName())){
-                System.out.println("---I am in attchment---:"+sff.getValue());
-                String sql = "select * from ctp_attachment where id="+sid+" or reference="+sid+" or sub_reference="+sid;
+        if (!CommonUtils.isEmpty(className)) {
+            if ("attachment".equals(className)) {
+                //System.out.println("---I am in attchment---:"+sff.getValue());
+                String sql = "select * from ctp_attachment where id=" + sid + " or reference=" + sid + " or sub_reference=" + sid;
                 try {
-                    List<Map> dataList =  DataBaseHelper.executeQueryByNativeSQL(sql);
-                    if(!CommonUtils.isEmpty(dataList)){
+                    List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if (!CommonUtils.isEmpty(dataList)) {
+                        List<Map> files = new ArrayList<Map>();
+                        for(Map fileMap:dataList){
 
-                       Map fileMap= dataList.get(0);
-                       Object fileName = fileMap.get("filename");
-                        System.out.println("---I find a attchment---:"+fileName);
-                       Object mimeType = fileMap.get("mime_type");
-                       Object fileSize = fileMap.get("attachment_size");
-                       Object fileIdRaw = fileMap.get("file_url");
-                       Long file_id = null;
-                       if(fileIdRaw instanceof Long){
-                           file_id = (Long)fileIdRaw;
-                       }
-                        if(fileIdRaw instanceof BigDecimal){
-                            file_id = ((BigDecimal)fileIdRaw).longValue();
-                        }
-                       // System.out.println("---I find a attchment file_url---:"+file_id);
-                        if(file_id!=null){
-
-                            V3XFile v3xFile = fileManager.getV3XFile(file_id);
-                            System.out.println("---v3xFile---:"+v3xFile);
-                           if(v3xFile!=null){
-                               //System.out.println("---I find a v3xFile file_url---:"+v3xFile.getId());
-                               File file = fileManager.getFile(file_id, v3xFile.getCreateDate());
-                               System.out.println("file---->>>>"+file);
-                                if(file!=null){
-                                    Map ret = new HashMap();
-                                    ret.put("file_path","/seeyon/nbd.do?method=download&file_id="+fileIdRaw);
-                                    ret.put("file_name",fileName);
-                                    ret.put("file_id",fileIdRaw);
-                                    ret.put("mime_type",mimeType);
-                                    ret.put("file_size",fileSize);
-                                    System.out.println(ret);
-                                    return JSON.toJSONString(ret);
-                                }else{
-
-                                    return fileName;
-                                }
-
+                            Object fileName = fileMap.get("filename");
+                            //   System.out.println("---I find a attchment---:"+fileName);
+                            Object mimeType = fileMap.get("mime_type");
+                            Object fileSize = fileMap.get("attachment_size");
+                            Object fileIdRaw = fileMap.get("file_url");
+                            Long file_id = null;
+                            if (fileIdRaw instanceof Long) {
+                                file_id = (Long) fileIdRaw;
                             }
+                            if (fileIdRaw instanceof BigDecimal) {
+                                file_id = ((BigDecimal) fileIdRaw).longValue();
+                            }
+                            // System.out.println("---I find a attchment file_url---:"+file_id);
+                            if (file_id != null) {
+
+                                V3XFile v3xFile = fileManager.getV3XFile(file_id);
+                                //     System.out.println("---v3xFile---:"+v3xFile);
+                                if (v3xFile != null) {
+                                    //System.out.println("---I find a v3xFile file_url---:"+v3xFile.getId());
+                                    File file = fileManager.getFile(file_id, v3xFile.getCreateDate());
+                                    //       System.out.println("file---->>>>"+file);
+                                    if (file != null) {
+                                        Map ret = new HashMap();
+                                        ret.put("file_path", "/seeyon/nbd.do?method=download&file_id=" + fileIdRaw);
+                                        ret.put("file_name", fileName);
+                                        ret.put("file_id", fileIdRaw);
+                                        ret.put("mime_type", mimeType);
+                                        ret.put("file_size", fileSize);
+                                        // System.out.println(ret);
+                                        files.add(ret);
+                                    } else {
+                                        Map ret = new HashMap();
+                                        ret.put("file_name", fileName);
+                                        files.add(ret);;
+                                    }
+
+                                }
+                            }
+
                         }
+                        return JSON.toJSONString(files);
+
                     }
                 } catch (Exception e) {
-                    System.out.println("error:"+e.getMessage());
+                    System.out.println("error:" + e.getMessage());
                 }
             }
 
         }
         return val;
     }
+
 
     private CtpEnumItem getCtpEnumItemById(Long enumId) {
 
