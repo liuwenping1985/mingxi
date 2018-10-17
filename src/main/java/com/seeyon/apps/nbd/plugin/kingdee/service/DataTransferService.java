@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.plugin.kingdee.service;
 
 import com.seeyon.apps.nbd.plugin.kingdee.vo.KingDeeBill;
+import com.seeyon.apps.nbd.plugin.kingdee.vo.PayBillType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,13 +21,15 @@ public class DataTransferService {
             }
 
             public KingDeeBill parse(KingDeeBill bill, Map data) {
+
+//                bill.setPayBillType();
+                //bill.setPayBillType();
                 return null;
             }
         });
 
     }
     public DataParaser getDataParaserByAffairType(String affairType){
-
         return dataParaserMap.get(affairType);
     }
 }

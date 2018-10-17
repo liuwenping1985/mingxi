@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.plugin.kingdee.service;
 
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.ws.*;
+import com.seeyon.apps.uc.manager.S2SManagerImpl;
 import org.apache.axis.client.Stub;
 
 import javax.xml.rpc.ServiceException;
@@ -39,6 +40,7 @@ public class KingdeeWebServiceProvider {
 
     public String importBill(Map<String,String> infoArray){
         try {
+            S2SManagerImpl impl;
            // Map<String,String> infoArray = new HashMap<String,String>();
             WSContext context = login2KingdeeWs();
             if(context==null){

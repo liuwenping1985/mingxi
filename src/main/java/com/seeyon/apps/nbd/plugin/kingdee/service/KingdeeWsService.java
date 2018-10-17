@@ -17,17 +17,18 @@ import java.util.Map;
 /**
  * Created by liuwenping on 2018/10/17.
  */
-public class KingdeeWsService implements ServicePlugin{
+public class KingdeeWsService implements ServicePlugin {
 
     private PluginDefinition pluginDefinition;
 
     private DataTransferService dataTransferService;
 
-    private Map<String,FormTableDefinition> fdMaps = new HashMap<String, FormTableDefinition>();
+    private Map<String, FormTableDefinition> fdMaps = new HashMap<String, FormTableDefinition>();
 
-    public KingdeeWsService(PluginDefinition pluginDefinition){
+    public KingdeeWsService(PluginDefinition pluginDefinition) {
         this.pluginDefinition = pluginDefinition;
     }
+
     public PluginDefinition getPluginDefinition() {
         return this.pluginDefinition;
     }
@@ -38,7 +39,7 @@ public class KingdeeWsService implements ServicePlugin{
 
     public void addFormTableDefinition(FormTableDefinition definition) {
         String key = definition.getAffairType();
-        fdMaps.put(key,definition);
+        fdMaps.put(key, definition);
     }
 
     public void addPluginDefinition(PluginDefinition definition) {
@@ -58,19 +59,19 @@ public class KingdeeWsService implements ServicePlugin{
     }
 
     public CommonDataVo processAffair(CommonParameter parameter) {
-       String afType =  parameter.$("affairType");
-       String rdId =  parameter.$("form_record_id");
-       FormTableDefinition ftd =  this.getFormTableDefinition(afType);
-       String sql = ftd.genQueryById(Long.parseLong(rdId));
-       System.out.println("sql:"+sql);
+        String afType = parameter.$("affairType");
+        String rdId = parameter.$("form_record_id");
+        FormTableDefinition ftd = this.getFormTableDefinition(afType);
+        String sql = ftd.genQueryById(Long.parseLong(rdId));
+        System.out.println("sql:" + sql);
         try {
-            List<Map> list =  DataBaseHelper.executeQueryByNativeSQL(sql);
+            List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
 
             DataParaser dt = dataTransferService.getDataParaserByAffairType(afType);
-            if(dt!=null){
-                for(Map data:list){
-                  KingDeeBill bill = dt.parse(data);
-
+            if (dt != null) {
+                KingDeeBill bill = genDefaultBill();
+                for (Map data : list) {
+                    
                 }
 
             }
@@ -78,10 +79,11 @@ public class KingdeeWsService implements ServicePlugin{
             e.printStackTrace();
         }
         CommonDataVo vo = new CommonDataVo();
-        return null;
+
+        return vo;
     }
 
-    private KingDeeBill genDefaultBill(){
+    private KingDeeBill genDefaultBill() {
         KingDeeBill bill = new KingDeeBill();
         PayBillType payBillType = new PayBillType();
         payBillType.setNumber("202");

@@ -324,6 +324,9 @@ public final class ProductInfo {
     }
 
     private void updateAccountBind() {
+        if(isDebug){
+            return;
+        }
         if(mocnoyeesA != null && mocnoyeesA.methodzz("accountbind")) {
             boolean isGroup = ((Boolean)SysFlag.sys_isGroupVer.getFlag()).booleanValue();
             long id = isGroup?-1730833917365171641L:670869647114347L;
