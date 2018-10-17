@@ -22,7 +22,7 @@ public class WSWSCusSCMWebServiceFacadeSrvProxyServiceLocator extends org.apache
     }
 
     // Use to get a proxy class for WSWSCusSCMWebServiceFacade
-    private java.lang.String WSWSCusSCMWebServiceFacade_address = "http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade";
+    private java.lang.String WSWSCusSCMWebServiceFacade_address = "http://10.42.1.210:6888/ormrpc/services/WSWSCusSCMWebServiceFacade";
 
     public java.lang.String getWSWSCusSCMWebServiceFacadeAddress() {
         return WSWSCusSCMWebServiceFacade_address;

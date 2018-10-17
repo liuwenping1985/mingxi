@@ -7,8 +7,7 @@ import java.sql.Timestamp;
 /**
  * Created by liuwenping on 2018/9/18.
  */
-@Entity
-@Table(name = "addressbook", schema = "v61sp22", catalog = "")
+
 public class AddressbookEntity {
     private long id;
     private Long memberId;

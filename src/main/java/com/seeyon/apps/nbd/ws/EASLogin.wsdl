@@ -168,7 +168,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       <wsdl:port binding="intf:EASLoginSoapBinding" name="EASLogin">
 
-         <wsdlsoap:address location="http://10.10.10.98/ormrpc/services/EASLogin"/>
+         <wsdlsoap:address location="http://10.42.1.210:6888/ormrpc/services/EASLogin"/>
 
       </wsdl:port>
 

@@ -6,7 +6,7 @@
   <session-factory>
     <property name="connection.url">jdbc:mysql://192.168.1.98:3306/v61sp22</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <mapping resource="com/seeyon/apps/nbd/po/AddressbookEntity.hbm.xml"/>
+    <mapping resource="com/seeyon/apps/nbd/po/AddressbookEntity.backup.xml"/>
     <mapping class="com.seeyon.apps.nbd.po.AddressbookEntity"/>
     <mapping resource="com/seeyon/apps/nbd/po/AddressbookMemberEntity.hbm.xml"/>
     <mapping class="com.seeyon.apps.nbd.po.AddressbookMemberEntity"/>

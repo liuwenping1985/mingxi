@@ -22,7 +22,7 @@ public class EASLoginProxyServiceLocator extends org.apache.axis.client.Service 
     }
 
     // Use to get a proxy class for EASLogin
-    private java.lang.String EASLogin_address = "http://10.10.10.98/ormrpc/services/EASLogin";
+    private java.lang.String EASLogin_address = "http://10.42.1.210:6888/ormrpc/services/EASLogin";
 
     public java.lang.String getEASLoginAddress() {
         return EASLogin_address;

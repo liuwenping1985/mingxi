@@ -6,4 +6,6 @@ package com.seeyon.apps.nbd.platform.oa.vo;
 public class KingdeeBill  {
 
 
+
+
 }

@@ -97,7 +97,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       <wsdl:port binding="intf:WSWSCusBDWebServiceFacadeSoapBinding" name="WSWSCusBDWebServiceFacade">
 
-         <wsdlsoap:address location="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade"/>
+         <wsdlsoap:address location="http://10.42.1.210:6888/ormrpc/services/WSWSCusBDWebServiceFacade"/>
 
       </wsdl:port>
 
