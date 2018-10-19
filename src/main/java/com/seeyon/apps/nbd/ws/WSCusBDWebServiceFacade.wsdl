@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade" xmlns:intf="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="urn:client.wscusbdwebservicefacade" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<wsdl:definitions targetNamespace="http://10.42.1.210:6888/ormrpc/services/WSWSCusBDWebServiceFacade" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade" xmlns:intf="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="urn:client.wscusbdwebservicefacade" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!--WSDL created by Apache Axis version: 1.4
 Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
@@ -79,7 +79,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
          <wsdl:output name="importBDResponse">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade" use="encoded"/>
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://10.10.10.98/ormrpc/services/WSCusBDWebServiceFacade" use="encoded"/>
 
          </wsdl:output>
 
@@ -97,7 +97,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       <wsdl:port binding="intf:WSWSCusBDWebServiceFacadeSoapBinding" name="WSWSCusBDWebServiceFacade">
 
-         <wsdlsoap:address location="http://10.42.1.210:6888/ormrpc/services/WSWSCusBDWebServiceFacade"/>
+         <wsdlsoap:address location="http://10.42.1.210:6888/ormrpc/services/WSCusBDWebServiceFacade"/>
 
       </wsdl:port>
 

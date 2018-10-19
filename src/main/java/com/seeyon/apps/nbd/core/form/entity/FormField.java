@@ -10,6 +10,7 @@ public class FormField {
     private String display;
     private String fieldtype;
     private String fieldlength;
+    private String barcode;
     private boolean is_null;
     private boolean is_primary;
     private String classname;
@@ -19,6 +20,13 @@ public class FormField {
 
     private String parser;
 
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
 
     public String getJsonname() {
         return jsonname;

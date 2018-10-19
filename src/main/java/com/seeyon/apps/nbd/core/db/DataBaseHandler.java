@@ -159,6 +159,12 @@ public class DataBaseHandler {
         db.putAll(data);
         store(dbName);
     }
+    public Map getDataAll(String dbName){
+        Map db= dbContainerMap.get(dbName);
+        Map neew =new HashMap();
+        neew.putAll(db);
+        return neew;
+    }
     public boolean isDBExit(String dbName){
         String db= extDbMap.get(dbName);
         if(db!=null){

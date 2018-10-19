@@ -1,5 +1,5 @@
 /**
- * WSWSCusSCMWebServiceFacadeSoapBindingStub.java
+ * WSCusSCMWebServiceFacadeSoapBindingStub.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
@@ -7,7 +7,7 @@
 
 package com.seeyon.apps.nbd.ws;
 
-public class WSWSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.client.Stub implements com.seeyon.apps.nbd.ws.WSWSCusSCMWebServiceFacadeSrvProxy {
+public class WSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.client.Stub implements com.seeyon.apps.nbd.ws.WSCusSCMWebServiceFacadeSrvProxy {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
@@ -25,8 +25,6 @@ public class WSWSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.c
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("importBill");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "billType"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
-        oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "billDataJSON"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "billStatus"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
@@ -37,25 +35,25 @@ public class WSWSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.c
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         oper.addFault(new org.apache.axis.description.FaultDesc(
-                      new javax.xml.namespace.QName("http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade", "fault"),
+                      new javax.xml.namespace.QName("http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade", "fault"),
                       "com.seeyon.apps.nbd.ws.WSInvokeException",
-                      new javax.xml.namespace.QName("urn:client.wscusscmwebservicefacade", "WSInvokeException"), 
+                      new javax.xml.namespace.QName("urn:client.cusscmwebservicefacade", "WSInvokeException"), 
                       true
                      ));
         _operations[0] = oper;
 
     }
 
-    public WSWSCusSCMWebServiceFacadeSoapBindingStub() throws org.apache.axis.AxisFault {
+    public WSCusSCMWebServiceFacadeSoapBindingStub() throws org.apache.axis.AxisFault {
          this(null);
     }
 
-    public WSWSCusSCMWebServiceFacadeSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public WSCusSCMWebServiceFacadeSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
          this(service);
          super.cachedEndpoint = endpointURL;
     }
 
-    public WSWSCusSCMWebServiceFacadeSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
+    public WSCusSCMWebServiceFacadeSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
         } else {
@@ -75,7 +73,7 @@ public class WSWSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.c
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
-            qName = new javax.xml.namespace.QName("urn:client.wscusscmwebservicefacade", "WSInvokeException");
+            qName = new javax.xml.namespace.QName("urn:client.cusscmwebservicefacade", "WSInvokeException");
             cachedSerQNames.add(qName);
             cls = com.seeyon.apps.nbd.ws.WSInvokeException.class;
             cachedSerClasses.add(cls);
@@ -149,7 +147,7 @@ public class WSWSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.c
         }
     }
 
-    public java.lang.String importBill(java.lang.String billType, java.lang.String billDataJSON, int billStatus) throws java.rmi.RemoteException, com.seeyon.apps.nbd.ws.WSInvokeException {
+    public java.lang.String importBill(java.lang.String billDataJSON, int billStatus) throws java.rmi.RemoteException, com.seeyon.apps.nbd.ws.WSInvokeException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -162,7 +160,7 @@ public class WSWSCusSCMWebServiceFacadeSoapBindingStub extends org.apache.axis.c
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {billType, billDataJSON, new java.lang.Integer(billStatus)});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {billDataJSON, new java.lang.Integer(billStatus)});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;

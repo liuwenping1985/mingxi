@@ -43,7 +43,7 @@ public class WSInvokeException  extends org.apache.axis.AxisFault  implements ja
         new org.apache.axis.description.TypeDesc(WSInvokeException.class, true);
 
     static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("urn:client.wscusscmwebservicefacade", "WSInvokeException"));
+        typeDesc.setXmlType(new javax.xml.namespace.QName("urn:client.cusscmwebservicefacade", "WSInvokeException"));
     }
 
     /**

@@ -133,9 +133,13 @@ public class NbdController extends BaseController{
     }
     @NeedlessCheckLogin
     public ModelAndView find(HttpServletRequest request, HttpServletResponse response){
+        ServicePlugin sp =  this.getNbdPluginServiceManager().getServicePluginsByAffairType("HTFKSQD1");
+        CommonParameter parameter = new CommonParameter();
+        parameter.$("affairType","HTFKSQD1");
+        parameter.$("form_record_id","5156197055733055196");
+        CommonDataVo vo =  sp.processAffair(parameter);
 
-
-
+        UIUtils.responseJSON(vo,response);
         return null;
 
     }

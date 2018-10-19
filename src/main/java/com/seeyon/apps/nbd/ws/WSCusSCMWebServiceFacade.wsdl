@@ -1,106 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade" xmlns:intf="http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="urn:client.wscusscmwebservicefacade" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!--WSDL created by Apache Axis version: 1.4
-Built on Apr 22, 2006 (06:55:48 PDT)-->
- <wsdl:types>
-  <schema targetNamespace="urn:client.wscusscmwebservicefacade" xmlns="http://www.w3.org/2001/XMLSchema">
-   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
-   <complexType name="WSInvokeException">
+
+        <wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns1="urn:client.cusscmwebservicefacade" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:intf="http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade" xmlns:impl="http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade" xmlns:apachesoap="http://xml.apache.org/xml-soap" targetNamespace="http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade">
+
+    <!--WSDL created by Apache Axis version: 1.4 Built on Apr 22, 2006 (06:55:48 PDT)-->
+
+
+
+    <wsdl:types>
+
+
+    <schema targetNamespace="urn:client.cusscmwebservicefacade" xmlns="http://www.w3.org/2001/XMLSchema">
+
+    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+
+    <complexType name="WSInvokeException">
+
     <sequence/>
-   </complexType>
-  </schema>
- </wsdl:types>
 
-   <wsdl:message name="importBillRequest">
+</complexType>
 
-      <wsdl:part name="billType" type="xsd:string">
+</schema>
 
-      </wsdl:part>
+</wsdl:types>
 
-      <wsdl:part name="billDataJSON" type="xsd:string">
 
-      </wsdl:part>
+    <wsdl:message name="WSInvokeException">
 
-      <wsdl:part name="billStatus" type="xsd:int">
+    <wsdl:part name="fault" type="tns1:WSInvokeException"> </wsdl:part>
 
-      </wsdl:part>
+</wsdl:message>
 
-   </wsdl:message>
 
-   <wsdl:message name="WSInvokeException">
+    <wsdl:message name="importBillRequest">
 
-      <wsdl:part name="fault" type="tns1:WSInvokeException">
+    <wsdl:part name="billDataJSON" type="xsd:string"> </wsdl:part>
 
-      </wsdl:part>
+    <wsdl:part name="billStatus" type="xsd:int"> </wsdl:part>
 
-   </wsdl:message>
+</wsdl:message>
 
-   <wsdl:message name="importBillResponse">
 
-      <wsdl:part name="importBillReturn" type="xsd:string">
+    <wsdl:message name="importBillResponse">
 
-      </wsdl:part>
+    <wsdl:part name="importBillReturn" type="xsd:string"> </wsdl:part>
 
-   </wsdl:message>
+</wsdl:message>
 
-   <wsdl:portType name="WSWSCusSCMWebServiceFacadeSrvProxy">
 
-      <wsdl:operation name="importBill" parameterOrder="billType billDataJSON billStatus">
+    <wsdl:portType name="WSCusSCMWebServiceFacadeSrvProxy">
 
-         <wsdl:input message="intf:importBillRequest" name="importBillRequest">
 
-       </wsdl:input>
+    <wsdl:operation name="importBill" parameterOrder="billDataJSON billStatus">
 
-         <wsdl:output message="intf:importBillResponse" name="importBillResponse">
+    <wsdl:input name="importBillRequest" message="impl:importBillRequest"> </wsdl:input>
 
-       </wsdl:output>
+    <wsdl:output name="importBillResponse" message="impl:importBillResponse"> </wsdl:output>
 
-         <wsdl:fault message="intf:WSInvokeException" name="WSInvokeException">
+    <wsdl:fault name="WSInvokeException" message="impl:WSInvokeException"> </wsdl:fault>
 
-       </wsdl:fault>
+</wsdl:operation>
 
-      </wsdl:operation>
+</wsdl:portType>
 
-   </wsdl:portType>
 
-   <wsdl:binding name="WSWSCusSCMWebServiceFacadeSoapBinding" type="intf:WSWSCusSCMWebServiceFacadeSrvProxy">
+    <wsdl:binding name="WSCusSCMWebServiceFacadeSoapBinding" type="impl:WSCusSCMWebServiceFacadeSrvProxy">
 
-      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
 
-      <wsdl:operation name="importBill">
 
-         <wsdlsoap:operation soapAction=""/>
+    <wsdl:operation name="importBill">
 
-         <wsdl:input name="importBillRequest">
+    <wsdlsoap:operation soapAction=""/>
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://webservice.app.webservice.custom.eas.kingdee.com" use="encoded"/>
 
-         </wsdl:input>
+    <wsdl:input name="importBillRequest">
 
-         <wsdl:output name="importBillResponse">
+    <wsdlsoap:body namespace="http://webservice.app.webservice.custom.eas.kingdee.com" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade" use="encoded"/>
+</wsdl:input>
 
-         </wsdl:output>
 
-         <wsdl:fault name="WSInvokeException">
+    <wsdl:output name="importBillResponse">
 
-            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="WSInvokeException" namespace="http://10.10.10.98/ormrpc/services/WSWSCusSCMWebServiceFacade" use="encoded"/>
+    <wsdlsoap:body namespace="http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
 
-         </wsdl:fault>
+</wsdl:output>
 
-      </wsdl:operation>
 
-   </wsdl:binding>
+    <wsdl:fault name="WSInvokeException">
 
-   <wsdl:service name="WSWSCusSCMWebServiceFacadeSrvProxyService">
+    <wsdlsoap:fault namespace="http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade" name="WSInvokeException" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
 
-      <wsdl:port binding="intf:WSWSCusSCMWebServiceFacadeSoapBinding" name="WSWSCusSCMWebServiceFacade">
+</wsdl:fault>
 
-         <wsdlsoap:address location="http://10.42.1.210:6888/ormrpc/services/WSWSCusSCMWebServiceFacade"/>
+</wsdl:operation>
 
-      </wsdl:port>
+</wsdl:binding>
 
-   </wsdl:service>
+
+    <wsdl:service name="WSCusSCMWebServiceFacadeSrvProxyService">
+
+
+    <wsdl:port name="WSCusSCMWebServiceFacade" binding="impl:WSCusSCMWebServiceFacadeSoapBinding">
+
+    <wsdlsoap:address location="http://10.42.1.210:6888/ormrpc/services/WSCusSCMWebServiceFacade"/>
+
+</wsdl:port>
+
+</wsdl:service>
 
 </wsdl:definitions>

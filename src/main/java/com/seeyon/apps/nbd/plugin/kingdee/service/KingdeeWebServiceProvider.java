@@ -1,15 +1,13 @@
 package com.seeyon.apps.nbd.plugin.kingdee.service;
 
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
+import com.seeyon.apps.nbd.plugin.kingdee.vo.KingDeeBill;
 import com.seeyon.apps.nbd.ws.*;
-import com.seeyon.apps.uc.manager.S2SManagerImpl;
 import org.apache.axis.client.Stub;
 
-import javax.xml.rpc.ServiceException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class KingdeeWebServiceProvider {
 
@@ -38,21 +36,21 @@ public class KingdeeWebServiceProvider {
         return null;
     }
 
-    public String importBill(Map<String,String> infoArray){
+    public String importBill(List<KingDeeBill> billList){
         try {
-            S2SManagerImpl impl;
+
            // Map<String,String> infoArray = new HashMap<String,String>();
             WSContext context = login2KingdeeWs();
             if(context==null){
                 System.out.println("------登陆失败------");
                 return "error";
             }
-
-           // WSWSCusBDWebServiceFacadeSrvProxyServiceLocator locator =  new WSWSCusBDWebServiceFacadeSrvProxyServiceLocator();
-            WSWSCusSCMWebServiceFacadeSrvProxy proxyWS= new WSWSCusSCMWebServiceFacadeSrvProxyServiceLocator().getWSWSCusSCMWebServiceFacade();
-            ((Stub) proxyWS).setHeader("http://login.webservice.bos.kingdee.com","SessionId", context.getSessionId());
-
-            String result = proxyWS.importBill("CUSTOMER", infoArray.toString(), 1);
+            WSCusSCMWebServiceFacadeSrvProxyServiceLocator locator = new WSCusSCMWebServiceFacadeSrvProxyServiceLocator();
+            WSCusSCMWebServiceFacadeSrvProxy proxy = locator.getWSCusSCMWebServiceFacade();
+            ((Stub)proxy).setHeader("http://login.webservice.bos.kingdee.com","SessionId", context.getSessionId());
+           // proxy.set
+            String result = proxy.importBill( JSON.toJSONString(billList), 1);
+            System.out.println("result:"+result);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

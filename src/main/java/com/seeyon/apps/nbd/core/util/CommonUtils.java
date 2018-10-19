@@ -1,10 +1,14 @@
 package com.seeyon.apps.nbd.core.util;
 
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
+import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -85,6 +89,47 @@ public class CommonUtils {
     public static int getYear() {
 
         return getYear(new Date());
+    }
+
+    public static Long getLong(Object obj){
+
+        if(obj instanceof Long){
+            return (Long)obj;
+        }
+        if(obj instanceof BigDecimal){
+            return ((BigDecimal)obj).longValue();
+        }
+        try{
+           return Long.parseLong(String.valueOf(obj));
+        }catch(Exception e){
+            return null;
+        }
+
+    }
+    private static EnumManager enumManager;
+
+    private static EnumManager getEnumManager(){
+        if(enumManager==null){
+            enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
+        }
+        return enumManager;
+
+    }
+    public static Object getEnumShowValue(Object obj){
+
+        Long id = getLong(obj);
+        if(id == null){
+            return obj;
+        }
+        try {
+            CtpEnumItem item = getEnumManager().getEnumItem(id);
+            if (item != null) {
+                return item.getShowvalue();
+            }
+        }catch(Exception e){
+
+        }
+        return obj;
     }
 
     public static void hack(String[] args) throws InterruptedException, IOException {
