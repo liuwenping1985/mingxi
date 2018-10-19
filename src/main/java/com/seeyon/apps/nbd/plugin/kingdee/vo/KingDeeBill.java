@@ -8,7 +8,7 @@ import java.util.List;
 public class KingDeeBill {
 
     private PayBillType payBillType;
-    private CommonKingDeeVo payeeNumber;
+    private String payeeNumber;
     private SettlementType settlementType;
     private Integer exchangeRate;
     private String number;
@@ -18,6 +18,7 @@ public class KingDeeBill {
     private CommonKingDeeVo cu;
     private CommonKingDeeVo currency;
     private PayerBank payerBank;
+    private String bankNumber;
     private String payeeName;
     private Double amount;
     private CommonKingDeeVo company;
@@ -25,6 +26,21 @@ public class KingDeeBill {
     private CommonKingDeeVo payeeType;
     private String bizDate;
 
+    public String getBankNumber() {
+        return bankNumber;
+    }
+
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
+    }
+
+    public String getPayeeNumber() {
+        return payeeNumber;
+    }
+
+    public void setPayeeNumber(String payeeNumber) {
+        this.payeeNumber = payeeNumber;
+    }
 
     public PayBillType getPayBillType() {
         return payBillType;
@@ -32,14 +48,6 @@ public class KingDeeBill {
 
     public void setPayBillType(PayBillType payBillType) {
         this.payBillType = payBillType;
-    }
-
-    public CommonKingDeeVo getPayeeNumber() {
-        return payeeNumber;
-    }
-
-    public void setPayeeNumber(CommonKingDeeVo payeeNumber) {
-        this.payeeNumber = payeeNumber;
     }
 
     public SettlementType getSettlementType() {

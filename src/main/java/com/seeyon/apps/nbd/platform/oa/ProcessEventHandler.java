@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.platform.oa;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
@@ -9,6 +10,7 @@ import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
+import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
@@ -94,15 +96,19 @@ public class ProcessEventHandler {
         Long affairId = event.getAffairId();
         try {
             String code = event.getTemplateCode();
-
+            System.out.println("code:"+code);
             ServicePlugin sp =  this.getNbdPluginServiceManager().getServicePluginsByAffairType(code);
             if(sp!=null){
                 CommonParameter parameter = new CommonParameter();
                 parameter.$("affairType",event.getTemplateCode());
                 parameter.$("affairId",event.getAffairId());
                 CtpAffair affair = this.getColManager().getAffairById(affairId);
-                parameter.$("form_record_id",affair.getFormRecordid());
-                sp.processAffair(parameter);
+                parameter.$("form_record_id",String.valueOf(affair.getFormRecordid()));
+                System.out.println(JSON.toJSONString(parameter));
+                CommonDataVo vo = sp.processAffair(parameter);
+                System.out.println(JSON.toJSONString(vo));
+            }else{
+                System.out.println("sp is null");
             }
         } catch (BusinessException e) {
             e.printStackTrace();

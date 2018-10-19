@@ -135,8 +135,18 @@ public class NbdController extends BaseController{
     public ModelAndView find(HttpServletRequest request, HttpServletResponse response){
         ServicePlugin sp =  this.getNbdPluginServiceManager().getServicePluginsByAffairType("HTFKSQD1");
         CommonParameter parameter = new CommonParameter();
+        /**
+         {"affairId":7975986601265873464,"affairType":"HTFKSQD1","form_record_id":6831671
+         860062311971}
+         */
+        String did = request.getParameter("did");
         parameter.$("affairType","HTFKSQD1");
-        parameter.$("form_record_id","5156197055733055196");
+        if(did!=null){
+            parameter.$("form_record_id",did);
+        }else{
+            parameter.$("form_record_id","6831671860062311971");
+        }
+
         CommonDataVo vo =  sp.processAffair(parameter);
 
         UIUtils.responseJSON(vo,response);
@@ -186,13 +196,14 @@ public class NbdController extends BaseController{
 
     public static void main(String[] args){
 
-        NbdController con = new NbdController();
-        ServicePlugin sp =  con.getNbdPluginServiceManager().getServicePluginsByAffairType("HTFKSQD1");
-        CommonParameter parameter = new CommonParameter();
-        parameter.$("affairType","HTFKSQD1");
-        parameter.$("form_record_id","123453334");
-        sp.processAffair(parameter);
-
+//        NbdController con = new NbdController();
+//        ServicePlugin sp =  con.getNbdPluginServiceManager().getServicePluginsByAffairType("HTFKSQD1");
+//        CommonParameter parameter = new CommonParameter();
+//        parameter.$("affairType","HTFKSQD1");
+//        parameter.$("form_record_id","123453334");
+      //  sp.processAffair(parameter);
+        int i = (((((1*5+1)*5+1)*5+1)*5+1)*5+1);
+        System.out.println(i);
 
     }
 

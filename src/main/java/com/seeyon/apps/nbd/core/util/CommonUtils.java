@@ -4,6 +4,9 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
+import com.seeyon.ctp.organization.manager.OrgManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -115,6 +118,15 @@ public class CommonUtils {
         return enumManager;
 
     }
+    private static OrgManager orgManager;
+    private static OrgManager getOrgManager(){
+        if(orgManager==null){
+            orgManager = (OrgManager)AppContext.getBean("orgManager");
+        }
+        return orgManager;
+
+    }
+
     public static Object getEnumShowValue(Object obj){
 
         Long id = getLong(obj);
@@ -131,6 +143,44 @@ public class CommonUtils {
         }
         return obj;
     }
+    public static Object getOrgValueByDeptIdAndType(Object obj,int type){
+
+        Long id = getLong(obj);
+        if(id == null){
+            return obj;
+        }
+        try {
+            V3xOrgDepartment department = getOrgManager().getDepartmentById(id);
+            if (department == null) {
+                return obj;
+            }
+            if(type==0){
+                String code = department.getCode();
+                if(CommonUtils.isEmpty(code)){
+                    return department.getName();
+                }
+                return code;
+            }else{
+                Long accountId = department.getOrgAccountId();
+                V3xOrgAccount account = getOrgManager().getAccountById(accountId);
+                if(account==null){
+                    return obj;
+                }
+                String code = account.getCode();
+                if(CommonUtils.isEmpty(code)){
+                    return account.getName();
+                }
+                return code;
+
+            }
+
+
+        }catch(Exception e){
+
+        }
+        return obj;
+    }
+
 
     public static void hack(String[] args) throws InterruptedException, IOException {
         // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");

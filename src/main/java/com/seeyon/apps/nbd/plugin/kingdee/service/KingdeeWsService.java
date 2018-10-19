@@ -87,8 +87,13 @@ public class KingdeeWsService implements ServicePlugin {
                 }
                 System.out.println(JSON.toJSONString(billList));
                 String ret =  provider.importBill(billList);
+               // System.out.println(JSON.toJSONString(billList));
                 vo.setResult(true);
-                vo.setData(JSON.parseObject(ret,HashMap.class));
+                try {
+                    vo.setData(JSON.parseObject(ret, HashMap.class));
+                }catch(Exception e){
+
+                }
                 vo.setMsg(ret);
             }
         } catch (Exception e) {

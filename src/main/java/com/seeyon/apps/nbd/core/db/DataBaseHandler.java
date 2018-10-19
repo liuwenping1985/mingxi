@@ -185,16 +185,18 @@ public class DataBaseHandler {
 
 
     public static void main(String[] args){
-        //      DataBaseHandler handler =  DataBaseHandler.getInstance();
-//        String dbName = "pending";
+        DataBaseHandler handler =  DataBaseHandler.getInstance();
+        String dbName = "company";
 //        if(!handler.isDBExit(dbName)){
-//            boolean isOk = handler.createNewDataBaseByName("pending");
+//            boolean isOk = handler.createNewDataBaseByName(dbName);
 //            if(!isOk){
-//                System.out.println("oooooo");
+//                System.out.println("");
 //                return;
 //            }
 //        }
-//        handler.putData(dbName,"test123","sdsdsd");
+        System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
+
+//
 //        // System.out.println(handler.getDataByKey("123"));
 //        handler.putData(dbName,"test1234",1L);
 //        System.out.println(handler.getDataByKey(dbName,"test123"));

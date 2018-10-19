@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.plugin.kingdee.service;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -41,7 +42,7 @@ public final class DataTransferService {
                     retData.put(barCode,dt);
                 }
             }
-            System.out.println("jsonmap"+retData);
+           // System.out.println("jsonmap"+retData);
             bill = JSON.parseObject(JSON.toJSONString(retData),KingDeeBill.class);
             bill.setLocalAmt(bill.getAmount());
             bill.setNumber(String.valueOf(data.get("id")));
@@ -68,14 +69,59 @@ public final class DataTransferService {
     }
 
     private static Object transData(String clsName,Object obj){
+        if(CommonUtils.isEmpty(clsName)||"ws".equals(clsName)){
+            return obj;
+        }
         if("ws_enum".equals(clsName)){
             return CommonUtils.getEnumShowValue(obj);
         }
         if("ws_wrapper".equals(clsName)){
            return new CommonKingDeeVo(String.valueOf(obj));
         }
+        if("ws_wrapper_account".equals(clsName)){
+
+            String val = String.valueOf(CommonUtils.getOrgValueByDeptIdAndType(obj,1));
+            return new CommonKingDeeVo(val);
+        }
+        if(clsName.contains("ws_wrapper_local")){
+            Object val =  getFromLocal(clsName,obj);
+            return new CommonKingDeeVo(String.valueOf(val));
+        }
+        if(clsName.contains("ws_local")){
+            return getFromLocal(clsName,obj);
+
+
+        }
+
 
         return obj;
+    }
+
+    private static Object getFromLocal(String clsName,Object key){
+        System.out.println("local:"+key);
+        String[] splitClsName = clsName.split("_");
+        String dbName = splitClsName[splitClsName.length-1];
+        Object val = DataBaseHandler.getInstance().getDataByKey(dbName,String.valueOf(key));
+        if(val == null){
+            if("北京华恒业房地产开发有限公司".equals(key)){
+                return "01010102";
+            }
+            if("北京华富新业房地产开发有限公司".equals(key)){
+                return "01010103";
+            }
+            if("北京华恒兴业房地产开发有限公司".equals(key)){
+                return "01010101";
+            }
+            return key;
+        }
+
+        return val;
+    }
+
+    public static void main(String[] args){
+        String clsName="ws_wrapper_local_company";
+        Object val= "北京华恒业房地产开发有限公司";
+        System.out.println(""+clsName.contains("ws")+getFromLocal(clsName,val));
     }
 
 
