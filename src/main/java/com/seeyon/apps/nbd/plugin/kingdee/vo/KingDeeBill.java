@@ -8,7 +8,7 @@ import java.util.List;
 public class KingDeeBill {
 
     private PayBillType payBillType;
-    private String payeeNumber;
+    private CommonKingDeeVo payeeNumber;
     private SettlementType settlementType;
     private Integer exchangeRate;
     private String number;
@@ -25,6 +25,7 @@ public class KingDeeBill {
     private CommonKingDeeVo payeeType;
     private String bizDate;
 
+
     public PayBillType getPayBillType() {
         return payBillType;
     }
@@ -33,11 +34,11 @@ public class KingDeeBill {
         this.payBillType = payBillType;
     }
 
-    public String getPayeeNumber() {
+    public CommonKingDeeVo getPayeeNumber() {
         return payeeNumber;
     }
 
-    public void setPayeeNumber(String payeeNumber) {
+    public void setPayeeNumber(CommonKingDeeVo payeeNumber) {
         this.payeeNumber = payeeNumber;
     }
 
