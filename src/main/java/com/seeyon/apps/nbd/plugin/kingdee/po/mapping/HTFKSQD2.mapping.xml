@@ -1,4 +1,4 @@
-<TableList affairType="HTFKSQD2" modes="export,push" is_push="true">
+<TableList affairType="HTFKSQD1" modes="export,push" is_push="true">
     <Table id="-1914535830247094489" name="formmain_2938" display="formmain_0746" tabletype="master" onwertable="" onwerfield="">
         <FieldList>
             <Field id="-5389396292977409842" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname="" barcode=""/>
@@ -21,7 +21,7 @@
             <Field id="-1472215213735328077" name="field0008" display="收款单位名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-1288520519025408047" name="field0009" display="联系人以及联系方式" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-1276840236134348267" name="field0010" display="收款单位开户行名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="4885255824087795733" name="field0011" display="收款单位开户行账号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="bankNumber"/>
+            <Field id="4885255824087795733" name="field0011" display="收款单位开户行账号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="9127409643824825892" name="field0012" display="是否在资金计划内" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-9210723126202905989" name="field0013" display="项目类别" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="7457371580296873829" name="field0014" display="本次完成产值小写" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>

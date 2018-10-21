@@ -121,7 +121,7 @@ public class KingdeeWsService implements ServicePlugin {
         pa.setNumber("1002");
         pa.setCu(new CommonKingDeeVo("1000"));
         bill.setPayerAccount(pa);
-        bill.setPayeeType(new CommonKingDeeVo("00001"));
+        bill.setPayeeType(new CommonKingDeeVo("002"));
         //bill.setLocalAmt();
         //currency
         bill.setCurrency(new CommonKingDeeVo("BB01"));

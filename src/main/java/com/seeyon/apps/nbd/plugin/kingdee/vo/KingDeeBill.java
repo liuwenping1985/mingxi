@@ -25,6 +25,15 @@ public class KingDeeBill {
     private List<KingdeeEntry> entries;
     private CommonKingDeeVo payeeType;
     private String bizDate;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getBankNumber() {
         return bankNumber;
