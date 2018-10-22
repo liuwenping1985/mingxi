@@ -83,7 +83,7 @@
             <Field id="-2648333174493394086" name="field0080" display="费用归属部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-3223165496016944572" name="field0082" display="是否计提" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-4547496631947869708" name="field0083" display="银行账户" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="1404494330946537714" name="field0084" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="description"/>
+            <Field id="1404494330946537714" name="field0084" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="remark"/>
             <Field id="7886067643353546795" name="field0085" display="借方科目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-2973415791968698042" name="field0086" display="贷方科目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-6853034532819809608" name="field0087" display="贷方金额1" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>

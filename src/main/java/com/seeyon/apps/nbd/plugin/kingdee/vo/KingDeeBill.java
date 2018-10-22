@@ -26,6 +26,7 @@ public class KingDeeBill {
     private CommonKingDeeVo payeeType;
     private String bizDate;
     private String description;
+    private String remark;
 
     public String getDescription() {
         return description;
@@ -174,6 +175,14 @@ public class KingDeeBill {
 
     public String getBizDate() {
         return bizDate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public void setBizDate(String bizDate) {
