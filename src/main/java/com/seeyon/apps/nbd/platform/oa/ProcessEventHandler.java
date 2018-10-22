@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
-import com.seeyon.apps.formtalk.form.FormFactoryImpl4ft;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
@@ -17,16 +16,12 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
-import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.event.EventTriggerMode;
-import com.seeyon.ctp.form.bean.FormBean;
 import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.v3x.services.flow.FlowUtil;
-import com.seeyon.v3x.services.form.impl.FormFactoryImpl;
 import org.apache.commons.lang.StringUtils;
-
 
 import java.util.HashMap;
 import java.util.Map;

@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.core.util;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
+import com.seeyon.ctp.common.init.Xcyskm;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
@@ -134,7 +135,8 @@ public class CommonUtils {
             return obj;
         }
         try {
-            CtpEnumItem item = getEnumManager().getEnumItem(id);
+
+            CtpEnumItem item = null;//getEnumManager().getE.getEnumItem(id);
             if (item != null) {
                 return item.getShowvalue();
             }
