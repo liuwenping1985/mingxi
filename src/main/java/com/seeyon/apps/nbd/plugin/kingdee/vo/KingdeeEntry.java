@@ -9,6 +9,16 @@ public class KingdeeEntry {
 
     private Double localAmt;
 
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Double getAmount() {
         return amount;
     }

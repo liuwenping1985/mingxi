@@ -30,6 +30,7 @@ public final class DataTransferService {
             List<FormField> ffList = ftd.getFormTable().getFormFieldList();
             String billString = JSON.toJSONString(bill);
             Map retData = JSON.parseObject(billString,HashMap.class);
+            String remark = "";
             for(FormField ff:ffList){
                 String ffName = ff.getClassname();
                 if(CommonUtils.isEmpty(ffName)){
@@ -39,7 +40,12 @@ public final class DataTransferService {
                     String barCode = ff.getBarcode();
                     Object obj = data.get(ff.getName());
                     Object dt =transData(ff.getClassname(),obj);
-                    retData.put(barCode,dt);
+                    if("remark".equals(barCode)){
+                        remark = String.valueOf(dt);
+                    }else{
+                        retData.put(barCode,dt);
+                    }
+
                 }
             }
            // System.out.println("jsonmap"+retData);
@@ -50,6 +56,7 @@ public final class DataTransferService {
             KingdeeEntry entry = new KingdeeEntry();
             entry.setAmount(bill.getAmount());
             entry.setLocalAmt(bill.getAmount());
+            entry.setRemark(remark);
             entryList.add(entry);
             bill.setEntries(entryList);
             bill.setBizDate(format.format(new Date()));
