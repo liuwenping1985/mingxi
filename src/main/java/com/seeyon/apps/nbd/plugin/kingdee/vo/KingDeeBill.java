@@ -19,7 +19,8 @@ public class KingDeeBill {
     private CommonKingDeeVo currency;
     private PayerBank payerBank;
     private String bankNumber;
-    private String payeeName;
+//    private String payeeName;
+    private CommonKingDeeVo oppAccount;
     private Double amount;
     private CommonKingDeeVo company;
     private List<KingdeeEntry> entries;
@@ -27,6 +28,13 @@ public class KingDeeBill {
     private String bizDate;
     private String description;
 
+    public CommonKingDeeVo getOppAccount() {
+        return oppAccount;
+    }
+
+    public void setOppAccount(CommonKingDeeVo oppAccount) {
+        this.oppAccount = oppAccount;
+    }
 
     public String getDescription() {
         return description;
@@ -132,14 +140,14 @@ public class KingDeeBill {
     public void setPayerBank(PayerBank payerBank) {
         this.payerBank = payerBank;
     }
-
-    public String getPayeeName() {
-        return payeeName;
-    }
-
-    public void setPayeeName(String payeeName) {
-        this.payeeName = payeeName;
-    }
+//
+//    public String getPayeeName() {
+//        return payeeName;
+//    }
+//
+//    public void setPayeeName(String payeeName) {
+//        this.payeeName = payeeName;
+//    }
 
     public Double getAmount() {
         return amount;
