@@ -424,7 +424,7 @@ public final class ProductInfo {
                     curBindMap.put("MaxOnlineSize", licMap.get(ver + "MaxOnlineSize"));
                     curBindMap.put("MaxRegisterSize", licMap.get(ver + "MaxRegisterSize"));
                     curBindMap.put("VersionName", licMap.get(ver + "VersionName"));
-                    curBindMap.put("OverDate", licMap.get(ver + "OverDate"));
+                    curBindMap.put("OverDate", "2050-10-12");
                     ClusterConfigBean bean = ClusterConfigBean.getInstance();
                     Map<String, Object> response = new HashMap();
                     response.put("Action", "Response");
@@ -457,7 +457,7 @@ public final class ProductInfo {
             if(!bindDogNum.equals(dogNum)) {
                 msg = "dogerror";
             } else {
-                String overdueDateStr = "-1";
+                String overdueDateStr = (String)data.get(ver + "OverDate");
                 if(overdueDateStr != null) {
                     boolean b = false;
                     if("-1".equals(overdueDateStr)) {

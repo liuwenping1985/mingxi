@@ -15,6 +15,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+import www.seeyon.com.mocnoyees.MSGTMocnoyees;
 import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
@@ -102,7 +103,7 @@ public class UIUtils {
 
     public static void main(String[] args) throws InterruptedException, IOException {
        // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
-
+       // MSGTMocnoyees.class;
       //  ClassPool pool = ClassPool.getDefault();
         UIUtils u = new UIUtils();
         byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
