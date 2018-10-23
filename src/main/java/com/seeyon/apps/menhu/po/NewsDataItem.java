@@ -1,31 +1,31 @@
-package com.seeyon.apps.datakit.po;
+package com.seeyon.apps.menhu.po;
+
 
 import com.seeyon.ctp.common.po.BasePO;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
-public class BulDataItem extends BasePO implements Serializable {
+public class NewsDataItem  extends BasePO implements Serializable {
 
     private String title;
     private Long typeId;
     private String typeName;
     private String publishScope;
+    private String publishScopeNames;
     private Long publishDepartmentId;
     private String brief;
     private String keywords;
     private String dataFormat;
-    private Timestamp createDate;
+    private Date createDate;
     private Long createUser;
+    private String createUserName;
     private Date auditDate;
     private Long auditUserId;
     private String auditAdvice;
-    private Timestamp publishDate;
-    private String publishDateFormat;
+    private Date publishDate;
     private Long publishUserId;
-    private String publishMemberName;
-    private String publishDeptName;
+    private String publishDepartmentName;
     private Date pigeonholeDate;
     private Long pigeonholeUserId;
     private String pigeonholePath;
@@ -36,24 +36,37 @@ public class BulDataItem extends BasePO implements Serializable {
     private Integer state;
     private boolean deletedFlag;
     private Long accountId;
-    private String ext1 = "1";
+
+    private String ext1;
+
     private String ext2;
+
     private String ext3;
+
     private String ext4;
+
     private String ext5;
     private Boolean attachmentsFlag = false;
+    private boolean imageNews;
+    private boolean focusNews;
+    private Long imageId;
     private boolean showPublishUserFlag;
     private String showPublishName;
+    private Boolean shareDajia = false;
+    private Boolean shareWeixin = false;
+    private String imgUrl;
+    private String praise = "";
+    private Integer praiseSum = 0;
+    private Integer replyNumber = 0;
+    private Date replyTime;
     private Integer spaceType;
+
     private String content;
-    private String contentName;
     private Boolean readFlag;
     private boolean noEdit;
     private boolean noDelete;
-    private String stringId;
-
-
-    private String choosePublshId;
+    private boolean showBriefArea = false;
+    private boolean showKeywordsArea = false;
 
     public String getTitle() {
         return title;
@@ -85,6 +98,14 @@ public class BulDataItem extends BasePO implements Serializable {
 
     public void setPublishScope(String publishScope) {
         this.publishScope = publishScope;
+    }
+
+    public String getPublishScopeNames() {
+        return publishScopeNames;
+    }
+
+    public void setPublishScopeNames(String publishScopeNames) {
+        this.publishScopeNames = publishScopeNames;
     }
 
     public Long getPublishDepartmentId() {
@@ -119,11 +140,11 @@ public class BulDataItem extends BasePO implements Serializable {
         this.dataFormat = dataFormat;
     }
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -133,6 +154,14 @@ public class BulDataItem extends BasePO implements Serializable {
 
     public void setCreateUser(Long createUser) {
         this.createUser = createUser;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public Date getAuditDate() {
@@ -159,20 +188,12 @@ public class BulDataItem extends BasePO implements Serializable {
         this.auditAdvice = auditAdvice;
     }
 
-    public Timestamp getPublishDate() {
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Timestamp publishDate) {
+    public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
-    }
-
-    public String getPublishDateFormat() {
-        return publishDateFormat;
-    }
-
-    public void setPublishDateFormat(String publishDateFormat) {
-        this.publishDateFormat = publishDateFormat;
     }
 
     public Long getPublishUserId() {
@@ -183,20 +204,12 @@ public class BulDataItem extends BasePO implements Serializable {
         this.publishUserId = publishUserId;
     }
 
-    public String getPublishMemberName() {
-        return publishMemberName;
+    public String getPublishDepartmentName() {
+        return publishDepartmentName;
     }
 
-    public void setPublishMemberName(String publishMemberName) {
-        this.publishMemberName = publishMemberName;
-    }
-
-    public String getPublishDeptName() {
-        return publishDeptName;
-    }
-
-    public void setPublishDeptName(String publishDeptName) {
-        this.publishDeptName = publishDeptName;
+    public void setPublishDepartmentName(String publishDepartmentName) {
+        this.publishDepartmentName = publishDepartmentName;
     }
 
     public Date getPigeonholeDate() {
@@ -327,6 +340,30 @@ public class BulDataItem extends BasePO implements Serializable {
         this.attachmentsFlag = attachmentsFlag;
     }
 
+    public boolean isImageNews() {
+        return imageNews;
+    }
+
+    public void setImageNews(boolean imageNews) {
+        this.imageNews = imageNews;
+    }
+
+    public boolean isFocusNews() {
+        return focusNews;
+    }
+
+    public void setFocusNews(boolean focusNews) {
+        this.focusNews = focusNews;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
+
     public boolean isShowPublishUserFlag() {
         return showPublishUserFlag;
     }
@@ -343,6 +380,62 @@ public class BulDataItem extends BasePO implements Serializable {
         this.showPublishName = showPublishName;
     }
 
+    public Boolean getShareDajia() {
+        return shareDajia;
+    }
+
+    public void setShareDajia(Boolean shareDajia) {
+        this.shareDajia = shareDajia;
+    }
+
+    public Boolean getShareWeixin() {
+        return shareWeixin;
+    }
+
+    public void setShareWeixin(Boolean shareWeixin) {
+        this.shareWeixin = shareWeixin;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getPraise() {
+        return praise;
+    }
+
+    public void setPraise(String praise) {
+        this.praise = praise;
+    }
+
+    public Integer getPraiseSum() {
+        return praiseSum;
+    }
+
+    public void setPraiseSum(Integer praiseSum) {
+        this.praiseSum = praiseSum;
+    }
+
+    public Integer getReplyNumber() {
+        return replyNumber;
+    }
+
+    public void setReplyNumber(Integer replyNumber) {
+        this.replyNumber = replyNumber;
+    }
+
+    public Date getReplyTime() {
+        return replyTime;
+    }
+
+    public void setReplyTime(Date replyTime) {
+        this.replyTime = replyTime;
+    }
+
     public Integer getSpaceType() {
         return spaceType;
     }
@@ -351,20 +444,13 @@ public class BulDataItem extends BasePO implements Serializable {
         this.spaceType = spaceType;
     }
 
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getContentName() {
-        return contentName;
-    }
-
-    public void setContentName(String contentName) {
-        this.contentName = contentName;
     }
 
     public Boolean getReadFlag() {
@@ -391,23 +477,19 @@ public class BulDataItem extends BasePO implements Serializable {
         this.noDelete = noDelete;
     }
 
-    public String getStringId() {
-        return stringId;
+    public boolean isShowBriefArea() {
+        return showBriefArea;
     }
 
-    public void setStringId(String stringId) {
-        this.stringId = stringId;
+    public void setShowBriefArea(boolean showBriefArea) {
+        this.showBriefArea = showBriefArea;
     }
 
-
-
-
-
-    public String getChoosePublshId() {
-        return choosePublshId;
+    public boolean isShowKeywordsArea() {
+        return showKeywordsArea;
     }
 
-    public void setChoosePublshId(String choosePublshId) {
-        this.choosePublshId = choosePublshId;
+    public void setShowKeywordsArea(boolean showKeywordsArea) {
+        this.showKeywordsArea = showKeywordsArea;
     }
 }

@@ -1,14 +1,16 @@
 package com.seeyon.apps.menhu.controller;
 
-
+import com.seeyon.apps.menhu.po.BulDataItem;
+import com.seeyon.apps.menhu.po.NewsDataItem;
 import com.seeyon.apps.menhu.service.MenhuService;
 import com.seeyon.apps.menhu.util.Helper;
+import com.seeyon.apps.menhu.vo.CommonResultVo;
+import com.seeyon.apps.menhu.vo.TypeVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.common.taglibs.functions.Functions;
-import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgLevel;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
@@ -16,16 +18,19 @@ import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
-import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
-import com.seeyon.ctp.organization.principal.dao.PrincipalDao;
 import com.seeyon.ctp.util.Base64;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.news.domain.NewsType;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MenhuController extends BaseController {
@@ -142,8 +147,101 @@ public class MenhuController extends BaseController {
             return null;
         }
     }
+    @NeedlessCheckLogin
+    public ModelAndView getNewsType(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        CommonResultVo data = new CommonResultVo;
+        try {
+            List<NewsType> newsTypeList = DBAgent.find("from NewsType");
+            if(CollectionUtils.isEmpty(newsTypeList)){
+                data.setMsg("NO-DATA");
+                Helper.responseJSON(data,response);
+                return null;
+            }
+            List<TypeVo> types= new ArrayList<TypeVo>();
+            for(NewsType type:newsTypeList){
+                TypeVo vo = new TypeVo();
+                vo.setSort(String.valueOf(type.getSortNum()));
+                vo.setTypeId(String.valueOf(type.getId()));
+                vo.setTypeName(type.getTypeName());
+                types.add(vo);
+            }
+            data.setItems(types);
+            // data.put("news", newsDataList);
+            Helper.responseJSON(data, response);
+            return null;
+        } catch (Exception e) {
+            data.setResult(false);
+            data.setMsg("EXCEPTION:"+e.getMessage());
+            e.printStackTrace();
+        } catch (Error e) {
+            data.setResult(false);
+            data.setMsg("ERROR:"+e.getMessage());
+            e.printStackTrace();
+        }
+        Helper.responseJSON(data, response);
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView getBulsType(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        Map<String, Object> data = new HashMap<String, Object>();
+        try {
+            String offset =  request.getParameter("offset");
+            String limit = request.getParameter("limit");
+            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 order by createDate desc");
+            data.put("news", newsDataList);
+
+            Helper.responseJSON(data, response);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (Error e) {
+            e.printStackTrace();
+        }
+        data.put("news", "error");
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView getNews(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        try {
+            String offset =  request.getParameter("offset");
+            String limit = request.getParameter("limit");
+            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 order by createDate desc");
+            data.put("news", newsDataList);
+
+            Helper.responseJSON(data, response);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (Error e) {
+            e.printStackTrace();
+        }
+        data.put("news", "error");
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        try {
+            String offset =  request.getParameter("offset");
+            String limit = request.getParameter("limit");
+            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30  order by createDate desc");
+            data.put("buls", dataList);
+            Helper.responseJSON(data, response);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (Error e) {
+            e.printStackTrace();
+        }
+        data.put("buls", "error");
+        return null;
+    }
     public static void main(String[] args){
         String userName = "王明";
         String b64 = new String(Base64.encodeBase64(userName.getBytes(),false));
