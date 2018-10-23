@@ -6,6 +6,7 @@
 package com.seeyon.ctp.product;
 
 import code2.www.seeyon.com.system.auth.SeeyonDog;
+import com.kg.commons.utils.Base64Util;
 import com.seeyon.ctp.cluster.ClusterConfigBean;
 import com.seeyon.ctp.cluster.ClusterConfigValidator;
 import com.seeyon.ctp.cluster.notification.NotificationManager;
@@ -14,6 +15,7 @@ import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.constants.ProductEditionEnum;
 import com.seeyon.ctp.common.constants.ProductVersionEnum;
 import com.seeyon.ctp.common.init.MclclzUtil;
+import com.seeyon.ctp.form.modules.engin.field.FormFieldDesignManagerImpl;
 import com.seeyon.ctp.product.dao.ProductInfoDaoImpl;
 import com.seeyon.ctp.product.util.GenerateKey;
 import com.seeyon.ctp.util.DateUtil;
@@ -36,6 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +58,6 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernet.utils.OutNa;
-import sun.misc.BASE64Decoder;
 import www.seeyon.com.mocnoyees.CHKUMocnoyees;
 import www.seeyon.com.mocnoyees.DogException;
 import www.seeyon.com.mocnoyees.LRWMMocnoyees;
@@ -77,6 +79,7 @@ public final class ProductInfo {
     private static VERMocnoyees mocnoyeesVer;
     private static boolean isVerDev;
     private static String productLine;
+    private static String appFolder;
     private static final String versionFileFullPath;
     private static final String developEditionFileFullPath;
     private static final String productFolder;
@@ -96,12 +99,17 @@ public final class ProductInfo {
         mocnoyeesVer = null;
         isVerDev = false;
         productLine = null;
-        versionFileFullPath = SystemEnvironment.getApplicationFolder() + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "portaletMenu.js";
-        developEditionFileFullPath = SystemEnvironment.getApplicationFolder() + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "partaletindev.js";
-        productFolder = (new File(SystemEnvironment.getApplicationFolder())).getParentFile().getParentFile().getParentFile().getAbsolutePath();
+        appFolder = SystemEnvironment.getApplicationFolder();
+        if(MclclzUtil.sfsdflkjfl) {
+            appFolder = "D:/runtime/v5/ApacheJetspeed/webapps/seeyon";
+        }
+
+        versionFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "portaletMenu.js";
+        developEditionFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "partaletindev.js";
+        productFolder = (new File(appFolder)).getParentFile().getParentFile().getParentFile().getAbsolutePath();
         BaseLicenseFolder = productFolder + fileSeparator + "base" + fileSeparator + "license";
         lisenceFileFullPath = BaseLicenseFolder + fileSeparator;
-        signatureFileFullPath = BaseLicenseFolder + fileSeparator + "publicinfomenu.js";
+        signatureFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "publicinfomenu.js";
         oldDog = null;
         isOldTG = false;
         c3 = MclclzUtil.ioiekc("com.seeyon.ctp.permission.bo.LicensePerInfo");
@@ -110,6 +118,7 @@ public final class ProductInfo {
     }
 
     public ProductInfo() {
+        FormFieldDesignManagerImpl il;
     }
 
     public synchronized void init() {
@@ -126,7 +135,7 @@ public final class ProductInfo {
                     while(!ClusterSlaveOK && var4++ < 10) {
                         try {
                             Thread.sleep(2000L);
-                        } catch (InterruptedException var14) {
+                        } catch (InterruptedException var12) {
                             ;
                         }
                     }
@@ -144,23 +153,28 @@ public final class ProductInfo {
             }
 
             if(isLoadDog) {
-                DecryptUtils u = new DecryptUtils();
-                int result_util1 = u.n(SystemEnvironment.getApplicationFolder());
-                if(result_util1 == 1) {
-                    this.initEditionNC();
-                } else {
-                    try {
-                        mocnoyeesVer = new VERMocnoyees(versionFileFullPath);
-                    } catch (Throwable var13) {
-                        out("验证产品版本文件无效: " + var13.getMessage());
-                        return;
-                    }
+                try {
+                    mocnoyeesVer = new VERMocnoyees(versionFileFullPath);
+                } catch (Throwable var11) {
+                    out("验证产品版本文件无效: " + var11.getMessage());
+                    return;
+                }
 
+                String msg;
+                if(isNCOEM()) {
+                    this.initEditionNC();
+                    initEdition();
+                    if(!MclclzUtil.sfsdflkjfl) {
+                        File sFile = new File(signatureFileFullPath);
+                        msg = sFile.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath() + "/";
+                        CHKUMocnoyees.checkFile(signatureFileFullPath, msg);
+                    }
+                } else {
                     try {
                         if(mocnoyeesVer.methoddev(developEditionFileFullPath)) {
                             isVerDev = true;
                         }
-                    } catch (Throwable var12) {
+                    } catch (Throwable var10) {
                         logger.info("不是开发版");
                     }
 
@@ -170,8 +184,8 @@ public final class ProductInfo {
                         oldDog = new OutNa();
                         oldDog.proc1(1);
                         isOldTG = oldDog.proc9();
-                    } catch (Throwable var18) {
-                        String msg = var18.getMessage();
+                    } catch (Throwable var16) {
+                        msg = var16.getMessage();
                         if(msg.contains("3023") || msg.contains("1008") || msg.contains("2021") || msg.contains("2022") || msg.contains("2023")) {
                             out("D-" + msg);
                             return;
@@ -179,17 +193,23 @@ public final class ProductInfo {
                     }
 
                     try {
-                        Class handlerClass = Class.forName("www.seeyon.com.mocnoyees.VERMocnoyees");
-                        ClassLoader cl = handlerClass.getClassLoader();
-                        String filepath = ((URL)cl.getResources("www/seeyon/com/mocnoyees/VERMocnoyees.class").nextElement()).toString();
-                        if(!filepath.endsWith("/WEB-INF/lib/mocnoyeeswz.jar!/www/seeyon/com/mocnoyees/VERMocnoyees.class")) {
-                            out("初始化产品文件的效验码无效, CL:V");
-                            return;
-                        }
+                        if(oldDog != null && isOldTG) {
+                            this.initDog2Cache();
+                        } else if(!isVerDev) {
+                            Class handlerClass = Class.forName("www.seeyon.com.mocnoyees.VERMocnoyees");
+                            ClassLoader cl = handlerClass.getClassLoader();
+                            String filepath = ((URL)cl.getResources("www/seeyon/com/mocnoyees/VERMocnoyees.class").nextElement()).toString();
+                            if(!filepath.endsWith("/WEB-INF/lib/mocnoyeeswz.jar!/www/seeyon/com/mocnoyees/VERMocnoyees.class")) {
+                                out("初始化产品文件的效验码无效, CL:V");
+                                return;
+                            }
 
-                        if((oldDog == null || !isOldTG) && !isVerDev) {
                             if(isU8OEM()) {
-                                mocnoyeesA = new MSGMocnoyees(SeeyonDog.getInstance().getLicense(mocnoyeesVer));
+                                if(mocnoyeesA == null) {
+                                    String ls = SeeyonDog.getInstance().getLicense(mocnoyeesVer, this.getCompanyName());
+                                    logger.info(ls);
+                                    mocnoyeesA = new MSGMocnoyees(ls);
+                                }
                             } else {
                                 LRWMMocnoyees lrwmmocnoyees = null;
                                 File licenseFile = new File(lisenceFileFullPath);
@@ -199,42 +219,52 @@ public final class ProductInfo {
                                     lrwmmocnoyees = new LRWMMocnoyees(productLine);
                                 }
 
-                                mocnoyeesA = new MSGMocnoyees(lrwmmocnoyees);
+                                if(mocnoyeesA == null) {
+                                    mocnoyeesA = new MSGMocnoyees(lrwmmocnoyees);
+                                    if(mocnoyeesA.methoda(productLine).equals(String.valueOf(UserTypeEnum.internal.getKey()))) {
+                                        isOldTG = true;
+                                    }
+                                }
                             }
-
+                            www.seeyon.com.mocnoyees.MSGTMocnoyees d;
                             if(mocnoyeesA.methodzz("ncbusiness") || mocnoyeesA.methodzz("ncehr") || mocnoyeesA.methodzz("ncsupplychain") || mocnoyeesA.methodzz("ncfinance") || mocnoyeesA.methodzz("ncfdc") || mocnoyeesA.methodzz("u8business")) {
-                                mocnoyeesA.methodzi("dee", "1");
+                                mocnoyeesA.methodxu("dee", "1");
                             }
 
                             if(mocnoyeesA.methodzz("thirdpartReport")) {
-                                mocnoyeesA.methodzi("seeyonreport", "1");
+                                mocnoyeesA.methodxu("seeyonreport", "1");
                             }
 
                             try {
-                                if(!mocnoyeesA.methoda(productLine).equals(String.valueOf(UserTypeEnum.internal.getKey()))) {
+                                if(!String.valueOf(UserTypeEnum.internal.getKey()).equals(mocnoyeesA.methoda(productLine))) {
                                     this.checkProductInfo4DogAndProgram();
                                 }
-                            } catch (Throwable var15) {
-                                out("验证版本号和版本匹配情况异常: " + var15.getMessage());
+                            } catch (Throwable var13) {
+                                out("验证版本号和版本匹配情况异常: " + var13.getMessage());
                                 return;
                             }
 
                             this.dataBind();
-                            CHKUMocnoyees.checkFile(signatureFileFullPath, productFolder);
+                            if(!MclclzUtil.sfsdflkjfl) {
+                                File sFile = new File(signatureFileFullPath);
+                                String rootFolder = sFile.getParentFile().getParentFile().getParentFile().getParentFile().getAbsolutePath() + "/";
+                                CHKUMocnoyees.checkFile(signatureFileFullPath, rootFolder);
+                            }
                         }
-                    } catch (DogException var16) {
-                        var16.printStackTrace();
-                        out("验证产品加密狗无效: " + var16.getMessage());
+                    } catch (DogException var14) {
+                        var14.printStackTrace();
+                        out("验证产品加密狗无效: " + var14.getErrorCode() + "-" + var14.getErrorMsg());
                         return;
-                    } catch (Throwable var17) {
-                        var17.printStackTrace();
-                        out("验证产品加密狗无效: " + var17.getMessage());
+                    } catch (Throwable var15) {
+                        var15.printStackTrace();
+                        out("验证产品加密狗无效: " + var15.getMessage());
                         return;
                     }
 
                     this.initOnlineSize(isVerDev);
                     this.initRegisterSize(isVerDev);
                     this.initCompanySize(isVerDev);
+                    this.initDog2Cache();
                     this.checkCompnayCount();
                 }
             }
@@ -243,14 +273,16 @@ public final class ProductInfo {
             if(this.con != null) {
                 try {
                     this.con.close();
-                } catch (SQLException var11) {
+                } catch (SQLException var9) {
                     ;
                 }
             }
-        } catch (Exception var19) {
-            var19.printStackTrace();
+        } catch (Exception var17) {
+            var17.printStackTrace();
         }
-
+        System.out.println("----------------");
+        System.out.println(JSONUtil.toJSONString(pluginInfos));
+        System.out.println("----------------");
     }
 
     public String getVersionFilePath() {
@@ -283,6 +315,29 @@ public final class ProductInfo {
 
     }
 
+    private String getCompanyName() {
+        String sql = "select name from org_unit where id = 670869647114347";
+        String name = "";
+        Statement s = null;
+        ResultSet rs = null;
+        Connection con = null;
+
+        try {
+            con = this.getConnection();
+            s = con.createStatement();
+            rs = s.executeQuery(sql);
+            if(rs.next()) {
+                name = rs.getString(1);
+            }
+        } catch (Exception var10) {
+            var10.printStackTrace();
+        } finally {
+            SQLUtil.close1(rs, s, (Connection)null);
+        }
+
+        return name;
+    }
+
     private void checkRegisterSize() {
         try {
             Object o = MclclzUtil.invoke(c3, "getInstance", new Class[]{String.class}, (Object)null, new Object[]{""});
@@ -313,6 +368,35 @@ public final class ProductInfo {
         return des;
     }
 
+    private void initDog2Cache() {
+        Map dogMap = new HashMap();
+        if(oldDog != null && isOldTG) {
+            dogMap.put("userType", Integer.valueOf(UserTypeEnum.internal.getKey()));
+            dogMap.put("customName", "致远内部(通狗)");
+            dogMap.put("dogNo", "-2");
+        } else if(isVerDev) {
+            dogMap.put("userType", Integer.valueOf(UserTypeEnum.internal.getKey()));
+            dogMap.put("customName", "致远内部(开发)");
+            dogMap.put("dogNo", "-1");
+        } else {
+            dogMap.put("userType", mocnoyeesA.methoda(productLine));
+            dogMap.put("customName", mocnoyeesA.methodp(productLine));
+            dogMap.put("dogNo", mocnoyeesA.methodk(productLine));
+        }
+
+        if(mocnoyeesA == null) {
+            dogMap.put("versionNo", mocnoyeesVer.methodc(productLine));
+            dogMap.put("versionName", mocnoyeesVer.methode(productLine));
+        } else {
+            dogMap.put("versionNo", mocnoyeesA.methode(productLine));
+            dogMap.put("versionName", mocnoyeesA.methodd(productLine));
+            dogMap.put("useEndDate", mocnoyeesA.methodh(productLine));
+        }
+
+        dogMap.put("mocnoyeesA", mocnoyeesA);
+        dogBindingMap.put("dog", dogMap);
+    }
+
     private void initEditionNC() {
         String result = null;
 
@@ -334,7 +418,7 @@ public final class ProductInfo {
             BigInteger privateExponent = g.getPrivateExponent();
             String basePath = SystemEnvironment.getApplicationFolder() + "/../../../base";
             basePath = Strings.getCanonicalPath(basePath);
-            Properties ncProperties = PropertiesUtil.getFromAbsolutepath(basePath + File.separator + "conf" + File.separator + "system.properties");
+            Properties ncProperties = PropertiesUtil.getFromAbsolutepath(basePath + File.separator + "conf" + File.separator + "plugin.properties");
             String prefix = ncProperties.getProperty("nc.server.url.prefix");
             if(prefix != null && !"".equals(prefix)) {
                 String url = prefix + "/service/OALicServlet";
@@ -376,16 +460,25 @@ public final class ProductInfo {
                         String[] lics = lic.split("[#]");
                         maxOnlineSize = Integer.parseInt(lics[0]);
                         if(maxOnlineSize > 0) {
-                            for(int i = 2; i < lics.length; ++i) {
+                            maxCompanySize = Integer.parseInt(lics[2]);
+
+                            for(int i = 3; i < lics.length; ++i) {
                                 String p = lics[i];
                                 pluginInfos.add((String)NCProductCodePlugin.get(p));
                             }
 
-                            pluginInfos.add("ncplugin");
+                            pluginInfos.add("nc");
                             pluginInfos.add("edoc");
                             pluginInfos.add("officeOcx");
                             pluginInfos.add("pdf");
                             pluginInfos.add("dee");
+                            pluginInfos.add("offce");
+                            pluginInfos.add("index");
+                            pluginInfos.add("meeting");
+                            pluginInfos.add("formAdvanced");
+                            pluginInfos.add("uc");
+                            pluginInfos.add("lbs");
+                            pluginInfos.add("advanceOffice");
                         } else {
                             if(maxOnlineSize != -1) {
                                 out("NC-OA产品加密信息无效: " + maxOnlineSize);
@@ -393,11 +486,19 @@ public final class ProductInfo {
                             }
 
                             maxOnlineSize = 5;
-                            pluginInfos.add("ncplugin");
+                            pluginInfos.addAll(NCProductCodePlugin.values());
+                            pluginInfos.add("nc");
                             pluginInfos.add("edoc");
                             pluginInfos.add("officeOcx");
                             pluginInfos.add("pdf");
                             pluginInfos.add("dee");
+                            pluginInfos.add("offce");
+                            pluginInfos.add("index");
+                            pluginInfos.add("meeting");
+                            pluginInfos.add("formAdvanced");
+                            pluginInfos.add("uc");
+                            pluginInfos.add("lbs");
+                            pluginInfos.add("advanceOffice");
                         }
 
                     } else {
@@ -424,12 +525,13 @@ public final class ProductInfo {
                     curBindMap.put("MaxOnlineSize", licMap.get(ver + "MaxOnlineSize"));
                     curBindMap.put("MaxRegisterSize", licMap.get(ver + "MaxRegisterSize"));
                     curBindMap.put("VersionName", licMap.get(ver + "VersionName"));
-                    curBindMap.put("OverDate", "2050-10-12");
+                    curBindMap.put("OverDate", licMap.get(ver + "OverDate"));
                     ClusterConfigBean bean = ClusterConfigBean.getInstance();
                     Map<String, Object> response = new HashMap();
                     response.put("Action", "Response");
                     response.put("ClusterName", bean.getClusterName());
                     response.put("ProductInfo.DogBindingMap", dogBindingMap);
+                    response.put("mocnoyeesA", mocnoyeesA);
                     NotificationManager.getInstance().send(NotificationType.ProductInfo, response, true);
                 }
 
@@ -489,20 +591,6 @@ public final class ProductInfo {
         result.put("success", msg);
         result.put("key", secretKey);
         return result;
-    }
-
-    public static String getDogNo() {
-        if(mocnoyeesA == null) {
-            return null;
-        } else {
-            String dogNo = mocnoyeesA.methodk(productLine);
-            dogNo = TextEncoder.encode(dogNo);
-            return dogNo;
-        }
-    }
-
-    public static boolean isTongDog() {
-        return isOldTG;
     }
 
     private void dataBind() throws Exception {
@@ -587,10 +675,10 @@ public final class ProductInfo {
             if(productEdition != null && productEdition.equals(String.valueOf(currentProductEdition.getValue()))) {
                 logger.info("当前产品版本: " + currentProductEdition + "; " + getEditionA() + "; " + currentVersion.getCanonicalVersion());
             } else {
-                out(productLine + "数据表版本[" + productEdition + "]和" + "应用程序版本不一致[" + currentProductEdition.getValue() + "].\n说明:A6V5-1:A6企业,A6V5-2:A6-s版, A8V5-1:企业版, A8V5-2:集团版, G6V5-1:政务版, G6V5-2:政务多组织版, NCV5-1:NC协同OA");
+                out(productLine + "数据表版本名称[" + productEdition + "]和" + "应用程序版本名称不一致[" + currentProductEdition.getValue() + "].\n说明:A6V5-1:A6企业,A6V5-2:A6-s版, A8V5-1:企业版, A8V5-2:集团版, G6V5-1:政务版, G6V5-2:政务多组织版, NCV5-1:NC协同OA");
             }
         } else {
-            out(productLine + "数据表版本[" + version + "]和" + productLine + "应用程序版本不一致[" + currentVersion.getCanonicalVersion() + "].");
+            out(productLine + "数据表版本号[" + version + "]和" + productLine + "应用程序版本号不一致[" + currentVersion.getCanonicalVersion() + "].");
         }
     }
 
@@ -603,6 +691,10 @@ public final class ProductInfo {
     }
 
     private static boolean checkPlugin(String pluginId) {
+        if(pluginId.equals("formBiz")){
+            System.out.println("pluginInfospluginInfospluginInfospluginInfospluginInfospluginInfos");
+            System.out.println(pluginInfos);
+        }
         if(pluginInfos.contains(pluginId)) {
             return true;
         } else {
@@ -615,7 +707,12 @@ public final class ProductInfo {
                             valid = true;
                         }
                     } else {
-                        valid = true;
+                        Info info = (Info)PlugInList.getAllPluginList4ProductLine(productLine).get(pluginId);
+                        if(info == null) {
+                            valid = false;
+                        } else {
+                            valid = true;
+                        }
                     }
 
                     if(valid) {
@@ -641,7 +738,7 @@ public final class ProductInfo {
                     pluginInfos.add(pluginId);
                     return true;
                 }
-            } catch (Throwable var2) {
+            } catch (Throwable var3) {
                 ;
             }
 
@@ -650,17 +747,16 @@ public final class ProductInfo {
     }
 
     private static boolean isValidPlugin(String pluginId) {
-        boolean isValid = mocnoyeesA.methodzz(pluginId);
-        if(!isValid) {
-            List<Info> pluginInfoList = null;
-            if("A8V5".equals(productLine)) {
-                pluginInfoList = (new PlugInList()).getA8PluginInfoList();
-            } else if("A6V5".equals(productLine)) {
-                pluginInfoList = (new PlugInList()).getA6PluginInfoList();
-            } else if("G6V5".equals(productLine)) {
-                pluginInfoList = (new PlugInList()).getG6PluginInfoList();
-            }
+        boolean isValid = false;
 
+        try {
+            isValid = mocnoyeesA.methodzz(pluginId);
+        } catch (Exception var6) {
+            ;
+        }
+
+        if(!isValid) {
+            List<Info> pluginInfoList = new ArrayList(PlugInList.getAllPluginList4ProductLine(productLine).values());
             if(pluginInfoList != null) {
                 boolean contains = false;
                 Iterator var5 = pluginInfoList.iterator();
@@ -669,15 +765,15 @@ public final class ProductInfo {
                     Info info = (Info)var5.next();
                     if(info.getKey().equals(pluginId)) {
                         contains = true;
-                        if(!info.isDisplay() && info.getValue() == 1) {
-                            isValid = true;
+                        if(!info.isDisplay()) {
+                            if(info.getValue() == 1) {
+                                isValid = true;
+                            } else if(info.getValue() == 0) {
+                                isValid = false;
+                            }
                         }
                         break;
                     }
-                }
-
-                if(!contains) {
-                    isValid = true;
                 }
             }
         }
@@ -734,7 +830,7 @@ public final class ProductInfo {
 
     private static String decrypt(String text, BigInteger privateExponent, BigInteger modulus) {
         try {
-            byte[] data = (new BASE64Decoder()).decodeBuffer(text);
+            byte[] data = Base64Util.decodeByte(text, "utf-8");
             KeyFactory keyFac = KeyFactory.getInstance("RSA");
             RSAPrivateKeySpec priKeySpec = new RSAPrivateKeySpec(modulus, privateExponent);
             PrivateKey privateKey = keyFac.generatePrivate(priKeySpec);
@@ -772,6 +868,7 @@ public final class ProductInfo {
         proxy.setMaxOnlineSize(maxOnlineSize, false);
         proxy.setMaxRegisterSize(maxRegisterSize, false);
         proxy.setPluginInfos(pluginInfos, false);
+        proxy.setProductLine(productLine, false);
         NotificationManager.getInstance().register(new ProductNotificationListener(proxy));
         if(!bean.isClusterMain()) {
             Map<String, Object> request = new HashMap();
@@ -846,11 +943,6 @@ public final class ProductInfo {
         return res != null?res:"";
     }
 
-    public static String getVersion() {
-        String res = ProductVersionEnum.getCurrentVersion().getMainVersion();
-        return res != null?res:"";
-    }
-
     public static String getM1Version() {
         Map bindMap = (Map)dogBindingMap.get("M1");
         return bindMap != null?(String)bindMap.get("VersionName"):"";
@@ -863,6 +955,18 @@ public final class ProductInfo {
 
     public static boolean isU8OEM() {
         return mocnoyeesVer != null && mocnoyeesVer.methodg("U8+") != null && mocnoyeesVer.methodg("U8+").equals("U8+");
+    }
+
+    public static boolean isNCOEM() {
+        return mocnoyeesVer != null && mocnoyeesVer.methodg("NC") != null && mocnoyeesVer.methodg("NC").equals("NC");
+    }
+
+    public static boolean isCworkInner() {
+        return mocnoyeesVer != null && mocnoyeesVer.methoda("CWORK") != null && mocnoyeesVer.methoda("CWORK").equals("CWORK") && hasPlugin("cworkInner");
+    }
+
+    public static boolean isCworkOuter() {
+        return mocnoyeesVer != null && mocnoyeesVer.methoda("CWORK") != null && mocnoyeesVer.methoda("CWORK").equals("CWORK") && hasPlugin("cworkInner")?false:false;
     }
 
     public static int getMaxOnline() {
@@ -891,9 +995,50 @@ public final class ProductInfo {
         return bindMap != null?Integer.parseInt((String)bindMap.get("MaxRegisterSize")):0;
     }
 
-    public static void main(String[] args) {
-        Class<?> c2 = MclclzUtil.ioiekc("com..ctp.product.ProductInfo");
-        MclclzUtil.invoke(c2, "initDogBinding", new Class[]{String.class, String.class}, (Object)null, new Object[]{"M1", "QQ"});
-        System.out.println("ok");
+    public static String getPlugin(String pluginId) {
+        return mocnoyeesA == null?null:mocnoyeesA.methodz(pluginId);
+    }
+
+    public static String getDogNo() {
+        String dogNo = (String)((Map)dogBindingMap.get("dog")).get("dogNo");
+        dogNo = TextEncoder.encode(dogNo);
+        return dogNo;
+    }
+
+    public static String getUserType() {
+        return "" + ((Map)dogBindingMap.get("dog")).get("userType");
+    }
+
+    public static String getVersion() {
+        String res = ProductVersionEnum.getCurrentVersion().getMainVersion();
+        return res != null?res:"";
+    }
+
+    public static String getVersionNo() {
+        return (String)((Map)dogBindingMap.get("dog")).get("versionNo");
+    }
+
+    public static String getVersionName() {
+        return (String)((Map)dogBindingMap.get("dog")).get("versionName");
+    }
+
+    public static String getCustomName() {
+        return (String)((Map)dogBindingMap.get("dog")).get("customName");
+    }
+
+    public static String getUseEndDate() {
+        return (String)((Map)dogBindingMap.get("dog")).get("useEndDate");
+    }
+
+    public static String getProductLine() {
+        return productLine;
+    }
+
+    public static boolean isDev() {
+        return isVerDev;
+    }
+
+    public static boolean isTongDog() {
+        return isOldTG;
     }
 }

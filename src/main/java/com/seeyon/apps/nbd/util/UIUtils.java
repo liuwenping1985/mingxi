@@ -106,11 +106,12 @@ public class UIUtils {
        // MSGTMocnoyees.class;
       //  ClassPool pool = ClassPool.getDefault();
         UIUtils u = new UIUtils();
-        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+        byte[] bytes = u.loadClassData("com.seeyon.ctp.common.plugin.PluginSystemInit");
        // pool.getClassLoader()
   //      PortalMenuManagerImpl impl;
         System.out.println("1");
-       String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+
+       String path = "/Users/liuwenping/Documents/wmm/PluginSystemInit.class";
         File f = new File(path);
         if(f.exists()){
             f.delete();

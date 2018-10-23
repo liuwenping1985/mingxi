@@ -53,17 +53,17 @@ public class MSGTMocnoyees extends LinkedHashMap {
 
     public void checkLicense() throws DogException {
         String var1 = this._$8("");
-        if (var1 != null && var1.length() > 0 && !var1.equals("0") && !var1.equals("1")) {
-            try {
-                if (!MacAddressUtil.checkMac(var1)) {
-                    System.out.println(ErrorCode.error_3001.getError());
-                    stop();
-                    throw new DogException(ErrorCode.error_3001.getError());
-                }
-            } catch (Exception var5) {
-                throw new DogException(ErrorCode.error_1014.getError());
-            }
-        }
+//        if (var1 != null && var1.length() > 0 && !var1.equals("0") && !var1.equals("1")) {
+//            try {
+//                if (!MacAddressUtil.checkMac(var1)) {
+//                    System.out.println(ErrorCode.error_3001.getError());
+//                    stop();
+//                    throw new DogException(ErrorCode.error_3001.getError());
+//                }
+//            } catch (Exception var5) {
+//                throw new DogException(ErrorCode.error_1014.getError());
+//            }
+//        }
 
 //        String var2 = this._$12("");
 //        if (var2 != null && var2.length() > 0 && !var2.equals("-1")) {
