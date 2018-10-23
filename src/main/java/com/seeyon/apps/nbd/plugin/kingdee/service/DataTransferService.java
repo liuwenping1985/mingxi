@@ -72,7 +72,11 @@ public final class DataTransferService {
     }
 
     public DataParser getDataParaserByAffairType(String affairType){
-        return dataParaserMap.get(affairType);
+        DataParser dp =  dataParaserMap.get(affairType);
+        if(dp == null){
+            dp = defaultDataParser;
+        }
+        return dp;
     }
 
     private static Object transData(String clsName,Object obj){
