@@ -13,7 +13,7 @@
             <Field id="5293938917018259431" name="ratify_date" display="核定时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname="" barcode=""/>
 
 
-            <Field id="1421417291112596449" name="field0001" display="单位名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
+            <Field id="1421417291112596449" name="field0001" display="单位名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws_wrapper_local_company" barcode="company"/>
             <Field id="-214098508358530525" name="field0002" display="附件张数" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="1940075560576830742" name="field0003" display="申请人" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="7227416054727658067" name="field0004" display="申请部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
@@ -74,7 +74,7 @@
             <Field id="4514187894742404811" name="field0020" display="出差包干补助" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="9194825490790239375" name="field0021" display="公杂费" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="8363351241708290657" name="field0022" display="市内交通" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="-4870193607352303199" name="field0023" display="小计" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
+            <Field id="-4870193607352303199" name="field0023" display="小计" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="ws" barcode="amount"/>
             <Field id="-4366076587600951886" name="field0025" display="起止地点" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="6666454955401167940" name="field0027" display="一级费用名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-5330071307153879434" name="field0029" display="三级费用名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
@@ -85,7 +85,7 @@
             <Field id="-858689550751217389" name="field0042" display="费用科目数据表的剩余金额" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-3784754866050480026" name="field0043" display="费用科目对应的数据表" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="971861272924931342" name="field0044" display="费用科目数据表的在途金额" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="-1947101552499211948" name="field0065" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
+            <Field id="-1947101552499211948" name="field0065" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="remark"/>
         </FieldList>
         <IndexList>
         </IndexList>

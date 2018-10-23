@@ -37,7 +37,7 @@
             <Field id="-1313177788866146906" name="field0029" display="出纳签字" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="3162603242714908864" name="field0030" display="经理签字" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="7224276441467801444" name="field0025" display="借方摘要" fieldtype="LONGTEXT" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="7356050349702663461" name="field0026" display="借方金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
+            <Field id="7356050349702663461" name="field0026" display="借方金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="ws" barcode="amount"/>
             <Field id="-4682289584510972994" name="field0031" display="贷方摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-9199720302294842050" name="field0032" display="贷方金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-1124135576830458833" name="field0033" display="ERP费用类型" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>

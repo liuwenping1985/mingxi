@@ -13,7 +13,7 @@
             <Field id="2358665404032501749" name="ratify_date" display="核定时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname="" barcode=""/>
 
 
-            <Field id="2893154261767834938" name="field0001" display="单位名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
+            <Field id="2893154261767834938" name="field0001" display="单位名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws_wrapper_local_company" barcode="company"/>
             <Field id="-4879434588313139226" name="field0002" display="年度" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-7734133628117696311" name="field0003" display="主表月份" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-5626156836803162871" name="field0004" display="申请人" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
@@ -96,8 +96,8 @@
             <Field id="674788486441420281" name="field0027" display="核算科目一级名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="4706039058182587121" name="field0028" display="核算科目二级名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-630896189669686293" name="field0029" display="核算科目三级名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="2537963300012704326" name="field0049" display="核算金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="-1239932895815712002" name="field0065" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
+            <Field id="2537963300012704326" name="field0049" display="核算金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="ws" barcode="amount"/>
+            <Field id="-1239932895815712002" name="field0065" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="remark"/>
         </FieldList>
         <IndexList>
         </IndexList>
