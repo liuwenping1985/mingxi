@@ -5,6 +5,7 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,6 +50,24 @@ public class CommonUtils {
     public static Long paserLong(Object obj) {
         if (obj == null) {
             return null;
+        }
+        Long val = null;
+        try {
+            val = Long.parseLong(String.valueOf(obj));
+        } finally {
+            return val;
+        }
+
+    }
+    public static Long getLong(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        if(obj instanceof Long){
+            return (Long)obj;
+        }
+        if(obj instanceof BigDecimal){
+           return  ((BigDecimal)obj).longValue();
         }
         Long val = null;
         try {

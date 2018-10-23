@@ -240,7 +240,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     return val;
                 }
             }
-            if (sid.intValue() == 0 || sid.intValue() == 1) {
+            if (sid.intValue() >= 0 &&sid.intValue() <= 10000) {
                 return val;
             }
 
@@ -280,9 +280,9 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         if (!CommonUtils.isEmpty(className)) {
             if ("attachment".equals(className)) {
                 //System.out.println("---I am in attchment---:"+sff.getValue());
-                String sql = "select * from ctp_attachment where id=" + sid + " or reference=" + sid + " or sub_reference=" + sid;
+               // String sql = "select * from ctp_attachment where id=" + sid + " or reference=" + sid + " or sub_reference=" + sid;
                 try {
-                    List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    List<Map> dataList = getFiles(sid);
                     if (!CommonUtils.isEmpty(dataList)) {
                         List<Map> files = new ArrayList<Map>();
                         for(Map fileMap:dataList){
@@ -337,6 +337,37 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
         }
         return val;
+    }
+    private static final List<Map> fileDataList = new ArrayList<Map>();
+
+    private synchronized List<Map> getDataByCache(){
+       if(fileDataList.isEmpty()){
+           String sql = "select * from ctp_attachment";
+           try {
+               List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+               if(dataList==null||CommonUtils.isEmpty(dataList)){
+                   return fileDataList;
+               }
+               fileDataList.addAll(dataList);
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
+        return fileDataList;
+    }
+    private List<Map> getFiles(Long id){
+        List<Map> dataList = this.getDataByCache();
+        List<Map> retList = new ArrayList<Map>();
+        for(Map map:dataList){
+            Long fid = CommonUtils.getLong("id");
+            Long referenceId = CommonUtils.getLong("reference");
+            Long subReferenceId = CommonUtils.getLong("sub_reference");
+            if(id.equals(fid)||id.equals(referenceId)||id.equals(subReferenceId)){
+                retList.add(map);
+            }
+
+        }
+        return retList;
     }
 
 
