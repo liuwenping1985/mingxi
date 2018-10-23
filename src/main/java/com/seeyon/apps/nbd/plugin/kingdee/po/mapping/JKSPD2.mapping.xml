@@ -51,6 +51,14 @@
             <Field id="3753184559525416249" name="field0040" display="贷方科目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-7082233015747787564" name="field0041" display="银行账户" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-6837532054573465072" name="field0042" display="摘要" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
+
+
+
+
+            <Field id="-7277089329241370741" name="field0043" display="借方科目编码" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccount" />
+            <Field id="-3225778662370817963" name="field0044" display="贷方科目编码" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="oppAccount" />
+            <Field id="-4305770432658781100" name="field0045" display="银行账户编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccountBank" />
+
         </FieldList>
         <IndexList>
         </IndexList>
