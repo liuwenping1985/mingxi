@@ -10,12 +10,14 @@ import com.seeyon.ctp.cluster.ClusterConfigBean;
 import com.seeyon.ctp.cluster.ClusterConfigValidator;
 import com.seeyon.ctp.cluster.notification.NotificationManager;
 import com.seeyon.ctp.cluster.notification.NotificationType;
+import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.constants.ProductEditionEnum;
 import com.seeyon.ctp.common.constants.ProductVersionEnum;
 import com.seeyon.ctp.common.flag.SysFlag;
 import com.seeyon.ctp.common.init.MclclzUtil;
 import com.seeyon.ctp.common.timer.TimerHolder;
+import com.seeyon.ctp.login.online.OnlineRecorder;
 import com.seeyon.ctp.product.dao.ProductInfoDaoImpl;
 import com.seeyon.ctp.product.util.GenerateKey;
 import com.seeyon.ctp.util.DateUtil;
@@ -308,6 +310,28 @@ public final class ProductInfo {
         }
 
         this.runExpireCheck((Map)null);
+        if(!"true".equals(System.getProperty("ctp.mode.test"))) {
+            this.checkClasses(OnlineRecorder.class);
+            this.checkClasses(PlugInList.class);
+            this.checkClasses(CrackCheckTask.class);
+            this.checkClasses(CronCheckTask.class);
+            this.checkClasses(MclclzUtil.class);
+        }
+
+        TimerHolder.newTimer(new CrackCheckTask(), 1800000L, 86400000L);
+    }
+
+    private void checkClasses(Class class1) {
+        String basePath = class1.getResource("/").getPath() + class1.getCanonicalName().replace(".", "/") + ".class";
+
+        try {
+            if((new File(basePath)).isFile()) {
+                out("系统文件被恶意篡改，停止启动:" + class1.getName() + " " + basePath);
+            }
+        } catch (Exception var4) {
+            logger.error(var4.getLocalizedMessage(), var4);
+        }
+
     }
 
     private void expireInfo() {
@@ -323,8 +347,12 @@ public final class ProductInfo {
         }
 
     }
+    private boolean TEST = true;
 
     private void updateAccountBind() {
+        if(TEST){
+            return;
+        }
         if(mocnoyeesA != null && mocnoyeesA.methodzz("accountbind")) {
             boolean isGroup = ((Boolean)SysFlag.sys_isGroupVer.getFlag()).booleanValue();
             long id = isGroup?-1730833917365171641L:670869647114347L;
@@ -526,6 +554,7 @@ public final class ProductInfo {
                         String lic = decrypt(text, privateExponent, modulus);
                         String[] lics = lic.split("[#]");
                         maxOnlineSize = NumberUtils.toInt(lics[0], 0);
+
                         int maxM1OnlineSize;
                         if(maxOnlineSize > 0) {
                             maxM1OnlineSize = NumberUtils.toInt(lics[1], 0);
@@ -712,7 +741,7 @@ public final class ProductInfo {
             mxProductLine = "M3";
         }
 
-        String maxOnline = "10";
+        String maxOnline = "5";
         String maxReg = "0";
         String overDate = "";
         if(!isVerDev && !isTongDog()) {
@@ -723,8 +752,8 @@ public final class ProductInfo {
 
         Map<String, String> initM1 = new HashMap();
         initM1.put("M1MaxOnlineSize", maxOnline);
-        initM1.put("M1MaxRegisterSize","500");
-        initM1.put("M1VersionName", "1.5.0");
+        initM1.put("M1MaxRegisterSize", "500");
+        initM1.put("M1VersionName", "2.0");
         initM1.put("M1OverDate", overDate);
         initM1.put("M1DogType", "1");
         initM1.put("M1BindDogNum", getDogNo());
@@ -810,9 +839,9 @@ public final class ProductInfo {
 
     private void initOnlineSize(boolean isVerDev) {
         if(isVerDev) {
-            maxOnlineSize = 5;
+            maxOnlineSize = 3;
         } else if(isOldTG) {
-            maxOnlineSize = 10;
+            maxOnlineSize = 3;
         } else {
             maxOnlineSize = NumberUtils.toInt(mocnoyeesA.methodj(productLine), 0);
         }
@@ -820,30 +849,53 @@ public final class ProductInfo {
     }
 
     private void initRegisterSize(boolean isVerDev) {
-        if(isVerDev) {
-            maxRegisterSize = 0;
-        } else if(isOldTG) {
-            maxRegisterSize = 0;
+//        if(isVerDev) {
+//            maxRegisterSize = 0;
+//        } else if(isOldTG) {
+//            maxRegisterSize = 0;
+//        } else {
+//            maxRegisterSize = NumberUtils.toInt(mocnoyeesA.methodq(productLine), 0);
+//        }
+        maxRegisterSize = 500;
+    }
+
+    public static boolean checkCrack() {
+        if(!isVerDev && !isOldTG) {
+            if(ClusterConfigBean.getInstance().isClusterEnabled() && !ClusterConfigBean.getInstance().isClusterMain()) {
+                return false;
+            }
+
+            boolean isCracked = maxOnlineSize != NumberUtils.toInt(mocnoyeesA.methodj(productLine), 0);
+            if(isCracked) {
+                maxOnlineSize = NumberUtils.toInt(mocnoyeesA.methodj(productLine), 0);
+                return true;
+            }
+
+            isCracked = maxRegisterSize != NumberUtils.toInt(mocnoyeesA.methodq(productLine), 0);
+            if(isCracked) {
+                maxRegisterSize = NumberUtils.toInt(mocnoyeesA.methodq(productLine), 0);
+                return true;
+            }
         } else {
-            maxRegisterSize = 500;//NumberUtils.toInt(mocnoyeesA.methodq(productLine), 0);
+            if(maxOnlineSize != 3) {
+                maxOnlineSize = 3;
+                maxRegisterSize = 0;
+                return true;
+            }
+
+            if(maxRegisterSize != 0) {
+                maxOnlineSize = 3;
+                maxRegisterSize = 0;
+                return true;
+            }
         }
 
+        return false;
     }
 
     private void initCompanySize(boolean isVerDev) {
-        if(isVerDev) {
-            maxCompanySize = 0;
-        } else if(isOldTG) {
-            maxCompanySize = 0;
-        } else if(mocnoyeesA.methodz("orgMaxCompany") == null) {
-            maxCompanySize = 0;
-        } else {
-            try {
-                maxCompanySize = NumberUtils.toInt(mocnoyeesA.methodz("orgMaxCompany.orgMaxCompany1"), 0);
-            } catch (Exception var3) {
-                maxCompanySize = 0;
-            }
-        }
+        maxCompanySize = 500;
+
 
     }
 
@@ -894,6 +946,10 @@ public final class ProductInfo {
             try {
                 boolean isValid;
                 if(isVerDev || isOldTG) {
+                    if("international".equals(pluginId)) {
+                        return false;
+                    }
+
                     isValid = false;
                     if("mm1".equals(pluginId)) {
                         if(getM1MaxOnline() > 0 || getM1MaxRegisterSize() > 0) {
@@ -1104,7 +1160,7 @@ public final class ProductInfo {
 
             logger.info("当前连接的产品为" + mxProductLine + "。");
             String maxOnlineSize = (String)data.get("concurrentNum");
-            String maxRegistSize = (String)data.get("registerNum");
+            String maxRegistSize = "500";
             String versionStr = (String)data.get("m1VersionNum");
             if(versionStr == null) {
                 versionStr = "5.0.0";
@@ -1120,7 +1176,7 @@ public final class ProductInfo {
 
             Map<String, String> initM1 = new HashMap();
             initM1.put("M1MaxOnlineSize", maxOnlineSize);
-            initM1.put("M1MaxRegisterSize", "500");
+            initM1.put("M1MaxRegisterSize", maxRegistSize);
             initM1.put("M1VersionName", versionName);
             initM1.put("M1OverDate", overDate);
             initM1.put("M1DogType", dogType);
@@ -1201,11 +1257,11 @@ public final class ProductInfo {
     }
 
     public static int getMaxRegisterSize() {
-        return maxRegisterSize;
+        return 500;
     }
 
     public static int getMaxCompanySize() {
-        return maxCompanySize;
+        return 500;
     }
 
     /** @deprecated */
@@ -1264,12 +1320,7 @@ public final class ProductInfo {
 
     /** @deprecated */
     public static int getM1MaxRegisterSize() {
-        if(isU8OEM()) {
-            return SeeyonDog.getInstance().getM1();
-        } else {
-            Map bindMap = (Map)dogBindingMap.get("M1");
-            return bindMap != null?NumberUtils.toInt((String)bindMap.get("MaxRegisterSize"), 0):0;
-        }
+        return 500;
     }
 
     public static int getMxMaxRegisterSize() {
@@ -1469,5 +1520,14 @@ public final class ProductInfo {
         return executeDate;
     }
 
+    public static String getDogMessage() {
+        if(mocnoyeesA != null) {
+            String message = mocnoyeesA.showMessage(AppContext.getCfgHome() + "/base/message.dat");
+            if(message != null) {
+                return message.replace("插件名称: null", "");
+            }
+        }
 
+        return "";
+    }
 }

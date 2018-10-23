@@ -36,7 +36,7 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
             initMapping();
             initPlugin();
             System.out.println("init----ok");
-            //   System.out.println(JSON.toJSONString(pluginDefinitionList));
+            //System.out.println(JSON.toJSONString(pluginDefinitionList));
         } catch (IOException e) {
             System.out.println("init--not--ok");
             e.printStackTrace();
