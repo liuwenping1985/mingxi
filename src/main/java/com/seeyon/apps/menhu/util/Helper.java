@@ -83,17 +83,20 @@ public class Helper {
 
         Integer offset = typeParameter.getOffset();
         Integer limit = typeParameter.getLimit();
+        if(limit<0){
+            limit = 100;
+        }
         if (list == null) {
             return new ArrayList<T>();
         }
         int size = list.size();
-        int start = 0;
-        int end = size;
-        if (offset + limit > size) {
-            end = size;
+        int start = offset;
+        int end = offset+limit;
+        if(end>size){
+            end=size;
         }
         if (start > end) {
-            start = end - 20;
+            start = 0;
         }
         if (start < 0) {
             start = 0;
@@ -109,7 +112,7 @@ public class Helper {
         list.add(3);
         list.add(4);
         list.add(5);
-        System.out.println(list.subList(3, 5));
+        System.out.println(list.subList(3, 3));
     }
 
 

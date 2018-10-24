@@ -4,25 +4,22 @@ import com.seeyon.apps.menhu.po.BulDataItem;
 import com.seeyon.apps.menhu.po.NewsDataItem;
 import com.seeyon.apps.menhu.service.MenhuService;
 import com.seeyon.apps.menhu.util.Helper;
-import com.seeyon.apps.menhu.vo.CommonResultVo;
-import com.seeyon.apps.menhu.vo.CommonTypeParameter;
-import com.seeyon.apps.menhu.vo.TypeVo;
+import com.seeyon.apps.menhu.vo.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.common.taglibs.functions.Functions;
-import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
-import com.seeyon.ctp.organization.bo.V3xOrgLevel;
-import com.seeyon.ctp.organization.bo.V3xOrgMember;
-import com.seeyon.ctp.organization.bo.V3xOrgPost;
+import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
 import com.seeyon.v3x.bulletin.domain.BulType;
+import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsType;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -166,6 +163,16 @@ public class MenhuController extends BaseController {
                 vo.setSort(String.valueOf(type.getSortNum()));
                 vo.setTypeId(String.valueOf(type.getId()));
                 vo.setTypeName(type.getTypeName());
+                try{
+                  V3xOrgAccount account = this.getOrgManager().getAccountById(type.getAccountId());
+                  if(account!=null){
+                      vo.setAccountName(account.getName());
+                  }
+                }catch(Exception e){
+
+                }
+                vo.setAccountId(type.getAccountId());
+
                 types.add(vo);
             }
             data.setItems(types);
@@ -198,6 +205,16 @@ public class MenhuController extends BaseController {
                 vo.setSort(String.valueOf(type.getSortNum()));
                 vo.setTypeId(String.valueOf(type.getId()));
                 vo.setTypeName(type.getTypeName());
+                vo.setAccountId(type.getAccountId());
+                try{
+                    V3xOrgAccount account = this.getOrgManager().getAccountById(vo.getAccountId());
+                    if(account!=null){
+                        vo.setAccountName(account.getName());
+                    }
+                }catch(Exception e){
+
+                }
+
             }
             data.setItems(typeList);
             Helper.responseJSON(data, response);
@@ -227,7 +244,8 @@ public class MenhuController extends BaseController {
             }
             List<NewsDataItem> newsDataList = DBAgent.find(sql);
             List<NewsDataItem> pagingNewsDataList = Helper.paggingList(newsDataList,p);
-            data.setItems(pagingNewsDataList);
+            data.setItems(transToNewsVo(pagingNewsDataList));
+
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
@@ -242,6 +260,38 @@ public class MenhuController extends BaseController {
         Helper.responseJSON(data, response);
         return null;
     }
+    private List<NewsVo> transToNewsVo(List<NewsDataItem> newsDataList){
+        List<NewsVo> retList = new ArrayList<NewsVo>();
+        if(CollectionUtils.isEmpty(newsDataList)){
+            return retList;
+        }
+        for(NewsDataItem item:newsDataList){
+            NewsVo vo = new NewsVo();
+            retList.add(vo);
+            vo.setTitle(item.getTitle());
+            vo.setAccountId(item.getAccountId());
+            vo.setCreateDate(item.getCreateDate());
+            vo.setUpdateDate(item.getUpdateDate());
+            vo.setPublishDate(item.getUpdateDate());
+            vo.setReadCount(item.getReadCount());
+            vo.setImgNews(item.isImageNews());
+            vo.setFocusNews(item.isFocusNews());
+            Long imageId = item.getImageId();
+            if(imageId!=null){
+                vo.setImgUrl("/seeyon/fileUpload.do?method=showRTE&fileId="+imageId+"&createDate=&type=image");
+            }
+            vo.setCreateUserId(item.getCreateUser());
+            vo.setPublishDepartmentId(item.getPublishDepartmentId());
+            vo.setPublishUserId(item.getPublishUserId());
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=news&id="+item.getId());
+            filledVo(vo);
+        }
+
+        return retList;
+
+
+
+    }
     @NeedlessCheckLogin
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -254,7 +304,7 @@ public class MenhuController extends BaseController {
             }
             List<BulDataItem> dataList = DBAgent.find(sql);
             List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList,p);
-            data.setItems(pagingBulsDataList);
+            data.setItems(transToBulVo(pagingBulsDataList));
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
@@ -267,6 +317,75 @@ public class MenhuController extends BaseController {
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
+        return null;
+    }
+    private List<BulsVo> transToBulVo(List<BulDataItem> bulsDataList){
+        List<BulsVo> retList = new ArrayList<BulsVo>();
+        if(CollectionUtils.isEmpty(bulsDataList)){
+            return retList;
+        }
+        for(BulDataItem item:bulsDataList){
+            BulsVo vo = new BulsVo();
+            retList.add(vo);
+            vo.setTitle(item.getTitle());
+            vo.setAccountId(item.getAccountId());
+            vo.setCreateDate(item.getCreateDate());
+            vo.setUpdateDate(item.getUpdateDate());
+            vo.setPublishDate(item.getUpdateDate());
+            vo.setReadCount(item.getReadCount());
+            vo.setCreateUserId(item.getCreateUser());
+            vo.setPublishDepartmentId(item.getPublishDepartmentId());
+            vo.setPublishUserId(item.getPublishUserId());
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=bul&id="+item.getId());
+            filledVo(vo);
+
+        }
+
+        return retList;
+
+    }
+    private BulsVo filledVo(BulsVo vo){
+        try {
+            V3xOrgAccount account = this.getOrgManager().getAccountById(vo.getAccountId());
+            if(account!=null){
+                vo.setAccountName(account.getName());
+            }
+            V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(vo.getPublishDepartmentId());
+            if(dept !=null){
+                vo.setPublishDepartmentName(dept.getName());
+            }
+            V3xOrgMember createMember = this.getOrgManager().getMemberById(vo.getCreateUserId());
+            if(createMember!=null){
+                vo.setCreateUserName(createMember.getName());
+            }
+            V3xOrgMember publishMember = this.getOrgManager().getMemberById(vo.getPublishUserId());
+            if(publishMember!=null){
+                vo.setPublishUserName(publishMember.getName());
+            }
+
+        } catch (Exception e) {
+
+        }
+        return vo;
+
+    }
+
+    public ModelAndView openLink(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String linkType = request.getParameter("linkType");
+        if("bul".equals(linkType)){
+            BulDataController bdc = (BulDataController)AppContext.getBean("bulDataController");
+            if(bdc!=null){
+                return bdc.userView(request,response);
+            }
+        }
+        if("news".equals(linkType)){
+            NewsDataController ndc = (NewsDataController)AppContext.getBean("newsDataController");
+            if(ndc!=null){
+                return ndc.userView(request,response);
+            }
+        }
+        Helper.responseJSON("error",response);
         return null;
     }
     public static void main(String[] args){

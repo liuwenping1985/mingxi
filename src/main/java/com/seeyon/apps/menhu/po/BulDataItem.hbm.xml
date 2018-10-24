@@ -4,7 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping>
-	<class name="com.seeyon.apps.datakit.po.BulDataItem" table="bul_data">
+	<class name="com.seeyon.apps.menhu.po.BulDataItem" table="bul_data">
 		<id name="id" column="id" type="long" length="20">
 			<generator class="assigned" />
 		</id>
