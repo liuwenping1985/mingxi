@@ -8,12 +8,13 @@ package www.seeyon.com.mocnoyees;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Properties;
-import java.util.Set;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,34 +29,41 @@ import www.seeyon.com.utils.MacAddressUtil;
 import www.seeyon.com.utils.StringUtil;
 import www.seeyon.com.utils.XMLUtil;
 
-public class MSGTMocnoyees extends LinkedHashMap {
+public class MSGTMocnoyees extends LinkedHashMap implements Serializable {
     private static final long serialVersionUID = 2762981159058645565L;
-    private static final String _$2 = "ISO8859-1";
-    private static final String _$1 = "UTF-8";
+    private static final String ORIGINAL_CHARSET = "ISO8859-1";
+    private static final String FILE_CHARSET = "UTF-8";
 
-    public MSGTMocnoyees(LRWMMocnoyees var1) throws DogException {
-        String var2 = var1.lrwmmocnoyeesb();
-        String var3 = var1.lrwmmocnoyeesc();
-        if (var3 != null && var3.length() != 0) {
-            var3 = RSMocnoyees.getModules(var3);
-            var2 = _$1(var2, var3);
-            this._$20(var2);
+    public MSGTMocnoyees(LRWMMocnoyees o) throws DogException {
+        String dogMsg = o.lrwmmocnoyeesb();
+        String modules = o.lrwmmocnoyeesc();
+        if(modules != null && modules.length() != 0) {
+            modules = RSMocnoyees.getModules(modules);
+            dogMsg = msgmocnoyeesdl(dogMsg, modules);
+            this.msgmocnoyees(dogMsg);
             this.checkLicense();
         } else {
             throw new DogException(ErrorCode.error_1013.getError());
         }
     }
 
-    public MSGTMocnoyees(String var1) throws DogException {
-        this._$20(var1);
-        this.checkLicense();
+    public MSGTMocnoyees(String s) throws DogException {
+        this(s, true);
+    }
+
+    public MSGTMocnoyees(String s, boolean needCheck) throws DogException {
+        this.msgmocnoyees(s);
+        if(needCheck) {
+            this.checkLicense();
+        }
+
     }
 
     public void checkLicense() throws DogException {
-        String var1 = this._$8("");
-//        if (var1 != null && var1.length() > 0 && !var1.equals("0") && !var1.equals("1")) {
+//        String hardNo = this.methodl("");
+//        if(hardNo != null && hardNo.length() > 0 && !hardNo.equals("0") && !hardNo.equals("1")) {
 //            try {
-//                if (!MacAddressUtil.checkMac(var1)) {
+//                if(!MacAddressUtil.checkMac(hardNo)) {
 //                    System.out.println(ErrorCode.error_3001.getError());
 //                    stop();
 //                    throw new DogException(ErrorCode.error_3001.getError());
@@ -65,19 +73,19 @@ public class MSGTMocnoyees extends LinkedHashMap {
 //            }
 //        }
 
-//        String var2 = this._$12("");
-//        if (var2 != null && var2.length() > 0 && !var2.equals("-1")) {
-//            Date var3 = DateUtil.toDate(var2, "yyyy-MM-dd");
-//            Date var4 = new Date();
-//            if (var4.after(var3)) {
-//                System.out.println(ErrorCode.error_3005.getError() + var2);
+//        String limitUseDate = this.methodh("");
+//        if(limitUseDate != null && limitUseDate.length() > 0 && !limitUseDate.equals("-1")) {
+//            Date d = DateUtil.toDate(limitUseDate, "yyyy-MM-dd");
+//            Date currentDate = new Date();
+//            if(currentDate.after(d)) {
+//                System.out.println(ErrorCode.error_3005.getError() + limitUseDate);
 //                stop();
 //                throw new DogException(ErrorCode.error_3005.getError());
 //            }
 //        }
 
-        String var6 = this._$7("");
-        if (var6 != null && var6.length() > 0 && var6.equals("1")) {
+        String isNeedBindDB = this.methodm("");
+        if(isNeedBindDB != null && isNeedBindDB.length() > 0 && isNeedBindDB.equals("1")) {
             System.out.println(ErrorCode.error_3007.getError());
             stop();
             throw new DogException(ErrorCode.error_3007.getError());
@@ -85,55 +93,65 @@ public class MSGTMocnoyees extends LinkedHashMap {
     }
 
     public static void stop() {
-        llllIlIllIIIlIII var0 = new llllIlIllIIIlIII();
-        var0.start();
+        Thread t = new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(15000L);
+                    System.exit(-1);
+                } catch (Exception var2) {
+                    ;
+                }
+
+            }
+        };
+        t.start();
     }
 
-    static String _$1(String var0, String var1) throws DogException {
-        return RSMocnoyees._$1(var0, var1);
+    static String msgmocnoyeesdl(String msg, String m) throws DogException {
+        return RSMocnoyees.mocnoyeesdl(msg, m);
     }
 
-    private void _$20(String var1) throws DogException {
-        if (var1 != null && var1.trim().length() != 0) {
-            String var2 = ",AH:";
-            int var3 = var1.indexOf(var2);
-            int var4 = var1.indexOf(",", var3 + var2.length());
-            String var5 = null;
-            String var6 = null;
-            if (var4 == -1) {
-                var5 = var1;
+    private void msgmocnoyees(String s) throws DogException {
+        if(s != null && s.trim().length() != 0) {
+            String splitStr = ",AH:";
+            int ahIndex = s.indexOf(splitStr);
+            int splitIndex = s.indexOf(",", ahIndex + splitStr.length());
+            String productInfoCodeStr = null;
+            String moduleStr = null;
+            if(splitIndex == -1) {
+                productInfoCodeStr = s;
             } else {
-                var5 = var1.substring(0, var4);
-                var6 = var1.substring(var4 + 1);
+                productInfoCodeStr = s.substring(0, splitIndex);
+                moduleStr = s.substring(splitIndex + 1);
             }
 
-            String[] var7 = var5.split(",");
-            String[] var8 = var7;
-            int var9 = var7.length;
+            String[] fieldCodeStrArray = productInfoCodeStr.split(",");
+            String[] var11 = fieldCodeStrArray;
+            int var10 = fieldCodeStrArray.length;
 
-            int var10;
-            for(var10 = 0; var10 < var9; ++var10) {
-                String var11 = var8[var10];
-                String[] var12 = var11.split(":");
-                String var13 = var12[0];
-                if (var12.length == 1) {
-                    this.put(var13, "");
+            String[] fieldCodeAndValueStr;
+            for(int var9 = 0; var9 < var10; ++var9) {
+                String fieldCodeStr = var11[var9];
+                fieldCodeAndValueStr = fieldCodeStr.split(":");
+                String fieldCode = fieldCodeAndValueStr[0];
+                if(fieldCodeAndValueStr.length == 1) {
+                    this.put(fieldCode, "");
                 } else {
-                    this.put(var13, var12[1]);
+                    this.put(fieldCode, fieldCodeAndValueStr[1]);
                 }
             }
 
-            if (var6 != null) {
-                var8 = var6.split(",");
-                String[] var16 = var8;
-                var10 = var8.length;
+            if(moduleStr != null) {
+                String[] moduleKeyValueStrArray = moduleStr.split(",");
+                fieldCodeAndValueStr = moduleKeyValueStrArray;
+                int var18 = moduleKeyValueStrArray.length;
 
-                for(int var17 = 0; var17 < var10; ++var17) {
-                    String var18 = var16[var17];
-                    String[] var19 = var18.split(":");
-                    String var14 = var19[0];
-                    String var15 = var19[1];
-                    this.put(var14, var15);
+                for(var10 = 0; var10 < var18; ++var10) {
+                    String moduleKeyValueStr = fieldCodeAndValueStr[var10];
+                    String[] moduleKeyValue = moduleKeyValueStr.split(":");
+                    String moduleCode = moduleKeyValue[0];
+                    String moduleSublisence = moduleKeyValue[1];
+                    this.put(moduleCode, moduleSublisence);
                 }
             }
 
@@ -143,92 +161,74 @@ public class MSGTMocnoyees extends LinkedHashMap {
         }
     }
 
-    public String showMessage(String var1) {
-        String var2 = "";
+    public String showMessage(String messageDataFileFullPath) {
+        String msg = "";
 
         try {
-            String var3 = FileUtil.readTextFile(var1);
-            Properties var4 = StringUtil.getProperties(var3);
-            var2 = this.showMessage(var4);
+            String fileContent = FileUtil.readTextFile(messageDataFileFullPath);
+            Properties ps = StringUtil.getProperties(fileContent);
+            msg = this.showMessage(ps);
         } catch (Exception var5) {
             var5.printStackTrace();
         }
 
-        return var2;
+        return msg;
     }
 
-    public String showMessage(Properties var1) {
-        StringBuffer var2 = new StringBuffer();
-        StringBuffer var3 = new StringBuffer();
+    public String showMessage(Properties ps) {
+        StringBuffer piStrBuf = new StringBuffer();
+        StringBuffer mdStrBuf = new StringBuffer();
 
         try {
-            Set var4 = this.keySet();
-            Iterator var5 = var4.iterator();
+            Collection<String> keys = this.keySet();
+            Iterator var6 = keys.iterator();
 
-            while(true) {
-                while(var5.hasNext()) {
-                    String var6 = (String)var5.next();
-                    String var7 = (String)this.get(var6);
-                    String var8;
-                    String var9;
-                    if (var6.startsWith("A")) {
-                        var8 = var1.getProperty(var6);
-                        var2.append(var8 + ":");
-                        if (!var6.equals("AF") && !var6.equals("AO")) {
-                            if (var7 != null && var7.trim().length() != 0) {
-                                var9 = var1.getProperty(var6 + var7);
-                                if (var9 != null && var9.length() > 0) {
-                                    if (var9 != null && var9.trim().length() != 0) {
-                                        var2.append(var9);
-                                    } else {
-                                        var2.append(var7);
-                                    }
-                                } else {
-                                    var2.append(var7);
-                                }
-                            } else {
-                                var2.append("");
-                            }
-                        } else {
-                            var9 = var1.getProperty(var7);
-                            var2.append(var9);
+            while(var6.hasNext()) {
+                String key = (String)var6.next();
+                String value = (String)this.get(key);
+                String valueString;
+                String keyValueStr;
+                if(!key.startsWith("A")) {
+                    if(key.startsWith("B")) {
+                        valueString = ps.getProperty(key);
+                        if(value.length() >= 6 && value.startsWith("base64")) {
+                            value = value.substring(6);
+                            value = Base64Util.decode(value);
                         }
 
-                        var2.append(System.getProperty("line.separator"));
-                    } else if (var6.startsWith("B")) {
-                        var8 = var1.getProperty(var6);
-                        if (var7.length() >= 6 && var7.startsWith("base64")) {
-                            var7 = var7.substring(6);
-                            var7 = Base64Util.decode(var7);
-                        }
-
-                        var2.append(var8 + ":" + var7);
+                        piStrBuf.append(valueString + ":" + value);
                     } else {
-                        var8 = this._$17("productLine");
-                        var9 = var1.getProperty(var8 + "-" + var6);
-                        if (!var7.startsWith("-")) {
-                            var3.append("模块/插件名称:").append(var9);
-                            var3.append(System.getProperty("line.separator"));
-                            if (!var7.equals("1")) {
-                                ByteArrayInputStream var11 = null;
+                        valueString = this.methodc("productLine");
+                        keyValueStr = ps.getProperty(valueString + "-" + key);
+                        if(!value.startsWith("-")) {
+                            mdStrBuf.append("插件名称: ").append(keyValueStr);
+                            mdStrBuf.append(System.getProperty("line.separator"));
+                            if(!value.equals("1")) {
+                                ByteArrayInputStream is = null;
 
                                 try {
-                                    var11 = new ByteArrayInputStream(var7.getBytes("UTF-8"));
-                                    Document var12 = XMLUtil.getXMLDocument(var11);
-                                    Element var13 = var12.getDocumentElement();
-                                    NodeList var14 = var13.getChildNodes();
+                                    is = new ByteArrayInputStream(value.getBytes("UTF-8"));
+                                    Document d = XMLUtil.getXMLDocument(is);
+                                    Element root = d.getDocumentElement();
+                                    NodeList subLisenceList = root.getChildNodes();
 
-                                    for(int var15 = 0; var15 < var14.getLength(); ++var15) {
-                                        Node var16 = var14.item(var15);
-                                        if (var16 instanceof Element) {
-                                            Element var17 = (Element)var16;
-                                            Element var18 = (Element)((Element)var17.getElementsByTagName("key").item(0));
-                                            Element var19 = (Element)((Element)var17.getElementsByTagName("value").item(0));
-                                            String var20 = XMLUtil.getNodeText(var18);
-                                            String var21 = XMLUtil.getNodeText(var19);
-                                            String var22 = var1.getProperty(var20);
-                                            var3.append(var22).append(":").append(var21);
-                                            var3.append(System.getProperty("line.separator"));
+                                    for(int i = 0; i < subLisenceList.getLength(); ++i) {
+                                        Node lisenceNode = subLisenceList.item(i);
+                                        if(lisenceNode instanceof Element) {
+                                            Element lisenceNodeElement = (Element)lisenceNode;
+                                            Element lisenceNodeKeyElement = (Element)lisenceNodeElement.getElementsByTagName("key").item(0);
+                                            Element lisenceNodeValueElement = (Element)lisenceNodeElement.getElementsByTagName("value").item(0);
+                                            String lisenceNodeKey = XMLUtil.getNodeText(lisenceNodeKeyElement);
+                                            String lisenceNodeValue = XMLUtil.getNodeText(lisenceNodeValueElement);
+                                            String valueOfLisenceNodeKey = ps.getProperty(lisenceNodeKey);
+                                            if("base64".equals(lisenceNodeValue)) {
+                                                lisenceNodeValue = "";
+                                            }
+
+                                            if(!"".equals(lisenceNodeKey)) {
+                                                mdStrBuf.append("                  ").append(valueOfLisenceNodeKey).append(":").append(lisenceNodeValue);
+                                                mdStrBuf.append(System.getProperty("line.separator"));
+                                            }
                                         }
                                     }
                                 } catch (UnsupportedEncodingException var34) {
@@ -238,9 +238,9 @@ public class MSGTMocnoyees extends LinkedHashMap {
                                     LoggerUtil.print(var35.toString());
                                     throw new RuntimeException(var35);
                                 } finally {
-                                    if (var11 != null) {
+                                    if(is != null) {
                                         try {
-                                            var11.close();
+                                            is.close();
                                         } catch (IOException var33) {
                                             LoggerUtil.printException(var33);
                                             throw var33;
@@ -251,9 +251,31 @@ public class MSGTMocnoyees extends LinkedHashMap {
                             }
                         }
                     }
-                }
+                } else {
+                    valueString = ps.getProperty(key);
+                    piStrBuf.append(valueString + ":");
+                    if(!key.equals("AF") && !key.equals("AO")) {
+                        if(value != null && value.trim().length() != 0) {
+                            keyValueStr = ps.getProperty(key + value);
+                            if(keyValueStr != null && keyValueStr.length() > 0) {
+                                if(keyValueStr != null && keyValueStr.trim().length() != 0) {
+                                    piStrBuf.append(keyValueStr);
+                                } else {
+                                    piStrBuf.append(value);
+                                }
+                            } else {
+                                piStrBuf.append(value);
+                            }
+                        } else {
+                            piStrBuf.append("");
+                        }
+                    } else {
+                        keyValueStr = ps.getProperty(value);
+                        piStrBuf.append(keyValueStr);
+                    }
 
-                return var2 + System.getProperty("line.separator") + var3;
+                    piStrBuf.append(System.getProperty("line.separator"));
+                }
             }
         } catch (FileNotFoundException var37) {
             LoggerUtil.printException(var37);
@@ -262,131 +284,133 @@ public class MSGTMocnoyees extends LinkedHashMap {
             LoggerUtil.printException(var38);
             throw new RuntimeException(var38);
         }
+
+        return piStrBuf + System.getProperty("line.separator") + mdStrBuf;
     }
 
-    String _$1(byte[] var1) {
-        String var2 = new String(var1);
-        String var3 = (String)super.get(var2);
-        if (var3 != null && var3.length() >= 6 && var3.startsWith("base64")) {
-            var3 = var3.substring(6);
-            var3 = Base64Util.decode(var3);
+    String get(byte[] b) {
+        String key = new String(b);
+        String str = (String)super.get(key);
+        if(str != null && str.length() >= 6 && str.startsWith("base64")) {
+            str = str.substring(6);
+            str = Base64Util.decode(str);
         }
 
-        return var3;
+        return str;
     }
 
-    String _$19(String var1) {
-        byte[] var2 = new byte[]{65, 67};
-        return this._$1(var2);
+    String methoda(String s) {
+        byte[] b = new byte[]{65, 67};
+        return this.get(b);
     }
 
-    String _$18(String var1) {
-        byte[] var2 = new byte[]{65, 66};
-        return this._$1(var2);
+    String methodb(String s) {
+        byte[] b = new byte[]{65, 66};
+        return this.get(b);
     }
 
-    String _$17(String var1) {
-        byte[] var2 = new byte[]{65, 68};
-        return this._$1(var2);
+    String methodc(String s) {
+        byte[] b = new byte[]{65, 68};
+        return this.get(b);
     }
 
-    String _$16(String var1) {
-        byte[] var2 = new byte[]{65, 70};
-        return this._$1(var2);
+    String methodd(String s) {
+        byte[] b = new byte[]{65, 70};
+        return this.get(b);
     }
 
-    String _$15(String var1) {
-        byte[] var2 = new byte[]{65, 69};
-        return this._$1(var2);
+    String methode(String s) {
+        byte[] b = new byte[]{65, 69};
+        return this.get(b);
     }
 
-    String _$14(String var1) {
-        byte[] var2 = new byte[]{65, 79};
-        return this._$1(var2);
+    String methodf(String s) {
+        byte[] b = new byte[]{65, 79};
+        return this.get(b);
     }
 
-    String _$13(String var1) {
-        byte[] var2 = new byte[]{65, 80};
-        return this._$1(var2);
+    String methodg(String s) {
+        byte[] b = new byte[]{65, 80};
+        return this.get(b);
     }
 
-    String _$12(String var1) {
-        byte[] var2 = new byte[]{65, 72};
-        return this._$1(var2);
+    String methodh(String s) {
+        byte[] b = new byte[]{65, 72};
+        return this.get(b);
     }
 
-    String _$11(String var1) {
-        byte[] var2 = new byte[]{65, 73};
-        return this._$1(var2);
+    String methodi(String s) {
+        byte[] b = new byte[]{65, 73};
+        return this.get(b);
     }
 
-    String _$10(String var1) {
-        byte[] var2 = new byte[]{65, 71};
-        String var3 = this._$1(var2);
-        String var4 = String.valueOf(UserTypeEnum.internal.getKey());
-        if (this._$19("").equals(var4)) {
-            var3 = "10";
+    String methodj(String s) {
+        byte[] b = new byte[]{65, 71};
+        String str = this.get(b);
+        String userType = String.valueOf(UserTypeEnum.internal.getKey());
+        if(this.methoda("").equals(userType)) {
+            str = "10";
         }
 
-        return var3;
+        return str;
     }
 
-    String _$9(String var1) {
-        byte[] var2 = new byte[]{65, 65};
-        return this._$1(var2);
+    String methodk(String s) {
+        byte[] b = new byte[]{65, 65};
+        return this.get(b);
     }
 
-    String _$8(String var1) {
-        byte[] var2 = new byte[]{65, 74};
-        return this._$1(var2);
+    String methodl(String s) {
+        byte[] b = new byte[]{65, 74};
+        return this.get(b);
     }
 
-    String _$7(String var1) {
-        byte[] var2 = new byte[]{65, 77};
-        return this._$1(var2);
+    String methodm(String s) {
+        byte[] b = new byte[]{65, 77};
+        return this.get(b);
     }
 
-    String _$6(String var1) {
-        byte[] var2 = new byte[]{65, 76};
-        return this._$1(var2);
+    String methodn(String s) {
+        byte[] b = new byte[]{65, 76};
+        return this.get(b);
     }
 
-    String _$5(String var1) {
-        byte[] var2 = new byte[]{65, 75};
-        return this._$1(var2);
+    String methodo(String s) {
+        byte[] b = new byte[]{65, 75};
+        return this.get(b);
     }
 
-    String _$4(String var1) {
-        byte[] var2 = new byte[]{66, 65};
-        return this._$1(var2);
+    String methodp(String s) {
+        byte[] b = new byte[]{66, 65};
+        return this.get(b);
     }
 
-    String _$3(String var1) {
-        byte[] var2 = new byte[]{65, 82};
-        return this._$1(var2) == null ? "0" : this._$1(var2);
+    String methodq(String s) {
+        byte[] b = new byte[]{65, 82};
+        return this.get(b) == null?"0":this.get(b);
     }
 
-    String _$2(String var1) {
-        byte[] var2 = var1.getBytes();
-        return this._$1(var2);
+    String methodz(String s) {
+        byte[] b = s.getBytes();
+        return this.get(b);
     }
 
-    boolean _$1(String var1) {
-        String var2 = String.valueOf(UserTypeEnum.internal.getKey());
-        if (this._$19("").equals(var2)) {
+    boolean methodzz(String s) {
+        String userType = String.valueOf(UserTypeEnum.internal.getKey());
+        if(userType.equals(this.methoda(""))) {
             return true;
         } else {
-            boolean var3 = false;
-            byte[] var4 = var1.getBytes();
-            String var5 = this._$1(var4);
-            if (var5 != null && var5.length() > 0) {
-                var5 = var5.startsWith("-") ? var5.substring(1).trim() : var5;
-                if (var5 != null && var5.length() > 0 && !var5.equals("0")) {
-                    var3 = true;
+            boolean returnValue = false;
+            byte[] b = s.getBytes();
+            String str = this.get(b);
+            if(str != null && str.length() > 0) {
+                str = str.startsWith("-")?str.substring(1).trim():str;
+                if(str != null && str.length() > 0 && !str.equals("0")) {
+                    returnValue = true;
                 }
             }
 
-            return var3;
+            return returnValue;
         }
     }
 }

@@ -3,7 +3,6 @@ package com.seeyon.apps.nbd.util;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.form.controller.FormController;
 import com.seeyon.apps.form.manager.impl.FormManagerImpl;
-import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
 import com.seeyon.ctp.util.json.JSONUtil;
@@ -15,7 +14,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
-import www.seeyon.com.mocnoyees.MSGTMocnoyees;
 import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 

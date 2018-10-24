@@ -171,7 +171,6 @@ public class NbdController extends BaseController{
         String type = request.getParameter("affairType");
         if(StringUtils.isEmpty(type)){
 
-            
         }
 
 
