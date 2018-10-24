@@ -12,9 +12,7 @@ import com.seeyon.apps.nbd.util.StringUtils;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
-import com.seeyon.ctp.common.fileupload.FileUploadController;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
@@ -167,9 +165,14 @@ public class NbdController extends BaseController{
 
     }
     @NeedlessCheckLogin
-    public ModelAndView selectQueryTable(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView flatData(HttpServletRequest request, HttpServletResponse response){
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+       // List<String> affairTyps = getNbdPluginServiceManager().
+        String type = request.getParameter("affairType");
+        if(StringUtils.isEmpty(type)){
 
-
+            
+        }
 
 
 
