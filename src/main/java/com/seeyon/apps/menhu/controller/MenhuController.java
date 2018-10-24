@@ -5,6 +5,7 @@ import com.seeyon.apps.menhu.po.NewsDataItem;
 import com.seeyon.apps.menhu.service.MenhuService;
 import com.seeyon.apps.menhu.util.Helper;
 import com.seeyon.apps.menhu.vo.CommonResultVo;
+import com.seeyon.apps.menhu.vo.CommonTypeParameter;
 import com.seeyon.apps.menhu.vo.TypeVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
@@ -21,6 +22,7 @@ import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.domain.BulType;
 import com.seeyon.v3x.news.domain.NewsType;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -148,11 +150,11 @@ public class MenhuController extends BaseController {
         }
     }
     @NeedlessCheckLogin
-    public ModelAndView getNewsType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView getNewsTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        CommonResultVo data = new CommonResultVo;
+        CommonResultVo data = new CommonResultVo();
         try {
-            List<NewsType> newsTypeList = DBAgent.find("from NewsType");
+            List<NewsType> newsTypeList = DBAgent.find("from NewsType where usedFlag =1");
             if(CollectionUtils.isEmpty(newsTypeList)){
                 data.setMsg("NO-DATA");
                 Helper.responseJSON(data,response);
@@ -183,63 +185,88 @@ public class MenhuController extends BaseController {
         return null;
     }
     @NeedlessCheckLogin
-    public ModelAndView getBulsType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView getBulletinTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, Object> data = new HashMap<String, Object>();
+        CommonResultVo data = new CommonResultVo();
         try {
-            String offset =  request.getParameter("offset");
-            String limit = request.getParameter("limit");
-            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 order by createDate desc");
-            data.put("news", newsDataList);
 
+            List<BulType> bulsTypeList = DBAgent.find("from BulType where usedFlag=1");
+            List<TypeVo> typeList= new ArrayList<TypeVo>();
+            for(BulType type:bulsTypeList){
+                TypeVo vo = new TypeVo();
+                typeList.add(vo);
+                vo.setSort(String.valueOf(type.getSortNum()));
+                vo.setTypeId(String.valueOf(type.getId()));
+                vo.setTypeName(type.getTypeName());
+            }
+            data.setItems(typeList);
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
+            data.setResult(false);
+            data.setMsg("EXCEPTION:"+e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
+            data.setResult(false);
+            data.setMsg("EXCEPTION:"+e.getMessage());
             e.printStackTrace();
         }
-        data.put("news", "error");
+        Helper.responseJSON(data, response);
         return null;
     }
 
     @NeedlessCheckLogin
-    public ModelAndView getNews(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView getNewsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, Object> data = new HashMap<String, Object>();
+        CommonResultVo data = new CommonResultVo();
         try {
-            String offset =  request.getParameter("offset");
-            String limit = request.getParameter("limit");
-            List<NewsDataItem> newsDataList = DBAgent.find("from NewsDataItem where state=30 order by createDate desc");
-            data.put("news", newsDataList);
-
+            CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
+            String sql = "from NewsDataItem where state=30 order by createDate desc";
+            if(p.getTypeId()!=null){
+                sql = "from NewsDataItem where state=30 and typeId="+p.getTypeId()+" order by createDate desc";
+            }
+            List<NewsDataItem> newsDataList = DBAgent.find(sql);
+            List<NewsDataItem> pagingNewsDataList = Helper.paggingList(newsDataList,p);
+            data.setItems(pagingNewsDataList);
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
+            data.setResult(false);
+            data.setMsg("EXCEPTION:"+e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
+            data.setResult(false);
+            data.setMsg("ERROR:"+e.getMessage());
             e.printStackTrace();
         }
-        data.put("news", "error");
+        Helper.responseJSON(data, response);
         return null;
     }
     @NeedlessCheckLogin
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Map<String, Object> data = new HashMap<String, Object>();
+        CommonResultVo data = new CommonResultVo();
         try {
-            String offset =  request.getParameter("offset");
-            String limit = request.getParameter("limit");
-            List<BulDataItem> dataList = DBAgent.find("from BulDataItem where state=30  order by createDate desc");
-            data.put("buls", dataList);
+            CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
+            String sql = "from BulDataItem where state=30  order by createDate desc";
+            if(p.getTypeId()!=null){
+                sql = "from BulDataItem where state=30 and typeId="+p.getTypeId()+" order by createDate desc";
+            }
+            List<BulDataItem> dataList = DBAgent.find(sql);
+            List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList,p);
+            data.setItems(pagingBulsDataList);
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
+            data.setResult(false);
+            data.setMsg("EXCEPTION:"+e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
+            data.setResult(false);
+            data.setMsg("ERROR:"+e.getMessage());
             e.printStackTrace();
         }
-        data.put("buls", "error");
+        Helper.responseJSON(data, response);
         return null;
     }
     public static void main(String[] args){
