@@ -23,7 +23,15 @@ public class BulsVo {
     private Long publishUserId;
     private String publishUserName;
     private String link;
+    private String brief;
 
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
+    }
     public String getTitle() {
         return title;
     }

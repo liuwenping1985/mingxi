@@ -13,6 +13,7 @@ public class NewsVo extends BulsVo{
     private boolean focusNews;
     private String imgUrl;
 
+
     public boolean isFocusNews() {
         return focusNews;
     }

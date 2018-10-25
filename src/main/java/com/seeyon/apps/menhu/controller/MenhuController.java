@@ -276,6 +276,7 @@ public class MenhuController extends BaseController {
             vo.setReadCount(item.getReadCount());
             vo.setImgNews(item.isImageNews());
             vo.setFocusNews(item.isFocusNews());
+            vo.setBrief(item.getBrief());
             Long imageId = item.getImageId();
             if(imageId!=null){
                 vo.setImgUrl("/seeyon/fileUpload.do?method=showRTE&fileId="+imageId+"&createDate=&type=image");
@@ -333,6 +334,7 @@ public class MenhuController extends BaseController {
             vo.setUpdateDate(item.getUpdateDate());
             vo.setPublishDate(item.getUpdateDate());
             vo.setReadCount(item.getReadCount());
+            vo.setBrief(item.getBrief());
             vo.setCreateUserId(item.getCreateUser());
             vo.setPublishDepartmentId(item.getPublishDepartmentId());
             vo.setPublishUserId(item.getPublishUserId());
