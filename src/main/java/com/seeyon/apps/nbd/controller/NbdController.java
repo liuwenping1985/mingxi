@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
@@ -170,8 +171,18 @@ public class NbdController extends BaseController{
        // List<String> affairTyps = getNbdPluginServiceManager().
         String type = request.getParameter("affairType");
         if(StringUtils.isEmpty(type)){
+            return null;
+        }
+        DataBaseHandler dbh = DataBaseHandler.getInstance();
+        String sql = "from A8OutputVo where type='"+type+"'";
+        List<A8OutputVo> aopvList = DBAgent.find(sql);
+        Map<String,A8OutputVo> dataMap = new HashMap<String, A8OutputVo>();
+        for(A8OutputVo aovp:aopvList){
+
+
 
         }
+
 
 
 
