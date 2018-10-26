@@ -31,6 +31,8 @@ public final class DataTransferService {
             String billString = JSON.toJSONString(bill);
             Map retData = JSON.parseObject(billString,HashMap.class);
             String remark = "";
+            String outBgItemNumber ="";
+            CommonKingDeeVo oppAccount=null;
             for(FormField ff:ffList){
                 String ffName = ff.getClassname();
                 if(CommonUtils.isEmpty(ffName)){
@@ -42,6 +44,13 @@ public final class DataTransferService {
                     Object dt =transData(ff.getClassname(),obj);
                     if("remark".equals(barCode)){
                         remark = String.valueOf(dt);
+                    }else if("outBgItemNumber".equals(barCode)){
+                        outBgItemNumber = String.valueOf(dt);
+                    }else if("oppAccount".equals(barCode)){
+                        if(dt instanceof CommonKingDeeVo){
+                            oppAccount = (CommonKingDeeVo)dt;
+                        }
+
                     }else{
                         retData.put(barCode,dt);
                     }
@@ -57,6 +66,8 @@ public final class DataTransferService {
             entry.setAmount(bill.getAmount());
             entry.setLocalAmt(bill.getAmount());
             entry.setRemark(remark);
+            entry.setOutBgItemNumber(outBgItemNumber);
+            entry.setOppAccount(oppAccount);
             entryList.add(entry);
             bill.setEntries(entryList);
             bill.setBizDate(format.format(new Date()));

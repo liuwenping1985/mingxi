@@ -11,6 +11,26 @@ public class KingdeeEntry {
 
     private String remark;
 
+    private String outBgItemNumber;
+
+    private CommonKingDeeVo oppAccount;
+
+    public String getOutBgItemNumber() {
+        return outBgItemNumber;
+    }
+
+    public void setOutBgItemNumber(String outBgItemNumber) {
+        this.outBgItemNumber = outBgItemNumber;
+    }
+
+    public CommonKingDeeVo getOppAccount() {
+        return oppAccount;
+    }
+
+    public void setOppAccount(CommonKingDeeVo oppAccount) {
+        this.oppAccount = oppAccount;
+    }
+
     public String getRemark() {
         return remark;
     }

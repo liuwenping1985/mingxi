@@ -20,22 +20,22 @@ public class KingDeeBill {
     private PayerBank payerBank;
     private String bankNumber;
 //    private String payeeName;
-    private String outBgItemNumber;
-    private CommonKingDeeVo oppAccount;
+   // private String outBgItemNumber;
+  //  private CommonKingDeeVo oppAccount;
     private Double amount;
     private CommonKingDeeVo company;
     private List<KingdeeEntry> entries;
     private CommonKingDeeVo payeeType;
     private String bizDate;
     private String description;
-
-    public CommonKingDeeVo getOppAccount() {
-        return oppAccount;
-    }
-
-    public void setOppAccount(CommonKingDeeVo oppAccount) {
-        this.oppAccount = oppAccount;
-    }
+//
+//    public CommonKingDeeVo getOppAccount() {
+//        return oppAccount;
+//    }
+//
+//    public void setOppAccount(CommonKingDeeVo oppAccount) {
+//        this.oppAccount = oppAccount;
+//    }
 
     public String getDescription() {
         return description;
@@ -150,14 +150,14 @@ public class KingDeeBill {
 //        this.payeeName = payeeName;
 //    }
 
-
-    public String getOutBgItemNumber() {
-        return outBgItemNumber;
-    }
-
-    public void setOutBgItemNumber(String outBgItemNumber) {
-        this.outBgItemNumber = outBgItemNumber;
-    }
+//
+//    public String getOutBgItemNumber() {
+//        return outBgItemNumber;
+//    }
+//
+//    public void setOutBgItemNumber(String outBgItemNumber) {
+//        this.outBgItemNumber = outBgItemNumber;
+//    }
 
     public Double getAmount() {
         return amount;
