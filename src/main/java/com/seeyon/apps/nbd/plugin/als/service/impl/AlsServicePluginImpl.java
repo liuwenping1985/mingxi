@@ -376,13 +376,13 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         return fileDataList;
     }
     private List<Map> getFiles(Long id){
-        log.log("file id foud")
+
         List<Map> dataList = this.getDataByCache();
         List<Map> retList = new ArrayList<Map>();
         for(Map map:dataList){
-            Long fid = CommonUtils.getLong("id");
-            Long referenceId = CommonUtils.getLong("reference");
-            Long subReferenceId = CommonUtils.getLong("sub_reference");
+            Long fid = CommonUtils.getLong(map.get("id"));
+            Long referenceId = CommonUtils.getLong(map.get("reference"));
+            Long subReferenceId = CommonUtils.getLong(map.get("sub_reference"));
             if(id.equals(fid)||id.equals(referenceId)||id.equals(subReferenceId)){
                 retList.add(map);
             }
