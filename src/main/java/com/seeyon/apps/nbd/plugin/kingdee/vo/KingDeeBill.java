@@ -20,6 +20,7 @@ public class KingDeeBill {
     private PayerBank payerBank;
     private String bankNumber;
 //    private String payeeName;
+    private String outBgItemNumber;
     private CommonKingDeeVo oppAccount;
     private Double amount;
     private CommonKingDeeVo company;
@@ -148,6 +149,15 @@ public class KingDeeBill {
 //    public void setPayeeName(String payeeName) {
 //        this.payeeName = payeeName;
 //    }
+
+
+    public String getOutBgItemNumber() {
+        return outBgItemNumber;
+    }
+
+    public void setOutBgItemNumber(String outBgItemNumber) {
+        this.outBgItemNumber = outBgItemNumber;
+    }
 
     public Double getAmount() {
         return amount;

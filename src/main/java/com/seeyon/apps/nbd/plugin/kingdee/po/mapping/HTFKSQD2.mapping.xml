@@ -1,4 +1,4 @@
-<TableList affairType="HTFKSQD1" modes="export,push" is_push="true">
+<TableList affairType="HTFKSQD2" modes="export,push" is_push="true">
     <Table id="-1914535830247094489" name="formmain_2938" display="formmain_0746" tabletype="master" onwertable="" onwerfield="">
         <FieldList>
             <Field id="-5389396292977409842" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname="" barcode=""/>
@@ -70,7 +70,7 @@
             <Field id="-1879416135191541256" name="field0055" display="贷方科目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="4548176605275113060" name="field0056" display="贷方金额" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
 
-            <Field id="-1752414975628655111" name="field0057" display="收款单位编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="payeeNumber" />
+            <Field id="-1752414975628655111" name="field0057" display="收款单位编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="outBgItemNumber" />
             <Field id="-3379992187719563349" name="field0058" display="收款人编号" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="" barcode="" />
             <Field id="-7277089329241370741" name="field0059" display="借方科目编码" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccount" />
             <Field id="-3225778662370817963" name="field0060" display="贷方科目编码" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="oppAccount" />
