@@ -46,27 +46,77 @@ public class DataBaseHandler {
 
 
         }
+        initCsvDataFile();
 
     }
-    private StringBuilder initDataBase(String dataBaseName){
+    private static Map<Long,String> csvDataMap = new HashMap<Long,String>();
+
+    private void initCsvDataFile(){
+
+        File f =  this.getCommonCsvFile();
+
+        StringBuilder stb = this.readFileContent(f,true);
+
+
+        String[] lines = stb.toString().split("\n");
+        for(String line:lines){
+            String[] data = line.split(",");
+            csvDataMap.put(Long.parseLong(data[0]),data[1]);
+        }
+        System.out.println(csvDataMap);
+
+    }
+    public boolean isEnumExist(Long eid){
+        return csvDataMap.containsKey(eid);
+    }
+    private StringBuilder readFileContent(File file,boolean isMultiLine){
         StringBuilder stb = new StringBuilder();
+        FileReader fr = null;
+        BufferedReader reader = null;
         try {
-            FileReader fr = new FileReader(this.getFile(dataBaseName));
-            BufferedReader reader = new BufferedReader(fr);
+            fr = new FileReader(file);
+            reader = new BufferedReader(fr);
             String line = null;
 
             while((line=reader.readLine()) !=null){
-                stb.append(line);
+                if(isMultiLine){
+                    stb.append(line).append("\n");
+                }else{
+                    stb.append(line);
+                }
+
             }
             reader.close();
             fr.close();
 
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            if(fr!=null){
+                try {
+                    fr.close();
+                } catch (IOException e) {
+
+                }
+            }
+            if(reader!=null){
+                try {
+                    reader.close();
+                } catch (IOException e) {
+
+                }
+            }
         }
         return stb;
 
+
+
     }
+    private StringBuilder initDataBase(String dataBaseName){
+        File file = this.getFile(dataBaseName);
+        return this.readFileContent(file,false);
+    }
+
 
 
     private void store(){
@@ -119,6 +169,16 @@ public class DataBaseHandler {
         return f;
 
     }
+    private File getCommonCsvFile(){
+        String path = this.getClass().getResource("").getPath();
+        path=path+"data.csv";
+        File f = new File(path);
+        return f;
+
+    }
+
+
+
 
     public static DataBaseHandler getInstance(){
         if(dataBaseHandler == null){
@@ -166,15 +226,15 @@ public class DataBaseHandler {
         neew.putAll(db);
         return neew;
     }
-    public boolean isDBExit(String dbName){
+    public boolean isDBExist(String dbName){
         String db= extDbMap.get(dbName);
         if(db!=null){
             return true;
         }
         return false;
     }
-    public boolean createNewDataBaseByName(String dataBaseName){
-        if(isDBExit(dataBaseName)){
+    public boolean createNewDataBaseByNameIfNotExist(String dataBaseName){
+        if(isDBExist(dataBaseName)){
             return false;
         }
         dbContainerMap.put(dataBaseName,new HashMap());
@@ -187,6 +247,7 @@ public class DataBaseHandler {
 
     public static void main(String[] args){
         DataBaseHandler handler =  DataBaseHandler.getInstance();
+        System.out.println(handler.isEnumExist(1l));
         String dbName = "company";
 //        if(!handler.isDBExit(dbName)){
 //            boolean isOk = handler.createNewDataBaseByName(dbName);
@@ -195,7 +256,7 @@ public class DataBaseHandler {
 //                return;
 //            }
 //        }
-        System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
+ //       System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
 
 //
 //        // System.out.println(handler.getDataByKey("123"));

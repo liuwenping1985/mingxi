@@ -26,6 +26,7 @@ public interface ServicePlugin {
     public boolean containAffairType(String affairType);
     public Map<String,List<A8OutputVo>> exportAllData();
     public List<A8OutputVo> exportData(String affairType);
+    public List<Map> exportOriginalData(String affairType);
     public List<A8OutputVo> exportData(String affairType,CommonParameter parameter);
 
 

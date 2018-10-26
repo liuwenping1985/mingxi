@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.controller;
 
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
+import com.seeyon.apps.nbd.core.log.LogBuilder;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
@@ -8,6 +9,7 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.plugin.PluginDefinition;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import com.seeyon.apps.nbd.util.StringUtils;
 import com.seeyon.apps.nbd.util.UIUtils;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,7 @@ public class NbdController extends BaseController{
 
     private PluginServiceManager nbdPluginServiceManager;
 
+    private LogBuilder log = new LogBuilder("Export_LOG");
 
     private FileManager fileManager = (FileManager) AppContext.getBean("fileManager");
 
@@ -166,28 +170,177 @@ public class NbdController extends BaseController{
 
     }
     @NeedlessCheckLogin
-    public ModelAndView flatData(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView flatAllDataVo(HttpServletRequest request, HttpServletResponse response){
+
+
         CommonParameter parameter = CommonParameter.parseParameter(request);
-       // List<String> affairTyps = getNbdPluginServiceManager().
-        String type = request.getParameter("affairType");
-        if(StringUtils.isEmpty(type)){
-            return null;
+
+        List<PluginDefinition> retList =  this.getNbdPluginServiceManager().getPluginDefinitions();
+        List<String> affairList = new ArrayList<String>();
+        for(PluginDefinition pd:retList){
+            affairList.addAll(pd.getSupportAffairTypes());
         }
         DataBaseHandler dbh = DataBaseHandler.getInstance();
-        String sql = "from A8OutputVo where type='"+type+"'";
-        List<A8OutputVo> aopvList = DBAgent.find(sql);
-        Map<String,A8OutputVo> dataMap = new HashMap<String, A8OutputVo>();
-        for(A8OutputVo aovp:aopvList){
+        for(String type:affairList){
+            log.log(" export start type="+type);
+            String sql = "from A8OutputVo where type='"+type+"'";
+            List<A8OutputVo> aopvList = DBAgent.find(sql);
+            log.log(" exist data size="+aopvList.size());
+            dbh.createNewDataBaseByNameIfNotExist(type);
+            String upDbName = "UPDATE_"+type;
+            String crDbName = "CREATE_"+type;
+            dbh.createNewDataBaseByNameIfNotExist(upDbName);
+            dbh.createNewDataBaseByNameIfNotExist(crDbName);
+            Map<String,String> existDataMap = new HashMap<String, String>();
+            Map<Long,Long> existIdDataMap = new HashMap<Long, Long>();
+            Map<Long,A8OutputVo> existWholeDataMap = new HashMap<Long, A8OutputVo>();
+            for(A8OutputVo aovp:aopvList){
+                existIdDataMap.put(aovp.getSourceId(),aovp.getId());
+                existWholeDataMap.put(aovp.getSourceId(),aovp);
+                existDataMap.put(String.valueOf(aovp.getSourceId()),aovp.getData());
+            }
+            //dbh.putAllData(type,existDataMap);
+            ServicePlugin sp = this.getNbdPluginServiceManager().getServicePluginsByAffairType(type);
+            log.log(" sp is null="+(sp==null));
+            List<A8OutputVo> outList = sp.exportData(type);
+            log.log(" output size="+(outList.size()));
+            List<A8OutputVo> addedList = new ArrayList<A8OutputVo>();
+            List<A8OutputVo> updatedList = new ArrayList<A8OutputVo>();
+            Map<Long,String> updatedMap = new HashMap<Long, String>();
+            Map<Long,String> addedMap = new HashMap<Long, String>();
+            for(A8OutputVo out:outList){
+                String data = existDataMap.get(String.valueOf(out.getSourceId()));
+                if(CommonUtils.isEmpty(data)){
+                    addedList.add(out);
+                    addedMap.put(out.getSourceId(),out.getType());
+                    log.log("added "+type +" and sourceId:"+out.getSourceId());
+                }else{
+                    if(!out.getData().equals(data)){
+                        updatedMap.put(out.getSourceId(),out.getType());
+                        updatedList.add(out);
+                        log.log("updated "+type +" and sourceId:"+out.getSourceId());
+                    }
+                }
+            }
+            dbh.putAllData(upDbName,updatedMap);
+            dbh.putAllData(crDbName,addedMap);
+            log.log("added -size="+addedList.size());
+            log.log("updated -size="+updatedList.size());
+            String save = parameter.$("save");
+            if("1".equals(save)){
+
+                if(!CommonUtils.isEmpty(addedList)){
+                    DBAgent.saveAll(addedList);
+                }
+                if(!CommonUtils.isEmpty(updatedList)){
+                    for(A8OutputVo vo:updatedList){
+                        Long id =  existIdDataMap.get(vo.getSourceId());
+                        vo.setId(id);
+                    }
+                    DBAgent.updateAll(updatedList);
+                }
 
 
 
+            }
+            try {
+                dbh.putAllData(type, existWholeDataMap);
+            }catch(Exception e){
+
+            }
         }
-
-
-
 
 
         return null;
+
+    }
+    @NeedlessCheckLogin
+    public ModelAndView flatData(HttpServletRequest request, HttpServletResponse response){
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+       // List<String> affairTyps = getNbdPluginServiceManager().
+        String type = parameter.$("affairType");
+        if(StringUtils.isEmpty(type)){
+            return null;
+        }
+        log.log(" export start type="+type);
+        DataBaseHandler dbh = DataBaseHandler.getInstance();
+        String sql = "from A8OutputVo where type='"+type+"'";
+        List<A8OutputVo> aopvList = DBAgent.find(sql);
+        log.log(" exist data size="+aopvList.size());
+        dbh.createNewDataBaseByNameIfNotExist(type);
+        String upDbName = "UPDATE_"+type;
+        String crDbName = "CREATE_"+type;
+        dbh.createNewDataBaseByNameIfNotExist(upDbName);
+        dbh.createNewDataBaseByNameIfNotExist(crDbName);
+        Map<String,String> existDataMap = new HashMap<String, String>();
+        Map<Long,Long> existIdDataMap = new HashMap<Long, Long>();
+        Map<Long,A8OutputVo> existWholeDataMap = new HashMap<Long, A8OutputVo>();
+        for(A8OutputVo aovp:aopvList){
+            existIdDataMap.put(aovp.getSourceId(),aovp.getId());
+            existWholeDataMap.put(aovp.getSourceId(),aovp);
+            existDataMap.put(String.valueOf(aovp.getSourceId()),aovp.getData());
+        }
+        //dbh.putAllData(type,existDataMap);
+        ServicePlugin sp = this.getNbdPluginServiceManager().getServicePluginsByAffairType(type);
+        log.log(" sp is null="+(sp==null));
+        List<A8OutputVo> outList = sp.exportData(type);
+        log.log(" output size="+(outList.size()));
+        List<A8OutputVo> addedList = new ArrayList<A8OutputVo>();
+        List<A8OutputVo> updatedList = new ArrayList<A8OutputVo>();
+        Map<Long,String> updatedMap = new HashMap<Long, String>();
+        Map<Long,String> addedMap = new HashMap<Long, String>();
+        for(A8OutputVo out:outList){
+            String data = existDataMap.get(String.valueOf(out.getSourceId()));
+            if(CommonUtils.isEmpty(data)){
+                addedList.add(out);
+                addedMap.put(out.getSourceId(),out.getType());
+                log.log("added "+type +" and sourceId:"+out.getSourceId());
+            }else{
+                if(!out.getData().equals(data)){
+                    updatedMap.put(out.getSourceId(),out.getType());
+                    updatedList.add(out);
+                    log.log("updated "+type +" and sourceId:"+out.getSourceId());
+                }
+            }
+        }
+        dbh.putAllData(upDbName,updatedMap);
+        dbh.putAllData(crDbName,addedMap);
+        log.log("added -size="+addedList.size());
+        log.log("updated -size="+updatedList.size());
+        String save = parameter.$("save");
+        if("1".equals(save)){
+
+            if(!CommonUtils.isEmpty(addedList)){
+                DBAgent.saveAll(addedList);
+            }
+            if(!CommonUtils.isEmpty(updatedList)){
+                for(A8OutputVo vo:updatedList){
+                   Long id =  existIdDataMap.get(vo.getSourceId());
+                   vo.setId(id);
+                }
+                DBAgent.updateAll(updatedList);
+            }
+
+
+
+        }
+        try {
+            dbh.putAllData(type, existWholeDataMap);
+        }catch(Exception e){
+
+        }
+
+        UIUtils.responseJSON("OK",response);
+
+        return null;
+
+    }
+
+
+
+    private void flatDataAll(){
+
+
 
     }
 

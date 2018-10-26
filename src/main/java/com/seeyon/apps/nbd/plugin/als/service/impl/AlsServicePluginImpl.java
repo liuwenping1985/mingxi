@@ -1,10 +1,12 @@
 package com.seeyon.apps.nbd.plugin.als.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.form.entity.SimpleFormField;
+import com.seeyon.apps.nbd.core.log.LogBuilder;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
@@ -35,6 +37,7 @@ import java.util.*;
  * Created by liuwenping on 2018/9/7.
  */
 public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
+    private LogBuilder log = new LogBuilder("Export_LOG");
     private EnumManager enumManager;
 
     private OrgManager orgManager;
@@ -86,13 +89,11 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         if (!this.getSupportAffairTypes().contains(affairType)) {
             throw new UnsupportedOperationException();
         }
-        System.out.println("----starting export data----");
-        System.out.println("----export master table---");
         FormTableDefinition ftd = this.getFormTableDefinition(affairType);
         String sql = ftd.genAllQuery();
         try {
             List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
-            System.out.println("master table data size:" + list.size());
+            log.log(ftd.getFormTable().getName()+"master table data size:" + list.size());
             List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
             if (!CommonUtils.isEmpty(slaveTables) && !CommonUtils.isEmpty(list)) {
                 //create temp master table container
@@ -116,11 +117,11 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
                     }
                 }
-                System.out.println("master map:" + masterTempMap.values().size());
+                //System.out.println("master map:" + masterTempMap.values().size());
                 for (FormTable ft : slaveTables) {
-                    System.out.println("[<---->]export slave table:" + ft.getName());
+                    log.log("[<---->]export slave table:" + ft.getName());
                     String slaveTableSql = FormTableDefinition.genRawAllQuery(ft);
-                    System.out.println("[<---->] slave table sql:" + slaveTableSql);
+                    //System.out.println("[<---->] slave table sql:" + slaveTableSql);
                     List<Map> slaveDataList = new ArrayList<Map>();
                     try {
                         slaveDataList = DataBaseHelper.executeQueryByNativeSQL(slaveTableSql);
@@ -129,7 +130,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     }
                     //onwerfield
                     if (!CommonUtils.isEmpty(slaveDataList)) {
-                        System.out.println("[<---->] slave table" + ft.getName() + " data-size:" + slaveDataList.size());
+                        log.log("[<---->] slave table" + ft.getName() + " data-size:" + slaveDataList.size());
                         int tag = 0;
                         for (Map slaveTableMap : slaveDataList) {
                             Object fmId = slaveTableMap.get("formmain_id");
@@ -184,6 +185,23 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         System.out.println(" end of export master table");
         return dataList;
 
+    }
+
+    public List<Map> exportOriginalData(String affairType) {
+        List<Map> dataList = new ArrayList<Map>();
+        if (!this.getSupportAffairTypes().contains(affairType)) {
+            throw new UnsupportedOperationException();
+        }
+
+        FormTableDefinition ftd = this.getFormTableDefinition(affairType);
+        String sql = ftd.genAllQuery();
+        try {
+            List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<Map>();
     }
 
     private A8OutputVo exportA8OutputVo(String affairType, List<SimpleFormField> sffList) {
@@ -248,7 +266,9 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
         }
         try {
-
+            if(DataBaseHandler.getInstance().isEnumExist(sid)){
+                return sid;
+            }
             CtpEnumItem item = this.getCtpEnumItemById(sid);
             if (item != null) {
                 return item.getShowvalue();
