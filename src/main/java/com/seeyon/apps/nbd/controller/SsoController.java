@@ -107,7 +107,7 @@ public class SsoController extends BaseController {
                 param.put("iview", 2);
                 param.put("delflag", 0);
                 param.put("modifydate", UIUtils.formatDate(cr));
-                System.out.println(param);
+
 
                 return param;
             }
@@ -116,12 +116,8 @@ public class SsoController extends BaseController {
             public void run() {
                 System.out.println("read-msg");
                 JDBCAgent agent = new JDBCAgent();
-                Map ret = (Map) DataBaseHandler.getInstance().getDataByKey("msg_sender");
-                if (ret == null) {
-                    ret = new HashMap();
-                }
                 try {
-                    String sql = "select * from ctp_user_history_message where is_read=0";
+                    String sql = "select * from ctp_user_history_message where is_read=0 and link_param_9 is null";
 
                     agent.execute(sql);
                     List<Map> msgList = agent.resultSetToList();
@@ -131,26 +127,23 @@ public class SsoController extends BaseController {
                     url = url + "&syskey=" + skey;
 
                     if (!CollectionUtils.isEmpty(msgList)) {
+                        System.out.println("send messages:"+msgList.size());
                         for (Map map : msgList) {
-                            Long id = UIUtils.getLong(map.get("id"));
-                            String isRet = (String) ret.get(id);
-                            if (StringUtils.isEmpty(isRet)) {
-                                Map param = genMsgParam(map);
-                                System.out.println("param:" + param);
-                                if (param != null) {
-                                    Map data = UIUtils.post(url, param);
-                                    System.out.println(data);
-                                }
-                                ret.put(String.valueOf(id), "1");
+                         //   Long id = UIUtils.getLong(map.get("id"));
+                            Map param = genMsgParam(map);
+                           // System.out.println("param:" + param);
+                            if (param != null) {
+                                Map data = UIUtils.post(url, param);
+                                System.out.println(data);
                             }
-
                         }
+                        String updateSql="update ctp_user_history_message set link_param_9='1' whew link_param_9 is null and is_read=0";
+                        agent.execute(updateSql);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
                     agent.close();
-                    DataBaseHandler.getInstance().putData("msg_sender", ret);
                 }
 
             }
