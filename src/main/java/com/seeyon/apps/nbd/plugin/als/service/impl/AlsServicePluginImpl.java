@@ -376,6 +376,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         return fileDataList;
     }
     private List<Map> getFiles(Long id){
+        log.log("file id foud")
         List<Map> dataList = this.getDataByCache();
         List<Map> retList = new ArrayList<Map>();
         for(Map map:dataList){
