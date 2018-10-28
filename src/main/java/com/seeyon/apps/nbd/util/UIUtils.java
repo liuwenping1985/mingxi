@@ -21,9 +21,7 @@ import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
@@ -152,22 +150,22 @@ public class UIUtils {
        // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
       //  Xcyskm k;
       //  ClassPool pool = ClassPool.getDefault();
-//        UIUtils u = new UIUtils();
-//        byte[] bytes = u.loadClassData("com.seeyon.ctp.common.plugin.PluginSystemInit");
-//      //  pool.getClassLoader()
-//        String path = "/Users/liuwenping/Documents/wmm/PluginSystemInit.class";
-//        File f = new File(path);
-//        if(f.exists()){
-//            f.delete();
-//            f.createNewFile();
-//
-//        }else{
-//            f.createNewFile();
-//        }
-//        FileOutputStream out = new FileOutputStream(f);
-//        out.write(bytes);
-//        out.flush();
-//        out.close();
+        UIUtils u = new UIUtils();
+        byte[] bytes = u.loadClassData("com.seeyon.ctp.common.plugin.PluginSystemInit");
+      //  pool.getClassLoader()
+        String path = "/Users/liuwenping/Documents/wmm/PluginSystemInit.class";
+        File f = new File(path);
+        if(f.exists()){
+            f.delete();
+            f.createNewFile();
+
+        }else{
+            f.createNewFile();
+        }
+        FileOutputStream out = new FileOutputStream(f);
+        out.write(bytes);
+        out.flush();
+        out.close();
 
             //TestIText ih = new TestIText();
             //ihtmlCodeComeFromFile("D://Test//iText.html", "D://Test//iText_1.pdf");

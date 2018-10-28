@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public final class PluginSystemInit {
@@ -56,6 +55,18 @@ public final class PluginSystemInit {
     }
 
     public final void init() {
+        Map<String,String> keyskeys = new HashMap<String,String>();
+        keyskeys.put("doc","doc-9876252423");
+        keyskeys.put("index","index-2863627362");
+        keyskeys.put("meeting","meeting-027366523");
+        keyskeys.put("office","office-8376352532");
+        keyskeys.put("news","news-83762567382");
+        keyskeys.put("bulletin","bulletin-992837623");
+        keyskeys.put("project","project-9376253222");
+        keyskeys.put("plan","plan-38773652537");
+        keyskeys.put("taskmanage","taskmanage-773635525");
+
+
         long startTime = System.currentTimeMillis();
         File pluginHome = new File(AppContext.getCfgHome(), "/plugin");
         if(pluginHome.exists() && pluginHome.isDirectory()) {
@@ -86,133 +97,222 @@ public final class PluginSystemInit {
                 LOGGER.warn((new File(userProps, "/base/conf/plugin.properties")).getAbsolutePath() + " 文件不存在，使用插件默认配置！");
             }
 
+            File indexProFile = new File(userProps, "/base/index/indexConfig.properties");
+            boolean ignoreIndex = false;
+            int regNumber = 0;
+            if(indexProFile.exists() && "local".equals(PropertiesLoader.load(indexProFile).getProperty("modelName"))) {
+                try {
+                    regNumber = Integer.parseInt(String.valueOf(MclclzUtil.invoke(c3, "getTotalservernum", (Class[])null, MclclzUtil.invoke(c3, "getInstance", new Class[]{String.class}, (Object)null, new Object[]{""}), (Object[])null)));
+                } catch (Exception var38) {
+                    LOGGER.warn(" 获取并发数错误！");
+                }
+            }
+
             Set<String> disabledPlugins = Utils.getDisabledPlugins();
-            this.preLoadPluginProperties(plugins, isClusterSlave, masterProperties, pluginCustomProps);
-            File[] var16 = plugins;
-            int var15 = plugins.length;
+            File[] var21 = plugins;
+            int var20 = plugins.length;
 
-            for(int var14 = 0; var14 < var15; ++var14) {
-                File plugin = var16[var14];
-                File pluginCfg = new File(plugin, "pluginCfg.xml");
-                if(pluginCfg.exists() && pluginCfg.isFile()) {
-                    Properties props = PropertiesLoader.load(pluginCfg);
-                    String id = props.getProperty("id");
-                    String name = props.getProperty("name");
-                    if(StringUtils.isBlank(id)) {
-                        LOGGER.error("Plugin not loaded, 'id' missing: " + pluginCfg.getAbsolutePath());
-                    } else if(!plugin.getAbsolutePath().endsWith(id)) {
-                        LOGGER.error("Plugin not loaded, plugin folder name should be '" + id + "': " + pluginCfg.getAbsolutePath());
-                    } else if(StringUtils.isBlank(name)) {
-                        LOGGER.error("Plugin not loaded, 'name' missing: " + pluginCfg.getAbsolutePath());
-                    } else {
-                        ModuleType moduleType = ModuleType.getEnumByName(id);
-                        int category;
-                        if(moduleType != null) {
-                            category = moduleType.getKey();
-                        } else {
-                            String categoryStr = props.getProperty("category");
-                            if(StringUtils.isBlank(categoryStr)) {
-                                LOGGER.error("Plugin not loaded, 'category' misssing: " + pluginCfg.getAbsolutePath());
-                                continue;
-                            }
+            File pluginPropFile;
+            File plugin;
+            int var19;
+            Properties props;
+            String initializer;
+            for(var19 = 0; var19 < var20; ++var19) {
+                plugin = var21[var19];
+                pluginPropFile = new File(plugin, "pluginProperties.xml");
+                if(!pluginPropFile.exists() || !pluginPropFile.isFile()) {
+                    pluginPropFile = new File(plugin, "pluginProperties.properties");
+                }
 
-                            try {
-                                category = Integer.parseInt(categoryStr);
-                            } catch (Exception var32) {
-                                LOGGER.error("Plugin not loaded, 'category' format error: " + pluginCfg.getAbsolutePath());
-                                continue;
+                props = null;
+                if(pluginPropFile.exists() && pluginPropFile.isFile()) {
+                    props = PropertiesLoader.load(pluginPropFile);
+                    if(props != null && !props.isEmpty()) {
+                        Object o;
+                        Iterator var24;
+                        if(isClusterSlave) {
+                            var24 = props.keySet().iterator();
+
+                            while(var24.hasNext()) {
+                                o = var24.next();
+                                initializer = (String)o;
+                                if(masterProperties.containsKey(initializer)) {
+                                    props.put(initializer, masterProperties.get(initializer));
+                                }
                             }
                         }
 
-                        this.pluginIds4Map.put(id, Boolean.valueOf(false));
-                        if(!disabledPlugins.contains(id)) {
-                            PluginDefinition d = new PluginDefinition();
-                            d.setId(id);
-                            d.setName(name);
-                            d.setCategory(category);
-                            d.setPluginFoler(plugin);
-                            String isSupportClusterStr = props.getProperty("isSupportCluster");
-                            if(!StringUtils.isBlank(isSupportClusterStr)) {
-                                d.setSupportCluster(Boolean.valueOf(isSupportClusterStr).booleanValue());
+                        if(pluginCustomProps != null) {
+                            var24 = pluginCustomProps.keySet().iterator();
+
+                            while(var24.hasNext()) {
+                                o = var24.next();
+                                initializer = (String)o;
+                                props.put(initializer, pluginCustomProps.get(initializer));
                             }
+                        }
 
-                            File pluginPropFile = new File(plugin, "pluginProperties.xml");
-                            if(!pluginPropFile.exists() || !pluginPropFile.isFile()) {
-                                pluginPropFile = new File(plugin, "pluginProperties.properties");
-                            }
+                        SystemProperties.getInstance().init(props);
+                    }
+                }
+            }
 
-                            Properties pluginProps = null;
-                            if(pluginPropFile.exists() && pluginPropFile.isFile()) {
-                                pluginProps = PropertiesLoader.load(pluginPropFile);
-                                this.checkIndexPlugin(id, userProps, pluginProps);
-                                if(pluginProps != null && !pluginProps.isEmpty()) {
-                                    d.setPluginProperties(pluginProps);
-                                    Object o;
-                                    Iterator var28;
-                                    String key;
-                                    if(isClusterSlave) {
-                                        var28 = pluginProps.keySet().iterator();
+            var21 = plugins;
+            var20 = plugins.length;
 
-                                        while(var28.hasNext()) {
-                                            o = var28.next();
-                                            key = (String)o;
-                                            if(masterProperties.containsKey(key)) {
-                                                pluginProps.put(key, masterProperties.get(key));
-                                            }
-                                        }
-                                    }
-
-                                    if(pluginCustomProps != null) {
-                                        var28 = pluginCustomProps.keySet().iterator();
-
-                                        while(var28.hasNext()) {
-                                            o = var28.next();
-                                            key = (String)o;
-                                            if(key.startsWith(id)) {
-                                                pluginProps.put(key, pluginCustomProps.get(key));
-                                                LOGGER.debug("Plugin custom config: " + key + "=" + pluginCustomProps.get(key));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            this.allPluginDefinitions.add(d);
-                            this.loadContentConfig(plugin);
-                            String isK="formBiz+formBizModify";
-                            if(PlugInList.getAllPluginList4ProductLine().containsKey(id)) {
-                                Boolean o = (Boolean)MclclzUtil.invoke(c1, "hasPlugin", new Class[]{String.class}, (Object)null, new Object[]{d.getId()});
-                                if(isK.contains(d.getId())){
-                                    System.out.println("[我曹是系统插件哦-禁止丫的]"+d.getName()+"【"+d.getId()+"】");
-
-                                    continue;
-                                }
-                                if(!o.booleanValue()) {
-                                    LOGGER.debug("加密狗中不存在插件[" + d + "]，跳过。");
-                                    continue;
-                                }
-                            }
-
-                            if(((Boolean)this.pluginIds4Map.get(d.getId())).booleanValue()) {
-                                LOGGER.warn("插件[" + d + "]已经存在");
+            for(var19 = 0; var19 < var20; ++var19) {
+                plugin = var21[var19];
+                File pluginCfg = new File(plugin, "pluginCfg.xml");
+                if(pluginCfg.exists() && pluginCfg.isFile()) {
+                    props = PropertiesLoader.load(pluginCfg);
+                    String id = props.getProperty("id");
+                    String name = props.getProperty("name");
+                    initializer = props.getProperty("initializer");
+                    String isSupportClusterStr = props.getProperty("isSupportCluster");
+                    if(id != null && !"".equals(id.trim())) {
+                        if(!plugin.getAbsolutePath().endsWith(id)) {
+                            LOGGER.error("Plugin not loaded, plugin folder name should be '" + id + "': " + pluginCfg.getAbsolutePath());
+                        } else if(name != null && !"".equals(name.trim())) {
+                            ModuleType moduleType = ModuleType.getEnumByName(id);
+                            int category;
+                            if(moduleType != null) {
+                                category = moduleType.getKey();
                             } else {
-                                int cat = d.getCategory();
-                                if(cat != -1) {
-                                    if(cat < 0) {
-                                        LOGGER.warn("插件[" + d + "]的category属性值不能小于0；插件将不被启动.");
-                                        continue;
-                                    }
-
-                                    PluginDefinition d1 = (PluginDefinition)this.category2PluginDefinition.get(Integer.valueOf(cat));
-                                    if(d1 != null) {
-                                        LOGGER.warn("插件[" + d + "]的category已经被[" + d1 + "]使用,插件将不被启动.");
-                                        continue;
-                                    }
-
-                                    this.category2PluginDefinition.put(Integer.valueOf(d.getCategory()), d);
+                                String categoryStr = props.getProperty("category");
+                                if(categoryStr == null || "".equals(categoryStr.trim())) {
+                                    LOGGER.error("Plugin not loaded, 'category' misssing: " + pluginCfg.getAbsolutePath());
+                                    continue;
                                 }
 
-                                if(this.initInitializer(d, props)) {
+                                try {
+                                    category = Integer.parseInt(categoryStr);
+                                } catch (Throwable var40) {
+                                    LOGGER.error("Plugin not loaded, 'category' format error: " + pluginCfg.getAbsolutePath());
+                                    continue;
+                                }
+                            }
+
+                            this.pluginIds4Map.put(id, Boolean.valueOf(false));
+                            if(!disabledPlugins.contains(id)) {
+                                PluginDefinition d = new PluginDefinition();
+                                d.setId(id);
+                                d.setName(name);
+                                d.setCategory(category);
+                                d.setPluginFoler(plugin);
+                                if(isSupportClusterStr != null && !"".equals(isSupportClusterStr)) {
+                                    d.setSupportCluster(Boolean.valueOf(isSupportClusterStr).booleanValue());
+                                }
+
+                                pluginPropFile = new File(plugin, "pluginProperties.xml");
+                                if(!pluginPropFile.exists() || !pluginPropFile.isFile()) {
+                                    pluginPropFile = new File(plugin, "pluginProperties.properties");
+                                }
+
+                                Properties pluginProps = null;
+                                String key;
+                                if(pluginPropFile.exists() && pluginPropFile.isFile()) {
+                                    pluginProps = PropertiesLoader.load(pluginPropFile);
+                                    if(id.equals("index") && pluginProps.getProperty("index.localRegMaxNumber") != null) {
+                                        try {
+                                            int localRegMaxNumber = Integer.parseInt(pluginProps.getProperty("index.localRegMaxNumber"));
+                                            if(regNumber > localRegMaxNumber) {
+                                                LOGGER.warn("因并发数超过" + localRegMaxNumber + "必须分离部署全文检索。");
+                                            }
+                                        } catch (Exception var37) {
+                                            LOGGER.warn("全文检索插件本地注册最大数拼写错误！");
+                                        }
+                                    }
+
+                                    if(pluginProps != null && !pluginProps.isEmpty()) {
+                                        d.setPluginProperties(pluginProps);
+                                        Iterator var32;
+                                        Object o;
+                                        if(isClusterSlave) {
+                                            var32 = pluginProps.keySet().iterator();
+
+                                            while(var32.hasNext()) {
+                                                o = var32.next();
+                                                key = (String)o;
+                                                if(masterProperties.containsKey(key)) {
+                                                    pluginProps.put(key, masterProperties.get(key));
+                                                }
+                                            }
+                                        }
+
+                                        if(pluginCustomProps != null) {
+                                            var32 = pluginCustomProps.keySet().iterator();
+
+                                            while(var32.hasNext()) {
+                                                o = var32.next();
+                                                key = (String)o;
+                                                if(key.startsWith(id)) {
+                                                    pluginProps.put(key, pluginCustomProps.get(key));
+                                                    LOGGER.debug("Plugin custom config: " + key + "=" + pluginCustomProps.get(key));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                this.allPluginDefinitions.add(d);
+                                File contentConfigFile = new File(plugin, "contentCfg.xml");
+                                if(contentConfigFile.exists() && contentConfigFile.isFile()) {
+                                    Properties contentProps = PropertiesLoader.load(contentConfigFile);
+                                    ContentConfig.initConfig(contentProps);
+                                }
+
+                                if(PlugInList.getAllPluginList4ProductLine().get(id) != null) {
+                                    Boolean o = (Boolean)MclclzUtil.invoke(c1, "hasPlugin", new Class[]{String.class}, (Object)null, new Object[]{d.getId()});
+                                    if(!o.booleanValue()) {
+                                        if(keyskeys.get(d.getId())!=null){
+                                            LOGGER.info("^^^^^^^^^^^^^^^^^^^^^^^^^^");
+                                            LOGGER.info("【---启动了插件---】"+d.getId()+","+d.getName());
+                                            LOGGER.info("^^^^^^^^^^^^^^^^^^^^^^^^^^");
+
+                                        }else{
+                                             LOGGER.debug("加密狗中不存在插件[" + d + "]，跳过。");
+                                            continue;
+                                        }
+
+                                       // LOGGER.debug("加密狗中不存在插件[" + d + "]，跳过。");
+//                                        continue;
+                                    }
+                                }
+
+                                if(((Boolean)this.pluginIds4Map.get(d.getId())).booleanValue()) {
+                                    LOGGER.warn("插件[" + d + "]已经存在");
+                                } else {
+                                    int cat = d.getCategory();
+                                    if(cat != -1) {
+                                        if(cat < 0) {
+                                            LOGGER.warn("插件[" + d + "]的category属性值不能小于0；插件将不被启动.");
+                                            continue;
+                                        }
+
+                                        key = null;
+                                        PluginDefinition _d;
+                                        if((_d = (PluginDefinition)this.category2PluginDefinition.get(Integer.valueOf(cat))) != null) {
+                                            LOGGER.warn("插件[" + d + "]的category已经被[" + _d + "]使用,插件将不被启动.");
+                                            continue;
+                                        }
+
+                                        this.category2PluginDefinition.put(Integer.valueOf(d.getCategory()), d);
+                                    }
+
+                                    if(initializer != null && !"".equals(initializer)) {
+                                        try {
+                                            PluginInitializer pi = (PluginInitializer)Class.forName(initializer).newInstance();
+                                            d.setInitializer(pi);
+                                            if(!pi.isAllowStartup(d, LOGGER)) {
+                                                LOGGER.error("插件[" + d + "]的initializer[" + initializer + "]禁止了此插件的启动.");
+                                                continue;
+                                            }
+                                        } catch (Exception var39) {
+                                            LOGGER.error("插件[" + d + "]的initializer[" + initializer + "]初始化失败.", var39);
+                                            continue;
+                                        }
+                                    }
+
                                     this.pluginDefinitions.add(d);
                                     this.pluginIds4Map.put(id, Boolean.valueOf(true));
                                     if(pluginProps != null && !pluginProps.isEmpty()) {
@@ -224,14 +324,14 @@ public final class PluginSystemInit {
                                             k = (String)enus.nextElement();
                                             if(!k.startsWith(id)) {
                                                 removeList.add(k);
-                                                LOGGER.warn("Illegal plugin properties key '" + k + "' for '" + id + "', discarded.");
+                                                LOGGER.error("Illegal plugin properties key '" + k + "' for '" + id + "', discarded.");
                                             }
                                         }
 
-                                        Iterator var31 = removeList.iterator();
+                                        Iterator var36 = removeList.iterator();
 
-                                        while(var31.hasNext()) {
-                                            k = (String)var31.next();
+                                        while(var36.hasNext()) {
+                                            k = (String)var36.next();
                                             pluginProps.remove(k);
                                         }
 
@@ -240,10 +340,14 @@ public final class PluginSystemInit {
                                         SystemProperties.getInstance().printAll(pluginProps);
                                     }
 
-                                    LOGGER.info("加载插件 : " + d);
+                                    LOGGER.info("发现插件 : " + d);
                                 }
                             }
+                        } else {
+                            LOGGER.error("Plugin not loaded, 'name' missing: " + pluginCfg.getAbsolutePath());
                         }
+                    } else {
+                        LOGGER.error("Plugin not loaded, 'id' missing: " + pluginCfg.getAbsolutePath());
                     }
                 } else {
                     LOGGER.error("Plugin file not exists:" + pluginCfg.getAbsoluteFile());
@@ -254,104 +358,6 @@ public final class PluginSystemInit {
             LOGGER.info("扫描插件定义文件完毕. 耗时：" + (System.currentTimeMillis() - startTime) + " MS");
         } else {
             LOGGER.warn("系统插件定义文件路径不存在：" + pluginHome.getAbsolutePath());
-        }
-    }
-
-    private void checkIndexPlugin(String id, String userProps, Properties pluginProps) {
-        if("index".equals(id) && pluginProps.getProperty("index.localRegMaxNumber") != null) {
-            try {
-                int localRegMaxNumber = Integer.parseInt(pluginProps.getProperty("index.localRegMaxNumber"));
-                int regNumber = 0;
-                File indexProFile = new File(userProps, "/base/index/indexConfig.properties");
-                if(indexProFile.exists() && "local".equals(PropertiesLoader.load(indexProFile).getProperty("modelName"))) {
-                    try {
-                        regNumber = Integer.parseInt(String.valueOf(MclclzUtil.invoke(c3, "getTotalservernum", (Class[])null, MclclzUtil.invoke(c3, "getInstance", new Class[]{String.class}, (Object)null, new Object[]{""}), (Object[])null)));
-                    } catch (Exception var8) {
-                        LOGGER.warn("获取并发数错误！");
-                    }
-                }
-
-                if(regNumber > localRegMaxNumber) {
-                    LOGGER.warn("因并发数超过" + localRegMaxNumber + "必须分离部署全文检索。");
-                }
-            } catch (Exception var9) {
-                LOGGER.warn("全文检索插件本地注册最大数拼写错误！");
-            }
-        }
-
-    }
-
-    private void preLoadPluginProperties(File[] plugins, boolean isClusterSlave, Properties masterProperties, Properties pluginCustomProps) {
-        File[] var8 = plugins;
-        int var7 = plugins.length;
-
-        for(int var6 = 0; var6 < var7; ++var6) {
-            File plugin = var8[var6];
-            File pluginPropFile = new File(plugin, "pluginProperties.xml");
-            if(!pluginPropFile.exists() || !pluginPropFile.isFile()) {
-                pluginPropFile = new File(plugin, "pluginProperties.properties");
-            }
-
-            Properties pluginProps = null;
-            if(pluginPropFile.exists() && pluginPropFile.isFile()) {
-                pluginProps = PropertiesLoader.load(pluginPropFile);
-                if(pluginProps != null && !pluginProps.isEmpty()) {
-                    Object o;
-                    Iterator var12;
-                    String key;
-                    if(isClusterSlave) {
-                        var12 = pluginProps.keySet().iterator();
-
-                        while(var12.hasNext()) {
-                            o = var12.next();
-                            key = (String)o;
-                            if(masterProperties.containsKey(key)) {
-                                pluginProps.put(key, masterProperties.get(key));
-                            }
-                        }
-                    }
-
-                    if(pluginCustomProps != null) {
-                        var12 = pluginCustomProps.keySet().iterator();
-
-                        while(var12.hasNext()) {
-                            o = var12.next();
-                            key = (String)o;
-                            pluginProps.put(key, pluginCustomProps.get(key));
-                        }
-                    }
-
-                    SystemProperties.getInstance().init(pluginProps);
-                }
-            }
-        }
-
-    }
-
-    private boolean initInitializer(PluginDefinition d, Properties props) {
-        String initializer = props.getProperty("initializer");
-        if(initializer != null && !"".equals(initializer)) {
-            try {
-                PluginInitializer pi = (PluginInitializer)Class.forName(initializer).newInstance();
-                d.setInitializer(pi);
-                if(!pi.isAllowStartup(d, LOGGER)) {
-                    LOGGER.warn("插件[" + d + "]的initializer[" + initializer + "]禁止了此插件的启动.");
-                    return false;
-                }
-            } catch (Throwable var5) {
-                LOGGER.warn("插件[" + d + "]的initializer[" + initializer + "]初始化失败.", var5);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private void loadContentConfig(File plugin) {
-        File contentConfigFile = new File(plugin, "contentCfg.xml");
-        if(contentConfigFile.exists() && contentConfigFile.isFile()) {
-            Properties contentProps = PropertiesLoader.load(contentConfigFile);
-            ContentConfig.initConfig(contentProps);
         }
 
     }
@@ -372,7 +378,7 @@ public final class PluginSystemInit {
     }
 
     public List<String> getPluginIds() {
-        return new ArrayList(this.pluginIds4Map.keySet());
+        return this.pluginIds4Map == null?null:new ArrayList(this.pluginIds4Map.keySet());
     }
 
     public Map<Integer, PluginDefinition> getPluginDefinitionMap() {
