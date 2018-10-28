@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -222,6 +223,9 @@ public class DataBaseHandler {
     }
     public Map getDataAll(String dbName){
         Map db= dbContainerMap.get(dbName);
+        if(db == null){
+            return null;
+        }
         Map neew =new HashMap();
         neew.putAll(db);
         return neew;
@@ -247,7 +251,13 @@ public class DataBaseHandler {
 
     public static void main(String[] args){
         DataBaseHandler handler =  DataBaseHandler.getInstance();
-        System.out.println(handler.isEnumExist(1l));
+       Map data = handler.getDataAll("HT0007");
+       for(Object key:data.keySet()){
+
+           String val = JSON.toJSONString(data.get(key));
+           A8OutputVo vo = JSON.parseObject(val,A8OutputVo.class);
+           System.out.println(JSON.toJSONString(vo));
+       }
         String dbName = "company";
 //        if(!handler.isDBExit(dbName)){
 //            boolean isOk = handler.createNewDataBaseByName(dbName);
