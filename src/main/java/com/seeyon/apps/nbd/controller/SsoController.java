@@ -69,6 +69,22 @@ public class SsoController extends BaseController {
     }
 
     private static void initMessageThread() {
+        DataBaseHandler handler = DataBaseHandler.getInstance();
+        handler.createNewDataBaseByName("msg");
+        Object obj = handler.getDataByKey("msg","updated");
+        if(obj == null){
+            String updateSql="update ctp_user_history_message set link_param_9='1' where link_param_9 is null and is_read=0";
+            JDBCAgent agent = new JDBCAgent();
+            try{
+                agent.execute(updateSql);
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally {
+                agent.close();
+            }
+
+            handler.putData("msg","updated","1");
+        }
 
         Timer timer = new Timer();
 
@@ -137,7 +153,7 @@ public class SsoController extends BaseController {
                                 System.out.println(data);
                             }
                         }
-                        String updateSql="update ctp_user_history_message set link_param_9='1' whew link_param_9 is null and is_read=0";
+                        String updateSql="update ctp_user_history_message set link_param_9='1' where link_param_9 is null and is_read=0";
                         agent.execute(updateSql);
                     }
                 } catch (Exception e) {
