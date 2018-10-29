@@ -12,6 +12,10 @@
 
 	</bean>
 
+	<bean name="nbdService" class="com.seeyon.apps.nbd.service.NbdService">
+
+	</bean>
+
 
 
 

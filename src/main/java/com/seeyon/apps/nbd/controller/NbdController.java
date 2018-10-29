@@ -47,11 +47,19 @@ public class NbdController extends BaseController{
 
         Map data = new HashMap();
       //  DBAgent.saveAll(formTableDefinitions);
-        data.put("items","1234567890");
-        NbdResponseEntity entity = new NbdResponseEntity();
-        entity.setResult(true);
-        entity.setData(data);
-        UIUtils.responseJSON(entity,response);
+        ModelAndView mav = new ModelAndView();
+        return null;
+
+    }
+    @NeedlessCheckLogin
+    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response){
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+
+        String page = parameter.$("page");
+
+        Map data = new HashMap();
+        //  DBAgent.saveAll(formTableDefinitions);
+        ModelAndView mav = new ModelAndView();
         return null;
 
     }

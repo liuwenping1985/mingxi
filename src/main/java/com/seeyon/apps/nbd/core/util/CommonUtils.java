@@ -1,12 +1,6 @@
 package com.seeyon.apps.nbd.core.util;
 
 import com.seeyon.apps.nbd.util.UIUtils;
-import com.seeyon.ctp.common.AppContext;
-import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
-import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
-import com.seeyon.ctp.organization.bo.V3xOrgAccount;
-import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
-import com.seeyon.ctp.organization.manager.OrgManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -66,11 +60,39 @@ public class CommonUtils {
 
     }
 
+    public static Long getLong(Object obj) {
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof Long) {
+            return (Long) obj;
+        }
+        if (obj instanceof BigDecimal) {
+            return ((BigDecimal) obj).longValue();
+        }
+        Long val = null;
+        try {
+            val = Long.parseLong(String.valueOf(obj));
+        } finally {
+            return val;
+        }
+
+    }
+
     public static Date parseDate(String dateStr) {
         try {
             Date dt = sdf.parse(dateStr);
             return dt;
         } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String parseDate(Date date) {
+        try {
+            return sdf.format(date);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -93,94 +115,6 @@ public class CommonUtils {
 
         return getYear(new Date());
     }
-
-    public static Long getLong(Object obj){
-
-        if(obj instanceof Long){
-            return (Long)obj;
-        }
-        if(obj instanceof BigDecimal){
-            return ((BigDecimal)obj).longValue();
-        }
-        try{
-           return Long.parseLong(String.valueOf(obj));
-        }catch(Exception e){
-            return null;
-        }
-
-    }
-    private static EnumManager enumManager;
-
-    private static EnumManager getEnumManager(){
-        if(enumManager==null){
-            enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
-        }
-        return enumManager;
-
-    }
-    private static OrgManager orgManager;
-    private static OrgManager getOrgManager(){
-        if(orgManager==null){
-            orgManager = (OrgManager)AppContext.getBean("orgManager");
-        }
-        return orgManager;
-
-    }
-
-    public static Object getEnumShowValue(Object obj){
-
-        Long id = getLong(obj);
-        if(id == null){
-            return obj;
-        }
-        try {
-            CtpEnumItem item = getEnumManager().getEnumItem(id);
-            if (item != null) {
-                return item.getShowvalue();
-            }
-        }catch(Exception e){
-
-        }
-        return obj;
-    }
-    public static Object getOrgValueByDeptIdAndType(Object obj,int type){
-
-        Long id = getLong(obj);
-        if(id == null){
-            return obj;
-        }
-        try {
-            V3xOrgDepartment department = getOrgManager().getDepartmentById(id);
-            if (department == null) {
-                return obj;
-            }
-            if(type==0){
-                String code = department.getCode();
-                if(CommonUtils.isEmpty(code)){
-                    return department.getName();
-                }
-                return code;
-            }else{
-                Long accountId = department.getOrgAccountId();
-                V3xOrgAccount account = getOrgManager().getAccountById(accountId);
-                if(account==null){
-                    return obj;
-                }
-                String code = account.getCode();
-                if(CommonUtils.isEmpty(code)){
-                    return account.getName();
-                }
-                return code;
-
-            }
-
-
-        }catch(Exception e){
-
-        }
-        return obj;
-    }
-
 
     public static void hack(String[] args) throws InterruptedException, IOException {
         // Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.login.LoginHelper");
@@ -219,10 +153,10 @@ public class CommonUtils {
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String k = "\\ee\\ee\\dd\\ff\\gg";
         System.out.println(k);
-        k = k.replaceAll("\\\\",".");
+        k = k.replaceAll("\\\\", ".");
         System.out.println(k);
 
 

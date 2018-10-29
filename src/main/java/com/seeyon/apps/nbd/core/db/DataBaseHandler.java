@@ -91,14 +91,23 @@ public class DataBaseHandler {
         if(f.exists()){
             f.delete();
         }
+        FileWriter fw = null;
         try {
             f.createNewFile();
-            FileWriter fw = new FileWriter(f);
+            fw = new FileWriter(f);
             fw.write(content);
             fw.flush();
-            fw.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+
+        }finally {
+            if(fw!=null){
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
 
@@ -151,29 +160,38 @@ public class DataBaseHandler {
     }
     public void putData(String dbName,String key,Object obj){
         Map db= dbContainerMap.get(dbName);
+        if(db == null){
+            return;
+        }
         db.put(key,obj);
         store(dbName);
     }
     public void putAllData(String dbName,Map data){
         Map db= dbContainerMap.get(dbName);
+        if(db == null||data == null){
+            return ;
+        }
         db.putAll(data);
         store(dbName);
     }
     public Map getDataAll(String dbName){
         Map db= dbContainerMap.get(dbName);
         Map neew =new HashMap();
+        if(db == null){
+            return null;
+        }
         neew.putAll(db);
         return neew;
     }
-    public boolean isDBExit(String dbName){
+    public boolean isDBExist(String dbName){
         String db= extDbMap.get(dbName);
         if(db!=null){
             return true;
         }
         return false;
     }
-    public boolean createNewDataBaseByName(String dataBaseName){
-        if(isDBExit(dataBaseName)){
+    public boolean createNewDataBaseByNameIfNotExist(String dataBaseName){
+        if(isDBExist(dataBaseName)){
             return false;
         }
         dbContainerMap.put(dataBaseName,new HashMap());
