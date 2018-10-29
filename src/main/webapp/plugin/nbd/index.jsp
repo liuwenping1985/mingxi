@@ -132,5 +132,7 @@
     window.$ = $;
 </script>
 <script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
 </body>
 </html>
