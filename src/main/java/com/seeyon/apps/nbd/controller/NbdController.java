@@ -44,11 +44,7 @@ public class NbdController extends BaseController{
     }
     @NeedlessCheckLogin
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response){
-
-        Map data = new HashMap();
-      //  DBAgent.saveAll(formTableDefinitions);
-        ModelAndView mav = new ModelAndView();
-        return null;
+        return goPage(request,response);
 
     }
     @NeedlessCheckLogin
@@ -56,11 +52,13 @@ public class NbdController extends BaseController{
         CommonParameter parameter = CommonParameter.parseParameter(request);
 
         String page = parameter.$("page");
+        if(CommonUtils.isEmpty(page)){
 
-        Map data = new HashMap();
+            page = "index";
+        }
         //  DBAgent.saveAll(formTableDefinitions);
-        ModelAndView mav = new ModelAndView();
-        return null;
+        ModelAndView mav = new ModelAndView("apps/nbd/"+page);
+        return mav;
 
     }
     @NeedlessCheckLogin

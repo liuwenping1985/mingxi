@@ -39,6 +39,8 @@
             <include>**/*.XML</include>
             <include>**/*.json</include>
             <include>**/*.properties</include>
+            <include>**/*.csv</include>
+            <include>**/*.data</include>
         </includes>
     </resource>
     </resources>
