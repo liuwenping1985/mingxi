@@ -31,7 +31,7 @@ public class DataBaseHandler {
         if(!StringUtils.isEmpty(stb.toString())){
             dbMap = JSON.parseObject(stb.toString(),HashMap.class);
         }
-        stb =initDataBase(EXT_DB);
+        stb = initDataBase(EXT_DB);
         if(!StringUtils.isEmpty(stb.toString())){
             extDbMap = JSON.parseObject(stb.toString(),HashMap.class);
         }
@@ -150,11 +150,33 @@ public class DataBaseHandler {
         }
         return db.get(key);
     }
+    public <T> T getDataByKeyAndClassType(String dbName,String key,Class<T> cls){
+        Map db= dbContainerMap.get(dbName);
+        if(db==null){
+            return null;
+        }
+        Object obj =  db.get(key);
+        String jstring = JSON.toJSONString(obj);
+        T t = JSON.parseObject(jstring,cls);
+        return t;
+    }
 
     public void putData(String key,Object obj){
 
         dbMap.put(key,obj);
         store();
+    }
+
+    public Object removeDataByKey(String dbName,String key){
+        Map db= dbContainerMap.get(dbName);
+        Object obj = null;
+        if(db!=null){
+           obj=  db.remove(key);
+           if(obj!=null){
+               store(dbName);
+           }
+        }
+        return obj;
     }
     public void putAllData(Map obj){
 

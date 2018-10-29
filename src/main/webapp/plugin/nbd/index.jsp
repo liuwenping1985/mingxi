@@ -86,9 +86,9 @@
               <br>
               <br>
               <div class="layui-btn-group">
-                <button class="layui-btn">增加</button>
-                <button class="layui-btn">编辑</button>
-                <button class="layui-btn">删除</button>
+                <button class="layui-btn layui-btn-sm">新建</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
+                <button class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
               </div>
               <fieldset class="layui-elem-field">
                 <legend>配置列表</legend>

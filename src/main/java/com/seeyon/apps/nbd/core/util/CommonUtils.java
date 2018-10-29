@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.core.util;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
@@ -14,10 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2018/9/7.
@@ -229,6 +227,22 @@ public class CommonUtils {
 
         }
         return obj;
+    }
+
+    public static <T> T  copyProIfNotNullReturnSource(T source,T dest){
+
+        String sourceStr = JSON.toJSONString(source);
+        Map sourceMap = JSON.parseObject(sourceStr,HashMap.class);
+        String descStr = JSON.toJSONString(dest);
+        Map destMap = JSON.parseObject(descStr,HashMap.class);
+        for(Object key:destMap.keySet()){
+            Object dt = destMap.get(key);
+            if(dt!=null){
+                sourceMap.put(key,dt);
+            }
+        }
+        return (T)JSON.parseObject(JSON.toJSONString(sourceMap),source.getClass());
+
     }
 
     public static void main(String[] args) {

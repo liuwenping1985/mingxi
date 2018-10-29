@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.core.vo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,8 +12,9 @@ public class NbdResponseEntity {
     private boolean result=false;
 
     private String msg="";
+    private List items;
 
-    private Map data = new HashMap();
+    private Object data;
 
     public boolean isResult() {
         return result;
@@ -30,11 +32,19 @@ public class NbdResponseEntity {
         this.msg = msg;
     }
 
-    public Map getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Map data) {
+    public void setData(Object data) {
         this.data = data;
+    }
+
+    public List getItems() {
+        return items;
+    }
+
+    public void setItems(List items) {
+        this.items = items;
     }
 }
