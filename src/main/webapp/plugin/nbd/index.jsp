@@ -128,17 +128,9 @@
     var $ =jQuery =layui.jquery;
     layui.use('element', function(){
         var element = layui.element;
-
     });
-    layui.use('layer', function(){
-        var layer = layui.layer;
-  
-        //layer.msg('hello');
-    });  
-    $("#config_list_btn").click(function(){
-        alert("btn_click");
-
-    });
+    window.$ = $;
 </script>
+<script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
 </body>
 </html>
