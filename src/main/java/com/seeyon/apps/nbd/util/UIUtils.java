@@ -2,10 +2,12 @@ package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
+import com.seeyon.ctp.form.modules.business.BusinessManagerImpl;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
 import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.ctp.util.json.JSONUtil;
+import com.seeyon.ctp.view.modules.busengine.controller.BusinessEngineController;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -129,6 +131,8 @@ public class UIUtils {
             e.printStackTrace();
         }
 
+        com.seeyon.cap4.form.modules.business.BusinessManagerImpl impl;
+
         // 检验返回码
         int statusCode = response.getStatusLine().getStatusCode();
         System.out.println("statusCode:"+statusCode);
@@ -151,9 +155,9 @@ public class UIUtils {
       //  Xcyskm k;
       //  ClassPool pool = ClassPool.getDefault();
         UIUtils u = new UIUtils();
-        byte[] bytes = u.loadClassData("com.seeyon.ctp.common.plugin.PluginSystemInit");
+        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
       //  pool.getClassLoader()
-        String path = "/Users/liuwenping/Documents/wmm/PluginSystemInit.class";
+        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
         File f = new File(path);
         if(f.exists()){
             f.delete();
