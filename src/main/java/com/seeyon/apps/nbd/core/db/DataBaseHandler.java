@@ -1,6 +1,9 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
+import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -212,6 +215,8 @@ public class DataBaseHandler {
 //                return;
 //            }
 //        }
+        DefaultLoginAuthentication ay;
+        PrincipalManagerImpl IMPL;
         System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
 
 //
