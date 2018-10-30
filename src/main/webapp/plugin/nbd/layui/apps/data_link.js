@@ -17,7 +17,8 @@
              */
             var htmls=[];
             $(items).each(function(index,item){
-                htmls.push("<tr>");
+                htmls.push("<tr class='data_link_row' >");
+                htmls.push("<td><input type='checkbox' value='"+item.id+"' class='data_link_selected' /> </td>");
                 htmls.push("<td>"+item.extString1+"</td>");
                 htmls.push("<td>"+item.host+"</td>");
                 htmls.push("<td>"+item.dbType+"</td>");

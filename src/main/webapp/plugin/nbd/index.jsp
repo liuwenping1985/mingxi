@@ -55,9 +55,9 @@
                 <li data-name="app" class="layui-nav-item">
                     <a href="javascript:;">数据转化</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">A82other</a></dd>
-                        <dd><a href="javascript:;">Other2A8</a></dd>
-                        <dd><a href="javascript:;">日志</a></dd>
+                        <dd><a id="a82other_list_btn" href="javascript:;">A82other</a></dd>
+                        <dd><a id="other2a8_list_btn" href="javascript:;">Other2A8</a></dd>
+                        <dd><a id="log_list_btn" href="javascript:;">日志</a></dd>
 
 
                     </dl>
@@ -95,6 +95,7 @@
             <div class="layui-field-box">
                     <table class="layui-table">
                         <colgroup>
+                            <col width="40">
                             <col width="150">
                             <col width="200">
                             <col width="150">
@@ -103,6 +104,7 @@
                         </colgroup>
                         <thead>
                         <tr>
+                            <th></th>
                             <th>连接名称</th>
                             <th>地址</th>
                             <th>数据类型</th>
@@ -187,6 +189,13 @@
                 <a href="">首页</a>
                 <a href="">数据转换</a>
                 <a><cite>Other2A8</cite></a>
+              </span>
+
+        </div>
+         <div id="log" class="nbd_content" style="padding:15px;display:none">
+            <span class="layui-breadcrumb">
+                <a href="">首页</a>
+                <a><cite>日志</cite></a>
               </span>
 
         </div>
