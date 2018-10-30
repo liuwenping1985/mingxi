@@ -32,9 +32,10 @@ public class NbdService {
             entity.setMsg(" data transfer error");
         } else {
             cVo.setId(UUID.randomUUID().toString());
+            handler.putData(type, cVo.getId(), cVo);
+            entity.setData(cVo);
         }
-        handler.putData(type, cVo.getId(), cVo);
-        entity.setData(cVo);
+
         return entity;
     }
 
