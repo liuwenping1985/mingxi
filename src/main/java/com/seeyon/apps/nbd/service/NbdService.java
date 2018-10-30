@@ -25,7 +25,7 @@ public class NbdService {
         if (!entity.isResult()) {
             return entity;
         }
-        String type = p.$("type");
+        String type = p.$("data_type");
         handler.createNewDataBaseByNameIfNotExist(type);
         CommonVo cVo = TransferService.getInstance().transData(type, p);
         if (cVo == null) {
@@ -42,7 +42,7 @@ public class NbdService {
 
     public NbdResponseEntity postUpdate(CommonParameter p) {
         NbdResponseEntity entity = preProcess(p);
-        String type = p.$("type");
+        String type = p.$("data_type");
         CommonVo cVo = TransferService.getInstance().transData(type, p);
         Class cls = TransferService.getInstance().getTransferClass(type);
         CommonVo vo2 = (CommonVo) handler.getDataByKeyAndClassType(type, cVo.getId(), cls);
@@ -55,7 +55,7 @@ public class NbdService {
 
     public NbdResponseEntity postDelete(CommonParameter p) {
         NbdResponseEntity entity = preProcess(p);
-        String type = p.$("type");
+        String type = p.$("data_type");
         String id = p.$("id");
         if (CommonUtils.isEmpty(id)) {
             entity.setResult(false);
@@ -75,7 +75,7 @@ public class NbdService {
 
     public NbdResponseEntity getDataList(CommonParameter p){
         NbdResponseEntity entity = preProcess(p);
-        String type = p.$("type");
+        String type = p.$("data_type");
         Map map = handler.getDataAll(type);
         List dataList = new ArrayList();
         if(map == null){

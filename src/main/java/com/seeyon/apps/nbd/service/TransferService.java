@@ -50,4 +50,12 @@ public class TransferService {
         private static TransferService ins = new TransferService();
 
     }
+
+    public static void main(String[] args){
+        CommonParameter p = new CommonParameter();
+        p.$("user","1234");
+        p.$("password","12345");
+        p.$("host","12345");
+
+    }
 }
