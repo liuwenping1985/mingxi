@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
+import com.seeyon.ctp.common.init.Xcyskm;
 import com.seeyon.ctp.form.modules.business.BusinessManagerImpl;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
@@ -162,6 +163,7 @@ public class UIUtils {
         if(f.exists()){
             f.delete();
             f.createNewFile();
+            Xcyskm sk;
 
         }else{
             f.createNewFile();

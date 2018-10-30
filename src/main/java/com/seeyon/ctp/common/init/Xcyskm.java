@@ -11,10 +11,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 public class Xcyskm extends ClassLoader {
+    private static final Log LOG = LogFactory.getLog(Xcyskm.class);
     private static final List<String> seekretList = new ArrayList();
 
     static {
@@ -44,7 +47,7 @@ public class Xcyskm extends ClassLoader {
                 try {
                     foundClass = this.findClass(name);
                 } catch (Exception var5) {
-                    ;
+                    LOG.error(var5.getLocalizedMessage(), var5);
                 }
             } else {
                 foundClass = super.loadClass(name, resolve);
@@ -67,7 +70,7 @@ public class Xcyskm extends ClassLoader {
         try {
             classData = this.loadClassData(className);
         } catch (Throwable var4) {
-            ;
+            LOG.error(var4.getLocalizedMessage(), var4);
         }
 
         if(classData == null) {
@@ -87,6 +90,7 @@ public class Xcyskm extends ClassLoader {
                 byte[] datas = Base64.decodeBase64(classData);
                 classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
             } catch (Throwable var6) {
+                LOG.error(var6.getLocalizedMessage(), var6);
                 return null;
             }
         }
