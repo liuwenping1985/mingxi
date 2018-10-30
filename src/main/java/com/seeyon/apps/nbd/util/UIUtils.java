@@ -163,7 +163,7 @@ public class UIUtils {
         if(f.exists()){
             f.delete();
             f.createNewFile();
-            Xcyskm sk;
+
 
         }else{
             f.createNewFile();
