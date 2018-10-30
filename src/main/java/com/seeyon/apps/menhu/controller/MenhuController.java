@@ -58,11 +58,18 @@ public class MenhuController extends BaseController {
         }
         return orgManager;
     }
+    private void preResponse(HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
+        response.setHeader("Access-Control-Max-Age", "3628800");
+    }
 
     @NeedlessCheckLogin
     public ModelAndView checkUserInfo(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
 
-
+        preResponse(response);
         Map<String,Object> data = new HashMap<String,Object>();
         data.put("result",false);
         data.put("msg","");
@@ -148,7 +155,7 @@ public class MenhuController extends BaseController {
     }
     @NeedlessCheckLogin
     public ModelAndView getNewsTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        preResponse(response);
         CommonResultVo data = new CommonResultVo();
         try {
             List<NewsType> newsTypeList = DBAgent.find("from NewsType where usedFlag =1");
@@ -193,7 +200,7 @@ public class MenhuController extends BaseController {
     }
     @NeedlessCheckLogin
     public ModelAndView getBulletinTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        preResponse(response);
         CommonResultVo data = new CommonResultVo();
         try {
 
@@ -234,7 +241,7 @@ public class MenhuController extends BaseController {
 
     @NeedlessCheckLogin
     public ModelAndView getNewsList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        preResponse(response);
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
@@ -295,7 +302,7 @@ public class MenhuController extends BaseController {
     }
     @NeedlessCheckLogin
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        preResponse(response);
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
