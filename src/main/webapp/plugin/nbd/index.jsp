@@ -68,7 +68,7 @@
     </div>
 
     <div class="layui-body">
-        <div class="nbd_content" id="dash_bord" style="padding: 15px;">
+        <div class="nbd_content" id="dash_bord" style="padding: 15px;display:none">
 
                 <span class="layui-breadcrumb">
                         <a href="">首页</a>
@@ -77,7 +77,7 @@
 
         </div>
         <!-- 内容主体区域 -->
-        <div id="link_config" class="nbd_content" style="padding: 15px;display:none">
+        <div id="link_config" class="nbd_content" style="padding: 15px">
             <span class="layui-breadcrumb">
                 <a href="">首页</a>
                 <a href="">数据连接配置</a>
@@ -86,13 +86,13 @@
             <br>
             <br>
             <div class="layui-btn-group">
-                <button class="layui-btn layui-btn-sm">新建</button>
-                <button class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
-                <button class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+                <button id="data_link_create" class="layui-btn layui-btn-sm">新建</button>
+                <button id="data_link_update"  class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
+                <button id="data_link_ddelete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
             </div>
             <fieldset class="layui-elem-field">
                 <legend>配置列表</legend>
-                <div class="layui-field-box">
+            <div class="layui-field-box">
                     <table class="layui-table">
                         <colgroup>
                             <col width="150">
@@ -170,24 +170,7 @@
                 </div>
             </form>
 
-            <script>
-                //Demo
-                layui.use('form', function () {
-                    var form = layui.form;
-                    //监听提交
-                    form.on('submit(formDemo)', function (data) {
-                        layer.msg(JSON.stringify(data.field));
-                        Dao.add("data_link",data,function(ret){
-                            Dao.getList("data_link",function(ret){
-                                $(".nbd_content").hide();
-                                $("#link_config").show();
-                                DataLink.renderList(ret);
-                            });
-                        })
-                        return false;
-                    });
-                });
-            </script>
+           
         </div>
 
         <div id="a82other" class="nbd_content" style="padding:15px;display:none">
@@ -226,6 +209,24 @@
 <script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
+<script>
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                Dao.add("data_link",data,function(ret){
+                    Dao.getList("data_link",function(ret){
+                        $(".nbd_content").hide();
+                        $("#link_config").show();
+                        DataLink.renderList(ret);
+                    });
+                })
+                return false;
+            });
+        });
+    </script>
 <script>
 
     Dao.getList("data_link",function(ret){
