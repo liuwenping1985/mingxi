@@ -20,6 +20,7 @@ public class NbdService {
     private DataBaseHandler handler = DataBaseHandler.getInstance();
 
     public NbdResponseEntity postAdd(CommonParameter p) {
+        System.out.println(p);
         NbdResponseEntity entity = preProcess(p);
         if (!entity.isResult()) {
             return entity;
