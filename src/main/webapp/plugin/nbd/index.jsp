@@ -122,8 +122,8 @@
 
         </div>
 
-        <div id="link_create" class="nbd_content" style="padding: 15px;display:none">
-            <form class="layui-form" action="">
+        <div id="link_create" class="nbd_content" style="padding: 15px;width:500px;display:none">
+            <form class="layui-form" id="data_link_form" action="">
                 <div class="layui-form-item">
                     <label class="layui-form-label">连接名称</label>
                     <div class="layui-input-block">
@@ -170,8 +170,14 @@
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                
             </form>
-
+            <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn" id="data_link_submit" >立即提交</button>
+                
+                    </div>
+             </div>
            
         </div>
 
@@ -220,30 +226,55 @@
 <script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
 <script>
         //Demo
-        layui.use('form', function () {
-            var form = layui.form;
-            //监听提交
-            form.on('submit(formDemo)', function (data) {
-                layer.msg(JSON.stringify(data.field));
-                Dao.add("data_link",data,function(ret){
-                    Dao.getList("data_link",function(ret){
+        // layui.use('form', function () {
+        //     var form = layui.form;
+        //     //监听提交
+        //     form.on('submit(formDemo)', function (data) {
+        //         layer.msg(JSON.stringify(data.field));
+        //         Dao.add("data_link",data,function(ret){
+        //             console.log(ret);
+        //             // Dao.getList("data_link",function(ret){
+        //             //     $(".nbd_content").hide();
+        //             //     $("#link_config").show();
+        //             //     DataLink.renderList(ret);
+        //             // });
+        //         })
+        //         return false;
+        //     });
+        // });
+        $("#data_link_submit").click(function(){
+            
+            var str = $("#data_link_form").serialize();
+            var spp = str.split("&");
+            var data={};
+            $(spp).each(function(index,item){
+                var tt = item.split("=");
+                data[tt[0]]=tt[1];
+            });
+           // console.log(data);
+        Dao.add("data_link",data,function(ret){
+                 //   console.log(ret);
+                    Dao.getList("data_link",function(data2){
                         $(".nbd_content").hide();
                         $("#link_config").show();
-                        DataLink.renderList(ret);
+                        DataLink.renderList(data2);
                     });
-                })
-                return false;
-            });
+        });
+           // console.log(str);
+
         });
     </script>
 <script>
 
-    Dao.getList("data_link",function(ret){
-
-        $(".nbd_content").hide();
-        $("#link_config").show();
-        DataLink.renderList(ret);
+    $(document).ready(function(){
+        Dao.getList("data_link",function(ret){
+            console.log(ret);
+            $(".nbd_content").hide();
+            $("#link_config").show();
+            DataLink.renderList(ret);
+        });
     });
+
 
 </script>
 </body>

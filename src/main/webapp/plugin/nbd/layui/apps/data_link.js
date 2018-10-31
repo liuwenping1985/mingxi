@@ -7,6 +7,7 @@
         var tb = $("#data_link_list_body");
         tb.html("");
         var items = ret.items;
+        console.log(items);
         if(items&&items.length>0){
             /**
              * <th>连接名称</th>

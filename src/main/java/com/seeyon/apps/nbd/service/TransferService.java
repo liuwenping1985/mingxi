@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.DataValidator;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
+import com.seeyon.apps.nbd.vo.CommonVo;
 import com.seeyon.apps.nbd.vo.DataLink;
 
 import java.util.*;
@@ -56,6 +57,7 @@ public class TransferService {
         p.$("user","1234");
         p.$("password","12345");
         p.$("host","12345");
-
+        CommonVo vo = getInstance().transData("data_link",p);
+        System.out.println(JSON.toJSONString(vo));
     }
 }

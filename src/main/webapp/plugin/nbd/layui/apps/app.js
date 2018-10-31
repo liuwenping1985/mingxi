@@ -5,16 +5,25 @@
 
     var _getList = function (data_type, callback_,error_callback_) {
         var url = "/seeyon/nbd.do?method=getDataList&data_type=" + data_type;
-        $.get(url, function (data) {
-            if (callback_) {
-                callback_(data);
+        $.ajax({
+            url: url,
+            async: true,//同步方式发送请求，true为异步发送
+            type: "GET",
+            data: {},
+            success: function (data) {
+                alert("1");
+                console.log("data"+data);
+                if (callback_) {
+                    callback_(data);
+                }
+            },
+            error:function(res){
+                alert("2");
+                if (error_callback_){
+                    error_callback_(res);
+                }
             }
-        },function(res){
-            if (error_callback_){
-                error_callback_(res);
-            }
-            
-        });
+        })
     }
     var _post_data_add = function (data_type, data_post, callback_, error_callback_) {
         var url = "/seeyon/nbd.do?method=postAdd&data_type=" + data_type;
