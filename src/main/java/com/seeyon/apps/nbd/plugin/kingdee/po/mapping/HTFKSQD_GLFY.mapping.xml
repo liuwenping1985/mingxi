@@ -87,10 +87,10 @@
             <Field id="7886067643353546795" name="field0085" display="借方科目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-2973415791968698042" name="field0086" display="贷方科目" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-6853034532819809608" name="field0087" display="贷方金额1" fieldtype="DECIMAL" fieldlength="20,2" is_null="false" is_primary="false" classname="" barcode=""/>
-            <Field id="-2609698455156932546" name="field0088" display="收款单位编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="payeeNumber" />
+            <Field id="-2609698455156932546" name="field0088" display="收款单位编号" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws" barcode="outBgItemNumber" />
             <Field id="-8982084828742661629" name="field0089" display="收款人编号" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="-4291882981101976098" name="field0090" display="借方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccount"/>
-            <Field id="-3766608439035150132" name="field0091" display="贷方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="oppAccount"/>
+            <Field id="-3766608439035150132" name="field0093" display="贷方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="oppAccount"/>
             <Field id="8177854943446517549" name="field0092" display="银行账号编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccountBank"/>
         </FieldList>
         <IndexList>
