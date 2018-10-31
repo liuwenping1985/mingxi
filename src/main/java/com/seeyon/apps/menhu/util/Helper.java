@@ -3,6 +3,7 @@ package com.seeyon.apps.menhu.util;
 import com.seeyon.apps.menhu.vo.CommonTypeParameter;
 import com.seeyon.ctp.util.json.JSONUtil;
 import org.apache.commons.lang.StringUtils;
+import www.seeyon.com.mocnoyees.MSGTMocnoyees;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
