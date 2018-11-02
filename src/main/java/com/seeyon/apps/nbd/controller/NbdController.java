@@ -56,7 +56,6 @@ public class NbdController extends BaseController{
 
         String page = parameter.$("page");
         if(CommonUtils.isEmpty(page)){
-
             page = "index";
         }
         //  DBAgent.saveAll(formTableDefinitions);
