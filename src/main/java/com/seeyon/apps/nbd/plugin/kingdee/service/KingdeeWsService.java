@@ -108,7 +108,7 @@ public class KingdeeWsService implements ServicePlugin {
     private KingDeeBill genDefaultBill() {
         KingDeeBill bill = new KingDeeBill();
         PayBillType payBillType = new PayBillType();
-        payBillType.setNumber("202");
+        payBillType.setNumber("999");
         bill.setPayBillType(payBillType);
         PayerAccount payerAccount = new PayerAccount();
         payerAccount.setNumber("1002");

@@ -8,6 +8,9 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.plugin.kingdee.vo.CommonKingDeeVo;
 import com.seeyon.apps.nbd.plugin.kingdee.vo.KingDeeBill;
 import com.seeyon.apps.nbd.plugin.kingdee.vo.KingdeeEntry;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
+import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -57,6 +60,7 @@ public final class DataTransferService {
 
                 }
             }
+            PrincipalManagerImpl pm;
            // System.out.println("jsonmap"+retData);
             bill = JSON.parseObject(JSON.toJSONString(retData),KingDeeBill.class);
             bill.setLocalAmt(bill.getAmount());
@@ -71,6 +75,7 @@ public final class DataTransferService {
             entryList.add(entry);
             bill.setEntries(entryList);
             bill.setBizDate(format.format(new Date()));
+            bill.setDescription(remark);
             return bill;
         }
     }
