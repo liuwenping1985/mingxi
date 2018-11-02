@@ -11,7 +11,6 @@
             type: "GET",
             data: {},
             success: function (data) {
-                alert("1");
                 console.log("data"+data);
                 if (callback_) {
                     callback_(data);

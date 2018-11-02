@@ -42,6 +42,7 @@ public class NbdController extends BaseController{
             }catch(Error error){
                 error.printStackTrace();
             }
+            com.seeyon.ctp.workflow.process.controller.WorkFlowProcessController wpc;
         }
         return nbdPluginServiceManager;
     }
