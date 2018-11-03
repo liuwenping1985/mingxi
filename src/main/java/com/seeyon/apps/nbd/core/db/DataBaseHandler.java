@@ -237,8 +237,6 @@ public class DataBaseHandler {
 //                return;
 //            }
 //        }
-        DefaultLoginAuthentication ay;
-        PrincipalManagerImpl IMPL;
         System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
 
 //
