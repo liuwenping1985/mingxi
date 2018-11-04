@@ -151,7 +151,7 @@ public class KingdeeWsService implements ServicePlugin {
                     }
 
                 }
-               // System.out.println(JSON.toJSONString(billList));
+                System.out.println(JSON.toJSONString(billList));
                 String ret =  provider.importBill(billList);
                // System.out.println(JSON.toJSONString(billList));
                 vo.setResult(true);

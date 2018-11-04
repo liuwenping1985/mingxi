@@ -70,7 +70,9 @@ public final class DataTransferService {
             entry.setAmount(bill.getAmount());
             entry.setLocalAmt(bill.getAmount());
             entry.setRemark(remark);
-            entry.setOutBgItemNumber(outBgItemNumber);
+            if(!CommonUtils.isEmpty(outBgItemNumber)&&!"null".equals(outBgItemNumber)){
+                entry.setOutBgItemNumber(outBgItemNumber);
+            }
             entry.setOppAccount(oppAccount);
             entryList.add(entry);
             bill.setEntries(entryList);
