@@ -3,8 +3,12 @@ package com.seeyon.apps.nbd.plugin.kingdee.service;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
+import com.seeyon.apps.nbd.core.form.entity.FormField;
+import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.form.entity.SimpleFormField;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
+import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.PluginDefinition;
@@ -67,16 +71,59 @@ public class KingdeeWsService implements ServicePlugin {
         FormTableDefinition ftd = this.getFormTableDefinition(afType);
         String sql = ftd.genQueryById(Long.parseLong(rdId));
         System.out.println("sql:" + sql);
+        Map<String,Object> objectMap = new HashMap<String, Object>();
+
         CommonDataVo vo = new CommonDataVo();
         try {
           // Map mockData =  DataBaseHandler.getInstance().getDataAll("mock");
             //List<Map> list = new ArrayList<Map>();
             List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
+            List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
             //list.add(mockData);
+            if(!CommonUtils.isEmpty(slaveTables)){
+                for(FormTable ft:slaveTables){
+                    if(ft.getNeedquery()!=null&&"1".equals(ft.getNeedquery())){
+                        String sTable = "select * from "+ft.getName()+" where formmain_id="+rdId;
+                        List<Map> slaveList = DataBaseHelper.executeQueryByNativeSQL(sTable);
+                        List<FormField> ffsList = ft.getFormFieldList();
+                        for(Map sdata:slaveList){
+                            for(FormField ff:ffsList){
+                                if(CommonUtils.isEmpty(ff.getBarcode())){
+                                    continue;
+                                }
+                                if("amount".equals(ff.getBarcode())){
+                                   Double ddd =  (Double)objectMap.get("amount");
+                                   if(ddd == null){
+                                       objectMap.put("amount",0d);
+                                       ddd=0d;
+                                   }
+                                   Double newddd = CommonUtils.getDouble(sdata.get(ff.getName()));
+                                    if(newddd!=null){
+                                        objectMap.put("amount",ddd+newddd);
+                                    }
+
+                                }
+                                if("remark".equals(ff.getBarcode())){
+                                    String oldRemark = ""+objectMap.get("remark");
+                                    if(CommonUtils.isEmpty(oldRemark)){
+                                        oldRemark = "";
+                                    }
+                                    if(sdata.get(ff.getName())!=null){
+                                        objectMap.put("remark",oldRemark+String.valueOf(sdata.get(ff.getName())));
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             DataParser dt = dataTransferService.getDataParaserByAffairType(afType);
 
             if (dt != null) {
                 KingDeeBill bill = genDefaultBill();
+
                 //field0018
                 //number
                 List<KingDeeBill> billList = new ArrayList<KingDeeBill>();
@@ -85,7 +132,26 @@ public class KingdeeWsService implements ServicePlugin {
                     bill = dt.parse(bill,data,ftd);
                     billList.add(bill);
                 }
-                System.out.println(JSON.toJSONString(billList));
+                if(!CommonUtils.isEmpty(objectMap)){
+                    for(String key:objectMap.keySet()){
+                        if("amount".equals(key)){
+                            Double amount = (Double)objectMap.get("amount");
+                            if(amount==null){
+                                amount = 0d;
+                            }
+                            bill.setAmount(amount);
+                            bill.setLocalAmt(amount);
+                            List<KingdeeEntry> entryList =  bill.getEntries();
+                            entryList.get(0).setAmount(amount);
+                            entryList.get(0).setLocalAmt(amount);
+                        }
+                        if("remark".equals(key)){
+                            bill.setDescription(objectMap.get("remark")+"");
+                        }
+                    }
+
+                }
+               // System.out.println(JSON.toJSONString(billList));
                 String ret =  provider.importBill(billList);
                // System.out.println(JSON.toJSONString(billList));
                 vo.setResult(true);

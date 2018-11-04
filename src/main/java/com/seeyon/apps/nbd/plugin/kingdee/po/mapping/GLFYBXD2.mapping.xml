@@ -58,8 +58,8 @@
 
 
 
-            <Field id="-7277089329241370741" name="field0068" display="借方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccount" />
-            <Field id="-3225778662370817963" name="field0066" display="贷方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="oppAccount" />
+            <Field id="-7277089329241370741" name="field0068" display="借方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="oppAccount" />
+            <Field id="-3225778662370817963" name="field0069" display="贷方科目编码1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccount" />
             <Field id="-4305770432658781100" name="field0067" display="银行账户编码" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="ws_wrapper" barcode="payerAccountBank" />
         </FieldList>
         <IndexList>
@@ -91,7 +91,7 @@
         <IndexList>
         </IndexList>
     </Table>
-    <Table id="7373739444795884367" name="formson_3741" display="组6" tabletype="slave" onwertable="formmain_3738" onwerfield="formmain_id">
+    <Table needquery="1" id="7373739444795884367" name="formson_3741" display="组6" tabletype="slave" onwertable="formmain_3738" onwerfield="formmain_id">
         <FieldList>
             <Field id="674788486441420281" name="field0027" display="核算科目一级名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>
             <Field id="4706039058182587121" name="field0028" display="核算科目二级名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname="" barcode=""/>

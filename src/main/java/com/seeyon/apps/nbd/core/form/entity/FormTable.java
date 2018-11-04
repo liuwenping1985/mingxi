@@ -13,10 +13,20 @@ public class FormTable {
     private String name;
     private String display;
     private String tabletype;
+    private String needquery;
     private String onwertable;
     private String onwerfield;
     private List<FormTable> slaveTableList = new ArrayList<FormTable>();
     private List<FormField> formFieldList = new ArrayList<FormField>();
+
+
+    public String getNeedquery() {
+        return needquery;
+    }
+
+    public void setNeedquery(String needquery) {
+        this.needquery = needquery;
+    }
 
     public Long getId() {
         return id;

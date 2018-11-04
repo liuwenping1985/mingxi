@@ -60,7 +60,7 @@ public final class DataTransferService {
 
                 }
             }
-            PrincipalManagerImpl pm;
+
            // System.out.println("jsonmap"+retData);
             bill = JSON.parseObject(JSON.toJSONString(retData),KingDeeBill.class);
             bill.setLocalAmt(bill.getAmount());
