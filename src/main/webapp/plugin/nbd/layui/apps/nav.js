@@ -1,48 +1,32 @@
-;(function(){
+;
+(function () {
 
-    $(document).ready(function(){
-        function show(linkContent){
+    $(document).ready(function () {
+        function show(linkContent) {
             $(".nbd_content").hide();
             $("#" + linkContent).show();
 
         }
         window.goPage = show;
-        $("#config_list_btn").click(function(){
+        $("#config_list_btn").click(function () {
 
-                show("link_config");
+            show("link_config");
         });
-         $("#a82other_list_btn").click(function () {
+        $("#a82other_list_btn").click(function () {
 
-                show("a82other");
-         });
-
-        $("#other2a8_list_btn").click(function(){
-
-               show("other2a8");
+            show("a82other");
         });
 
-         $("#log_list_btn").click(function () {
+        $("#other2a8_list_btn").click(function () {
 
-               show("log");
-         });
-         $("#data_link_create").click(function(){
-                show("link_create");
+            show("other2a8");
+        });
 
-         });
-          $("#data_link_update").click(function () {
-              var items = $(".data_link_selected");
-              $(items).each(function(index,item){
-                    console.log($(item).attr("checked"));
-              });
-          });
-         $("#data_link_delete").click(function () {
-              //show("link_create");
-              var items = $(".data_link_selected");
-              $(items).each(function (index, item) {
-                  console.log($(item).attr("checked"));
-              });
-          });
+        $("#log_list_btn").click(function () {
 
+            show("log");
+        });
+       
 
 
 
