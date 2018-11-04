@@ -2,7 +2,12 @@
 (function (exportObject) {
     var $ = exportObject.$;
     var data_link = {};
-
+    function renderForm() {
+            layui.use('form', function () {
+            var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()
+            form.render();
+        });
+    }
     function transDbType(dbType) {
         if (dbType == 0) {
             return "Mysql";
@@ -30,6 +35,8 @@
              <th>数据库名</th>
              */
             var htmls = [];
+            $("#a82other_data_link").html("");
+            $("#other2a8_data_link").html("");
             $(items).each(function (index, item) {
                 htmls.push("<tr class='data_link_row' >");
                 htmls.push("<td><input type='checkbox' value='" + item.id + "' class='data_link_selected' /> </td>");
@@ -41,10 +48,13 @@
                 htmls.push("<td>" + item.user + "</td>");
                 htmls.push("<td>" + item.dataBaseName + "</td>");
                 htmls.push("</tr>");
+                $("#a82other_data_link").append("<option value='" + item.id + "'>" + item.extString1 + "</option>")
+                $("#other2a8_data_link").append("<option value='" + item.id + "'>" + item.extString1 + "</option>")
+
 
             });
             tb.append(htmls.join(""));
-
+            renderForm();
         }
 
     }

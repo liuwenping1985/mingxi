@@ -193,18 +193,94 @@
                 <br>
                 <br>
                 <div class="layui-btn-group">
-                    <button id="a8_2_other_create" class="layui-btn layui-btn-sm">新建</button>
-                    <button id="a8_2_other_update" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
-                    <button id="da8_2_other_delete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+                    <button id="a82other_btn_create" class="layui-btn layui-btn-sm">新建</button>
+                    <button id="a82other_btn_update" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
+                    <button id="a82other_btn_delete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
                 </div>
+                <fieldset class="layui-elem-field">
+                    <legend>表单对接列表</legend>
+                    <div class="layui-field-box">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="40">
+                                <col width="150">
+                                <col width="200">
+                                <col width="150">
+                                <col width="150">
+
+                                <col width="">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>连接名称</th>
+                                    <th>触发机制</th>
+                                    <th>数据连接</th>
+                                    <th>数据对接方式</th>
+                                    <th>表单模板编号</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="a82other_list_body">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </fieldset>
             </div>
-            <div id="a82otherCreate" class="nbd_content" style="padding:15px;display:none">
+            <div id="a82other_create" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
                     <a href="">首页</a>
                     <a href="">数据转换</a>
                     <a><cite>A82other</cite></a>
                 </span>
+                <form class="layui-form" id="a82other_form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Other连接</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <select id="a82other_data_link" name="linkId" lay-verify="required">
+                                
+                               
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">传输方式</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <select name="exportType" lay-verify="required">
+                                    <option value="mid_table">中间表</option>
+                                    <!-- <option value="api">接口传输</option>
+                                    <option value="ws">WebService服务</option> -->
 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">A8表单模板编号</label>
+                        <div class="layui-input-inline">
+                            <input id="a82other_affair_type" type="text" name="affairType" required lay-verify="required" placeholder="请输入编号"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    
+
+                </form>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="a82other_submit">立即提交</button>
+                        <button class="layui-btn" style="display:none" id="a82other_update_submit">立即提交</button>
+                        <button class="layui-btn" id="a82other_return">返回</button>
+                        
+                    </div>
+                </div>
             </div>
             <div id="other2a8" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
@@ -215,18 +291,110 @@
                 <br>
                 <br>
                 <div class="layui-btn-group">
-                    <button id="other_2_a8_create" class="layui-btn layui-btn-sm">新建</button>
-                    <button id="other_2_a8_update" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
-                    <button id="other_2_a8_delete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+                    <button id="other2a8_btn_create" class="layui-btn layui-btn-sm">新建</button>
+                    <button id="other2a8_btn_update" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
+                    <button id="other2a8_btn_delete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
                 </div>
+                <fieldset class="layui-elem-field">
+                    <legend>表单对接列表</legend>
+                    <div class="layui-field-box">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="40">
+                                <col width="150">
+                                <col width="200">
+                                <col width="150">
+                                <col width="150">
+                
+                                <col width="">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>表单名称</th>
+                                    <th>触发机制</th>
+                                    <th>数据连接</th>
+                                    <th>数据对接方式</th>
+                                    <th>表单模板编号</th>
+                
+                                </tr>
+                            </thead>
+                            <tbody id="a82other_list_body">
+                
+                            </tbody>
+                        </table>
+                
+                    </div>
+                </fieldset>
             </div>
-            <div id="other2a8Create" class="nbd_content" style="padding:15px;display:none">
+            <div id="other2a8_create" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
                     <a href="">首页</a>
                     <a href="">数据转换</a>
                     <a><cite>Other2A8</cite></a>
                 </span>
+<form class="layui-form" id="other2a8_form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">连接名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="extString1" required lay-verify="required" placeholder="请输入名称" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">连接地址</label>
+        <div class="layui-input-inline">
+            <input type="text" name="host" required lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">IP地址</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">端口</label>
+        <div class="layui-input-inline">
+            <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数据库类型</label>
+        <div class="layui-input-block">
+            <select name="dbType" lay-verify="required">
+                <option value="0">Mysql</option>
+                <option value="1">Oracle</option>
+                <option value="2">SQLServer</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <input type="hidden" name="id" value />
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user" required lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数据库名</label>
+        <div class="layui-input-block">
+            <input type="text" name="dataBaseName" required lay-verify="required" placeholder="请输入数据库名" autocomplete="off"
+                class="layui-input">
+        </div>
+    </div>
 
+</form>
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button class="layui-btn" id="other2a8_submit">立即提交</button>
+        <button class="layui-btn" style="display:none" id="other2a8_update_submit">立即提交</button>
+        <button class="layui-btn" id="other2a8_return">返回</button>
+
+    </div>
+</div>
             </div>
             <div id="log" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
@@ -250,6 +418,7 @@
             var element = layui.element;
         });
         window.$ = $;
+       // window.layui = layui;
     </script>
     <script src="layui/apps/app.js"></script>
     <script src="layui/apps/nav.js"></script>

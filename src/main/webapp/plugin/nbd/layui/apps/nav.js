@@ -4,6 +4,7 @@
     $(document).ready(function () {
         function show(linkContent) {
             $(".nbd_content").hide();
+            
             $("#" + linkContent).show();
 
         }
