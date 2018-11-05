@@ -4,14 +4,20 @@ import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
+import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
+import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
+import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
+import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.apps.nbd.vo.A82Other;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
@@ -24,6 +30,7 @@ import com.seeyon.v3x.services.flow.FlowUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,6 +50,8 @@ public class ProcessEventHandler {
     private FormManager formManager;
 
     private DataBaseHandler handler = DataBaseHandler.getInstance();
+
+    private NbdService nbdService = new NbdService();
 
     public FormManager getFormManager() {
         if(this.formManager == null) {
@@ -94,11 +103,42 @@ public class ProcessEventHandler {
         try {
             String code = event.getTemplateCode();
             System.out.println("code:"+code);
+            if(CommonUtils.isEmpty(code)){
+                return;
+            }
           //  handler.get
+            CommonParameter p = new CommonParameter();
+            p.$("data_type", NbdConstant.A8_TO_OTHER);
+            NbdResponseEntity entity = nbdService.getDataList(p);
+            List<A82Other> list = entity.getItems();
+            for(A82Other other:list){
+                if(code.equals(other.getAffairType())){
+                    p.$("id",other.getId());
+                    entity = nbdService.getDataById(p);
+                    other = (A82Other)entity.getData();
+                    FormTable ft = other.getFtd().getFormTable();
+                    
+
+                }
+            }
             System.out.println("找不到中间表");
         } catch (BusinessException e) {
             e.printStackTrace();
         }
+
+    }
+    @ListenEvent(event = CollaborationStartEvent.class,async = true,mode = EventTriggerMode.afterCommit)
+    public void onStart(CollaborationStartEvent event) {
+        Long summaryId = event.getSummaryId();
+
+//        Long affairId = event.is
+//        CtpAffair ctpAffair = this.getAffairManager().get(affairId);
+//
+//        processEvent(summaryId,ctpAffair);
+//
+        System.out.println("-----onStepBack----");
+
+        // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 
     }
     @ListenEvent(event = CollaborationStepBackEvent.class,async = true,mode = EventTriggerMode.afterCommit)
