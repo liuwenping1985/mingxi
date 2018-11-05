@@ -136,10 +136,17 @@ public class KingdeeWsService implements ServicePlugin {
                     billList.add(bill);
                 }
                 if(!CommonUtils.isEmpty(entryList)){
+                    StringBuilder stb = new StringBuilder("");
                    List<KingdeeEntry> oldList = bill.getEntries();
                    if(!CommonUtils.isEmpty(oldList)){
                        KingdeeEntry olde = oldList.get(0);
+
+                        String desc = bill.getDescription();
+                        if(!CommonUtils.isEmpty(desc)){
+                            stb.append(desc);
+                        }
                        if(olde!=null){
+
                            for(KingdeeEntry ke:entryList){
                                if(ke.getOppAccount()==null){
                                    CommonKingDeeVo oldVo = olde.getOppAccount();
@@ -149,12 +156,18 @@ public class KingdeeWsService implements ServicePlugin {
 
                                }
                                ke.setOutBgItemNumber(olde.getOutBgItemNumber());
+                               String remark = ke.getRemark();
+                               if(!CommonUtils.isEmpty(remark)){
+                                   stb.append(remark).append("\n");
+                               }
+
                            }
 
                        }
 
                    }
                     bill.setEntries(entryList);
+                    bill.setDescription(stb.toString());
                 }
                 System.out.println(JSON.toJSONString(billList));
                 String ret =  provider.importBill(billList);
