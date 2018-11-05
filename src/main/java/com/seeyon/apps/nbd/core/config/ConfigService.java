@@ -22,12 +22,12 @@ public class ConfigService {
 
     }
     public static DataLink getA8DefaultDataLink(){
-        String url = getPropertyByName("local_db_url","localhost");
+        String url = getPropertyByName("local_db_url","192.168.1.98");
         String port = getPropertyByName("local_db_port","3306");
         String user = getPropertyByName("local_db_user","root");
-        String password = getPropertyByName("local_db_password","root");
+        String password = getPropertyByName("local_db_password","admin123!");
         String type = getPropertyByName("local_db_type","0");
-        String name = getPropertyByName("local_db_name","test");
+        String name = getPropertyByName("local_db_name","v61sp22");
 
        DataLink dl = new DataLink();
        dl.setDataBaseName(name);
