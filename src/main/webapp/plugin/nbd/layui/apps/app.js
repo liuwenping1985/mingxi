@@ -222,7 +222,31 @@
                 }
             }
         });
-
+    }
+    Dao.dbConsole = function (data_post, callBack, error_callback_) {
+        var url = "/seeyon/nbd.do?method=dbConsole";
+        var mock_url = "http://127.0.0.1:8080/seeyon/nbd/dbConsole";
+        if (openDebug) {
+            url = mock_url;
+        }
+        $.ajax({
+            url: url,
+            async: true, //同步方式发送请求，true为异步发送
+            data: data_post,
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (callBack) {
+                    callBack(data);
+                }
+            },
+            error: function (res) {
+                if (error_callback_) {
+                    error_callback_(res);
+                }
+            }
+        });
     }
     exportObject.Dao = Dao;
 })(window);

@@ -45,13 +45,27 @@
             });
             return data;
         }
-        function genTransferSelect(){
+        function genTransferSelect(fieldName) {
             var htmls=[];
             htmls.push("<select name='classname' >");
             htmls.push("<option value=''>默认不转换</option>");
-            htmls.push("<option value='id_2_org'>单位转编码</option>");
-            htmls.push("<option value='id_2_dept'>单位转编码</option>");
-            htmls.push("<option value='enum_2_org'>枚举转名称</option>");  
+            htmls.push("<option value='id_2_org_code'>单位转编码</option>");
+            htmls.push("<option value='id_2_org_name'>单位转名称</option>");
+            htmls.push("<option value='id_2_dept_code'>部门转编码</option>");
+            htmls.push("<option value='id_2_dept_name'>部门转名称</option>");
+            htmls.push("<option value='id_2_person_code'>人员转编码</option>");
+            htmls.push("<option value='id_2_person_name'>人员转名称</option>");
+            htmls.push("<option value='enum_2_name'>枚举转名称</option>");
+            htmls.push("<option value='enum_2_value'>枚举转枚举值</option>");
+            htmls.push("<option value='file_2_downlaod'>附件转http下载</option>");
+            htmls.push("</select>");
+            return htmls.join("");
+        }
+        function genIsExport(fieldName) {
+            var htmls = [];
+            htmls.push("<select name='" + fieldName + "_export' >");
+            htmls.push("<option value='1'>是</option>");
+            htmls.push("<option value='0'>否</option>");
             htmls.push("</select>");
             return htmls.join("");
         }
@@ -59,7 +73,6 @@
             var data = getFormSubmitData();
             Dao.getFormByTemplateNumber(data, function (ret) {
                 var formTable = ret.data.formTable;
-                $("#a82other_form_table").html("主表名称:" + formTable.name);
                 $("#a82other_field_list_body").html("");
                 
                 var fieldList = formTable.formFieldList;
@@ -69,12 +82,29 @@
                      htmls.push("<td>"+item.name+"</td>");
                      htmls.push("<td>"+item.display+"</td>");
                      htmls.push("<td>" + item.fieldtype + "</td>");
+                     htmls.push("<td>主表(" + formTable.name + ")</td>");
+                     htmls.push("<td>" + genIsExport() + "</td>");
                      htmls.push("<td>" + genTransferSelect ()+ "</td>");
                      htmls.push("<td><input name='ws' /></td>");
-                     
                      htmls.push("</tr>")
-                   
                 });
+                var slt = formTable.slaveTableList;
+                for(var t=0;t<slt.length;t++){
+                    var slvaeTable = slt[t];
+                    var slvaeTableFieldList = slvaeTable.formFieldList;
+                    $(slvaeTableFieldList).each(function (index, item) {
+                        htmls.push("<tr style='color:rgb(253,99,71)'>");
+                        htmls.push("<td>" + item.name + "</td>");
+                        htmls.push("<td>" + item.display + "</td>");
+                        htmls.push("<td>" + item.fieldtype + "</td>");
+                        htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
+                        htmls.push("<td>" + genIsExport() + "</td>");
+                        htmls.push("<td>" + genTransferSelect() + "</td>");
+                        htmls.push("<td><input name='ws' /></td>");
+                        htmls.push("</tr>")
+                    });
+
+                }
                 $("#a82other_field_list_body").html(htmls.join(""));
                 renderForm();
             });

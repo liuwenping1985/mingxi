@@ -47,6 +47,7 @@
                 htmls.push("<td>" + transDbType(item.dbType) + "</td>");
                 htmls.push("<td>" + item.user + "</td>");
                 htmls.push("<td>" + item.dataBaseName + "</td>");
+                htmls.push("<td><button data_value='" + item.id + "' class='sql_query_btn layui-btn layui-btn-danger layui-btn-sm'>在线查询</button></td>");
                 htmls.push("</tr>");
                 $("#a82other_data_link").append("<option value='" + item.id + "'>" + item.extString1 + "</option>")
                 $("#other2a8_data_link").append("<option value='" + item.id + "'>" + item.extString1 + "</option>")
@@ -55,6 +56,76 @@
             });
             tb.append(htmls.join(""));
             renderForm();
+            $(".sql_query_btn").click(function(e){
+                var target = e.target;
+                var val = $(target).attr("data_value");
+                //alert(val);
+                $(".sql_data_link_id").val(val);
+                var layer = layui.layer;
+                 /* 再弹出添加界面 */
+                 layer.open({
+                     type: 1,
+                     title: "在线查询(当前版本只支持select)",
+                     skin: "myclass",
+                     area: ["100%"],
+                     content: $("#sql_console").html()
+                 });
+                 $(".sql_btn").click(function(e){
+                     var tar_ = $(e.target).parent();
+                     var data_link_id = tar_.find(".sql_data_link_id").val();
+                     var sql = tar_.find(".sql_input").val();
+                     var retContainer = tar_.find(".sql_result");
+                     retContainer.html("");
+                    Dao.dbConsole({
+                        linkId: data_link_id,
+                        sql:sql
+                    },function(data){
+                        if(data.result){
+                            var items = data.items;
+                            if(items.length>0){
+                                var sampleCol = [];
+                                var example = items[0];
+                                for(var p in example){
+                                    sampleCol.push(p);
+                                }
+                                var len = sampleCol.length;
+                                var htmls =[];
+                                htmls.push('<table class="layui-table">');
+                                htmls.push('<colgroup>');
+                                for(var k=0;k<len;k++){
+                                  htmls.push("<col>");
+                                }
+                                htmls.push('</colgroup>');
+                                htmls.push('<thead><tr>');
+                                for (var k = 0; k < len; k++) {
+                                    htmls.push("<th>" + sampleCol[k]+ "</th>");
+                                }
+                                htmls.push('</tr></thead>');
+                                htmls.push('<tbody>');
+                                $(items).each(function(index,item){
+                                    htmls.push('<tr>');
+                                    for(var m=0;m<len;m++){
+                                          htmls.push('<td>' + item[sampleCol[m]] + '</td>');
+                                    }
+                                    htmls.push('</tr>');
+                                });
+                                htmls.push('</tbody>');
+                                
+                                htmls.push('</table>');
+                                retContainer.html(htmls.join(""));
+                            }else{
+                                retContainer.html("没有结果");
+                            }
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                        
+
+                    });
+
+                 });
+                
+            });
         }
 
     }
@@ -119,7 +190,7 @@
         $("#data_link_delete").click(function () {
             //show("link_create");
             var items = $(".data_link_selected");
-            console.log(items);
+            //console.log(items);
             $(items).each(function (index, item) {
                 var target = $(item);
                 if (target.is(':checked')) {
@@ -128,7 +199,7 @@
                     Dao.delete("data_link", {
                         id: _id
                     }, function (data2) {
-                        console.log(data2);
+                      //  console.log(data2);
                         if (!data2.result) {
                             alert("删除失败");
                         } else {
@@ -160,7 +231,7 @@
             });
             // console.log(data);
             Dao.update("data_link", data, function (ret) {
-                console.log(ret);
+                //console.log(ret);
                 Dao.getList("data_link", function (data2) {
                     $(".nbd_content").hide();
                     $("#link_config").show();
@@ -179,7 +250,7 @@
             });
             // console.log(data);
             Dao.add("data_link", data, function (ret) {
-                console.log(ret);
+                //console.log(ret);
                 Dao.getList("data_link", function (data2) {
                     $(".nbd_content").hide();
                     $("#link_config").show();
