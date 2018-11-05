@@ -235,6 +235,7 @@
                     <a href="">数据转换</a>
                     <a><cite>A82other</cite></a>
                 </span>
+                
                 <form class="layui-form" id="a82other_form" action="">
                     <div class="layui-form-item">
                         <label class="layui-form-label">Other连接</label>
@@ -259,15 +260,57 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">A8表单模板编号</label>
                         <div class="layui-input-inline">
-                            <input id="a82other_affair_type" type="text" name="affairType" required lay-verify="required" placeholder="请输入编号"
-                                autocomplete="off" class="layui-input">
+                            <select id="a82other_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect">
+                                <!-- <option value="api">接口传输</option>
+                                <option value="ws">WebService服务</option> -->
+                            
+                            </select>
+                            
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label"></label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口"
-                                autocomplete="off" class="layui-input">
+                        <div class="layui-input-inline" style="width:75%">
+                            <fieldset class="layui-elem-field">
+                                <legend>表单字段映射</legend>
+                                <div >
+                                    <label id="a82other_form_table" style="width:180px" class="layui-form-label">主表名称</label>
+                                    <div class="layui-input-inline">
+                                       
+                                           
+                                       
+                                    
+                                    </div>
+                                </div>
+                                <div class="layui-field-box">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                            
+                                            
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>字段</th>
+                                                <th>字段显示名称</th>
+                                                <th>字段类型</th>
+                                                <th>转换方式</th>
+                                                <th>other字段</th>
+                                
+                            
+                                            </tr>
+                                        </thead>
+                                        <tbody id="a82other_field_list_body">
+                            
+                                        </tbody>
+                                    </table>
+                            
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
                     
@@ -334,57 +377,7 @@
                     <a><cite>Other2A8</cite></a>
                 </span>
 <form class="layui-form" id="other2a8_form" action="">
-    <div class="layui-form-item">
-        <label class="layui-form-label">连接名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="extString1" required lay-verify="required" placeholder="请输入名称" autocomplete="off"
-                class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">连接地址</label>
-        <div class="layui-input-inline">
-            <input type="text" name="host" required lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">IP地址</div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">端口</label>
-        <div class="layui-input-inline">
-            <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口" autocomplete="off"
-                class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">数据库类型</label>
-        <div class="layui-input-block">
-            <select name="dbType" lay-verify="required">
-                <option value="0">Mysql</option>
-                <option value="1">Oracle</option>
-                <option value="2">SQLServer</option>
-            </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <input type="hidden" name="id" value />
-        <label class="layui-form-label">用户名</label>
-        <div class="layui-input-inline">
-            <input type="text" name="user" required lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
-        <div class="layui-input-block">
-            <input type="password" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">数据库名</label>
-        <div class="layui-input-block">
-            <input type="text" name="dataBaseName" required lay-verify="required" placeholder="请输入数据库名" autocomplete="off"
-                class="layui-input">
-        </div>
-    </div>
+    
 
 </form>
 <div class="layui-form-item">
@@ -450,6 +443,23 @@
                 $(".nbd_content").hide();
                 $("#link_config").show();
                 DataLink.renderList(ret);
+            });
+            Dao.getTemplateNumber({},function(data){
+                if(data &&data.result&&data.items){
+                    var items = data.items;
+                    $(items).each(function(index,item){
+                        var nno = item.templete_number;
+                        if(nno){
+                            $("#a82other_affair_type").append("<option value='"+ nno+"'>"+ nno+"("+item.subject+")</option>");
+                        }
+                        layui.use('form', function () {
+                            var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()
+                            form.render();
+                        });
+                    });
+                    
+                }
+                
             });
         });
     </script>

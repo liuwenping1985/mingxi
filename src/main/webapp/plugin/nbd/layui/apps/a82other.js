@@ -2,6 +2,13 @@
 (function (exportObject) {
     var $ = exportObject.$;
     var A82OTHER = {};
+
+    function renderForm() {
+        layui.use('form', function () {
+            var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()
+            form.render();
+        });
+    }
     A82OTHER.renderList = function (ret) {
 
         var tb = $("#a82other_list_body");
@@ -28,7 +35,7 @@
 
     }
     $(document).ready(function () {
-        function getFormSubmitData(){
+        function getFormSubmitData() {
             var str = $("#a82other_form").serialize();
             var spp = str.split("&");
             var data = {};
@@ -38,10 +45,46 @@
             });
             return data;
         }
+        function genTransferSelect(){
+            var htmls=[];
+            htmls.push("<select name='classname' >");
+            htmls.push("<option value=''>默认不转换</option>");
+            htmls.push("<option value='id_2_org'>单位转编码</option>");
+            htmls.push("<option value='id_2_dept'>单位转编码</option>");
+            htmls.push("<option value='enum_2_org'>枚举转名称</option>");  
+            htmls.push("</select>");
+            return htmls.join("");
+        }
+        function renderFieldMapping() {
+            var data = getFormSubmitData();
+            Dao.getFormByTemplateNumber(data, function (ret) {
+                var formTable = ret.data.formTable;
+                $("#a82other_form_table").html("主表名称:" + formTable.name);
+                $("#a82other_field_list_body").html("");
+                
+                var fieldList = formTable.formFieldList;
+                var htmls=[];
+                $(fieldList).each(function(index,item){
+                    htmls.push("<tr>");
+                     htmls.push("<td>"+item.name+"</td>");
+                     htmls.push("<td>"+item.display+"</td>");
+                     htmls.push("<td>" + item.fieldtype + "</td>");
+                     htmls.push("<td>" + genTransferSelect ()+ "</td>");
+                     htmls.push("<td><input name='ws' /></td>");
+                     
+                     htmls.push("</tr>")
+                   
+                });
+                $("#a82other_field_list_body").html(htmls.join(""));
+                
+            });
+
+        }
         $("#a82other_btn_create").click(function () {
             $("#a82otherupdate_submit").hide();
             $("#a82other_submit").show();
             goPage("a82other_create");
+            renderFieldMapping();
 
         });
         $("#a82other_btn_update").click(function () {
@@ -97,7 +140,7 @@
             });
             // console.log(data);
             Dao.update("a82other", data, function (ret) {
-                console.log(ret);
+                // console.log(ret);
                 Dao.getList("a82other", function (data2) {
                     $(".nbd_content").hide();
                     $("#link_config").show();
@@ -105,14 +148,15 @@
                 });
             });
         });
-        $("#a82other_affair_type").change(function(e){
-                var data = getFormSubmitData();
-                Dao.getFormByTemplateNumber(data, function (data) {
-                        console.log(data);
-
-                });
+        var form = layui.form;
+        form.on('select(affairTypeSelect)', function (data) {
+            renderFieldMapping();
 
         });
+        // $("#a82other_affair_type").change(function (e) {
+
+
+        // });
 
         $("#a82other_submit").click(function () {
 
