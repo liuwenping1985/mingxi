@@ -71,7 +71,7 @@ public class KingdeeWsService implements ServicePlugin {
         FormTableDefinition ftd = this.getFormTableDefinition(afType);
         String sql = ftd.genQueryById(Long.parseLong(rdId));
         System.out.println("sql:" + sql);
-        Map<String,Object> objectMap = new HashMap<String, Object>();
+        List<KingdeeEntry> entryList = new ArrayList<KingdeeEntry>();
 
         CommonDataVo vo = new CommonDataVo();
         try {
@@ -87,29 +87,32 @@ public class KingdeeWsService implements ServicePlugin {
                         List<Map> slaveList = DataBaseHelper.executeQueryByNativeSQL(sTable);
                         List<FormField> ffsList = ft.getFormFieldList();
                         for(Map sdata:slaveList){
+                            KingdeeEntry entry = new KingdeeEntry();
+                            entryList.add(entry);
                             for(FormField ff:ffsList){
                                 if(CommonUtils.isEmpty(ff.getBarcode())){
                                     continue;
                                 }
                                 if("amount".equals(ff.getBarcode())){
-                                   Double ddd =  (Double)objectMap.get("amount");
-                                   if(ddd == null){
-                                       objectMap.put("amount",0d);
-                                       ddd=0d;
-                                   }
+
                                    Double newddd = CommonUtils.getDouble(sdata.get(ff.getName()));
                                     if(newddd!=null){
-                                        objectMap.put("amount",ddd+newddd);
+                                        entry.setAmount(newddd);
+                                        entry.setLocalAmt(newddd);
+                                    }
+
+                                }
+                                if("oppAccount".equals(ff.getBarcode())){
+                                    Object code = sdata.get(ff.getName());
+                                    if(code!=null){
+                                        entry.setOppAccount(new CommonKingDeeVo(String.valueOf(code)));
                                     }
 
                                 }
                                 if("remark".equals(ff.getBarcode())){
-                                    String oldRemark = ""+objectMap.get("remark");
-                                    if(CommonUtils.isEmpty(oldRemark)){
-                                        oldRemark = "";
-                                    }
-                                    if(sdata.get(ff.getName())!=null){
-                                        objectMap.put("remark",oldRemark+String.valueOf(sdata.get(ff.getName())));
+                                    Object oldRemark  = sdata.get(ff.getName());
+                                    if(oldRemark!=null){
+                                        entry.setRemark(String.valueOf(oldRemark));
                                     }
 
                                 }
@@ -132,24 +135,26 @@ public class KingdeeWsService implements ServicePlugin {
                     bill = dt.parse(bill,data,ftd);
                     billList.add(bill);
                 }
-                if(!CommonUtils.isEmpty(objectMap)){
-                    for(String key:objectMap.keySet()){
-                        if("amount".equals(key)){
-                            Double amount = (Double)objectMap.get("amount");
-                            if(amount==null){
-                                amount = 0d;
-                            }
-                            bill.setAmount(amount);
-                            bill.setLocalAmt(amount);
-                            List<KingdeeEntry> entryList =  bill.getEntries();
-                            entryList.get(0).setAmount(amount);
-                            entryList.get(0).setLocalAmt(amount);
-                        }
-                        if("remark".equals(key)){
-                            bill.setDescription(objectMap.get("remark")+"");
-                        }
-                    }
+                if(!CommonUtils.isEmpty(entryList)){
+                   List<KingdeeEntry> oldList = bill.getEntries();
+                   if(!CommonUtils.isEmpty(oldList)){
+                       KingdeeEntry olde = oldList.get(0);
+                       if(olde!=null){
+                           for(KingdeeEntry ke:entryList){
+                               if(ke.getOppAccount()==null){
+                                   CommonKingDeeVo oldVo = olde.getOppAccount();
+                                   if(oldVo!=null){
+                                       ke.setOppAccount(new CommonKingDeeVo(oldVo.getNumber()));
+                                   }
 
+                               }
+                               ke.setOutBgItemNumber(olde.getOutBgItemNumber());
+                           }
+
+                       }
+
+                   }
+                    bill.setEntries(entryList);
                 }
                 System.out.println(JSON.toJSONString(billList));
                 String ret =  provider.importBill(billList);

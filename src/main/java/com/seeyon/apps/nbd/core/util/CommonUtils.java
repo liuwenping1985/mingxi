@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.core.util;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
+import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
@@ -162,6 +163,17 @@ public class CommonUtils {
 
         }
         return obj;
+    }
+    public static String getOrgAccountById(Object id){
+       Long aId = getLong(id);
+        try {
+            V3xOrgAccount account = getOrgManager().getAccountById(aId);
+            return account.getName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
     public static Object getOrgValueByDeptIdAndType(Object obj,int type){
 

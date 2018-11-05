@@ -114,10 +114,21 @@ public final class DataTransferService {
         }
         if(clsName.equals("ws_wrapper_dept_company")){
             Object val =  getFromLocal(clsName,obj);
+
+
             return new CommonKingDeeVo(String.valueOf(val));
         }
         if(clsName.contains("ws_wrapper_local")){
             Object val =  getFromLocal(clsName,obj);
+            if(obj.equals(val)){
+                Object name = CommonUtils.getEnumShowValue(obj);
+
+                if(name!=null){
+                    Object val2 =  getFromLocal(clsName,name);
+                    val = val2;
+                }
+
+            }
             return new CommonKingDeeVo(String.valueOf(val));
         }
         if(clsName.contains("ws_local")){
