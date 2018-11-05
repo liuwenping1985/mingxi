@@ -27,6 +27,7 @@
         var items = ret.items;
         // console.log(items);
         if (items && items.length > 0) {
+            DataLink.DL = items;
             /**
              * <th>连接名称</th>
              <th>地址</th>
@@ -168,7 +169,17 @@
                         if (data2.result) {
                             var data = data2.data;
                             var forms = $("#data_link_form input");
+                            var forms2 = $("#data_link_form select");
                             $(forms).each(function (index, item) {
+                                var name = $(item).attr("name");
+                                if (name) {
+                                    var val_ = data[name];
+                                    if (val_ != undefined) {
+                                        $(item).val(val_);
+                                    }
+                                }
+                            });
+                            $(forms2).each(function (index, item) {
                                 var name = $(item).attr("name");
                                 if (name) {
                                     var val_ = data[name];

@@ -9,6 +9,41 @@
             form.render();
         });
     }
+    var temp_no_contatiner = [];
+
+    function transLink(linkId) {
+        if (DataLink.DL) {
+            for (var p = 0; p < DataLink.DL.length; p++) {
+                if (linkId == DataLink.DL[p].id) {
+                    return DataLink.DL[p].extString1;
+                }
+            }
+        }
+        var logs = $("#a82other_affair_type option");
+        console.log(logs);
+        return linkId;
+    }
+
+    function transExportType(exportType) {
+        if ("mid_table" == exportType) {
+            return "中间表";
+        }
+        return exportType;
+    }
+
+    function transTriggerType(exportType) {
+        if ("process_start" == exportType) {
+            return "流程开始";
+        }
+        if ("process_end" == exportType) {
+            return "流程结束";
+        }
+        return exportType;
+    }
+
+    function transTN(affairType) {
+        return affairType;
+    }
     A82OTHER.renderList = function (ret) {
 
         var tb = $("#a82other_list_body");
@@ -20,13 +55,13 @@
             $(items).each(function (index, item) {
                 htmls.push("<tr class='a82other_row' >");
                 htmls.push("<td><input type='checkbox' value='" + item.id + "' class='a82other_selected' /> </td>");
-                htmls.push("<td>" + item.extString1 + "</td>");
-                htmls.push("<td>" + item.host + "</td>");
-                htmls.push("<td>" + item.extString2 + "</td>");
+                htmls.push("<td>" + item.name + "</td>");
+                htmls.push("<td>" + transLink(item.linkId) + "</td>");
+                htmls.push("<td>" + transExportType(item.exportType) + "</td>");
 
-                htmls.push("<td>" + item.dbType + "</td>");
-                htmls.push("<td>" + item.user + "</td>");
-                htmls.push("<td>" + item.dataBaseName + "</td>");
+                htmls.push("<td>" + transTriggerType(item.triggerType) + "</td>");
+                htmls.push("<td>" + transTN(item.affairType) + "</td>");
+
                 htmls.push("</tr>");
 
             });
@@ -45,8 +80,9 @@
             });
             return data;
         }
+
         function genTransferSelect(fieldName) {
-            var htmls=[];
+            var htmls = [];
             htmls.push("<select name='" + fieldName + "_classname' >");
             htmls.push("<option value=''>默认不转换</option>");
             htmls.push("<option value='id_2_org_code'>单位转编码</option>");
@@ -61,6 +97,7 @@
             htmls.push("</select>");
             return htmls.join("");
         }
+
         function genIsExport(fieldName) {
             var htmls = [];
             htmls.push("<select name='" + fieldName + "_export' >");
@@ -69,49 +106,55 @@
             htmls.push("</select>");
             return htmls.join("");
         }
+
+        function renderFormTable(formTable) {
+            $("#a82other_field_list_body").html("");
+
+            var fieldList = formTable.formFieldList;
+            var htmls = [];
+            $(fieldList).each(function (index, item) {
+                htmls.push("<tr>");
+                htmls.push("<td>" + item.name + "</td>");
+                htmls.push("<td>" + item.display + "</td>");
+                htmls.push("<td>" + item.fieldtype + "</td>");
+                htmls.push("<td>主表(" + formTable.name + ")</td>");
+                htmls.push("<td>" + genIsExport(item.name) + "</td>");
+                htmls.push("<td>" + genTransferSelect(item.name) + "</td>");
+                htmls.push("<td><input name='" + item.name + "_ws' /></td>");
+                htmls.push("</tr>")
+            });
+            var slt = formTable.slaveTableList;
+            for (var t = 0; t < slt.length; t++) {
+                var slvaeTable = slt[t];
+                var slvaeTableFieldList = slvaeTable.formFieldList;
+                $(slvaeTableFieldList).each(function (index, item) {
+                    htmls.push("<tr style='color:rgb(253,99,71)'>");
+                    htmls.push("<td>" + item.name + "</td>");
+                    htmls.push("<td>" + item.display + "</td>");
+                    htmls.push("<td>" + item.fieldtype + "</td>");
+                    htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
+                    htmls.push("<td>" + genIsExport(item.name, item.export) + "</td>");
+                    htmls.push("<td>" + genTransferSelect(item.name, item.classname) + "</td>");
+                    htmls.push("<td><input name='" + item.name + "ws' />" + item.barCode+ "</td>");
+                    htmls.push("</tr>")
+                });
+
+            }
+            $("#a82other_field_list_body").html(htmls.join(""));
+            renderForm();
+
+        }
+
         function renderFieldMapping() {
             var data = getFormSubmitData();
             Dao.getFormByTemplateNumber(data, function (ret) {
                 var formTable = ret.data.formTable;
-                $("#a82other_field_list_body").html("");
-                
-                var fieldList = formTable.formFieldList;
-                var htmls=[];
-                $(fieldList).each(function(index,item){
-                    htmls.push("<tr>");
-                     htmls.push("<td>"+item.name+"</td>");
-                     htmls.push("<td>"+item.display+"</td>");
-                     htmls.push("<td>" + item.fieldtype + "</td>");
-                     htmls.push("<td>主表(" + formTable.name + ")</td>");
-                     htmls.push("<td>" + genIsExport(item.name) + "</td>");
-                     htmls.push("<td>" + genTransferSelect(item.name) + "</td>");
-                     htmls.push("<td><input name='" + item.name + "_ws' /></td>");
-                     htmls.push("</tr>")
-                });
-                var slt = formTable.slaveTableList;
-                for(var t=0;t<slt.length;t++){
-                    var slvaeTable = slt[t];
-                    var slvaeTableFieldList = slvaeTable.formFieldList;
-                    $(slvaeTableFieldList).each(function (index, item) {
-                        htmls.push("<tr style='color:rgb(253,99,71)'>");
-                        htmls.push("<td>" + item.name + "</td>");
-                        htmls.push("<td>" + item.display + "</td>");
-                        htmls.push("<td>" + item.fieldtype + "</td>");
-                        htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
-                        htmls.push("<td>" + genIsExport(item.name) + "</td>");
-                        htmls.push("<td>" + genTransferSelect(item.name) + "</td>");
-                        htmls.push("<td><input name='ws' /></td>");
-                        htmls.push("</tr>")
-                    });
-
-                }
-                $("#a82other_field_list_body").html(htmls.join(""));
-                renderForm();
+                renderFormTable(formTable);
             });
 
         }
         $("#a82other_btn_create").click(function () {
-            $("#a82otherupdate_submit").hide();
+            $("#a82other_update_submit").hide();
             $("#a82other_submit").show();
             goPage("a82other_create");
             renderFieldMapping();
@@ -129,6 +172,7 @@
                         if (data2.result) {
                             var data = data2.data;
                             var forms = $("#a82other_form input");
+                            var forms2 = $("#a82other_form select");
                             $(forms).each(function (index, item) {
                                 var name = $(item).attr("name");
                                 if (name) {
@@ -138,6 +182,16 @@
                                     }
                                 }
                             });
+                            $(forms2).each(function (index, item) {
+                                var name = $(item).attr("name");
+                                if (name) {
+                                    var val_ = data[name];
+                                    if (val_ != undefined) {
+                                        $(item).val(val_);
+                                    }
+                                }
+                            });
+                            renderForm();
                             goPage("a82other_create");
                             $("#a82other_update_submit").show();
                             $("#a82other_submit").hide();
@@ -212,6 +266,6 @@
 
     });
 
-window.A82OTHER = A82OTHER;
+    window.A82OTHER = A82OTHER;
 
 })(window);

@@ -234,10 +234,10 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>连接名称</th>
-                                    <th>触发机制</th>
-                                    <th>数据连接</th>
-                                    <th>数据对接方式</th>
+                                    <th>名称</th>
+                                    <th>Other连接</th>
+                                    <th>传输方式</th>
+                                    <th>触发方式</th>
                                     <th>表单模板编号</th>
 
                                 </tr>
@@ -492,6 +492,7 @@
             Dao.getTemplateNumber({}, function (data) {
                 if (data && data.result && data.items) {
                     var items = data.items;
+                    A82OTHER.TN = items;
                     $(items).each(function (index, item) {
                         var nno = item.templete_number;
                         if (nno) {

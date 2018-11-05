@@ -46,6 +46,7 @@
                         if (data2.result) {
                             var data = data2.data;
                             var forms = $("#other2a8_form input");
+                            var forms2 = $("#other2a8_form select");
                             $(forms).each(function (index, item) {
                                 var name = $(item).attr("name");
                                 if (name) {
@@ -55,6 +56,16 @@
                                     }
                                 }
                             });
+                            $(forms2).each(function (index, item) {
+                                var name = $(item).attr("name");
+                                if (name) {
+                                    var val_ = data[name];
+                                    if (val_ != undefined) {
+                                        $(item).val(val_);
+                                    }
+                                }
+                            });
+                            renderForm();
                             goPage("other2a8_create");
                             $("#other2a8_update_submit").show();
                             $("#other2a8_submit").hide();
