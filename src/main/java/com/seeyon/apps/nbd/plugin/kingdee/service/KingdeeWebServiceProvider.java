@@ -17,7 +17,7 @@ public class KingdeeWebServiceProvider {
 
         String userName = ConfigService.getPropertyByName("eas_user_name","user");
 
-        String password = ConfigService.getPropertyByName("eas_user_password","");
+        String password = ConfigService.getPropertyByName("eas_user_password","GD~<>123456");
 
         EASLoginProxyServiceLocator loginLocator = new EASLoginProxyServiceLocator();
 
@@ -25,8 +25,9 @@ public class KingdeeWebServiceProvider {
 
 
             EASLoginProxy loginProxy =  loginLocator.getEASLogin();
+           // WSContext wsContext = loginProxy.login(userName, password, "eas", "G004", "L2", 1);
 
-            WSContext wsContext = loginProxy.login(userName, password, "eas", "G004", "L2", 1);
+            WSContext wsContext = loginProxy.login(userName, password, "eas", "GDAS", "L2", 1);
 
             System.out.println("------ 登陆成功，SessionID：" + wsContext.getSessionId());
             return wsContext;
