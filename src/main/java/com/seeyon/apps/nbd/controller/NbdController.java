@@ -48,6 +48,18 @@ public class NbdController extends BaseController{
 
     }
     @NeedlessCheckLogin
+    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response){
+        CommonParameter p = CommonParameter.parseParameter(request);
+        String page = p.$("page");
+        if(page == null){
+            page = "index";
+        }
+        ModelAndView mav = new ModelAndView("apps/nbd/"+page);
+
+        return mav;
+
+    }
+    @NeedlessCheckLogin
     public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
