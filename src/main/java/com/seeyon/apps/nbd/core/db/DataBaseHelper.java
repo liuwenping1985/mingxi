@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.core.db;
 
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
 import com.seeyon.apps.nbd.vo.DataLink;
+import com.seeyon.ctp.util.JDBCAgent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,16 +20,16 @@ import java.util.Map;
 public final class DataBaseHelper {
 
     public static List<Map> executeQueryByNativeSQL(String sql) throws Exception {
-//        JDBCAgent jdbc = new JDBCAgent();
-//        try {
-//            jdbc.execute(sql.toString());
-//             List<Map> list =  jdbc.resultSetToList();
-//            return list;
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }finally {
-//            jdbc.close();
-//        }
+        JDBCAgent jdbc = new JDBCAgent();
+        try {
+            jdbc.execute(sql.toString());
+             List<Map> list =  jdbc.resultSetToList();
+            return list;
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            jdbc.close();
+        }
        return new ArrayList<Map>();
 
     }
@@ -165,7 +166,7 @@ public final class DataBaseHelper {
                 String var5 = sb.toString();
                 return var5;
             } catch (IOException var14) {
-                throw new SQLException(var14.getMessage(), var14);
+                throw new RuntimeException(var14.getMessage(), var14);
             } finally {
                 try {
                     br.close();
