@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>A82Other配置管理后台</title>
-    <link rel="stylesheet" href="/seeyon/apps_res/nbd/ayui/css/layui.css">
+    <link rel="stylesheet" href="/seeyon/apps_res/nbd/layui/css/layui.css">
 </head>
 
 <body class="layui-layout-body">
@@ -584,7 +584,7 @@
     </script>
     <script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
-    <script src="/seeyon/apps_res/nbd//seeyon/apps_res/nbd/ayui/apps/data_link.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/a82other.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/other2a8.js"></script>
     <script>

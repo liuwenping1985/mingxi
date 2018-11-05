@@ -1,7 +1,7 @@
 ;
 (function (exportObject) {
     var $ = exportObject.$;
-    var openDebug = true;
+    var openDebug = false;
 
     var _getList = function (data_type, callback_, error_callback_) {
         var url = "/seeyon/nbd.do?method=getDataList&data_type=" + data_type;
