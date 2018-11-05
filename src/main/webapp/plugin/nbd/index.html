@@ -77,9 +77,9 @@
                 <br>
                 <br>
                 <div class="layui-btn-group">
-                    <button id="data_link_create" class="layui-btn layui-btn-sm">新建</button>
-                    <button id="data_link_update" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
-                    <button id="data_link_delete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+                    <button id="data_link_create" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe654;</i>新建</button>
+                    <button id="data_link_update" class="layui-btn layui-btn-normal layui-btn-sm"><i class='layui-icon'>&#xe642;</i>编辑</button>
+                    <button id="data_link_delete" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon">&#xe640;</i>删除</button>
                 </div>
                 <fieldset class="layui-elem-field">
                     <legend>配置列表</legend>
@@ -183,6 +183,12 @@
                 </div>
 
             </div>
+            <!-- 需要弹出的添加员工界面 -->
+            <div class="layui-row" id="test" style="display: none;">
+                <div class="layui-col-md10">
+                    
+                </div>
+            </div>
 
             <div id="a82other" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
@@ -193,9 +199,9 @@
                 <br>
                 <br>
                 <div class="layui-btn-group">
-                    <button id="a82other_btn_create" class="layui-btn layui-btn-sm">新建</button>
-                    <button id="a82other_btn_update" class="layui-btn layui-btn-normal layui-btn-sm">编辑</button>
-                    <button id="a82other_btn_delete" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+                    <button id="a82other_btn_create" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe654;</i>新建</button>
+                    <button id="a82other_btn_update" class="layui-btn layui-btn-normal layui-btn-sm"><i class='layui-icon'>&#xe642;</i>编辑</button>
+                    <button id="a82other_btn_delete" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon">&#xe640;</i>删除</button>
                 </div>
                 <fieldset class="layui-elem-field">
                     <legend>表单对接列表</legend>
@@ -235,23 +241,23 @@
                     <a href="">数据转换</a>
                     <a><cite>A82other</cite></a>
                 </span>
-                
+
                 <form class="layui-form" id="a82other_form" action="">
                     <div class="layui-form-item">
                         <label class="layui-form-label">Other连接</label>
                         <div class="layui-input-block" style="width:300px">
                             <select id="a82other_data_link" name="linkId" lay-verify="required">
-                                
-                               
+
+
                             </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">传输方式</label>
-                        <div class="layui-input-block" style="width:300px">
+                        <div class="layui-input-inline" style="width:300px">
                             <select name="exportType" lay-verify="required">
-                                    <option value="mid_table">中间表</option>
-                                    <!-- <option value="api">接口传输</option>
+                                <option value="mid_table">中间表</option>
+                                <!-- <option value="api">接口传输</option>
                                     <option value="ws">WebService服务</option> -->
 
                             </select>
@@ -266,7 +272,7 @@
                                 <option value="process_end">流程结束</option>
                                 <!-- <option value="api">接口传输</option>
                                                         <option value="ws">WebService服务</option> -->
-                    
+
                             </select>
                         </div>
                     </div>
@@ -276,9 +282,9 @@
                             <select id="a82other_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect">
                                 <!-- <option value="api">接口传输</option>
                                 <option value="ws">WebService服务</option> -->
-                            
+
                             </select>
-                            
+
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -286,13 +292,13 @@
                         <div class="layui-input-inline" style="width:75%">
                             <fieldset class="layui-elem-field">
                                 <legend>表单字段映射</legend>
-                                <div >
+                                <div>
                                     <label id="a82other_form_table" style="width:180px" class="layui-form-label">主表名称</label>
                                     <div class="layui-input-inline">
-                                       
-                                           
-                                       
-                                    
+
+
+
+
                                     </div>
                                 </div>
                                 <div class="layui-field-box">
@@ -303,8 +309,8 @@
                                             <col width="">
                                             <col width="">
                                             <col width="">
-                            
-                                            
+
+
                                         </colgroup>
                                         <thead>
                                             <tr>
@@ -313,20 +319,20 @@
                                                 <th>字段类型</th>
                                                 <th>转换方式</th>
                                                 <th>other字段</th>
-                                
-                            
+
+
                                             </tr>
                                         </thead>
                                         <tbody id="a82other_field_list_body">
-                            
+
                                         </tbody>
                                     </table>
-                            
+
                                 </div>
                             </fieldset>
                         </div>
                     </div>
-                    
+
 
                 </form>
                 <div class="layui-form-item">
@@ -334,7 +340,7 @@
                         <button class="layui-btn" id="a82other_submit">立即提交</button>
                         <button class="layui-btn" style="display:none" id="a82other_update_submit">立即提交</button>
                         <button class="layui-btn" id="a82other_return">返回</button>
-                        
+
                     </div>
                 </div>
             </div>
@@ -361,7 +367,7 @@
                                 <col width="200">
                                 <col width="150">
                                 <col width="150">
-                
+
                                 <col width="">
                             </colgroup>
                             <thead>
@@ -372,14 +378,14 @@
                                     <th>数据连接</th>
                                     <th>数据对接方式</th>
                                     <th>表单模板编号</th>
-                
+
                                 </tr>
                             </thead>
                             <tbody id="a82other_list_body">
-                
+
                             </tbody>
                         </table>
-                
+
                     </div>
                 </fieldset>
             </div>
@@ -389,18 +395,18 @@
                     <a href="">数据转换</a>
                     <a><cite>Other2A8</cite></a>
                 </span>
-<form class="layui-form" id="other2a8_form" action="">
-    
+                <form class="layui-form" id="other2a8_form" action="">
 
-</form>
-<div class="layui-form-item">
-    <div class="layui-input-block">
-        <button class="layui-btn" id="other2a8_submit">立即提交</button>
-        <button class="layui-btn" style="display:none" id="other2a8_update_submit">立即提交</button>
-        <button class="layui-btn" id="other2a8_return">返回</button>
 
-    </div>
-</div>
+                </form>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="other2a8_submit">立即提交</button>
+                        <button class="layui-btn" style="display:none" id="other2a8_update_submit">立即提交</button>
+                        <button class="layui-btn" id="other2a8_return">返回</button>
+
+                    </div>
+                </div>
             </div>
             <div id="log" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
@@ -424,7 +430,7 @@
             var element = layui.element;
         });
         window.$ = $;
-       // window.layui = layui;
+        // window.layui = layui;
     </script>
     <script src="layui/apps/app.js"></script>
     <script src="layui/apps/nav.js"></script>
@@ -457,22 +463,23 @@
                 $("#link_config").show();
                 DataLink.renderList(ret);
             });
-            Dao.getTemplateNumber({},function(data){
-                if(data &&data.result&&data.items){
+            Dao.getTemplateNumber({}, function (data) {
+                if (data && data.result && data.items) {
                     var items = data.items;
-                    $(items).each(function(index,item){
+                    $(items).each(function (index, item) {
                         var nno = item.templete_number;
-                        if(nno){
-                            $("#a82other_affair_type").append("<option value='"+ nno+"'>"+ nno+"("+item.subject+")</option>");
+                        if (nno) {
+                            $("#a82other_affair_type").append("<option value='" + nno + "'>" +
+                                nno + "(" + item.subject + ")</option>");
                         }
                         layui.use('form', function () {
                             var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()
                             form.render();
                         });
                     });
-                    
+
                 }
-                
+
             });
         });
     </script>
