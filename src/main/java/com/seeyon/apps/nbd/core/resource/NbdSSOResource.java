@@ -48,7 +48,7 @@ import java.util.TimeZone;
  * Created by liuwenping on 2018/8/20.
  */
 @Path("/casso")
-public class NbdSSOResource  extends BaseResource {
+public class NbdSSOResource extends BaseResource {
     @Context
     private HttpServletRequest request;
     @Context
@@ -60,35 +60,36 @@ public class NbdSSOResource  extends BaseResource {
     private LoginControlImpl loginControl;
 
 
-    private LoginControlImpl getLoginControl(){
-        if(loginControl == null){
-            loginControl = (LoginControlImpl)AppContext.getBean("loginControl");
-            if(loginControl == null){
-                loginControl = (LoginControlImpl)AppContext.getBean("loginControlImpl");
+    private LoginControlImpl getLoginControl() {
+        if (loginControl == null) {
+            loginControl = (LoginControlImpl) AppContext.getBean("loginControl");
+            if (loginControl == null) {
+                loginControl = (LoginControlImpl) AppContext.getBean("loginControlImpl");
             }
         }
         return loginControl;
     }
 
     @GET
-    @Consumes({"application/xml", "application/json","multipart/form-data"})
+    @Consumes({"application/xml", "application/json", "multipart/form-data"})
     @Path("")
     @RestInterfaceAnnotation
     public Response sso() throws ServiceException {
 
         NbdResponseEntity entity = new NbdResponseEntity();
         String app_key = request.getParameter("app_key");
+        String type = request.getParameter("type");
         String userName = request.getParameter("userLoginName");
 
-        if(StringUtils.isEmpty(userName)){
+        if (StringUtils.isEmpty(userName)) {
             entity.setMsg("用户名没有提供");
             return this.ok(entity);
         }
-        if(StringUtils.isEmpty(app_key)){
+        if (StringUtils.isEmpty(app_key)) {
             entity.setMsg("APP_KEY没有提供");
             return this.ok(entity);
         }
-        if(!ConfigService.APP_KEY.equals(app_key)){
+        if (!ConfigService.APP_KEY.equals(app_key)) {
 
             entity.setMsg("APP_KEY错误");
             return this.ok(entity);
@@ -97,23 +98,27 @@ public class NbdSSOResource  extends BaseResource {
         String password = md5.substring(0, 16);
         String v16 = md5.substring(16, 32);
         try {
-            String loginName = AESUtils.decrypt(userName,password,v16);
+            String loginName = AESUtils.decrypt(userName, password, v16);
             V3xOrgMember handleMember = this.getOrgManager().getMemberByLoginName(loginName);
-            if(handleMember == null){
+            if (handleMember == null) {
                 entity.setMsg("用户名错误,找不到用户");
                 return this.ok(entity);
             }
             User user = login(handleMember);
-            if(user == null){
+            if (user == null) {
                 entity.setResult(false);
                 entity.setMsg("不合法的用户");
-            }else{
+            } else {
                 entity.setResult(true);
                 entity.setMsg("success");
             }
+            if ("web".equals(type)) {
+                response.sendRedirect("/seeyon/main.do?method=main");
+            } else {
+                entity.setData(JSON.parseObject(JSON.toJSONString(user), HashMap.class));
+                responseJson(entity);
+            }
 
-            response.sendRedirect("/seeyon/main.do?method=main");
-           // entity.setData(JSON.parseObject(JSON.toJSONString(user),HashMap.class));
         } catch (Exception e) {
             e.printStackTrace();
             entity.setMsg("解密错误");
@@ -124,8 +129,13 @@ public class NbdSSOResource  extends BaseResource {
 
     }
 
-    public OrgManager getOrgManager(){
-        return (OrgManager)AppContext.getBean("orgManager");
+    private Response responseJson(Object entity) {
+        return Response.status(200).entity(entity).type("application/json").build();
+
+    }
+
+    public OrgManager getOrgManager() {
+        return (OrgManager) AppContext.getBean("orgManager");
     }
 
     private User login(V3xOrgMember handleMember) throws BusinessException {
@@ -147,8 +157,8 @@ public class NbdSSOResource  extends BaseResource {
         user.setLoginState(User.login_state_enum.ok);
         Locale locale = LocaleContext.make4Frontpage(request);
         user.setLocale(locale);
-        LoginResult result = mergeUserInfo(user,this.getLoginControl());
-        if(!result.isOK()){
+        LoginResult result = mergeUserInfo(user, this.getLoginControl());
+        if (!result.isOK()) {
             return null;
         }
         user.setLoginState(User.login_state_enum.ok);
@@ -160,29 +170,29 @@ public class NbdSSOResource  extends BaseResource {
         this.getLoginControl().createLog(user);
         this.getLoginControl().getTopFrame(user, request);
         response.addHeader("LoginOK", "ok");
-        response.addHeader("VJA", user.isAdmin()?"1":"0");
+        response.addHeader("VJA", user.isAdmin() ? "1" : "0");
         return user;
     }
 
 
     private static LoginResult mergeUserInfo(User currentUser, LoginControlImpl loginControl) {
-        if(currentUser == null) {
+        if (currentUser == null) {
             return LoginResult.ERROR_UNKNOWN_USER;
         } else {
             try {
                 String loginName = currentUser.getLoginName();
                 V3xOrgMember member = loginControl.getOrgManager().getMemberByLoginName(loginName);
-                if(member != null && member.isValid()) {
+                if (member != null && member.isValid()) {
                     long userId = member.getId().longValue();
                     V3xOrgAccount account = loginControl.getOrgManager().getAccountById(member.getOrgAccountId());
                     V3xOrgAccount loginAccount;
-                    if(currentUser.getLoginAccount() != null) {
+                    if (currentUser.getLoginAccount() != null) {
                         loginAccount = loginControl.getOrgManager().getAccountById(currentUser.getLoginAccount());
                     } else {
                         loginAccount = account;
                     }
 
-                    if(account != null && loginAccount != null && account.isValid() && loginAccount.isValid()) {
+                    if (account != null && loginAccount != null && account.isValid() && loginAccount.isValid()) {
                         currentUser.setId(Long.valueOf(userId));
                         currentUser.setAccountId(account.getId());
                         currentUser.setLoginAccount(loginAccount.getId());
@@ -190,23 +200,23 @@ public class NbdSSOResource  extends BaseResource {
                         currentUser.setLoginAccountShortName(loginAccount.getShortName());
                         currentUser.setExternalType(member.getExternalType());
                         String name = null;
-                        if(member.getIsAdmin().booleanValue()) {
-                            if(loginControl.getOrgManager().isAuditAdminById(Long.valueOf(userId)).booleanValue()) {
+                        if (member.getIsAdmin().booleanValue()) {
+                            if (loginControl.getOrgManager().isAuditAdminById(Long.valueOf(userId)).booleanValue()) {
                                 currentUser.setAuditAdmin(true);
                                 name = ResourceUtil.getString("org.auditAdminName.value");
-                            } else if(loginControl.getOrgManager().isGroupAdminById(Long.valueOf(userId)).booleanValue()) {
+                            } else if (loginControl.getOrgManager().isGroupAdminById(Long.valueOf(userId)).booleanValue()) {
                                 currentUser.setGroupAdmin(true);
                                 name = ResourceUtil.getString("org.account_form.groupAdminName.value" + (String) SysFlag.EditionSuffix.getFlag());
-                            } else if(loginControl.getOrgManager().isAdministratorById(Long.valueOf(userId), loginAccount).booleanValue()) {
+                            } else if (loginControl.getOrgManager().isAdministratorById(Long.valueOf(userId), loginAccount).booleanValue()) {
                                 currentUser.setAdministrator(true);
                                 name = loginAccount.getName() + ResourceUtil.getString("org.account_form.adminName.value");
-                            } else if(loginControl.getOrgManager().isSystemAdminById(Long.valueOf(userId)).booleanValue()) {
+                            } else if (loginControl.getOrgManager().isSystemAdminById(Long.valueOf(userId)).booleanValue()) {
                                 currentUser.setSystemAdmin(true);
                                 name = ResourceUtil.getString("org.account_form.systemAdminName.value");
-                            } else if(loginControl.getOrgManager().isSuperAdmin(loginName, loginAccount).booleanValue()) {
+                            } else if (loginControl.getOrgManager().isSuperAdmin(loginName, loginAccount).booleanValue()) {
                                 currentUser.setSuperAdmin(true);
                                 name = ResourceUtil.getString("org.account_form.superAdminName.value");
-                            } else if(loginControl.getOrgManager().isPlatformAdminById(Long.valueOf(userId)).booleanValue()) {
+                            } else if (loginControl.getOrgManager().isPlatformAdminById(Long.valueOf(userId)).booleanValue()) {
                                 currentUser.setPlatformAdmin(true);
                                 name = ResourceUtil.getString("org.account_form.platformAdminName.value");
                             }
@@ -232,7 +242,8 @@ public class NbdSSOResource  extends BaseResource {
             }
         }
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
 
 
     }
