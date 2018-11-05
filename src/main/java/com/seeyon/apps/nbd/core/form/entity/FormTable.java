@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.core.form.entity;
 
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 

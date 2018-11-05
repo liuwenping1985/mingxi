@@ -1,20 +1,19 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
-import com.seeyon.ctp.organization.principal.PrincipalManager;
-import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by liuwenping on 2018/8/24.
  */
 public class DataBaseHandler {
 
-    private static  DataBaseHandler dataBaseHandler;
+    private static DataBaseHandler dataBaseHandler;
 
     private static Map dbMap = new HashMap();
 
@@ -156,6 +155,8 @@ public class DataBaseHandler {
             return null;
         }
         Object obj =  db.get(key);
+        System.out.println("GGGGGGGG");
+        System.out.println(obj);
         String jstring = JSON.toJSONString(obj);
         T t = JSON.parseObject(jstring,cls);
         return t;

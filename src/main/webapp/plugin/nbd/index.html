@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>A82Other配置管理后台</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
+<link rel="stylesheet" href="/seeyon/apps_res/nbd/ayui/css/layui.css">
 </head>
 
 <body class="layui-layout-body">
@@ -421,9 +421,128 @@
                     <a href="">数据转换</a>
                     <a><cite>Other2A8</cite></a>
                 </span>
+                <br><br>
                 <form class="layui-form" id="other2a8_form" action="">
-
-
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <input type="text" name="name" required lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Other连接</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <select id="other2a8_data_link" name="linkId" lay-verify="required">
+                
+                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">传输方式</label>
+                        <div class="layui-input-inline" style="width:300px">
+                            <select name="exportType" lay-verify="required">
+                                <option value="mid_table">中间表</option>
+                                <!-- <option value="api">接口传输</option>
+                                                    <option value="ws">WebService服务</option> -->
+                
+                            </select>
+                        </div>
+                        
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">中间表名称</label>
+                        <div class="layui-input-inline" style="width:300px">
+                            <input type="text" name="tableName" required lay-verify="required" placeholder="请输入中间表名称" autocomplete="off" class="layui-input">
+                        </div>
+                    
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">获取方式</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <select name="triggerType" lay-verify="required">
+                                <option value="schedule">定时</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">定时时间(秒)</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <input type="text" name="period" required lay-verify="required" placeholder="定时时间（单位秒）" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否触发流程</label>
+                        <div class="layui-input-block" style="width:300px">
+                            <select name="triggerType" lay-verify="required">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">A8表单模板编号</label>
+                        <div class="layui-input-inline">
+                            <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect">
+                                <!-- <option value="api">接口传输</option>
+                                                <option value="ws">WebService服务</option> -->
+                
+                            </select>
+                
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-inline" style="width:88%">
+                            <fieldset class="layui-elem-field">
+                                <legend>表单字段映射</legend>
+                                <div>
+                                    <!-- <div style="width:100%;margin-left:30px">
+                                        <div style="color:red">
+                                            <p style="font-weight:bold">注意:</p>
+                                            <p>1、"other字段"不填写时如果传输将按照字段名称映射，例如“field0001:张三”将原样映射为“field0001:张三”。</p>
+                                            <p>2、是否传输选择为"否"时改字段将不会被映射。</p>
+                                            <p>3、数据类型为"子表"时，由于一个主表数据可能会对应多个主表数据，所以会映射为数组方式。</p>
+                                        </div>
+                
+                                    </div> -->
+                                </div>
+                                <div class="layui-field-box">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                                            <col width="">
+                
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>字段</th>
+                                                <th>字段显示名称</th>
+                                                <th>字段类型</th>
+                                                <th>数据类型(主表/子表)</th>
+                                                <th>是否传输</th>
+                                                <th>转换方式</th>
+                                                <th>other字段</th>
+                
+                
+                                            </tr>
+                                        </thead>
+                                        <tbody id="a82other_field_list_body">
+                
+                                        </tbody>
+                                    </table>
+                
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                
+                
                 </form>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -448,7 +567,7 @@
             共能配置使用5张表单，已使用0张
         </div>
     </div>
-    <script src="layui/layui.all.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/layui.all.js"></script>
     <script>
         //JavaScript代码区域
         var $ = jQuery = layui.jquery;
@@ -458,11 +577,11 @@
         window.$ = $;
         // window.layui = layui;
     </script>
-    <script src="layui/apps/app.js"></script>
-    <script src="layui/apps/nav.js"></script>
-    <script src="layui/apps/data_link.js"></script>
-    <script src="layui/apps/a82other.js"></script>
-    <script src="layui/apps/other2a8.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
+<script src="/seeyon/apps_res/nbd//seeyon/apps_res/nbd/ayui/apps/data_link.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/a82other.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/other2a8.js"></script>
     <script>
         //Demo
         // layui.use('form', function () {
@@ -496,8 +615,8 @@
                     $(items).each(function (index, item) {
                         var nno = item.templete_number;
                         if (nno) {
-                            $("#a82other_affair_type").append("<option value='" + nno + "'>" +
-                                nno + "(" + item.subject + ")</option>");
+                            $("#a82other_affair_type").append("<option value='" + nno + "'>" +nno + "(" + item.subject + ")</option>");   
+                            $("#other2a8_affair_type").append("<option value='" + nno + "'>" +nno + "(" + item.subject + ")</option>");
                         }
                         layui.use('form', function () {
                             var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()

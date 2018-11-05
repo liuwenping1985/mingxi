@@ -14,7 +14,16 @@ public class FormField {
     private boolean is_null;
     private boolean is_primary;
     private String classname;
+    private String export;
     private Object value;
+
+    public String getExport() {
+        return export;
+    }
+
+    public void setExport(String export) {
+        this.export = export;
+    }
 
     private String jsonname;
 

@@ -1,9 +1,9 @@
 package com.seeyon.apps.nbd.core.service;
 
+import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,9 +54,9 @@ public class ServiceForwardHandler {
         return entity;
     }
 
-    private ServicePlugin preHandle(CommonParameter parameter,NbdResponseEntity entity){
+    private ServicePlugin preHandle(CommonParameter parameter, NbdResponseEntity entity){
         String affairType = parameter.$("affairType");
-        if(StringUtils.isEmpty(affairType)){
+        if(CommonUtils.isEmpty(affairType)){
             entity.setResult(false);
             entity.setMsg("affairType不能为空");
         }else{

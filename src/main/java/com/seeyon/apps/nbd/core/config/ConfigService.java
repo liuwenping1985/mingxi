@@ -1,6 +1,6 @@
 package com.seeyon.apps.nbd.core.config;
 
-import com.seeyon.apps.nbd.config.Hook;
+import com.seeyon.apps.nbd.vo.DataLink;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +20,23 @@ public class ConfigService {
 
         return p.getProperty(key,defaultValue);
 
+    }
+    public static DataLink getA8DefaultDataLink(){
+        String url = getPropertyByName("local_db_url","localhost");
+        String port = getPropertyByName("local_db_port","3306");
+        String user = getPropertyByName("local_db_user","root");
+        String password = getPropertyByName("local_db_password","root");
+        String type = getPropertyByName("local_db_type","0");
+        String name = getPropertyByName("local_db_name","test");
+
+       DataLink dl = new DataLink();
+       dl.setDataBaseName(name);
+       dl.setDbType(type);
+       dl.setUser(user);
+       dl.setPassword(password);
+       dl.setExtString2(port);
+       dl.setHost(url);
+       return dl;
     }
     private static void init(){
         p = new Properties();

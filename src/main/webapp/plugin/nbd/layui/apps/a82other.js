@@ -80,29 +80,59 @@
             });
             return data;
         }
+        var trans_item = {
+            'normal': "默认不转换",
+            'id_2_org_code': "单位转编码",
+            'id_2_org_name': "单位转名称",
+            'id_2_dept_code': "部门转编码",
+            'id_2_dept_name': "部门转名称",
+            'id_2_person_code': "人员转编码",
+            'id_2_person_name': "人员转名称",
+            'enum_2_name': "枚举转名称",
+            'enum_2_value': "枚举转枚举值",
+            'file_2_downlaod': "附件转http下载"
 
-        function genTransferSelect(fieldName) {
+        }
+
+        function genTransferSelect(fieldName, defaultval) {
             var htmls = [];
             htmls.push("<select name='" + fieldName + "_classname' >");
-            htmls.push("<option value=''>默认不转换</option>");
-            htmls.push("<option value='id_2_org_code'>单位转编码</option>");
-            htmls.push("<option value='id_2_org_name'>单位转名称</option>");
-            htmls.push("<option value='id_2_dept_code'>部门转编码</option>");
-            htmls.push("<option value='id_2_dept_name'>部门转名称</option>");
-            htmls.push("<option value='id_2_person_code'>人员转编码</option>");
-            htmls.push("<option value='id_2_person_name'>人员转名称</option>");
-            htmls.push("<option value='enum_2_name'>枚举转名称</option>");
-            htmls.push("<option value='enum_2_value'>枚举转枚举值</option>");
-            htmls.push("<option value='file_2_downlaod'>附件转http下载</option>");
+            for (var p in trans_item) {
+                var isSelected = false;
+                if (defaultval == p) {
+                    isSelected = true;
+                }
+                if (isSelected) {
+                    htmls.push("<option value='" + p + "' selected>" + trans_item[p] + "</option>");
+                } else {
+                    htmls.push("<option value='" + p + "'>" + trans_item[p] + "</option>");
+                }
+
+            }
+            // htmls.push("<option value='normal'>默认不转换</option>");
+            // htmls.push("<option value='id_2_org_code'>单位转编码</option>");
+            // htmls.push("<option value='id_2_org_name'>单位转名称</option>");
+            // htmls.push("<option value='id_2_dept_code'>部门转编码</option>");
+            // htmls.push("<option value='id_2_dept_name'>部门转名称</option>");
+            // htmls.push("<option value='id_2_person_code'>人员转编码</option>");
+            // htmls.push("<option value='id_2_person_name'>人员转名称</option>");
+            // htmls.push("<option value='enum_2_name'>枚举转名称</option>");
+            // htmls.push("<option value='enum_2_value'>枚举转枚举值</option>");
+            // htmls.push("<option value='file_2_downlaod'>附件转http下载</option>");
             htmls.push("</select>");
             return htmls.join("");
         }
 
-        function genIsExport(fieldName) {
+        function genIsExport(fieldName, defaultval) {
             var htmls = [];
             htmls.push("<select name='" + fieldName + "_export' >");
             htmls.push("<option value='1'>是</option>");
-            htmls.push("<option value='0'>否</option>");
+            if (defaultval == "0") {
+                htmls.push("<option value='0' selected>否</option>");
+            } else {
+                htmls.push("<option value='0'>否</option>");
+            }
+
             htmls.push("</select>");
             return htmls.join("");
         }
@@ -118,9 +148,9 @@
                 htmls.push("<td>" + item.display + "</td>");
                 htmls.push("<td>" + item.fieldtype + "</td>");
                 htmls.push("<td>主表(" + formTable.name + ")</td>");
-                htmls.push("<td>" + genIsExport(item.name) + "</td>");
-                htmls.push("<td>" + genTransferSelect(item.name) + "</td>");
-                htmls.push("<td><input name='" + item.name + "_ws' /></td>");
+                htmls.push("<td>" + genIsExport(item.name, item.export) + "</td>");
+                htmls.push("<td>" + genTransferSelect(item.name, item.classname) + "</td>");
+                htmls.push("<td><input name='" + item.name + "_ws' value='" + item.barcode + "' /></td>");
                 htmls.push("</tr>")
             });
             var slt = formTable.slaveTableList;
@@ -135,7 +165,7 @@
                     htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
                     htmls.push("<td>" + genIsExport(item.name, item.export) + "</td>");
                     htmls.push("<td>" + genTransferSelect(item.name, item.classname) + "</td>");
-                    htmls.push("<td><input name='" + item.name + "ws' />" + item.barCode+ "</td>");
+                    htmls.push("<td><input name='" + item.name + "_ws' value='" + item.barcode + "' />< /td>");
                     htmls.push("</tr>")
                 });
 
@@ -166,6 +196,7 @@
                 var target = $(item);
                 if (target.is(':checked')) {
                     var id_ = target.val();
+                    A82OTHER.curId = id_;
                     Dao.getDataById("a82other", {
                         id: id_
                     }, function (data2) {
@@ -191,6 +222,7 @@
                                     }
                                 }
                             });
+                            renderFormTable(data.ftd.formTable);
                             renderForm();
                             goPage("a82other_create");
                             $("#a82other_update_submit").show();
@@ -204,9 +236,23 @@
 
         });
         $("#a82other_btn_delete").click(function () {
-            $("#a82other_update_submit").hide();
-            $("#a82other_submit").show();
+            var items = $(".a82other_selected");
+            $(items).each(function (index, item) {
+                var target = $(item);
+                if (target.is(':checked')) {
+                    var id_ = target.val();
+                    Dao.delete("a82other", {
+                        id: id_
+                    }, function () {
+                        Dao.getList("a82other", function (data2) {
+                            $(".nbd_content").hide();
+                            $("#a82other").show();
+                            A82OTHER.renderList(data2);
+                        });
 
+                    });
+                }
+            });
 
         });
         $("#a82other_return").click(function () {
@@ -215,6 +261,7 @@
         $("#a82other_update_submit").click(function () {
             $("#a82other_update_submit").show();
             $("#a82other_submit").hide();
+            var cur_id = A82OTHER.curId;
             var str = $("#a82other_form").serialize();
             var spp = str.split("&");
             var data = {};
@@ -223,12 +270,13 @@
                 data[tt[0]] = tt[1];
             });
             // console.log(data);
+            data.id = cur_id;
             Dao.update("a82other", data, function (ret) {
                 // console.log(ret);
                 Dao.getList("a82other", function (data2) {
                     $(".nbd_content").hide();
                     $("#link_config").show();
-                    DataLink.renderList(data2);
+                    A82OTHER.renderList(data2);
                 });
             });
         });

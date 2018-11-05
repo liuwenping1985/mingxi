@@ -1,14 +1,12 @@
 package com.seeyon.apps.nbd.core.vo;
 
-import com.seeyon.ctp.common.po.filemanager.Attachment;
-import org.apache.commons.lang.StringUtils;
+import com.seeyon.apps.nbd.core.util.CommonUtils;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,15 +14,15 @@ import java.util.Map;
  */
 public class CommonParameter extends HashMap{
 
-    private List<Attachment> attachmentList;
-
-    public List<Attachment> getAttachmentList() {
-        return attachmentList;
-    }
-
-    public void setAttachmentList(List<Attachment> attachmentList) {
-        this.attachmentList = attachmentList;
-    }
+//    private List<Attachment> attachmentList;
+//
+//    public List<Attachment> getAttachmentList() {
+//        return attachmentList;
+//    }
+//
+//    public void setAttachmentList(List<Attachment> attachmentList) {
+//        this.attachmentList = attachmentList;
+//    }
 
     public<T> T $(String key){
         return (T)this.get(key);
@@ -71,7 +69,7 @@ public class CommonParameter extends HashMap{
               //  System.out.println();
                 stb.append(new String(new String(bs, 0, i).getBytes(),"UTF-8"));
             }
-            if(!StringUtils.isEmpty(stb.toString())){
+            if(!CommonUtils.isEmpty(stb.toString())){
                 String[] vals = stb.toString().split("&");
                 for(String val:vals){
                     String[] subVals = val.split("=");

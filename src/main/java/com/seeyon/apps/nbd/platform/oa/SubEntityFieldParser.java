@@ -10,5 +10,5 @@ import java.util.Map;
 public interface SubEntityFieldParser {
 
 
-    public void parse(Map dataMap,Map inputDataMap, Entity entity);
+    public void parse(Map dataMap, Map inputDataMap, Entity entity);
 }

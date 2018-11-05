@@ -11,7 +11,6 @@ import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.plugin.PluginDefinition;
 import com.seeyon.apps.nbd.util.StringUtils;
 import org.json.JSONException;
-import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.FileFilter;

@@ -1,7 +1,5 @@
 package com.seeyon.apps.nbd.core.db;
 
-import org.hibernate.dialect.*;
-
 /**
  * Created by liuwenping on 2018/9/18.
  */

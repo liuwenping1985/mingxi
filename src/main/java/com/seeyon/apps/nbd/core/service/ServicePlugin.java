@@ -4,7 +4,8 @@ import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.PluginDefinition;
-import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
+import com.seeyon.apps.nbd.po.A8OutputVo;
+
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public interface ServicePlugin {
     public boolean containAffairType(String affairType);
     public Map<String,List<A8OutputVo>> exportAllData();
     public List<A8OutputVo> exportData(String affairType);
-    public List<A8OutputVo> exportData(String affairType,CommonParameter parameter);
+    public List<A8OutputVo> exportData(String affairType, CommonParameter parameter);
 
 
 

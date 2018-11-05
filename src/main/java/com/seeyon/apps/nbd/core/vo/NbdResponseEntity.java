@@ -1,8 +1,6 @@
 package com.seeyon.apps.nbd.core.vo;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/8/20.

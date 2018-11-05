@@ -1,10 +1,6 @@
 package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.ctp.common.init.MclclzUtil;
-import com.seeyon.ctp.util.Base64;
-import com.seeyon.ctp.util.IOUtility;
-import com.seeyon.ctp.util.json.JSONUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -13,11 +9,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
-import www.seeyon.com.mocnoyees.RSMocnoyees;
-import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +32,11 @@ public class UIUtils {
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
         response.setHeader("Pragma", "no-cache");
         PrintWriter out = null;
+
         try
         {
             out = response.getWriter();
-            out.write(JSONUtil.toJSONString(data));
+            out.write(JSON.toJSONString(data));
         }
         catch (IOException e)
         {
@@ -123,18 +121,19 @@ public class UIUtils {
     }
 
     public byte[] loadClassData(String className) throws IOException {
-        String res = className.replace('.', '/').concat(".class");
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream(res);
-        byte[] classData = IOUtility.toByteArray(is);
-
-            try {
-                byte[] datas = Base64.decodeBase64(classData);
-                classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
-            } catch (Throwable var6) {
-                return null;
-            }
-
-
-        return classData;
+//        String res = className.replace('.', '/').concat(".class");
+//        InputStream is = this.getClass().getClassLoader().getResourceAsStream(res);
+//        byte[] classData = IOUtility.toByteArray(is);
+//
+//            try {
+//                byte[] datas = Base64.decodeBase64(classData);
+//                classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
+//            } catch (Throwable var6) {
+//                return null;
+//            }
+//
+//
+//        return classData;
+        return null;
     }
 }

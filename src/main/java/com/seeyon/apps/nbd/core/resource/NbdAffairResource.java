@@ -1,4 +1,4 @@
-//package com.seeyon.apps.nbd.core.resource;
+package com.seeyon.apps.nbd.core.resource;//package com.seeyon.apps.nbd.core.resource;
 //
 //import com.seeyon.apps.nbd.core.service.ServiceForwardHandler;
 //import com.seeyon.apps.nbd.core.vo.CommonParameter;

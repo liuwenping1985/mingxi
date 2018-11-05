@@ -3,7 +3,7 @@ package com.seeyon.apps.nbd.vo;
 /**
  * Created by liuwenping on 2018/10/29.
  */
-public class DataLink extends CommonVo{
+public class DataLink extends CommonVo {
 
     private String dataBaseName;
     private String host;

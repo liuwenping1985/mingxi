@@ -2,6 +2,12 @@
 (function (exportObject) {
     var $ = exportObject.$;
     var OTHER2A8 = {};
+    function renderForm() {
+        layui.use('form', function () {
+            var form = layui.form; //高版本建议把括号去掉，有的低版本，需要加()
+            form.render();
+        });
+    }
     OTHER2A8.renderList = function (ret) {
 
         var tb = $("#other2a8_list_body");
@@ -101,8 +107,8 @@
                 console.log(ret);
                 Dao.getList("other2a8", function (data2) {
                     $(".nbd_content").hide();
-                    $("#link_config").show();
-                    DataLink.renderList(data2);
+                    $("#other2a8").show();
+                    OTHER2A8.renderList(data2);
                 });
             });
         });
@@ -120,8 +126,8 @@
                 console.log(ret);
                 Dao.getList("other2a8", function (data2) {
                     $(".nbd_content").hide();
-                    $("#link_config").show();
-                    DataLink.renderList(data2);
+                    $("#other2a8").show();
+                    OTHER2A8.renderList(data2);
                 });
             });
             // console.log(str);

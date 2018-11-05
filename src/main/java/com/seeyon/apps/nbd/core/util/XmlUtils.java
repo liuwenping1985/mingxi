@@ -45,6 +45,17 @@ public class XmlUtils {
             return jsonString;
         }
     }
+    public static String xmlString2jsonString(String xml) throws JSONException, IOException {
+
+        try {
+
+            JSONObject xmlJSONObj = XML.toJSONObject(xml);
+            return xmlJSONObj.toString();
+        }catch(Exception e){
+
+        }
+        return null;
+    }
 
 }
 

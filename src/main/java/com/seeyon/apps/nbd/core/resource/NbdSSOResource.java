@@ -1,4 +1,4 @@
-//package com.seeyon.apps.nbd.core.resource;
+package com.seeyon.apps.nbd.core.resource;//package com.seeyon.apps.nbd.core.resource;
 //
 //import com.alibaba.fastjson.JSON;
 //import com.seeyon.apps.nbd.core.config.ConfigService;

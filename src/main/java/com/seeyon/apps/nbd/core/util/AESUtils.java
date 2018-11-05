@@ -1,7 +1,5 @@
 package com.seeyon.apps.nbd.core.util;
 
-import www.seeyon.com.utils.MD5Util;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,31 +14,32 @@ public class AESUtils{
      * @throws Exception
      */
     public static String decrypt(String sSrc, String sKey,String iv) throws Exception {
-        try {
-            if (sKey == null) {
-                System.out.print("Key不能为空null");
-                return null;
-            }
-            if (sKey.length() != 16) {
-                System.out.print("Key的长度不是16位");
-                return null;
-            }
-            if (iv.length() != 16) {
-                System.out.print("iv的长度不是16位");
-                return null;
-            }
-            byte[] byte1 = com.seeyon.ctp.util.Base64.decodeBase64(sSrc.getBytes());//先用Base64解码
-            IvParameterSpec ivSpec = new IvParameterSpec(iv.getBytes());
-            SecretKeySpec key = new SecretKeySpec(sKey.getBytes(), "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
-            //与加密时不同MODE:Cipher.DECRYPT_MODE
-            byte[] ret = cipher.doFinal(byte1);
-            return new String(ret, "utf-8");
-        } catch (Exception ex) {
-            System.out.println(ex.toString());
-            return null;
-        }
+//        try {
+//            if (sKey == null) {
+//                System.out.print("Key不能为空null");
+//                return null;
+//            }
+//            if (sKey.length() != 16) {
+//                System.out.print("Key的长度不是16位");
+//                return null;
+//            }
+//            if (iv.length() != 16) {
+//                System.out.print("iv的长度不是16位");
+//                return null;
+//            }
+//            byte[] byte1 = com.seeyon.ctp.util.Base64.decodeBase64(sSrc.getBytes());//先用Base64解码
+//            IvParameterSpec ivSpec = new IvParameterSpec(iv.getBytes());
+//            SecretKeySpec key = new SecretKeySpec(sKey.getBytes(), "AES");
+//            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+//            cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+//            //与加密时不同MODE:Cipher.DECRYPT_MODE
+//            byte[] ret = cipher.doFinal(byte1);
+//            return new String(ret, "utf-8");
+//        } catch (Exception ex) {
+//            System.out.println(ex.toString());
+//            return null;
+//        }
+        return null;
     }
     /**
      * 加密
@@ -70,21 +69,21 @@ public class AESUtils{
         IvParameterSpec iv1 = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv1);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes());
-        byte[] bytes =   com.seeyon.ctp.util.Base64.encodeBase64(encrypted,false);//decodeBase64(encrypted);
+        byte[] bytes =  new byte[1024]; //com.seeyon.ctp.util.Base64.encodeBase64(encrypted,false);//decodeBase64(encrypted);
         return new String(bytes);
     }
     public static void main(String[] args) throws Exception {
 
-        String pwd = "Pwd@2018@~!@#$%^&*(";
-        String md5 = MD5Util.MD5(pwd);
-        System.out.println(md5.length());
-        String password = md5.substring(0, 16);
-        //向量
-        String v16 = md5.substring(16, 32);
-        String userName = "002";
-        //encrypt(userName,password,v16);
-        String ppp = encrypt(userName,password,v16);
-        System.out.println(ppp);
+//        String pwd = "Pwd@2018@~!@#$%^&*(";
+//        String md5 = MD5Util.MD5(pwd);
+//        System.out.println(md5.length());
+//        String password = md5.substring(0, 16);
+//        //向量
+//        String v16 = md5.substring(16, 32);
+//        String userName = "002";
+//        //encrypt(userName,password,v16);
+//        String ppp = encrypt(userName,password,v16);
+//        System.out.println(ppp);
         //System.out.println(decrypt(ppp,password,v16));
     }
 }
