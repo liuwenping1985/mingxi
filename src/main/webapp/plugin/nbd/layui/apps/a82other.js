@@ -76,7 +76,7 @@
                    
                 });
                 $("#a82other_field_list_body").html(htmls.join(""));
-                
+                renderForm();
             });
 
         }
