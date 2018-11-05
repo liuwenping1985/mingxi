@@ -9,6 +9,7 @@ import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,7 @@ public class NbdController extends BaseController{
         }
         return nbdPluginServiceManager;
     }
-
+    @NeedlessCheckLogin
     public ModelAndView getDataById(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
@@ -46,7 +47,7 @@ public class NbdController extends BaseController{
         return null;
 
     }
-
+    @NeedlessCheckLogin
     public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
@@ -55,7 +56,7 @@ public class NbdController extends BaseController{
         return null;
 
     }
-
+    @NeedlessCheckLogin
     public ModelAndView postAdd(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
@@ -72,7 +73,7 @@ public class NbdController extends BaseController{
         return null;
 
     }
-
+    @NeedlessCheckLogin
     public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.postUpdate(p);
@@ -82,7 +83,7 @@ public class NbdController extends BaseController{
         return null;
 
     }
-
+    @NeedlessCheckLogin
     public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.postDelete(p);
@@ -91,7 +92,7 @@ public class NbdController extends BaseController{
 
     }
 
-
+    @NeedlessCheckLogin
     public ModelAndView testConnection(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.testConnection(p);
@@ -99,14 +100,14 @@ public class NbdController extends BaseController{
         return null;
 
     }
-
+    @NeedlessCheckLogin
     public ModelAndView getTemplateNumber(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.getCtpTemplateNumber(p);
         UIUtils.responseJSON(entity,response);
         return null;
     }
-
+    @NeedlessCheckLogin
     public ModelAndView getFormByTemplateNumber(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.getFormByTemplateNumber(p);
@@ -115,7 +116,7 @@ public class NbdController extends BaseController{
     }
 
     //testConnection
-
+    @NeedlessCheckLogin
     public ModelAndView dbConsole(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.dbConsole(p);

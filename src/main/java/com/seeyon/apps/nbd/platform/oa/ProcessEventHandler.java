@@ -42,6 +42,8 @@ public class ProcessEventHandler {
 
     private FormManager formManager;
 
+    private DataBaseHandler handler = DataBaseHandler.getInstance();
+
     public FormManager getFormManager() {
         if(this.formManager == null) {
             this.formManager = (FormManager)AppContext.getBean("formManager");
@@ -92,19 +94,8 @@ public class ProcessEventHandler {
         try {
             String code = event.getTemplateCode();
             System.out.println("code:"+code);
-            ServicePlugin sp =  this.getNbdPluginServiceManager().getServicePluginsByAffairType(code);
-            if(sp!=null){
-                CommonParameter parameter = new CommonParameter();
-                parameter.$("affairType",event.getTemplateCode());
-                parameter.$("affairId",event.getAffairId());
-                CtpAffair affair = this.getColManager().getAffairById(affairId);
-                parameter.$("form_record_id",String.valueOf(affair.getFormRecordid()));
-                System.out.println(JSON.toJSONString(parameter));
-                CommonDataVo vo = sp.processAffair(parameter);
-                System.out.println(JSON.toJSONString(vo));
-            }else{
-                System.out.println("sp is null");
-            }
+          //  handler.get
+            System.out.println("找不到中间表");
         } catch (BusinessException e) {
             e.printStackTrace();
         }
