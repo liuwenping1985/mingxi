@@ -47,7 +47,7 @@
         }
         function genTransferSelect(fieldName) {
             var htmls=[];
-            htmls.push("<select name='classname' >");
+            htmls.push("<select name='" + fieldName + "_classname' >");
             htmls.push("<option value=''>默认不转换</option>");
             htmls.push("<option value='id_2_org_code'>单位转编码</option>");
             htmls.push("<option value='id_2_org_name'>单位转名称</option>");
@@ -83,9 +83,9 @@
                      htmls.push("<td>"+item.display+"</td>");
                      htmls.push("<td>" + item.fieldtype + "</td>");
                      htmls.push("<td>主表(" + formTable.name + ")</td>");
-                     htmls.push("<td>" + genIsExport() + "</td>");
-                     htmls.push("<td>" + genTransferSelect ()+ "</td>");
-                     htmls.push("<td><input name='ws' /></td>");
+                     htmls.push("<td>" + genIsExport(item.name) + "</td>");
+                     htmls.push("<td>" + genTransferSelect(item.name) + "</td>");
+                     htmls.push("<td><input name='" + item.name + "_ws' /></td>");
                      htmls.push("</tr>")
                 });
                 var slt = formTable.slaveTableList;
@@ -98,8 +98,8 @@
                         htmls.push("<td>" + item.display + "</td>");
                         htmls.push("<td>" + item.fieldtype + "</td>");
                         htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
-                        htmls.push("<td>" + genIsExport() + "</td>");
-                        htmls.push("<td>" + genTransferSelect() + "</td>");
+                        htmls.push("<td>" + genIsExport(item.name) + "</td>");
+                        htmls.push("<td>" + genTransferSelect(item.name) + "</td>");
                         htmls.push("<td><input name='ws' /></td>");
                         htmls.push("</tr>")
                     });
@@ -197,13 +197,13 @@
                 var tt = item.split("=");
                 data[tt[0]] = tt[1];
             });
-            // console.log(data);
+            console.log(data);
             Dao.add("a82other", data, function (ret) {
                 console.log(ret);
                 Dao.getList("a82other", function (data2) {
                     $(".nbd_content").hide();
-                    $("#link_config").show();
-                    DataLink.renderList(data2);
+                    $("#a82other").show();
+                    A82OTHER.renderList(data2);
                 });
             });
             // console.log(str);
@@ -212,6 +212,6 @@
 
     });
 
-
+window.A82OTHER = A82OTHER;
 
 })(window);

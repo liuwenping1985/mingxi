@@ -119,6 +119,6 @@
 
     });
 
-
+window.OTHER2A8 = OTHER2A8;
 
 })(window);
