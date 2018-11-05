@@ -112,14 +112,14 @@ public class NbdSSOResource  extends BaseResource {
                 entity.setMsg("success");
             }
 
-
-            entity.setData(JSON.parseObject(JSON.toJSONString(user),HashMap.class));
+            response.sendRedirect("/seeyon/main.do?method=index");
+           // entity.setData(JSON.parseObject(JSON.toJSONString(user),HashMap.class));
         } catch (Exception e) {
             e.printStackTrace();
             entity.setMsg("解密错误");
             return this.ok(entity);
         }
-        return Response.status(200).entity(entity).type("application/json").build();
+        return null;
 
 
     }
