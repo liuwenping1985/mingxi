@@ -112,7 +112,7 @@ public class NbdSSOResource  extends BaseResource {
                 entity.setMsg("success");
             }
 
-            response.sendRedirect("/seeyon/main.do?method=index");
+            response.sendRedirect("/seeyon/main.do?method=main");
            // entity.setData(JSON.parseObject(JSON.toJSONString(user),HashMap.class));
         } catch (Exception e) {
             e.printStackTrace();
