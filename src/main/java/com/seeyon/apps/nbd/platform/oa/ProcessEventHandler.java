@@ -241,7 +241,10 @@ public class ProcessEventHandler {
 //        operator：操作人（用户名）
 //        note：审核说明
 //        data：其他补充数据
-        String url = ConfigService.getPropertyByName("callback.uri","");
+        String url = ConfigService.getPropertyByName(affairType+".callback.uri","");
+        if("".equals(url)){
+            return;
+        }
         try {
             System.out.println(url);
             System.out.println(dataParam);
