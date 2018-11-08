@@ -1,12 +1,12 @@
 ;
 (function () {
+    layex.use("grid",function(){
+        var grid = layex.grid;
+        grid.hello();
 
-layui.use("grid",function(){
+    })
 
-    var grid = layui.grid;
-
-    grid.hello();
-})
+   
 
 
 }());

@@ -9,8 +9,8 @@
             alert("hello");
         }
 
-
-        exports("grid", {});
+        
+        exports("grid", apiSet);
     })
 
 
