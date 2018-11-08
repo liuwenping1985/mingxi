@@ -10,5 +10,6 @@
         });
     }
     window.layex = layex;
+    window.lx =layex;
 
 }());

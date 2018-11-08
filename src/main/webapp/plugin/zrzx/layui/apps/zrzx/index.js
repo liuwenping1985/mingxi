@@ -1,12 +1,9 @@
 ;
 (function () {
-    layex.use("grid",function(){
-        var grid = layex.grid;
+    lx.use(["grid", "panel"], function () {
+        var grid = lx.grid;
         grid.hello();
-
-    })
-
-   
-
-
+        var panel = lx.panel;
+        panel.hello();
+    });
 }());
