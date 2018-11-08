@@ -1,7 +1,7 @@
 ;
 (function () {
 
-    layex.mdefine(['jquery'], function (exports) {
+    layex.mdefine("panel",['jquery'], function (exports) {
 
         var apiSet ={};
 

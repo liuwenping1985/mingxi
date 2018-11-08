@@ -3,3 +3,12 @@
     background: url('../images/logo.png') no-repeat;
     height:240px;
 }
+.lx-layout-background{
+    background: url('../images/bg.jpg');
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    height:100%;
+    width:100%;
+
+}
