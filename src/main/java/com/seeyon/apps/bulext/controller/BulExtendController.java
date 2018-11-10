@@ -170,10 +170,6 @@ public class BulExtendController extends BaseController {
     public ModelAndView getForceReadBulList(HttpServletRequest req, HttpServletResponse response){
 
         Map<String,Object> data = new HashMap<String,Object>();
-        User user = AppContext.getCurrentUser();
-       Class cls =  com.seeyon.ctp.workflow.util.Utils.class;
-       Class cls2 =  net.joinwork.bpm.definition.BPMProcess.class;
-        Class cls3 = com.seeyon.ctp.workflow.wapi.WorkflowApiManagerImpl.class;
         BulUtils.responseJSON(data,response);
         return null;
     }
