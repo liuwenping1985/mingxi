@@ -9,6 +9,9 @@ import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.portal.controller.PortalController;
+import com.seeyon.ctp.portal.space.manager.SpaceManager;
+import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,6 +45,7 @@ public class NbdController extends BaseController{
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
         entity =  nbdService.getDataById(p);
+        PortalController pc;
 
         UIUtils.responseJSON(entity,response);
         return null;
@@ -54,6 +58,7 @@ public class NbdController extends BaseController{
         if(page == null){
             page = "index";
         }
+        SpaceManagerImpl spaceManager;
         ModelAndView mav = new ModelAndView("apps/nbd/"+page);
 
         return mav;

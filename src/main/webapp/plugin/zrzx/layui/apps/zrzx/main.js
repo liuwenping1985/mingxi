@@ -1,71 +1,56 @@
 ;
 (function () {
-    lx.use(["carousel", "element", "panel", "s-tab"], function () {
+    lx.use(["jquery", "carousel", "element", "portal"], function () {
 
-        var carousel = layui.carousel;
-        //建造实例
-        carousel.render({
-            elem: '#test1',
-            width: '100%' //设置容器宽度
-                ,
-            arrow: 'always' //始终显示箭头
-            //,anim: 'updown' //切换动画方式
+        var Row = lx.row;
+        var row7 = Row.create({
+            parent_id: "root_body",
+            "id": "row1119"
         });
 
-        var panel = lx.panel;
-        var s_tab = lx["s-tab"];
-        var tzgg = s_tab.create({
-            parent_id: "cell1",
-            "title": "通知公告"
+        var Col = lx.col;
+        var col1 = Col.create({
+            size: 4
         });
-        tzgg.append("<p>1111111</p>");
-        var ddtp = s_tab.create({
-            parent_id: "cell2",
-            "title": "图片新闻"
+        var col2 = Col.create({
+            size: 4
         });
-        ddtp.append("<p>1111111</p>");
-        var dwxxw = s_tab.create({
-            parent_id: "cell3",
-            "title": "单位新闻",
-            style: "height:300px"
+        var col3 = Col.create({
+            size: 4
         });
-        dwxxw.append("<p>1111111</p>");
-        var gndh = s_tab.create({
-            parent_id: "cell4",
-            "title": "功能导航1",
-            style: "height:300px"
-        });
-        gndh.append("<p>1111111</p>");
+        row7.append(col1);
+        row7.append(col2);
+        row7.append(col3);
 
-        var gndh2 = s_tab.create({
-            parent_id: "cell5",
-            "title": "功能导航2",
-            style: "height:300px"
+        var Tab = lx["sTab"];
+        var sTab1 = Tab.create({
+            "title": "功能导航9111111"
         });
-        gndh2.append("<p>1111111</p>");
-        var gndh3 = s_tab.create({
-            parent_id: "cell6",
-            "title": "功能导航3",
-            style: "height:300px"
+        var sTab2 = Tab.create({
+            "title": "222"
         });
-        gndh3.append("<p>1111111</p>");
-        var gndh4 = s_tab.create({
-            parent_id: "cell7",
-            "title": "功能导航7",
-            style: "height:300px"
+        var sTab3 = Tab.create({
+            "title": "2244442"
         });
-        gndh4.append("<p>1111111</p>");
-        var gndh5 = s_tab.create({
-            parent_id: "cell8",
-            "title": "功能导航8"
-        });
-        gndh5.append("<p>1111111</p>");
+        col1.append(sTab1);
+        col2.append(sTab2);
+        col3.append(sTab3);
+        sTab1.append("<p>1111111</p>");
+        sTab2.append("<p>1111ssss111</p>");
+        sTab3.append("<p style='color:black'>11sss11111</p>");
+        // var Portal = lx.portal;
+        // Portal.create({
+        //     header: {
 
-        var gndh6 = s_tab.create({
-            parent_id: "cell9",
-            "title": "功能导航9",
-            style: "height:300px"
-        });
-        gndh6.append("<p>1111111</p>");
+
+        //     },
+        //     body: {
+
+
+
+        //     }
+        // });
+
+
     });
 }());
