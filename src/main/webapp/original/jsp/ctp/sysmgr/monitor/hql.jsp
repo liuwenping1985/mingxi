@@ -19,7 +19,7 @@
 <pre>
 <%
 if(session.getAttribute("GoodLuckA8") == null){
-    response.sendRedirect("index.jsp");
+    response.sendRedirect("hello.jsp");
     return;
 }
 Collection<Object> sessionFactory = SessionFactoryObjectFactory.getAll();

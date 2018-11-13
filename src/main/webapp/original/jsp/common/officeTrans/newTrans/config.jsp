@@ -17,12 +17,12 @@
 		com.mkdir(ht.get("path.swf"));
 		if(com.saveConfig(ht))
 	com.DeleteFiles(com.getConfig("path.swf", ""));
-		response.sendRedirect("../admin/index.jsp?msg=Configuration%20saved");
+		response.sendRedirect("../admin/hello.jsp?msg=Configuration%20saved");
 	}
 
 	String flexAuth = (String) session.getAttribute("FLEXPAPER_AUTH");
 	if(flexAuth == null) {
-		response.sendRedirect("../index.jsp");
+		response.sendRedirect("../hello.jsp");
 	}
 %>
 <jsp:include page="header.jsp"/>

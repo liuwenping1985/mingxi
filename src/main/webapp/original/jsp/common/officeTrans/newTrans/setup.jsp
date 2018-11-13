@@ -79,7 +79,7 @@ switch (step) {
 		}
 %>
 		<div style="margin-top:10px;float:right;display:block" id="bttn_final">
-			<button class="tiny main n_button" type="submit" onclick="location.href='index.jsp?step=2'"><span></span><em style="min-width:150px">final step &rarr;</em></button>&nbsp;<br/>
+			<button class="tiny main n_button" type="submit" onclick="location.href='hello.jsp?step=2'"><span></span><em style="min-width:150px">final step &rarr;</em></button>&nbsp;<br/>
 		</div>
 		<div style="margin-top:10px;float:right;display:none;" id="bttn_updatepath_pdf2json">
 			<button class="tiny main n_button" type="submit" onclick="location.href='index.jsp?step=1&PDF2JSON_PATH='+$('#PDF2JSON_PATH').val()"><span></span><em style="min-width:150px">retry<img src="../common/images/reload.png" style="margin-top:3px"/></em></button>&nbsp;<br/>
