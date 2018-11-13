@@ -32,8 +32,12 @@
                 }else{
                     this.id = "row_" + util.uuid();
                 }
+                var style = options.style;
+                if(!style){
+                    style="";
+                }
                 this.html = "";
-                this.root = $("<div id='" + this.id + "' class='layui-row'></div>");
+                this.root = $("<div style='" + style + "' id='" + this.id + "' class='layui-row'></div>");
                 if (this.op_.parent_id) {
                     this.parent = $("#" + this.op_.parent_id);
                     this.parent.append(this.root);

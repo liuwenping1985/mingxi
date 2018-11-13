@@ -249,3 +249,9 @@
     background: none;
     color: #FF5722;
 }
+.lx-layout-menu{
+    position:fixed;
+    left:5px;
+    top:192px;
+    
+}

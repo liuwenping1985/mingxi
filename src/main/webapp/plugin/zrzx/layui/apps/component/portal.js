@@ -27,7 +27,8 @@
                 for (var p = 0; p < rows.length; p++) {
                     var row = rows[p];
                     var p_row = Row.create({
-                        "parent_id": root_id
+                        "parent_id": root_id,
+                         style:row.style
                     });
                     this.rows.push(p_row);
                     var cols = row.cols;

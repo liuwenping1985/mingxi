@@ -39,7 +39,7 @@ var LAY_OUT_DEFINE = {
         }, {
             size: 6,
             id: "col2",
-             type: "sTab",
+            type: "sTab",
             name: "单位新闻",
             
             children: [{
@@ -96,7 +96,7 @@ var LAY_OUT_DEFINE = {
             }]
         }]
     }, {
-        height:"330px",
+        style:"350px",
         cols: [{
             size: 4,
             id: "pending",
@@ -154,8 +154,8 @@ var LAY_OUT_DEFINE = {
         }, {
             size: 4,
             id: "pending2",
-            name: "常用模板",
-            style:"height:350px",
+            name: "日程安排",
+            style:"height:400px",
             type: "sTab",
             children: [{
                 id:"datepicker2",
