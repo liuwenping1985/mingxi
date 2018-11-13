@@ -251,13 +251,13 @@ public class DataBaseHandler {
 
     public static void main(String[] args){
         DataBaseHandler handler =  DataBaseHandler.getInstance();
-       Map data = handler.getDataAll("HT0007");
-       for(Object key:data.keySet()){
-
-           String val = JSON.toJSONString(data.get(key));
-           A8OutputVo vo = JSON.parseObject(val,A8OutputVo.class);
-           System.out.println(JSON.toJSONString(vo));
-       }
+//       Map data = handler.getDataAll("HT0007");
+//       for(Object key:data.keySet()){
+//
+//           String val = JSON.toJSONString(data.get(key));
+//           A8OutputVo vo = JSON.parseObject(val,A8OutputVo.class);
+//           System.out.println(JSON.toJSONString(vo));
+//       }
         String dbName = "company";
 //        if(!handler.isDBExit(dbName)){
 //            boolean isOk = handler.createNewDataBaseByName(dbName);

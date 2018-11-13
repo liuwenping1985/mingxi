@@ -3,8 +3,11 @@ package com.seeyon.apps.nbd.platform.oa;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
+import com.seeyon.apps.nbd.controller.NbdController;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
+import com.seeyon.apps.nbd.core.service.PluginServiceManager;
+import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
@@ -62,6 +65,11 @@ public class ProcessEventHandler {
             CtpAffair ctpAffair = this.getAffairManager().get(affairId);
            // ctpAffair.getFormAppId();
             //ctpAffair.getFormId();
+            PluginServiceManager psm =  NbdController.getPSM();
+            if(psm == null){
+                NbdController.setPSM(new PluginServiceManagerImpl());
+            }
+            psm.getServicePlugins().get(0).exportData(ctpAffair);
         } catch (BusinessException e) {
             e.printStackTrace();
         }

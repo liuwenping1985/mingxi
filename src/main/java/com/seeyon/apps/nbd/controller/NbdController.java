@@ -41,13 +41,25 @@ public class NbdController extends BaseController {
     private LogBuilder log = new LogBuilder("Export_LOG");
 
     private FileManager fileManager = (FileManager) AppContext.getBean("fileManager");
+    private static PluginServiceManager npsm;
 
+    public static PluginServiceManager getPSM(){
+            return npsm;
+    }
+    public static void setPSM(PluginServiceManager psm){
+         npsm = psm;
+    }
 
     private PluginServiceManager getNbdPluginServiceManager() {
 
         if (nbdPluginServiceManager == null) {
             try {
+                if(npsm!=null){
+                    nbdPluginServiceManager = npsm;
+                    return npsm;
+                }
                 nbdPluginServiceManager = new PluginServiceManagerImpl();
+                npsm = nbdPluginServiceManager;
             } catch (Exception e) {
                 e.printStackTrace();
             } catch (Error error) {

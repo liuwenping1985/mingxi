@@ -5,6 +5,7 @@ import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.PluginDefinition;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
+import com.seeyon.ctp.common.po.affair.CtpAffair;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ public interface ServicePlugin {
     public boolean containAffairType(String affairType);
     public Map<String,List<A8OutputVo>> exportAllData();
     public List<A8OutputVo> exportData(String affairType);
+    public List<A8OutputVo> exportData(CtpAffair affair);
     public List<Map> exportOriginalData(String affairType);
     public List<A8OutputVo> exportData(String affairType,CommonParameter parameter);
 

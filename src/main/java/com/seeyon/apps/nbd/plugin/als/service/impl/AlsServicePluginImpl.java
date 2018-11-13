@@ -20,6 +20,7 @@ import com.seeyon.ctp.common.filemanager.manager.AttachmentManagerImpl;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManagerImpl;
 import com.seeyon.ctp.common.fileupload.FileUploadController;
+import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
@@ -185,6 +186,19 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         System.out.println(" end of export master table");
         return dataList;
 
+    }
+
+    public List<A8OutputVo> exportData(CtpAffair affair) {
+       // affair.getProcessId();
+        Long templateId = affair.getTempleteId();
+        if(templateId!=null){
+
+            
+
+        }
+
+
+        return null;
     }
 
     public List<Map> exportOriginalData(String affairType) {
