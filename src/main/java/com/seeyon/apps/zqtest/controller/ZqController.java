@@ -1,11 +1,8 @@
-package com.seeyon.apps.zqtest;
+package com.seeyon.apps.zqtest.controller;
 
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
-import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.portal.controller.PortalController;
-import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,7 +31,7 @@ public class ZqController extends BaseController {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
         if(page == null){
-            page = hello;
+            page = "hello";
         }
 
         ModelAndView mav = new ModelAndView("/apps/zqtest/"+page);
