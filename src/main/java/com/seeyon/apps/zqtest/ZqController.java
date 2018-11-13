@@ -34,7 +34,7 @@ public class ZqController extends BaseController {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
         if(page == null){
-            page = hello;
+            page = "hello";
         }
 
         ModelAndView mav = new ModelAndView("/apps/zqtest/"+page);
