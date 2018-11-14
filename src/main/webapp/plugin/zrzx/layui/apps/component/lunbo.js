@@ -41,6 +41,14 @@
                      this.parent = $("#" + this.op_.parent_id);
                      this.parent.append(this.root);
                  }
+                 if(!this.op.data_prop){
+
+                     this.op.data_prop={
+                         "img":"img"
+                     };
+
+
+                }
                 if (this.op_.data) {
                     var items = this.op_.data;
                     this.render(items);
@@ -69,11 +77,9 @@
                 var htmls=[];
                 for (var p = 0; p < data.length; p++) {
                     var item= data[p];
-                    htmls.push("<div><img height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item.img + "'> </div>");
+                    htmls.push("<div><img height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item[this.op.data_prop["img"]] + "'> </div>");
                 }
                 this.body.append($(htmls.join("")));
-                console.log(this.op_);
-                console.log(this.root.html());
                 carousel.render(this.op_);
                 var me = this;
                  carousel.on('change('+this.op_.id+')', function (res) {
