@@ -92,6 +92,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         }
         FormTableDefinition ftd = this.getFormTableDefinition(affairType);
         String sql = ftd.genAllQuery();
+
         try {
             List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
             log.log(ftd.getFormTable().getName()+"master table data size:" + list.size());
@@ -192,8 +193,17 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
        // affair.getProcessId();
         Long templateId = affair.getTempleteId();
         if(templateId!=null){
+            String sql = " select * from form_definition where id in (select  CONTENT_TEMPLATE_ID from ctp_content_all where id IN(select BODY from ctp_template where id=" + templateId + "))";
+            try {
+                List<Map> retList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                if(CommonUtils.isEmpty(retList)){
+                    return null;
+                }
 
-            
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
         }
 

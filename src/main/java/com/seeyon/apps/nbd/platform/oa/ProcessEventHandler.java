@@ -68,6 +68,7 @@ public class ProcessEventHandler {
             PluginServiceManager psm =  NbdController.getPSM();
             if(psm == null){
                 NbdController.setPSM(new PluginServiceManagerImpl());
+                psm = NbdController.getPSM();
             }
             psm.getServicePlugins().get(0).exportData(ctpAffair);
         } catch (BusinessException e) {
