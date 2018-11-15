@@ -10,6 +10,8 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.portal.controller.PortalController;
 import com.seeyon.ctp.portal.space.controller.SpaceController;
@@ -147,10 +149,8 @@ public class NbdController extends BaseController{
     @NeedlessCheckLogin
     public ModelAndView dbConsole2(HttpServletRequest request, HttpServletResponse response){
 
+        User user = AppContext.getCurrentUser();
 
-        DocController docController;
-        DocManagerController dmc;
-        SpaceController sc;
 
         return null;
     }

@@ -29,7 +29,7 @@
         if (items && items.length > 0) {
             DataLink.DL = items;
             /**
-             * <th>连接名称</th>
+             <th>连接名称</th>
              <th>地址</th>
              <th>数据类型</th>
              <th>用户名</th>
