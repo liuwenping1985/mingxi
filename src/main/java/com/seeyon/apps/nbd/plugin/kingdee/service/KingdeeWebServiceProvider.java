@@ -15,9 +15,9 @@ public class KingdeeWebServiceProvider {
 
     public WSContext login2KingdeeWs(){
 
-        String userName = ConfigService.getPropertyByName("eas_user_name","user");
+        String userName = "罗帆";
 
-        String password = ConfigService.getPropertyByName("eas_user_password","GD~<>123456");
+        String password = "910129";
 
         EASLoginProxyServiceLocator loginLocator = new EASLoginProxyServiceLocator();
 

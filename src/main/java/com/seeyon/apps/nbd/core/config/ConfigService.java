@@ -35,7 +35,7 @@ public class ConfigService {
     }
 
     public static void main(String[] args){
-       String key =  ConfigService.getPropertyByName("callback.uri","");
+       String key =  ConfigService.getPropertyByName("eas_user_name","");
        System.out.println(key);
     }
 

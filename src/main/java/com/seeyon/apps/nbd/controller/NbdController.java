@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.seeyon.apps.doc.controller.DocController;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
@@ -203,6 +204,7 @@ public class NbdController extends BaseController{
 //        parameter.$("affairType","HTFKSQD1");
 //        parameter.$("form_record_id","123453334");
       //  sp.processAffair(parameter);
+        DocController doc;
         int i = (((((1*5+1)*5+1)*5+1)*5+1)*5+1);
         System.out.println(i);
 
