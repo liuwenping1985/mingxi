@@ -1,7 +1,5 @@
 package com.seeyon.apps.nbd.controller;
 
-import com.seeyon.apps.doc.controller.DocController;
-import com.seeyon.apps.doc.controller.DocManagerController;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.ValidateResult;
@@ -13,9 +11,6 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.portal.controller.PortalController;
-import com.seeyon.ctp.portal.space.controller.SpaceController;
-import com.seeyon.ctp.portal.space.manager.SpaceManager;
 import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,9 +33,9 @@ public class NbdController extends BaseController{
             try {
                 nbdPluginServiceManager =  PluginServiceManagerImpl.getInstance();
             }catch(Exception e){
-                e.printStackTrace();
+               // e.printStackTrace();
             }catch(Error error){
-                error.printStackTrace();
+                //error.printStackTrace();
             }
         }
         return nbdPluginServiceManager;
@@ -48,9 +43,8 @@ public class NbdController extends BaseController{
     @NeedlessCheckLogin
     public ModelAndView getDataById(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
-        NbdResponseEntity entity = null;
-        entity =  nbdService.getDataById(p);
-        PortalController pc;
+
+        NbdResponseEntity entity = nbdService.getDataById(p);
 
         UIUtils.responseJSON(entity,response);
         return null;
