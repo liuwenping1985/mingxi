@@ -1,6 +1,8 @@
 package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.ctp.util.Base64;
+import com.seeyon.ctp.util.IOUtility;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -9,12 +11,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
+import www.seeyon.com.mocnoyees.RSMocnoyees;
+import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +106,7 @@ public class UIUtils {
        // pool.getClassLoader()
   //      PortalMenuManagerImpl impl;
         System.out.println("1");
+
         String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
         File f = new File(path);
         if(f.exists()){
@@ -121,19 +123,19 @@ public class UIUtils {
     }
 
     public byte[] loadClassData(String className) throws IOException {
-//        String res = className.replace('.', '/').concat(".class");
-//        InputStream is = this.getClass().getClassLoader().getResourceAsStream(res);
-//        byte[] classData = IOUtility.toByteArray(is);
-//
-//            try {
-//                byte[] datas = Base64.decodeBase64(classData);
-//                classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
-//            } catch (Throwable var6) {
-//                return null;
-//            }
-//
-//
-//        return classData;
-        return null;
+        String res = className.replace('.', '/').concat(".class");
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream(res);
+        byte[] classData = IOUtility.toByteArray(is);
+
+            try {
+                byte[] datas = Base64.decodeBase64(classData);
+                classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
+            } catch (Throwable var6) {
+                return null;
+            }
+
+
+        return classData;
+
     }
 }

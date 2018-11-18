@@ -11,6 +11,9 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.filemanager.manager.FileManagerImpl;
+import com.seeyon.ctp.common.fileupload.FileUploadController;
 import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,18 +60,20 @@ public class NbdController extends BaseController{
         if(page == null){
             page = "index";
         }
-        SpaceManagerImpl spaceManager;
+      
         ModelAndView mav = new ModelAndView("apps/nbd/"+page);
 
         return mav;
 
     }
+
     @NeedlessCheckLogin
     public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
         entity =  nbdService.getDataList(p);
         UIUtils.responseJSON(entity,response);
+        FileUploadController fuc;
         return null;
 
     }
