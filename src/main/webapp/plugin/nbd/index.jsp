@@ -53,19 +53,19 @@
         <center>
             <ul class="layui-nav layui-bg-blue" lay-filter="">
                 <li style="font-weight:bold" class="layui-nav-item layui-this">
-                    <a href=""><i class="layui-icon layui-icon-home lx-layout-icon"></i><span style="font-weight:bold">工作首页</span></a>
+                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=index')"><i class="layui-icon layui-icon-home lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">工作首页</span></a>
                 </li>
                 <li class="layui-nav-item " style="font-weight:bold">
-                    <a href=""><i class="layui-icon layui-icon-flag lx-layout-icon"></i><span style="font-weight:bold">党建工作</span></a>
+                    <a href=""><i class="layui-icon layui-icon-flag lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">党建工作</span></a>
                 </li>
                 <li style="font-weight:bold" class="layui-nav-item">
-                    <a href=""><i class="layui-icon layui-icon-component lx-layout-icon"></i>资源中心</a>
+                    <a href=""><i class="layui-icon layui-icon-component lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">资源中心</span></a>
                 </li>
                 <li style="font-weight:bold" class="layui-nav-item">
-                    <a href="javascript:;"><i class="layui-icon layui-icon-read lx-layout-icon"></i>自助专区</a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-read lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">自助专区</span></a>
                 </li>
                 <li style="font-weight:bold" class="layui-nav-item">
-                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=report')"><i class="layui-icon layui-icon-layouts lx-layout-icon"></i>报表中心</a>
+                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=report')"><i class="layui-icon layui-icon-layouts lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">报表中心</span></a>
                 </li>
             </ul>
         </center>

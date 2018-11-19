@@ -100,18 +100,10 @@
 
                                 var lb = Lunbo.create(child.cmp_options);
                                 ppp.append(lb);
-
                             }
                         }
-
-
-
                     }
                 }
-
-
-
-
             },
             getRows: function () {
                 return this.rows;

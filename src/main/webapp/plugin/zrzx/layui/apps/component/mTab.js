@@ -1,19 +1,22 @@
 ;
 (function () {
-    lx.mdefine("mTab", ['jquery'], function (exports) {
-
+    lx.mdefine("mTab", ['jquery','element'], function (exports) {
+        var element = layui.element;
         var apiSet = {};
         var $ = lx.jquery || lx.jQuery;
         var default_h = lx.eutil.getGlodenHeight();
         var _default_options = {
-            id: "cell" + "_uuid",
+            id: "mTab" + "_uuid",
             body_id: "",
             parent_id: "",
             title: "",
             size: 4,
-            root_class: "layui-col-md4",
-            body_class: "lx-layout-cell",
-            style: "min-height:" + default_h + "px"
+            root_class: "layui-tab layui-tab-card",
+            head_class: "layui-tab-title",
+            body_class: "layui-tab-content",
+            root_style: "min-height:" + default_h + "px",
+            head_style: "",
+            body_style: ""
         }
         var util = lx.eutil;
         var $ = lx.$;
@@ -29,7 +32,7 @@
                 if (options) {
                     util.copyProperties(this.op_, options);
                     if (this.op_.id == undefined) {
-                        this.op_.id = "cell_" + util.uuid();
+                        this.op_.id = "mTab_" + util.uuid();
                     }
                 }
                 this.id = this.op_.id;
@@ -42,23 +45,58 @@
                 if (!this.op_.style){
                     this.op_.style="";
                 }
-                if(!this.op_.className){
-                    this.op_.className = "";
-                }
-                this.root = $("<div style='" + this.op_.style + "' class='layui-col-md" + this.size + " " + this.op_.className + "'></div>");
-                this.body = $('<div id="' + this.id + '" class="lx-layout-cell" > </div>');
+
+                this.root = $("<div style='" + this.op_.root_style + "' class='"+this.op_.root_class+"' lay-filter='"+this.id+"'></div>");
+                this.head = $("<ul style='" + this.op_.head_style + "' class='"+this.op_.head_class+"'></ul>");
+                this.body = $('<div id="' + this.id + '" style="'+this.op_.body_style+'"  class="'+this.op_.body_class+'" > </div>');
 
                 if (this.op_.parent_id) {
                     this.parent = $("#" + this.op_.parent_id);
                     this.parent.append(this.root);
                 }
+                this.root.append(this.head);
                 this.root.append(this.body);
+                element.on('tab('+this.id+')', function(){
+
+                });
+                if(this.op_.tabs){
+                    var me =this;
+                    $(this.op_.tabs).each(function(index,item){
+                        me.addTab(item);
+                    })
+                }
+            },
+            addTab:function(tab){
+
+                var name = tab.name;
+                var checked = tab.checked;
+                var id = "li"+util.uuid();
+                var content = tab.content;
+                if(!content){
+                    content="";
+                }
+                if(checked){
+                    this.head.find("li").removeClass("layui-this");
+                    this.head.append($('<li class="font_size_18 layui-this" lay-id="li'+util.uuid()+'">'+name+'</li>'));
+                    this.body.find("div").removeClass("layui-show");
+                    this.body.append($('<div class="layui-tab-item layui-show">'+content+'</div>'));
+                }else{
+                    this.head.append($('<li class="font_size_18" lay-id="li'+util.uuid()+'">'+name+'</li>'));
+                    this.body.append($('<div class="layui-tab-item">'+content+'</div>'));
+                }
+
+
+
+            },
+            changeTab:function(){
+
             }
 
         });
         apiSet.create = function (options) {
             return new mTab(options);
         }
+
 
         exports("mTab", apiSet);
     })

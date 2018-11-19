@@ -1,27 +1,21 @@
 ;
 (function () {
-    lx.mdefine("progress", ['jquery'], function (exports) {
+    lx.mdefine("mMenu", ['jquery'], function (exports) {
 
         var apiSet = {};
         var $ = lx.jquery || lx.jQuery;
         var default_h = lx.eutil.getGlodenHeight();
         var _default_options = {
-            id: "cell" + "_uuid",
-            body_id: "",
-            parent_id: "",
-            title: "",
-            size: 4,
-            root_class: "layui-col-md4",
-            body_class: "lx-layout-cell",
-            style: "min-height:" + default_h + "px"
+            id: "mMenu" + util.uuid()
+
         }
         var util = lx.eutil;
         var $ = lx.$;
         var LxCmp = lx.LxComponent;
         var Klass = lx.getLxClass();
-        var Progress = new Klass();
-        Progress.include(LxCmp);
-        Progress.include({
+        var mMenu = new Klass();
+        mMenu.include(LxCmp);
+        mMenu.include({
             init: function (options) {
                 this.op_ = {};
                 this.jq = $;
@@ -57,9 +51,15 @@
 
         });
         apiSet.create = function (options) {
-            return new Progress(options);
+            return new mMenu(options);
         }
 
+        apiSet.addMenu=function(){
+
+        }
+        apiSet.changeMenu=function(){
+
+        }
 
         exports("mTab", apiSet);
     })
