@@ -14,6 +14,12 @@ import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.vo.*;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.po.template.CtpTemplate;
+import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
+import com.seeyon.ctp.util.FlipInfo;
 
 import java.util.*;
 
@@ -25,6 +31,14 @@ public class NbdService {
     private DataBaseHandler handler = DataBaseHandler.getInstance();
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
+    private CollaborationTemplateManager collaborationTemplateManager;
+
+    private CollaborationTemplateManager getCollaborationTemplateManager(){
+        if(collaborationTemplateManager == null){
+            collaborationTemplateManager = (CollaborationTemplateManager)AppContext.getBean("collaborationTemplateManager");
+        }
+        return collaborationTemplateManager;
+    }
     public NbdResponseEntity postAdd(CommonParameter p) {
         System.out.println(p);
         NbdResponseEntity entity = preProcess(p);
@@ -305,6 +319,38 @@ public class NbdService {
 
     }
 
+    public List<CtpTemplate> findConfigTemplates(String category, int count,Long userId,Long accountId) {
+        List<CtpTemplate> templateList = new ArrayList();
+
+        if(count <= 0) {
+            return (List)templateList;
+        } else {
+            FlipInfo flipInfo = new FlipInfo();
+            flipInfo.setPage(1);
+            flipInfo.setSize(count);
+            flipInfo.setNeedTotal(false);
+            Map<String, Object> params = new HashMap();
+            if(userId!=null){
+
+                params.put("userId", userId);
+                params.put("accountId", accountId);
+            }else{
+                User user = AppContext.getCurrentUser();
+                params.put("userId", user.getId());
+                params.put("accountId", user.getLoginAccount());
+            }
+
+            params.put("category", category);
+
+            try {
+                templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
+            } catch (BusinessException var8) {
+
+            }
+
+            return (List)templateList;
+        }
+    }
     public static void main(String[] args) {
         NbdService nbds = new NbdService();
         CommonParameter p = new CommonParameter();

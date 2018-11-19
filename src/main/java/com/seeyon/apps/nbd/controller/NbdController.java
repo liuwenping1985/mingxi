@@ -11,12 +11,15 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liuwenping on 2018/11/3.
@@ -145,6 +148,36 @@ public class NbdController extends BaseController{
 
         User user = AppContext.getCurrentUser();
 
+
+        return null;
+    }
+
+
+    //----------------//
+
+    @NeedlessCheckLogin
+    public ModelAndView getMyCtpTemplateList(HttpServletRequest request, HttpServletResponse response){
+
+        User user = AppContext.getCurrentUser();
+        List<CtpTemplate> templateList = new ArrayList<CtpTemplate>();
+        String category = "-1,1,2,4,19,20,21,32";
+        CommonParameter p = CommonParameter.parseParameter(request);
+        String count = p.$("count");
+        if(count == null){
+            count = "20";
+        }
+        int count_ = Integer.parseInt(count);
+        if(user == null){
+
+            templateList =  nbdService.findConfigTemplates(category,count_,8180340772611837618L,670869647114347l);
+        }else{
+
+            templateList = nbdService.findConfigTemplates(category,count_,user.getId(),user.getAccountId());
+        }
+        NbdResponseEntity entity = new NbdResponseEntity();
+        entity.setResult(true);
+        entity.setItems(templateList);
+        UIUtils.responseJSON(entity,response);
 
         return null;
     }

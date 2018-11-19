@@ -1,9 +1,14 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.ctp.common.security.MessageEncoder;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
+import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -238,9 +243,18 @@ public class DataBaseHandler {
 //                return;
 //            }
 //        }
-        System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
+        MessageEncoder encode = null;
+        try {
+            encode = new MessageEncoder();
+            String pwdC = encode.encode("aizhi", "123456");
+            System.out.println(pwdC);
 
 //
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+
 //        // System.out.println(handler.getDataByKey("123"));
 //        handler.putData(dbName,"test1234",1L);
 //        System.out.println(handler.getDataByKey(dbName,"test123"));

@@ -14,7 +14,7 @@ public class DocLibVo {
     private List<DocLibVo> child;
 
     public DocLibPO getData() {
-       data.get
+
         return data;
     }
 
