@@ -44,7 +44,11 @@
             divide = 3;
         }
         var h = window.screen.availHeight;
-        return ((h * 0.9) / 3) * 0.618;
+        var h2 =  ((h * 0.9) / 3) * 0.618;
+        if(h2<280){
+            h2=280;
+        }
+        return h2;
     }
     var Class_ = function () {
         var klass = function () {

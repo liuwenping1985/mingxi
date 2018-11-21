@@ -3,7 +3,7 @@
     /**
      * 做到尽量简单
      */
-    lx.mdefine("portal", ["jquery", "col", "sTab", "panel", "row", "list", "datepicker", "lunbo"], function (exports) {
+    lx.mdefine("portal", ["jquery","mixed", "col", "sTab", "panel", "row", "list", "datepicker","mTab", "lunbo"], function (exports) {
         var apiSet = {};
         var $ = lx.jquery || lx.jQuery;
         var LxCmp = lx.LxComponent;
@@ -16,6 +16,7 @@
         var DatePicker = lx.datepicker;
         var Col = lx.col;
         var Lunbo = lx.lunbo;
+        var MTab = lx.mTab;
         Portal.include(LxCmp);
         Portal.include({
             init: function (options) {
@@ -43,6 +44,9 @@
                         
                         p_row.append(p_col);
                         var ppp = p_col;
+                        if(!col.children){
+                            col.children="1";
+                        }
                         var col_children_size = 12 / col.children.length;
                         var w_class = "layui-col-md" + col_children_size;
                         if (col.type == "common") {
@@ -63,6 +67,13 @@
                             }else{
                                 ppp.attr("style",col.style);
                             }
+                        }
+                        if(col.type=="custom"){
+                            if(col.render){
+                                col.render(ppp,col,lx);
+                            }
+                            
+                            continue;
                         }
                         var col_children = col.children;
 
@@ -102,7 +113,11 @@
                                 ppp.append(lb);
                             }
                         }
+                       
                     }
+                }
+                if(this.op.callback){
+                    this.op.callback();
                 }
             },
             getRows: function () {

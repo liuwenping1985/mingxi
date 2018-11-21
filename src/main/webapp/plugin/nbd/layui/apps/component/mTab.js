@@ -72,17 +72,45 @@
                 var checked = tab.checked;
                 var id = "li"+util.uuid();
                 var content = tab.content;
+                var contentType=  tab.contentType;
+               
                 if(!content){
+                    contentType="html";
                     content="";
                 }
+                // if(tab.contentType){
+                //     var ct = tab.contentType;
+                //     if(ct=="cmp"){
+
+                //     }
+                // }
+
+                var headClass = "font_size_18"
+                var bodyClass= "layui-tab-item";
+                var tempHead =  $('<li class="font_size_18" lay-id="li'+util.uuid()+'">'+name+'</li>');
+                var tempBody = $('<div class="layui-tab-item"></div>');
                 if(checked){
                     this.head.find("li").removeClass("layui-this");
-                    this.head.append($('<li class="font_size_18 layui-this" lay-id="li'+util.uuid()+'">'+name+'</li>'));
                     this.body.find("div").removeClass("layui-show");
-                    this.body.append($('<div class="layui-tab-item layui-show">'+content+'</div>'));
+                    tempHead.addClass("layui-this");
+                    tempBody.addClass("layui-show");
+                }
+                
+                this.head.append(tempHead);
+                
+                this.body.append(tempBody);
+                if(!contentType){
+                    content="html";
+                    
                 }else{
-                    this.head.append($('<li class="font_size_18" lay-id="li'+util.uuid()+'">'+name+'</li>'));
-                    this.body.append($('<div class="layui-tab-item">'+content+'</div>'));
+                    if(contentType=="html"){
+                        tempBody.html(content);
+                    
+                    }else if(contentType=="cmp"){
+                        tempBody.append(content.root);
+                    }
+
+
                 }
 
 

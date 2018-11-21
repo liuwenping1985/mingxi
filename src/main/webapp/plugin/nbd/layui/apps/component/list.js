@@ -19,6 +19,10 @@
                      this.parent = $("#" + this.op_.parent_id);
                      this.parent.append(this.root);
                 }
+                if(options.parentCmp){
+                    this.parent = options.parentCmp;
+                    this.parent.append(this.root);
+               }
                 if (options.data_url) {
                     var me = this;
                      $.ajax({
@@ -66,7 +70,7 @@
                             cell.size=4;
                         }
                         if(cell&&cell.render){
-                            htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name]) + "</div>");
+                            htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</div>");
                         }else{
                              htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
                         }

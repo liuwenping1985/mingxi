@@ -31,7 +31,7 @@
 
 .lx-layout-cell {
     padding: 3px;
-    text-align: center;
+   
     font-size: 18px;
     color: #fff;
 }
@@ -238,17 +238,7 @@
 #root_body{
     width:90%;
 }
-.layui-badge {
-    top: -2px;
-    height: 20px;
-    line-height: 20px;
-    padding: 0 5px;
-    margin-right: 2px;
-    font-size: 18px;
-    border: 1px solid #FF5722;
-    background: none;
-    color: #FF5722;
-}
+
 .lx-layout-menu{
     position:fixed;
     left:5px;

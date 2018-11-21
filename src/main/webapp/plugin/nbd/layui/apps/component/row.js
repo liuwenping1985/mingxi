@@ -42,6 +42,10 @@
                     this.parent = $("#" + this.op_.parent_id);
                     this.parent.append(this.root);
                 }
+                if(this.op_.parentCmp){
+                    this.parent =this.op_.parentCmp;
+                    this.parent.append(this.root);
+                }
             }
         });
         apiSet.hello = function () {

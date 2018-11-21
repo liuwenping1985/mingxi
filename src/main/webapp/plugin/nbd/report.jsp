@@ -53,19 +53,19 @@
         <center>
             <ul class="layui-nav layui-bg-blue" lay-filter="">
                 <li style="font-weight:bold" class="layui-nav-item layui-this">
-                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=index')"><i class="layui-icon layui-icon-home lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">工作首页</span></a>
+                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=index')"><table><tr><td><i class="layui-icon layui-icon-home lx-layout-icon"></i></td><td><span style="font-weight:bold;white-space:nowrap;">工作首页</span></td></tr></table></a>
                 </li>
                 <li class="layui-nav-item " style="font-weight:bold">
-                    <a href=""><i class="layui-icon layui-icon-flag lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">党建工作</span></a>
+                    <a href=""><table><tr><td><i class="layui-icon layui-icon-flag lx-layout-icon"></i></td><td><span style="font-weight:bold;white-space:nowrap;">党建工作</span></td></tr></table></a>
                 </li>
                 <li style="font-weight:bold" class="layui-nav-item">
-                    <a href=""><i class="layui-icon layui-icon-component lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">资源中心</span></a>
+                    <a href=""><table><tr><td><i class="layui-icon layui-icon-component lx-layout-icon"></i></td><td><span style="font-weight:bold;white-space:nowrap;">资源中心</span></td></tr></table></a>
                 </li>
                 <li style="font-weight:bold" class="layui-nav-item">
-                    <a href="javascript:;"><i class="layui-icon layui-icon-read lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">自助专区</span></a>
+                    <a href="javascript:;"><table><tr><td><i class="layui-icon layui-icon-read lx-layout-icon"></i></td><td><span style="font-weight:bold;white-space:nowrap;">自助专区</span></td></tr></table></a>
                 </li>
                 <li style="font-weight:bold" class="layui-nav-item">
-                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=report')"><i class="layui-icon layui-icon-layouts lx-layout-icon"></i><span style="font-weight:bold;white-space:nowrap;">报表中心</span></a>
+                    <a onclick="window.open('/seeyon/nbd.do?method=goPage&page=report')"><table><tr><td><i class="layui-icon layui-icon-layouts lx-layout-icon"></i></td><td><span style="font-weight:bold;white-space:nowrap;">报表中心</span></td></tr></table></a>
                 </li>
             </ul>
         </center>
@@ -91,7 +91,7 @@
 
 <script src="/seeyon/apps_res/nbd/layui/lx.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/zrzx/layout.js"></script>
-<script src="/seeyon/apps_res/nbd/layui/apps/zrzx/index.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/zrzx/report.js"></script>
 </body>
 
 

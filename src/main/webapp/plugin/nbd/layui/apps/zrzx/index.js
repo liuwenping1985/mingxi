@@ -2,6 +2,9 @@
 (function () {
     lx.use(["jquery", "carousel", "element", "portal"], function () {
         var layout = LAY_OUT_DEFINE;
+        layout.callback = function(){
+           
+        }
         // var Row = lx.row;
         // var row7 = Row.create({
         //     parent_id: "root_body",
