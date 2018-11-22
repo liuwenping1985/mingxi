@@ -100,7 +100,7 @@
                 
                 this.body.append(tempBody);
                 if(!contentType){
-                    content="html";
+                    contentType="html";
                     
                 }else{
                     if(contentType=="html"){
