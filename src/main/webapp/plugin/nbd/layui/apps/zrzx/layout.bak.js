@@ -205,7 +205,7 @@ var LAY_OUT_DEFINE = {
                         contentType: "html",
                         content: btn_htmls.join(""),
                         style: "height:240px",
-                        size: 2
+                        size: 6
                     }]
                 });
                 var list1 = List.create({
@@ -238,7 +238,7 @@ var LAY_OUT_DEFINE = {
                 });
                 mix1.addCmp({
                     content: list1,
-                    size: 10,
+                    size: 6,
                     style: "height:240px"
                 });
                 var list2 = List.create({
