@@ -41,10 +41,10 @@
                      this.parent = $("#" + this.op_.parent_id);
                      this.parent.append(this.root);
                  }
-                 if(!this.op.data_prop){
+                 if(!this.op_.data_prop){
 
-                     this.op.data_prop={
-                         "img":"img"
+                     this.op_.data_prop={
+                         "img":"imgUrl"
                      };
 
 
@@ -77,6 +77,7 @@
                 var htmls=[];
                 for (var p = 0; p < data.length; p++) {
                     var item= data[p];
+                    console.log(this.op.data_prop["img"]);
                     htmls.push("<div><img height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item[this.op.data_prop["img"]] + "'> </div>");
                 }
                 this.body.append($(htmls.join("")));

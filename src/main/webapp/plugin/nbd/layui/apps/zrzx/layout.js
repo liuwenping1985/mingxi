@@ -19,7 +19,7 @@ var URL_REPO = {
     "hyjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8567852862769874037&offset=0&limit=6",
     "xqgs": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=3563212477215886478&offset=0&limit=6",
     "bmfzjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7211608043895997701&offset=0&limit=6",
-    "zxyy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=6"
+    "zxyy":URL_BASE+"/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=6"
 }
 
 var LAY_OUT_DEFINE = {
@@ -122,6 +122,13 @@ var LAY_OUT_DEFINE = {
             name: "门户链接",
             render: function (parent, col, layex) {
                 var Mixed = layex.mixed;
+                var $ = layex.jquery;
+                var mixParent = Mixed.create({
+                    id:"mixed0",
+                    mode:"col",
+                    size:12,
+                    style:"height:80px"
+                });
                 var mixRoot = Mixed.create({
                     id: "mixed1",
                     mode: "row",
@@ -137,48 +144,64 @@ var LAY_OUT_DEFINE = {
                     mode: "col",
                     size: 12
                 });
-                var btn_htmls = ['<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color: #64d0c6;display:inline-block;text-align:center" class="layui-btn layui-btn-warm">发起公文</button></div>'];
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#1f85ec;display:inline-block;text-align:center" class="layui-btn layui-btn-warm">我要请假</button></div>');
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#5246c5;display:inline-block;text-align:center" class="layui-btn layui-btn-warm">我的日程</button></div>');
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#ff6d68;display:inline-block;text-align:center;min-width:92px" class="layui-btn layui-btn-warm">停车单</button></div>');
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#26a3ed;display:inline-block;text-align:center" class="layui-btn layui-btn-warm">外事公示</button></div>');
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#f9b954;display:inline-block;text-align:center" class="layui-btn layui-btn-warm">我的工资</button></div>');
+                // var btn_htmls = ['<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color: #64d0c6;display:inline-block;text-align:center" class="layui-btn layui-btn-warm layui-btn-radius">发起公文</button></div>'];
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#1f85ec;display:inline-block;text-align:center" class="layui-btn layui-btn-warm layui-btn-radius">我要请假</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#5246c5;display:inline-block;text-align:center" class="layui-btn layui-btn-warm layui-btn-radius">我的日程</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#ff6d68;display:inline-block;text-align:center;min-width:92px" class="layui-btn layui-btn-warm layui-btn-radius">停车单</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#26a3ed;display:inline-block;text-align:center" class="layui-btn layui-btn-warm layui-btn-radius">外事公示</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#f9b954;display:inline-block;text-align:center" class="layui-btn layui-btn-warm layui-btn-radius">我的工资</button></div>');
 
-                for (var p = 0; p < btn_htmls.length; p++) {
-                    mix1.addCmp({
-                        size: 2,
-                        style: "height:40px",
-                        content: btn_htmls[p]
-                    });
-                }
-                btn_htmls = ['<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#1f85ec;display:inline-block;text-align:center" class="layui-btn layui-btn-warm">发起协同</button></div>', '<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color: #64d0c6;display:inline-block" class="layui-btn layui-btn-warm">发起公文</button></div>'];
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#26a3ed;display:inline-block;min-width:92px;text-align:center" class="layui-btn layui-btn-warm">办公室</button></div>');
+                // for (var p = 0; p < btn_htmls.length; p++) {
+                //     mix1.addCmp({
+                //         size: 2,
+                //         style: "height:40px",
+                //         content: btn_htmls[p]
+                //     });
+                // }
+                mix1.addCmp({
+                    size:12,
+                    content:$("#btn_groups")
+                })
+                // btn_htmls = ['<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#1f85ec;display:inline-block;text-align:center" class="layui-btn-radius layui-btn layui-btn-warm">发起协同</button></div>', '<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color: #64d0c6;display:inline-block" class="layui-btn-radius layui-btn layui-btn-warm">发起公文</button></div>'];
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#26a3ed;display:inline-block;min-width:92px;text-align:center" class="layui-btn-radius layui-btn layui-btn-warm">办公室</button></div>');
 
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#f9b954;display:inline-block;min-width:92px;text-align:center" class="layui-btn layui-btn-warm">人事</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#f9b954;display:inline-block;min-width:92px;text-align:center" class="layui-btn-radius layui-btn layui-btn-warm">人事</button></div>');
 
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#5246c5;display:inline-block;min-width:92px;text-align:center" class="layui-btn layui-btn-warm">此物</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#5246c5;display:inline-block;min-width:92px;text-align:center" class="layui-btn-radius layui-btn layui-btn-warm">此物</button></div>');
 
-                btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#ff6d68;display:inline-block;min-width:92px;text-align:center" class="layui-btn layui-btn-warm">国际处</button></div>');
+                // btn_htmls.push('<div style="width:100%;margin:0 auto;text-align:center"><button style="background-color:#ff6d68;display:inline-block;min-width:92px;text-align:center" class="layui-btn-radius layui-btn layui-btn-warm">国际处</button></div>');
 
-                for (var p = 0; p < btn_htmls.length; p++) {
-                    mix2.addCmp({
-                        size: 2,
-                        style: "height:40px",
-                        content: btn_htmls[p]
-                    });
-                }
+                // for (var p = 0; p < btn_htmls.length; p++) {
+                //     mix2.addCmp({
+                //         size: 12,
+                //         style: "height:95px",
+                //         content: btn_htmls[p]
+                //     });
+                // }
 
                 mixRoot.addCmp({
                     size: 12,
-                    style: "height:45px",
+                    style: "height:136px",
                     content: mix1
                 });
-                mixRoot.addCmp({
-                    size: 12,
-                    style: "height:45px",
-                    content: mix2
+                // mixRoot.addCmp({
+                //     size: 12,
+                //     style: "height:45px",
+                //     content: mix2
+                // })
+                mixParent.addCmp({
+                    size:3,
+                    content:$(".zr_search"),
+                    contentType:"html",
+                    style:"height:136px"
                 })
-                parent.append(mixRoot);
+                mixParent.addCmp({
+                    size:9,
+                    content:mixRoot,
+                    contentType:"cmp",
+                    style:"height:136px"
+                })
+                parent.append(mixParent);
 
             }
         }]
@@ -191,111 +214,37 @@ var LAY_OUT_DEFINE = {
             name: "待办工作",
             render: function (parent, col, layex) {
                 var mTab = layex.mTab;
+                var sTab = layex.sTab;
                 var List = layex.list;
                 var Mixed = layex.mixed;
-                var btn_htmls = ['<button style="background-color:#8693f3;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">6<span style="margin: 0 30px 0 30px">|</span>表单审批</button>'];
-                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#ff916e;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">3<span style="margin: 0 30px 0 30px">|</span>重要待办</button>');
-                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#5484ff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">2<span style="margin: 0 30px 0 30px">|</span>待开会议</button>');
-                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#3cbaff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">1<span style="margin: 0 30px 0 30px">|</span>领导安排</button>');
-
-                var mix1 = Mixed.create({
-                    id: "mixed1",
+                var $ = layex.jquery;
+                var pdm = $("#pending_main_area");
+                parent.append(pdm);
+                var root = $("#pending_main_body");
+                var mixed = Mixed.create({
+                    id: "mixed-pending",
                     mode: "col",
-                    cmps: [{
-                        contentType: "html",
-                        content: btn_htmls.join(""),
-                        style: "height:240px",
-                        size: 2
-                    }]
+                    size: 12
                 });
-                var list1 = List.create({
-                    data_url: URL_REPO.daibangongzuo,
-                    data_prop: [{
-                        "name": "subject",
-                        render: function (name, data) {
-                            return data;
-                        },
-                        size: 8
-                    }, {
-                        "name": "senderName",
-                        size: 2,
-                        render: function (name, data) {
-                            if (!data) {
-                                return "";
-                            }
-                            return data.substring(5, 10);
-                        }
-                    }, {
-                        "name": "receiveFormatDate",
-                        size: 2,
-                        render: function (name, data) {
-                            if (!data) {
-                                return "";
-                            }
-                            return data.substring(5, 10);
-                        }
-                    }]
+                root.append(mixed.root);
+                var pdList = sTab.create({
+                    "title": "协同管理"
                 });
-                mix1.addCmp({
-                    content: list1,
-                    size: 10,
-                    style: "height:240px"
+                var jbList = sTab.create({
+                    "title": "任务&督办"
                 });
-                var list2 = List.create({
-                    data_url: URL_REPO.col_pending,
-                    data_prop: [{
-                        "name": "subject",
-                        render: function (name, data) {
-                            return data;
-                        },
-                        size: 8
-                    }, {
-                        "name": "senderName",
-                        size: 2
-                    }, {
-                        "name": "receiveFormatDate",
-                        render: function (name, data) {
+                mixed.addCmp({
+                    contentType:"cmp",
+                    content:pdList,
+                    size:6
+                });
+                mixed.addCmp({
+                    contentType:"cmp",
+                    content:jbList,
+                    size:6
+                });
 
-                        },
-                        size: 2
-                    }]
-                });
-                var list3 = List.create({
-                    data_url: URL_REPO.edoc_pending,
-                    data_prop: [{
-                        "name": "subject",
-                        render: function (name, data) {
-                            return data;
-                        },
-                        size: 8
-                    }, {
-                        "name": "senderName",
-                        size: 2
-                    }, {
-                        "name": "receiveFormatDate",
-                        size: 2
-                    }]
-                });
-                var mt = mTab.create({
-                    id: "pending-main",
-                    tabs: [{
-                        "name": "<span style='color: #1E9FFF'>全部待办</span>",
-                        checked: true,
-                        contentType: "cmp",
-                        content: mix1
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>协同待办(8)</span>",
-                        checked: false,
-                        contentType: "cmp",
-                        content: list2
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>公文待办(6)</span>",
-                        checked: false,
-                        contentType: "cmp",
-                        content: list3
-                    }]
-                });
-                parent.append(mt);
+
 
 
             }
@@ -609,16 +558,16 @@ var LAY_OUT_DEFINE = {
                 }]
             }]
         }]
-    }, {
-        cols: [{
-            size: 12,
-            id: "123",
-            name: "",
-            type: "custom",
-            render: function (parent, col, layex) {
+    },{
+        cols:[{
+            size:12,
+            id:"123",
+            name:"",
+            type:"custom",
+            render:function(parent, col, layex){
 
-                var html = [];
-
+                var html=[];
+                
                 parent.append(html.join(""));
 
             }
@@ -739,57 +688,56 @@ var LAY_OUT_DEFINE = {
                     content: mt2,
                     size: 12
                 });
-            }
-        }]
-    }, {
-        cols: [{
-            size: 6,
-            id: "col7",
-            type: "sTab",
-            name: "光荣榜",
-            children: [{
-                cmp: "list",
-                name: "光荣榜",
-                max: 5,
-                data_url: URL_REPO.guangrongbang,
-                data_prop: [{
-                    "name": "frName",
-                    size: 10,
-                    render: function (name, data) {
-                        return data;
-                    }
-                }, {
-                    "name": "createTime",
-                    size: 2,
-                    render: function (name, data) {
-                        return data.substring(5, 10);
-                    }
-                }]
-            }]
+            }}]
         }, {
-            size: 6,
-            id: "col7",
-            type: "sTab",
-            name: "中心影院",
-            children: [{
-                cmp: "list",
+            cols: [{
+                size: 6,
+                id: "col7",
+                type: "sTab",
+                name: "光荣榜",
+                children: [{
+                    cmp: "list",
+                    name: "光荣榜",
+                    max: 5,
+                    data_url: URL_REPO.guangrongbang,
+                    data_prop: [{
+                        "name": "frName",
+                        size: 10,
+                        render: function (name, data) {
+                            return data;
+                        }
+                    }, {
+                        "name": "createTime",
+                        size: 2,
+                        render: function (name, data) {
+                            return data.substring(5, 10);
+                        }
+                    }]
+                }]
+            },{
+                size: 6,
+                id: "col7",
+                type: "sTab",
                 name: "中心影院",
-                max: 5,
-                data_url: URL_REPO.zxyy,
-                data_prop: [{
-                    "name": "frName",
-                    size: 10,
-                    render: function (name, data) {
-                        return data;
-                    }
-                }, {
-                    "name": "createTime",
-                    size: 2,
-                    render: function (name, data) {
-                        return data.substring(5, 10);
-                    }
+                children: [{
+                    cmp: "list",
+                    name: "中心影院",
+                    max: 5,
+                    data_url: URL_REPO.zxyy,
+                    data_prop: [{
+                        "name": "frName",
+                        size: 10,
+                        render: function (name, data) {
+                            return data;
+                        }
+                    }, {
+                        "name": "createTime",
+                        size: 2,
+                        render: function (name, data) {
+                            return data.substring(5, 10);
+                        }
+                    }]
                 }]
             }]
         }]
-    }]
-}
+    }
