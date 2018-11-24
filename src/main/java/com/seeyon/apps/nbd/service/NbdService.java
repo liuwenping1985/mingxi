@@ -16,12 +16,29 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.constants.Constants;
+import com.seeyon.ctp.common.constants.LoginResult;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.flag.BrowserEnum;
+import com.seeyon.ctp.common.flag.SysFlag;
+import com.seeyon.ctp.common.i18n.LocaleContext;
+import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
 import com.seeyon.ctp.common.template.manager.CollaborationTemplateManagerImpl;
+import com.seeyon.ctp.login.LoginControlImpl;
+import com.seeyon.ctp.login.online.OnlineRecorder;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.FlipInfo;
+import com.seeyon.ctp.util.Strings;
+import com.seeyon.ctp.util.UUIDLong;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -39,6 +56,35 @@ public class NbdService {
             collaborationTemplateManager = (CollaborationTemplateManager)AppContext.getBean("collaborationTemplateManager");
         }
         return collaborationTemplateManager;
+    }
+    private LoginControlImpl loginControl;
+
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+
+    private OrgManager orgManager;
+    private OrgManager getOrgManager(){
+        if(orgManager == null){
+            orgManager = (OrgManager)AppContext.getBean("orgManager");
+        }
+        return orgManager;
+    }
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
+
+    private LoginControlImpl getLoginControl(){
+        if(loginControl == null){
+            loginControl = (LoginControlImpl)AppContext.getBean("loginControl");
+            if(loginControl == null){
+                loginControl = (LoginControlImpl)AppContext.getBean("loginControlImpl");
+            }
+        }
+        return loginControl;
     }
     public NbdResponseEntity postAdd(CommonParameter p) {
         System.out.println(p);
@@ -355,10 +401,127 @@ public class NbdService {
         }
     }
 
-    private void login(Long userId){
+    public void login(Long userId){
 
+       OrgManager om = this.getOrgManager();
+       if(om!=null){
+
+           try {
+               V3xOrgMember vm = om.getMemberById(userId);
+               login(vm);
+           } catch (BusinessException e) {
+
+           }
+       }
 
         
+    }
+
+
+
+    private User login(V3xOrgMember handleMember) throws BusinessException {
+        User user = new User();
+        user.setId(handleMember.getId());
+        user.setDepartmentId(handleMember.getOrgDepartmentId());
+        user.setLoginAccount(handleMember.getOrgAccountId());
+        user.setLoginName(handleMember.getLoginName());
+        user.setName(handleMember.getName());
+        user.setSecurityKey(UUIDLong.longUUID());
+        user.setUserAgentFrom("pc");
+        user.setBrowser(BrowserEnum.IE);
+        String remoteAddr = Strings.getRemoteAddr(request);
+        user.setRemoteAddr(remoteAddr);
+        HttpSession session = request.getSession(true);
+        String sessionId = session.getId();
+        user.setSessionId(sessionId);
+        user.setTimeZone(TimeZone.getDefault());
+        user.setLoginState(User.login_state_enum.ok);
+        Locale locale = LocaleContext.make4Frontpage(request);
+        user.setLocale(locale);
+        LoginResult result = mergeUserInfo(user, this.getLoginControl());
+        if (!result.isOK()) {
+            return null;
+        }
+        user.setLoginState(User.login_state_enum.ok);
+        AppContext.putSessionContext(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
+        session.setAttribute("com.seeyon.current_user", user);
+        AppContext.putThreadContext("SESSION_CONTEXT_USERINFO_KEY", user);
+        OnlineRecorder.moveToOffline(user.getLoginName(), user.getLoginSign(), Constants.LoginOfflineOperation.loginAnotherone);
+        this.getLoginControl().getOnlineManager().updateOnlineState(user);
+        this.getLoginControl().createLog(user);
+        this.getLoginControl().getTopFrame(user, request);
+        this.response.addHeader("LoginOK", "ok");
+        this.response.addHeader("VJA", user.isAdmin() ? "1" : "0");
+        return user;
+    }
+
+
+    private static LoginResult mergeUserInfo(User currentUser, LoginControlImpl loginControl) {
+        if (currentUser == null) {
+            return LoginResult.ERROR_UNKNOWN_USER;
+        } else {
+            try {
+                String loginName = currentUser.getLoginName();
+                V3xOrgMember member = loginControl.getOrgManager().getMemberByLoginName(loginName);
+                if (member != null && member.isValid()) {
+                    long userId = member.getId().longValue();
+                    V3xOrgAccount account = loginControl.getOrgManager().getAccountById(member.getOrgAccountId());
+                    V3xOrgAccount loginAccount;
+                    if (currentUser.getLoginAccount() != null) {
+                        loginAccount = loginControl.getOrgManager().getAccountById(currentUser.getLoginAccount());
+                    } else {
+                        loginAccount = account;
+                    }
+
+                    if (account != null && loginAccount != null && account.isValid() && loginAccount.isValid()) {
+                        currentUser.setId(Long.valueOf(userId));
+                        currentUser.setAccountId(account.getId());
+                        currentUser.setLoginAccount(loginAccount.getId());
+                        currentUser.setLoginAccountName(loginAccount.getName());
+                        currentUser.setLoginAccountShortName(loginAccount.getShortName());
+                        currentUser.setExternalType(member.getExternalType());
+                        String name = null;
+                        if (member.getIsAdmin().booleanValue()) {
+                            if (loginControl.getOrgManager().isAuditAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setAuditAdmin(true);
+                                name = ResourceUtil.getString("org.auditAdminName.value");
+                            } else if (loginControl.getOrgManager().isGroupAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setGroupAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.groupAdminName.value" + (String) SysFlag.EditionSuffix.getFlag());
+                            } else if (loginControl.getOrgManager().isAdministratorById(Long.valueOf(userId), loginAccount).booleanValue()) {
+                                currentUser.setAdministrator(true);
+                                name = loginAccount.getName() + ResourceUtil.getString("org.account_form.adminName.value");
+                            } else if (loginControl.getOrgManager().isSystemAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setSystemAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.systemAdminName.value");
+                            } else if (loginControl.getOrgManager().isSuperAdmin(loginName, loginAccount).booleanValue()) {
+                                currentUser.setSuperAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.superAdminName.value");
+                            } else if (loginControl.getOrgManager().isPlatformAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setPlatformAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.platformAdminName.value");
+                            }
+                        } else {
+                            name = member.getName();
+                        }
+
+                        currentUser.setName(name);
+                        currentUser.setDepartmentId(member.getOrgDepartmentId());
+                        currentUser.setLevelId(member.getOrgLevelId());
+                        currentUser.setPostId(member.getOrgPostId());
+                        currentUser.setInternal(member.getIsInternal().booleanValue());
+                        return LoginResult.OK;
+                    } else {
+                        return LoginResult.ERROR_UNKNOWN_USER;
+                    }
+                } else {
+                    return LoginResult.ERROR_UNKNOWN_USER;
+                }
+            } catch (Throwable var9) {
+                loginControl.getLogger().error(var9.getLocalizedMessage(), var9);
+                return LoginResult.ERROR_UNKNOWN_USER;
+            }
+        }
     }
     public static void main(String[] args) {
         NbdService nbds = new NbdService();

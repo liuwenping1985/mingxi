@@ -108,6 +108,8 @@
                     
                     }else if(contentType=="cmp"){
                         tempBody.append(content.root);
+                    }else if(contentType=="jq"){
+                        tempBody.append(content);
                     }
 
 

@@ -242,6 +242,39 @@
 .lx-layout-menu{
     position:fixed;
     left:5px;
-    top:192px;
+    top:212px;
     
+}
+.lx-pre-banner{
+    border-left: 6px solid #1E9FFF;
+    height:144px
+
+}
+.lx_no_height{
+    height:1px;
+    padding:0px;
+}
+.dc{
+    color:#1E9FFF;
+}
+.lx_np{
+    margin:0px;
+    padding:0px !important;
+   
+}
+
+.lx_24680{
+   
+    height:80px !important;
+}
+.circle_demo{
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    margin: 0 auto 10px;
+    text-align: center;
+    background-color: #009688;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 50%;
 }

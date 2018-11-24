@@ -23,6 +23,12 @@
                     this.parent = options.parentCmp;
                     this.parent.append(this.root);
                }
+               if(options.mode){
+                   this.mode = options.mode;
+                   
+               }else{
+                   this.mode="normal";
+               }
                 if (options.data_url) {
                     var me = this;
                      $.ajax({
@@ -61,23 +67,50 @@
                     }
                 }
                 var htmls = [''];
-                for(var p=0;p<data.length;p++){
-                    var p_data = data[p];
-                    htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
-                    for (var k = 0; k < this.data_prop.length;k++){
-                        var cell = this.data_prop[k];
-                        if(!cell.size){
-                            cell.size=4;
+                if(this.mode=="normal"){
+                    for(var p=0;p<data.length;p++){
+                        var p_data = data[p];
+                        htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
+                        for (var k = 0; k < this.data_prop.length;k++){
+                            var cell = this.data_prop[k];
+                            if(!cell.size){
+                                cell.size=4;
+                            }
+                            if(cell&&cell.render){
+                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</div>");
+                            }else{
+                                 htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
+                            }
                         }
-                        if(cell&&cell.render){
-                            htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</div>");
-                        }else{
-                             htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
-                        }
+                        htmls.push("</div>");
+    
                     }
-                    htmls.push("</div>");
+                }else{
+                    htmls.push('<table class="layui-table layui-col-xs12"  lay-skin="line">');
+                    htmls.push('<tbody class="layui-col-xs12">');
+                    for(var p=0;p<data.length;p++){
+                        var p_data = data[p];
+                        htmls.push("<tr class='layui-col-xs12' style='cursor:pointer;font-size:18px;color:rgb(50,50,50)'>");
+                        for (var k = 0; k < this.data_prop.length;k++){
+                            var cell = this.data_prop[k];
+                            if(!cell.size){
+                                cell.size=4;
+                            }
+                            if(cell&&cell.render){
+                                htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</td>");
+                            }else{
+                                 htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</td>");
+                            }
+                        }
+                        htmls.push("</tr>");
+    
+                    }
+
+                    htmls.push('</tbody>');
+                    htmls.push('</table>')
 
                 }
+               
                
                 this.root.html(htmls.join(''));
             }

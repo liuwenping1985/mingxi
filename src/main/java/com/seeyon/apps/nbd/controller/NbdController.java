@@ -157,7 +157,7 @@ public class NbdController extends BaseController{
 
     @NeedlessCheckLogin
     public ModelAndView getMyCtpTemplateList(HttpServletRequest request, HttpServletResponse response){
-
+        preHandleRequest(request,response);
         User user = AppContext.getCurrentUser();
         List<CtpTemplate> templateList = new ArrayList<CtpTemplate>();
         String category = "-1,1,2,4,19,20,21,32";
@@ -180,6 +180,21 @@ public class NbdController extends BaseController{
         UIUtils.responseJSON(entity,response);
 
         return null;
+    }
+    private boolean mock = true;
+    private Long mockUser = 8180340772611837618L;
+    private void preHandleRequest(HttpServletRequest request, HttpServletResponse response){
+
+        nbdService.setRequest(request);
+        nbdService.setResponse(response);
+        if(mock){
+            User user = AppContext.getCurrentUser();
+            if(user!=null){
+                return;
+            }
+            nbdService.login(mockUser);
+        }
+
     }
 
 

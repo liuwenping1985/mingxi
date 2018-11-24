@@ -14,12 +14,13 @@ var URL_REPO = {
     "dangjiangongzuo": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=575989468633646689&offset=0&limit=6",
     "guizhangzhidu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8314899268065577424&offset=0&limit=6",
     "guangrongbang": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=820644300868634954&offset=0&limit=6",
-    "changyongmoban": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&count=8",
+    "changyongmoban": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&count=9",
     "zwxxtb": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2101297384881669972&offset=0&limit=6",
     "hyjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8567852862769874037&offset=0&limit=6",
     "xqgs": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=3563212477215886478&offset=0&limit=6",
     "bmfzjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7211608043895997701&offset=0&limit=6",
-    "zxyy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=6"
+    "zxyy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=6",
+    "guizhangzhidu2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8314899268065577424&offset=0&limit=8",
 }
 
 var LAY_OUT_DEFINE = {
@@ -363,7 +364,6 @@ var LAY_OUT_DEFINE = {
             }
         }]
     }, {
-        style:"500px",
         cols: [{
             size: 6,
             id: "pending3",
@@ -428,6 +428,7 @@ var LAY_OUT_DEFINE = {
                 });
                 var mt = mTab.create({
                     id: "pending-template",
+                    root_style:"height:380px",
                     tabs: [{
                         "name": "<span style='color: #1E9FFF'>常用模板</span>",
                         checked: true,
@@ -448,6 +449,51 @@ var LAY_OUT_DEFINE = {
                 var DatePicker = lx.datepicker;
                 var Mixed = lx.mixed;
                 var mTab = lx.mTab;
+                var mixedRoot = Mixed.create({
+                    id:"dp_micker",
+                    mode:"col",
+                    size:12
+                });
+                var mixedLeft = Mixed.create({
+                    id:"dp_micker_left",
+                    mode:"col",
+                    size:12
+                });
+                var mixedRight = Mixed.create({
+                    id:"dp_micker_right",
+                    mode:"col",
+                    size:12
+                });
+                mixedRoot.addCmp({
+                    contentType:"cmp",
+                    content:mixedLeft,
+                    size:6
+                });
+                mixedRoot.addCmp({
+                    contentType:"cmp",
+                    content:mixedRight,
+                    size:6
+                });
+                mixedRight.addCmp({
+                    content:$("#leader_calendar"),
+                    size:12
+                })
+                var mt = mTab.create({
+                    id: "pending-template",
+                    root_style:"height:380px",
+                    tabs: [{
+                        "name": "<span style='color: #1E9FFF'>日程管理</span>",
+                        checked: true,
+                        contentType: "cmp",
+                        content: mixedRoot
+                    }]
+                });
+                parent.append(mt);
+                DatePicker.create({
+                    "id":"picker",
+                    "className":"",
+                    parent:mixedLeft
+                });
 
 
             },
@@ -476,6 +522,19 @@ var LAY_OUT_DEFINE = {
             }]
         }]
 
+    },{
+        cols:[{
+            size: 12,
+            id: "col5",
+            type: "custom",
+            name: "横幅图片",
+            render:function(parent,col,layex){
+                var $ = layex.jquery;
+                parent.append($("#banner"));
+            }
+        }]
+
+
     }, {
         cols: [{
 
@@ -500,18 +559,18 @@ var LAY_OUT_DEFINE = {
                 mixedRoot.addCmp({
                     contentType: "cmp",
                     content: mixed1,
-                    size: 6
-                });
-                var mixed2 = Mixed.create({
-                    id: "mixed4",
-                    mode: "col",
                     size: 12
                 });
-                mixedRoot.addCmp({
-                    contentType: "cmp",
-                    content: mixed2,
-                    size: 6
-                });
+                // var mixed2 = Mixed.create({
+                //     id: "mixed4",
+                //     mode: "col",
+                //     size: 12
+                // });
+                // mixedRoot.addCmp({
+                //     contentType: "cmp",
+                //     content: mixed2,
+                //     size: 6
+                // });
                 var list = List.create({
                     data_url: URL_REPO.dangjiangongzuo,
                     data_prop: [{
@@ -588,101 +647,123 @@ var LAY_OUT_DEFINE = {
                         checked: false,
                         contentType: "cmp",
                         content: list2
-                    }]
-                });
-                var list5 = List.create({
-                    data_url: URL_REPO.zwxxtb,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data) {
-
-                            return data;
-                        },
-                        size: 9
                     }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list6 = List.create({
-                    data_url: URL_REPO.zwxxtb,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data) {
-
-                            return data;
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list7 = List.create({
-                    data_url: URL_REPO.zwxxtb,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data) {
-
-                            return data;
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var mt2 = mTab.create({
-                    id: "pending-main-2",
-                    tabs: [{
-                        "name": "<span style='color: #1E9FFF'>政务信息通报</span>",
-                        checked: true,
-                        contentType: "cmp",
-                        content: list5
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>信息专报</span>",
+                        "name": "<span style='color: #1E9FFF'>党建工作公示</span>",
                         checked: false,
-                        contentType: "cmp",
-                        content: list6
+                        contentType: "html",
+                        content: ""
                     }, {
-                        "name": "<span style='color: #1E9FFF'>工作简报</span>",
+                        "name": "<span style='color: #1E9FFF'>十八大文档</span>",
                         checked: false,
-                        contentType: "cmp",
-                        content: list7
+                        contentType: "html",
+                        content: ""
                     }]
                 });
+               
                 mixed1.addCmp({
                     contentType: "cmp",
                     content: mt,
                     size: 12
                 });
-                mixed2.addCmp({
-                    contentType: "cmp",
-                    content: mt2,
-                    size: 12
-                });
+               
 
-            },
-            children: [{
-                cmp: "list",
-                name: "党建",
-                max: 5,
-                data_url: URL_REPO.dangjiangongzuo,
+            }
+        }]
+    },{
+        cols:[{
+            size:12,
+            type:"custom",
+            name:"党建任务",
+            render:function(parent,colm,lx){
+                var $ = lx.jquery;
+                var mTab = lx.mTab;
+                var List = lx.list;
+                var mt = mTab.create({
+                    id: "pending-dj",
+                    root_style:"height:455px",
+                    body_class:"layui-tab-content lx_no_height",
+                    tabs: [{
+                        "name": "<span style='color: #1E9FFF'>党委办公室</span>",
+                        checked: true,
+                        contentType: "jq",
+                        content: $("#danjianrenwu")
+                    }]
+                });
+                parent.append(mt);
+               var listP= $("#guizhangzhidu");
+               var gzzd = List.create({
+                data_url: URL_REPO.guizhangzhidu2,
+                mode:"table",
                 data_prop: [{
                     "name": "frName",
                     render: function (name, data) {
-                        console.log(name);
+
                         return data;
                     },
-                    size: 10
-                }, {
-                    "name": "createTime",
-                    size: 2,
-                    render: function (name, data) {
-                        return data.substring(5, 10);
-                    }
+                    size: 12
                 }]
-            }]
+            });
+            listP.append(gzzd.root);
+            //bjbgz
+            var listP2= $("#bjbgz");
+            var gzzd2 = List.create({
+             data_url: URL_REPO.guizhangzhidu2,
+             mode:"table",
+             data_prop: [{
+                 "name": "frName",
+                 render: function (name, data) {
+
+                     return data;
+                 },
+                 size: 12
+             }]
+         });
+         listP2.append(gzzd2.root);
+               
+            }
+        }]
+    },{
+        cols:[{
+            size:12,
+            type:"custom",
+            name:"排名",
+            render:function(parent,colm,lx){
+                var $ = lx.jquery;
+                parent.append($("#paiming"));
+            }
+        }]
+    },{
+        cols:[{
+            size:12,
+            type:"custom",
+            name:"连接",
+            render:function(parent,colm,lx){
+                var $ = lx.jquery;
+                parent.append($("#other_link"));
+            }
+        }]
+    },{
+        cols:[{
+            size:12,
+            type:"custom",
+            name:"任务计划",
+            render:function(parent,colm,lx){
+                var $ = lx.jquery;
+                var mTab = lx.mTab;
+                parent.append($("#plan_main"));
+                var mt = mTab.create({
+                    id: "pending-dj-jh",
+                    root_style:"height:660px",
+                    body_class:"layui-tab-content lx_no_height",
+                    tabs: [{
+                        "name": "<span style='color: #1E9FFF'>年度计划</span>",
+                        checked: true,
+                        contentType: "jq",
+                        content: $("#plan_main")
+                    }]
+                });
+                parent.append(mt);
+            }
         }]
     }, {
         cols: [{

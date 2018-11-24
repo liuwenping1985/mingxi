@@ -15,7 +15,7 @@
         var Klass = lx.getLxClass();
         var _default_options = {
 
-            id: "panel" + "_uuid",
+         
             theme: "#393D49",
             parent_id: ""
 
@@ -27,13 +27,20 @@
             init: function (options) {
                 this.jq = $;
                 this.op = options;
-                if (!this.op.id) {
-                    this.id = "datepicker_" + util.uuid();
-                } else {
-                    this.id = this.op.id;
+                var id = options.id;
+                util.copyProperties(this.op, _default_options);
+                if (options) {
+                    util.copyProperties(this.op, options);
                 }
+               
+                this.id= id;
+                if (!this.id) {
+                    this.id = "datepicker_" + util.uuid();
+                }
+              
+               
                 this.root = $("<div id='" + this.id + "' class='layui-inline " + options.className + "'></div>");
-
+              
                 if (options.parent_id) {
                     this.parent = $("#" + this.op_.parent_id);
                     this.parent.append(this.root);
