@@ -19,6 +19,7 @@ import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
+import com.seeyon.ctp.common.template.manager.CollaborationTemplateManagerImpl;
 import com.seeyon.ctp.util.FlipInfo;
 
 import java.util.*;
@@ -319,6 +320,7 @@ public class NbdService {
 
     }
 
+
     public List<CtpTemplate> findConfigTemplates(String category, int count,Long userId,Long accountId) {
         List<CtpTemplate> templateList = new ArrayList();
 
@@ -343,6 +345,7 @@ public class NbdService {
             params.put("category", category);
 
             try {
+                CollaborationTemplateManagerImpl impl;
                 templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
             } catch (BusinessException var8) {
 
@@ -350,6 +353,12 @@ public class NbdService {
 
             return (List)templateList;
         }
+    }
+
+    private void login(Long userId){
+
+
+        
     }
     public static void main(String[] args) {
         NbdService nbds = new NbdService();

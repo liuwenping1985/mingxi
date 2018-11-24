@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/css/global.css">
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/css/zrzx.css">
     <script src="/seeyon/apps_res/nbd/layui/layui.js"></script>
-
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
@@ -48,13 +51,22 @@
                     <span style="line-height:35px;color:gray;font-size:16px;">邮箱:</span><span style="color:gray;font-size:16px;">aiaiai@126.com</span>
                 </div>
             </div>
+            <div id="work_area">
+                <fieldset class="layui-elem-field site-demo-button">
+                    <legend style="color:black">工作区</legend>
+                    <div id="work_area_body">
+
+                    </div>
+                </fieldset>
+
+            </div>
             <div id="btn_groups">
                 <fieldset class="layui-elem-field site-demo-button">
                     <legend style="color:black">功能区</legend>
                     <div>
                         <div style="" class="layui-row">
                             <div style="height:90px;vertical-align:middle" class="layui-col-md2 ">
-                                <div id="cell_uuid" class="lx-layout-cell">
+                                <div id="cell_uuid1" class="lx-layout-cell">
                                     <div style="width:100%;margin:0 auto;text-align:center;padding-top:25px;">
                                         <button style="background-color: #5484ff;display:inline-block;text-align:center"
                                                 class="layui-btn layui-btn-warm layui-btn-radius">发起公文</button>
@@ -62,7 +74,7 @@
                                 </div>
                             </div>
                             <div style="height:90px" class="layui-col-md2 ">
-                                <div id="cell_uuid" class="lx-layout-cell">
+                                <div id="cell_uuid2" class="lx-layout-cell">
                                     <div style="width:100%;margin:0 auto;text-align:center;padding-top:25px;">
                                         <button style="background-color:#5484ff;display:inline-block;text-align:center"
                                                 class="layui-btn layui-btn-warm layui-btn-radius">我要请假</button>
@@ -70,7 +82,7 @@
                                 </div>
                             </div>
                             <div style="height:90px" class="layui-col-md2 ">
-                                <div id="cell_uuid" class="lx-layout-cell">
+                                <div id="cell_uuid3" class="lx-layout-cell">
                                     <div style="width:100%;margin:0 auto;text-align:center;padding-top:25px;">
                                         <button style="background-color:#5484ff;display:inline-block;text-align:center"
                                                 class="layui-btn layui-btn-warm layui-btn-radius">我的日程</button>
@@ -78,14 +90,14 @@
                                 </div>
                             </div>
                             <div style="height:90px" class="layui-col-md2 ">
-                                <div id="cell_uuid" class="lx-layout-cell">
+                                <div id="cell_uuid4" class="lx-layout-cell">
                                     <div style="width:100%;margin:0 auto;text-align:center;padding-top:25px;">
                                         <button style="background-color:#5484ff;display:inline-block;text-align:center;min-width:92px"
                                                 class="layui-btn layui-btn-warm layui-btn-radius">停车单</button></div>
                                 </div>
                             </div>
                             <div style="height:90px" class="layui-col-md2 ">
-                                <div id="cell_uuid" class="lx-layout-cell">
+                                <div id="cell_uuid5" class="lx-layout-cell">
                                     <div style="width:100%;margin:0 auto;text-align:center;padding-top:25px;">
                                         <button style="background-color:#5484ff;display:inline-block;text-align:center"
                                                 class="layui-btn layui-btn-warm layui-btn-radius">外事公示</button>
@@ -93,7 +105,7 @@
                                 </div>
                             </div>
                             <div style="height:90px" class="layui-col-md2 ">
-                                <div id="cell_uuid" class="lx-layout-cell">
+                                <div id="cell_uuid6" class="lx-layout-cell">
                                     <div style="width:100%;margin:0 auto;text-align:center;padding-top:25px;">
                                         <button style="background-color:#5484ff;display:inline-block;text-align:center;"
                                                 class="layui-btn layui-btn-warm layui-btn-radius">我的工资</button>
@@ -191,7 +203,21 @@
 
     <li class="layui-icon layui-fixbar-top" lay-type="top" style="background-color: #1E9FFF; display: list-item;"></li>
 </ul>
-
+<div class="layui-layer layui-layer-page layui-layer-dir" id="layui-layer1" type="page" times="1" showtime="0" contype="object"
+    style="z-index: 19891015; top: 136.5px; left: 1286px; margin-left: -15px;">
+    <div class="layui-layer-title" style="cursor: move;"></div>
+    <div id="" class="layui-layer-content">
+        <ul class="site-dir layui-layer-wrap" style="display: block;">
+            <li><a href="#get"><cite>协同管理</cite></a></li>
+            <li><a href="#quickstart"><cite>公文管理</cite></a></li>
+            <li><a href="#classical"><cite>任务管理</cite></a></li>
+            <li><a href="#modules"><cite>会议管理</cite></a></li>
+            <li><a href="#nonmodules"><cite>文档中心</cite></a></li>
+            <li><a href="#nonmodules"><cite>通讯录</cite></a></li>
+        </ul>
+    </div><span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:;"></a></span><span
+        class="layui-layer-resize"></span>
+</div>
 <script src="/seeyon/apps_res/nbd/layui/lx.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/zrzx/layout.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/zrzx/index.js"></script>
