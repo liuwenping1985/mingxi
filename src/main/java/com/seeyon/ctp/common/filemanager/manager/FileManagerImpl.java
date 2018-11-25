@@ -15,6 +15,7 @@ import com.seeyon.ctp.common.filemanager.Constants.ATTACHMENT_TYPE;
 import com.seeyon.ctp.common.filemanager.dao.V3XFileDAO;
 import com.seeyon.ctp.common.filemanager.event.FileItem;
 import com.seeyon.ctp.common.filemanager.event.FileUploadEvent;
+import com.seeyon.ctp.common.fileupload.FileUploadBreakPointService;
 import com.seeyon.ctp.common.log.CtpLogFactory;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.event.EventDispatcher;
@@ -56,7 +57,17 @@ public class FileManagerImpl implements FileManager {
     private int maxHeight;
     private String fileSuffix;
 
+    private FileUploadBreakPointService fubps = new FileUploadBreakPointService();
+
     public FileManagerImpl() {
+    }
+
+    public FileUploadBreakPointService getFubps() {
+        return fubps;
+    }
+
+    public void setFubps(FileUploadBreakPointService fubps) {
+        this.fubps = fubps;
     }
 
     public void setFileSuffix(String fileSuffix) {

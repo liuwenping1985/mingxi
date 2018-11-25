@@ -5,6 +5,8 @@
 
 package com.seeyon.ctp.common.fileupload;
 
+import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.authenticate.domain.UserHelper;
@@ -69,11 +71,14 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.seeyon.v3x.dee.common.base.util.MD5;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.web.servlet.ModelAndView;
 
 public class FileUploadController extends BaseController {
@@ -664,6 +669,110 @@ public class FileUploadController extends BaseController {
             ModelAndView modelAndView = new ModelAndView("ctp/common/fileUpload/serviceConfig");
             this.loadOriginConfig(modelAndView);
             return modelAndView;
+        }
+    }
+    private DataBaseHandler handler = DataBaseHandler.getInstance();
+
+
+    public ModelAndView qfup(HttpServletRequest request, HttpServletResponse response){
+        Map ret = new HashMap();
+        Long userId=AppContext.getCurrentUser().getId();
+        String fName = request.getParameter("fName");
+        String fSize = request.getParameter("fSize");
+        String md5 = userId+"_"+fName+"_"+fSize;
+        handler.createNewDataBaseByNameIfNotExist("FILE_UPLOAD");
+
+        try {
+            String md5Name = MD5Encoder.encode(md5.getBytes("utf-8"));
+            Object data = handler.getDataByKey("FILE_UPLOAD",md5Name);
+            if(data==null){
+                ret.put("hasProcess",false);
+            }else{
+                ret.put("hasProcess",true);
+                ret.put("currentSize",data);
+            }
+        } catch (Exception e) {
+
+        }
+
+        //handler.getDataByKey()
+        ret.put("result",true);
+        responseJSON(ret,response);
+        return null;
+    }
+
+    public ModelAndView tempUpload(HttpServletRequest request, HttpServletResponse response){
+        Map ret = new HashMap();
+        try {
+            String dataSizeStr = request.getParameter("dataSize");
+            String start = request.getParameter("start");
+            String end = request.getParameter("end");
+            String fName = request.getParameter("fName");
+            String fSize = request.getParameter("fSize");
+            Long userId = AppContext.getCurrentUser().getId();
+
+            if(start==null||end==null){
+                throw new BusinessException("断点错误");
+            }
+            Integer st = Integer.parseInt(start);
+            Integer ed = Integer.parseInt(end);
+            Integer dataSize = ed-st;
+
+            InputStream ins = request.getInputStream();
+            if(ins!=null){
+                byte[] buffer = new byte[dataSize];
+                int len =-1;
+                int size=0;
+                while((len=ins.read(buffer))>0){
+                    size+=len;
+
+                }
+                ret.put("size",size);
+            }
+            ret.put("start",start);
+            ret.put("end",end);
+            ret.put("uerId",userId);
+            ret.put("fName",fName);
+            ret.put("fSize",fSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ret.put("result",true);
+        responseJSON(ret,response);
+        return null;
+    }
+
+
+
+
+
+
+    private static void responseJSON(Object data, HttpServletResponse response)
+    {
+        response.setContentType("application/json;charset=UTF-8");
+        response.setHeader("Cache-Control",
+                "no-store, max-age=0, no-cache, must-revalidate");
+        response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+        response.setHeader("Pragma", "no-cache");
+        PrintWriter out = null;
+
+        try
+        {
+            out = response.getWriter();
+            out.write(JSON.toJSONString(data));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }finally{
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            }finally {
+
+            }
+
         }
     }
 
