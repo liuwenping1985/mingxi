@@ -19,27 +19,7 @@ import com.seeyon.ctp.common.fileupload.FileUploadBreakPointService;
 import com.seeyon.ctp.common.log.CtpLogFactory;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.event.EventDispatcher;
-import com.seeyon.ctp.util.Datetimes;
-import com.seeyon.ctp.util.FileUtil;
-import com.seeyon.ctp.util.ImageUtil;
-import com.seeyon.ctp.util.Strings;
-import com.seeyon.ctp.util.UUIDLong;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.regex.Pattern;
-import javax.servlet.http.HttpServletRequest;
+import com.seeyon.ctp.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -47,6 +27,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class FileManagerImpl implements FileManager {
     private static Log log = CtpLogFactory.getLog(FileManagerImpl.class);
@@ -284,6 +269,7 @@ public class FileManagerImpl implements FileManager {
 
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest)request;
             Object maxUploadSizeExceeded = multipartRequest.getAttribute("MaxUploadSizeExceeded");
+            maxUploadSizeExceeded=null;
             if(maxUploadSizeExceeded != null) {
                 if(maxSize != null && maxSize.longValue() != 0L) {
                     throw new BusinessException("fileupload.exception.MaxSize", new Object[]{Strings.formatFileSize(maxSize.longValue(), false)});
@@ -295,34 +281,24 @@ public class FileManagerImpl implements FileManager {
                 if(ex != null) {
                     throw new BusinessException("fileupload.exception.unknown", new Object[]{ex});
                 } else {
+
+                    System.out.println("test2");
                     Map<String, V3XFile> v3xFiles = new HashMap();
                     Iterator<String> fileNames = multipartRequest.getFileNames();
-                    if(fileNames == null) {
-                        return null;
-                    } else {
-                        String isEncrypt = request.getParameter("isEncrypt");
-
-                        while(true) {
-                            Object name;
-                            do {
-                                do {
-                                    if(!fileNames.hasNext()) {
-                                        return v3xFiles;
-                                    }
-
-                                    name = fileNames.next();
-                                } while(name == null);
-                            } while("".equals(name));
-
+                    String isEncrypt = request.getParameter("isEncrypt");
+                    if(fileNames!=null){
+                        System.out.println("test3");
+                        while(fileNames.hasNext()){
+                            String name = fileNames.next();
+                            if(StringUtils.isEmpty(name)){
+                                continue;
+                            }
                             String fieldName = String.valueOf(name);
                             List<MultipartFile> fileItemList = multipartRequest.getFiles(String.valueOf(name));
-
                             for(int fileIndex = 0; fileIndex < fileItemList.size(); ++fileIndex) {
                                 MultipartFile fileItem = (MultipartFile)fileItemList.get(fileIndex);
                                 if(fileItem != null) {
-                                    if(maxSize != null && fileItem.getSize() > maxSize.longValue()) {
-                                        throw new BusinessException("fileupload.exception.MaxSize", new Object[]{Strings.formatFileSize(maxSize.longValue(), false)});
-                                    }
+
 
                                     String filename = fileItem.getOriginalFilename().replace(' ', ' ').replace('?', ' ');
                                     String suffix = FilenameUtils.getExtension(filename).toLowerCase();
@@ -338,12 +314,12 @@ public class FileManagerImpl implements FileManager {
 
                                     try {
                                         EventDispatcher.fireEventWithException(event);
-                                    } catch (Throwable var30) {
-                                        if(var30 instanceof BusinessException) {
-                                            throw (BusinessException)var30;
+                                    } catch (Throwable var31) {
+                                        if(var31 instanceof BusinessException) {
+                                            throw (BusinessException)var31;
                                         }
 
-                                        throw new BusinessException(var30.getLocalizedMessage(), var30);
+                                        throw new BusinessException(var31.getLocalizedMessage(), var31);
                                     }
 
                                     if(fi.getMessages().size() > 0) {
@@ -369,8 +345,8 @@ public class FileManagerImpl implements FileManager {
                                         } else {
                                             fi.saveAs(destFile);
                                         }
-                                    } catch (Exception var31) {
-                                        throw new BusinessException("附件存盘时发生错误", var31);
+                                    } catch (Exception var32) {
+                                        throw new BusinessException("附件存盘时发生错误", var32);
                                     }
 
                                     V3XFile file = new V3XFile(Long.valueOf(fileId));
@@ -387,6 +363,72 @@ public class FileManagerImpl implements FileManager {
                             }
                         }
                     }
+                    System.out.println("test99999999999");
+                    //断点file逻辑从这开始
+                    String brNames = request.getParameter("br_upload");
+                    String brSizes = request.getParameter("br_upload_size");
+                    if(!StringUtils.isEmpty(brNames)){
+                        String[] files = brNames.split(",");
+                        String[] sizes = brSizes.split(",");
+                        Long userId = AppContext.getCurrentUser().getId();
+                        int tag =0;
+                        for(String fName:files){
+                            String filename = fName.replace(' ', ' ').replace('?', ' ');
+                            String suffix = FilenameUtils.getExtension(filename).toLowerCase();
+                            if(!StringUtils.isEmpty(allowExt) && !StringUtils.isEmpty(suffix)) {
+                                allowExt = allowExt.replace(',', '|');
+                                if(!Pattern.matches(allowExt.toLowerCase(), suffix)) {
+                                    throw new BusinessException("fileupload.exception.UnallowedExtension", new Object[]{allowExt});
+                                }
+                            }
+                            System.out.println("fName:"+fName+",fSize:"+sizes[tag]+",userId:"+userId);
+                            File f = this.fubps.getCommonFile(fName,sizes[tag],userId);
+                            FileItem fi = new BrFileItem(filename,Integer.parseInt(sizes[tag]),f);
+                            FileUploadEvent event = new FileUploadEvent(this, fi);
+                            try {
+                                EventDispatcher.fireEventWithException(event);
+                            } catch (Throwable var31) {
+                                throw new BusinessException(var31.getLocalizedMessage(), var31);
+                            }
+                            if(fi.getMessages().size() > 0) {
+                                request.setAttribute("upload.event.message", fi.getMessages());
+                            }
+                            long fileId = UUIDLong.longUUID();
+                            File destFile = null;
+                            try {
+                                destFile = new File(dir + File.separator + fileId);
+                                String encryptVersion = null;
+                                encryptVersion = CoderFactory.getInstance().getEncryptVersion();
+                                if(encryptVersion != null && !"no".equals(encryptVersion) && !"false".equals(isEncrypt)) {
+                                    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(destFile));
+                                    CoderFactory.getInstance().upload(fi.getInputStream(), bos, encryptVersion);
+                                } else {
+                                    fi.saveAs(destFile);
+                                }
+                            } catch (Exception var32) {
+                                throw new BusinessException("附件存盘时发生错误", var32);
+                            }
+                            V3XFile file = new V3XFile(Long.valueOf(fileId));
+                            file.setCreateDate(createDate);
+                            file.setFilename(filename);
+                            file.setSize(Long.valueOf(fi.getSize()));
+                            file.setMimeType(fi.getContentType());
+                            file.setType(Integer.valueOf(ATTACHMENT_TYPE.FILE.ordinal()));
+                            file.setCreateMember(user.getId());
+                            file.setAccountId(user.getAccountId());
+                            String newKeyName = fName + "_" + (tag + 1);
+                            v3xFiles.put(newKeyName, file);
+                            try {
+                                this.fubps.deleteFile(fName,sizes[tag],userId);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            tag++;
+
+
+                        }
+                    }
+                    return v3xFiles;
                 }
             }
         }
@@ -409,9 +451,10 @@ public class FileManagerImpl implements FileManager {
                     dir = this.getFolder(createDate, true);
                 }
             }
-
+            System.out.println("test1");
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest)request;
             Object maxUploadSizeExceeded = multipartRequest.getAttribute("MaxUploadSizeExceeded");
+            maxUploadSizeExceeded=null;
             if(maxUploadSizeExceeded != null) {
                 if(maxSize != null && maxSize.longValue() != 0L) {
                     throw new BusinessException("fileupload.exception.MaxSize", new Object[]{Strings.formatFileSize(maxSize.longValue(), false)});
@@ -419,38 +462,28 @@ public class FileManagerImpl implements FileManager {
                     throw new BusinessException("fileupload.exception.MaxSize", new Object[]{maxUploadSizeExceeded});
                 }
             } else {
+               // String brFile=
                 Object ex = multipartRequest.getAttribute("unknownException");
                 if(ex != null) {
                     throw new BusinessException("fileupload.exception.unknown", new Object[]{ex});
                 } else {
+                    System.out.println("test2");
                     Map<String, V3XFile> v3xFiles = new HashMap();
                     Iterator<String> fileNames = multipartRequest.getFileNames();
-                    if(fileNames == null) {
-                        return null;
-                    } else {
-                        String isEncrypt = request.getParameter("isEncrypt");
-
-                        while(true) {
-                            Object name;
-                            do {
-                                do {
-                                    if(!fileNames.hasNext()) {
-                                        return v3xFiles;
-                                    }
-
-                                    name = fileNames.next();
-                                } while(name == null);
-                            } while("".equals(name));
-
+                    String isEncrypt = request.getParameter("isEncrypt");
+                    if(fileNames!=null){
+                        System.out.println("test3");
+                        while(fileNames.hasNext()){
+                            String name = fileNames.next();
+                            if(StringUtils.isEmpty(name)){
+                                continue;
+                            }
                             String fieldName = String.valueOf(name);
                             List<MultipartFile> fileItemList = multipartRequest.getFiles(String.valueOf(name));
-
                             for(int fileIndex = 0; fileIndex < fileItemList.size(); ++fileIndex) {
                                 MultipartFile fileItem = (MultipartFile)fileItemList.get(fileIndex);
                                 if(fileItem != null) {
-                                    if(maxSize != null && fileItem.getSize() > maxSize.longValue()) {
-                                        throw new BusinessException("fileupload.exception.MaxSize", new Object[]{Strings.formatFileSize(maxSize.longValue(), false)});
-                                    }
+
 
                                     String filename = fileItem.getOriginalFilename().replace(' ', ' ').replace('?', ' ');
                                     String suffix = FilenameUtils.getExtension(filename).toLowerCase();
@@ -515,10 +548,77 @@ public class FileManagerImpl implements FileManager {
                             }
                         }
                     }
+                    System.out.println("test99999999999");
+                        //断点file逻辑从这开始
+                        String brNames = request.getParameter("br_upload");
+                        String brSizes = request.getParameter("br_upload_size");
+                        if(!StringUtils.isEmpty(brNames)){
+                            String[] files = brNames.split(",");
+                            String[] sizes = brSizes.split(",");
+                            Long userId = AppContext.getCurrentUser().getId();
+                            int tag =0;
+                            for(String fName:files){
+                                String filename = fName.replace(' ', ' ').replace('?', ' ');
+                                String suffix = FilenameUtils.getExtension(filename).toLowerCase();
+                                if(!StringUtils.isEmpty(allowExt) && !StringUtils.isEmpty(suffix)) {
+                                    allowExt = allowExt.replace(',', '|');
+                                    if(!Pattern.matches(allowExt.toLowerCase(), suffix)) {
+                                        throw new BusinessException("fileupload.exception.UnallowedExtension", new Object[]{allowExt});
+                                    }
+                                }
+                                System.out.println("fName:"+fName+",fSize:"+sizes[tag]+",userId:"+userId);
+                                File f = this.fubps.getCommonFile(fName,sizes[tag],userId);
+                                FileItem fi = new BrFileItem(filename,Integer.parseInt(sizes[tag]),f);
+                                FileUploadEvent event = new FileUploadEvent(this, fi);
+                                try {
+                                    EventDispatcher.fireEventWithException(event);
+                                } catch (Throwable var31) {
+                                    throw new BusinessException(var31.getLocalizedMessage(), var31);
+                                }
+                                if(fi.getMessages().size() > 0) {
+                                    request.setAttribute("upload.event.message", fi.getMessages());
+                                }
+                                long fileId = UUIDLong.longUUID();
+                                File destFile = null;
+                                try {
+                                    destFile = new File(dir + File.separator + fileId);
+                                    String encryptVersion = null;
+                                    encryptVersion = CoderFactory.getInstance().getEncryptVersion();
+                                    if(encryptVersion != null && !"no".equals(encryptVersion) && !"false".equals(isEncrypt)) {
+                                        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(destFile));
+                                        CoderFactory.getInstance().upload(fi.getInputStream(), bos, encryptVersion);
+                                    } else {
+                                        fi.saveAs(destFile);
+                                    }
+                                } catch (Exception var32) {
+                                    throw new BusinessException("附件存盘时发生错误", var32);
+                                }
+                                V3XFile file = new V3XFile(Long.valueOf(fileId));
+                                file.setCreateDate(createDate);
+                                file.setFilename(filename);
+                                file.setSize(Long.valueOf(fi.getSize()));
+                                file.setMimeType(fi.getContentType());
+                                file.setType(Integer.valueOf(ATTACHMENT_TYPE.FILE.ordinal()));
+                                file.setCreateMember(memberId);
+                                file.setAccountId(accountId);
+                                String newKeyName = fName + "_" + (tag + 1);
+                                v3xFiles.put(newKeyName, file);
+                                try {
+                                    this.fubps.deleteFile(fName,sizes[tag],userId);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                tag++;
+
+
+                            }
+                        }
+                        return v3xFiles;
+                    }
                 }
             }
         }
-    }
+
 
     public void deleteFile(Long fileId, Boolean deletePhysicsFile) throws BusinessException {
         if(deletePhysicsFile.booleanValue()) {

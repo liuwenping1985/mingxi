@@ -48,14 +48,8 @@ import com.seeyon.ctp.util.OperationCounter;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.SetContentType;
 import com.seeyon.ctp.util.json.JSONUtil;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
+
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,8 +72,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
-import org.apache.tomcat.util.security.MD5Encoder;
+
 import org.springframework.web.servlet.ModelAndView;
+import www.seeyon.com.utils.MD5Util;
 
 public class FileUploadController extends BaseController {
     private static final Log log = CtpLogFactory.getLog(FileUploadController.class);
@@ -103,6 +98,7 @@ public class FileUploadController extends BaseController {
     public void setFileSecurityManager(FileSecurityManager fileSecurityManager) {
         this.fileSecurityManager = fileSecurityManager;
     }
+    private FileUploadBreakPointService fubps = new FileUploadBreakPointService();
 
     public void setFileManager(FileManager fileManager) {
         this.fileManager = fileManager;
@@ -683,7 +679,8 @@ public class FileUploadController extends BaseController {
         handler.createNewDataBaseByNameIfNotExist("FILE_UPLOAD");
 
         try {
-            String md5Name = MD5Encoder.encode(md5.getBytes("utf-8"));
+
+            String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
             Object data = handler.getDataByKey("FILE_UPLOAD",md5Name);
             if(data==null){
                 ret.put("hasProcess",false);
@@ -723,11 +720,25 @@ public class FileUploadController extends BaseController {
                 byte[] buffer = new byte[dataSize];
                 int len =-1;
                 int size=0;
+                RandomAccessFile raf = fubps.getBrFile(fName,fSize,userId);
+                raf.seek(st);
                 while((len=ins.read(buffer))>0){
+
                     size+=len;
 
+                    raf.write(buffer,0,len);
+
+
                 }
+                ret.put("raf_size",raf.length());
+                raf.close();
+                String md5 = userId+"_"+fName+"_"+fSize;
+                String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
+                handler.putData("FILE_UPLOAD",md5Name,ed);
                 ret.put("size",size);
+            }
+            if(end.equals(fSize)){
+                //上传完了
             }
             ret.put("start",start);
             ret.put("end",end);
