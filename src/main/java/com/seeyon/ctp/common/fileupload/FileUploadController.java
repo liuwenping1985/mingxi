@@ -98,6 +98,11 @@ public class FileUploadController extends BaseController {
     public void setFileSecurityManager(FileSecurityManager fileSecurityManager) {
         this.fileSecurityManager = fileSecurityManager;
     }
+
+    public FileUploadBreakPointService getFubps() {
+        return fubps;
+    }
+
     private FileUploadBreakPointService fubps = new FileUploadBreakPointService();
 
     public void setFileManager(FileManager fileManager) {
@@ -625,7 +630,9 @@ public class FileUploadController extends BaseController {
         if(!user.isV5Member() || userAgent == null || !userAgent.toUpperCase().contains("IE") && !userAgent.toUpperCase().contains("RV:11")) {
             modelAndView = new ModelAndView("ctp/common/fileUpload/upload");
         } else {
-            modelAndView = new ModelAndView("ctp/common/fileUpload/uploadForGeniues");
+            //modelAndView = new ModelAndView("ctp/common/fileUpload/uploadForGeniues");
+            modelAndView = new ModelAndView("ctp/common/fileUpload/upload");
+
         }
 
         String isA8geniusAdded = request.getParameter("isA8geniusAdded");
@@ -682,11 +689,34 @@ public class FileUploadController extends BaseController {
 
             String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
             Object data = handler.getDataByKey("FILE_UPLOAD",md5Name);
+            File f = this.getFubps().getCommonFile(fName,fSize,userId);
+
             if(data==null){
                 ret.put("hasProcess",false);
+                if(f.exists()){
+                    f.delete();
+                }
+
             }else{
                 ret.put("hasProcess",true);
-                ret.put("currentSize",data);
+                if(!f.exists()){
+                    ret.put("hasProcess",false);
+                }else{
+                    //检查文件大小和当前数是否一致
+                    RandomAccessFile raf = this.getFubps().getBrFile(fName,fSize,userId);
+                    Long curSize = Long.parseLong(String.valueOf(data));
+                    //ok的
+                    if(curSize.longValue()==raf.length()){
+                        raf.close();
+                        ret.put("currentSize",data);
+                    }else{
+                        raf.close();
+                        f.delete();
+                        handler.putData("FILE_UPLOAD",md5Name,0);
+                        ret.put("currentSize",0L);
+                    }
+                }
+
             }
         } catch (Exception e) {
 

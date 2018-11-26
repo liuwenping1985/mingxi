@@ -133,10 +133,16 @@
 
     var number = 0;
     function checks(){
+
         if(number == 0 || files.isEmpty()){
             //return false;
-            alert("${ctp:i18n_1('fileupload.selectfile.label',maxSize)}");
+            alert("请选择您要上传的文件");
             return ;
+        }
+        var debug=true;
+        if(debug){
+            checksH5();
+            return;
         }
 
         //$("#b1").disable();
@@ -164,9 +170,10 @@
     // 执行上传
     function upload__(chunkData, query, cb) {
         //对象转字符串 用&连接
-        var queryStr = Object.getOwnPropertyNames(query).map(key => {
+
+        var queryStr = Object.getOwnPropertyNames(query).map(function(key){
             return key + "=" + query[key];
-    }).join("&");
+        }).join("&");
 
         var xhr = new XMLHttpRequest();
         //同步请求
@@ -214,6 +221,7 @@
     }
     var last_percent=0;
     function checksH5(){
+
         // if(number == 0 || files.isEmpty()){
         //     //return false;
         //      alert("${ctp:i18n_1('fileupload.selectfile.label',maxSize)}");
@@ -224,10 +232,11 @@
         document.getElementById("b1").disabled = true;
         if(number==0)
         {
-            alert("${ctp:i18n_1('fileupload.selectfile.label',maxSize)}");
+            alert("请选择您要上传的文件");
             document.getElementById("b1").disabled = false;
             return false;
         }
+
         for(var i = 1; i <= index; i++){
             var o = document.getElementById("file" + i);
             if(!o){
@@ -238,21 +247,27 @@
                 document.getElementById("fileInputDiv" + i).parentNode.removeChild(document.getElementById("fileInputDiv" + i));
             }
         }
+
         show();
-        if($("#importExplain").size()>0)
-        {
+
+        if($("#importExplain").size()>0){
             $("#importExplain").removeAttr("onclick");//OA-121629防护处理，防止由于提交过程中点击“导入说明”，造成窗口无法关闭
         }
         //断点逻辑开始
         var maxSize = "${(not empty param.maxSize) ? param.maxSize : v3x:getSystemProperty('fileUpload.maxSize')}";
         var maxSizeInt=parseInt(maxSize);
+
+
         var files_local = $("#form_upload input[type=file]");
         var chunk = 1024*1000*5; //每片5M
         var isH5ApiSupport = true;
+
         var file_mock = files_local[0];
+
         if(!file_mock.files[0].slice){
             isH5ApiSupport = false;
         }
+        // alert("isH5ApiSupport:"+isH5ApiSupport);
         //console.log("isH5ApiSupport:"+isH5ApiSupport);
         if(isH5ApiSupport){
             var nodeList = [];
@@ -287,10 +302,15 @@
                     type : "GET",
                     success : function (result){
                         //console.log(result);
-                        console.log("I am first");
+
                         if(result.hasProcess||result.hasProcess=="true"){
                             start=parseInt(result.currentSize);
+                            last_percent=start;
+                            var precent = Math.ceil((last_percent / parseInt(fSize)) * 100);
+                            $("#walk_toki").html(precent+"%");
                         }
+
+                        // console.log("result.currentSize:"+start);
                     }
                 });
 
@@ -331,7 +351,7 @@
 
                 }
                 //chunks_data
-                console.log(chunks_data);
+                // console.log(chunks_data);
                 var slag=0;
                 function _cb(resp){
 
@@ -343,7 +363,7 @@
                     last_percent=last_percent+curSize;
                     var precent = Math.ceil((last_percent / parseInt(resp.fSize)) * 100);
                     //console.log(precent);
-                    console.log(resp);
+                    //console.log(resp);
                     $("#walk_toki").html(precent+"%");
                     if(last_percent==parseInt(resp.fSize)){
                         $.each(nodeList,function(index,item){
@@ -360,7 +380,17 @@
                     }
 
                 }
-                upload__(chunks_data[slag].data,chunks_data[slag].query,_cb);
+                if(chunks_data.length!=0){
+                    upload__(chunks_data[slag].data,chunks_data[slag].query,_cb);
+                }else{
+                    if(last_percent==fSize){
+                        $.each(nodeList,function(index,item){
+                            $(item).remove();
+                        });
+                        document.getElementById('form_upload').submit();
+                    }
+                }
+
 
 
             });
@@ -371,6 +401,7 @@
             // document.getElementById('form_upload').submit();
             return false;
         }else{
+            alert("this.way")
             document.getElementById('form_upload').submit();
             return true;
         }

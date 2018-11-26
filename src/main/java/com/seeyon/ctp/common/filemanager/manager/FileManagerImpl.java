@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -373,6 +374,11 @@ public class FileManagerImpl implements FileManager {
                         Long userId = AppContext.getCurrentUser().getId();
                         int tag =0;
                         for(String fName:files){
+                            try {
+                                fName=URLDecoder.decode(fName,"utf-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
                             String filename = fName.replace(' ', ' ').replace('?', ' ');
                             String suffix = FilenameUtils.getExtension(filename).toLowerCase();
                             if(!StringUtils.isEmpty(allowExt) && !StringUtils.isEmpty(suffix)) {
