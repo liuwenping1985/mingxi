@@ -150,16 +150,21 @@ public class DataBaseHandler {
         store();
     }
     public void putData(String dbName,String key,Object obj){
+        createNewDataBaseByName(dbName);
         Map db= dbContainerMap.get(dbName);
         db.put(key,obj);
         store(dbName);
     }
     public void putAllData(String dbName,Map data){
+        createNewDataBaseByName(dbName);
         Map db= dbContainerMap.get(dbName);
         db.putAll(data);
         store(dbName);
     }
     public Map getDataAll(String dbName){
+        if(isDBExit(dbName)){
+            return new HashMap();
+        }
         Map db= dbContainerMap.get(dbName);
         Map neew =new HashMap();
         neew.putAll(db);
@@ -181,6 +186,25 @@ public class DataBaseHandler {
         this.store(dataBaseName);
         this.store(EXT_DB);
         return true;
+    }
+
+    public Object removeDataByKey(String dbName,String key){
+        if(!isDBExit(dbName)){
+            return null;
+        }
+
+        Map db= dbContainerMap.get(dbName);
+        if(db!=null){
+            Object val = db.remove(key);
+            if(val!=null){
+                this.store(dbName);
+            }
+            return val;
+        }
+
+        return null;
+
+
     }
 
 
