@@ -1,12 +1,12 @@
 var URL_BASE = "";
 var URL_REPO = {
 
-    "danweixinwen": URL_BASE + "/seeyon/menhu.do?method=getNewsList&typeId=1&offset=0&limit=6",
-    "tupianxinwen": URL_BASE + "/seeyon/menhu.do?method=getImgNewList&typeId=1&offset=0&limit=6",
+    "danweixinwen": URL_BASE + "/seeyon/menhu.do?method=getNewsList&typeId=1&offset=0&limit=7",
+    "tupianxinwen": URL_BASE + "/seeyon/menhu.do?method=getImgNewList&typeId=1&offset=0&limit=7",
     "daibangongzuo": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&offset=0&limit=6",
     "col_pending": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&offset=0&limit=8",
     "edoc_pending": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&offset=2&limit=8",
-    "tongzhigonggao": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=7305481828924604761&offset=0&limit=6",
+    "tongzhigonggao": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=7305481828924604761&offset=0&limit=7",
     "zhongxincaidan": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-8736948720711547028&offset=0&limit=6",
     "liangxueyizuo": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8188009082124256867&offset=0&limit=6",
     "shijiuda": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7136252316133508367&offset=0&limit=6",
@@ -32,15 +32,17 @@ var LAY_OUT_DEFINE = {
             id: "pending3",
             type: "sTab",
             name: "通知公告",
+            body_class:"",
             children: [{
 
                 cmp: "list",
                 name: "常用功能",
+
                 max: 5,
                 data_url: URL_REPO.tongzhigonggao,
                 data_prop: [{
                     "name": "title",
-                    size: 7,
+                    size: 8,
                     render: function (name, data) {
                         return data;
                     }
@@ -52,7 +54,7 @@ var LAY_OUT_DEFINE = {
                     }
                 }, {
                     "name": "publishDepartmentName",
-                    size: 3
+                    size: 2
                 }]
             }]
 
@@ -101,7 +103,7 @@ var LAY_OUT_DEFINE = {
                         }
 
                     },
-                    "size": 7
+                    "size": 8
                 }, {
                     "name": "publishDate",
                     render: function (name, data) {
@@ -110,7 +112,7 @@ var LAY_OUT_DEFINE = {
                     "size": 2
                 }, {
                     "name": "publishDepartmentName",
-                    "size": 3
+                    "size": 2
                 }]
 
             }]
@@ -182,7 +184,7 @@ var LAY_OUT_DEFINE = {
 
                 mixRoot.addCmp({
                     size: 12,
-                    style: "height:136px",
+                    style: "height:116px",
                     content: mix1
                 });
                 // mixRoot.addCmp({
@@ -194,13 +196,13 @@ var LAY_OUT_DEFINE = {
                     size: 3,
                     content: $(".zr_search"),
                     contentType: "html",
-                    style: "height:136px"
+                    style: "height:116px"
                 })
                 mixParent.addCmp({
                     size: 9,
                     content: mixRoot,
                     contentType: "cmp",
-                    style: "height:136px"
+                    style: "height:116px;padding-top:10px"
                 })
                 parent.append(mixParent);
 
@@ -218,10 +220,10 @@ var LAY_OUT_DEFINE = {
                 var List = layex.list;
                 var Mixed = layex.mixed;
                 var $ = layex.jquery;
-                var btn_htmls = ['<button style="background-color:#8693f3;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">6<span style="margin: 0 30px 0 30px">|</span>表单审批</button>'];
-                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#ff916e;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">3<span style="margin: 0 30px 0 30px">|</span>重要待办</button>');
-                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#5484ff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">2<span style="margin: 0 30px 0 30px">|</span>待开会议</button>');
-                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#3cbaff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">1<span style="margin: 0 30px 0 30px">|</span>领导安排</button>');
+                var btn_htmls = ['<button style="background-color:#8693f3;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">6<span style="margin: 0 30px 0 30px">|</span>表单协同</button>'];
+                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#ff916e;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">3<span style="margin: 0 30px 0 30px">|</span>公文审批</button>');
+                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#5484ff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">2<span style="margin: 0 30px 0 30px">|</span>会议安排</button>');
+                btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#3cbaff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">1<span style="margin: 0 30px 0 30px">|</span>任务日程</button>');
 
                 var mix1 = Mixed.create({
                     id: "mixed1",
@@ -230,7 +232,7 @@ var LAY_OUT_DEFINE = {
                         contentType: "html",
                         content: btn_htmls.join(""),
                         style: "height:240px",
-                        size: 2
+                        size: 3
                     }]
                 });
                 var list1 = List.create({
@@ -248,7 +250,7 @@ var LAY_OUT_DEFINE = {
                             if (!data) {
                                 return "艾志";
                             }
-                            return data.substring(5, 10);
+                            return "艾志";
                         }
                     }, {
                         "name": "receiveFormatDate",
@@ -263,7 +265,7 @@ var LAY_OUT_DEFINE = {
                 });
                 mix1.addCmp({
                     content: list1,
-                    size: 10,
+                    size: 9,
                     style: "height:240px"
                 });
                 var list2 = List.create({
@@ -304,60 +306,82 @@ var LAY_OUT_DEFINE = {
                 var mt = mTab.create({
                     id: "pending-main",
                     tabs: [{
-                        "name": "<span style='color: #1E9FFF'>待处理(10)</span>",
+                        "name": "<span style='color: #1E9FFF'>待办事项(10)</span>",
                         checked: true,
                         contentType: "cmp",
                         content: mix1
                     }, {
-                        "name": "<span style='color: #1E9FFF'>超期(8)</span>",
+                        "name": "<span style='color: #1E9FFF'>超期事项(8)</span>",
                         checked: false,
                         contentType: "cmp",
                         content: list2
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>暂存(6)</span>",
-                        checked: false,
-                        contentType: "cmp",
-                        content: list3
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>已发(9)</span>",
+                    },{
+                        "name": "<span style='color: #1E9FFF'>已发事项(9)</span>",
                         checked: false,
                         contentType: "html",
                         content: ""
                     }, {
-                        "name": "<span style='color: #1E9FFF'>已办(10)</span>",
+                        "name": "<span style='color: #1E9FFF'>预留事项(5)</span>",
                         checked: false,
                         contentType: "html",
                         content: ""
                     }, {
-                        "name": "<span style='color: #1E9FFF'>会议(5)</span>",
-                        checked: false,
-                        contentType: "html",
-                        content: ""
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>待办任务(6)</span>",
-                        checked: false,
-                        contentType: "html",
-                        content: ""
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>已完成任务(5)</span>",
-                        checked: false,
-                        contentType: "html",
-                        content: ""
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>已超期任务(7)</span>",
-                        checked: false,
-                        contentType: "html",
-                        content: ""
-                    }, {
-                        "name": "<span style='color: #1E9FFF'>关注任务(8)</span>",
+                        "name": "<span style='color: #1E9FFF'>预留事项(5)</span>",
                         checked: false,
                         contentType: "html",
                         content: ""
                     }]
                 });
                 // console.log($("#work_area"));
+                var mixed_root = Mixed.create({
+                    mode:"col",
+                    id:"mixed_root"
 
-                parent.append($("#work_area"));
+                });
+                var mixed_left1 = Mixed.create({
+                    mode:"col",
+                    id:"mixed_left_1",
+                    style: "height:310px"
+
+                });
+                mixed_root.addCmp({
+                    content: mixed_left1,
+                    size: 3,
+                    style: "height:310px"
+                });
+                var mixed_right1 = Mixed.create({
+                    mode:"col",
+                    id:"mixed_right_1",
+                    style: "height:310px"
+
+                });
+                mixed_root.addCmp({
+                    content: mixed_right1,
+                    size: 9,
+                    style: "height:310px"
+                });
+                mixed_right1.addCmp({
+                    contentType:"jq",
+                    content: $("#work_area"),
+                    size:12
+                });
+                var mt2 = mTab.create({
+                    id: "pending-main",
+                    tabs: [{
+                        "name": "<span style='color: #1E9FFF'>空白区域</span>",
+                        checked: true,
+                        contentType: "html",
+                        content: ""
+                    }]});
+
+                mixed_left1.addCmp({
+                    contentType:"cmp",
+                    content: mt2,
+                    size:12
+
+                });
+
+                parent.append(mixed_root);
                 $("#work_area_body").append(mt.root);
 
 
@@ -379,7 +403,7 @@ var LAY_OUT_DEFINE = {
                     data_prop: [{
                         "name": "subject",
                         render: function (name, data) {
-                            return data;
+                            return '<span class="ico16 lately_text_type_template_16 margin_r_5"></span>'+data;
                         },
                         size: 12
                     }]
@@ -389,7 +413,7 @@ var LAY_OUT_DEFINE = {
                     data_prop: [{
                         "name": "subject",
                         render: function (name, data) {
-                            return data;
+                            return '<span class="ico16 lately_text_type_template_16 margin_r_5"></span>'+data;
                         },
                         size: 12
                     }]
@@ -659,13 +683,13 @@ var LAY_OUT_DEFINE = {
                         content: ""
                     }]
                 });
-               
+
                 mixed1.addCmp({
                     contentType: "cmp",
                     content: mt,
                     size: 12
                 });
-               
+
 
             }
         }]
@@ -690,36 +714,36 @@ var LAY_OUT_DEFINE = {
                     }]
                 });
                 parent.append(mt);
-               var listP= $("#guizhangzhidu");
-               var gzzd = List.create({
-                data_url: URL_REPO.guizhangzhidu2,
-                mode:"table",
-                data_prop: [{
-                    "name": "frName",
-                    render: function (name, data) {
+                var listP= $("#guizhangzhidu");
+                var gzzd = List.create({
+                    data_url: URL_REPO.guizhangzhidu2,
+                    mode:"nob",
+                    data_prop: [{
+                        "name": "frName",
+                        render: function (name, data) {
 
-                        return data;
-                    },
-                    size: 12
-                }]
-            });
-            listP.append(gzzd.root);
-            //bjbgz
-            var listP2= $("#bjbgz");
-            var gzzd2 = List.create({
-             data_url: URL_REPO.guizhangzhidu2,
-             mode:"table",
-             data_prop: [{
-                 "name": "frName",
-                 render: function (name, data) {
+                            return data;
+                        },
+                        size: 12
+                    }]
+                });
+                listP.append(gzzd.root);
+                //bjbgz
+                var listP2= $("#bjbgz");
+                var gzzd2 = List.create({
+                    data_url: URL_REPO.guizhangzhidu2,
+                    mode:"nob",
+                    data_prop: [{
+                        "name": "frName",
+                        render: function (name, data) {
 
-                     return data;
-                 },
-                 size: 12
-             }]
-         });
-         listP2.append(gzzd2.root);
-               
+                            return data;
+                        },
+                        size: 12
+                    }]
+                });
+                listP2.append(gzzd2.root);
+
             }
         }]
     },{

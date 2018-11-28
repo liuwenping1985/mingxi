@@ -31,7 +31,7 @@
 
 .lx-layout-cell {
     padding: 3px;
-   
+
     font-size: 18px;
     color: #fff;
 }
@@ -236,14 +236,33 @@
     padding-left:8px;
 }
 #root_body{
-    width:90%;
+    width:80%;
 }
-
+.ico16 {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    background: url(/seeyon/skin/default/images/icon16.png?V=V6_0_2017_11_10) no-repeat;
+    background-position: 0 0;
+    cursor: pointer;
+}
+.form_temp_16 {
+    background-position: -64px -32px;
+}
+.margin_r_5 {
+    margin-right: 5px;
+}
+.lately_text_type_template_16{
+    background-position: -0px -80px;
+}
 .lx-layout-menu{
     position:fixed;
     left:5px;
     top:212px;
-    
+
 }
 .lx-pre-banner{
     border-left: 6px solid #1E9FFF;
@@ -260,11 +279,11 @@
 .lx_np{
     margin:0px;
     padding:0px !important;
-   
+
 }
 
 .lx_24680{
-   
+
     height:80px !important;
 }
 .circle_demo{

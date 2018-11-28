@@ -16,35 +16,35 @@
                 this.data_prop=options.data_prop;
                 this.root = $("<div class='" + options.className + "'></div>")
                 if(options.parent_id){
-                     this.parent = $("#" + this.op_.parent_id);
-                     this.parent.append(this.root);
+                    this.parent = $("#" + this.op_.parent_id);
+                    this.parent.append(this.root);
                 }
                 if(options.parentCmp){
                     this.parent = options.parentCmp;
                     this.parent.append(this.root);
-               }
-               if(options.mode){
-                   this.mode = options.mode;
-                   
-               }else{
-                   this.mode="normal";
-               }
+                }
+                if(options.mode){
+                    this.mode = options.mode;
+
+                }else{
+                    this.mode="normal";
+                }
                 if (options.data_url) {
                     var me = this;
-                     $.ajax({
-                         url: options.data_url,
-                         async: true, //同步方式发送请求，true为异步发送
-                         type: "GET",
-                         dataType: "json",
-                         success: function (data) {
-                             if(data.items){
+                    $.ajax({
+                        url: options.data_url,
+                        async: true, //同步方式发送请求，true为异步发送
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            if(data.items){
                                 me.render(data.items);
-                             }
-                         },
-                         error: function (res) {
-                            
-                         }
-                     })
+                            }
+                        },
+                        error: function (res) {
+
+                        }
+                    })
                 }else{
                     if(options.data){
                         this.render(options.data);
@@ -67,6 +67,7 @@
                     }
                 }
                 var htmls = [''];
+
                 if(this.mode=="normal"){
                     for(var p=0;p<data.length;p++){
                         var p_data = data[p];
@@ -79,14 +80,14 @@
                             if(cell&&cell.render){
                                 htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</div>");
                             }else{
-                                 htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
+                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
                             }
                         }
                         htmls.push("</div>");
-    
+
                     }
                 }else{
-                    htmls.push('<table class="layui-table layui-col-xs12"  lay-skin="line">');
+                    htmls.push('<table class="layui-table layui-col-xs12"  lay-skin="'+this.mode+'">');
                     htmls.push('<tbody class="layui-col-xs12">');
                     for(var p=0;p<data.length;p++){
                         var p_data = data[p];
@@ -99,19 +100,19 @@
                             if(cell&&cell.render){
                                 htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</td>");
                             }else{
-                                 htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</td>");
+                                htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</td>");
                             }
                         }
                         htmls.push("</tr>");
-    
+
                     }
 
                     htmls.push('</tbody>');
                     htmls.push('</table>')
 
                 }
-               
-               
+
+
                 this.root.html(htmls.join(''));
             }
         });

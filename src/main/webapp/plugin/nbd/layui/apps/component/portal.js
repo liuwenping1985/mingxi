@@ -29,7 +29,7 @@
                     var row = rows[p];
                     var p_row = Row.create({
                         "parent_id": root_id,
-                         style:row.style
+                        style:row.style
                     });
                     this.rows.push(p_row);
                     var cols = row.cols;
@@ -41,7 +41,7 @@
                             id: col.id,
                             style:col.style
                         });
-                        
+
                         p_row.append(p_col);
                         var ppp = p_col;
                         if(!col.children){
@@ -54,12 +54,23 @@
                             p_col.append(ppp);
                         }
                         if (col.type == "sTab") {
-                            var sT = sTab.create({
-                                "title": col.name,
-                                id: col.id
-                            });
-                            p_col.append(sT);
-                            ppp = sT;
+                            if(!col.body_class){
+                                var sT = sTab.create({
+                                    "title": col.name,
+                                    id: col.id
+                                });
+                                p_col.append(sT);
+                                ppp = sT;
+                            }else{
+                                var sT = sTab.create({
+                                    "title": col.name,
+                                    id: col.id,
+                                    body_class:col.body_class
+                                });
+                                p_col.append(sT);
+                                ppp = sT;
+                            }
+
                         }
                         if(col.style){
                             if(ppp.isLxCmp){
@@ -72,7 +83,7 @@
                             if(col.render){
                                 col.render(ppp,col,lx);
                             }
-                            
+
                             continue;
                         }
                         var col_children = col.children;
@@ -88,6 +99,7 @@
                                     data_prop: child.data_prop,
                                     data: child.data,
                                     data_url: child.data_url,
+                                    mode:child.mode,
                                     className: w_class
                                 });
                                 ppp.append(ll);
@@ -113,7 +125,7 @@
                                 ppp.append(lb);
                             }
                         }
-                       
+
                     }
                 }
                 if(this.op.callback){

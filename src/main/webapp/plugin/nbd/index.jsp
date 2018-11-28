@@ -24,7 +24,7 @@
 <div class="fly-header zr_hrader">
     <div class="layui-container">
         <div class="">
-            <div class="zr_hrader_centre">
+            <div style="width:100%;padding-left:10px"class="zr_hrader_centre">
                 <span id="top_date">2018年11月08日 </span><span class="zr_hrader_centre_span">欢迎<span style="font-weight:bold;color:#1E9FFF">艾志</span>来到生态环境部环境发展中心工作平台
                         ！</span>
                 <div class="zr_hrader_centre_R">
@@ -45,14 +45,24 @@
         <div style="display:none">
             <div id="paiming" style="color:#1E9FFF" class="layui-col-md12">
                 <div class="layui-row">
-                    <div class="layui-col-xs2">
+                    <div class="layui-col-xs3">
                         <div style="color:black">
-                                <pre class="lx-pre-banner"><span style="font-size:16px">2018年度部排名</span>
+                                <pre class="lx-pre-banner"><span style="font-size:16px">2018年部排名</span>
 
                                       <table>
                                           <tr>
                                             <td style="width:100px;color:#1E9FFF;font-size:16px">8月份排名:</td>
-                                            <td><span style="color:red;;font-size:56px">2</span></td>
+                                            <td><span style="color:red;;font-size:16px">2</span></td>
+                                            <td>
+                                                <span style="color:#1E9FFF;">
+                                                    <table>
+                                                        <tr colspan="2"><td>中心排名</td></tr>
+                                                        <tr><td>1.宣教中心</td><td>10</td></tr>
+                                                        <tr><td>2.宣教中心</td><td>20</td></tr>
+                                                        <tr><td>3.宣教中心</td><td>30</td></tr>
+                                                    </table>
+                                                </span>
+                                             </td>
                                           </tr>
                                       </table>
                                     </pre>
@@ -89,7 +99,7 @@
                                               </pre>
                         </div>
                     </div>
-                    <div class="layui-col-xs4">
+                    <div class="layui-col-xs3">
                         <div style="color:black">
                                 <pre class="lx-pre-banner" style="border-right: 6px solid #1E9FFF"><span style="font-size:16px">2018年7月信息上报(30)</span>
 
@@ -167,7 +177,7 @@
                                 </td>
                                 <td>
                                     <div class="layui-form" style="height:312px;text-align:start">
-                                        <table class="layui-table layui-col-xs12">
+                                        <table class="layui-table layui-col-xs12" style="margin:0px">
                                             <colgroup>
                                                 <col>
                                                 <col>
@@ -184,14 +194,14 @@
                                             </thead>
                                             <tbody class="layui-col-xs12">
                                             <tr class="layui-col-xs12">
-                                                <td class="layui-col-xs3">
+                                                <td class="layui-col-xs3" style="padding:0px">
                                                     <div id="guizhangzhidu">
 
 
                                                     </div>
 
                                                 </td>
-                                                <td class="layui-col-xs3">
+                                                <td class="layui-col-xs3" style="padding:0px">
                                                     <div id="bjbgz">
 
 
@@ -644,17 +654,16 @@
             <div style="display:inline-block"><img src="/seeyon/apps_res/nbd/images/logoUser.jpg" style="margin-top:-50px"
                                                    class="zr_person_img"></div>
             <div style="color:#6666CC;display:inline-block;font-size:18px;"><span style="font-weight:bold;">艾志</span><span>&nbsp;&nbsp;办公室</span><br>
-                <span style="line-height:35px;color:gray;font-size:16px;">电话:</span><span style="color:gray;font-size:16px;">010-67543210</span><br>
-                <span style="line-height:35px;color:gray;font-size:16px;">邮箱:</span><span style="color:gray;font-size:16px;">aiaiai@126.com</span>
+                <span style="line-height:35px;color:gray;font-size:16px;">人员级别:</span><span style="color:gray;font-size:16px;">普通人员</span><br>
+                <span style="line-height:35px;color:gray;font-size:16px;">岗位:</span><span style="color:gray;font-size:16px;">办事员</span>
             </div>
         </div>
         <div id="work_area">
-            <fieldset class="layui-elem-field site-demo-button">
-                <legend style="color:black">工作区</legend>
-                <div id="work_area_body" style="padding-left:10px;padding-right:10px">
 
-                </div>
-            </fieldset>
+            <div id="work_area_body">
+
+            </div>
+
 
         </div>
         <div id="banner" class="layui-col-md12" style="display:inline-block"><img class="layui-col-md12" src="/seeyon/apps_res/nbd/images/xxjxs20171018.jpg"></div>
@@ -709,111 +718,111 @@
         </div>
 
         <div id="btn_groups">
-            <fieldset class="layui-elem-field site-demo-button">
-                <legend style="color:black">功能区</legend>
-                <div>
-                    <div style="" class="layui-row">
-                        <div style="height:45px;vertical-align:middle" class="layui-col-md2 ">
-                            <div id="cell_uuid1" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="min-width:92px;background-color: #5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">综合</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid2" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">党委</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid3" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">人事</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid4" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center;min-width:92px"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">财务</button></div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid5" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">外事</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid6" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center;"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">物业</button>
-                                </div>
+
+
+            <div>
+                <div style="" class="layui-row">
+                    <div style="height:45px;vertical-align:middle" class="layui-col-md2 ">
+                        <div id="cell_uuid1" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="min-width:92px;background-color: #5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">综合</button>
                             </div>
                         </div>
                     </div>
-                    <div style="" class="layui-row">
-                        <div style="height:45px;vertical-align:middle" class="layui-col-md2 ">
-                            <div id="cell_uuid1" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="background-color: #5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">发起公文</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid2" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="background-color:#5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">我要请假</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid3" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="background-color:#5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">我的日程</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid4" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="background-color:#5484ff;display:inline-block;text-align:center;min-width:92px"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">停车单</button></div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid5" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="background-color:#5484ff;display:inline-block;text-align:center"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">外事公示</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="height:45px" class="layui-col-md2 ">
-                            <div id="cell_uuid6" class="lx-layout-cell">
-                                <div style="width:100%;margin:0 auto;text-align:center;">
-                                    <button style="background-color:#5484ff;display:inline-block;text-align:center;"
-                                            class="layui-btn layui-btn-warm layui-btn-radius">我的工资</button>
-                                </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid2" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">党委</button>
                             </div>
                         </div>
                     </div>
-
-
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid3" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">人事</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid4" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center;min-width:92px"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">财务</button></div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid5" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">外事</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid6" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="min-width:92px;background-color:#5484ff;display:inline-block;text-align:center;"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">物业</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </fieldset>
+                <div style="padding-top:5px" class="layui-row">
+                    <div style="height:45px;vertical-align:middle" class="layui-col-md2 ">
+                        <div id="cell_uuid1" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="background-color: #5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">发起公文</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid2" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="background-color:#5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">我要请假</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid3" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="background-color:#5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">我的日程</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid4" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="background-color:#5484ff;display:inline-block;text-align:center;min-width:92px"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">停车单</button></div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid5" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="background-color:#5484ff;display:inline-block;text-align:center"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">外事公示</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:45px" class="layui-col-md2 ">
+                        <div id="cell_uuid6" class="lx-layout-cell">
+                            <div style="width:100%;margin:0 auto;text-align:center;">
+                                <button style="background-color:#5484ff;display:inline-block;text-align:center;"
+                                        class="layui-btn layui-btn-warm layui-btn-radius">我的工资</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
         </div>
         <!-- <div id="pending_main_area">
                 <fieldset class="layui-elem-field site-demo-button" style="margin-top: 5px;">
@@ -833,6 +842,7 @@
                         <table>
                             <tr>
                                 <td><i class="layui-icon layui-icon-home lx-layout-icon"></i></td>
+                                <td>&nbsp</td>
                                 <td><span style="font-weight:bold;white-space:nowrap;">工作首页</span></td>
                             </tr>
                         </table>
@@ -843,6 +853,7 @@
                         <table>
                             <tr>
                                 <td><i class="layui-icon layui-icon-flag lx-layout-icon"></i></td>
+                                <td>&nbsp</td>
                                 <td><span style="font-weight:bold;white-space:nowrap;">党建工作</span></td>
                             </tr>
                         </table>
@@ -853,6 +864,7 @@
                         <table>
                             <tr>
                                 <td><i class="layui-icon layui-icon-component lx-layout-icon"></i></td>
+                                <td>&nbsp</td>
                                 <td><span style="font-weight:bold;white-space:nowrap;">资源中心</span></td>
                             </tr>
                         </table>
@@ -863,6 +875,7 @@
                         <table>
                             <tr>
                                 <td><i class="layui-icon layui-icon-read lx-layout-icon"></i></td>
+                                <td>&nbsp</td>
                                 <td><span style="font-weight:bold;white-space:nowrap;">自助专区</span></td>
                             </tr>
                         </table>
@@ -873,6 +886,7 @@
                         <table>
                             <tr>
                                 <td><i class="layui-icon layui-icon-layouts lx-layout-icon"></i></td>
+                                <td>&nbsp</td>
                                 <td><span style="font-weight:bold;white-space:nowrap;">报表中心</span></td>
                             </tr>
                         </table>
