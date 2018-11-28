@@ -326,6 +326,10 @@ public class NbdService {
             System.out.println(sql);
             try {
                 List<Map> dataMapList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                if(CommonUtils.isEmpty(dataMapList)){
+                    System.out.println("[ERROR]DATA NOT FOUND:"+formRecordId);
+                    return;
+                }
                 A8OutputVo a8OutputVo = new A8OutputVo();
                 FormTable ft = ftd.getFormTable();
                 List<FormField> ffList = ft.getFormFieldList();
