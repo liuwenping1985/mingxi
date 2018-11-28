@@ -12,11 +12,11 @@ public class A82Other extends CommonVo{
     private String name;
 
     private String data;
-
+    //模板编号
     private String affairType;
-
+    //process_start,process_end
     private String triggerType;
-
+    //mid_table
     private String exportType;
 
     private String linkId;

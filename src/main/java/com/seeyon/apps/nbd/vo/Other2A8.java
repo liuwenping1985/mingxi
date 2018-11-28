@@ -24,9 +24,13 @@ public class Other2A8 extends A82Other {
 
     private String period;
 
+    private boolean triggerProcess;
 
+    public boolean isTriggerProcess() {
+        return triggerProcess;
+    }
 
-
-
-
+    public void setTriggerProcess(boolean triggerProcess) {
+        this.triggerProcess = triggerProcess;
+    }
 }

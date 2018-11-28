@@ -101,10 +101,34 @@ public class FormTableDefinition {
 
     }
 
-    public String genInsertSQL() {
+    public String genSelectSQLById(FormTable ft,Object recordId) {
+        String tableName = ft.getName();
+        StringBuilder stb = new StringBuilder();
+        stb.append("select * from ");
+        stb.append(tableName);
+        stb.append(" where id=");
 
+        if(recordId instanceof Long){
+            stb.append(recordId);
+        }else {
+            stb.append("'").append(recordId).append("'");
+        }
+        return stb.toString();
 
-        return null;
+    }
+    public String genSelectSQLByProp(FormTable ft,String prop,Object recordId) {
+        String tableName = ft.getName();
+        StringBuilder stb = new StringBuilder();
+        stb.append("select * from ");
+        stb.append(tableName);
+        stb.append(" where "+prop+"=");
+
+        if(recordId instanceof Long){
+            stb.append(recordId);
+        }else {
+            stb.append("'").append(recordId).append("'");
+        }
+        return stb.toString();
 
     }
 }

@@ -6,14 +6,19 @@ import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
+import com.seeyon.apps.nbd.core.form.entity.FormField;
+import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.form.entity.SimpleFormField;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.po.A8OutputVo;
 import com.seeyon.apps.nbd.vo.*;
+import com.seeyon.ctp.common.po.affair.CtpAffair;
 
 import java.util.*;
 
@@ -301,6 +306,62 @@ public class NbdService {
             entity.setResult(false);
             entity.setMsg(e.getMessage());
             return entity;
+        }
+
+    }
+
+    public void transA8Output(CtpAffair affair, A82Other a82Other){
+
+        String expType = a82Other.getExportType();
+
+        if("mid_table".equals(expType)){
+
+            Long formRecordId = affair.getFormRecordid();
+            FormTableDefinition ftd = a82Other.getFtd();
+            if(ftd==null){
+                System.out.println("[ERROR]FTD NOT FOUND:"+a82Other.getId());
+                return;
+            }
+            String sql = ftd.genQueryById(formRecordId);
+            System.out.println(sql);
+            try {
+                List<Map> dataMapList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                A8OutputVo a8OutputVo = new A8OutputVo();
+                FormTable ft = ftd.getFormTable();
+                List<FormField> ffList = ft.getFormFieldList();
+                for(Map data:dataMapList){
+                    //处理主表表数据
+                    for(FormField ff:ffList){
+                        String barCode = ff.getBarcode();
+                        String name = ff.getName();
+                        String clsName = ff.getClassname();
+                        String export = ff.getExport();
+                        String parser = ff.getParser();
+                        Object val = data.get(ff.getName());
+
+                    }
+
+
+                    //处理子表数据
+                }
+
+                List<SimpleFormField> sffList = new ArrayList<SimpleFormField>();
+//                for(SimpleFormField sff:sffList){
+//
+//                }
+
+                for(SimpleFormField sff:sffList){
+                    Map data = new HashMap();
+                    data.put(sff.getName(),sff.getValue());
+
+                }
+
+            } catch (Exception e) {
+                System.out.println("[ERROR]EXECUTE ERROR:"+e.getMessage());
+                return;
+            }
+
+
         }
 
     }

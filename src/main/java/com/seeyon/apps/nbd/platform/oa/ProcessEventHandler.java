@@ -1,22 +1,15 @@
 package com.seeyon.apps.nbd.platform.oa;
 
-import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
-import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.nbd.constant.NbdConstant;
-import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
-import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
-import com.seeyon.apps.nbd.core.service.ServicePlugin;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
-import com.seeyon.apps.nbd.core.vo.CommonDataVo;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
-import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.apps.nbd.vo.A82Other;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
@@ -26,12 +19,8 @@ import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
-import com.seeyon.v3x.services.flow.FlowUtil;
-import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/8/20.
@@ -101,63 +90,78 @@ public class ProcessEventHandler {
     public void onFinish(CollaborationFinishEvent event) {
         Long affairId = event.getAffairId();
         try {
+
             String code = event.getTemplateCode();
             System.out.println("code:"+code);
             if(CommonUtils.isEmpty(code)){
                 return;
             }
+            CtpAffair affair = getAffairManager().get(affairId);
           //  handler.get
-            CommonParameter p = new CommonParameter();
-            p.$("data_type", NbdConstant.A8_TO_OTHER);
-            NbdResponseEntity entity = nbdService.getDataList(p);
-            List<A82Other> list = entity.getItems();
-            for(A82Other other:list){
-                if(code.equals(other.getAffairType())){
-                    p.$("id",other.getId());
-                    entity = nbdService.getDataById(p);
-                    other = (A82Other)entity.getData();
-                    FormTable ft = other.getFtd().getFormTable();
-                    
 
-                }
-            }
-            System.out.println("找不到中间表");
+            processA82Other("process_end",code,affair);
+
         } catch (BusinessException e) {
             e.printStackTrace();
         }
 
     }
+    private void processA82Other(String triggerMode,String code,CtpAffair affair){
+        CommonParameter p = new CommonParameter();
+        p.$("data_type", NbdConstant.A8_TO_OTHER);
+        NbdResponseEntity entity = nbdService.getDataList(p);
+        List<A82Other> list = entity.getItems();
+        for(A82Other other:list){
+            if(code.equals(other.getAffairType())){
+                p.$("id",other.getId());
+                entity = nbdService.getDataById(p);
+                other = (A82Other)entity.getData();
+                if(triggerMode.equals(other.getTriggerType())){
+                    nbdService.transA8Output(affair,other);
+                }
+                //get Form data
+            }
+        }
+
+    }
+
     @ListenEvent(event = CollaborationStartEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onStart(CollaborationStartEvent event) {
-        Long summaryId = event.getSummaryId();
 
-//        Long affairId = event.is
-//        CtpAffair ctpAffair = this.getAffairManager().get(affairId);
-//
-//        processEvent(summaryId,ctpAffair);
-//
-        System.out.println("-----onStepBack----");
-
+       // CtpAffair ctpAffair = event.getAffair();
+      //  System.out.println("-----onStart----");
+        String code = null;
+        try {
+            code = event.getTemplateCode();
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        System.out.println("code:"+code);
+        if(CommonUtils.isEmpty(code)){
+            return;
+        }
+        CtpAffair affair = event.getAffair();
+        processA82Other("process_start",code,affair);
         // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 
     }
     @ListenEvent(event = CollaborationStepBackEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onStepBack(CollaborationStepBackEvent event) {
-         Long summaryId = event.getSummaryId();
+//         Long summaryId = event.getSummaryId();
 
 //        Long affairId = event.is
 //        CtpAffair ctpAffair = this.getAffairManager().get(affairId);
 //
 //        processEvent(summaryId,ctpAffair);
 //
-      System.out.println("-----onStepBack----");
+//   System.out.println("-----onStepBack----");
 
        // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 
     }
     @ListenEvent(event = CollaborationCancelEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onCancel(CollaborationCancelEvent event) {
-        Long summaryId = event.getSummaryId();
+        //Long summaryId = event.getSummaryId();
 
 //        Long affairId = event.is
 //        CtpAffair ctpAffair = this.getAffairManager().get(affairId);
@@ -187,80 +191,80 @@ public class ProcessEventHandler {
 //    }
     @ListenEvent(event = CollaborationStopEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onStop(CollaborationStopEvent event) {
-        Long summaryId = event.getSummaryId();
-        System.out.println("-----onStop----");
+        //Long summaryId = event.getSummaryId();
+       // System.out.println("-----onStop----");
        // processDoneEvent(summaryId,"停止",FlowUtil.FlowState.teminal.getKey());
 
     }
 
     private void processDoneEvent(Long summaryId,String msg,int state){
-        if(!needProcess(summaryId)){
-            return;
-        }
-        ColSummary summary;
-        try {
-            summary = this.getColManager().getColSummaryById(summaryId);
-            //int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
-            String operator="";
-            String forwardMember = summary.getForwardMember();
-            if(!StringUtils.isEmpty(forwardMember)){
-                operator=this.getOrgManager().getMemberById(Long.valueOf(forwardMember)).getLoginName();
-            }
-
-            //summary.setState(state);
-            //getColManager().updateColSummary(summary);
-               // String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
-            postData(summaryId,state, operator,msg);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        if(!needProcess(summaryId)){
+//            return;
+//        }
+//        ColSummary summary;
+//        try {
+//            summary = this.getColManager().getColSummaryById(summaryId);
+//            //int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
+//            String operator="";
+//            String forwardMember = summary.getForwardMember();
+//            if(!StringUtils.isEmpty(forwardMember)){
+//                operator=this.getOrgManager().getMemberById(Long.valueOf(forwardMember)).getLoginName();
+//            }
+//
+//            //summary.setState(state);
+//            //getColManager().updateColSummary(summary);
+//               // String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
+//            postData(summaryId,state, operator,msg);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         //int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
     }
 
     private void processNormalEvent(Long summaryId,CtpAffair ctpAffair){
-        if(!needProcess(summaryId)){
-            return;
-        }
-        ColSummary summary;
-        try {
-            // String key = affairType+"$"+parameter.get("affair_id");
-
-            summary = this.getColManager().getColSummaryById(summaryId);
-            int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
-            if(state ==  FlowUtil.FlowState.cancle.getKey()){
-                //回调
-                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
-                postData(summaryId,state, operator,"取消");
-            }
-            if(state == FlowUtil.FlowState.back.getKey()){
-                //回退
-                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
-                postData(summaryId,state, operator,"回退");
-            }
-            if(state == FlowUtil.FlowState.tackBack.getKey()){
-                //回退
-                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
-                postData(summaryId,state, operator,"取回");
-            }
-            if(state == FlowUtil.FlowState.teminal.getKey()){
-                //终止
-                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
-                postData(summaryId,state, operator,"终止");
-            }
-
-        } catch (BusinessException var6) {
-            var6.printStackTrace();
-        }
+//        if(!needProcess(summaryId)){
+//            return;
+//        }
+//        ColSummary summary;
+//        try {
+//            // String key = affairType+"$"+parameter.get("affair_id");
+//
+//            summary = this.getColManager().getColSummaryById(summaryId);
+//            int state = FlowUtil.getFlowState(this.getAffairManager(), summary);
+//            if(state ==  FlowUtil.FlowState.cancle.getKey()){
+//                //回调
+//                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
+//                postData(summaryId,state, operator,"取消");
+//            }
+//            if(state == FlowUtil.FlowState.back.getKey()){
+//                //回退
+//                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
+//                postData(summaryId,state, operator,"回退");
+//            }
+//            if(state == FlowUtil.FlowState.tackBack.getKey()){
+//                //回退
+//                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
+//                postData(summaryId,state, operator,"取回");
+//            }
+//            if(state == FlowUtil.FlowState.teminal.getKey()){
+//                //终止
+//                String operator =  this.getOrgManager().getMemberById(ctpAffair.getMemberId()).getLoginName();
+//                postData(summaryId,state, operator,"终止");
+//            }
+//
+//        } catch (BusinessException var6) {
+//            var6.printStackTrace();
+//        }
     }
 
     @ListenEvent(event = CollaborationProcessEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onProcess(CollaborationProcessEvent event) {
-        Long summaryId = event.getSummaryId();
+        // Long summaryId = event.getSummaryId();
        // CtpAffair ctpAffair =  event.getAffair();
        // processNormalEvent(summaryId,ctpAffair);
-        System.out.println("-----TEST3----");
+       // System.out.println("-----TEST3----");
 
 
 
@@ -278,38 +282,38 @@ public class ProcessEventHandler {
     }
 
     private void postData(Long summaryId,int state,String operator,String currentState){
-        String key_affairType =  (String) DataBaseHandler.getInstance().getDataByKey("flow"+summaryId);
-        String[] keys = key_affairType.split("_");
-        String affairType = keys[0];
-        String affair_id = keys[1];
-        Map dataParam = new HashMap();
-        dataParam.put("affair_id",affair_id);
-        dataParam.put("id",summaryId);
-        dataParam.put("affairType",affairType);
-        dataParam.put("state",state);
-        dataParam.put("currentState",currentState);
-        dataParam.put("operator",operator);
-        dataParam.put("note","");
-        dataParam.put("data","{}");
-
-//        affair_id：外部数据id
-//        id：OA数据id
-//        affairType：事务类型
-//        state：审核状态
-//        currentState：退回时状态
-//        operator：操作人（用户名）
-//        note：审核说明
-//        data：其他补充数据
-
-        String url = ConfigService.getPropertyByName("callback.uri","");
-        try {
-            System.out.println(url);
-            System.out.println(dataParam);
-            Map res = UIUtils.post(url,dataParam);
-            System.out.println(res);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String key_affairType =  (String) DataBaseHandler.getInstance().getDataByKey("flow"+summaryId);
+//        String[] keys = key_affairType.split("_");
+//        String affairType = keys[0];
+//        String affair_id = keys[1];
+//        Map dataParam = new HashMap();
+//        dataParam.put("affair_id",affair_id);
+//        dataParam.put("id",summaryId);
+//        dataParam.put("affairType",affairType);
+//        dataParam.put("state",state);
+//        dataParam.put("currentState",currentState);
+//        dataParam.put("operator",operator);
+//        dataParam.put("note","");
+//        dataParam.put("data","{}");
+//
+////        affair_id：外部数据id
+////        id：OA数据id
+////        affairType：事务类型
+////        state：审核状态
+////        currentState：退回时状态
+////        operator：操作人（用户名）
+////        note：审核说明
+////        data：其他补充数据
+//
+//        String url = ConfigService.getPropertyByName("callback.uri","");
+//        try {
+//            System.out.println(url);
+//            System.out.println(dataParam);
+//            Map res = UIUtils.post(url,dataParam);
+//            System.out.println(res);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
     }
