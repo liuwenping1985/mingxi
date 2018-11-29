@@ -19,6 +19,8 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.po.A8OutputVo;
 import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.UUIDLong;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -355,18 +357,14 @@ public class NbdService {
                 }
                 //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
                 A8OutputVo a8OutputVo = new A8OutputVo();
-                FormTable ft = ftd.getFormTable();
-                List<SimpleFormField> sffList = new ArrayList<SimpleFormField>();
-//                for(SimpleFormField sff:sffList){
-//
-//                }
-
-                for(SimpleFormField sff:sffList){
-                    Map data = new HashMap();
-                    data.put(sff.getName(),sff.getValue());
-
-                }
-
+                a8OutputVo.setCreateDate(new Date());
+                a8OutputVo.setData(JSON.toJSONString(masterRecord));
+                a8OutputVo.setId(UUIDLong.longUUID());
+                a8OutputVo.setSourceId(formRecordId);
+                a8OutputVo.setStatus(0);
+                a8OutputVo.setUpdateDate(new Date());
+                a8OutputVo.setName(ftd.getFormTable().getName());
+                DBAgent.save(a8OutputVo);
             } catch (Exception e) {
                 System.out.println("[ERROR]EXECUTE ERROR:"+e.getMessage());
                 return;
