@@ -687,7 +687,7 @@ public class FileUploadController extends BaseController {
 
         try {
 
-            String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
+            String md5Name = MD5Util.MD5(md5);
             Object data = handler.getDataByKey("FILE_UPLOAD",md5Name);
             File f = this.getFubps().getCommonFile(fName,fSize,userId);
 
@@ -701,19 +701,49 @@ public class FileUploadController extends BaseController {
                 ret.put("hasProcess",true);
                 if(!f.exists()){
                     ret.put("hasProcess",false);
+                    ret.put("currentSize",0L);
                 }else{
                     //检查文件大小和当前数是否一致
-                    RandomAccessFile raf = this.getFubps().getBrFile(fName,fSize,userId);
-                    Long curSize = Long.parseLong(String.valueOf(data));
-                    //ok的
-                    if(curSize.longValue()==raf.length()){
-                        raf.close();
-                        ret.put("currentSize",data);
-                    }else{
-                        raf.close();
-                        f.delete();
-                        handler.putData("FILE_UPLOAD",md5Name,0);
-                        ret.put("currentSize",0L);
+                    RandomAccessFile raf = null;
+                    boolean deleteFile = false;
+                    try {
+                        raf = this.getFubps().getBrFile(fName, fSize, userId);
+                        Long curSize = Long.parseLong(String.valueOf(data));
+                        //ok的
+                        if (curSize.longValue() == raf.length()) {
+                            //raf.close();
+                            ret.put("currentSize", data);
+                        } else {
+                            //raf.close();
+                            System.out.println("检查文件大小与记录不一致---选修开始");
+
+                             if(raf.length()<Long.parseLong(fSize)){
+                                System.out.println("已上传文件记录长度小于实际文件长度---FLAG1");
+                                ret.put("currentSize", raf.length());
+                                handler.putData("FILE_UPLOAD", md5Name, raf.length());
+
+                             }else{
+                                 System.out.println("文件异常---FLAG2");
+
+                                 ret.put("currentSize", 0L);
+                                 handler.putData("FILE_UPLOAD", md5Name, 0L);
+                                 deleteFile=true;
+
+                             }
+
+
+
+                        }
+                    }catch(Exception e){
+
+                    }finally {
+                        if(raf!=null){
+                            raf.close();
+                        }
+                        if(deleteFile){
+                            f.delete();
+                        }
+
                     }
                 }
 
@@ -750,20 +780,30 @@ public class FileUploadController extends BaseController {
                 byte[] buffer = new byte[dataSize];
                 int len =-1;
                 int size=0;
-                RandomAccessFile raf = fubps.getBrFile(fName,fSize,userId);
-                raf.seek(st);
-                while((len=ins.read(buffer))>0){
+                RandomAccessFile raf = null;
+                try {
+                    raf = fubps.getBrFile(fName,fSize,userId);
+                    raf.seek(st);
+                    while ((len = ins.read(buffer)) > 0) {
 
-                    size+=len;
+                        size += len;
 
-                    raf.write(buffer,0,len);
+                        raf.write(buffer, 0, len);
 
 
+                    }
+                    ret.put("raf_size", raf.length());
+                }catch(Exception e){
+
+                }finally{
+                    if(raf!=null){
+                        raf.close();
+                    }
                 }
-                ret.put("raf_size",raf.length());
-                raf.close();
+
                 String md5 = userId+"_"+fName+"_"+fSize;
-                String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
+
+                String md5Name = MD5Util.MD5(md5);
                 handler.putData("FILE_UPLOAD",md5Name,ed);
                 ret.put("size",size);
             }

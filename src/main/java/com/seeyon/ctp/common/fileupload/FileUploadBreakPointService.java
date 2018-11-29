@@ -32,11 +32,11 @@ public class FileUploadBreakPointService {
     public File getCommonFile(String fName,String fSize,Long userId){
         String md5 = userId+"_"+fName+"_"+fSize;
         try {
-            String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
+            String md5Name = MD5Util.MD5(md5);
             String filePath = Hook.class.getResource("").getPath();
             File file = new File(filePath+md5Name);
             return file;
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -47,7 +47,7 @@ public class FileUploadBreakPointService {
 
         String md5 = userId+"_"+fName+"_"+fSize;
         try {
-            String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
+            String md5Name = MD5Util.MD5(md5);
             String filePath = Hook.class.getResource("").getPath();
             //System.out.println(filePath+md5Name);
             File file = new File(filePath+md5Name);
@@ -67,7 +67,7 @@ public class FileUploadBreakPointService {
     }
     public void deleteFile(String fName,String fSize,Long userId) throws Exception {
         String md5 = userId+"_"+fName+"_"+fSize;
-        String md5Name = MD5Util.bytetoString(md5.getBytes("utf-8"));
+        String md5Name = MD5Util.MD5(md5);
         String filePath = Hook.class.getResource("").getPath();
         //System.out.println(filePath+md5Name);
         File file = new File(filePath+md5Name);

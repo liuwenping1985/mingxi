@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.util.StringUtils;
+import www.seeyon.com.utils.MD5Util;
 
 import java.io.*;
 import java.util.*;
@@ -218,7 +219,8 @@ public class DataBaseHandler {
 //                return;
 //            }
 //        }
-        System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
+        String key = MD5Util.MD5(dbName);
+        System.out.println(key);
 
 //
 //        // System.out.println(handler.getDataByKey("123"));
