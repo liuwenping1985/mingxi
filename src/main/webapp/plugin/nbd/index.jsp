@@ -537,7 +537,7 @@
 
                                             </tr>
                                         </thead>
-                                        <tbody id="a82other_field_list_body">
+                                        <tbody id="other2a8_field_list_body">
 
                                         </tbody>
                                     </table>

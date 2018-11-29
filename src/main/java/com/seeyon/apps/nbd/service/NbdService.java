@@ -20,6 +20,7 @@ import com.seeyon.apps.nbd.po.A8OutputVo;
 import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -330,25 +331,31 @@ public class NbdService {
                     System.out.println("[ERROR]DATA NOT FOUND:"+formRecordId);
                     return;
                 }
-                A8OutputVo a8OutputVo = new A8OutputVo();
-                FormTable ft = ftd.getFormTable();
-                List<FormField> ffList = ft.getFormFieldList();
-                for(Map data:dataMapList){
-                    //处理主表表数据
-                    for(FormField ff:ffList){
-                        String barCode = ff.getBarcode();
-                        String name = ff.getName();
-                        String clsName = ff.getClassname();
-                        String export = ff.getExport();
-                        String parser = ff.getParser();
-                        Object val = data.get(ff.getName());
+
+                List<Map> retList = ftd.filled2ValueMap(ftd.getFormTable(),dataMapList);
+                //只会有一条
+                Map masterRecord = retList.get(0);
+                //处理子表
+                List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
+                if (!CommonUtils.isEmpty(slaveTables)) {
+
+                    for(FormTable ft:slaveTables){
+
+                        String slaveSql = ftd.genSelectSQLByProp(ft,"formmain_id",formRecordId);
+                        List<Map> slaveDataMapList = DataBaseHelper.executeQueryByNativeSQL(slaveSql);
+                        List<Map> slaveRet = ftd.filled2ValueMap(ft,slaveDataMapList);
+
+                        masterRecord.put(ft.getDisplay(),slaveRet);
 
                     }
 
 
-                    //处理子表数据
-                }
 
+
+                }
+                //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
+                A8OutputVo a8OutputVo = new A8OutputVo();
+                FormTable ft = ftd.getFormTable();
                 List<SimpleFormField> sffList = new ArrayList<SimpleFormField>();
 //                for(SimpleFormField sff:sffList){
 //

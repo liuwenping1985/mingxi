@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.service;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.constant.NbdConstant;
+import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.vo.*;
@@ -49,22 +50,33 @@ public class TransferService {
         String jsonString = JSON.toJSONString(p);
         T t =  (T) JSON.parseObject(jsonString,s);
 
-        if(s == A82Other.class){
-
-
-
-        }
-        if(s == Other2A8.class){
-
-
-        }
-
         return t;
 
 
     }
 
+    /**
+     'normal': "默认不转换",
+     'id_2_org_code': "单位转编码",
+     'id_2_org_name': "单位转名称",
+     'id_2_dept_code': "部门转编码",
+     'id_2_dept_name': "部门转名称",
+     'id_2_person_code': "人员转编码",
+     'id_2_person_name': "人员转名称",
+     'enum_2_name': "枚举转名称",
+     'enum_2_value': "枚举转枚举值",
+     'file_2_downlaod': "附件转http下载"
+     */
+    public Object transForm2Other(FormField formField,Object val){
 
+
+        return val;
+
+    }
+    public Object transForm2A8(FormField formField,Object val){
+
+        return val;
+    }
     static class Holder{
         private static TransferService ins = new TransferService();
 
