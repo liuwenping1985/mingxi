@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
 
 /**
  * Created by liuwenping on 2018/11/3.
@@ -77,6 +78,7 @@ public class NbdController extends BaseController{
             entity = new NbdResponseEntity();
             entity.setResult(false);
             entity.setMsg(vr.getMsg());
+
         }else{
             entity = nbdService.postAdd(p);
         }

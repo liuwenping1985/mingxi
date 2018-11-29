@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.nbd.po">
+    <!-- 业务管理配置表 -->
+    <class name="A8OutputVo" table="A8_TO_OTHER">
+        <id
+              name="id"
+              type="long"
+              column="ID"
+              length="11"
+        >
+        </id>
+        <property
+                name="name"
+                column="name"
+                type="string"
+                not-null="false"
+        />
+        <property
+                name="data"
+                column="data"
+                type="string"
+                not-null="false"
+        />
+        <!-- 单位ID -->
+        <property
+                name="sourceId"
+                column="source_id"
+                type="long"
+                not-null="false"
+                length="256"
+        />
+        <!-- 部门ID -->
+        <property
+                name="createDate"
+                column="create_time"
+                type="date"
+                not-null="false"
+
+        />
+
+        <!-- 金额 -->
+        <property
+                name="status"
+                column="status"
+                type="integer"
+                not-null="false"
+                length="11"
+        />
+        <!-- 创建人 -->
+        <property
+                name="updateDate"
+                column="update_time"
+                type="date"
+                not-null="false"
+        />
+
+    </class>
+</hibernate-mapping>
