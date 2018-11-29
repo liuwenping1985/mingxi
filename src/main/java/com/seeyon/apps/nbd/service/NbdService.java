@@ -250,7 +250,7 @@ public class NbdService {
         NbdResponseEntity entity = new NbdResponseEntity();
 
         String affairType = p.$("affairType");
-        String sql = " select * from form_definition where id in (select  CONTENT_TEMPLATE_ID from ctp_content_all where id IN(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
+        String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
         DataLink dl = ConfigService.getA8DefaultDataLink();
         List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl,sql);
         if(CommonUtils.isEmpty(items)){
