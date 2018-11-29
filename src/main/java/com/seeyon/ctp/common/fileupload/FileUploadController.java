@@ -794,7 +794,7 @@ public class FileUploadController extends BaseController {
                     }
                     ret.put("raf_size", raf.length());
                 }catch(Exception e){
-
+                    e.printStackTrace();
                 }finally{
                     if(raf!=null){
                         raf.close();
