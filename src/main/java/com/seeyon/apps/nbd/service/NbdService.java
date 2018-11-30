@@ -335,6 +335,7 @@ public class NbdService {
                 }
 
                 List<Map> retList = ftd.filled2ValueMap(ftd.getFormTable(),dataMapList);
+                System.out.println("retList:"+retList);
                 //只会有一条
                 Map masterRecord = retList.get(0);
                 //处理子表
@@ -363,7 +364,9 @@ public class NbdService {
                 a8OutputVo.setSourceId(formRecordId);
                 a8OutputVo.setStatus(0);
                 a8OutputVo.setUpdateDate(new Date());
+
                 a8OutputVo.setName(ftd.getFormTable().getName());
+                System.out.println(JSON.toJSONString(a8OutputVo));
                 DBAgent.save(a8OutputVo);
             } catch (Exception e) {
                 System.out.println("[ERROR]EXECUTE ERROR:"+e.getMessage());
