@@ -15,20 +15,20 @@
         </id>
         <property
                 name="name"
-                column="name"
+                column="NAME"
                 type="string"
                 not-null="false"
         />
         <property
                 name="data"
-                column="data"
+                column="DATA"
                 type="string"
                 not-null="false"
         />
         <!-- 单位ID -->
         <property
                 name="sourceId"
-                column="source_id"
+                column="SOURCE_ID"
                 type="long"
                 not-null="false"
                 length="256"
@@ -36,7 +36,7 @@
         <!-- 部门ID -->
         <property
                 name="createDate"
-                column="create_time"
+                column="CREATE_TIME"
                 type="date"
                 not-null="false"
 
@@ -45,7 +45,7 @@
         <!-- 金额 -->
         <property
                 name="status"
-                column="status"
+                column="STATUS"
                 type="integer"
                 not-null="false"
                 length="11"
@@ -53,7 +53,7 @@
         <!-- 创建人 -->
         <property
                 name="updateDate"
-                column="update_time"
+                column="UPDATE_TIME"
                 type="date"
                 not-null="false"
         />

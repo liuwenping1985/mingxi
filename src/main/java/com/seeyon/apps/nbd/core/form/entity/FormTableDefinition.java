@@ -104,6 +104,7 @@ public class FormTableDefinition {
 
     }
     public List<Map> filled2ValueMap(FormTable ft,List<Map> values) {
+        TransferService tfs = TransferService.getInstance();
         List<FormField> formFields = ft.getFormFieldList();
         List<Map> dataList = new ArrayList<Map>();
         if (CommonUtils.isEmpty(formFields)) {
@@ -118,11 +119,14 @@ public class FormTableDefinition {
             }
             Map data = new HashMap();
             for(FormField ff:formFields){
-                String fExportName = ff.getExport();
+                if(!"1".equals(ff.getExport())){
+                    continue;
+                }
+                String fExportName = ff.getBarcode();
                 if(CommonUtils.isEmpty(fExportName)){
                     fExportName = ff.getDisplay();
                 }
-                data.put(fExportName,objs.get(ff.getName()));
+                data.put(fExportName,tfs.transForm2Other(ff,objs.get(ff.getName())));
             }
 
             dataList.add(data);
