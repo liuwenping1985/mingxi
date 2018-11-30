@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 public class DataBaseHandler {
 
     private static DataBaseHandler dataBaseHandler;
+    private String mode = "";
 
     private static Map dbMap = new HashMap();
 
@@ -26,6 +28,10 @@ public class DataBaseHandler {
     private static Map<String,Map> dbContainerMap = new HashMap<String,Map>();
 
     private  DataBaseHandler(){
+        //重构开始
+        String mode = ConfigService.getPropertyByName("data_store_mode","file");
+        this.mode = mode;
+
         StringBuilder stb = initDataBase(DEFAULT_DB);
         if(!StringUtils.isEmpty(stb.toString())){
             dbMap = JSON.parseObject(stb.toString(),HashMap.class);
@@ -155,8 +161,6 @@ public class DataBaseHandler {
             return null;
         }
         Object obj =  db.get(key);
-        System.out.println("GGGGGGGG");
-        System.out.println(obj);
         String jstring = JSON.toJSONString(obj);
         T t = JSON.parseObject(jstring,cls);
         return t;
