@@ -1,9 +1,12 @@
 package com.seeyon.apps.nbd.core.config;
 
+import com.seeyon.apps.nbd.po.A8OutputVo;
 import com.seeyon.apps.nbd.vo.DataLink;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.Properties;
 
 /**
@@ -38,6 +41,11 @@ public class ConfigService {
        dl.setHost(url);
        return dl;
     }
+    public static File getA82OtherCreateTable(){
+        String path = A8OutputVo.class.getResource("cr.sql").getPath();
+        return new File(path);
+    }
+    public static String A8_TO_OTHER="";
     private static void init(){
         p = new Properties();
         InputStream ins = Hook.class.getResourceAsStream("config.properties");

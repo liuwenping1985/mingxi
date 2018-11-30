@@ -41,6 +41,7 @@
             <include>**/*.properties</include>
             <include>**/*.csv</include>
             <include>**/*.data</include>
+            <include>**/*.sql</include>
         </includes>
     </resource>
     </resources>

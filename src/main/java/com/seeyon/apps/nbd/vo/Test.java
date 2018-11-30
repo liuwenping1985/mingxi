@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.vo;
 
 import com.seeyon.ctp.common.security.MessageEncoder;
+import com.seeyon.ctp.login.controller.MainController;
 import com.seeyon.ctp.organization.manager.OrgManagerImpl;
 import com.seeyon.ctp.organization.po.OrgPrincipal;
 import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
@@ -40,6 +41,7 @@ public class Test {
         MessageEncoder encoder = new MessageEncoder();
         String pwdC = encoder.encode("gaotong", "123456");
         System.out.println(pwdC);
+        MainController indo;
 
     }
 }

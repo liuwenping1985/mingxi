@@ -1,12 +1,13 @@
 package com.seeyon.apps.nbd.core.db;
 
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
 import com.seeyon.apps.nbd.vo.DataLink;
+import com.seeyon.ctp.util.IOUtility;
 import com.seeyon.ctp.util.JDBCAgent;
+import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,34 +24,34 @@ public final class DataBaseHelper {
         JDBCAgent jdbc = new JDBCAgent();
         try {
             jdbc.execute(sql.toString());
-             List<Map> list =  jdbc.resultSetToList();
+            List<Map> list = jdbc.resultSetToList();
             return list;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             jdbc.close();
         }
-       return new ArrayList<Map>();
+        return new ArrayList<Map>();
 
     }
 
-    public static List<Map> executeQueryBySQLAndLink(DataLink link, String sql){
-        Connection conn =null;
-        PreparedStatement pst =null;
+    public static List<Map> executeQueryBySQLAndLink(DataLink link, String sql) {
+        Connection conn = null;
+        PreparedStatement pst = null;
         ResultSet rs = null;
         try {
-             conn =  ConnectionBuilder.openConnection(link);
-             pst = conn.prepareStatement(sql, 1004, 1007);
-             rs = pst.executeQuery();
-             return resultSetToList(rs,true);
+            conn = ConnectionBuilder.openConnection(link);
+            pst = conn.prepareStatement(sql, 1004, 1007);
+            rs = pst.executeQuery();
+            return resultSetToList(rs, true);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
 
 
-            if(rs!=null){
+            if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
@@ -58,7 +59,7 @@ public final class DataBaseHelper {
                 }
 
             }
-            if(pst!=null){
+            if (pst != null) {
                 try {
                     pst.close();
                 } catch (Exception e) {
@@ -66,9 +67,10 @@ public final class DataBaseHelper {
                 }
             }
 
-            if(conn!=null){
-                try{
-                    conn.close();;
+            if (conn != null) {
+                try {
+                    conn.close();
+                    ;
                 } catch (Exception e) {
 
                 } finally {
@@ -80,8 +82,61 @@ public final class DataBaseHelper {
         return null;
 
     }
+
+    public static void createTableIfNotExist(String tableName, DataLink link) {
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement st = null;
+        try {
+            conn = ConnectionBuilder.openConnection(link);
+
+            rs = conn.getMetaData().getTables(null, null, tableName, null);
+            if (rs.next()) {
+                //存在
+                return;
+            }else{
+                File file =  ConfigService.getA82OtherCreateTable();
+                String sql = IOUtils.toString(new FileInputStream(file),"UTF-8");
+                st = conn.createStatement();
+                st.execute(sql);
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(st!=null){
+                try{
+                    st.close();
+                }catch(Exception e){
+
+                }
+            }
+            if(conn!=null){
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+
+    }
+
+
     private static List resultSetToList(ResultSet rs, boolean lowercaseKey) throws SQLException {
-        if(rs == null) {
+        if (rs == null) {
             throw new RuntimeException("查询结果集对象不能为空！");
         } else {
             boolean var13 = false;
@@ -93,15 +148,15 @@ public final class DataBaseHelper {
                 List dataList = new ArrayList();
                 int columns = rsmd.getColumnCount();
 
-                while(rs.next()) {
+                while (rs.next()) {
                     Map map = new LinkedHashMap();
 
-                    for(int j = 1; j <= columns; ++j) {
-                        String columnName = lowercaseKey?rsmd.getColumnLabel(j).toLowerCase():rsmd.getColumnLabel(j);
+                    for (int j = 1; j <= columns; ++j) {
+                        String columnName = lowercaseKey ? rsmd.getColumnLabel(j).toLowerCase() : rsmd.getColumnLabel(j);
                         Object value;
-                        if(rsmd.getColumnType(j) == 93) {
+                        if (rsmd.getColumnType(j) == 93) {
                             value = rs.getTimestamp(columnName);
-                        } else if(rsmd.getColumnType(j) == 2005) {
+                        } else if (rsmd.getColumnType(j) == 2005) {
                             value = extractClobString(rs, columnName);
                         } else {
                             value = rs.getObject(columnName);
@@ -116,11 +171,11 @@ public final class DataBaseHelper {
                 var15 = dataList;
                 var13 = false;
             } finally {
-                if(var13) {
-                    if(rs != null) {
+                if (var13) {
+                    if (rs != null) {
                         Statement st = rs.getStatement();
                         rs.close();
-                        if(st != null) {
+                        if (st != null) {
                             st.close();
                         }
                     }
@@ -128,10 +183,10 @@ public final class DataBaseHelper {
                 }
             }
 
-            if(rs != null) {
+            if (rs != null) {
                 Statement st = rs.getStatement();
                 rs.close();
-                if(st != null) {
+                if (st != null) {
                     st.close();
                 }
             }
@@ -145,7 +200,7 @@ public final class DataBaseHelper {
     }
 
     public static String clobToString(Clob clob) throws SQLException {
-        if(clob == null) {
+        if (clob == null) {
             return null;
         } else {
             Reader is = clob.getCharacterStream();
@@ -155,10 +210,10 @@ public final class DataBaseHelper {
                 String s = br.readLine();
                 StringBuilder sb = new StringBuilder();
 
-                while(s != null) {
+                while (s != null) {
                     sb.append(s);
                     s = br.readLine();
-                    if(s != null) {
+                    if (s != null) {
                         sb.append("\n");
                     }
                 }
