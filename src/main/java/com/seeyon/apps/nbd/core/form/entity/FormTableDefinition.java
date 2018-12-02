@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.core.form.entity;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.service.TransferService;
 
@@ -106,6 +107,9 @@ public class FormTableDefinition {
     public List<Map> filled2ValueMap(FormTable ft,List<Map> values) {
         TransferService tfs = TransferService.getInstance();
         List<FormField> formFields = ft.getFormFieldList();
+        System.out.println("formFields:"+ JSON.toJSONString(formFields));
+        System.out.println("values:"+ JSON.toJSONString(values));
+
         List<Map> dataList = new ArrayList<Map>();
         if (CommonUtils.isEmpty(formFields)) {
             return dataList;

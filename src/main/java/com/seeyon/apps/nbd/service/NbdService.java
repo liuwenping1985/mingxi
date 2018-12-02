@@ -335,9 +335,10 @@ public class NbdService {
                 }
 
                 List<Map> retList = ftd.filled2ValueMap(ftd.getFormTable(),dataMapList);
-                System.out.println("retList:"+retList);
+
                 //只会有一条
                 Map masterRecord = retList.get(0);
+                System.out.println("master_record:"+masterRecord);
                 //处理子表
                 List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
                 if (!CommonUtils.isEmpty(slaveTables)) {
@@ -347,30 +348,28 @@ public class NbdService {
                         String slaveSql = ftd.genSelectSQLByProp(ft,"formmain_id",formRecordId);
                         List<Map> slaveDataMapList = DataBaseHelper.executeQueryByNativeSQL(slaveSql);
                         List<Map> slaveRet = ftd.filled2ValueMap(ft,slaveDataMapList);
-
                         masterRecord.put(ft.getDisplay(),slaveRet);
-
                     }
-
-
-
-
                 }
                 //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
                 A8OutputVo a8OutputVo = new A8OutputVo();
                 a8OutputVo.setCreateDate(new Date());
                 a8OutputVo.setData(JSON.toJSONString(masterRecord));
-                a8OutputVo.setId(UUIDLong.longUUID());
+                a8OutputVo.setIdIfNew();
                 a8OutputVo.setSourceId(formRecordId);
                 a8OutputVo.setStatus(0);
                 a8OutputVo.setUpdateDate(new Date());
 
-                a8OutputVo.setName(ftd.getFormTable().getName());
-                System.out.println(JSON.toJSONString(a8OutputVo));
+                a8OutputVo.setName(a82Other.getAffairType()+"_"+ftd.getFormTable().getName());
+                System.out.println("to_be_saved:"+JSON.toJSONString(a8OutputVo));
                 DBAgent.save(a8OutputVo);
+                DBAgent.commit();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("[ERROR]EXECUTE ERROR:"+e.getMessage());
                 return;
+            }catch (Error error){
+                error.printStackTrace();
             }
 
 

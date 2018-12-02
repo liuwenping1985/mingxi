@@ -55,7 +55,7 @@
             $(items).each(function (index, item) {
                 htmls.push("<tr class='a82other_row' >");
                 htmls.push("<td><input type='checkbox' value='" + item.id + "' class='a82other_selected' /> </td>");
-                htmls.push("<td>" + item.name + "</td>");
+                htmls.push("<td>" + decodeURIComponent(item.name) + "</td>");
                 htmls.push("<td>" + transLink(item.linkId) + "</td>");
                 htmls.push("<td>" + transExportType(item.exportType) + "</td>");
 
@@ -165,7 +165,7 @@
                     htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
                     htmls.push("<td>" + genIsExport(item.name, item.export) + "</td>");
                     htmls.push("<td>" + genTransferSelect(item.name, item.classname) + "</td>");
-                    htmls.push("<td><input name='" + item.name + "_ws' value='" + item.barcode + "' />< /td>");
+                    htmls.push("<td><input name='" + item.name + "_ws' value='" + item.barcode + "' /></td>");
                     htmls.push("</tr>")
                 });
 
