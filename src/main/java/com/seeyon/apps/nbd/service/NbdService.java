@@ -225,7 +225,17 @@ public class NbdService {
     public NbdResponseEntity getCtpTemplateNumber(CommonParameter p) {
         NbdResponseEntity entity = new NbdResponseEntity();
         try {
-            DataLink dl = ConfigService.getA8DefaultDataLink();
+            String linkId = p.$("linkId");
+            DataLink dl = null;
+            if(CommonUtils.isEmpty(linkId)){
+                dl = handler.getDataByKeyAndClassType("","",DataLink.class);
+                if(dl == null){
+                    dl = ConfigService.getA8DefaultDataLink();
+                }
+            }else{
+                dl = ConfigService.getA8DefaultDataLink();
+            }
+
             boolean isOk = ConnectionBuilder.testConnection(dl);
             if (isOk) {
                 entity.setResult(true);

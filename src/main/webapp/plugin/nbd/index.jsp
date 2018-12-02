@@ -280,6 +280,7 @@
                         <div class="layui-input-inline" style="width:300px">
                             <select name="exportType" lay-verify="required">
                                 <option value="mid_table">中间表</option>
+                                <option value="http">接口传输</option>
                                 <!-- <option value="api">接口传输</option>
                                     <option value="ws">WebService服务</option> -->
 

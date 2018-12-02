@@ -20,13 +20,16 @@
             }
         }
         var logs = $("#a82other_affair_type option");
-        console.log(logs);
+        //console.log(logs);
         return linkId;
     }
 
     function transExportType(exportType) {
         if ("mid_table" == exportType) {
             return "中间表";
+        }
+        if ("http" == exportType) {
+            return "接口发送";
         }
         return exportType;
     }
@@ -299,9 +302,9 @@
                 var tt = item.split("=");
                 data[tt[0]] = tt[1];
             });
-            console.log(data);
+           // console.log(data);
             Dao.add("a82other", data, function (ret) {
-                console.log(ret);
+               // console.log(ret);
                 Dao.getList("a82other", function (data2) {
                     $(".nbd_content").hide();
                     $("#a82other").show();
