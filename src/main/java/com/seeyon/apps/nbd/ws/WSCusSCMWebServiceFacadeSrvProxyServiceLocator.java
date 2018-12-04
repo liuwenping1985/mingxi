@@ -22,7 +22,7 @@ public class WSCusSCMWebServiceFacadeSrvProxyServiceLocator extends org.apache.a
     }
 
     // Use to get a proxy class for WSCusSCMWebServiceFacade
-    private java.lang.String WSCusSCMWebServiceFacade_address = "http://10.42.1.210:6888/ormrpc/services/WSCusSCMWebServiceFacade";
+    private java.lang.String WSCusSCMWebServiceFacade_address = "http://10.42.1.209:6888/ormrpc/services/WSCusSCMWebServiceFacade";
 
     public java.lang.String getWSCusSCMWebServiceFacadeAddress() {
         return WSCusSCMWebServiceFacade_address;
@@ -105,7 +105,7 @@ public class WSCusSCMWebServiceFacadeSrvProxyServiceLocator extends org.apache.a
     }
 
     public javax.xml.namespace.QName getServiceName() {
-        return new javax.xml.namespace.QName("http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade", "WSCusSCMWebServiceFacadeSrvProxyService");
+        return new javax.xml.namespace.QName("http://10.42.1.209:6888/ormrpc/services/WSCusSCMWebServiceFacade", "WSCusSCMWebServiceFacadeSrvProxyService");
     }
 
     private java.util.HashSet ports = null;
@@ -113,7 +113,7 @@ public class WSCusSCMWebServiceFacadeSrvProxyServiceLocator extends org.apache.a
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://localhost:6888/ormrpc/services/WSCusSCMWebServiceFacade", "WSCusSCMWebServiceFacade"));
+            ports.add(new javax.xml.namespace.QName("http://10.42.1.209:6888/ormrpc/services/WSCusSCMWebServiceFacade", "WSCusSCMWebServiceFacade"));
         }
         return ports.iterator();
     }

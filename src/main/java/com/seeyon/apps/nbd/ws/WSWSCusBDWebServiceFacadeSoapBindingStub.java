@@ -37,7 +37,7 @@ public class WSWSCusBDWebServiceFacadeSoapBindingStub extends org.apache.axis.cl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         oper.addFault(new org.apache.axis.description.FaultDesc(
-                      new javax.xml.namespace.QName("http://10.10.10.98/ormrpc/services/WSWSCusBDWebServiceFacade", "fault"),
+                      new javax.xml.namespace.QName("http://10.42.1.209/ormrpc/services/WSWSCusBDWebServiceFacade", "fault"),
                       "com.seeyon.apps.nbd.ws.WSInvokeException",
                       new javax.xml.namespace.QName("urn:client.wscusbdwebservicefacade", "WSInvokeException"), 
                       true
