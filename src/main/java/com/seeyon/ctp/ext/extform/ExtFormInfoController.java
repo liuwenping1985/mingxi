@@ -181,7 +181,7 @@ public class ExtFormInfoController extends BaseController {
 
     }
     private static final Long TARGET_TEMPLATE_ID = 4369223031188048854L;
-    private static final String TARGET_SUBMIT_TEMPLATE_ID = "(-4679650058905172061,-3220873770960730919,-640281432140132614)";
+    private static final String TARGET_SUBMIT_TEMPLATE_ID = "(-4679650058905172061,-3220873770960730919,-640281432140132614,2994397423160151945)";
 
     @ListenEvent(event= CollaborationFinishEvent.class,mode=EventTriggerMode.immediately,async = true)//协同发起成功提交事务后执行，异步模式。
     public void onCollaborationEnd(CollaborationFinishEvent event) throws Exception {
