@@ -162,28 +162,14 @@ public class NbdService {
             return entity;
         }
         Class cls = TransferService.getInstance().getTransferClass(type);
-        Object obj = handler.getDataByKeyAndClassType(type, id, cls);
-        entity.setData(obj);
-
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        DataBaseHelper.getDataByTypeAndId();
         if(NbdConstant.A8_TO_OTHER.equals(type)){
-            System.out.println("wahahahhahaha");
-             if(entity.getData() instanceof A8ToOtherConfigEntity){
 
-                 A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
-                 p.$("affairType", a8ToOtherConfigEntity.getAffairType());
-                 FormTableDefinition ftd = mappingServiceManager.getFormTableDefinition(p);
-                // a8ToOtherConfigEntity.setFtd(ftd);
-            }else{
-                 System.out.println("GG LE");
-           }
+
         }
         if(NbdConstant.OTHER_TO_A8.equals(type)){
-           if(entity.getData() instanceof OtherToA8ConfigEntity){
-                OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
-                p.$("affairType", otherToA8.getAffairType());
-               FormTableDefinition ftd = mappingServiceManager.getFormTableDefinition(p);
-              // otherToA8.setFtd(ftd);
-            }
+
         }
         return entity;
     }

@@ -41,7 +41,7 @@ public class TransferService {
         clsHolder.put(NbdConstant.DATA_LINK,DataLink.class);
         clsHolder.put(NbdConstant.A8_TO_OTHER,A8ToOtherConfigEntity.class);
         clsHolder.put(NbdConstant.OTHER_TO_A8,OtherToA8ConfigEntity.class);
-        clsHolder.put("log",LogEntry.class);
+        clsHolder.put(NbdConstant.LOG,LogEntry.class);
 
     }
     private TransferService ins = null;
