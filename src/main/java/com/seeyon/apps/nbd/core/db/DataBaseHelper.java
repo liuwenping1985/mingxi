@@ -114,6 +114,11 @@ public final class DataBaseHelper {
         }
         return dataMap.get(0);
     }
+    public static<T> Integer deleteByTypeAndId(DataLink dl,Class<T> cls,Long id){
+        String sql = "delete from "+getTableName(cls)+" where id="+id;
+        return  executeUpdateBySQLAndLink(dl,sql);
+
+    }
 
     public static List<Map> executeQueryBySQLAndLink(DataLink link, String sql) {
         Connection conn = null;

@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.po;
 
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.ctp.util.UUIDLong;
 
 import java.util.Date;
 
@@ -58,6 +59,26 @@ public class CommonPo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setIdIfNew(){
+        if(this.id==null){
+            this.id = UUIDLong.longUUID();
+        }
+
+    }
+    public void setDefaultValueIfNull(){
+        setIdIfNew();
+        if(this.createTime==null){
+            this.createTime = new Date();
+        }
+        if(this.status==null){
+            this.status = 0;
+        }
+        if(this.updateTime==null){
+            this.updateTime = this.createTime;
+        }
+
     }
 
     public void saveOrUpdate(DataLink dl){

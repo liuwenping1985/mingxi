@@ -1,5 +1,7 @@
 package com.seeyon.apps.nbd.po;
 
+import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+
 /**
  * Created by liuwenping on 2018/11/4.
  */
@@ -18,6 +20,8 @@ public class A8ToOtherConfigEntity extends CommonPo {
     private Long linkId;
 
     private Long ftdId;
+
+    private FormTableDefinition formTableDefinition;
 
     public Long getFtdId() {
         return ftdId;
@@ -66,5 +70,13 @@ public class A8ToOtherConfigEntity extends CommonPo {
 
     public void setExportUrl(String exportUrl) {
         this.exportUrl = exportUrl;
+    }
+
+    public FormTableDefinition getFtd() {
+        return formTableDefinition;
+    }
+
+    public void setFormTableDefinition(FormTableDefinition formTableDefinition) {
+        this.formTableDefinition = formTableDefinition;
     }
 }
