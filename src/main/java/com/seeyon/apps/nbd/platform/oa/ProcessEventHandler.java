@@ -10,7 +10,7 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
-import com.seeyon.apps.nbd.vo.A82Other;
+import com.seeyon.apps.nbd.po.A8ToOtherConfigEntity;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
@@ -110,12 +110,12 @@ public class ProcessEventHandler {
         CommonParameter p = new CommonParameter();
         p.$("data_type", NbdConstant.A8_TO_OTHER);
         NbdResponseEntity entity = nbdService.getDataList(p);
-        List<A82Other> list = entity.getItems();
-        for(A82Other other:list){
+        List<A8ToOtherConfigEntity> list = entity.getItems();
+        for(A8ToOtherConfigEntity other:list){
             if(code.equals(other.getAffairType())){
                 p.$("id",other.getId());
                 entity = nbdService.getDataById(p);
-                other = (A82Other)entity.getData();
+                other = (A8ToOtherConfigEntity)entity.getData();
                 if(triggerMode.equals(other.getTriggerType())){
                     nbdService.transA8Output(affair,other);
                 }

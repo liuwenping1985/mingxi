@@ -83,7 +83,7 @@ public class LogBuilder {
                 return;
             }
             for(LogEntity entity:logList){
-                String key = CommonUtils.parseDate(entity.getTime());
+                String key = CommonUtils.formatDate(entity.getTime());
                 handler.createNewDataBaseByNameIfNotExist(entity.getType());
                 handler.putData(entity.getType(),key,entity.toString());
             }

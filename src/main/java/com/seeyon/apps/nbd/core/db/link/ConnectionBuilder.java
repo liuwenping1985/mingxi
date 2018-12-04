@@ -2,7 +2,7 @@ package com.seeyon.apps.nbd.core.db.link;
 
 import com.seeyon.apps.nbd.core.db.driver.DriverConstant;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
-import com.seeyon.apps.nbd.vo.DataLink;
+import com.seeyon.apps.nbd.po.DataLink;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,7 +22,7 @@ public class ConnectionBuilder {
      */
     private static String getLinkUrl(DataLink link) {
         String host = link.getHost();
-        String port = link.getExtString2();
+        String port = link.getPort();
         String type = link.getDbType();
         if ("0".equals(type)) {
             return "jdbc:mysql://" + host + ":" + port + "/" + link.getDataBaseName()+"?characterEncoding=UTF-8";

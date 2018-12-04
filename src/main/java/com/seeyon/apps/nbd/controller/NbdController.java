@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Collection;
 import java.util.LinkedList;
 
 /**
@@ -48,6 +49,7 @@ public class NbdController extends BaseController{
         if(fileManager ==null){
             fileManager = (FileManager)AppContext.getBean("fileManager");
         }
+        Collection coll;
         return fileManager;
     }
     @NeedlessCheckLogin
@@ -166,10 +168,8 @@ public class NbdController extends BaseController{
             String filename = v3xfile.getFilename();
 
             // 取得文件名。
-
             // 取得文件的后缀名。
             //String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
-
             // 以流的形式下载文件。
              fis = new BufferedInputStream(new FileInputStream(file));
             byte[] buffer = new byte[fis.available()];

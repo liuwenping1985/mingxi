@@ -5,7 +5,7 @@ import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
-import com.seeyon.apps.nbd.vo.*;
+import com.seeyon.apps.nbd.po.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
@@ -39,8 +39,8 @@ public class TransferService {
     }
     private TransferService(){
         clsHolder.put(NbdConstant.DATA_LINK,DataLink.class);
-        clsHolder.put(NbdConstant.A8_TO_OTHER,A82Other.class);
-        clsHolder.put(NbdConstant.OTHER_TO_A8,Other2A8.class);
+        clsHolder.put(NbdConstant.A8_TO_OTHER,A8ToOtherConfigEntity.class);
+        clsHolder.put(NbdConstant.OTHER_TO_A8,OtherToA8ConfigEntity.class);
         clsHolder.put("log",LogEntry.class);
 
     }
@@ -178,7 +178,7 @@ public class TransferService {
         p.$("user","1234");
         p.$("password","12345");
         p.$("host","12345");
-        CommonVo vo = getInstance().transData("data_link",p);
+        CommonPo vo = getInstance().transData("data_link",p);
         System.out.println(JSON.toJSONString(vo));
     }
 }

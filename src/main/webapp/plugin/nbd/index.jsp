@@ -206,7 +206,7 @@
                 </div>
             </div>
 
-            <div id="a82other" class="nbd_content" style="padding:15px;display:none">
+            <div id="a8ToOtherConfigEntity" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
                     <a href="">首页</a>
                     <a href="">数据转换</a>
@@ -586,7 +586,7 @@
     <script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
-    <script src="/seeyon/apps_res/nbd/layui/apps/a82other.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/apps/a8ToOtherConfigEntity.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/other2a8.js"></script>
     <script>
         //Demo

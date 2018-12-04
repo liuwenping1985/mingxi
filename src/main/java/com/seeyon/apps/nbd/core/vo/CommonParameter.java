@@ -30,8 +30,9 @@ public class CommonParameter extends HashMap{
         return (T)this.get(key);
     }
 
-    public void $(String key,Object val){
+    public CommonParameter $(String key,Object val){
         this.put(key,val);
+        return this;
     }
 
 //PropertyDescriptor

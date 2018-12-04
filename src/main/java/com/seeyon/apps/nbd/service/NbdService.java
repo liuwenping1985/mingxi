@@ -6,23 +6,20 @@ import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
-import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
-import com.seeyon.apps.nbd.core.form.entity.SimpleFormField;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
-import com.seeyon.apps.nbd.po.A8OutputVo;
+import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.UUIDLong;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -41,26 +38,28 @@ public class NbdService {
         }
         String type = p.$("data_type");
         handler.createNewDataBaseByNameIfNotExist(type);
-        CommonVo cVo = transferService.transData(type, p);
+        CommonPo cVo = transferService.transData(type, p);
         if (cVo == null) {
             entity.setResult(false);
             entity.setMsg(" data transfer error");
         } else {
-            cVo.setId(UUID.randomUUID().toString());
+            cVo.setId(UUIDLong.longUUID());
             p.$("id",cVo.getId());
-            handler.putData(type, cVo.getId(), cVo);
+            handler.putData(type, ""+cVo.getId(), cVo);
             if(NbdConstant.A8_TO_OTHER.equals(type)){
                 FormTableDefinition ftd = mappingServiceManager.saveFormTableDefinition(p);
-                if(entity.getData() instanceof A82Other){
-                    A82Other a82other =  (A82Other)entity.getData();
-                    a82other.setFtd(ftd);
+                if(entity.getData() instanceof A8ToOtherConfigEntity){
+                    A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
+                    Ftd ftdEntity = new Ftd();
+                   // ftdEntity
+                    //a8ToOtherConfigEntity.setFtd(ftd);
                 }
             }
             if(NbdConstant.OTHER_TO_A8.equals(type)){
                 FormTableDefinition ftd = mappingServiceManager.saveFormTableDefinition(p);
-                if(entity.getData() instanceof Other2A8){
-                    Other2A8 other2A8 =  (Other2A8)entity.getData();
-                    other2A8.setFtd(ftd);
+                if(entity.getData() instanceof OtherToA8ConfigEntity){
+                    OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
+                   // otherToA8.setFtd(ftd);
                 }
             }
 
@@ -74,31 +73,31 @@ public class NbdService {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
         System.out.println("post--->>>>" + p.$("id"));
-        String id = p.$("id");
-        CommonVo cVo = TransferService.getInstance().transData(type, p);
+        Long id = Long.parseLong(""+p.$("id"));
+        CommonPo cVo = TransferService.getInstance().transData(type, p);
         if (id != null) {
             cVo.setId(id);
         }
         System.out.println("post--->>>>" + cVo.getId());
         Class cls = TransferService.getInstance().getTransferClass(type);
-        CommonVo vo2 = (CommonVo) handler.getDataByKeyAndClassType(type, cVo.getId(), cls);
+        CommonPo vo2 = (CommonPo) handler.getDataByKeyAndClassType(type, ""+cVo.getId(), cls);
         System.out.println("post2--->>>>" + vo2.getId());
         //handler.removeDataByKey(type,vo2.getId());
         vo2 = CommonUtils.copyProIfNotNullReturnSource(vo2, cVo);
-        handler.putData(type, vo2.getId(), vo2);
+        handler.putData(type, ""+vo2.getId(), vo2);
         entity.setData(vo2);
         if(NbdConstant.A8_TO_OTHER.equals(type)){
             FormTableDefinition ftd = mappingServiceManager.updateFormTableDefinition(p);
-            if(entity.getData() instanceof A82Other){
-                A82Other a82other =  (A82Other)entity.getData();
-                a82other.setFtd(ftd);
+            if(entity.getData() instanceof A8ToOtherConfigEntity){
+                A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
+                //a8ToOtherConfigEntity.setFtd(ftd);
             }
         }
         if(NbdConstant.OTHER_TO_A8.equals(type)){
             FormTableDefinition ftd = mappingServiceManager.updateFormTableDefinition(p);
-            if(entity.getData() instanceof Other2A8){
-                Other2A8 other2A8 =  (Other2A8)entity.getData();
-                other2A8.setFtd(ftd);
+            if(entity.getData() instanceof OtherToA8ConfigEntity){
+                OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
+                //otherToA8.setFtd(ftd);
             }
         }
         entity.setResult(true);
@@ -124,16 +123,16 @@ public class NbdService {
         }
         if(NbdConstant.A8_TO_OTHER.equals(type)){
             FormTableDefinition ftd = mappingServiceManager.deleteFormTableDefinition(p);
-            if(entity.getData() instanceof A82Other){
-                A82Other a82other =  (A82Other)entity.getData();
-                a82other.setFtd(ftd);
+            if(entity.getData() instanceof A8ToOtherConfigEntity){
+                A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
+               // a8ToOtherConfigEntity.setFtd(ftd);
             }
         }
         if(NbdConstant.OTHER_TO_A8.equals(type)){
             FormTableDefinition ftd = mappingServiceManager.deleteFormTableDefinition(p);
-            if(entity.getData() instanceof Other2A8){
-                Other2A8 other2A8 =  (Other2A8)entity.getData();
-                other2A8.setFtd(ftd);
+            if(entity.getData() instanceof OtherToA8ConfigEntity){
+                OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
+                //otherToA8.setFtd(ftd);
             }
         }
         return entity;
@@ -168,22 +167,22 @@ public class NbdService {
 
         if(NbdConstant.A8_TO_OTHER.equals(type)){
             System.out.println("wahahahhahaha");
-             if(entity.getData() instanceof A82Other){
+             if(entity.getData() instanceof A8ToOtherConfigEntity){
 
-                 A82Other a82other =  (A82Other)entity.getData();
-                 p.$("affairType",a82other.getAffairType());
+                 A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
+                 p.$("affairType", a8ToOtherConfigEntity.getAffairType());
                  FormTableDefinition ftd = mappingServiceManager.getFormTableDefinition(p);
-                 a82other.setFtd(ftd);
+                // a8ToOtherConfigEntity.setFtd(ftd);
             }else{
                  System.out.println("GG LE");
            }
         }
         if(NbdConstant.OTHER_TO_A8.equals(type)){
-           if(entity.getData() instanceof Other2A8){
-                Other2A8 other2A8 =  (Other2A8)entity.getData();
-                p.$("affairType",other2A8.getAffairType());
+           if(entity.getData() instanceof OtherToA8ConfigEntity){
+                OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
+                p.$("affairType", otherToA8.getAffairType());
                FormTableDefinition ftd = mappingServiceManager.getFormTableDefinition(p);
-               other2A8.setFtd(ftd);
+              // otherToA8.setFtd(ftd);
             }
         }
         return entity;
@@ -323,16 +322,16 @@ public class NbdService {
 
     }
 
-    public void transA8Output(CtpAffair affair, A82Other a82Other){
+    public void transA8Output(CtpAffair affair, A8ToOtherConfigEntity a8ToOtherConfigEntity){
 
-        String expType = a82Other.getExportType();
+        String expType = a8ToOtherConfigEntity.getExportType();
 
         if("mid_table".equals(expType)){
 
             Long formRecordId = affair.getFormRecordid();
-            FormTableDefinition ftd = a82Other.getFtd();
+            FormTableDefinition ftd = null;//a8ToOtherConfigEntity.getFtd();
             if(ftd==null){
-                System.out.println("[ERROR]FTD NOT FOUND:"+a82Other.getId());
+                System.out.println("[ERROR]FTD NOT FOUND:"+ a8ToOtherConfigEntity.getId());
                 return;
             }
             String sql = ftd.genQueryById(formRecordId);
@@ -370,8 +369,14 @@ public class NbdService {
                 a8OutputVo.setStatus(0);
                 a8OutputVo.setUpdateDate(new Date());
 
-                a8OutputVo.setName(a82Other.getAffairType()+"_"+ftd.getFormTable().getName());
+                a8OutputVo.setName(a8ToOtherConfigEntity.getAffairType()+"_"+ftd.getFormTable().getName());
                 System.out.println("to_be_saved:"+JSON.toJSONString(a8OutputVo));
+//                a8ToOtherConfigEntity.getLinkId();
+//                this.getDataById()
+               // Long link = a8ToOtherConfigEntity.getLinkId();
+             //   CommonParameter p = new CommonParameter();
+                //p.$("id",link);
+               // DataLink dl = this.getDataById(p).getData();
                 DBAgent.save(a8OutputVo);
                 DBAgent.commit();
             } catch (Exception e) {
@@ -381,6 +386,11 @@ public class NbdService {
             }catch (Error error){
                 error.printStackTrace();
             }
+
+
+        }else{
+
+
 
 
         }
