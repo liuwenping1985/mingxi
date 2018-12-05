@@ -152,8 +152,9 @@ public class ExtFormInfoController extends BaseController {
             UIUtils.responseJSON(data,response);
             return null;
         }
+
        // Long outLinkTplId = Long.parseLong(linkTplId);
-        linkTplId="("+linkTplId+")";
+        linkTplId=TARGET_SUBMIT_TEMPLATE_ID;//"("+linkTplId+")";
         Long memberId = principalManager.getMemberIdByLoginName(oaLoginName);
         List<CtpAffair> afList =  DBAgent.find("from CtpAffair where templeteId in "+linkTplId+" and senderId="+memberId+"and state=3");
         if(!CollectionUtils.isEmpty(afList)){
