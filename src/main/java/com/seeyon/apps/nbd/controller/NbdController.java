@@ -1,8 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
-import com.seeyon.apps.doc.controller.DocController;
 import com.seeyon.apps.doc.dao.DocResourceDaoImpl;
-import com.seeyon.apps.doc.manager.DocHierarchyManagerImpl;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -23,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * Created by liuwenping on 2018/11/3.

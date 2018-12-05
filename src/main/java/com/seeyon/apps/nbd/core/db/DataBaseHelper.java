@@ -105,6 +105,13 @@ public final class DataBaseHelper {
         return CommonUtils.camelToUnderline(name);
 
     }
+    public static String genSelectAllSQL(Class cls){
+
+        String name = cls.getSimpleName();
+        String sql = "select * from " +CommonUtils.camelToUnderline(name);
+        return sql;
+
+    }
     public static <T> T getDataByTypeAndId(DataLink dl,Class<T> cls,Long id){
 
         String sql = "select * from "+getTableName(cls)+" where id="+id;

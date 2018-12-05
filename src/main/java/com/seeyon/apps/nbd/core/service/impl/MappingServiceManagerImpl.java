@@ -90,7 +90,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public Ftd saveFormTableDefinition(CommonParameter p) {
         String affairType = p.$("affairType");
-        String linkId = p.$("id");
+        if(CommonUtils.isEmpty(affairType)){
+            System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
+            return null;
+        }
         String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
 
         DataLink dl = ConfigService.getA8DefaultDataLink();
@@ -108,7 +111,6 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             FormTableDefinition ftd = parseFormTableMapping(data);
             if (ftd != null) {
                 ftd.setAffairType(affairType);
-                ftd.setModes(linkId);
                 FormTable ft = ftd.getFormTable();
                 if (ft != null) {
                     filledTable(ft, p);
@@ -171,6 +173,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
     public Ftd deleteFormTableDefinition(CommonParameter p) {
 
         String ftdId = p.$("id");
+        if(CommonUtils.isEmpty(ftdId)){
+            System.out.println("deleteFormTableDefinition: ID NOT PRESENTED");
+            return null;
+        }
         Long fid = Long.parseLong(ftdId);
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,fid);
@@ -181,6 +187,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public Ftd getFormTableDefinition(CommonParameter p) {
         String ftdId = p.$("id");
+        if(CommonUtils.isEmpty(ftdId)){
+            System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
+            return null;
+        }
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(ftdId));
         return ftd;
@@ -190,6 +200,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
     public Ftd updateFormTableDefinition(CommonParameter p) {
         //String affairType = p.$("affairType");
         String id = p.$("id");
+        if(CommonUtils.isEmpty(id)){
+            System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
+            return null;
+        }
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(id));
         if(ftdHolder!=null){
