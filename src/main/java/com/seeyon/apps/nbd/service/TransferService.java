@@ -2,6 +2,8 @@ package com.seeyon.apps.nbd.service;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.constant.NbdConstant;
+import com.seeyon.apps.nbd.core.config.ConfigService;
+import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
@@ -42,6 +44,11 @@ public class TransferService {
         clsHolder.put(NbdConstant.A8_TO_OTHER,A8ToOtherConfigEntity.class);
         clsHolder.put(NbdConstant.OTHER_TO_A8,OtherToA8ConfigEntity.class);
         clsHolder.put(NbdConstant.LOG,LogEntry.class);
+        DataLink link = ConfigService.getA8DefaultDataLink();
+        DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(DataLink.class),link);
+        DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(A8ToOtherConfigEntity.class),link);
+        DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(OtherToA8ConfigEntity.class),link);
+        DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(LogEntry.class),link);
 
     }
     private TransferService ins = null;

@@ -99,7 +99,7 @@ public final class DataBaseHelper {
         }
         return retList;
     }
-    private static String getTableName(Class cls){
+    public static String getTableName(Class cls){
 
         String name = cls.getSimpleName();
         return CommonUtils.camelToUnderline(name);
