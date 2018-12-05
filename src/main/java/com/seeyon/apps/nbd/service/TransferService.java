@@ -44,11 +44,13 @@ public class TransferService {
         clsHolder.put(NbdConstant.A8_TO_OTHER,A8ToOtherConfigEntity.class);
         clsHolder.put(NbdConstant.OTHER_TO_A8,OtherToA8ConfigEntity.class);
         clsHolder.put(NbdConstant.LOG,LogEntry.class);
+        clsHolder.put(NbdConstant.FTD,Ftd.class);
         DataLink link = ConfigService.getA8DefaultDataLink();
         DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(DataLink.class),link);
         DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(A8ToOtherConfigEntity.class),link);
         DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(OtherToA8ConfigEntity.class),link);
         DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(LogEntry.class),link);
+        DataBaseHelper.createTableIfNotExist(DataBaseHelper.getTableName(Ftd.class),link);
 
     }
     private TransferService ins = null;

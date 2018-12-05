@@ -11,6 +11,7 @@ public final class NbdConstant {
     public static final String A8_TO_OTHER = "a82other";
     public static final String OTHER_TO_A8 = "other2a8";
     public static final String LOG = "log";
+    public static final String FTD = "ftd";
     public static final String EXPORT_TYPE_MIDDLE_TABLE = "mid_table";
     public static final String TRIGGER_TYPE_PROCESS_START = "process_start";
     public static final String TRIGGER_TYPE_PROCESS_END = "process_end";
