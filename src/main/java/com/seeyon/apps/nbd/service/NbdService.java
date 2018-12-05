@@ -37,31 +37,26 @@ public class NbdService {
             return entity;
         }
         String type = p.$("data_type");
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
         //handler.createNewDataBaseByNameIfNotExist(type);
         CommonPo cVo = transferService.transData(type, p);
         if (cVo == null) {
             entity.setResult(false);
             entity.setMsg(" data transfer error");
         } else {
-            cVo.setId(UUIDLong.longUUID());
+            cVo.setDefaultValueIfNull();
             p.$("id",cVo.getId());
             if(NbdConstant.A8_TO_OTHER.equals(type)){
-                FormTableDefinition ftd = mappingServiceManager.saveFormTableDefinition(p);
-                if(entity.getData() instanceof A8ToOtherConfigEntity){
-                    A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
-                    Ftd ftdEntity = new Ftd();
-                   // ftdEntity
-                    //a8ToOtherConfigEntity.setFtd(ftd);
-                }
+                Ftd ftd = mappingServiceManager.saveFormTableDefinition(p);
+                A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity)cVo;
+                a82Otherentity.setFtdId(ftd.getId());
             }
             if(NbdConstant.OTHER_TO_A8.equals(type)){
-                FormTableDefinition ftd = mappingServiceManager.saveFormTableDefinition(p);
-                if(entity.getData() instanceof OtherToA8ConfigEntity){
-                    OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
-                   // otherToA8.setFtd(ftd);
-                }
+                Ftd ftd = mappingServiceManager.saveFormTableDefinition(p);
+                OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)cVo;
+                otherToA8.setFtdId(ftd.getId());
             }
-
+            cVo.saveOrUpdate(dataLink);
             entity.setData(cVo);
         }
 
@@ -73,32 +68,30 @@ public class NbdService {
         String type = p.$("data_type");
         System.out.println("post--->>>>" + p.$("id"));
         Long id = Long.parseLong(""+p.$("id"));
-        CommonPo cVo = TransferService.getInstance().transData(type, p);
+        CommonPo cVo = transferService.transData(type, p);
         if (id != null) {
             cVo.setId(id);
+        }else{
+            entity.setResult(false);
+            entity.setMsg("id is not presented!");
         }
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
         System.out.println("post--->>>>" + cVo.getId());
-        Class cls = TransferService.getInstance().getTransferClass(type);
-        CommonPo vo2 = (CommonPo) handler.getDataByKeyAndClassType(type, ""+cVo.getId(), cls);
+        Class cls = transferService.getTransferClass(type);
+        CommonPo vo2 = (CommonPo)DataBaseHelper.getDataByTypeAndId(dataLink,cls,id);
+       // CommonPo vo2 = (CommonPo) handler.getDataByKeyAndClassType(type, ""+cVo.getId(), cls);
         System.out.println("post2--->>>>" + vo2.getId());
         //handler.removeDataByKey(type,vo2.getId());
         vo2 = CommonUtils.copyProIfNotNullReturnSource(vo2, cVo);
-        handler.putData(type, ""+vo2.getId(), vo2);
+
         entity.setData(vo2);
-        if(NbdConstant.A8_TO_OTHER.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.updateFormTableDefinition(p);
-            if(entity.getData() instanceof A8ToOtherConfigEntity){
-                A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
-                //a8ToOtherConfigEntity.setFtd(ftd);
-            }
+        if(NbdConstant.A8_TO_OTHER.equals(type)||NbdConstant.OTHER_TO_A8.equals(type)){
+            CommonParameter ftdP = new CommonParameter();
+            A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity)vo2;
+            ftdP.$("id",a82Otherentity.getFtdId());
+            mappingServiceManager.updateFormTableDefinition(ftdP);
         }
-        if(NbdConstant.OTHER_TO_A8.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.updateFormTableDefinition(p);
-            if(entity.getData() instanceof OtherToA8ConfigEntity){
-                OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
-                //otherToA8.setFtd(ftd);
-            }
-        }
+        vo2.saveOrUpdate(dataLink);
         entity.setResult(true);
         return entity;
     }
@@ -112,23 +105,28 @@ public class NbdService {
             entity.setMsg("id not present!");
             return entity;
         }
-        Object data = handler.removeDataByKey(type, id);
-        if (data != null) {
-            entity.setData(data);
+        Class cls = transferService.getTransferClass(type);
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
+
+        CommonPo commonPo = (CommonPo)DataBaseHelper.getDataByTypeAndId(dataLink,cls,Long.parseLong(id));
+
+        //Object data = handler.removeDataByKey(type, id);
+        if (commonPo != null) {
+            entity.setData(commonPo);
             entity.setResult(true);
         } else {
             entity.setResult(false);
             entity.setData(id);
         }
         if(NbdConstant.A8_TO_OTHER.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.deleteFormTableDefinition(p);
+             mappingServiceManager.deleteFormTableDefinition(p);
             if(entity.getData() instanceof A8ToOtherConfigEntity){
                 A8ToOtherConfigEntity a8ToOtherConfigEntity =  (A8ToOtherConfigEntity)entity.getData();
                // a8ToOtherConfigEntity.setFtd(ftd);
             }
         }
         if(NbdConstant.OTHER_TO_A8.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.deleteFormTableDefinition(p);
+             mappingServiceManager.deleteFormTableDefinition(p);
             if(entity.getData() instanceof OtherToA8ConfigEntity){
                 OtherToA8ConfigEntity otherToA8 =  (OtherToA8ConfigEntity)entity.getData();
                 //otherToA8.setFtd(ftd);
@@ -141,6 +139,7 @@ public class NbdService {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
         Map map = handler.getDataAll(type);
+        DataBaseHelper.e
         List dataList = new ArrayList();
         if (map == null) {
             entity.setItems(new ArrayList());
@@ -169,8 +168,6 @@ public class NbdService {
             Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,ftdId);
             FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
             a8toOther.setFormTableDefinition(formDef);
-            entity.setData(a8toOther);
-
         }
         if(NbdConstant.OTHER_TO_A8.equals(type)){
 
@@ -179,9 +176,8 @@ public class NbdService {
             Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,ftdId);
             FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
             otherToA8ConfigEntity.setFormTableDefinition(formDef);
-            entity.setData(otherToA8ConfigEntity);
-
         }
+        entity.setData(obj);
         return entity;
     }
 
@@ -224,7 +220,8 @@ public class NbdService {
             String linkId = p.$("linkId");
             DataLink dl = null;
             if(CommonUtils.isEmpty(linkId)){
-                dl = handler.getDataByKeyAndClassType("","",DataLink.class);
+                DataLink dfl = ConfigService.getA8DefaultDataLink();
+                dl = DataBaseHelper.getDataByTypeAndId(dfl,DataLink.class,Long.parseLong(linkId));
                 if(dl == null){
                     dl = ConfigService.getA8DefaultDataLink();
                 }
@@ -399,12 +396,12 @@ public class NbdService {
         p.$("type2", "66we");
         p.$("data_type", "3474646");
 
-        nbds.handler.createNewDataBaseByNameIfNotExist("test");
+        //nbds.handler.createNewDataBaseByNameIfNotExist("test");
 
 
 //        String json = JSON.toJSONString(p);
         // Test t = JSON.parseObject(json,Test.class);
-        Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
-        System.out.println(t.getType());
+        //Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
+        //System.out.println(t.getType());
     }
 }

@@ -116,7 +116,8 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
                     ftdHandler.setDefaultValueIfNull();
                     ftdHandler.setName(affairType);
                     ftdHandler.setData(JSON.toJSONString(ftd));
-                    DataBaseHelper.persistCommonVo(dl,ftdHandler);
+                    ftdHandler.saveOrUpdate(dl);
+                    //DataBaseHelper.persistCommonVo(dl,ftdHandler);
                     return ftdHandler;
                 }
                 return null;
@@ -187,7 +188,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
 
     public Ftd updateFormTableDefinition(CommonParameter p) {
-        String affairType = p.$("affairType");
+        //String affairType = p.$("affairType");
         String id = p.$("id");
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(id));
@@ -197,8 +198,8 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             if(ft!=null){
                 filledTable(ft,p);
             }
-            JSON.toJSONString()
-            handler.putData(dbKey, affairType, ftd);
+            ftdHolder.setData(JSON.toJSONString(ftd));
+            ftdHolder.saveOrUpdate(dl);
             return ftdHolder;
         }
         return null;

@@ -1,5 +1,8 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.seeyon.apps.doc.controller.DocController;
+import com.seeyon.apps.doc.dao.DocResourceDaoImpl;
+import com.seeyon.apps.doc.manager.DocHierarchyManagerImpl;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -69,6 +72,7 @@ public class NbdController extends BaseController{
         if(page == null){
             page = "index";
         }
+        DocResourceDaoImpl dc;
         ModelAndView mav = new ModelAndView("apps/nbd/"+page);
 
         return mav;
