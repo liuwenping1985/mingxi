@@ -114,6 +114,9 @@ public class ProcessEventHandler {
         for(A8ToOtherConfigEntity other:list){
             if(code.equals(other.getAffairType())){
                 if(triggerMode.equals(other.getTriggerType())){
+                    //这里需要在查询一次把表单定义查出来
+                    p.$("id",String.valueOf(other.getId()));
+                    other = (A8ToOtherConfigEntity)nbdService.getDataById(p).getData();
                     nbdService.transA8Output(affair,other);
                 }
 
@@ -313,5 +316,9 @@ public class ProcessEventHandler {
 //        }
 
 
+    }
+
+    public static void main(String[] args){
+        System.out.println(1);
     }
 }

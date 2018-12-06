@@ -14,8 +14,8 @@
     function transLink(linkId) {
         if (DataLink.DL) {
             for (var p = 0; p < DataLink.DL.length; p++) {
-                if (linkId == DataLink.DL[p].id) {
-                    return DataLink.DL[p].extString1;
+                if (linkId == DataLink.DL[p].sid) {
+                    return DataLink.DL[p].name;
                 }
             }
         }
@@ -57,7 +57,7 @@
             var htmls = [];
             $(items).each(function (index, item) {
                 htmls.push("<tr class='a82other_row' >");
-                htmls.push("<td><input type='checkbox' value='" + item.id + "' class='a82other_selected' /> </td>");
+                htmls.push("<td><input type='checkbox' value='" + item.sid + "' class='a82other_selected' /> </td>");
                 htmls.push("<td>" + decodeURIComponent(item.name) + "</td>");
                 htmls.push("<td>" + transLink(item.linkId) + "</td>");
                 htmls.push("<td>" + transExportType(item.exportType) + "</td>");
@@ -215,11 +215,18 @@
                                         $(item).val(val_);
                                     }
                                 }
+                                if(name=="id"){
+                                    $(item).val(data["sid"]);
+                                }
                             });
                             $(forms2).each(function (index, item) {
                                 var name = $(item).attr("name");
                                 if (name) {
+
                                     var val_ = data[name];
+                                    if(name=="linkId"){
+                                        val_ = data["sLinkId"];
+                                    }
                                     if (val_ != undefined) {
                                         $(item).val(val_);
                                     }

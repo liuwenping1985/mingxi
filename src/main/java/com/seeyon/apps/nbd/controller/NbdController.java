@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.doc.dao.DocResourceDaoImpl;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
@@ -57,7 +58,6 @@ public class NbdController extends BaseController{
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
         entity =  nbdService.getDataById(p);
-
         UIUtils.responseJSON(entity,response);
         return null;
 
@@ -105,9 +105,14 @@ public class NbdController extends BaseController{
     @NeedlessCheckLogin
     public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
-        NbdResponseEntity entity = nbdService.postUpdate(p);
+        try {
+            NbdResponseEntity entity = nbdService.postUpdate(p);
+            UIUtils.responseJSON(entity,response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        UIUtils.responseJSON(entity,response);
+
 
         return null;
 
@@ -211,6 +216,9 @@ public class NbdController extends BaseController{
     }
 
 
+public static void main(String[]args){
 
+        System.out.println("TEST1");
+}
 
 }

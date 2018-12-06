@@ -13,6 +13,10 @@ public class CommonPo {
 
     private Long id;
 
+    private String sid;
+
+    private String sLinkId;
+
     private String name;
 
     private Date createTime;
@@ -92,5 +96,21 @@ public class CommonPo {
         String table = CommonUtils.camelToUnderline(this.getClass().getSimpleName());
         DataBaseHelper.executeUpdateBySQLAndLink(dl,"delete from "+table+" where id="+this.getId());
         DataBaseHelper.persistCommonVo(dl,this);
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public String getsLinkId() {
+        return sLinkId;
+    }
+
+    public void setsLinkId(String sLinkId) {
+        this.sLinkId = sLinkId;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 }

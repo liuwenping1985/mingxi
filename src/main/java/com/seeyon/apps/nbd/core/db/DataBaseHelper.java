@@ -287,9 +287,23 @@ public final class DataBaseHelper {
             boolean isUpdate = false;
             if (id != null) {
                 System.out.println("id not null:" + id);
-                List<Map> existData = executeQueryBySQLAndLink(dl, "select count(*) from " + tbName + " where id=" + id);
+                List<Map> existData = executeQueryBySQLAndLink(dl, "select count(id) as c_count from " + tbName + " where id=" + id);
+                System.out.println(existData);
                 if (!CommonUtils.isEmpty(existData)) {
-                    isUpdate = true;
+
+                    Object count = existData.get(0).get("c_count");
+                    if(count!=null){
+                        if(Integer.parseInt(String.valueOf(count))>0){
+                            isUpdate = true;
+                        }else{
+                            isUpdate = false;
+                        }
+                    }else{
+                        isUpdate =false;
+                    }
+                }else{
+                    isUpdate =false;
+
                 }
             }
             if (isUpdate) {
@@ -384,7 +398,6 @@ public final class DataBaseHelper {
         if (insFields.size() != dataList.size()) {
             throw new RuntimeException("Can not execute insert: field length not equal values");
         }
-
         int len = insFields.size();
 
         for (int i = 0; i < len; i++) {
@@ -671,7 +684,7 @@ public final class DataBaseHelper {
         String json="{\"extString2\":\"3306\",\"dbType\":\"0\",\"updateTime\":1543900217000,\"password\":\"admin123!\",\"createTime\":1543831990000,\"port\":\"3306\",\"name\":\"localhost2\",\"host\":\"192.168.1.98\",\"id\":515598634434511623,\"dataBaseName\":\"zrzx\",\"user\":\"root\",\"status\":0}";
        // persistCommonVo(dl, dl);
         DataLink link = JSON.parseObject(json,DataLink.class);
-         System.out.println(JSON.toJSONString(link));
+         System.out.println(dl instanceof CommonPo);
     }
 
 

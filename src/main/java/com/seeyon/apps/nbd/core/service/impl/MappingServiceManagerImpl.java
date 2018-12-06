@@ -172,7 +172,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public Ftd deleteFormTableDefinition(CommonParameter p) {
 
-        String ftdId = p.$("id");
+        String ftdId = String.valueOf(p.$("id"));
         if(CommonUtils.isEmpty(ftdId)){
             System.out.println("deleteFormTableDefinition: ID NOT PRESENTED");
             return null;
@@ -199,7 +199,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public Ftd updateFormTableDefinition(CommonParameter p) {
         //String affairType = p.$("affairType");
-        String id = p.$("id");
+        String id = String.valueOf(p.$("id"));
         if(CommonUtils.isEmpty(id)){
             System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
             return null;
@@ -217,5 +217,9 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             return ftdHolder;
         }
         return null;
+    }
+
+    public static void main(String[] args){
+        System.out.println(11);
     }
 }

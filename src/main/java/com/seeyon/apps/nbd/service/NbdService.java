@@ -90,10 +90,10 @@ public class NbdService {
 
         entity.setData(vo2);
         if (NbdConstant.A8_TO_OTHER.equals(type) || NbdConstant.OTHER_TO_A8.equals(type)) {
-            CommonParameter ftdP = new CommonParameter();
+            //CommonParameter ftdP = new CommonParameter();
             A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity) vo2;
-            ftdP.$("id", a82Otherentity.getFtdId());
-            mappingServiceManager.updateFormTableDefinition(ftdP);
+            p.$("id", a82Otherentity.getFtdId());
+            mappingServiceManager.updateFormTableDefinition(p);
         }
         vo2.saveOrUpdate(dataLink);
         entity.setResult(true);
@@ -155,6 +155,21 @@ public class NbdService {
         if (dataList == null) {
             entity.setItems(new ArrayList());
         } else {
+            for(Object obj:dataList){
+                if(obj instanceof CommonPo){
+                    CommonPo cp = (CommonPo)obj;
+                    cp.setSid(String.valueOf(cp.getId()));
+                }
+                if(obj instanceof A8ToOtherConfigEntity){
+                    A8ToOtherConfigEntity cp = (A8ToOtherConfigEntity)obj;
+                    cp.setsLinkId(String.valueOf(cp.getLinkId()));
+                }
+                if(obj instanceof OtherToA8ConfigEntity){
+                    OtherToA8ConfigEntity cp = (OtherToA8ConfigEntity)obj;
+                    cp.setsLinkId(String.valueOf(cp.getLinkId()));
+                }
+
+            }
             entity.setItems(dataList);
         }
         return entity;
@@ -163,7 +178,7 @@ public class NbdService {
     public NbdResponseEntity getDataById(CommonParameter p) {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
-        String id = p.$("id");
+        String id = String.valueOf(p.$("id"));
         if (CommonUtils.isEmpty(id)) {
             entity.setResult(false);
             entity.setMsg("id not present!");
@@ -178,6 +193,7 @@ public class NbdService {
             Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
             FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
             a8toOther.setFormTableDefinition(formDef);
+            a8toOther.setsLinkId(String.valueOf(a8toOther.getLinkId()));
         }
         if (NbdConstant.OTHER_TO_A8.equals(type)) {
 
@@ -186,6 +202,11 @@ public class NbdService {
             Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
             FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
             otherToA8ConfigEntity.setFormTableDefinition(formDef);
+            otherToA8ConfigEntity.setsLinkId(String.valueOf(otherToA8ConfigEntity.getLinkId()));
+        }
+        if(obj instanceof CommonPo){
+            CommonPo cp = (CommonPo)obj;
+            cp.setSid(String.valueOf(cp.getId()));
         }
         entity.setData(obj);
         return entity;
