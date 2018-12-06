@@ -12,7 +12,11 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
+import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.organization.po.OrgMember;
+import com.seeyon.ctp.organization.po.OrgPrincipal;
 import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/11/3.
@@ -196,7 +201,6 @@ public class NbdController extends BaseController{
         }
 
     }
-
 
 
 }

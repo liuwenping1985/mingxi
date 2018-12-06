@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/css/zrzx.css">
     <script src="/seeyon/apps_res/nbd/layui/layui.js"></script>
     <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/html5.min.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/respond.min.js"></script>
     <![endif]-->
 </head>
 

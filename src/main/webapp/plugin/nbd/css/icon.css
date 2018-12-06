@@ -1,0 +1,56 @@
+.lx_icon16_pdf{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/icon16.png');
+    background-position: -368px -112px;
+}
+.lx_icon16_word{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/icon16.png');
+    background-position: -32px -288px;
+}
+
+.lx_icon16_message{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/message.png');
+}
+
+.lx_icon16_message_open{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/messa.png');
+}
+.lx_icon16_text_type_template{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/icon16.png');
+    background-position: 0px -80px;
+}
+.lx_icon16_red_text_type_template{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/icon16.png');
+    background-position: -368px -64px;
+}
+.lx_icon16_form_temp{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/icon16.png');
+    background-position: -64px -32px;
+}
+.lx_icon16_dir{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background:url('../images/icon16.png');
+    background-position: -336px -16px;
+}

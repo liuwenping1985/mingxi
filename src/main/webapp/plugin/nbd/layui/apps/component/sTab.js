@@ -61,6 +61,9 @@
                 var _layerContent = $('<div class = "layui-tab-content "></div>');
                 this.root.append(_layerContent);
                 _layerContent.append(this.body);
+                if(this.op_.content){
+                    this.getBody().append(this.op_.content);
+                }
             }
         });
         apiSet.hello = function () {
