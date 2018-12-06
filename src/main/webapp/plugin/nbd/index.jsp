@@ -122,7 +122,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">连接名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="extString1" required lay-verify="required" placeholder="请输入名称"
+                            <input type="text" name="name" required lay-verify="required" placeholder="请输入名称"
                                 autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">端口</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口"
+                            <input type="text" name="port" required lay-verify="required" placeholder="请输入端口"
                                 autocomplete="off" class="layui-input">
                         </div>
                     </div>
@@ -586,7 +586,7 @@
     <script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
-    <script src="/seeyon/apps_res/nbd/layui/apps/a8ToOtherConfigEntity.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/apps/a82other.js"></script>
     <script src="/seeyon/apps_res/nbd/layui/apps/other2a8.js"></script>
     <script>
         //Demo

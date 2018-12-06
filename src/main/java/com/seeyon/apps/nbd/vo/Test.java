@@ -41,7 +41,7 @@ public class Test {
         MessageEncoder encoder = new MessageEncoder();
         String pwdC = encoder.encode("gaotong", "123456");
         System.out.println(pwdC);
-        MainController indo;
+
 
     }
 }

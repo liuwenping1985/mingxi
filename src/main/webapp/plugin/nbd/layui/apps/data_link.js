@@ -41,9 +41,9 @@
             $(items).each(function (index, item) {
                 htmls.push("<tr class='data_link_row' >");
                 htmls.push("<td><input type='checkbox' value='" + item.id + "' class='data_link_selected' /> </td>");
-                htmls.push("<td>" + item.extString1 + "</td>");
+                htmls.push("<td>" + item.name + "</td>");
                 htmls.push("<td>" + item.host + "</td>");
-                htmls.push("<td>" + item.extString2 + "</td>");
+                htmls.push("<td>" + item.port + "</td>");
 
                 htmls.push("<td>" + transDbType(item.dbType) + "</td>");
                 htmls.push("<td>" + item.user + "</td>");

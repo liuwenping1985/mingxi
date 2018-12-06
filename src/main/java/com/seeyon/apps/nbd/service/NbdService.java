@@ -148,7 +148,9 @@ public class NbdService {
         DataLink dataLink = ConfigService.getA8DefaultDataLink();
         Class cls = transferService.getTransferClass(type);
         String sql = DataBaseHelper.genSelectAllSQL(cls);
+
         List dataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dataLink,cls,sql);
+
 
         if (dataList == null) {
             entity.setItems(new ArrayList());
@@ -228,7 +230,8 @@ public class NbdService {
         try {
             String linkId = p.$("linkId");
             DataLink dl = null;
-            if (CommonUtils.isEmpty(linkId)) {
+            if (!CommonUtils.isEmpty(linkId)) {
+
                 DataLink dfl = ConfigService.getA8DefaultDataLink();
                 dl = DataBaseHelper.getDataByTypeAndId(dfl, DataLink.class, Long.parseLong(linkId));
                 if (dl == null) {
