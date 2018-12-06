@@ -7,6 +7,7 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.po.CommonPo;
 import com.seeyon.apps.nbd.po.DataLink;
 import com.seeyon.ctp.util.JDBCAgent;
+import com.seeyon.ctp.util.json.CTPDateFormatDeserializer;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -85,16 +86,21 @@ public final class DataBaseHelper {
             Map extendMap = new HashMap();
             for(Object key:map.keySet()){
                 String newKey = CommonUtils.underlineToCamel(String.valueOf(key));
-                if(newKey.equals(key)){
-                    continue;
-                }
                 extendMap.put(newKey,map.get(key));
             }
-            map.putAll(extendMap);
-            String json = JSON.toJSONString(map);
 
-            T t = JSON.parseObject(json,cls);
-            retList.add(t);
+           // map.putAll(extendMap);
+           // System.out.println(extendMap);
+            String json = JSON.toJSONString(extendMap);
+            //System.out.println(json);
+            try {
+                T t = JSON.parseObject(json, cls);
+                retList.add(t);
+            }catch(Exception e){
+                e.printStackTrace();
+                continue;
+            }
+
 
         }
         return retList;
@@ -662,10 +668,12 @@ public final class DataBaseHelper {
         dl.setUpdateTime(new Date());
         dl.setId(515598634434511623L);
 //      System.out.println(queryColumnsByTableAndLink(dl,"ctp_enum"));
-
-        persistCommonVo(dl, dl);
-
-        // System.out.println(JSON.toJSONString(i));
+        String json="{\"extString2\":\"3306\",\"dbType\":\"0\",\"updateTime\":1543900217000,\"password\":\"admin123!\",\"createTime\":1543831990000,\"port\":\"3306\",\"name\":\"localhost2\",\"host\":\"192.168.1.98\",\"id\":515598634434511623,\"dataBaseName\":\"zrzx\",\"user\":\"root\",\"status\":0}";
+       // persistCommonVo(dl, dl);
+        DataLink link = JSON.parseObject(json,DataLink.class);
+         System.out.println(JSON.toJSONString(link));
     }
+
+
 
 }

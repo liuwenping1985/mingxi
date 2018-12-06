@@ -1,4 +1,4 @@
-CREATE TABLE `a8_to_other` (
+CREATE TABLE `log_entry` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
