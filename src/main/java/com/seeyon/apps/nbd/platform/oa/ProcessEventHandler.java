@@ -113,13 +113,10 @@ public class ProcessEventHandler {
         List<A8ToOtherConfigEntity> list = entity.getItems();
         for(A8ToOtherConfigEntity other:list){
             if(code.equals(other.getAffairType())){
-                p.$("id",other.getId());
-                entity = nbdService.getDataById(p);
-                other = (A8ToOtherConfigEntity)entity.getData();
                 if(triggerMode.equals(other.getTriggerType())){
                     nbdService.transA8Output(affair,other);
                 }
-                //get Form data
+
             }
         }
 

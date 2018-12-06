@@ -15,6 +15,7 @@ import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.po.*;
+import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.supervise.controller.SuperviseController;
@@ -389,7 +390,8 @@ public class NbdService {
             }
 
 
-        } else {
+        } else if("http".equals(expType)){
+           // UIUtils.post()
 
 
         }

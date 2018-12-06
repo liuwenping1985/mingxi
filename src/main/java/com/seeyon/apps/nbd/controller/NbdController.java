@@ -69,7 +69,7 @@ public class NbdController extends BaseController{
         if(page == null){
             page = "index";
         }
-        DocResourceDaoImpl dc;
+
         ModelAndView mav = new ModelAndView("apps/nbd/"+page);
 
         return mav;
