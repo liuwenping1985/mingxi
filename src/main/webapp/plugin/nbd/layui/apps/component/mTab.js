@@ -16,7 +16,8 @@
             body_class: "layui-tab-content",
             root_style: "min-height:" + default_h + "px",
             head_style: "",
-            body_style: ""
+            body_style: "",
+            on_tab:""
         }
         var util = lx.eutil;
         var $ = lx.$;
@@ -26,6 +27,7 @@
         mTab.include(LxCmp);
         mTab.include({
             init: function (options) {
+
                 this.op_ = {};
                 this.jq = $;
                 util.copyProperties(this.op_, _default_options);
@@ -56,7 +58,12 @@
                 }
                 this.root.append(this.head);
                 this.root.append(this.body);
-                element.on('tab('+this.id+')', function(){
+                var me  = this;
+                element.on('tab('+this.id+')', function(item){
+                    console.log(me.op_.on_tab);
+                    if(me.op_.on_tab){
+                        me.op_.on_tab.call(item,item.elem.context);
+                    }
 
                 });
                 if(this.op_.tabs){
@@ -64,6 +71,29 @@
                     $(this.op_.tabs).each(function(index,item){
                         me.addTab(item);
                     })
+                };
+                if(this.op_.more_btn){
+
+                    var m_t=$('<li class="'+this.op_.more_btn.class_name+'" style="float:right;color:black"></li>').append(this.op_.more_btn.html);
+
+                    this.head.append(m_t)
+                    if(this.op_.more_btn.click){
+                        m_t.click(this.op_.more_btn.click);
+                    }
+                }
+                if(this.op_.new_btn){
+                    var n_b=$('<li class="'+this.op_.new_btn.class_name+'" style="float:right;color:black"></li>').append(this.op_.new_btn.html)
+                    this.head.append(n_b);
+                    if(this.op_.new_btn.click){
+                        n_b.click(this.op_.new_btn.click);
+                    }
+                }
+                if(this.op_.custom_btn){
+                    var c_b=$('<li class="'+this.op_.custom_btn.class_name+'" style="float:right;color:black"></li>').append(this.op_.custom_btn.html)
+                    this.head.append(c_b);
+                    if(this.op_.custom_btn.click){
+                        n_b.click(this.op_.custom_btn.click);
+                    }
                 }
             },
             addTab:function(tab){

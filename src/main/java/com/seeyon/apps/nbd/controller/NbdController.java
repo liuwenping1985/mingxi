@@ -11,6 +11,8 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManagerImpl;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.po.OrgMember;
@@ -18,6 +20,7 @@ import com.seeyon.ctp.organization.po.OrgPrincipal;
 import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.domain.BulData;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +46,7 @@ public class NbdController extends BaseController{
             }catch(Exception e){
                // e.printStackTrace();
             }catch(Error error){
+                AttachmentManagerImpl attm;
                 //error.printStackTrace();
             }
         }

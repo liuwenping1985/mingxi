@@ -78,7 +78,7 @@
                                 cell.size=4;
                             }
                             if(cell&&cell.render){
-                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</div>");
+                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p_data) + "</div>");
                             }else{
                                 htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
                             }
@@ -98,7 +98,7 @@
                                 cell.size=4;
                             }
                             if(cell&&cell.render){
-                                htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p) + "</td>");
+                                htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p_data) + "</td>");
                             }else{
                                 htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</td>");
                             }

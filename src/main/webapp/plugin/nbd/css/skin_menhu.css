@@ -1,6 +1,6 @@
 .lx-body {
     /* background: url('../images/bg2.jpg') no-repeat center top; */
-    background-color: rgba(255, 255, 255, 0.829);
+    background-color: #f1f1f2;
     display: block;
     font-size:18px;
 }
@@ -176,6 +176,7 @@
     font-size: 15px;
     font-weight: bold;
     background-color:#4C98C2;
+    cursor:pointer;
 
 }
 
@@ -223,3 +224,101 @@
     color:#5bc0de;
 
 }
+.lx-eps {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left:8px;
+}
+.layui-tab-card>.layui-tab-title{
+    background-color: white;
+}
+.layui-tab-title{
+    position: relative;
+    left: 0;
+    height: 40px;
+    white-space: nowrap;
+    font-size: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+}
+.lx-tab-head{
+    color:#666;
+    font-size:16px !important;
+
+}
+.lx-tab-more-btn{
+
+    font-size:26px !important;
+    min-width: 50px !important;
+    letter-spacing:6px;
+    padding:0 15px 0px 0 !important;
+    line-height:12px;
+    text-align:center;
+}
+.lx-tab-new-btn{
+
+    font-size:26px !important;
+    min-width: 10px !important;
+    padding:0 15px 0 0 !important;
+
+}
+.lx-more-btn{
+    color: #666666;
+
+    font-size:30px;
+
+}
+.lx-new-btn{
+    color: #666666;
+}
+.lx-tab-head{
+    font-size: 20px;
+    padding: 5px;
+    border-left: 6px solid cornflowerblue;
+}
+.lx-tab-color1{
+    border-left: 6px solid orangered
+}
+.lx-tab-color2{
+    border-left: 6px solid yellow
+}
+.lx-tab-title{
+    background: white;
+}
+
+.layui-tab-card>.lx-tab-title-li{
+    margin-right: -1px;
+    margin-left: -1px;
+    border-bottom: 1px solid #8080803d;
+}
+.lx-tab-multi-head{
+    font-size:16px;
+    color:#666;
+}
+.lx-layout-cell {
+    padding: 3px;
+    padding-bottom:10px;
+    font-size: 18px;
+    color: #fff;
+}
+.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
+    border: none;
+    border-radius: 0;
+    border-bottom: 3px solid #4C98C2;
+}
+.layui-tab-content {
+    background-color:white;
+}
+.layui-tab-title{
+    background-color:white;
+}
+.layui-tab-card{
+    background-color:white;
+}
+.layui-tab {
+    background-color:white;
+}
+

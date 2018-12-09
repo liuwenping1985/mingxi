@@ -16,7 +16,9 @@
             root_class: "layui-tab layui-tab-card",
             header_class: "layui-this font_size_18",
             body_class: "layui-tab-content",
-            style: "min-height: 300px;max-height:800px"
+            style: "min-height: 300px;max-height:800px",
+            more_btn:"",
+            new_btn:""
         }
         var util = lx.eutil;
         var $ = lx.$;
@@ -62,7 +64,30 @@
                 this.root.append(_layerContent);
                 _layerContent.append(this.body);
                 if(this.op_.content){
-                    this.getBody().append(this.op_.content);
+                    this.append(this.op_.content);
+                }
+                if(this.op_.more_btn){
+
+                    var m_t=$('<li class="'+this.op_.more_btn.class_name+'" style="float:right;color:black"></li>').append(this.op_.more_btn.html);
+
+                    this.header.append(m_t)
+                    if(this.op_.more_btn.click){
+                        m_t.click(this.op_.more_btn.click);
+                    }
+                }
+                if(this.op_.new_btn){
+                    var n_b=$('<li class="'+this.op_.new_btn.class_name+'" style="float:right;color:black"></li>').append(this.op_.new_btn.html)
+                    this.header.append(n_b);
+                    if(this.op_.new_btn.click){
+                        n_b.click(this.op_.new_btn.click);
+                    }
+                }
+                if(this.op_.custom_btn){
+                    var c_b=$('<li class="'+this.op_.custom_btn.class_name+'" style="float:right;color:black"></li>').append(this.op_.custom_btn.html)
+                    this.header.append(c_b);
+                    if(this.op_.custom_btn.click){
+                        n_b.click(this.op_.custom_btn.click);
+                    }
                 }
             }
         });
