@@ -1,55 +1,37 @@
 ;
 (function () {
-    lx.use(["jquery", "carousel", "element", "portal"], function () {
+    lx.use(["jquery","layer", "carousel", "element", "portal"], function () {
+        var $=lx.jquery;
+        var layer = lx.layer;
 
-        var Row = lx.row;
-        var row7 = Row.create({
-            parent_id: "root_body",
-            "id": "row1119"
+        $(document).ready(function(){
+
+            $(".lx-nav-item").click(function(e){
+                var pointer = $("#triangle-pointer");
+
+                $(".lx-nav-item").removeClass("lx-nav-this");
+                $(".lx-nav-item p").removeClass("lx-nav-this");
+                var e = e||window.event;
+                var target = e.target;
+                $(target).append(pointer);
+                $(target).addClass("lx-nav-this");
+
+            });
+            $(".icon_logout").click(function(){
+                layer.confirm('确定退出？', {
+                    btn: ['确定', '取消'] //可以无限个按钮
+                }, function(index, layero){
+                    //按钮【按钮一】的回调
+                }, function(index){
+                    //按钮【按钮二】的回调
+                });
+
+            });
+
+
+
         });
 
-        var Col = lx.col;
-        var col1 = Col.create({
-            size: 4
-        });
-        var col2 = Col.create({
-            size: 4
-        });
-        var col3 = Col.create({
-            size: 4
-        });
-        row7.append(col1);
-        row7.append(col2);
-        row7.append(col3);
-
-        var Tab = lx["sTab"];
-        var sTab1 = Tab.create({
-            "title": "功能导航9111111"
-        });
-        var sTab2 = Tab.create({
-            "title": "222"
-        });
-        var sTab3 = Tab.create({
-            "title": "2244442"
-        });
-        col1.append(sTab1);
-        col2.append(sTab2);
-        col3.append(sTab3);
-        sTab1.append("<p>1111111</p>");
-        sTab2.append("<p>1111ssss111</p>");
-        sTab3.append("<p style='color:black'>11sss11111</p>");
-        // var Portal = lx.portal;
-        // Portal.create({
-        //     header: {
-
-
-        //     },
-        //     body: {
-
-
-
-        //     }
-        // });
 
 
     });

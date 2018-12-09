@@ -367,15 +367,20 @@ public class NbdService {
     }
 
 
-    public List<CtpTemplate> findConfigTemplates(String category, int count,Long userId,Long accountId) {
+    public List<CtpTemplate> findConfigTemplates(String category,int offset, int limit,Long userId,Long accountId) {
         List<CtpTemplate> templateList = new ArrayList();
 
-        if(count <= 0) {
+        if(limit <= 0) {
             return (List)templateList;
         } else {
             FlipInfo flipInfo = new FlipInfo();
+
+
+
+
             flipInfo.setPage(1);
-            flipInfo.setSize(count);
+            flipInfo.setSize(limit);
+
             flipInfo.setNeedTotal(false);
             Map<String, Object> params = new HashMap();
             if(userId!=null){
@@ -391,8 +396,8 @@ public class NbdService {
             params.put("category", category);
 
             try {
-                CollaborationTemplateManagerImpl impl;
                 templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
+
             } catch (BusinessException var8) {
 
             }

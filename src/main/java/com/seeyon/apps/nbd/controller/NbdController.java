@@ -167,17 +167,22 @@ public class NbdController extends BaseController{
         List<CtpTemplate> templateList = new ArrayList<CtpTemplate>();
         String category = "-1,1,2,4,19,20,21,32";
         CommonParameter p = CommonParameter.parseParameter(request);
-        String count = p.$("count");
-        if(count == null){
-            count = "20";
+        String limitStr = p.$("limit");
+        if(limitStr == null){
+            limitStr = "20";
         }
-        int count_ = Integer.parseInt(count);
+        String ofssetStr = p.$("offset");
+        if(ofssetStr == null){
+            ofssetStr = "0";
+        }
+        int limit = Integer.parseInt(limitStr);
+        int offset = Integer.parseInt(ofssetStr);
         if(user == null){
 
-            templateList =  nbdService.findConfigTemplates(category,count_,8180340772611837618L,670869647114347l);
+            templateList =  nbdService.findConfigTemplates(category,offset,limit,8180340772611837618L,670869647114347l);
         }else{
 
-            templateList = nbdService.findConfigTemplates(category,count_,user.getId(),user.getAccountId());
+            templateList = nbdService.findConfigTemplates(category,offset,limit,user.getId(),user.getAccountId());
         }
         NbdResponseEntity entity = new NbdResponseEntity();
         entity.setResult(true);
