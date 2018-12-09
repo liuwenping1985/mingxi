@@ -374,12 +374,8 @@ public class NbdService {
             return (List)templateList;
         } else {
             FlipInfo flipInfo = new FlipInfo();
-
-
-
-
             flipInfo.setPage(1);
-            flipInfo.setSize(limit);
+            flipInfo.setSize(limit+offset);
 
             flipInfo.setNeedTotal(false);
             Map<String, Object> params = new HashMap();
@@ -397,7 +393,11 @@ public class NbdService {
 
             try {
                 templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
-
+                if(templateList.size()<offset){
+                    return new ArrayList<CtpTemplate>();
+                }else{
+                    return templateList.subList(offset,offset+limit);
+                }
             } catch (BusinessException var8) {
 
             }

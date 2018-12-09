@@ -29,6 +29,11 @@
                 }else{
                     this.mode="normal";
                 }
+                if(options.max){
+                    this.max=options.max;
+                }else{
+                    this.max=-1;
+                }
                 if (options.data_url) {
                     var me = this;
                     $.ajax({
@@ -72,13 +77,20 @@
                     for(var p=0;p<data.length;p++){
                         var p_data = data[p];
                         htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
+
+                        if(this.max&&this.max>0){
+                            if(p+1>this.max){
+
+                                break;
+                            }
+                        }
                         for (var k = 0; k < this.data_prop.length;k++){
                             var cell = this.data_prop[k];
                             if(!cell.size){
                                 cell.size=4;
                             }
                             if(cell&&cell.render){
-                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p_data) + "</div>");
+                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],p_data) + "</div>");
                             }else{
                                 htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
                             }
@@ -98,7 +110,7 @@
                                 cell.size=4;
                             }
                             if(cell&&cell.render){
-                                htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],cell,p_data) + "</td>");
+                                htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],p_data) + "</td>");
                             }else{
                                 htmls.push("<td class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</td>");
                             }

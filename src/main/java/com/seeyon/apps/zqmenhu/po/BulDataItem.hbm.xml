@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+	<class name="com.seeyon.apps.zqmenhu.po.BulDataItem" table="bul_data">
+		<id name="id" column="id" type="long" length="20">
+			<generator class="assigned" />
+		</id>
+
+		<property name="title" column="title" type="string" not-null="true" length="1000" />
+		<property name="typeId" column="type_id" type="long" not-null="true" />
+		<property name="publishScope" column="publish_scope" type="string" not-null="true" />
+		<property name="publishDepartmentId" column="publish_department_id" type="long" />
+		<property name="brief" column="brief" type="string" />
+		<property name="keywords" column="keywords" type="string" length="200" />
+		<property name="dataFormat" column="data_format" type="string" length="50" />
+		<property name="createDate" column="create_date" type="timestamp" not-null="true" length="19" />
+		<property name="createUser" column="create_user" type="long" not-null="true" length="20" />
+		<property name="auditDate" column="audit_date" type="timestamp" length="19" />
+		<property name="auditUserId" column="audit_user_id" type="long" length="20" />
+		<property name="auditAdvice" column="audit_advice" type="string" />
+		<property name="publishDate" column="publish_date" type="timestamp" length="19" />
+		<property name="publishUserId" column="publish_user_id" type="long" length="20" />
+		<property name="pigeonholeDate" column="pigeonhole_date" type="timestamp" length="19" />
+		<property name="pigeonholeUserId" column="pigeonhole_user_id" type="long" length="20" />
+		<property name="pigeonholePath" column="pigeonhole_path" type="string" length="500" />
+		<property name="updateDate" column="update_date" type="timestamp" length="19" />
+		<property name="updateUser" column="update_user" type="long" length="20" />
+		<property name="readCount" column="read_count" type="integer" length="11" />
+		<property name="topOrder" column="top_order" type="byte" not-null="true" length="4" />
+		<property name="state" column="state" type="integer" not-null="true" length="11" />
+		<property name="deletedFlag" column="deleted_flag" type="boolean" not-null="true" length="1" />
+		<property name="accountId" column="accountId" type="long" not-null="true" />
+		<property name="ext1" column="ext1" type="string" length="50" />
+		<property name="ext2" column="ext2" type="string" length="50" />
+		<property name="ext3" column="ext3" type="string" length="50" />
+		<property name="ext4" column="ext4" type="string" length="50" />
+		<property name="ext5" column="ext5" type="string" length="50" />
+		<property name="attachmentsFlag" column="att_flag" type="boolean" length="4" />
+		<property name="showPublishUserFlag" column="SHOW_PUBLISH_USER_FLAG" type="boolean" not-null="true" />
+		</class>
+</hibernate-mapping>

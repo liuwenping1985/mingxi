@@ -24,10 +24,9 @@ var URL_REPO = {
     "sanchansanshi": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7462332795861419459&offset=0&limit=7",
     "shibada": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=5469896967953073526&offset=0&limit=7",
     "zuoriyaoqing": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-2220615473202182672&offset=0&limit=7",//昨日要请
-    "wodemoban1": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&count=8&offset=0&limit=7",//登陆才有
-    "wodemoban2": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&count=8&offset=5&limit=7",
+    "wodemoban1": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=0&limit=3",//登陆才有
+    "wodemoban2": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=3&limit=6",
     "sanhuiyike": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8503501149007790685&offset=0&limit=7",
-    "gongzuodongtai": "",//工作动态
     "xinxizhuanbao": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4787332904735427042&offset=0&limit=7",//信息专报
     "xiazaizhuanqu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2296413374197223074&offset=0&limit=7",//下载专区
     "bangonghui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=3297213230734002184&offset=0&limit=7",
@@ -71,7 +70,7 @@ var URL_REPO = {
         var row3 = Row.create({
             parent_id: "root_body",
             "id": "row1139",
-            style:"margin-top:14px;height:200px"
+            style:"margin-top:14px;height:150px"
         });
         var row4 = Row.create({
             parent_id: "root_body",
@@ -123,11 +122,11 @@ var URL_REPO = {
         row2.append(col5);
         var col6 = Col.create({
             size: 4,
-            style: "height:200px"
+            style: "height:150px"
         });
         var col7 = Col.create({
             size: 8,
-            style: "height:200px"
+            style: "height:150px"
         });
         row3.append(col6);
         row3.append(col7);
@@ -173,7 +172,7 @@ var URL_REPO = {
         row7.append(col15);
         var list1 = List.create({
             name: "通知公告",
-            max: 5,
+
             data_url: URL_REPO.tongzhigonggao,
             data_prop: [{
                 name: "title",
@@ -242,6 +241,10 @@ var URL_REPO = {
                 }
             },]
         });
+        function isNumber(str){
+            var re = /^([0-9]+)([.]?)([0-9]*)$/;
+            return re.test(str);
+        }
         var list32 = List.create({
             data_url: URL_REPO.gongzuodongtai,
             data_prop: [{
@@ -251,10 +254,17 @@ var URL_REPO = {
                     return data;
                 }
             }, {
-                "name": "updateDate",
+                "name": "createDate",
                 size: 2,
-                render: function (name, data) {
-                    return data.substring(5, 10);
+                render: function (name, data,item) {
+
+                    var txtDate = new Date(item);
+                    if(isNumber(item)){
+                        return (new Date()+"").substring(5, 10);
+                    }else{
+                        return data.substring(5, 10);
+                    }
+
                 }
             }]
         });
@@ -403,6 +413,7 @@ var URL_REPO = {
             mode: "col",
             size: 12
         });
+
         var btn_htmls = ['<button style="background-color:#8693f3;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">6<span style="margin: 0 30px 0 30px">|</span>公文审批</button>'];
         btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#ff916e;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">3<span style="margin: 0 30px 0 30px">|</span>协同办理</button>');
         btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#5484ff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">2<span style="margin: 0 30px 0 30px">|</span>任务执行</button>');
@@ -484,22 +495,34 @@ var URL_REPO = {
             data_url: URL_REPO.wodemoban1,
             data_prop: [{
                 "name": "subject",
-                render: function (name, data) {
-                    return data;
+                render: function (name, data,item) {
+                    if(item.bodyType=="20"){
+                        return "<span class='lx_icon16_form_temp'></span><span>"+data+"</span>";;
+                    }else{
+                        return data;
+                    }
+
                 },
                 size: 12
             }]
         });
-        // var list62 = List.create({
-        //     data_url: URL_REPO.wodemoban2,
-        //     data_prop: [{
-        //         "name": "subject",
-        //         render: function (name, data) {
-        //             return data;
-        //         },
-        //         size: 12
-        //     }]
-        // });
+        var list62 = List.create({
+            data_url: URL_REPO.wodemoban2,
+            max:3,
+            data_prop: [{
+                "name": "subject",
+
+                render: function (name, data,item) {
+
+                    if(item.bodyType=="20"){
+                        return "<span class='lx_icon16_form_temp'></span><span>"+data+"</span>";;
+                    }else{
+                        return data;
+                    }
+                },
+                size: 12
+            }]
+        });
         // var mix61 = Mixed.create({
         //     id: "mixed2",
         //     mode: "col",
@@ -519,11 +542,16 @@ var URL_REPO = {
         // mix62.append(list62);
         // mixRoot6.append(mix61);
         // mixRoot6.append(mix62);
+        var tpl_one=$("#tpl_one");
+        tpl_one.append(list61.root);
+        var tpl_two=$("#tpl_two");
+        tpl_two.append(list62.root);
+        var tpl_all=$("#tpl_all");
         var sTab6 = Tab.create({
             "title": "<span class='lx-tab-head'>我的模板</span>",
-            "style": "height:200px",
-            contentType: "cmp",
-            content: list61,
+            "style": "height:150px",
+            contentType: "jq",
+            content: tpl_all,
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -542,9 +570,9 @@ var URL_REPO = {
         });
         var sTab7 = Tab.create({
             "title": "<span class='lx-tab-head lx-tab-color1'>快捷通道</span>",
-            "style": "height:200px",
-            contentType: "cmp",
-            content: list7
+            "style": "height:150px",
+            contentType: "jq",
+            content: $("#quick_enter_btns")
         });
         ;
         col6.append(sTab6);
@@ -638,10 +666,12 @@ var URL_REPO = {
         });
         var list9 = List.create({
             data_url: URL_REPO.wodeshoucang,
+            size:12,
             data_prop: [{
-                "name": "subject",
+                "name": "frName",
+                size:12,
                 render: function (name, data) {
-                    return data;
+                    return "<span class='lx_icon16_pdf'></span><span>"+data+"</span>";
                 }
             }]
 
@@ -659,6 +689,7 @@ var URL_REPO = {
             "style": default_height,
             contentType: "cmp",
             content: list9,
+
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -925,7 +956,7 @@ var URL_REPO = {
                 "name": "frName",
                 size: 10,
                 render: function (name, data) {
-                    return data;
+                    return "<span class='lx_icon16_pdf'></span><span>"+data+"</span>";
                 }
             }, {
                 "name": "createTime",
@@ -942,7 +973,7 @@ var URL_REPO = {
                 "name": "frName",
                 size: 10,
                 render: function (name, data) {
-                    return data;
+                    return "<span class='lx_icon16_pdf'></span><span>"+data+"</span>";
                 }
             }, {
                 "name": "createTime",
@@ -1084,7 +1115,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data) {
-                    return data;
+                    return "<span class='lx_icon16_pdf'></span><span>"+data+"</span>"
                 },
                 size: 9
             }, {

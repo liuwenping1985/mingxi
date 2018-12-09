@@ -155,9 +155,9 @@
 
 }
 .lx-left-menu{
-  position:fixed;
-  left:0px;
-  top:182px;
+    position:fixed;
+    left:0px;
+    top:182px;
 }
 .lx-right-menu{
     position:fixed;
@@ -207,7 +207,7 @@
     width:100%;
 }
 .lx-root-body{
-    overflow-y: auto;
+
 }
 .lx-eclipse {
     white-space: nowrap;
@@ -320,5 +320,13 @@
 }
 .layui-tab {
     background-color:white;
+}
+.lx-btn-group{
+
+    text-align: center;
+}
+#quick_enter_btns{
+
+    margin:auto;
 }
 
