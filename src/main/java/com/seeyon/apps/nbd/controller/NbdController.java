@@ -250,7 +250,21 @@ public class NbdController extends BaseController{
 
         return null;
     }
+    private boolean mock = false;
+    private Long mockUser = 8180340772611837618L;
+    private void preHandleRequest(HttpServletRequest request, HttpServletResponse response){
 
+        nbdService.setRequest(request);
+        nbdService.setResponse(response);
+        if(mock){
+            User user = AppContext.getCurrentUser();
+            if(user!=null){
+                return;
+            }
+            nbdService.login(mockUser);
+        }
+
+    }
 public static void main(String[]args){
 
         System.out.println("TEST1");

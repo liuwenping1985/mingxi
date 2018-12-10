@@ -23,10 +23,16 @@ import com.seeyon.ctp.common.constants.Constants;
 import com.seeyon.ctp.common.constants.LoginResult;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.flag.BrowserEnum;
+import com.seeyon.ctp.common.flag.SysFlag;
 import com.seeyon.ctp.common.i18n.LocaleContext;
+import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.supervise.controller.SuperviseController;
+import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
+import com.seeyon.ctp.login.LoginControlImpl;
+import com.seeyon.ctp.login.online.OnlineRecorder;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
@@ -36,6 +42,8 @@ import com.seeyon.ctp.util.UUIDLong;
 import org.apache.http.protocol.RequestUserAgent;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -47,6 +55,43 @@ public class NbdService {
     // private DataBaseHandler handler = DataBaseHandler.getInstance();
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
+    private CollaborationTemplateManager collaborationTemplateManager;
+
+    private CollaborationTemplateManager getCollaborationTemplateManager(){
+        if(collaborationTemplateManager == null){
+            collaborationTemplateManager = (CollaborationTemplateManager)AppContext.getBean("collaborationTemplateManager");
+        }
+        return collaborationTemplateManager;
+    }
+    private LoginControlImpl loginControl;
+
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+
+    private OrgManager orgManager;
+    private OrgManager getOrgManager(){
+        if(orgManager == null){
+            orgManager = (OrgManager)AppContext.getBean("orgManager");
+        }
+        return orgManager;
+    }
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
+
+    private LoginControlImpl getLoginControl(){
+        if(loginControl == null){
+            loginControl = (LoginControlImpl)AppContext.getBean("loginControl");
+            if(loginControl == null){
+                loginControl = (LoginControlImpl)AppContext.getBean("loginControlImpl");
+            }
+        }
+        return loginControl;
+    }
 
     public NbdResponseEntity postAdd(CommonParameter p) {
         System.out.println(p);
