@@ -1,7 +1,5 @@
 package com.seeyon.apps.nbd.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.dao.DocResourceDaoImpl;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -33,9 +31,12 @@ import java.util.List;
 
 
 public class NbdController extends BaseController{
+    
     private PluginServiceManager nbdPluginServiceManager;
     private FileManager fileManager;
     private NbdService nbdService = new NbdService();
+    private boolean mock = false;
+    private Long mockUser = 8180340772611837618L;
 
     private PluginServiceManager getNbdPluginServiceManager(){
 
@@ -138,6 +139,8 @@ public class NbdController extends BaseController{
         return null;
 
     }
+
+
     @NeedlessCheckLogin
     public ModelAndView getTemplateNumber(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
@@ -145,6 +148,7 @@ public class NbdController extends BaseController{
         UIUtils.responseJSON(entity,response);
         return null;
     }
+
     @NeedlessCheckLogin
     public ModelAndView getFormByTemplateNumber(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
@@ -161,6 +165,7 @@ public class NbdController extends BaseController{
         UIUtils.responseJSON(entity,response);
         return null;
     }
+
     @NeedlessCheckLogin
     public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -250,8 +255,7 @@ public class NbdController extends BaseController{
 
         return null;
     }
-    private boolean mock = false;
-    private Long mockUser = 8180340772611837618L;
+
     private void preHandleRequest(HttpServletRequest request, HttpServletResponse response){
 
         nbdService.setRequest(request);

@@ -523,7 +523,6 @@ public class NbdService {
 
         OrgManager om = this.getOrgManager();
         if(om!=null){
-
             try {
                 V3xOrgMember vm = om.getMemberById(userId);
                 login(vm);
@@ -531,8 +530,6 @@ public class NbdService {
 
             }
         }
-
-
     }
 
 
