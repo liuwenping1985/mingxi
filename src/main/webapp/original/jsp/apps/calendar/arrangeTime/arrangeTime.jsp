@@ -93,7 +93,7 @@
                 
                 <c:if test="${hasViewTaskPurview == true and ctp:hasResourceCode('F02_projecttask') == true}">
                   <a title="" href="javascript:void(0)" class="resCode" value="2" style="text-indent: 0">
-                      <span class="dhx_cal_type_color cal_task">■</span>${ctp:i18n("calendar.arrangeTime.task")}
+                      <span class="dhx_cal_type_color cal_task">■</span>${ctp:i18n("calendar.arrangeTime.Task")}
                   </a>
                 </c:if>
                 <c:if test="${ctp:hasResourceCode('F09_meetingArrange') == true}">

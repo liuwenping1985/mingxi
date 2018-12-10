@@ -32,7 +32,7 @@
     <resKey>project.toolbar.comment.label</resKey>
     <resKey>project.body.templates.label.select</resKey>
     <resKey>project.toolbar.comment.label</resKey>
-    <resKey>project.task.addProjectTask</resKey>
+    <resKey>project.com.seeyon.apps.task.addProjectTask</resKey>
     <resKey>project.phase.startdate.cannot.null</resKey>
     <resKey>project.phase.begindate.cannot.late.enddate</resKey>
     <resKey>project.phase.startdate.than.project.startdate</resKey>
@@ -70,13 +70,13 @@
     <resKey>project.phase.startdate.cannot.late.enddate</resKey>
     <resKey>project.begindate.cannot.late.enddate</resKey>
     <resKey>system.menuname.ManagementbyObjectives</resKey>
-    <resKey>project.task.menu.name</resKey>
+    <resKey>project.com.seeyon.apps.task.menu.name</resKey>
     <resKey>project.report.export.nodata.chart</resKey>
     <resKey>project.title</resKey>
     <resKey>project.report.chart.base64.disable</resKey>
     <resKey>project.set.label</resKey>
-    <resKey>project.has.not.task</resKey>
-    <resKey>project.has.not.voerTime.task</resKey>
+    <resKey>project.has.not.com.seeyon.apps.task</resKey>
+    <resKey>project.has.not.voerTime.com.seeyon.apps.task</resKey>
     <resKey>project.please.choose.one.data.only</resKey>
     <resKey>project.grid.select.delete.phase.label</resKey>
     <resKey>project.alert.office.nonsupport</resKey>

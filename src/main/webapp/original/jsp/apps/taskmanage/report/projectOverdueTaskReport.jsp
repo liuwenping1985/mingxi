@@ -64,9 +64,9 @@
 					|| reportResult.chartData.chartData == undefined 
 					|| $.isNull(reportResult.chartData.chartData)) {
 				if ("${reportId}" == PEOPLETASKREPORT) {//人员任务统计
-					$("#taskChartReport").html("<center>" + $.i18n('project.has.not.task') + "</center>");
+					$("#taskChartReport").html("<center>" + $.i18n('project.has.not.Task') + "</center>");
 				} else {
-					$("#taskChartReport").html("<center>${ctp:i18n('project.has.not.voerTime.task')}</center>");
+					$("#taskChartReport").html("<center>${ctp:i18n('project.has.not.voerTime.Task')}</center>");
 				}
 				$("#taskChartReport").css("padding-top", $("#taskChartReport").height() / 2 - 10);
 				return;

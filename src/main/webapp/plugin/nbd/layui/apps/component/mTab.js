@@ -60,7 +60,7 @@
                 this.root.append(this.body);
                 var me  = this;
                 element.on('tab('+this.id+')', function(item){
-                    console.log(me.op_.on_tab);
+                    // console.log(me.op_.on_tab);
                     if(me.op_.on_tab){
                         me.op_.on_tab.call(item,item.elem.context);
                     }
@@ -101,9 +101,13 @@
                 var name = tab.name;
                 var checked = tab.checked;
                 var id = "li"+util.uuid();
+                if(tab.id){
+                    id=tab.id;
+                }
+
                 var content = tab.content;
                 var contentType=  tab.contentType;
-               
+
                 if(!content){
                     contentType="html";
                     content="";
@@ -117,7 +121,7 @@
 
                 var headClass = "font_size_18"
                 var bodyClass= "layui-tab-item";
-                var tempHead =  $('<li class="font_size_18" lay-id="li'+util.uuid()+'">'+name+'</li>');
+                var tempHead =  $('<li class="font_size_18" lay-id="'+id+'">'+name+'</li>');
                 var tempBody = $('<div class="layui-tab-item"></div>');
                 if(checked){
                     this.head.find("li").removeClass("layui-this");
@@ -125,17 +129,17 @@
                     tempHead.addClass("layui-this");
                     tempBody.addClass("layui-show");
                 }
-                
+
                 this.head.append(tempHead);
-                
+
                 this.body.append(tempBody);
                 if(!contentType){
                     content="html";
-                    
+
                 }else{
                     if(contentType=="html"){
                         tempBody.html(content);
-                    
+
                     }else if(contentType=="cmp"){
                         tempBody.append(content.root);
                     }else if(contentType=="jq"){

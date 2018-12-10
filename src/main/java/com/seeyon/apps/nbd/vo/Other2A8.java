@@ -24,9 +24,4 @@ public class Other2A8 extends A82Other {
 
     private String period;
 
-
-
-
-
-
 }

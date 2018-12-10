@@ -96,12 +96,12 @@ if (Locale.ENGLISH.equals(AppContext.getLocale())) {
 <script type="text/javascript" src="${path }/common/js/laytpl.js${ctp:resSuffix()}"></script>
 <script type="text/javascript" src="${path}/apps_res/taskmanage/js/taskInfo-api-debug.js${ctp:resSuffix()}"></script>
 <script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/jquery.waterfall-debug.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-status-debug.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-member-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-status-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-member-debug.js${ctp:resSuffix()}"></script>
 <script type="text/javascript" src="${path}/apps_res/projectandtask/js/jquery.ui.scrollpage.js${ctp:resSuffix()}"></script><%--公司平台的瀑布流组件，后期打算替换掉 --%>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-tree-debug.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-order-debug.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-search-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-tree-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-order-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-search-debug.js${ctp:resSuffix()}"></script>
 <script type="text/javascript" src="${path}/apps_res/taskmanage/js/taskInfo-api-debug.js${ctp:resSuffix()}"></script>
 <script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/projectTaskList.js${ctp:resSuffix()}"></script>
 <script type="text/javascript">

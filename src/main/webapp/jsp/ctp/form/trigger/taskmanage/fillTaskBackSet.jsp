@@ -14,7 +14,7 @@
 		<table width="90%" border=0 align="center" style="border-bottom:solid 2px #333333;height: 10px;">
 			<tr height="20">
 				<td class="bg-gray" width="40%" nowrap="nowrap" align ="center">
-					<label for="name"> ${ctp:i18n('taskmanage.trigger.task.attribute')}</label>							
+					<label for="name"> ${ctp:i18n('taskmanage.trigger.Task.attribute')}</label>
 				</td>
 				<td class="bg-gray" width="60%" nowrap="nowrap" align ="center">
 					<label for="name"> ${ctp:i18n('taskmanage.trigger.current.form')}</label>							
@@ -273,7 +273,7 @@ function changeBindInput(selectDom){
 				continue;
 			}
 			if(hideId == inputId){
-				$.alert("${ctp:i18n('taskmanage.trigger.linkage.has.task.properties')}");
+				$.alert("${ctp:i18n('taskmanage.trigger.linkage.has.Task.properties')}");
 				//将下拉选择项置为空
 				selectDom.value = "";
 				var tr = $(selectDom).parents("tr:eq(0)");

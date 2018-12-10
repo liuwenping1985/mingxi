@@ -60,10 +60,10 @@
 					          <%-- 催办按钮    --%>
 							  <c:choose>
 							  	<c:when test="${taskAuth.canHasten && task.status < 4 && task.finishRate < 100 }">
-									<a href="javascript:void(0)" id="task-hasten-btn" onclick="hasten('${task.id}')" class="common_button common_button_emphasize" style="margin-top: -15px;">${ctp:i18n("taskmanage.toolbar.hasten.label") }</a>
+									<a href="javascript:void(0)" id="task-hasten-btn" onclick="hasten('${com.seeyon.apps.task.id}')" class="common_button common_button_emphasize" style="margin-top: -15px;">${ctp:i18n("taskmanage.toolbar.hasten.label") }</a>
 							  	</c:when>
 							  	<c:when test="${taskAuth.canHasten}">
-							  		<a href="javascript:void(0)" id="task-hasten-btn" onclick="hasten('${task.id}')" class="common_button common_button_emphasize" style="margin-top: -15px; display:none;">${ctp:i18n("taskmanage.toolbar.hasten.label") }</a>
+							  		<a href="javascript:void(0)" id="task-hasten-btn" onclick="hasten('${com.seeyon.apps.task.id}')" class="common_button common_button_emphasize" style="margin-top: -15px; display:none;">${ctp:i18n("taskmanage.toolbar.hasten.label") }</a>
 							  	</c:when>
 							  </c:choose>
 				        </div>
@@ -136,8 +136,8 @@
 </script>
 <![endif]-->
 <script type="text/javascript" src="${path}/apps_res/taskmanage/js/taskInfo-api-debug.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path }/apps_res/taskmanage/js/detail/task-detail-main-debug.js${v3x:resSuffix()}"></script>
-<script type="text/javascript" src="${path }/apps_res/taskmanage/js/detail/task-comment-detail-debug.js${v3x:resSuffix()}"></script>
+<script type="text/javascript" src="${path }/apps_res/taskmanage/js/detail/com.seeyon.apps.task-detail-main-debug.js${v3x:resSuffix()}"></script>
+<script type="text/javascript" src="${path }/apps_res/taskmanage/js/detail/com.seeyon.apps.task-comment-detail-debug.js${v3x:resSuffix()}"></script>
 <script type="text/javascript" src="${path }/common/content/formCommon.js${ctp:resSuffix()}"></script>
 
 <script type="text/javascript">

@@ -8,7 +8,8 @@ var URL_REPO = {
     "zhongxincaidan": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-8736948720711547028&offset=0&limit=7",
     "liangxueyizuo": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8188009082124256867&offset=0&limit=7",
     "shijiuda": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7136252316133508367&offset=0&limit=7",
-    "yianweijian": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2104797802172793544&offset=0&limit=7",
+    "yianweijian1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2104797802172793544&offset=0&limit=7",
+    "yianweijian2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2104797802172793544&offset=0&limit=7",
     "dangjiangongzuo": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=575989468633646689&offset=0&limit=7",
     "guizhangzhidu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8314899268065577424&offset=0&limit=7",
     "guangrongbang": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=820644300868634954&offset=0&limit=7",
@@ -172,12 +173,13 @@ var URL_REPO = {
         row7.append(col15);
         var list1 = List.create({
             name: "通知公告",
-
+            link_prop:"link",
             data_url: URL_REPO.tongzhigonggao,
             data_prop: [{
                 name: "title",
                 size: 10,
-                render: function (name, data) {
+                render: function (name, data,item) {
+                    // console.log(item);
                     return data;
                 }
             }, {
@@ -197,7 +199,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    //alert("click");
+
                 }
             },
             new_btn: {
@@ -332,6 +334,7 @@ var URL_REPO = {
             }
         });
         var list51 = List.create({
+            id:"daiban",
             data_url: URL_REPO.daibangongzuo,
             data_prop: [{
                 "name": "subject",
@@ -351,6 +354,7 @@ var URL_REPO = {
             }]
         });
         var list52 = List.create({
+            id:"yifa",
             data_url: URL_REPO.yifa,
             data_prop: [{
                 "name": "subject",
@@ -371,6 +375,7 @@ var URL_REPO = {
 
         });
         var list53 = List.create({
+            id:"yiban",
             data_url: URL_REPO.yiban,
             data_prop: [{
                 "name": "subject",
@@ -390,6 +395,7 @@ var URL_REPO = {
             }]
         });
         var list54 = List.create({
+            id:"chaoqi",
             data_url: URL_REPO.chaoqi,
             data_prop: [{
                 "name": "subject",
@@ -414,11 +420,14 @@ var URL_REPO = {
             size: 12
         });
 
-        var btn_htmls = ['<button style="background-color:#8693f3;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">6<span style="margin: 0 30px 0 30px">|</span>公文审批</button>'];
-        btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#ff916e;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">3<span style="margin: 0 30px 0 30px">|</span>协同办理</button>');
-        btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#5484ff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">2<span style="margin: 0 30px 0 30px">|</span>任务执行</button>');
-        btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#3cbaff;color:white" class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius">1<span style="margin: 0 30px 0 30px">|</span>会议日程</button>');
-
+        var btn_htmls = ['<button style="background-color:#BCC2CE;color:white" class="layui-btn layui-btn-lg layui-btn-primary ">6<span style="margin: 0 30px 0 30px">|</span>公文审批</button>'];
+        btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#BCC2CE;color:white" class="layui-btn layui-btn-lg layui-btn-primary " x >3<span style="margin: 0 30px 0 30px">|</span>协同办理</button>');
+        btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#BCC2CE;color:white" class="layui-btn layui-btn-lg layui-btn-primary ">2<span style="margin: 0 30px 0 30px">|</span>任务执行</button>');
+        btn_htmls.push('<br><div style="width:1px;height:10px"></div><button style="background-color:#BCC2CE;color:white" class="layui-btn layui-btn-lg layui-btn-primary ">1<span style="margin: 0 30px 0 30px">|</span>会议日程</button>');
+        //    function myButton(id){
+        //         var x=document.getElementById(id);
+        //          x.style.color="blue";
+        //    };
 
         var mix511 = Mixed.create({
             id: "mixed2",
@@ -427,7 +436,7 @@ var URL_REPO = {
             cmps: [{
                 contentType: "html",
                 content: btn_htmls.join(""),
-                style: "height:240px",
+                style: "height:240px;margin-left:15px;margin-top:13px",
                 size: 4
             }]
         });
@@ -441,10 +450,9 @@ var URL_REPO = {
         mixRoot51.append(mix511);
         mixRoot51.append(mix512);
 
-        mix512.append(list51);
+
         //mix512.append();
-        mixRoot51.append(mix511);
-        mixRoot51.append(mix512);
+
         var mTab5 = MTab.create({
             id: "pending-main-mTab5",
             root_style:default_height,
@@ -453,25 +461,53 @@ var URL_REPO = {
                 name: "<span class='lx-tab-multi-head'>待办[5]</span>",
                 checked: true,
                 contentType: "cmp",
+                id:"pending-li-1",
                 content: mixRoot51
             }, {
-                name: "<span class='lx-tab-multi-head'>已发[12]</span>",
+
+                name: "<span id='yifa2'  class='lx-tab-multi-head'>已发[12]</span>",
                 checked: false,
                 contentType: "cmp",
-                content: list52
+                id:"pending-li-2",
+
             }, {
                 name: "<span class='lx-tab-multi-head'>已办[12]</span>",
                 checked: false,
                 contentType: "cmp",
-                content: list53
+                id:"pending-li-3",
+
             }, {
                 name: "<span class='lx-tab-multi-head'>超期[1]</span>",
                 checked: false,
                 contentType: "cmp",
-                content: list54
+                id:"pending-li-4",
+
             }],
             on_tab:function(item){
-                console.log(item);
+                var curTab = $("#pending-main-mTab5").find(".layui-tab-item.layui-show");
+                curTab.append(mixRoot51.root);
+                var curId = $(item).attr("lay-id");
+                list51.root.hide();
+                list52.root.hide();
+                list53.root.hide();
+                list54.root.hide();
+                if(curId=="pending-li-1"){
+                    mix512.root.append(list51.root);
+                    list51.root.show();
+                }
+                if(curId=="pending-li-2"){
+                    mix512.root.append(list52.root);
+                    list52.root.show();
+                }
+                if(curId=="pending-li-3"){
+                    mix512.root.append(list53.root);
+                    list53.root.show();
+                }
+                if(curId=="pending-li-4"){
+                    mix512.root.append(list54.root);
+                    list54.root.show();
+                }
+
             },
             more_btn: {
                 class_name: "lx-tab-more-btn",
@@ -560,14 +596,7 @@ var URL_REPO = {
                 }
             }
         });
-        var list7 = List.create({
-            data_url: "",
-            data_prop: [{
-                name: "subject",
-                render: "",
-                size: 8
-            }]
-        });
+
         var sTab7 = Tab.create({
             "title": "<span class='lx-tab-head lx-tab-color1'>快捷通道</span>",
             "style": "height:150px",
@@ -1110,8 +1139,22 @@ var URL_REPO = {
                 }
             }
         });
-        var list141 = List.create({
-            data_url: URL_REPO.yianweijian,
+
+        var list1411 = List.create({
+            data_url: URL_REPO.yianweijian1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data) {
+                    return "<span class='lx_icon16_pdf'></span><span>"+data+"</span>"
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list1412 = List.create({
+            data_url: URL_REPO.yianweijian2,
             data_prop: [{
                 "name": "frName",
                 render: function (name, data) {
@@ -1191,6 +1234,11 @@ var URL_REPO = {
                 size: 3
             }]
         });
+        var yian1=$("#yian1");
+        yian1.append(list1411.root);
+        var yian2=$("#yian2");
+        yian2.append(list1412.root);
+        var yian=$("#yian");
         var mTab14 = MTab.create({
             id: "pending-main-1",
             root_style:default_height,
@@ -1198,8 +1246,8 @@ var URL_REPO = {
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>以案为鉴</span>",
                 checked: true,
-                contentType: "cmp",
-                content: list141
+                contentType: "jq",
+                content:yian
             }, {
                 name: "<div class='lx-tab-multi-head'>十九大</div>",
                 checked: false,

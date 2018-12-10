@@ -18,7 +18,7 @@
   	</div>
   </div>
 </body>
-<script type="text/javascript" src="${path }/apps_res/taskmanage/js/detail/task-detail-tree-debug.js${v3x:resSuffix()}"></script>
+<script type="text/javascript" src="${path }/apps_res/taskmanage/js/detail/com.seeyon.apps.task-detail-tree-debug.js${v3x:resSuffix()}"></script>
 <script type="text/javascript">
 	  //任务id
 	  var taskId="${param.taskId}";

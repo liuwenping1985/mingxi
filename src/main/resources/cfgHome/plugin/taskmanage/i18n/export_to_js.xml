@@ -44,7 +44,7 @@
     <resKey>taskmanage.reply.noprise</resKey>
     <resKey>taskmanage.feeback.range_500</resKey>
     <resKey>taskmanage.alert.feedback_content_more_than_maxnum</resKey>
-    <resKey>taskmanage.modify.task.in.project</resKey>
+    <resKey>taskmanage.modify.com.seeyon.apps.task.in.project</resKey>
     <resKey>taskmanage.condition.no.content</resKey>
     <resKey>taskmanage.msg.endtime.early.systemtime</resKey>
     <resKey>taskmanage.report.peopleTask.label</resKey>
@@ -87,7 +87,7 @@
 	<resKey>taskmanage.toolbar.finish.confirm</resKey>
 	<resKey>taskmanage.restoreOrder.label</resKey>
 	<resKey>taskmanage.advance.label</resKey>
-	<resKey>taskmanage.trigger.linkage.task.cannot.modified</resKey>
+	<resKey>taskmanage.trigger.linkage.com.seeyon.apps.task.cannot.modified</resKey>
 	<resKey>taskmanage.alert.delete.no_delete</resKey>
     <resKey>taskmanage.message.updateFail</resKey>
     <resKey>taskmanage.label.continue</resKey>

@@ -138,9 +138,9 @@ function clicks(id,w) { //单击相关人员触发的事件
   	 $("#meeting").text(json[id].meeting);
    }
    if(json[id].task!=0){
-   	$("#task").html("<a onClick=passThroughCollCube('"+json[id].userId1+"','"+json[id].userId2+"',"+json[id].dateType+",'5')>"+json[id].task+"</a>");
+   	$("#Task").html("<a onClick=passThroughCollCube('"+json[id].userId1+"','"+json[id].userId2+"',"+json[id].dateType+",'5')>"+json[id].task+"</a>");
    }else{
-   	$("#task").text(json[id].task);
+   	$("#Task").text(json[id].task);
    }
    if(json[id].knowledge!=0){
    	$("#knowledge").html("<a onClick=passThroughCollCube('"+json[id].userId1+"','"+json[id].userId2+"',"+json[id].dateType+",'6')>"+json[id].knowledge+"</a>");
@@ -302,7 +302,7 @@ function initPluginEnable(){
     $("#project").parent("li").hide();
   }
   if(!$.ctx.plugins.contains('taskmanage')){
-    $("#task").parent("li").hide();
+    $("#Task").parent("li").hide();
   }
   if(!$.ctx.plugins.contains('doc')){
     $("#knowledge").parent("li").hide();
@@ -574,7 +574,7 @@ function searchPerson(){
                     <li class="w50b left" style="display: none;"><label style="margin-left: 24px">${ctp:i18n('colCube.common.list.meeting')}：</label><span id="meeting">0 </span></li>
                     <li class="w50b left" style="display: none;"><label style="margin-left: 24px">${ctp:i18n('colCube.common.list.project')}：</label><span id="project">0 </span></li>
                     <li class="w50b left" style="display: none;"><label style="margin-left: 24px">${ctp:i18n('colCube.common.list.plan')}：</label><span id="plan">0 </span></li>
-                    <li class="w50b left" style="display: none;"><label style="margin-left: 24px">${ctp:i18n('colCube.common.list.task')}：</label><span id="task">0 </span></li>
+                    <li class="w50b left" style="display: none;"><label style="margin-left: 24px">${ctp:i18n('colCube.common.list.Task')}：</label><span id="task">0 </span></li>
                     <li class="w50b left" style="display: none;"><label>${ctp:i18n('colCube.common.list.event')}：</label><span id="event">0 </span></li>
                     <li class="w50b left" style="display: none;"><label><c:if test="${!isG6}">${ctp:i18n('colCube.common.list.knowledge')}：</c:if><c:if test="${isG6}">${ctp:i18n('colCube.common.list.knowledge.g6')}：</c:if></label><span id="knowledge">0 </span></li>
                     <li class="w50b left" style="display: none;"><label>${ctp:i18n('colCube.common.list.cultural')}：</label><span id="cultural">0 </span></li>

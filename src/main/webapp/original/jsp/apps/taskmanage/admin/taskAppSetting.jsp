@@ -35,7 +35,7 @@
 			<ul class="left">
 				<li class="current">
 					<a href="javascript:void(0)" tgt="taskAppSetting" onclick="changeTab('taskAppSetting');">
-						<span title="${ctp:i18n("taskmanage.modify.task.js") }${ctp:i18n("taskmanage.manager") }">${ctp:i18n("taskmanage.modify.task.js") }${ctp:i18n("taskmanage.manager") } </span>
+						<span title="${ctp:i18n("taskmanage.modify.Task.js") }${ctp:i18n("taskmanage.manager") }">${ctp:i18n("taskmanage.modify.Task.js") }${ctp:i18n("taskmanage.manager") } </span>
 					</a>
 				</li>
 				<li>
@@ -101,7 +101,7 @@
 	<tr class="{{d.taskLevel}}_{{d.pluginName}} {{d.fristtr}}" data-config="{{d.taskLevel}}_{{d.pluginName}}_{{d.roleType}}" >
 		{{# if(d.isFrist){ }}	
 			<td rowspan="1" class="frist-td">
-				{{# if(d.pluginName == "taskmanage" && d.taskLevel == "task" ){ }}
+				{{# if(d.pluginName == "taskmanage" && d.taskLevel == "com.seeyon.apps.task" ){ }}
 					${ctp:i18n('taskmanage.taskroleconfig.setting')}
 				{{# } else if(d.pluginName == "taskmanage" && d.taskLevel == "parentTask" ){ }}
 					${ctp:i18n('taskmanage.taskroleconfig.parent.setting')}
@@ -134,8 +134,8 @@
 	</tr>
 </script>
 <script type="text/javascript" src="${path }/common/js/laytpl.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/admin/task-app-setting-debug.js${ctp:resSuffix()}"></script>
-<script type="text/javascript" src="${path}/apps_res/taskmanage/js/admin/task-role-config-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/admin/com.seeyon.apps.task-app-setting-debug.js${ctp:resSuffix()}"></script>
+<script type="text/javascript" src="${path}/apps_res/taskmanage/js/admin/com.seeyon.apps.task-role-config-debug.js${ctp:resSuffix()}"></script>
 <script type="text/javascript">
 	function changeTab(domId) {
 		if (domId == "taskAppSetting") {

@@ -222,7 +222,7 @@ function changeBindInput(obj) {
 		if (id === '')
 			continue;
 		if (id == selectVal) {
-			$.alert("${ctp:i18n('taskmanage.trigger.linkage.has.task.properties')}");
+			$.alert("${ctp:i18n('taskmanage.trigger.linkage.has.Task.properties')}");
 			$(obj).val("");
 			return;
 		}
@@ -323,7 +323,7 @@ function checkDuplicateField(code,field,fieldList){
 			<table width="90%" border=0 align="center" style="border-bottom:solid 2px #333333;height: 10px;">
 				<tr height="20">
 					<td class="bg-gray" width="40%" nowrap="nowrap" align ="center">
-						<label for="name"> ${ctp:i18n('taskmanage.trigger.task.attribute')}</label>							
+						<label for="name"> ${ctp:i18n('taskmanage.trigger.Task.attribute')}</label>
 					</td>
 					<td class="bg-gray" width="60%" nowrap="nowrap" align ="center">
 						<label for="name"> ${ctp:i18n('taskmanage.trigger.current.form')}</label>							

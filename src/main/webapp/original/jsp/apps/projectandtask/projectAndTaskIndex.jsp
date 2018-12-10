@@ -40,7 +40,7 @@
                 </div>
                 </c:if>
                 <c:if test="${ctp:hasPlugin('taskmanage')}">
-                <div class="group" id="task_tab" typePage="task">
+                <div class="group" id="task_tab" typePage="com.seeyon.apps.task">
                     <span class="title hand">${ctp:i18n('taskmanage.label')}</span>
                     <ul class="list">
                         <%--(显示任务中，我是我负责的，我参与的角色的所有任务) --%>
@@ -165,9 +165,9 @@ function changePageView(listType, typePage, init) {//listType:大分类，项目
     } else {//我的(我负责的，我参与的),告知我的，我分派的
     	$(".taskButtons").removeClass("display_none");
     	if (init) {
-	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=task&listType=" + listType + "&status=${status}";
+	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=Task&listType=" + listType + "&status=${status}";
     	} else {
-	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=task&listType=" + listType;
+	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=Task&listType=" + listType;
     	}
     }
   }

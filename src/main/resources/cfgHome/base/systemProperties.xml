@@ -29,7 +29,7 @@
         <locales mark="{VE}" desc="系统支持的语言种类，多个语种使用逗号分隔，第一个为缺省语言。">zh_CN,en,zh_TW</locales>
         <!-- 系统初始化实现类，实现com.seeyon.ctp.common.SystemInitializer接口 -->
         <init>
-            <!-- <initializer>com.seeyon.v3x.common.task.TaskMonitorListener</initializer> <initializer>com.seeyon.v3x.workflow.listener.WorkflowInitListener</initializer> 
+            <!-- <initializer>com.seeyon.v3x.comTasktask.TaskMonitorListener</initializer> <initializer>com.seeyon.v3x.workflow.listener.WorkflowInitListener</initializer>
                 <initializer>www.seeyon.com.v3x.form.base.FormSystemInit</initializer> <initializer>com.seeyon.v3x.edoc.EdocFormManagerSystemInitialition</initializer> 
                 <initializer>com.seeyon.v3x.agent.listener.AgentInitListener</initializer> <initializer>com.seeyon.v3x.cluster.ClusterCacheSystemInitialition</initializer> 
                 <initializer>com.seeyon.v3x.calendar.listener.PeriodicalInitListener</initializer> <initializer>com.seeyon.v3x.common.office.trans.OfficeTransSystemInitialition</initializer> 

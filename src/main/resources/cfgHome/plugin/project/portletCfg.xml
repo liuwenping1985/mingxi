@@ -10,7 +10,7 @@
 		<!-- Portlet名称,可以为空 -->
 		<portletName>项目/任务</portletName>
 		<!-- Portlet显示名称,不能为空,预制数据需要国际化 -->
-		<displayName>project.task.menu.name</displayName>
+		<displayName>project.com.seeyon.apps.task.menu.name</displayName>
 		<!-- Portlet分类 -->
 		<!-- 
 				space,//空间

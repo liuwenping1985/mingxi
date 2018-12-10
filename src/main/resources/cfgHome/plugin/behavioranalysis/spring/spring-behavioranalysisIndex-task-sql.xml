@@ -34,7 +34,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												u.id as orgid,
 												count(DISTINCT r.task_id) as executedsum
@@ -46,15 +46,15 @@
 													taskRole.task_id AS task_id
 												FROM
 													TASK_ROLE taskRole,
-													task_info task,
+													task_info com.seeyon.apps.task,
 													ORG_MEMBER M
 												WHERE
-													task. ID = taskRole.TASK_ID
+													com.seeyon.apps.task. ID = taskRole.TASK_ID
 												AND taskRole.role_type <> 3
-												AND task.planned_end_time >= :startTime
-												AND task.planned_start_time <= :endTime
+												AND com.seeyon.apps.task.planned_end_time >= :startTime
+												AND com.seeyon.apps.task.planned_start_time <= :endTime
 												AND(
-													task.STATUS IN(1, 2)
+													com.seeyon.apps.task.STATUS IN(1, 2)
 													OR taskRole.TASK_ID IN(
 														SELECT
 															feed.TASK_ID
@@ -94,7 +94,7 @@
 											group by
 												u.id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -196,7 +196,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .id AS orgid,
 												COUNT(DISTINCT r.task_id)AS overduefinishedsum
@@ -215,9 +215,9 @@
 												AND(
 													taskRole.task_id IN(
 														SELECT
-															task. ID
+															com.seeyon.apps.task. ID
 														FROM
-															TASK_INFO task,
+															TASK_INFO com.seeyon.apps.task,
 															(
 																SELECT
 																	f1.TASK_ID AS task_id,
@@ -237,12 +237,12 @@
 																AND f1.CREATE_TIME = f2.CREATE_TIME
 															)feedback
 														WHERE
-															task. ID = feedback.task_id
+															com.seeyon.apps.task. ID = feedback.task_id
 														AND feedback.TASK_STATUS = 4
 														AND(
 															feedback.CREATE_TIME >=:startTime
 															AND feedback.CREATE_TIME <=:endTime
-															AND feedback.CREATE_TIME > task.PLANNED_END_TIME
+															AND feedback.CREATE_TIME > com.seeyon.apps.task.PLANNED_END_TIME
 														)
 													)
 												)
@@ -257,7 +257,7 @@
 											GROUP BY
 												U .id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -280,7 +280,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .id AS orgid,
 												COUNT(DISTINCT r.task_id)AS unfinishedsum
@@ -298,9 +298,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -320,12 +320,12 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <= :endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <= :endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -351,7 +351,7 @@
 											GROUP BY
 												U .id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -374,7 +374,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .id AS orgid,
 												COUNT(DISTINCT r.task_id)AS overdueunfinishedsum
@@ -392,9 +392,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -414,13 +414,13 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <=:endTime
-															AND task.PLANNED_END_TIME <=:endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <=:endTime
+															AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -429,7 +429,7 @@
 													OR(
 														CASE
 														WHEN feedback.TASK_STATUS IN(1, 2)
-														AND task.PLANNED_END_TIME <=:endTime THEN
+														AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime THEN
 															1
 														ELSE
 															0
@@ -447,7 +447,7 @@
 											GROUP BY
 												U .id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -489,7 +489,7 @@
 								<property name="dbCategory" value="sql server"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												u.pid as orgid,
 												count(DISTINCT r.task_id) as executedsum
@@ -518,15 +518,15 @@
 													taskRole.task_id AS task_id
 												FROM
 													TASK_ROLE taskRole,
-													task_info task,
+													task_info com.seeyon.apps.task,
 													ORG_MEMBER M
 												WHERE
-													task. ID = taskRole.TASK_ID
+													com.seeyon.apps.task. ID = taskRole.TASK_ID
 												AND taskRole.role_type <> 3
-												AND task.planned_end_time >= :startTime
-												AND task.planned_start_time <= :endTime
+												AND com.seeyon.apps.task.planned_end_time >= :startTime
+												AND com.seeyon.apps.task.planned_start_time <= :endTime
 												AND(
-													task.STATUS IN(1, 2)
+													com.seeyon.apps.task.STATUS IN(1, 2)
 													OR taskRole.TASK_ID IN(
 														SELECT
 															feed.TASK_ID
@@ -566,14 +566,14 @@
 											group by
 												u.pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
 								<property name="dbCategory" value="mysql,dm"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												u.pid as orgid,
 												count(DISTINCT r.task_id) as executedsum
@@ -602,15 +602,15 @@
 													taskRole.task_id AS task_id
 												FROM
 													TASK_ROLE taskRole,
-													task_info task,
+													task_info com.seeyon.apps.task,
 													ORG_MEMBER M
 												WHERE
-													task. ID = taskRole.TASK_ID
+													com.seeyon.apps.task. ID = taskRole.TASK_ID
 												AND taskRole.role_type <> 3
-												AND task.planned_end_time >= :startTime
-												AND task.planned_start_time <= :endTime
+												AND com.seeyon.apps.task.planned_end_time >= :startTime
+												AND com.seeyon.apps.task.planned_start_time <= :endTime
 												AND(
-													task.STATUS IN(1, 2)
+													com.seeyon.apps.task.STATUS IN(1, 2)
 													OR taskRole.TASK_ID IN(
 														SELECT
 															feed.TASK_ID
@@ -650,14 +650,14 @@
 											group by
 												u.pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
 								<property name="dbCategory" value="postgreSQL,oracle"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												u.pid as orgid,
 												count(DISTINCT r.task_id) as executedsum
@@ -686,15 +686,15 @@
 													taskRole.task_id AS task_id
 												FROM
 													TASK_ROLE taskRole,
-													task_info task,
+													task_info com.seeyon.apps.task,
 													ORG_MEMBER M
 												WHERE
-													task. ID = taskRole.TASK_ID
+													com.seeyon.apps.task. ID = taskRole.TASK_ID
 												AND taskRole.role_type <> 3
-												AND task.planned_end_time >= :startTime
-												AND task.planned_start_time <= :endTime
+												AND com.seeyon.apps.task.planned_end_time >= :startTime
+												AND com.seeyon.apps.task.planned_start_time <= :endTime
 												AND(
-													task.STATUS IN(1, 2)
+													com.seeyon.apps.task.STATUS IN(1, 2)
 													OR taskRole.TASK_ID IN(
 														SELECT
 															feed.TASK_ID
@@ -734,7 +734,7 @@
 											group by
 												u.pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -1015,7 +1015,7 @@
 								<property name="dbCategory" value="sql server"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS overduefinishedsum
@@ -1051,9 +1051,9 @@
 												AND(
 													taskRole.task_id IN(
 														SELECT
-															task. ID
+															com.seeyon.apps.task. ID
 														FROM
-															TASK_INFO task,
+															TASK_INFO com.seeyon.apps.task,
 															(
 																SELECT
 																	f1.TASK_ID AS task_id,
@@ -1073,12 +1073,12 @@
 																AND f1.CREATE_TIME = f2.CREATE_TIME
 															)feedback
 														WHERE
-															task. ID = feedback.task_id
+															com.seeyon.apps.task. ID = feedback.task_id
 														AND feedback.TASK_STATUS = 4
 														AND(
 															feedback.CREATE_TIME >=:startTime
 															AND feedback.CREATE_TIME <=:endTime
-															AND feedback.CREATE_TIME > task.PLANNED_END_TIME
+															AND feedback.CREATE_TIME > com.seeyon.apps.task.PLANNED_END_TIME
 														)
 													)
 												)
@@ -1093,7 +1093,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
@@ -1101,7 +1101,7 @@
 								<property name="dbCategory" value="mysql,dm"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS overduefinishedsum
@@ -1137,9 +1137,9 @@
 												AND(
 													taskRole.task_id IN(
 														SELECT
-															task. ID
+															com.seeyon.apps.task. ID
 														FROM
-															TASK_INFO task,
+															TASK_INFO com.seeyon.apps.task,
 															(
 																SELECT
 																	f1.TASK_ID AS task_id,
@@ -1159,12 +1159,12 @@
 																AND f1.CREATE_TIME = f2.CREATE_TIME
 															)feedback
 														WHERE
-															task. ID = feedback.task_id
+															com.seeyon.apps.task. ID = feedback.task_id
 														AND feedback.TASK_STATUS = 4
 														AND(
 															feedback.CREATE_TIME >=:startTime
 															AND feedback.CREATE_TIME <=:endTime
-															AND feedback.CREATE_TIME > task.PLANNED_END_TIME
+															AND feedback.CREATE_TIME > com.seeyon.apps.task.PLANNED_END_TIME
 														)
 													)
 												)
@@ -1179,7 +1179,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
@@ -1187,7 +1187,7 @@
 								<property name="dbCategory" value="postgreSQL,oracle"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS overduefinishedsum
@@ -1223,9 +1223,9 @@
 												AND(
 													taskRole.task_id IN(
 														SELECT
-															task. ID
+															com.seeyon.apps.task. ID
 														FROM
-															TASK_INFO task,
+															TASK_INFO com.seeyon.apps.task,
 															(
 																SELECT
 																	f1.TASK_ID AS task_id,
@@ -1245,12 +1245,12 @@
 																AND f1.CREATE_TIME = f2.CREATE_TIME
 															)feedback
 														WHERE
-															task. ID = feedback.task_id
+															com.seeyon.apps.task. ID = feedback.task_id
 														AND feedback.TASK_STATUS = 4
 														AND(
 															feedback.CREATE_TIME >=:startTime
 															AND feedback.CREATE_TIME <=:endTime
-															AND feedback.CREATE_TIME > task.PLANNED_END_TIME
+															AND feedback.CREATE_TIME > com.seeyon.apps.task.PLANNED_END_TIME
 														)
 													)
 												)
@@ -1265,7 +1265,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -1288,7 +1288,7 @@
 								<property name="dbCategory" value="sql server"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS unfinishedsum
@@ -1323,9 +1323,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -1345,12 +1345,12 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <= :endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <= :endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -1376,7 +1376,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
@@ -1384,7 +1384,7 @@
 								<property name="dbCategory" value="mysql,dm"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS unfinishedsum
@@ -1419,9 +1419,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -1441,12 +1441,12 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <= :endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <= :endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -1472,7 +1472,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
@@ -1480,7 +1480,7 @@
 								<property name="dbCategory" value="postgreSQL,oracle"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS unfinishedsum
@@ -1515,9 +1515,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -1537,12 +1537,12 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <= :endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <= :endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -1568,7 +1568,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -1591,7 +1591,7 @@
 								<property name="dbCategory" value="sql server"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS overdueunfinishedsum
@@ -1626,9 +1626,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -1648,13 +1648,13 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <=:endTime
-															AND task.PLANNED_END_TIME <=:endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <=:endTime
+															AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -1663,7 +1663,7 @@
 													OR(
 														CASE
 														WHEN feedback.TASK_STATUS IN(1, 2)
-														AND task.PLANNED_END_TIME <=:endTime THEN
+														AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime THEN
 															1
 														ELSE
 															0
@@ -1681,7 +1681,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
@@ -1689,7 +1689,7 @@
 								<property name="dbCategory" value="mysql,dm"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS overdueunfinishedsum
@@ -1724,9 +1724,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -1746,13 +1746,13 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <=:endTime
-															AND task.PLANNED_END_TIME <=:endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <=:endTime
+															AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -1761,7 +1761,7 @@
 													OR(
 														CASE
 														WHEN feedback.TASK_STATUS IN(1, 2)
-														AND task.PLANNED_END_TIME <=:endTime THEN
+														AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime THEN
 															1
 														ELSE
 															0
@@ -1779,7 +1779,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 							<bean class="com.seeyon.apps.dashboard.bo.SqlNode">
@@ -1787,7 +1787,7 @@
 								<property name="dbCategory" value="postgreSQL,oracle"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												U .pid AS orgid,
 												COUNT(DISTINCT r.task_id)AS overdueunfinishedsum
@@ -1822,9 +1822,9 @@
 												AND taskRole.role_type <> 3
 												AND taskRole.task_id IN(
 													SELECT
-														task. ID
+														com.seeyon.apps.task. ID
 													FROM
-														TASK_INFO task
+														TASK_INFO com.seeyon.apps.task
 													LEFT JOIN(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -1844,13 +1844,13 @@
 																TASK_ID
 														)f2 ON f1.TASK_ID = f2.TASK_ID
 														AND f1.CREATE_TIME = f2.CREATE_TIME
-													)feedback ON task. ID = feedback.task_id
+													)feedback ON com.seeyon.apps.task. ID = feedback.task_id
 													WHERE
 														(
 															CASE
 															WHEN feedback.task_id IS NULL
-															AND task.PLANNED_START_TIME <=:endTime
-															AND task.PLANNED_END_TIME <=:endTime and task.status != 4 THEN
+															AND com.seeyon.apps.task.PLANNED_START_TIME <=:endTime
+															AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime and com.seeyon.apps.task.status != 4 THEN
 																1
 															ELSE
 																0
@@ -1859,7 +1859,7 @@
 													OR(
 														CASE
 														WHEN feedback.TASK_STATUS IN(1, 2)
-														AND task.PLANNED_END_TIME <=:endTime THEN
+														AND com.seeyon.apps.task.PLANNED_END_TIME <=:endTime THEN
 															1
 														ELSE
 															0
@@ -1877,7 +1877,7 @@
 											GROUP BY
 												U .pid
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -1919,7 +1919,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												m.id AS orgid,
 												r.executedsum AS executedsum
@@ -1931,14 +1931,14 @@
 													COUNT(DISTINCT taskRole.task_id)AS executedsum
 												FROM
 													TASK_ROLE taskRole,
-													TASK_INFO task
+													TASK_INFO com.seeyon.apps.task
 												WHERE
 													taskRole.role_type <> 3
-												AND task.id = taskRole.TASK_ID
-												AND task.planned_end_time >= :startTime
-												AND task.planned_start_time <= :endTime
+												AND com.seeyon.apps.task.id = taskRole.TASK_ID
+												AND com.seeyon.apps.task.planned_end_time >= :startTime
+												AND com.seeyon.apps.task.planned_start_time <= :endTime
 												AND(
-													task. STATUS IN(1, 2)
+													com.seeyon.apps.task. STATUS IN(1, 2)
 													OR taskRole.task_id IN(
 														SELECT
 															feed.TASK_ID
@@ -1978,7 +1978,7 @@
 											and m.is_internal=1
 											AND m.ORG_DEPARTMENT_ID != - 1
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -2068,7 +2068,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												taskRole.role_id AS orgid,
 												count(distinct taskRole.task_id)AS overduefinishedsum
@@ -2079,9 +2079,9 @@
 												taskRole.role_type <> 3
 											AND taskRole.task_id IN(
 												SELECT
-													task.id
+													com.seeyon.apps.task.id
 												FROM
-													TASK_INFO task,
+													TASK_INFO com.seeyon.apps.task,
 													(
 														SELECT
 															f1.TASK_ID AS task_id,
@@ -2101,12 +2101,12 @@
 														AND f1.CREATE_TIME = f2.CREATE_TIME
 													)feedback
 												WHERE
-													task.id = feedback.task_id
+													com.seeyon.apps.task.id = feedback.task_id
 												AND feedback.TASK_STATUS = 4
 												AND(
 													feedback.CREATE_TIME >= :startTime
 													AND feedback.CREATE_TIME <= :endTime
-													AND feedback.CREATE_TIME > task.PLANNED_END_TIME
+													AND feedback.CREATE_TIME > com.seeyon.apps.task.PLANNED_END_TIME
 												)
 											)
 											and taskRole.role_id=m.id
@@ -2119,7 +2119,7 @@
 											GROUP BY
 												taskRole.role_id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -2141,7 +2141,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												taskRole.role_id AS orgid,
 												count(DISTINCT taskRole.task_id)AS unfinishedsum
@@ -2152,9 +2152,9 @@
 												taskRole.role_type <> 3
 											AND taskRole.task_id IN(
 												SELECT
-													task.id
+													com.seeyon.apps.task.id
 												FROM
-													TASK_INFO task
+													TASK_INFO com.seeyon.apps.task
 												LEFT JOIN(
 													SELECT
 														f1.TASK_ID AS task_id,
@@ -2174,12 +2174,12 @@
 															TASK_ID
 													)f2 ON f1.TASK_ID = f2.TASK_ID
 													AND f1.CREATE_TIME = f2.CREATE_TIME
-												)feedback ON task.id = feedback.task_id
+												)feedback ON com.seeyon.apps.task.id = feedback.task_id
 												WHERE
 													(
 														CASE
 														WHEN feedback.task_id IS NULL
-														AND task.PLANNED_START_TIME <= :endTime and task.status != 4 THEN
+														AND com.seeyon.apps.task.PLANNED_START_TIME <= :endTime and com.seeyon.apps.task.status != 4 THEN
 															1
 														ELSE
 															0
@@ -2204,7 +2204,7 @@
 											GROUP BY
 												taskRole.role_id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>
@@ -2226,7 +2226,7 @@
 								<property name="dbCategory" value="all"></property>
 								<property name="sqlText">
 									<value>
-										<![CDATA[
+                                        <![CDATA[
 											SELECT
 												taskRole.role_id AS orgid,
 												count(distinct taskRole.task_id)AS overdueunfinishedsum
@@ -2237,9 +2237,9 @@
 												taskRole.role_type <> 3
 											AND taskRole.task_id IN(
 												SELECT
-													task.id
+													com.seeyon.apps.task.id
 												FROM
-													TASK_INFO task
+													TASK_INFO com.seeyon.apps.task
 												LEFT JOIN(
 													SELECT
 														f1.TASK_ID AS task_id,
@@ -2259,12 +2259,12 @@
 															TASK_ID
 													)f2 ON f1.TASK_ID = f2.TASK_ID
 													AND f1.CREATE_TIME = f2.CREATE_TIME
-												)feedback ON task.id = feedback.task_id
+												)feedback ON com.seeyon.apps.task.id = feedback.task_id
 												WHERE
 													(
 														CASE
 														WHEN feedback.task_id IS NULL
-														AND task.PLANNED_START_TIME <=:endTime and task.PLANNED_END_TIME<=:endTime and task.status != 4 THEN
+														AND com.seeyon.apps.task.PLANNED_START_TIME <=:endTime and com.seeyon.apps.task.PLANNED_END_TIME<=:endTime and com.seeyon.apps.task.status != 4 THEN
 															1
 														ELSE
 															0
@@ -2272,7 +2272,7 @@
 													)= 1
 												OR(
 													CASE
-													WHEN feedback.TASK_STATUS IN(1, 2) and task.PLANNED_END_TIME<=:endTime THEN
+													WHEN feedback.TASK_STATUS IN(1, 2) and com.seeyon.apps.task.PLANNED_END_TIME<=:endTime THEN
 														1
 													ELSE
 														0
@@ -2289,7 +2289,7 @@
 											GROUP BY
 												taskRole.role_id
 										]]>
-									</value>
+                                    </value>
 								</property>
 							</bean>
 						</list>

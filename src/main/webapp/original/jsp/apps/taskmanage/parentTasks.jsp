@@ -32,7 +32,7 @@
                        
                        <%-- 项目任务 --%>
                        <c:if test="${param.from eq 'projectTask' }">
-                          <li class="current"><a hideFocus="true" class="no_b_border" href="javascript:void(0);" value="projectTask">${ctp:i18n("taskmanage.task.name.js")}</a></li>
+                          <li class="current"><a hideFocus="true" class="no_b_border" href="javascript:void(0);" value="projectTask">${ctp:i18n("taskmanage.Task.name.js")}</a></li>
                        </c:if>
                        
                     </ul>

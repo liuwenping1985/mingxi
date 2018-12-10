@@ -33,7 +33,7 @@
 	var seeyonChart;
 	function showPieChart(reportResult) {
 		if (!reportResult.hasResultData) {//没有数据
-			$("#taskChartReport").html("<center class='font_size12'>${ctp:i18n('project.has.not.task')}</center>");
+			$("#taskChartReport").html("<center class='font_size12'>${ctp:i18n('project.has.not.Task')}</center>");
 			$("#taskChartReport").css("padding-top", $("#taskChartReport").height() / 2 - 10);
 			return;
 		}

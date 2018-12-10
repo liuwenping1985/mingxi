@@ -194,7 +194,7 @@ function openHelpFun(){
 		.help_com tr th{text-align: center;}
 		.help_com tr td{text-align: center;}
 	</style>
-	<div class="align_center help_title">Form trigger task description</div>
+	<div class="align_center help_title">Form trigger com.seeyon.apps.task description</div>
 	<div class="help_com">
 		<div class="title1"><span>1.	Form field configuration details：</span></div>
 		<table border="0" cellspacing="0" cellpadding="0" class="only_table edit_table">
@@ -221,9 +221,9 @@ function openHelpFun(){
 		</table>
 		<div class="title2"><span>2.	Special Instructions：</span></div>
 		<div class="font_size12">
-			<p>2.1	Configure the following fields: When you are important, use the enumeration value under the public enumeration, do not modify it. If modified, it may cause the task creation trigger to fail。</p>
+			<p>2.1	Configure the following fields: When you are important, use the enumeration value under the public enumeration, do not modify it. If modified, it may cause the com.seeyon.apps.task creation trigger to fail。</p>
 			<p>2.2	The creator is required, and only the main table field can be selected。</p>
-			<p>2.3	The task attribute can not be repeated.</p>
+			<p>2.3	The com.seeyon.apps.task attribute can not be repeated.</p>
 			<p>2.4	Form fields can be repeated。</p>
 		</div>
 		<div class="title2"><span>3.	Trigger instructions：</span></div>
@@ -236,21 +236,21 @@ function openHelpFun(){
 				</tr>
 				</thead>
 				<tbody>
-				<tr><td>Too many task titles</td><td>Interception of the task title word, leaving only the first 85 words</td></tr>
-				<tr><td>The start time of the task is greater than the end time</td><td style="text-align: left;">
-					Start time in the task Take the form start time in the form<br>
-					The end of the task is taken：<br>
+				<tr><td>Too many com.seeyon.apps.task titles</td><td>Interception of the com.seeyon.apps.task title word, leaving only the first 85 words</td></tr>
+				<tr><td>The start time of the com.seeyon.apps.task is greater than the end time</td><td style="text-align: left;">
+					Start time in the com.seeyon.apps.task Take the form start time in the form<br>
+					The end of the com.seeyon.apps.task is taken：<br>
 					a.If the start time in the form is the date type, the end time is 23:59:59 the same day<br>
 					b.If the start time in the form is time, the end time is equal to the start time of 1 hour<br>
 					The start time is equal to the end time [Form start time] is the time type, the end time is +1 hours</td></tr>
 				<tr><td>Person has been disabled or deleted</td><td>No verification</td></tr>
 				<tr><td>Enumerated fields are not used by default</td><td>Automatic Matching Default: Importance - Normal; Milestone - Non Milestone Mission</td></tr>
-				<tr><td>Select the item is over</td><td rowspan="3">Set the current task to a non-project task</td></tr>
-				<tr><td>The creator of the task is not in the project</td></tr>
-				<tr><td>The creator has no task to break down the permissions</td></tr>
+				<tr><td>Select the item is over</td><td rowspan="3">Set the current com.seeyon.apps.task to a non-project com.seeyon.apps.task</td></tr>
+				<tr><td>The creator of the com.seeyon.apps.task is not in the project</td></tr>
+				<tr><td>The creator has no com.seeyon.apps.task to break down the permissions</td></tr>
 				</tbody>
 			</table>
-			<p>3.2If the following conditions occur, the form triggers the task to fail：</p>
+			<p>3.2If the following conditions occur, the form triggers the com.seeyon.apps.task to fail：</p>
 			<table border="0" cellspacing="0" cellpadding="0" class="only_table edit_table">
 				<thead>
 				<tr>
@@ -260,7 +260,7 @@ function openHelpFun(){
 				<tbody>
 				<tr><td>1</td><td>The form repeats the line, and if there is a line that does not satisfy the check, all distributions fail to fail</td></tr>
 				<tr><td>2</td><td>When the form is filled in, the title is empty</td></tr>
-				<tr><td>3</td><td>When the form fill in the task start time is empty</td></tr>
+				<tr><td>3</td><td>When the form fill in the com.seeyon.apps.task start time is empty</td></tr>
 				<tr><td>4</td><td>When the form completion time is empty</td></tr>
 				<tr><td>5</td><td>Fill in the form when the person is empty</td></tr>
 				<tr><td>6</td><td>When the form is filled in, the person in charge is empty</td></tr>

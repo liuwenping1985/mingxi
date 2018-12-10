@@ -208,7 +208,7 @@ myBar.add(new WebFXMenuButton("summaryPanel", "${newTaskButton}", "javascript:ne
 	
 	<%-- 会议任务 --%>
 	<c:if test="${hasPluginTask}">
-	<v3x:column width="6%" type="String" label="mt.task.label" className="cursor-hand sort">
+	<v3x:column width="6%" type="String" label="mt.com.seeyon.apps.task.label" className="cursor-hand sort">
 		<c:choose>
 			<c:when test="${bean.taskTotal == 0}">
                 <c:choose>

@@ -16,7 +16,7 @@
     <resKey>performanceReport.portal.selectOvercrowding</resKey>
     <resKey>performanceReport.queryMain_js.throughQueryDialog.title</resKey>
     <resKey>performanceReport.queryMain_js.button.close</resKey>
-    <resKey>performanceReport.queryMain.task.content</resKey>
+    <resKey>performanceReport.queryMain.com.seeyon.apps.task.content</resKey>
     <resKey>performanceReport.workFlowAnalysis.chartUseRadio</resKey>
     <resKey>performanceReport.workFlowAnalysis.chartOverTimeRatio</resKey>
     <resKey>performanceReport.section.notSupportCharts</resKey>

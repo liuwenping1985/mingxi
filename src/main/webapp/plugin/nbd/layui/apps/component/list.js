@@ -34,6 +34,11 @@
                 }else{
                     this.max=-1;
                 }
+                if(options.link_prop){
+                    this.link_prop=options.link_prop;
+                }else{
+                    this.link_prop=false;
+                }
                 if (options.data_url) {
                     var me = this;
                     $.ajax({
@@ -76,7 +81,19 @@
                 if(this.mode=="normal"){
                     for(var p=0;p<data.length;p++){
                         var p_data = data[p];
-                        htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
+                        if(!this.link_prop){
+                            htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
+                        }else{
+                            var link_url= p_data[this.link_prop];
+                            if(link_url){
+
+                                htmls.push("<div onclick='window.open(\""+link_url+"\")' style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
+                            }else{
+
+                                htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:rgb(50,50,50)' class='layui-row'>");
+                            }
+                        }
+
 
                         if(this.max&&this.max>0){
                             if(p+1>this.max){

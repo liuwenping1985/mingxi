@@ -206,11 +206,11 @@
 	<resKey>form.input.format.qianfen.label</resKey>
 	<resKey>form.input.format.baifenhao.label</resKey>
 	<resKey>form.oper.add.label</resKey>
-	<resKey>form.event.task.modify.tip.nothing</resKey>
-	<resKey>form.event.task.modify.tip.moreone</resKey>
+	<resKey>form.event.com.seeyon.apps.task.modify.tip.nothing</resKey>
+	<resKey>form.event.com.seeyon.apps.task.modify.tip.moreone</resKey>
 	<resKey>form.operhigh.eventbind.label</resKey>
-	<resKey>form.event.task.delete.tip.nothing</resKey>
-	<resKey>form.event.task.delete.tip.confirm</resKey>
+	<resKey>form.event.com.seeyon.apps.task.delete.tip.nothing</resKey>
+	<resKey>form.event.com.seeyon.apps.task.delete.tip.confirm</resKey>
 	<resKey>form.operhigh.start.label</resKey>
 	<resKey>form.operhigh.submit.label</resKey>
 	<resKey>form.operhigh.rollback.label</resKey>

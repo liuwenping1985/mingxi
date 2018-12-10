@@ -77,11 +77,11 @@
 	<script type="text/javascript" src="${path }/common/js/laytpl.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/taskInfo-api-debug.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/jquery.waterfall-debug.js${ctp:resSuffix()}"></script>
-	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-status-debug.js${ctp:resSuffix()}"></script>
+	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-status-debug.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript" src="${path}/apps_res/projectandtask/js/jquery.ui.scrollpage.js${ctp:resSuffix()}"></script>
-	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-tree-debug.js${ctp:resSuffix()}"></script>
-	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-order-debug.js${ctp:resSuffix()}"></script>
-	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/task-list-search-debug.js${ctp:resSuffix()}"></script>
+	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-tree-debug.js${ctp:resSuffix()}"></script>
+	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-order-debug.js${ctp:resSuffix()}"></script>
+	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-search-debug.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/taskInfo-api-debug.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript" src="${path}/apps_res/taskmanage/js/tasklist/meetingTaskList.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript">
@@ -111,7 +111,7 @@
 			//刷新页面数据
 			$("#${viewType}_li").click();
 			//关闭任务详情页面
-			$(".meeting-task-content,.common_search").off("click").on("click", function(e) {
+			$(".meeting-Task-content,.common_search").off("click").on("click", function(e) {
 				//不是列表条目 | dialog中
 				if ($(e.target).closest(".list_item").size() <= 0 && $(e.target).parents("div.projectTask_detailDialog").size() <= 0) {
 					try {

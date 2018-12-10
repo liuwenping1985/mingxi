@@ -49,7 +49,7 @@
             <td class="padding_t_5">
                 <label class="margin_r_10 hand" for="Checkbox3">
                     <input id="Checkbox3" class="radio_com" name="timeLineType" value="3" type="checkbox">
-                    <a title="" href="javascript:selectCheckBox('Checkbox3')"  style="color:black" value="3">${ctp:i18n('calendar.editTimeLine.nomy.task')}</a>
+                    <a title="" href="javascript:selectCheckBox('Checkbox3')"  style="color:black" value="3">${ctp:i18n('calendar.editTimeLine.nomy.Task')}</a>
                 </label>
             </td>
           </tr>

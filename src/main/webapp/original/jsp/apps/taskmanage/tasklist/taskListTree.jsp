@@ -16,7 +16,7 @@
 	<script type="text/javascript" charset="UTF-8" src="${path}/common/js/ui/seeyon.ui.zsTree-debug.js${ctp:resSuffix()}"></script>
 	<script type="text/javascript" charset="UTF-8" src="${path}/apps_res/projectandtask/js/jquery.ui.scrollpage.js${ctp:resSuffix()}"></script>
     <script type="text/javascript" charset="UTF-8" src="${path}/common/js/laytpl.js${ctp:resSuffix()}"></script>
-	<script type="text/javascript" charset="UTF-8" src="${path}/apps_res/taskmanage/js/tasklist/task-list-tree-debug.js${ctp:resSuffix()}"></script>
+	<script type="text/javascript" charset="UTF-8" src="${path}/apps_res/taskmanage/js/tasklist/com.seeyon.apps.task-list-tree-debug.js${ctp:resSuffix()}"></script>
     <script type="text/javascript" charset="UTF-8" src="${path}/apps_res/taskmanage/js/taskInfo-api-debug.js${ctp:resSuffix()}"></script>
     <script type="text/javascript">
 	$(document).ready(function() {

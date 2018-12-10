@@ -10,7 +10,7 @@
 	<resKey>bizconfig.use.authorize.template</resKey>
 	<resKey>calendar.arrangeTime.collapse</resKey>
 	<resKey>calendar.arrangeTime.event</resKey>
-	<resKey>calendar.arrangeTime.task</resKey>
+	<resKey>calendar.arrangeTime.com.seeyon.apps.task</resKey>
 	<resKey>calendar.cancel</resKey>
 	<resKey>calendar.close</resKey>
 	<resKey>calendar.completion</resKey>
@@ -230,7 +230,7 @@
 	<resKey>product.about.title</resKey>
 	<resKey>project.alert.office.nonsupport</resKey>
 	<resKey>project.info.newCal</resKey>
-	<resKey>project.task.addProjectTask</resKey>
+	<resKey>project.com.seeyon.apps.task.addProjectTask</resKey>
 	<resKey>remove</resKey>
 	<resKey>resource.del.confirm</resKey>
 	<resKey>section.excption</resKey>

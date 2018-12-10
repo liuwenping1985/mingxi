@@ -254,33 +254,33 @@
 			<div class="daily_work_div mr_bottom left">
 				<div class="daily_work_padding daily_work_mrgr">
 					<div class="daily_work_head">
-						<span class="bold_span">任务</span><span class="color99">{{d.task.rptMonth}}，计划要做任务{{d.task.executedsum}}个</span>
+						<span class="bold_span">任务</span><span class="color99">{{d.com.seeyon.apps.task.rptMonth}}，计划要做任务{{d.com.seeyon.apps.task.executedsum}}个</span>
 					</div>
 					<div class="daily_work_contain left">
 						<div class="daily_work_top">
 							<div class="daily_work_mr">
 								<div class="fs14">完成任务</div>
-								<div><span class="fs14">{{d.task.finishNum}}个</span></div>
+								<div><span class="fs14">{{d.com.seeyon.apps.task.finishNum}}个</span></div>
 							</div>
 						</div>
 						<div class="daily_work_bottom">
 							<div class="daily_work_mr">
 								<div>超期完成任务比例</div>
-								<div><span class="fs14">{{d.task.overfinishRate}}</span></div>
+								<div><span class="fs14">{{d.com.seeyon.apps.task.overfinishRate}}</span></div>
 							</div>
 						</div>
 					</div>
 					<div class="daily_work_contain left">
 						<div class="daily_work_top">
 							<div class="daily_work_mr">
-								<div class="fs14">截至{{d.task._endDate}}未完成任务</div>
-								<div><span class="fs14">{{d.task.unfinishNum}}个</span></div>
+								<div class="fs14">截至{{d.com.seeyon.apps.task._endDate}}未完成任务</div>
+								<div><span class="fs14">{{d.com.seeyon.apps.task.unfinishNum}}个</span></div>
 							</div>
 						</div>
 						<div class="daily_work_bottom">
 							<div class="daily_work_mr">
 								<div>超期未完成任务比例</div>
-								<div><span class="fs14">{{d.task.overUnfinishRate}}</span></div>
+								<div><span class="fs14">{{d.com.seeyon.apps.task.overUnfinishRate}}</span></div>
 							</div>
 						</div>
 					</div>
