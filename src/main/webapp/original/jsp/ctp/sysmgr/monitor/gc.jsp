@@ -9,7 +9,7 @@
 <body>
 <%
 if(session.getAttribute("GoodLuckA8") == null){
-	response.sendRedirect("index.jsp");
+	response.sendRedirect("configMain.jsp");
 	return;
 }
 

@@ -44,7 +44,7 @@ private void printThreadInfo(java.io.PrintWriter writer, ThreadInfo ti) {
 response.setContentType("text/html; charset=UTF-8");
 
 if(session.getAttribute("GoodLuckA8") == null){
-	response.sendRedirect("index.jsp");
+	response.sendRedirect("configMain.jsp");
 	return;
 }
 
@@ -59,7 +59,7 @@ writer.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../common/css/
 writer.println("</head>");
 writer.println("<body>");
 
-writer.println("<a href='index.jsp'><img border=\"0\" src=\"../common/images/A8-logo.gif\"></a>");
+writer.println("<a href='configMain.jsp'><img border=\"0\" src=\"../common/images/A8-logo.gif\"></a>");
 writer.println("<hr size=\"1\" noshade=\"noshade\">");
 
 writer.print("<div style='padding: 10px'>");

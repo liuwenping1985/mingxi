@@ -4,7 +4,7 @@
 response.setContentType("text/html; charset=UTF-8");
 
 if(session.getAttribute("GoodLuckA8") == null){
-	response.sendRedirect("index.jsp");
+	response.sendRedirect("configMain.jsp");
 	return;
 }
 
