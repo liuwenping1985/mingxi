@@ -29,7 +29,7 @@
         if (items && items.length > 0) {
             DataLink.DL = items;
             /**
-             <th>连接名称</th>
+             * <th>连接名称</th>
              <th>地址</th>
              <th>数据类型</th>
              <th>用户名</th>
@@ -40,18 +40,18 @@
             $("#other2a8_data_link").html("");
             $(items).each(function (index, item) {
                 htmls.push("<tr class='data_link_row' >");
-                htmls.push("<td><input type='checkbox' value='" + item.id + "' class='data_link_selected' /> </td>");
-                htmls.push("<td>" + item.extString1 + "</td>");
+                htmls.push("<td><input type='checkbox' value='" + item.sid + "' class='data_link_selected' /> </td>");
+                htmls.push("<td>" + item.name + "</td>");
                 htmls.push("<td>" + item.host + "</td>");
-                htmls.push("<td>" + item.extString2 + "</td>");
+                htmls.push("<td>" + item.port + "</td>");
 
                 htmls.push("<td>" + transDbType(item.dbType) + "</td>");
                 htmls.push("<td>" + item.user + "</td>");
                 htmls.push("<td>" + item.dataBaseName + "</td>");
-                htmls.push("<td><button data_value='" + item.id + "' class='sql_query_btn layui-btn layui-btn-danger layui-btn-sm'>在线查询</button></td>");
+                htmls.push("<td><button data_value='" + item.sid + "' class='sql_query_btn layui-btn layui-btn-danger layui-btn-sm'>在线查询</button></td>");
                 htmls.push("</tr>");
-                $("#a82other_data_link").append("<option value='" + item.id + "'>" + item.extString1 + "</option>")
-                $("#other2a8_data_link").append("<option value='" + item.id + "'>" + item.extString1 + "</option>")
+                $("#a82other_data_link").append("<option value='" + item.sid + "'>" + item.name + "</option>")
+                $("#other2a8_data_link").append("<option value='" + item.sid + "'>" + item.name + "</option>")
 
 
             });
@@ -178,6 +178,9 @@
                                         $(item).val(val_);
                                     }
                                 }
+                                if(name=="id"){
+                                    $(item).val(data["sid"]);
+                                }
                             });
                             $(forms2).each(function (index, item) {
                                 var name = $(item).attr("name");
@@ -240,7 +243,7 @@
                 var tt = item.split("=");
                 data[tt[0]] = tt[1];
             });
-            // console.log(data);
+             console.log(data);
             Dao.update("data_link", data, function (ret) {
                 //console.log(ret);
                 Dao.getList("data_link", function (data2) {

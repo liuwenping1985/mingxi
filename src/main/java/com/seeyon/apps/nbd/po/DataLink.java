@@ -1,14 +1,15 @@
-package com.seeyon.apps.nbd.vo;
+package com.seeyon.apps.nbd.po;
 
 /**
  * Created by liuwenping on 2018/10/29.
  */
-public class DataLink extends CommonVo {
+public class DataLink extends CommonPo {
 
     private String dataBaseName;
     private String host;
     private String user;
     private String password;
+    private String port;
     private String extString1;
     private String extString2;
     private String extString3;
@@ -16,6 +17,14 @@ public class DataLink extends CommonVo {
     private String extString5;
     private String linkType;
     private String dbType;
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
 
     public String getDbType() {
         return dbType;

@@ -1,7 +1,10 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.doc.dao.DocResourceDaoImpl;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
+import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.ValidateResult;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
@@ -11,23 +14,18 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
-import com.seeyon.ctp.common.filemanager.manager.AttachmentManagerImpl;
+import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
-import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.organization.po.OrgMember;
-import com.seeyon.ctp.organization.po.OrgPrincipal;
-import com.seeyon.ctp.portal.space.manager.SpaceManagerImpl;
-import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
-import com.seeyon.v3x.bulletin.domain.BulData;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/11/3.
@@ -36,6 +34,7 @@ import java.util.Map;
 
 public class NbdController extends BaseController{
     private PluginServiceManager nbdPluginServiceManager;
+    private FileManager fileManager;
     private NbdService nbdService = new NbdService();
 
     private PluginServiceManager getNbdPluginServiceManager(){
@@ -44,20 +43,25 @@ public class NbdController extends BaseController{
             try {
                 nbdPluginServiceManager =  PluginServiceManagerImpl.getInstance();
             }catch(Exception e){
-               // e.printStackTrace();
+                e.printStackTrace();
             }catch(Error error){
-                AttachmentManagerImpl attm;
-                //error.printStackTrace();
+                error.printStackTrace();
             }
         }
         return nbdPluginServiceManager;
     }
+    private FileManager getFileManager(){
+        if(fileManager ==null){
+            fileManager = (FileManager)AppContext.getBean("fileManager");
+        }
+        Collection coll;
+        return fileManager;
+    }
     @NeedlessCheckLogin
     public ModelAndView getDataById(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
-
-        NbdResponseEntity entity = nbdService.getDataById(p);
-
+        NbdResponseEntity entity = null;
+        entity =  nbdService.getDataById(p);
         UIUtils.responseJSON(entity,response);
         return null;
 
@@ -69,7 +73,7 @@ public class NbdController extends BaseController{
         if(page == null){
             page = "index";
         }
-        SpaceManagerImpl spaceManager;
+
         ModelAndView mav = new ModelAndView("apps/nbd/"+page);
 
         return mav;
@@ -93,6 +97,7 @@ public class NbdController extends BaseController{
             entity = new NbdResponseEntity();
             entity.setResult(false);
             entity.setMsg(vr.getMsg());
+
         }else{
             entity = nbdService.postAdd(p);
         }
@@ -104,9 +109,14 @@ public class NbdController extends BaseController{
     @NeedlessCheckLogin
     public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response){
         CommonParameter p = CommonParameter.parseParameter(request);
-        NbdResponseEntity entity = nbdService.postUpdate(p);
+        try {
+            NbdResponseEntity entity = nbdService.postUpdate(p);
+            UIUtils.responseJSON(entity,response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        UIUtils.responseJSON(entity,response);
+
 
         return null;
 
@@ -151,18 +161,63 @@ public class NbdController extends BaseController{
         UIUtils.responseJSON(entity,response);
         return null;
     }
-
     @NeedlessCheckLogin
-    public ModelAndView dbConsole2(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        User user = AppContext.getCurrentUser();
+        String fileId = request.getParameter("file_id");
+        if (CommonUtils.isEmpty(fileId)) {
 
+            return null;
+
+        }
+        InputStream fis = null;
+        OutputStream toClient=null;
+        try {
+            V3XFile v3xfile = getFileManager().getV3XFile(Long.parseLong(fileId));
+            File file = getFileManager().getFile(Long.parseLong(fileId), v3xfile.getCreateDate());
+            String filename = v3xfile.getFilename();
+
+            // 取得文件名。
+            // 取得文件的后缀名。
+            //String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+            // 以流的形式下载文件。
+             fis = new BufferedInputStream(new FileInputStream(file));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+            response.addHeader("Content-Length", "" + file.length());
+             toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if(fis!=null){
+                try{
+                    fis.close();
+                }catch(Exception e){
+
+                }
+            }
+            if(toClient!=null){
+                try{
+                    toClient.close();
+                }catch(Exception e){
+
+                }
+
+            }
+
+        }
 
         return null;
+
     }
-
-
-    //----------------//
 
     @NeedlessCheckLogin
     public ModelAndView getMyCtpTemplateList(HttpServletRequest request, HttpServletResponse response){
@@ -195,21 +250,10 @@ public class NbdController extends BaseController{
 
         return null;
     }
-    private boolean mock = true;
-    private Long mockUser = 8180340772611837618L;
-    private void preHandleRequest(HttpServletRequest request, HttpServletResponse response){
 
-        nbdService.setRequest(request);
-        nbdService.setResponse(response);
-        if(mock){
-            User user = AppContext.getCurrentUser();
-            if(user!=null){
-                return;
-            }
-            nbdService.login(mockUser);
-        }
+public static void main(String[]args){
 
-    }
-
+        System.out.println("TEST1");
+}
 
 }

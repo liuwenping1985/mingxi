@@ -6,6 +6,7 @@ import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
+import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
@@ -13,6 +14,8 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.po.*;
+import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
@@ -20,24 +23,19 @@ import com.seeyon.ctp.common.constants.Constants;
 import com.seeyon.ctp.common.constants.LoginResult;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.flag.BrowserEnum;
-import com.seeyon.ctp.common.flag.SysFlag;
 import com.seeyon.ctp.common.i18n.LocaleContext;
-import com.seeyon.ctp.common.i18n.ResourceUtil;
+import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
-import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
-import com.seeyon.ctp.common.template.manager.CollaborationTemplateManagerImpl;
-import com.seeyon.ctp.login.LoginControlImpl;
-import com.seeyon.ctp.login.online.OnlineRecorder;
-import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.common.supervise.controller.SuperviseController;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
+import org.apache.http.protocol.RequestUserAgent;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -46,46 +44,10 @@ import java.util.*;
  */
 public class NbdService {
 
-    private DataBaseHandler handler = DataBaseHandler.getInstance();
+    // private DataBaseHandler handler = DataBaseHandler.getInstance();
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
-    private CollaborationTemplateManager collaborationTemplateManager;
 
-    private CollaborationTemplateManager getCollaborationTemplateManager(){
-        if(collaborationTemplateManager == null){
-            collaborationTemplateManager = (CollaborationTemplateManager)AppContext.getBean("collaborationTemplateManager");
-        }
-        return collaborationTemplateManager;
-    }
-    private LoginControlImpl loginControl;
-
-    private HttpServletRequest request;
-    private HttpServletResponse response;
-
-    private OrgManager orgManager;
-    private OrgManager getOrgManager(){
-        if(orgManager == null){
-            orgManager = (OrgManager)AppContext.getBean("orgManager");
-        }
-        return orgManager;
-    }
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
-    }
-
-    public void setResponse(HttpServletResponse response) {
-        this.response = response;
-    }
-
-    private LoginControlImpl getLoginControl(){
-        if(loginControl == null){
-            loginControl = (LoginControlImpl)AppContext.getBean("loginControl");
-            if(loginControl == null){
-                loginControl = (LoginControlImpl)AppContext.getBean("loginControlImpl");
-            }
-        }
-        return loginControl;
-    }
     public NbdResponseEntity postAdd(CommonParameter p) {
         System.out.println(p);
         NbdResponseEntity entity = preProcess(p);
@@ -93,30 +55,26 @@ public class NbdService {
             return entity;
         }
         String type = p.$("data_type");
-        handler.createNewDataBaseByNameIfNotExist(type);
-        CommonVo cVo = transferService.transData(type, p);
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
+        //handler.createNewDataBaseByNameIfNotExist(type);
+        CommonPo cVo = transferService.transData(type, p);
         if (cVo == null) {
             entity.setResult(false);
             entity.setMsg(" data transfer error");
         } else {
-            cVo.setId(UUID.randomUUID().toString());
-            p.$("id",cVo.getId());
-            handler.putData(type, cVo.getId(), cVo);
-            if(NbdConstant.A8_TO_OTHER.equals(type)){
-                FormTableDefinition ftd = mappingServiceManager.saveFormTableDefinition(p);
-                if(entity.getData() instanceof A82Other){
-                    A82Other a82other =  (A82Other)entity.getData();
-                    a82other.setFtd(ftd);
-                }
+            cVo.setDefaultValueIfNull();
+            p.$("id", cVo.getId());
+            if (NbdConstant.A8_TO_OTHER.equals(type)) {
+                Ftd ftd = mappingServiceManager.saveFormTableDefinition(p);
+                A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity) cVo;
+                a82Otherentity.setFtdId(ftd.getId());
             }
-            if(NbdConstant.OTHER_TO_A8.equals(type)){
-                FormTableDefinition ftd = mappingServiceManager.saveFormTableDefinition(p);
-                if(entity.getData() instanceof Other2A8){
-                    Other2A8 other2A8 =  (Other2A8)entity.getData();
-                    other2A8.setFtd(ftd);
-                }
+            if (NbdConstant.OTHER_TO_A8.equals(type)) {
+                Ftd ftd = mappingServiceManager.saveFormTableDefinition(p);
+                OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) cVo;
+                otherToA8.setFtdId(ftd.getId());
             }
-
+            cVo.saveOrUpdate(dataLink);
             entity.setData(cVo);
         }
 
@@ -127,33 +85,31 @@ public class NbdService {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
         System.out.println("post--->>>>" + p.$("id"));
-        String id = p.$("id");
-        CommonVo cVo = TransferService.getInstance().transData(type, p);
+        Long id = Long.parseLong("" + p.$("id"));
+        CommonPo cVo = transferService.transData(type, p);
         if (id != null) {
             cVo.setId(id);
+        } else {
+            entity.setResult(false);
+            entity.setMsg("id is not presented!");
         }
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
         System.out.println("post--->>>>" + cVo.getId());
-        Class cls = TransferService.getInstance().getTransferClass(type);
-        CommonVo vo2 = (CommonVo) handler.getDataByKeyAndClassType(type, cVo.getId(), cls);
+        Class cls = transferService.getTransferClass(type);
+        CommonPo vo2 = (CommonPo) DataBaseHelper.getDataByTypeAndId(dataLink, cls, id);
+        // CommonPo vo2 = (CommonPo) handler.getDataByKeyAndClassType(type, ""+cVo.getId(), cls);
         System.out.println("post2--->>>>" + vo2.getId());
         //handler.removeDataByKey(type,vo2.getId());
         vo2 = CommonUtils.copyProIfNotNullReturnSource(vo2, cVo);
-        handler.putData(type, vo2.getId(), vo2);
+
         entity.setData(vo2);
-        if(NbdConstant.A8_TO_OTHER.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.updateFormTableDefinition(p);
-            if(entity.getData() instanceof A82Other){
-                A82Other a82other =  (A82Other)entity.getData();
-                a82other.setFtd(ftd);
-            }
+        if (NbdConstant.A8_TO_OTHER.equals(type) || NbdConstant.OTHER_TO_A8.equals(type)) {
+            //CommonParameter ftdP = new CommonParameter();
+            A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity) vo2;
+            p.$("id", a82Otherentity.getFtdId());
+            mappingServiceManager.updateFormTableDefinition(p);
         }
-        if(NbdConstant.OTHER_TO_A8.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.updateFormTableDefinition(p);
-            if(entity.getData() instanceof Other2A8){
-                Other2A8 other2A8 =  (Other2A8)entity.getData();
-                other2A8.setFtd(ftd);
-            }
-        }
+        vo2.saveOrUpdate(dataLink);
         entity.setResult(true);
         return entity;
     }
@@ -167,40 +123,67 @@ public class NbdService {
             entity.setMsg("id not present!");
             return entity;
         }
-        Object data = handler.removeDataByKey(type, id);
-        if (data != null) {
-            entity.setData(data);
+        Class cls = transferService.getTransferClass(type);
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
+
+        CommonPo commonPo = (CommonPo) DataBaseHelper.getDataByTypeAndId(dataLink, cls, Long.parseLong(id));
+
+        //Object data = handler.removeDataByKey(type, id);
+        if (commonPo != null) {
+            entity.setData(commonPo);
             entity.setResult(true);
         } else {
             entity.setResult(false);
             entity.setData(id);
         }
-        if(NbdConstant.A8_TO_OTHER.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.deleteFormTableDefinition(p);
-            if(entity.getData() instanceof A82Other){
-                A82Other a82other =  (A82Other)entity.getData();
-                a82other.setFtd(ftd);
-            }
+        if (NbdConstant.A8_TO_OTHER.equals(type)) {
+            A8ToOtherConfigEntity a8ToOtherConfigEntity = (A8ToOtherConfigEntity) entity.getData();
+            CommonParameter ftdP = new CommonParameter();
+            ftdP.$("id", a8ToOtherConfigEntity.getFtdId());
+            mappingServiceManager.deleteFormTableDefinition(ftdP);
         }
-        if(NbdConstant.OTHER_TO_A8.equals(type)){
-            FormTableDefinition ftd = mappingServiceManager.deleteFormTableDefinition(p);
-            if(entity.getData() instanceof Other2A8){
-                Other2A8 other2A8 =  (Other2A8)entity.getData();
-                other2A8.setFtd(ftd);
-            }
+        if (NbdConstant.OTHER_TO_A8.equals(type)) {
+           // mappingServiceManager.deleteFormTableDefinition(p);
+
+            OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) entity.getData();
+            CommonParameter ftdP = new CommonParameter();
+            ftdP.$("id", otherToA8.getFtdId());
+            mappingServiceManager.deleteFormTableDefinition(ftdP);
+
+
         }
+        commonPo.delete(dataLink);
         return entity;
     }
 
     public NbdResponseEntity getDataList(CommonParameter p) {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
-        Map map = handler.getDataAll(type);
-        List dataList = new ArrayList();
-        if (map == null) {
+        DataLink dataLink = ConfigService.getA8DefaultDataLink();
+        Class cls = transferService.getTransferClass(type);
+        String sql = DataBaseHelper.genSelectAllSQL(cls);
+
+        List dataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dataLink,cls,sql);
+
+
+        if (dataList == null) {
             entity.setItems(new ArrayList());
         } else {
-            dataList.addAll(map.values());
+            for(Object obj:dataList){
+                if(obj instanceof CommonPo){
+                    CommonPo cp = (CommonPo)obj;
+                    cp.setSid(String.valueOf(cp.getId()));
+                }
+                if(obj instanceof A8ToOtherConfigEntity){
+                    A8ToOtherConfigEntity cp = (A8ToOtherConfigEntity)obj;
+                    cp.setsLinkId(String.valueOf(cp.getLinkId()));
+                }
+                if(obj instanceof OtherToA8ConfigEntity){
+                    OtherToA8ConfigEntity cp = (OtherToA8ConfigEntity)obj;
+                    cp.setsLinkId(String.valueOf(cp.getLinkId()));
+                }
+
+            }
             entity.setItems(dataList);
         }
         return entity;
@@ -209,36 +192,37 @@ public class NbdService {
     public NbdResponseEntity getDataById(CommonParameter p) {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
-        String id = p.$("id");
+        String id = String.valueOf(p.$("id"));
         if (CommonUtils.isEmpty(id)) {
             entity.setResult(false);
             entity.setMsg("id not present!");
             return entity;
         }
         Class cls = TransferService.getInstance().getTransferClass(type);
-        Object obj = handler.getDataByKeyAndClassType(type, id, cls);
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        Object obj = DataBaseHelper.getDataByTypeAndId(dl, cls, Long.parseLong(id));
+        if (NbdConstant.A8_TO_OTHER.equals(type)) {
+            A8ToOtherConfigEntity a8toOther = (A8ToOtherConfigEntity) obj;
+            Long ftdId = a8toOther.getFtdId();
+            Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
+            FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
+            a8toOther.setFormTableDefinition(formDef);
+            a8toOther.setsLinkId(String.valueOf(a8toOther.getLinkId()));
+        }
+        if (NbdConstant.OTHER_TO_A8.equals(type)) {
+
+            OtherToA8ConfigEntity otherToA8ConfigEntity = (OtherToA8ConfigEntity) obj;
+            Long ftdId = otherToA8ConfigEntity.getFtdId();
+            Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
+            FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
+            otherToA8ConfigEntity.setFormTableDefinition(formDef);
+            otherToA8ConfigEntity.setsLinkId(String.valueOf(otherToA8ConfigEntity.getLinkId()));
+        }
+        if(obj instanceof CommonPo){
+            CommonPo cp = (CommonPo)obj;
+            cp.setSid(String.valueOf(cp.getId()));
+        }
         entity.setData(obj);
-
-        if(NbdConstant.A8_TO_OTHER.equals(type)){
-            System.out.println("wahahahhahaha");
-             if(entity.getData() instanceof A82Other){
-
-                 A82Other a82other =  (A82Other)entity.getData();
-                 p.$("affairType",a82other.getAffairType());
-                 FormTableDefinition ftd = mappingServiceManager.getFormTableDefinition(p);
-                 a82other.setFtd(ftd);
-            }else{
-                 System.out.println("GG LE");
-           }
-        }
-        if(NbdConstant.OTHER_TO_A8.equals(type)){
-           if(entity.getData() instanceof Other2A8){
-                Other2A8 other2A8 =  (Other2A8)entity.getData();
-                p.$("affairType",other2A8.getAffairType());
-               FormTableDefinition ftd = mappingServiceManager.getFormTableDefinition(p);
-               other2A8.setFtd(ftd);
-            }
-        }
         return entity;
     }
 
@@ -275,15 +259,28 @@ public class NbdService {
 
         return entity;
     }
+
     public NbdResponseEntity getCtpTemplateNumber(CommonParameter p) {
         NbdResponseEntity entity = new NbdResponseEntity();
         try {
-            DataLink dl = ConfigService.getA8DefaultDataLink();
+            String linkId = p.$("linkId");
+            DataLink dl = null;
+            if (!CommonUtils.isEmpty(linkId)) {
+
+                DataLink dfl = ConfigService.getA8DefaultDataLink();
+                dl = DataBaseHelper.getDataByTypeAndId(dfl, DataLink.class, Long.parseLong(linkId));
+                if (dl == null) {
+                    dl = ConfigService.getA8DefaultDataLink();
+                }
+            } else {
+                dl = ConfigService.getA8DefaultDataLink();
+            }
+
             boolean isOk = ConnectionBuilder.testConnection(dl);
             if (isOk) {
                 entity.setResult(true);
-                String sql="select * from ctp_template where state=0 and is_delete=0";
-                List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl,sql);
+                String sql = "select * from ctp_template where state=0 and is_delete=0";
+                List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
                 entity.setItems(items);
                 entity.setMsg("connection is ok");
             } else {
@@ -301,14 +298,14 @@ public class NbdService {
         return entity;
     }
 
-    public NbdResponseEntity getFormByTemplateNumber(CommonParameter p){
+    public NbdResponseEntity getFormByTemplateNumber(CommonParameter p) {
         NbdResponseEntity entity = new NbdResponseEntity();
 
         String affairType = p.$("affairType");
-        String sql = " select * from form_definition where id in (select  CONTENT_TEMPLATE_ID from ctp_content_all where id IN(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
+        String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='" + affairType + "'))";
         DataLink dl = ConfigService.getA8DefaultDataLink();
-        List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl,sql);
-        if(CommonUtils.isEmpty(items)){
+        List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
+        if (CommonUtils.isEmpty(items)) {
             entity.setResult(false);
             entity.setMsg("根据模板编号无法找到对应的表单");
             return entity;
@@ -316,7 +313,7 @@ public class NbdService {
         String xml = String.valueOf(items.get(0).get("field_info"));
         try {
             String jsonString = XmlUtils.xmlString2jsonString(xml);
-            Map data = JSON.parseObject(jsonString,HashMap.class);
+            Map data = JSON.parseObject(jsonString, HashMap.class);
             FormTableDefinition ftd = mappingServiceManager.parseFormTableMapping(data);
             entity.setData(ftd);
             entity.setResult(true);
@@ -329,28 +326,29 @@ public class NbdService {
         }
 
     }
-    public NbdResponseEntity dbConsole(CommonParameter p){
+
+    public NbdResponseEntity dbConsole(CommonParameter p) {
         NbdResponseEntity entity = new NbdResponseEntity();
 
         String linkId = p.$("linkId");
         String sql = p.$("sql");
-        if(CommonUtils.isEmpty(sql)){
+        if (CommonUtils.isEmpty(sql)) {
             entity.setResult(false);
             entity.setData("empty sql or link");
             return entity;
-        }else{
-            if(!sql.toLowerCase().startsWith("select")){
+        } else {
+            if (!sql.toLowerCase().startsWith("select")) {
                 entity.setResult(false);
                 entity.setData("不支持的sql语句，解锁完整版请联系商务");
                 return entity;
             }
         }
 
-        DataLink dl = handler.getDataByKeyAndClassType("data_link",linkId,DataLink.class);
-        List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl,sql);
-        if(CommonUtils.isEmpty(items)){
+        DataLink dl = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), DataLink.class, Long.parseLong(linkId));
+        List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
+        if (CommonUtils.isEmpty(items)) {
             entity.setResult(false);
-            entity.setMsg("根据模板编号无法找到对应的表单");
+            entity.setMsg("无数据");
             return entity;
         }
         try {
@@ -366,7 +364,77 @@ public class NbdService {
 
     }
 
+    public void transA8Output(CtpAffair affair, A8ToOtherConfigEntity a8ToOtherConfigEntity) {
 
+        String expType = a8ToOtherConfigEntity.getExportType();
+
+        if ("mid_table".equals(expType)) {
+
+            Long formRecordId = affair.getFormRecordid();
+            Long ftdId = a8ToOtherConfigEntity.getFtdId();
+            Ftd ftdHandler = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), Ftd.class, ftdId);
+            FormTableDefinition ftd = Ftd.getFormTableDefinition(ftdHandler);
+            // FormTableDefinition ftd =
+            if (ftd == null) {
+                System.out.println("[ERROR]FTD NOT FOUND:" + a8ToOtherConfigEntity.getId());
+                return;
+            }
+            String sql = ftd.genQueryById(formRecordId);
+            System.out.println(sql);
+            try {
+                List<Map> dataMapList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                if (CommonUtils.isEmpty(dataMapList)) {
+                    System.out.println("[ERROR]DATA NOT FOUND:" + formRecordId);
+                    return;
+                }
+
+                List<Map> retList = ftd.filled2ValueMap(ftd.getFormTable(), dataMapList);
+
+                //只会有一条
+                Map masterRecord = retList.get(0);
+                System.out.println("master_record:" + masterRecord);
+                //处理子表
+                List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
+                if (!CommonUtils.isEmpty(slaveTables)) {
+
+                    for (FormTable ft : slaveTables) {
+
+                        String slaveSql = ftd.genSelectSQLByProp(ft, "formmain_id", formRecordId);
+                        List<Map> slaveDataMapList = DataBaseHelper.executeQueryByNativeSQL(slaveSql);
+                        List<Map> slaveRet = ftd.filled2ValueMap(ft, slaveDataMapList);
+                        masterRecord.put(ft.getDisplay(), slaveRet);
+                    }
+                }
+                //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
+                A8ToOther a8OutputVo = new A8ToOther();
+                a8OutputVo.setCreateTime(new Date());
+                a8OutputVo.setData(JSON.toJSONString(masterRecord));
+                a8OutputVo.setId(UUIDLong.longUUID());
+                a8OutputVo.setSourceId(formRecordId);
+                a8OutputVo.setStatus(0);
+                a8OutputVo.setUpdateTime(new Date());
+                a8OutputVo.setName(a8ToOtherConfigEntity.getAffairType() + "_" + ftd.getFormTable().getName());
+                System.out.println("to_be_saved:" + JSON.toJSONString(a8OutputVo));
+                Long linkId = a8ToOtherConfigEntity.getLinkId();
+                DataLink link = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), DataLink.class, linkId);
+                DataBaseHelper.persistCommonVo(link, a8OutputVo);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("[ERROR]EXECUTE ERROR:" + e.getMessage());
+                return;
+            } catch (Error error) {
+                error.printStackTrace();
+            }
+
+
+        } else if("http".equals(expType)){
+           // UIUtils.post()
+
+
+        }
+
+    }
     public List<CtpTemplate> findConfigTemplates(String category,int offset, int limit,Long userId,Long accountId) {
         List<CtpTemplate> templateList = new ArrayList();
 
@@ -408,18 +476,18 @@ public class NbdService {
 
     public void login(Long userId){
 
-       OrgManager om = this.getOrgManager();
-       if(om!=null){
+        OrgManager om = this.getOrgManager();
+        if(om!=null){
 
-           try {
-               V3xOrgMember vm = om.getMemberById(userId);
-               login(vm);
-           } catch (BusinessException e) {
+            try {
+                V3xOrgMember vm = om.getMemberById(userId);
+                login(vm);
+            } catch (BusinessException e) {
 
-           }
-       }
+            }
+        }
 
-        
+
     }
 
 
@@ -535,12 +603,12 @@ public class NbdService {
         p.$("type2", "66we");
         p.$("data_type", "3474646");
 
-        nbds.handler.createNewDataBaseByNameIfNotExist("test");
+        //nbds.handler.createNewDataBaseByNameIfNotExist("test");
 
 
 //        String json = JSON.toJSONString(p);
         // Test t = JSON.parseObject(json,Test.class);
-        Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
-        System.out.println(t.getType());
+        //Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
+        //System.out.println(t.getType());
     }
 }

@@ -14,19 +14,22 @@
     function transLink(linkId) {
         if (DataLink.DL) {
             for (var p = 0; p < DataLink.DL.length; p++) {
-                if (linkId == DataLink.DL[p].id) {
-                    return DataLink.DL[p].extString1;
+                if (linkId == DataLink.DL[p].sid) {
+                    return DataLink.DL[p].name;
                 }
             }
         }
         var logs = $("#a82other_affair_type option");
-        console.log(logs);
+        //console.log(logs);
         return linkId;
     }
 
     function transExportType(exportType) {
         if ("mid_table" == exportType) {
             return "中间表";
+        }
+        if ("http" == exportType) {
+            return "接口发送";
         }
         return exportType;
     }
@@ -54,8 +57,8 @@
             var htmls = [];
             $(items).each(function (index, item) {
                 htmls.push("<tr class='a82other_row' >");
-                htmls.push("<td><input type='checkbox' value='" + item.id + "' class='a82other_selected' /> </td>");
-                htmls.push("<td>" + item.name + "</td>");
+                htmls.push("<td><input type='checkbox' value='" + item.sid + "' class='a82other_selected' /> </td>");
+                htmls.push("<td>" + decodeURIComponent(item.name) + "</td>");
                 htmls.push("<td>" + transLink(item.linkId) + "</td>");
                 htmls.push("<td>" + transExportType(item.exportType) + "</td>");
 
@@ -165,7 +168,7 @@
                     htmls.push("<td>子表(" + slvaeTable.name + ")</td>");
                     htmls.push("<td>" + genIsExport(item.name, item.export) + "</td>");
                     htmls.push("<td>" + genTransferSelect(item.name, item.classname) + "</td>");
-                    htmls.push("<td><input name='" + item.name + "_ws' value='" + item.barcode + "' />< /td>");
+                    htmls.push("<td><input name='" + item.name + "_ws' value='" + item.barcode + "' /></td>");
                     htmls.push("</tr>")
                 });
 
@@ -212,11 +215,18 @@
                                         $(item).val(val_);
                                     }
                                 }
+                                if(name=="id"){
+                                    $(item).val(data["sid"]);
+                                }
                             });
                             $(forms2).each(function (index, item) {
                                 var name = $(item).attr("name");
                                 if (name) {
+
                                     var val_ = data[name];
+                                    if(name=="linkId"){
+                                        val_ = data["sLinkId"];
+                                    }
                                     if (val_ != undefined) {
                                         $(item).val(val_);
                                     }
@@ -299,9 +309,9 @@
                 var tt = item.split("=");
                 data[tt[0]] = tt[1];
             });
-            console.log(data);
+           // console.log(data);
             Dao.add("a82other", data, function (ret) {
-                console.log(ret);
+               // console.log(ret);
                 Dao.getList("a82other", function (data2) {
                     $(".nbd_content").hide();
                     $("#a82other").show();

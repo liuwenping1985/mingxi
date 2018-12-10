@@ -1,12 +1,14 @@
 package com.seeyon.apps.nbd.core.vo;
 
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.ctp.common.po.filemanager.Attachment;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,22 +16,23 @@ import java.util.Map;
  */
 public class CommonParameter extends HashMap{
 
-//    private List<Attachment> attachmentList;
-//
-//    public List<Attachment> getAttachmentList() {
-//        return attachmentList;
-//    }
-//
-//    public void setAttachmentList(List<Attachment> attachmentList) {
-//        this.attachmentList = attachmentList;
-//    }
+    private List<Attachment> attachmentList;
+
+    public List<Attachment> getAttachmentList() {
+        return attachmentList;
+    }
+
+    public void setAttachmentList(List<Attachment> attachmentList) {
+        this.attachmentList = attachmentList;
+    }
 
     public<T> T $(String key){
         return (T)this.get(key);
     }
 
-    public void $(String key,Object val){
+    public CommonParameter $(String key,Object val){
         this.put(key,val);
+        return this;
     }
 
 //PropertyDescriptor

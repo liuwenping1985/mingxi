@@ -1,14 +1,10 @@
 package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.ctp.common.security.MessageEncoder;
-import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
-import com.seeyon.ctp.organization.principal.PrincipalManager;
-import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +15,7 @@ import java.util.Set;
 public class DataBaseHandler {
 
     private static DataBaseHandler dataBaseHandler;
+    private String mode = "";
 
     private static Map dbMap = new HashMap();
 
@@ -31,6 +28,10 @@ public class DataBaseHandler {
     private static Map<String,Map> dbContainerMap = new HashMap<String,Map>();
 
     private  DataBaseHandler(){
+        //重构开始
+        String mode = ConfigService.getPropertyByName("data_store_mode","file");
+        this.mode = mode;
+
         StringBuilder stb = initDataBase(DEFAULT_DB);
         if(!StringUtils.isEmpty(stb.toString())){
             dbMap = JSON.parseObject(stb.toString(),HashMap.class);
@@ -160,8 +161,6 @@ public class DataBaseHandler {
             return null;
         }
         Object obj =  db.get(key);
-        System.out.println("GGGGGGGG");
-        System.out.println(obj);
         String jstring = JSON.toJSONString(obj);
         T t = JSON.parseObject(jstring,cls);
         return t;
@@ -243,18 +242,9 @@ public class DataBaseHandler {
 //                return;
 //            }
 //        }
-        MessageEncoder encode = null;
-        try {
-            encode = new MessageEncoder();
-            String pwdC = encode.encode("aizhi", "123456");
-            System.out.println(pwdC);
+        System.out.println(handler.getDataByKey(dbName,"北京华恒业房地产开发有限公司"));
 
 //
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-
 //        // System.out.println(handler.getDataByKey("123"));
 //        handler.putData(dbName,"test1234",1L);
 //        System.out.println(handler.getDataByKey(dbName,"test123"));

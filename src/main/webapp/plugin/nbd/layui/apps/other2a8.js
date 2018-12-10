@@ -18,10 +18,10 @@
             var htmls = [];
             $(items).each(function (index, item) {
                 htmls.push("<tr class='other2a8_row' >");
-                htmls.push("<td><input type='checkbox' value='" + item.id + "' class='other2a8_selected' /> </td>");
-                htmls.push("<td>" + item.extString1 + "</td>");
+                htmls.push("<td><input type='checkbox' value='" + item.sid + "' class='other2a8_selected' /> </td>");
+                htmls.push("<td>" + item.name + "</td>");
                 htmls.push("<td>" + item.host + "</td>");
-                htmls.push("<td>" + item.extString2 + "</td>");
+                htmls.push("<td>" + item.port + "</td>");
 
                 htmls.push("<td>" + item.dbType + "</td>");
                 htmls.push("<td>" + item.user + "</td>");

@@ -6,6 +6,7 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,7 +88,7 @@ public class CommonUtils {
         return null;
     }
 
-    public static String parseDate(Date date) {
+    public static String formatDate(Date date) {
         try {
             return sdf.format(date);
         } catch (Exception e) {
@@ -238,12 +239,59 @@ public class CommonUtils {
         return (T) JSON.parseObject(JSON.toJSONString(sourceMap),source.getClass());
 
     }
+    public static String getGetMethodName(Field fd){
+        String preFix = "get";
+        if(fd.getType()==Boolean.class){
 
+            preFix = "is";
+
+        }
+        String fdName = fd.getName();
+        String sName =preFix+ fdName.substring(0,1).toUpperCase()+fdName.substring(1);
+
+        return sName;
+
+    }
+    public static final char UNDERLINE='_';
+    public static String camelToUnderline(String param){
+        if (param==null||"".equals(param.trim())){
+            return "";
+        }
+        int len=param.length();
+        StringBuilder sb=new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c=param.charAt(i);
+            if (Character.isUpperCase(c)&&i>0){
+                sb.append(UNDERLINE);
+                sb.append(Character.toLowerCase(c));
+            }else{
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+    public static String underlineToCamel(String param){
+        if (param==null||"".equals(param.trim())){
+            return "";
+        }
+        int len=param.length();
+        StringBuilder sb=new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c=param.charAt(i);
+            if (c==UNDERLINE){
+                if (++i<len){
+                    sb.append(Character.toUpperCase(param.charAt(i)));
+                }
+            }else{
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
     public static void main(String[] args) {
-        String k = "\\ee\\ee\\dd\\ff\\gg";
-        System.out.println(k);
-        k = k.replaceAll("\\\\", ".");
-        System.out.println(k);
+        String k = "show_me_the_money";
+        System.out.println(underlineToCamel(k));
+
 
 
     }

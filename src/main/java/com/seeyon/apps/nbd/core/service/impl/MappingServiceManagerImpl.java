@@ -11,20 +11,22 @@ import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
-import com.seeyon.apps.nbd.vo.DataLink;
+import com.seeyon.apps.nbd.po.DataLink;
+import com.seeyon.apps.nbd.po.Ftd;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * 字段
  * Created by liuwenping on 2018/9/7.
+ * @author liuwenping
  */
 public class MappingServiceManagerImpl implements MappingServiceManager {
 
-    private DataBaseHandler handler = DataBaseHandler.getInstance();
+    //private DataBaseHandler handler = DataBaseHandler.getInstance();
 
     public FormTableDefinition parseFormTableMapping(Map data) {
 
@@ -53,12 +55,12 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         List<FormTable> slaveTableList = new ArrayList<FormTable>();
         for (Map table : tables) {
             String jString = JSON.toJSONString(table);
-            // System.out.println(table);
+
             FormTable ft = JSON.parseObject(jString, FormTable.class);
             Map fieldList = (Map) table.get("FieldList");
             if (!CommonUtils.isEmpty(fieldList)) {
                 List<Map> fields = new ArrayList<Map>();
-                //List<Map> fields = (List<Map>) fieldList.get("Field");
+
                 Object oj = fieldList.get("Field");
                 if (oj instanceof List) {
                     fields.addAll((List) oj);
@@ -86,10 +88,14 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         return definition;
     }
 
-    public FormTableDefinition saveFormTableDefinition(CommonParameter p) {
+    public Ftd saveFormTableDefinition(CommonParameter p) {
         String affairType = p.$("affairType");
-        String linkId = p.$("id");
-        String sql = " select * from form_definition where id in (select  CONTENT_TEMPLATE_ID from ctp_content_all where id IN(select BODY from ctp_template where TEMPLETE_NUMBER='" + affairType + "'))";
+        if(CommonUtils.isEmpty(affairType)){
+            System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
+            return null;
+        }
+        String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
+
         DataLink dl = ConfigService.getA8DefaultDataLink();
         List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
         if (!CommonUtils.isEmpty(items)) {
@@ -105,16 +111,18 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             FormTableDefinition ftd = parseFormTableMapping(data);
             if (ftd != null) {
                 ftd.setAffairType(affairType);
-                ftd.setModes(linkId);
                 FormTable ft = ftd.getFormTable();
                 if (ft != null) {
                     filledTable(ft, p);
-                    String ddbKey = affairType + "_" + linkId;
-                    handler.createNewDataBaseByNameIfNotExist(ddbKey);
-                    handler.putData(ddbKey, affairType, ftd);
-
+                    Ftd ftdHandler = new Ftd();
+                    ftdHandler.setDefaultValueIfNull();
+                    ftdHandler.setName(affairType);
+                    ftdHandler.setData(JSON.toJSONString(ftd));
+                    ftdHandler.saveOrUpdate(dl);
+                    //DataBaseHelper.persistCommonVo(dl,ftdHandler);
+                    return ftdHandler;
                 }
-                return ftd;
+                return null;
             }
 
         }
@@ -162,41 +170,56 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
     }
 
 
-    public FormTableDefinition deleteFormTableDefinition(CommonParameter p) {
-        String affairType = p.$("affairType");
-        String linkId = p.$("id");
-        String dbKey = affairType+"_"+linkId;
-        FormTableDefinition ftd = getFormTableDefinition(p);
-        if(ftd!=null){
-            handler.removeDataByKey(dbKey,affairType);
+    public Ftd deleteFormTableDefinition(CommonParameter p) {
+
+        String ftdId = String.valueOf(p.$("id"));
+        if(CommonUtils.isEmpty(ftdId)){
+            System.out.println("deleteFormTableDefinition: ID NOT PRESENTED");
+            return null;
         }
+        Long fid = Long.parseLong(ftdId);
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,fid);
+        ftd.delete(dl);
+        return ftd;
+
+    }
+
+    public Ftd getFormTableDefinition(CommonParameter p) {
+        String ftdId = p.$("id");
+        if(CommonUtils.isEmpty(ftdId)){
+            System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
+            return null;
+        }
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(ftdId));
         return ftd;
     }
 
-    public FormTableDefinition getFormTableDefinition(CommonParameter p) {
-        String affairType = p.$("affairType");
-        String linkId = p.$("id");
-        String dbKey = affairType+"_"+linkId;
-        System.out.println("------------");
-        System.out.println(dbKey);
-        FormTableDefinition ftd = handler.getDataByKeyAndClassType(dbKey,affairType,FormTableDefinition.class);
-        return ftd;
-    }
 
-
-    public FormTableDefinition updateFormTableDefinition(CommonParameter p) {
-        String affairType = p.$("affairType");
-        String linkId = p.$("id");
-        String dbKey = affairType+"_"+linkId;
-        FormTableDefinition ftd = handler.getDataByKeyAndClassType(dbKey,affairType,FormTableDefinition.class);
-        if(ftd!=null){
+    public Ftd updateFormTableDefinition(CommonParameter p) {
+        //String affairType = p.$("affairType");
+        String id = String.valueOf(p.$("id"));
+        if(CommonUtils.isEmpty(id)){
+            System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
+            return null;
+        }
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(id));
+        if(ftdHolder!=null){
+            FormTableDefinition ftd = Ftd.getFormTableDefinition(ftdHolder);
             FormTable ft = ftd.getFormTable();
             if(ft!=null){
                 filledTable(ft,p);
             }
-            handler.putData(dbKey, affairType, ftd);
-            return ftd;
+            ftdHolder.setData(JSON.toJSONString(ftd));
+            ftdHolder.saveOrUpdate(dl);
+            return ftdHolder;
         }
         return null;
+    }
+
+    public static void main(String[] args){
+        System.out.println(11);
     }
 }
