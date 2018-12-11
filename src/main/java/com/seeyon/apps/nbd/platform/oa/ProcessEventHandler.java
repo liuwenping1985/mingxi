@@ -100,13 +100,9 @@ public class ProcessEventHandler {
             }
             CtpAffair affair = getAffairManager().get(affairId);
             //  handler.get
-            String key =  ConfigService.getPropertyByName("affair_type_template_code","");
-            if(!CommonUtils.isEmpty(key)&&key.contains(code)){
-                RuianExportProcessor p = new RuianExportProcessor();
-                p.process(code,affair);
-            }else{
-                processA82Other("process_end",code,affair);
-            }
+
+            processA82Other("process_end",code,affair);
+
 
 
         } catch (BusinessException e) {

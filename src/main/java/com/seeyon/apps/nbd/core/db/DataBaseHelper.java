@@ -47,21 +47,43 @@ public final class DataBaseHelper {
         try {
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql);
-            System.out.println(fields);
-            System.out.println(vals);
+            System.out.println(fields.size());
+            System.out.println(vals.size());
             for(int i =0;i<fields.size();i++){
 
                 Field f =fields.get(i);
+                Class cls = f.getType();
                 Object val = vals.get(i);
-
+                System.out.println("--------------------");
                 ClobText t =  f.getAnnotation(ClobText.class);
                 if(t!=null){
                     Clob clob = conn.createClob();
-                    clob.setString(0,String.valueOf(val));
-                    pst.setClob(i,clob);
+                    clob.setString(1,String.valueOf(val));
+                    pst.setClob(i+1,clob);
                 }else{
                     System.out.println(i+"values:"+val);
-                    pst.setObject(i,val);
+                    if(cls == Date.class||cls == Timestamp.class){
+                        if(val instanceof Date) {
+                            Timestamp timestamp = new Timestamp(((Date)val).getTime());
+                            pst.setObject(i+1,timestamp);
+                        }else
+                        if(val instanceof String){
+                            try {
+                                Date dt = new Date(String.valueOf(val));
+                                pst.setObject(i+1,new Timestamp(dt.getTime()));
+                            }catch(Exception e){
+                                pst.setObject(i+1,new Timestamp(new Date().getTime()));
+                            }
+
+                        }else{
+                            pst.setObject(i+1,new Timestamp(new Date().getTime()));
+                        }
+
+
+                    }else{
+                        pst.setObject(i+1,val);
+                    }
+
                 }
 
             }
@@ -72,6 +94,8 @@ public final class DataBaseHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
+        }catch(Error e){
             e.printStackTrace();
         } finally {
             if (pst != null) {
@@ -149,7 +173,7 @@ public final class DataBaseHelper {
             }
 
            // map.putAll(extendMap);
-           // System.out.println(extendMap);
+            System.out.println(extendMap);
             String json = JSON.toJSONString(extendMap);
             //System.out.println(json);
             try {
@@ -409,7 +433,7 @@ public final class DataBaseHelper {
                     }
 
                     System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString());
+                    executeUpdateBySQLAndLink(dl, stb.toString(),insFields,values);
                 }else{
                     stb.append("UPDATE " + tbName);
                     stb.append(" SET ");
@@ -425,7 +449,7 @@ public final class DataBaseHelper {
                     }
 
                     System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString(),insFields,values);
+                    executeUpdateBySQLAndLink(dl, stb.toString());
 
                 }
 
@@ -524,7 +548,7 @@ public final class DataBaseHelper {
                 continue;
             }
             if("1".equals(dl.getDbType())){
-                updateData.add("\""+fieldNames.get(i) + "\"=" + "?");
+                updateData.add(fieldNames.get(i) + "=" + "?");
             }else{
                 updateData.add(fieldNames.get(i) + "=" + trans2SqlString(dl,type, val,false));
             }
@@ -629,10 +653,11 @@ public final class DataBaseHelper {
 
                     for (int j = 1; j <= columns; ++j) {
                         String columnName = lowercaseKey ? rsmd.getColumnLabel(j).toLowerCase() : rsmd.getColumnLabel(j);
+                        System.out.println(columnName+":"+rsmd.getColumnType(j));
                         Object value;
                         if (rsmd.getColumnType(j) == 93) {
                             value = rs.getTimestamp(columnName);
-                        } else if (rsmd.getColumnType(j) == 2005) {
+                        } else if (rsmd.getColumnType(j) == 2005||rsmd.getColumnType(j) == 2011) {
                             value = extractClobString(rs, columnName);
                         } else {
                             value = rs.getObject(columnName);
