@@ -5,14 +5,14 @@ import java.util.List;
 /**
  * Created by liuwenping on 2018/8/20.
  */
-public class NbdResponseEntity {
+public class NbdResponseEntity<T> {
 
     private boolean result=false;
 
     private String msg="";
     private List items;
 
-    private Object data;
+    private T data;
 
     public boolean isResult() {
         return result;
@@ -30,11 +30,11 @@ public class NbdResponseEntity {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 

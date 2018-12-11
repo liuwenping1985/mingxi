@@ -281,12 +281,17 @@
                         <select name="exportType" lay-verify="required">
                             <option value="mid_table">中间表</option>
                             <option value="http">接口传输</option>
+                            <option value="custom">自定义</option>
                             <!-- <option value="api">接口传输</option>
                                 <option value="ws">WebService服务</option> -->
 
                         </select>
                     </div>
-                    <div class="layui-form-mid layui-word-aux">中间表:A8_TO_OTHER</div>
+                    <div class="layui-form-mid layui-word-aux">
+                        <input type="text" name="exportUrl" required lay-verify="required" placeholder="导出处理配置"
+                                                                       autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">默认中间表:A8_TO_OTHER</div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">触发方式</label>

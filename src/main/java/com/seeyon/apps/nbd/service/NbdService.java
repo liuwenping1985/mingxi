@@ -8,6 +8,7 @@ import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.service.CustomExportProcess;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -41,24 +42,27 @@ public class NbdService {
     private TransferService transferService = TransferService.getInstance();
     private CollaborationTemplateManager collaborationTemplateManager;
 
-    private CollaborationTemplateManager getCollaborationTemplateManager(){
-        if(collaborationTemplateManager == null){
+    private CollaborationTemplateManager getCollaborationTemplateManager() {
+        if (collaborationTemplateManager == null) {
             collaborationTemplateManager = (CollaborationTemplateManager) AppContext.getBean("collaborationTemplateManager");
         }
         return collaborationTemplateManager;
     }
+
     private LoginControlImpl loginControl;
 
     private HttpServletRequest request;
     private HttpServletResponse response;
 
     private OrgManager orgManager;
-    private OrgManager getOrgManager(){
-        if(orgManager == null){
-            orgManager = (OrgManager)AppContext.getBean("orgManager");
+
+    private OrgManager getOrgManager() {
+        if (orgManager == null) {
+            orgManager = (OrgManager) AppContext.getBean("orgManager");
         }
         return orgManager;
     }
+
     public void setRequest(HttpServletRequest request) {
         this.request = request;
     }
@@ -67,18 +71,18 @@ public class NbdService {
         this.response = response;
     }
 
-    private LoginControlImpl getLoginControl(){
-        if(loginControl == null){
-            loginControl = (LoginControlImpl)AppContext.getBean("loginControl");
-            if(loginControl == null){
-                loginControl = (LoginControlImpl)AppContext.getBean("loginControlImpl");
+    private LoginControlImpl getLoginControl() {
+        if (loginControl == null) {
+            loginControl = (LoginControlImpl) AppContext.getBean("loginControl");
+            if (loginControl == null) {
+                loginControl = (LoginControlImpl) AppContext.getBean("loginControlImpl");
             }
         }
         return loginControl;
     }
 
     public NbdResponseEntity postAdd(CommonParameter p) {
-        System.out.println(p);
+        //System.out.println(p);
         NbdResponseEntity entity = preProcess(p);
         if (!entity.isResult()) {
             return entity;
@@ -172,7 +176,7 @@ public class NbdService {
             mappingServiceManager.deleteFormTableDefinition(ftdP);
         }
         if (NbdConstant.OTHER_TO_A8.equals(type)) {
-           // mappingServiceManager.deleteFormTableDefinition(p);
+            // mappingServiceManager.deleteFormTableDefinition(p);
 
             OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) entity.getData();
             CommonParameter ftdP = new CommonParameter();
@@ -192,23 +196,23 @@ public class NbdService {
         Class cls = transferService.getTransferClass(type);
         String sql = DataBaseHelper.genSelectAllSQL(cls);
 
-        List dataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dataLink,cls,sql);
+        List dataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dataLink, cls, sql);
 
 
         if (dataList == null) {
             entity.setItems(new ArrayList());
         } else {
-            for(Object obj:dataList){
-                if(obj instanceof CommonPo){
-                    CommonPo cp = (CommonPo)obj;
+            for (Object obj : dataList) {
+                if (obj instanceof CommonPo) {
+                    CommonPo cp = (CommonPo) obj;
                     cp.setSid(String.valueOf(cp.getId()));
                 }
-                if(obj instanceof A8ToOtherConfigEntity){
-                    A8ToOtherConfigEntity cp = (A8ToOtherConfigEntity)obj;
+                if (obj instanceof A8ToOtherConfigEntity) {
+                    A8ToOtherConfigEntity cp = (A8ToOtherConfigEntity) obj;
                     cp.setsLinkId(String.valueOf(cp.getLinkId()));
                 }
-                if(obj instanceof OtherToA8ConfigEntity){
-                    OtherToA8ConfigEntity cp = (OtherToA8ConfigEntity)obj;
+                if (obj instanceof OtherToA8ConfigEntity) {
+                    OtherToA8ConfigEntity cp = (OtherToA8ConfigEntity) obj;
                     cp.setsLinkId(String.valueOf(cp.getLinkId()));
                 }
 
@@ -247,8 +251,8 @@ public class NbdService {
             otherToA8ConfigEntity.setFormTableDefinition(formDef);
             otherToA8ConfigEntity.setsLinkId(String.valueOf(otherToA8ConfigEntity.getLinkId()));
         }
-        if(obj instanceof CommonPo){
-            CommonPo cp = (CommonPo)obj;
+        if (obj instanceof CommonPo) {
+            CommonPo cp = (CommonPo) obj;
             cp.setSid(String.valueOf(cp.getId()));
         }
         entity.setData(obj);
@@ -304,11 +308,10 @@ public class NbdService {
             } else {
                 dl = ConfigService.getA8DefaultDataLink();
             }
-
             boolean isOk = ConnectionBuilder.testConnection(dl);
             if (isOk) {
                 entity.setResult(true);
-                String sql = "select * from ctp_template where state=0 and is_delete=0";
+                String sql = "select * from "+getTableName("CTP_TEMPLATE")+" where state=0 and is_delete=0";
                 List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
                 entity.setItems(items);
                 entity.setMsg("connection is ok");
@@ -326,14 +329,34 @@ public class NbdService {
 
         return entity;
     }
+    private String getTableName(String tableName){
+
+        String dbType = ConfigService.getPropertyByName("local_db_type","0");
+        if("1".equals(dbType)){
+
+            return "\""+tableName.toUpperCase()+"\"";
+
+        }else{
+
+            return tableName.toUpperCase();
+        }
+    }
 
     public NbdResponseEntity getFormByTemplateNumber(CommonParameter p) {
         NbdResponseEntity entity = new NbdResponseEntity();
+        //String tablePrefix = ConfigService.getPropertyByName("local_db_prefix","");
+      //  String dbType = ConfigService.getPropertyByName("local_db_type","0");
 
         String affairType = p.$("affairType");
-        String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='" + affairType + "'))";
-        DataLink dl = ConfigService.getA8DefaultDataLink();
-        List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
+       // DataLink dl = ConfigService.getA8DefaultDataLink();
+        String sql = " select * from "+getTableName("FORM_DEFINITION")+" where ID = (select  CONTENT_TEMPLATE_ID from "+getTableName("CTP_CONTENT_ALL")+" where ID =(select BODY from "+getTableName("CTP_TEMPLATE")+" where TEMPLETE_NUMBER='" + affairType + "'))";
+
+        List<Map> items = null;
+        try {
+            items = DataBaseHelper.executeQueryByNativeSQL(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (CommonUtils.isEmpty(items)) {
             entity.setResult(false);
             entity.setMsg("根据模板编号无法找到对应的表单");
@@ -396,73 +419,107 @@ public class NbdService {
     public void transA8Output(CtpAffair affair, A8ToOtherConfigEntity a8ToOtherConfigEntity) {
 
         String expType = a8ToOtherConfigEntity.getExportType();
-
+        Long formRecordId = affair.getFormRecordid();
+        Map masterRecord = null;
         if ("mid_table".equals(expType)) {
+            try{
+            masterRecord = exportMasterData(formRecordId,a8ToOtherConfigEntity,false);
+            //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
+            A8ToOther a8OutputVo = new A8ToOther();
+            a8OutputVo.setCreateTime(new Date());
+            a8OutputVo.setData(JSON.toJSONString(masterRecord));
+            a8OutputVo.setId(UUIDLong.longUUID());
+            a8OutputVo.setSourceId(formRecordId);
+            a8OutputVo.setStatus(0);
+            a8OutputVo.setUpdateTime(new Date());
+            a8OutputVo.setName(a8ToOtherConfigEntity.getAffairType());
+            System.out.println("to_be_saved:" + JSON.toJSONString(a8OutputVo));
+            Long linkId = a8ToOtherConfigEntity.getLinkId();
+            DataLink link = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), DataLink.class, linkId);
+            DataBaseHelper.persistCommonVo(link, a8OutputVo);
 
-            Long formRecordId = affair.getFormRecordid();
-            Long ftdId = a8ToOtherConfigEntity.getFtdId();
-            Ftd ftdHandler = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), Ftd.class, ftdId);
-            FormTableDefinition ftd = Ftd.getFormTableDefinition(ftdHandler);
-            // FormTableDefinition ftd =
-            if (ftd == null) {
-                System.out.println("[ERROR]FTD NOT FOUND:" + a8ToOtherConfigEntity.getId());
-                return;
-            }
-            String sql = ftd.genQueryById(formRecordId);
-            System.out.println(sql);
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println("[ERROR]EXECUTE ERROR:" + e.getMessage());
+            return;
+        } catch(Error error){
+            error.printStackTrace();
+        }
+
+
+    } else if("http".equals(expType)){
+        // UIUtils.post()
+
+
+    } else if("custom".equals(expType)){
+
             try {
-                List<Map> dataMapList = DataBaseHelper.executeQueryByNativeSQL(sql);
-                if (CommonUtils.isEmpty(dataMapList)) {
-                    System.out.println("[ERROR]DATA NOT FOUND:" + formRecordId);
-                    return;
-                }
-
-                List<Map> retList = ftd.filled2ValueMap(ftd.getFormTable(), dataMapList);
-
-                //只会有一条
-                Map masterRecord = retList.get(0);
-                System.out.println("master_record:" + masterRecord);
-                //处理子表
-                List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
-                if (!CommonUtils.isEmpty(slaveTables)) {
-
-                    for (FormTable ft : slaveTables) {
-
-                        String slaveSql = ftd.genSelectSQLByProp(ft, "formmain_id", formRecordId);
-                        List<Map> slaveDataMapList = DataBaseHelper.executeQueryByNativeSQL(slaveSql);
-                        List<Map> slaveRet = ftd.filled2ValueMap(ft, slaveDataMapList);
-                        masterRecord.put(ft.getDisplay(), slaveRet);
+                Map data =exportMasterData(formRecordId,a8ToOtherConfigEntity,true);
+                String exportUrl = a8ToOtherConfigEntity.getExportUrl();
+                if(!CommonUtils.isEmpty(exportUrl)){
+                    Class cls = Class.forName(exportUrl);
+                    Object obj = cls.newInstance();
+                    if(obj instanceof CustomExportProcess){
+                        CustomExportProcess cep = (CustomExportProcess)obj;
+                        cep.process(a8ToOtherConfigEntity,data);
                     }
                 }
-                //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
-                A8ToOther a8OutputVo = new A8ToOther();
-                a8OutputVo.setCreateTime(new Date());
-                a8OutputVo.setData(JSON.toJSONString(masterRecord));
-                a8OutputVo.setId(UUIDLong.longUUID());
-                a8OutputVo.setSourceId(formRecordId);
-                a8OutputVo.setStatus(0);
-                a8OutputVo.setUpdateTime(new Date());
-                a8OutputVo.setName(a8ToOtherConfigEntity.getAffairType() + "_" + ftd.getFormTable().getName());
-                System.out.println("to_be_saved:" + JSON.toJSONString(a8OutputVo));
-                Long linkId = a8ToOtherConfigEntity.getLinkId();
-                DataLink link = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), DataLink.class, linkId);
-                DataBaseHelper.persistCommonVo(link, a8OutputVo);
-
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("[ERROR]EXECUTE ERROR:" + e.getMessage());
-                return;
-            } catch (Error error) {
-                error.printStackTrace();
             }
-
-
-        } else if("http".equals(expType)){
-           // UIUtils.post()
-
 
         }
 
+}
+    public Map exportMasterData(Long formRecordId, FormTableDefinition ftd,boolean usingName) throws Exception {
+        Map masterRecord = new HashMap();
+        String sql = ftd.genQueryById(formRecordId);
+        System.out.println(sql);
+
+        List<Map> dataMapList = DataBaseHelper.executeQueryByNativeSQL(sql);
+        if (CommonUtils.isEmpty(dataMapList)) {
+            System.out.println("[ERROR]DATA NOT FOUND:" + formRecordId);
+            return masterRecord;
+        }
+
+        List<Map> retList = ftd.filled2ValueMap(ftd.getFormTable(), dataMapList,!usingName);
+
+        //只会有一条
+        masterRecord = retList.get(0);
+        System.out.println("master_record:" + masterRecord);
+        //处理子表
+        List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
+        if (!CommonUtils.isEmpty(slaveTables)) {
+
+            for (FormTable ft : slaveTables) {
+
+                String slaveSql = ftd.genSelectSQLByProp(ft, "formmain_id", formRecordId);
+                List<Map> slaveDataMapList = DataBaseHelper.executeQueryByNativeSQL(slaveSql);
+                List<Map> slaveRet = ftd.filled2ValueMap(ft, slaveDataMapList,!usingName);
+                if(usingName){
+                    masterRecord.put(ft.getName(), slaveRet);
+                }else{
+                    masterRecord.put(ft.getDisplay(), slaveRet);
+                }
+
+            }
+        }
+
+        return masterRecord;
+
+    }
+    private Map exportMasterData(Long formRecordId, A8ToOtherConfigEntity a8ToOtherConfigEntity,boolean usingName) throws Exception {
+        Map masterRecord = new HashMap();
+
+        Long ftdId = a8ToOtherConfigEntity.getFtdId();
+        Ftd ftdHandler = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), Ftd.class, ftdId);
+        FormTableDefinition ftd = Ftd.getFormTableDefinition(ftdHandler);
+        // FormTableDefinition ftd =
+        if (ftd == null) {
+            System.out.println("[ERROR]FTD NOT FOUND:" + a8ToOtherConfigEntity.getId());
+            return masterRecord;
+        }
+        return exportMasterData(formRecordId,ftd,usingName);
     }
 
     public static void main(String[] args) {

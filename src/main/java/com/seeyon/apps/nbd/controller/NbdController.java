@@ -28,135 +28,153 @@ import java.util.Collection;
  */
 
 
-public class NbdController extends BaseController{
+public class NbdController extends BaseController {
     private PluginServiceManager nbdPluginServiceManager;
     private FileManager fileManager;
     private NbdService nbdService = new NbdService();
 
-    private PluginServiceManager getNbdPluginServiceManager(){
+    private PluginServiceManager getNbdPluginServiceManager() {
 
-        if(nbdPluginServiceManager == null){
+        if (nbdPluginServiceManager == null) {
             try {
-                nbdPluginServiceManager =  PluginServiceManagerImpl.getInstance();
-            }catch(Exception e){
+                nbdPluginServiceManager = PluginServiceManagerImpl.getInstance();
+            } catch (Exception e) {
                 e.printStackTrace();
-            }catch(Error error){
+            } catch (Error error) {
                 error.printStackTrace();
             }
         }
         return nbdPluginServiceManager;
     }
-    private FileManager getFileManager(){
-        if(fileManager ==null){
-            fileManager = (FileManager)AppContext.getBean("fileManager");
+
+    private FileManager getFileManager() {
+        if (fileManager == null) {
+            fileManager = (FileManager) AppContext.getBean("fileManager");
         }
         Collection coll;
         return fileManager;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView getDataById(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getDataById(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
-        entity =  nbdService.getDataById(p);
-        UIUtils.responseJSON(entity,response);
+        entity = nbdService.getDataById(p);
+        UIUtils.responseJSON(entity, response);
         return null;
 
     }
+
     @NeedlessCheckLogin
-    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
-        if(page == null){
+        if (page == null) {
             page = "index";
         }
 
-        ModelAndView mav = new ModelAndView("apps/nbd/"+page);
+        ModelAndView mav = new ModelAndView("apps/nbd/" + page);
 
         return mav;
 
     }
+
     @NeedlessCheckLogin
-    public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = null;
-        entity =  nbdService.getDataList(p);
-        UIUtils.responseJSON(entity,response);
+        entity = nbdService.getDataList(p);
+        UIUtils.responseJSON(entity, response);
         return null;
 
     }
-    @NeedlessCheckLogin
-    public ModelAndView postAdd(HttpServletRequest request, HttpServletResponse response){
-        CommonParameter p = CommonParameter.parseParameter(request);
-        NbdResponseEntity entity = null;
-        ValidateResult vr = ValidatorService.validate(p);
-        if(!vr.isResult()){
-            entity = new NbdResponseEntity();
-            entity.setResult(false);
-            entity.setMsg(vr.getMsg());
 
-        }else{
-            entity = nbdService.postAdd(p);
+    @NeedlessCheckLogin
+    public ModelAndView postAdd(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            CommonParameter p = CommonParameter.parseParameter(request);
+            NbdResponseEntity entity = null;
+            ValidateResult vr = ValidatorService.validate(p);
+            if (!vr.isResult()) {
+                entity = new NbdResponseEntity();
+                entity.setResult(false);
+                entity.setMsg(vr.getMsg());
+
+            } else {
+
+                entity = nbdService.postAdd(p);
+
+            }
+            UIUtils.responseJSON(entity, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        UIUtils.responseJSON(entity,response);
-
         return null;
 
     }
+
     @NeedlessCheckLogin
-    public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView postUpdate(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         try {
             NbdResponseEntity entity = nbdService.postUpdate(p);
-            UIUtils.responseJSON(entity,response);
-        }catch(Exception e){
+            UIUtils.responseJSON(entity, response);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-
         return null;
 
     }
+
     @NeedlessCheckLogin
-    public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
-        NbdResponseEntity entity = nbdService.postDelete(p);
-        UIUtils.responseJSON(entity,response);
+        try {
+            NbdResponseEntity entity = nbdService.postDelete(p);
+            UIUtils.responseJSON(entity, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
 
     }
 
     @NeedlessCheckLogin
-    public ModelAndView testConnection(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView testConnection(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.testConnection(p);
-        UIUtils.responseJSON(entity,response);
+        UIUtils.responseJSON(entity, response);
         return null;
 
     }
+
     @NeedlessCheckLogin
-    public ModelAndView getTemplateNumber(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getTemplateNumber(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.getCtpTemplateNumber(p);
-        UIUtils.responseJSON(entity,response);
+        UIUtils.responseJSON(entity, response);
         return null;
     }
+
     @NeedlessCheckLogin
-    public ModelAndView getFormByTemplateNumber(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getFormByTemplateNumber(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.getFormByTemplateNumber(p);
-        UIUtils.responseJSON(entity,response);
+        UIUtils.responseJSON(entity, response);
         return null;
     }
 
     //testConnection
     @NeedlessCheckLogin
-    public ModelAndView dbConsole(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView dbConsole(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         NbdResponseEntity entity = nbdService.dbConsole(p);
-        UIUtils.responseJSON(entity,response);
+        UIUtils.responseJSON(entity, response);
         return null;
     }
+
     @NeedlessCheckLogin
     public ModelAndView download(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -167,7 +185,7 @@ public class NbdController extends BaseController{
 
         }
         InputStream fis = null;
-        OutputStream toClient=null;
+        OutputStream toClient = null;
         try {
             V3XFile v3xfile = getFileManager().getV3XFile(Long.parseLong(fileId));
             File file = getFileManager().getFile(Long.parseLong(fileId), v3xfile.getCreateDate());
@@ -177,7 +195,7 @@ public class NbdController extends BaseController{
             // 取得文件的后缀名。
             //String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
             // 以流的形式下载文件。
-             fis = new BufferedInputStream(new FileInputStream(file));
+            fis = new BufferedInputStream(new FileInputStream(file));
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
 
@@ -186,24 +204,24 @@ public class NbdController extends BaseController{
             // 设置response的Header
             response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
             response.addHeader("Content-Length", "" + file.length());
-             toClient = new BufferedOutputStream(response.getOutputStream());
+            toClient = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/octet-stream");
             toClient.write(buffer);
             toClient.flush();
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            if(fis!=null){
-                try{
+        } finally {
+            if (fis != null) {
+                try {
                     fis.close();
-                }catch(Exception e){
+                } catch (Exception e) {
 
                 }
             }
-            if(toClient!=null){
-                try{
+            if (toClient != null) {
+                try {
                     toClient.close();
-                }catch(Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -216,9 +234,9 @@ public class NbdController extends BaseController{
     }
 
 
-public static void main(String[]args){
+    public static void main(String[] args) {
 
         System.out.println("TEST1");
-}
+    }
 
 }

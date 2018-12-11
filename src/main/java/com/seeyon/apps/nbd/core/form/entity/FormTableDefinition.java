@@ -104,7 +104,7 @@ public class FormTableDefinition {
         return dataList;
 
     }
-    public List<Map> filled2ValueMap(FormTable ft,List<Map> values) {
+    public List<Map> filled2ValueMap(FormTable ft,List<Map> values,boolean usingDisplay) {
         TransferService tfs = TransferService.getInstance();
         List<FormField> formFields = ft.getFormFieldList();
         System.out.println("formFields:"+ JSON.toJSONString(formFields));
@@ -128,7 +128,12 @@ public class FormTableDefinition {
                 }
                 String fExportName = ff.getBarcode();
                 if(CommonUtils.isEmpty(fExportName)){
-                    fExportName = ff.getDisplay();
+                    if(!usingDisplay){
+                        fExportName = ff.getName();
+                    }else{
+                        fExportName = ff.getDisplay();
+                    }
+
                 }
                 data.put(fExportName,tfs.transForm2Other(ff,objs.get(ff.getName())));
             }

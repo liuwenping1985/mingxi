@@ -268,7 +268,7 @@ public class CommonUtils {
                 sb.append(c);
             }
         }
-        return sb.toString();
+        return sb.toString().toLowerCase();
     }
     public static String underlineToCamel(String param){
         if (param==null||"".equals(param.trim())){

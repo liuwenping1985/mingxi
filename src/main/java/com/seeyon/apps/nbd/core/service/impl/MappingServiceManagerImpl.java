@@ -87,15 +87,26 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         }
         return definition;
     }
+    private String getTableName(String tableName){
 
+        String dbType = ConfigService.getPropertyByName("local_db_type","0");
+        if("1".equals(dbType)){
+
+            return "\""+tableName.toUpperCase()+"\"";
+
+        }else{
+
+            return tableName.toUpperCase();
+        }
+    }
     public Ftd saveFormTableDefinition(CommonParameter p) {
         String affairType = p.$("affairType");
         if(CommonUtils.isEmpty(affairType)){
             System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
             return null;
         }
-        String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
-
+       // String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
+        String sql = " select * from "+getTableName("FORM_DEFINITION")+" where ID = (select  CONTENT_TEMPLATE_ID from "+getTableName("CTP_CONTENT_ALL")+" where ID =(select BODY from "+getTableName("CTP_TEMPLATE")+" where TEMPLETE_NUMBER='" + affairType + "'))";
         DataLink dl = ConfigService.getA8DefaultDataLink();
         List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
         if (!CommonUtils.isEmpty(items)) {

@@ -3,9 +3,11 @@ package com.seeyon.apps.nbd.platform.oa;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.nbd.constant.NbdConstant;
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
+import com.seeyon.apps.nbd.core.service.impl.RuianExportProcessor;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
@@ -97,9 +99,15 @@ public class ProcessEventHandler {
                 return;
             }
             CtpAffair affair = getAffairManager().get(affairId);
-          //  handler.get
+            //  handler.get
+            String key =  ConfigService.getPropertyByName("affair_type_template_code","");
+            if(!CommonUtils.isEmpty(key)&&key.contains(code)){
+                RuianExportProcessor p = new RuianExportProcessor();
+                p.process(code,affair);
+            }else{
+                processA82Other("process_end",code,affair);
+            }
 
-            processA82Other("process_end",code,affair);
 
         } catch (BusinessException e) {
             e.printStackTrace();

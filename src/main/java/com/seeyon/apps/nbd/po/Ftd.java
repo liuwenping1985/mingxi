@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.po;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.annotation.ClobText;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 
@@ -9,6 +10,7 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
  */
 public class Ftd extends CommonPo {
 
+    @ClobText
     private String data;
 
     public String getData() {

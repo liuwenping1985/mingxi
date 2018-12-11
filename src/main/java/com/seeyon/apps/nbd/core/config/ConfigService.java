@@ -61,7 +61,7 @@ public class ConfigService {
     }
 
     public static void main(String[] args){
-       String key =  ConfigService.getPropertyByName("callback.uri","");
+       String key =  ConfigService.getPropertyByName("affair_type_template_code","");
        System.out.println(key);
     }
 
