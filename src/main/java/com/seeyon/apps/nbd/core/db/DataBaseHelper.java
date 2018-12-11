@@ -39,6 +39,45 @@ public final class DataBaseHelper {
         return new ArrayList<Map>();
 
     }
+    public static Integer executeUpdateByNativeSQLAndLink(DataLink link,String sql,List vals) throws Exception {
+
+        Connection conn = null;
+        PreparedStatement pst = null;
+        try{
+            conn = ConnectionBuilder.openConnection(link);
+            pst = conn.prepareStatement(sql);
+            for(int i=1;i<=vals.size();i++){
+                pst.setObject(i,vals.get(i-1));
+            }
+            return pst.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }finally {
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                    ;
+                } catch (Exception e) {
+
+                } finally {
+
+                }
+
+            }
+        }
+        return 0;
+
+
+    }
 
     public static Integer executeUpdateBySQLAndLink(DataLink link, String sql,List<Field> fields,List vals){
         Connection conn = null;
@@ -47,8 +86,7 @@ public final class DataBaseHelper {
         try {
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql);
-            System.out.println(fields.size());
-            System.out.println(vals.size());
+
             for(int i =0;i<fields.size();i++){
 
                 Field f =fields.get(i);
@@ -61,7 +99,7 @@ public final class DataBaseHelper {
                     clob.setString(1,String.valueOf(val));
                     pst.setClob(i+1,clob);
                 }else{
-                    System.out.println(i+"values:"+val);
+
                     if(cls == Date.class||cls == Timestamp.class){
                         if(val instanceof Date) {
                             Timestamp timestamp = new Timestamp(((Date)val).getTime());
@@ -173,7 +211,7 @@ public final class DataBaseHelper {
             }
 
            // map.putAll(extendMap);
-            System.out.println(extendMap);
+           // System.out.println(extendMap);
             String json = JSON.toJSONString(extendMap);
             //System.out.println(json);
             try {
@@ -293,7 +331,7 @@ public final class DataBaseHelper {
             dbType = "sqlserver";
         }
         tbName = tbName.replaceAll("\"","");
-        System.out.println(tbName);
+       // System.out.println(tbName);
         String path = ScriptHook.class.getResource(dbType + File.separator + tbName + ".sql").getPath();
 
         File f = new File(path);
@@ -399,7 +437,7 @@ public final class DataBaseHelper {
                      countSql = "select count(\"id\") as c_count from " + tbName + " where \"id\"=" + id;
                 }
                 List<Map> existData = executeQueryBySQLAndLink(dl, countSql);
-                System.out.println(existData);
+                //System.out.println(existData);
                 if (!CommonUtils.isEmpty(existData)) {
 
                     Object count = existData.get(0).get("c_count");
@@ -621,7 +659,7 @@ public final class DataBaseHelper {
 
     }
 
-    private static String join(List list, String token) {
+    public static String join(List list, String token) {
         StringBuilder stb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             if (i == 0) {
@@ -653,7 +691,7 @@ public final class DataBaseHelper {
 
                     for (int j = 1; j <= columns; ++j) {
                         String columnName = lowercaseKey ? rsmd.getColumnLabel(j).toLowerCase() : rsmd.getColumnLabel(j);
-                        System.out.println(columnName+":"+rsmd.getColumnType(j));
+                        //System.out.println(columnName+":"+rsmd.getColumnType(j));
                         Object value;
                         if (rsmd.getColumnType(j) == 93) {
                             value = rs.getTimestamp(columnName);
