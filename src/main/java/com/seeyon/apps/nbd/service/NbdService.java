@@ -37,6 +37,8 @@ public class NbdService {
     private TransferService transferService = TransferService.getInstance();
     private CollaborationTemplateManager collaborationTemplateManager;
 
+
+
     private CollaborationTemplateManager getCollaborationTemplateManager() {
         if (collaborationTemplateManager == null) {
             collaborationTemplateManager = (CollaborationTemplateManager) AppContext.getBean("collaborationTemplateManager");
@@ -74,6 +76,16 @@ public class NbdService {
             }
         }
         return loginControl;
+    }
+
+    public NbdResponseEntity lanchForm(CommonParameter p){
+        NbdResponseEntity entity = new NbdResponseEntity();
+        entity.setResult(false);
+        entity.setMsg("发起流程失败");
+        entity.setData(p);
+        return entity;
+
+
     }
 
     public NbdResponseEntity postAdd(CommonParameter p) {

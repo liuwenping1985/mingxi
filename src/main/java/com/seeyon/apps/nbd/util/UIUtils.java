@@ -82,7 +82,7 @@ public class UIUtils {
 
         // 检验返回码
         int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println("statusCode:"+statusCode);
+        //System.out.println("statusCode:"+statusCode);
         if(statusCode == HttpStatus.SC_OK){
             String str = EntityUtils.toString(response.getEntity(),"UTF-8");
             // System.out.println("content:"+str);
@@ -90,7 +90,7 @@ public class UIUtils {
 
         }else {
             String str = EntityUtils.toString(response.getEntity(),"UTF-8");
-            System.out.println("content:"+str);
+            //System.out.println("content:"+str);
             return  JSON.parseObject(str,HashMap.class);
 
         }

@@ -3,18 +3,22 @@
 
 <beans default-autowire="byName">
 
+	<bean name="nbdService" class="com.seeyon.apps.nbd.service.NbdService">
+
+	</bean>
 
 	<bean name="processEventHandler" class="com.seeyon.apps.nbd.platform.oa.ProcessEventHandler">
 
 	</bean>
 
 	<bean name="/nbd.do" class="com.seeyon.apps.nbd.controller.NbdController">
-
+		<property name="nbdService" ref="nbdService" />
+	</bean>
+	<bean name="/form/receive.do" class="com.seeyon.apps.nbd.controller.OtherToA8Controller">
+		<property name="nbdService" ref="nbdService" />
 	</bean>
 
-	<bean name="nbdService" class="com.seeyon.apps.nbd.service.NbdService">
 
-	</bean>
 
 
 

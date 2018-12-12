@@ -63,7 +63,7 @@ public class ConnectionBuilder {
             dbClass = DriverConstant.ORACLE_JDBC_URL;
         }
         if ("2".equals(type)) {
-            dbClass = DriverConstant.SQLSERVER_JDBC_URL;
+            dbClass = DriverConstant.SQLSERVER2005_JDBC_URL;
         }
         String url = getLinkUrl(link);
         if (CommonUtils.isEmpty(url)) {

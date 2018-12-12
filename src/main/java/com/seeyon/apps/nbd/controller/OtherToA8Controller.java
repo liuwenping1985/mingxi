@@ -1,5 +1,9 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.seeyon.apps.nbd.core.vo.CommonParameter;
+import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.service.NbdService;
+import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -7,16 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 数据主要用本地oa连接
  * Created by liuwenping on 2018/12/3.
  */
 public class OtherToA8Controller extends BaseController {
 
+    private NbdService nbdService;
+
+    public NbdService getNbdService() {
+        return nbdService;
+    }
+
+    public void setNbdService(NbdService nbdService) {
+        this.nbdService = nbdService;
+    }
 
     public ModelAndView receive(HttpServletRequest request, HttpServletResponse response){
 
+        CommonParameter parameter = new CommonParameter();
 
-
-
+        NbdResponseEntity entity = getNbdService().lanchForm(parameter);
+        UIUtils.responseJSON(entity,response);
         return null;
     }
 

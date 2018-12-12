@@ -31,7 +31,15 @@ import java.util.Collection;
 public class NbdController extends BaseController {
     private PluginServiceManager nbdPluginServiceManager;
     private FileManager fileManager;
-    private NbdService nbdService = new NbdService();
+    private NbdService nbdService;
+
+    public NbdService getNbdService() {
+        return nbdService;
+    }
+
+    public void setNbdService(NbdService nbdService) {
+        this.nbdService = nbdService;
+    }
 
     private PluginServiceManager getNbdPluginServiceManager() {
 
