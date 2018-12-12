@@ -1,17 +1,23 @@
 package com.seeyon.apps.nbd.plugin.als.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.controller.CollaborationController;
+import com.seeyon.apps.collaboration.manager.ColManager;
+import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.form.entity.SimpleFormField;
 import com.seeyon.apps.nbd.core.log.LogBuilder;
+import com.seeyon.apps.nbd.core.service.MappingServiceManager;
+import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import com.seeyon.apps.nbd.plugin.als.service.AbstractAlsServicePlugin;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.dao.V3XFileDAO;
@@ -45,6 +51,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
     private FileManager fileManager = (FileManager) AppContext.getBean("fileManager");
 
+    private MappingServiceManager manager = new MappingServiceManagerImpl();
 
     public EnumManager getEnumManager() {
 
@@ -60,6 +67,23 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
             orgManager = (OrgManager) AppContext.getBean("orgManager");
         }
         return orgManager;
+    }
+
+    private static Map<String,String> mappingTable = new HashMap<String, String>();
+    static{
+        mappingTable.put("formmain_2571","FK0002");
+        mappingTable.put("formmain_1841","FK0003");
+        mappingTable.put("formmain_1415","FK0004");
+        mappingTable.put("formmain_0111","FK0005");
+        mappingTable.put("formmain_0998","FK0001");
+        mappingTable.put("formmain_0025","HT0005");
+        mappingTable.put("formmain_1455","HT0006");
+        mappingTable.put("formmain_1626","HT0007");
+        mappingTable.put("formmain_2434","HT0002");
+        mappingTable.put("formmain_0845","HT0004");
+        mappingTable.put("formmain_2660","HT0001");
+
+
     }
 
 
@@ -84,7 +108,110 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         }
         return ret;
     }
+    public List<A8OutputVo> exportDataSingle(String affairType,Long formRecrodId) {
+        List<A8OutputVo> dataList = new ArrayList<A8OutputVo>();
+        if (!this.getSupportAffairTypes().contains(affairType)) {
+            throw new UnsupportedOperationException();
+        }
+        FormTableDefinition ftd = this.getFormTableDefinition(affairType);
+        String sql = ftd.genAllQuery();
+        sql+= " where t.id="+formRecrodId;
 
+        try {
+            List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
+            log.log(ftd.getFormTable().getName()+"master table data size:" + list.size());
+            List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
+            if (!CommonUtils.isEmpty(slaveTables) && !CommonUtils.isEmpty(list)) {
+                //create temp master table container
+
+                Map<Long, Map> masterTempMap = new HashMap<Long, Map>();
+                for (Map masterMap : list) {
+                    Object id = masterMap.get("id");
+                    if (id != null) {
+                        if (id instanceof Long) {
+                            masterTempMap.put((Long) id, masterMap);
+                        } else if (id instanceof BigDecimal) {
+                            masterTempMap.put(((BigDecimal) id).longValue(), masterMap);
+                        } else {
+                            try {
+                                Long r_id = Long.parseLong(String.valueOf(id));
+                                masterTempMap.put(r_id, masterMap);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }
+                //System.out.println("master map:" + masterTempMap.values().size());
+                for (FormTable ft : slaveTables) {
+                    log.log("[<---->]export slave table:" + ft.getName());
+                    String slaveTableSql = FormTableDefinition.genRawAllQuery(ft);
+                    //System.out.println("[<---->] slave table sql:" + slaveTableSql);
+                    List<Map> slaveDataList = new ArrayList<Map>();
+                    try {
+                        slaveDataList = DataBaseHelper.executeQueryByNativeSQL(slaveTableSql);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //onwerfield
+                    if (!CommonUtils.isEmpty(slaveDataList)) {
+                        log.log("[<---->] slave table" + ft.getName() + " data-size:" + slaveDataList.size());
+                        int tag = 0;
+                        for (Map slaveTableMap : slaveDataList) {
+                            Object fmId = slaveTableMap.get("formmain_id");
+                            // System.out.println("fmId:"+fmId);
+                            if (fmId != null) {
+                                Long key = null;
+                                if (fmId instanceof Long) {
+                                    key = (Long) fmId;
+                                } else if (fmId instanceof BigDecimal) {
+                                    key = ((BigDecimal) fmId).longValue();
+                                } else {
+                                    key = Long.parseLong(String.valueOf(fmId));
+                                }
+                                Map masterMap = masterTempMap.get(key);
+                                if (!CommonUtils.isEmpty(masterMap)) {
+                                    //getDisplayText
+                                    for (Object skey : slaveTableMap.keySet()) {
+                                        slaveTableMap.put(skey, getDisplayTextByValue("" + skey, "", slaveTableMap.get(skey)));
+
+                                    }
+                                    List<Map> slaveMaps = (List<Map>)masterMap.get(ft.getDisplay());
+                                    if (slaveMaps == null) {
+                                        slaveMaps = new ArrayList<Map>();
+                                        masterMap.put(ft.getDisplay(),slaveMaps);
+
+                                    }
+                                    slaveMaps.add(slaveTableMap);
+                                    if(tag==0){
+                                        System.out.println(slaveTableMap);
+                                        tag++;
+                                    }
+                                } else {
+
+                                    System.out.println(key + "--master not found--->>>" + "<<<---");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            List<List<SimpleFormField>> simpleList = ftd.filledValue(list);
+            for (List<SimpleFormField> sffList : simpleList) {
+                A8OutputVo a8OutputVo = exportA8OutputVo(affairType, sffList);
+                if (a8OutputVo != null) {
+                    dataList.add(a8OutputVo);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(" end of export master table");
+        return dataList;
+
+    }
     public List<A8OutputVo> exportData(String affairType) {
         List<A8OutputVo> dataList = new ArrayList<A8OutputVo>();
         if (!this.getSupportAffairTypes().contains(affairType)) {
@@ -189,15 +316,39 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
     }
 
+    /**
+     * 这个地方你懂得
+     * @param affair
+     * @return
+     */
     public List<A8OutputVo> exportData(CtpAffair affair) {
-       // affair.getProcessId();
+      
         Long templateId = affair.getTempleteId();
         if(templateId!=null){
-            String sql = " select * from form_definition where id in (select  CONTENT_TEMPLATE_ID from ctp_content_all where id IN(select BODY from ctp_template where id=" + templateId + "))";
+            String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where id=" + templateId + "))";
             try {
                 List<Map> retList = DataBaseHelper.executeQueryByNativeSQL(sql);
                 if(CommonUtils.isEmpty(retList)){
                     return null;
+                }
+                Map defin = retList.get(0);
+                String fieldInfo = (String)defin.get("field_info");
+                Map data = JSON.parseObject(fieldInfo,HashMap.class);
+                FormTableDefinition ftd = manager.parseFormTableMapping(data);
+                //只是为了得个表名
+                String affairType= mappingTable.get(ftd.getFormTable().getName());
+                if(!CommonUtils.isEmpty(affairType)){
+
+                    Long summaryId = affair.getObjectId();
+
+                    ColManager colManager = (ColManager)AppContext.getBean("colManager");
+                    ColSummary summary = colManager.getSummaryById(summaryId);
+                    Long formRecordId = summary.getFormRecordid();
+                    List<A8OutputVo> dataList = exportDataSingle(affairType,formRecordId);
+                    if(!CommonUtils.isEmpty(dataList)){
+                        DBAgent.saveAll(dataList);
+                    }
+
                 }
 
             } catch (Exception e) {
@@ -328,8 +479,17 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 try {
                     List<Map> dataList = getFiles(sid);
                     if (!CommonUtils.isEmpty(dataList)) {
+                        Map<String,Map> checkFilesMap = new HashMap<String, Map>();
+                        for(Map dts:dataList){
+                            Object fileIdRaw = dts.get("file_url");
+                            String key = String.valueOf(fileIdRaw);
+                            Map ckMap = checkFilesMap.get(key);
+                            if(ckMap==null){
+                                checkFilesMap.put(key,dts);
+                            }
+                        }
                         List<Map> files = new ArrayList<Map>();
-                        for(Map fileMap:dataList){
+                        for(Map fileMap:checkFilesMap.values()){
 
                             Object fileName = fileMap.get("filename");
                             //   System.out.println("---I find a attchment---:"+fileName);
