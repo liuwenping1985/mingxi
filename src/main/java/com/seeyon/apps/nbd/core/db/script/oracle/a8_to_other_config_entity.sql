@@ -1,5 +1,6 @@
 CREATE TABLE "a8_to_other_config_entity"
-   (	"id" NUMBER(20,0) NOT NULL ENABLE,
+   (
+   "id" NUMBER(20,0) NOT NULL ENABLE,
 	"name" NVARCHAR2(255),
 	"create_time" DATE,
 	"update_time" DATE,

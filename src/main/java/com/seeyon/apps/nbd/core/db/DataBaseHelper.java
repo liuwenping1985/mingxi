@@ -901,6 +901,7 @@ public final class DataBaseHelper {
         dl.setDataBaseName("zrzx");
         dl.setUpdateTime(new Date());
         dl.setId(515598634434511623L);
+
         getCreateTableScript("\"data_link\"",dl);
 //      System.out.println(queryColumnsByTableAndLink(dl,"ctp_enum"));
 //        String json="{\"extString2\":\"3306\",\"dbType\":\"0\",\"updateTime\":1543900217000,\"password\":\"admin123!\",\"createTime\":1543831990000,\"port\":\"3306\",\"name\":\"localhost2\",\"host\":\"192.168.1.98\",\"id\":515598634434511623,\"dataBaseName\":\"zrzx\",\"user\":\"root\",\"status\":0}";
