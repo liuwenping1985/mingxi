@@ -31,6 +31,9 @@
         if ("http" == exportType) {
             return "接口发送";
         }
+        if ("custom" == exportType) {
+            return "自定义";
+        }
         return exportType;
     }
 

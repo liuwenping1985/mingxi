@@ -71,7 +71,7 @@ public class ConnectionBuilder {
         }
 
         Class.forName(dbClass);
-        String user = link.getUser();
+        String user = link.getUserName();
         String password = link.getPassword();
         Connection conn = DriverManager.getConnection(url, user, password);
         return conn;

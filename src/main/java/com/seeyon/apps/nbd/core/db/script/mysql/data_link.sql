@@ -6,7 +6,7 @@ CREATE TABLE `data_link` (
   `data_base_name` varchar(255) DEFAULT NULL,
   `host` varchar(255) DEFAULT NULL,
   `status` smallint(6) DEFAULT '0',
-  `user` varchar(255) DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
   `password` varchar(512) DEFAULT NULL,
   `port` varchar(255) DEFAULT NULL,
   `ext_string1` varchar(255) DEFAULT NULL,

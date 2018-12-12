@@ -46,7 +46,7 @@
                 htmls.push("<td>" + item.port + "</td>");
 
                 htmls.push("<td>" + transDbType(item.dbType) + "</td>");
-                htmls.push("<td>" + item.user + "</td>");
+                htmls.push("<td>" + item.userName + "</td>");
                 htmls.push("<td>" + item.dataBaseName + "</td>");
                 htmls.push("<td><button data_value='" + item.sid + "' class='sql_query_btn layui-btn layui-btn-danger layui-btn-sm'>在线查询</button></td>");
                 htmls.push("</tr>");

@@ -8,6 +8,7 @@ public final class NbdConstant {
 
     }
     public static final String DATA_LINK = "data_link";
+    public static final String A8_TO_OTHER_OUTPUT = "a82otheroutput";
     public static final String A8_TO_OTHER = "a82other";
     public static final String OTHER_TO_A8 = "other2a8";
     public static final String LOG = "log";

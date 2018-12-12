@@ -34,7 +34,7 @@ public class ConfigService {
             DEFAULT_DATA_LINK = new DataLink();
             DEFAULT_DATA_LINK.setDataBaseName(name);
             DEFAULT_DATA_LINK.setDbType(type);
-            DEFAULT_DATA_LINK.setUser(user);
+            DEFAULT_DATA_LINK.setUserName(user);
             DEFAULT_DATA_LINK.setPassword(password);
             DEFAULT_DATA_LINK.setPort(port);
             DEFAULT_DATA_LINK.setHost(url);

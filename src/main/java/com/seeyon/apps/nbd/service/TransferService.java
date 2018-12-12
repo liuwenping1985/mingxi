@@ -45,7 +45,9 @@ public class TransferService {
         clsHolder.put(NbdConstant.OTHER_TO_A8,OtherToA8ConfigEntity.class);
         clsHolder.put(NbdConstant.LOG,LogEntry.class);
         clsHolder.put(NbdConstant.FTD,Ftd.class);
+        clsHolder.put(NbdConstant.A8_TO_OTHER_OUTPUT,A8ToOther.class);
         DataLink link = ConfigService.getA8DefaultDataLink();
+        DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(A8ToOther.class.getSimpleName()),link);
         DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(DataLink.class.getSimpleName()),link);
         DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(A8ToOtherConfigEntity.class.getSimpleName()),link);
         DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(OtherToA8ConfigEntity.class.getSimpleName()),link);

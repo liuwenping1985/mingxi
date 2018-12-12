@@ -3,7 +3,6 @@ package com.seeyon.apps.nbd.service;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
-import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
@@ -17,18 +16,12 @@ import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.util.UIUtils;
-import com.seeyon.apps.nbd.vo.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
-import com.seeyon.ctp.common.supervise.controller.SuperviseController;
 import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
-import com.seeyon.ctp.form.modules.engin.base.formData.FormDataDAOImpl;
-import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManagerImpl;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.UUIDLong;
-import org.apache.http.protocol.RequestUserAgent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -334,15 +327,10 @@ public class NbdService {
 
     private String getTableName(String tableName) {
 
-        String dbType = ConfigService.getPropertyByName("local_db_type", "0");
-        if ("1".equals(dbType)) {
 
-            return "\"" + tableName.toUpperCase() + "\"";
-
-        } else {
 
             return tableName.toUpperCase();
-        }
+
     }
 
     public NbdResponseEntity getFormByTemplateNumber(CommonParameter p) {
@@ -453,7 +441,17 @@ public class NbdService {
 
         } else if ("http".equals(expType)) {
             // UIUtils.post()
+            try {
+                masterRecord = exportMasterData(formRecordId, a8ToOtherConfigEntity, false);
+                String exportUrl = a8ToOtherConfigEntity.getExportUrl();
+                if(CommonUtils.isEmpty(exportUrl)||CommonUtils.isEmpty(masterRecord)){
+                    return;
+                }
+                UIUtils.post(exportUrl,masterRecord);
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else if ("custom".equals(expType)) {
 

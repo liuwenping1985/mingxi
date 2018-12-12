@@ -9,7 +9,6 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.po.CommonPo;
 import com.seeyon.apps.nbd.po.DataLink;
 import com.seeyon.ctp.util.JDBCAgent;
-import com.seeyon.ctp.util.json.CTPDateFormatDeserializer;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -39,21 +38,22 @@ public final class DataBaseHelper {
         return new ArrayList<Map>();
 
     }
-    public static Integer executeUpdateByNativeSQLAndLink(DataLink link,String sql,List vals) throws Exception {
+
+    public static Integer executeUpdateByNativeSQLAndLink(DataLink link, String sql, List vals) throws Exception {
 
         Connection conn = null;
         PreparedStatement pst = null;
-        try{
+        try {
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql);
-            for(int i=1;i<=vals.size();i++){
-                pst.setObject(i,vals.get(i-1));
+            for (int i = 1; i <= vals.size(); i++) {
+                pst.setObject(i, vals.get(i - 1));
             }
             return pst.executeUpdate();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
-        }finally {
+        } finally {
             if (pst != null) {
                 try {
                     pst.close();
@@ -79,7 +79,7 @@ public final class DataBaseHelper {
 
     }
 
-    public static Integer executeUpdateBySQLAndLink(DataLink link, String sql,List<Field> fields,List vals){
+    public static Integer executeUpdateBySQLAndLink(DataLink link, String sql, List<Field> fields, List vals) {
         Connection conn = null;
         PreparedStatement pst = null;
 
@@ -87,45 +87,44 @@ public final class DataBaseHelper {
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql);
 
-            for(int i =0;i<fields.size();i++){
+            for (int i = 0; i < fields.size(); i++) {
 
-                Field f =fields.get(i);
+                Field f = fields.get(i);
                 Class cls = f.getType();
                 Object val = vals.get(i);
                 System.out.println("--------------------");
-                ClobText t =  f.getAnnotation(ClobText.class);
-                if(t!=null){
+                ClobText t = f.getAnnotation(ClobText.class);
+                if (t != null) {
                     Clob clob = conn.createClob();
-                    clob.setString(1,String.valueOf(val));
-                    pst.setClob(i+1,clob);
-                }else{
+                    clob.setString(1, String.valueOf(val));
+                    pst.setClob(i + 1, clob);
+                } else {
 
-                    if(cls == Date.class||cls == Timestamp.class){
-                        if(val instanceof Date) {
-                            Timestamp timestamp = new Timestamp(((Date)val).getTime());
-                            pst.setObject(i+1,timestamp);
-                        }else
-                        if(val instanceof String){
+                    if (cls == Date.class || cls == Timestamp.class) {
+                        if (val instanceof Date) {
+                            Timestamp timestamp = new Timestamp(((Date) val).getTime());
+                            pst.setObject(i + 1, timestamp);
+                        } else if (val instanceof String) {
                             try {
                                 Date dt = new Date(String.valueOf(val));
-                                pst.setObject(i+1,new Timestamp(dt.getTime()));
-                            }catch(Exception e){
-                                pst.setObject(i+1,new Timestamp(new Date().getTime()));
+                                pst.setObject(i + 1, new Timestamp(dt.getTime()));
+                            } catch (Exception e) {
+                                pst.setObject(i + 1, new Timestamp(new Date().getTime()));
                             }
 
-                        }else{
-                            pst.setObject(i+1,new Timestamp(new Date().getTime()));
+                        } else {
+                            pst.setObject(i + 1, new Timestamp(new Date().getTime()));
                         }
 
 
-                    }else{
-                        pst.setObject(i+1,val);
+                    } else {
+                        pst.setObject(i + 1, val);
                     }
 
                 }
 
             }
-             return pst.executeUpdate();
+            return pst.executeUpdate();
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -133,7 +132,7 @@ public final class DataBaseHelper {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }catch(Error e){
+        } catch (Error e) {
             e.printStackTrace();
         } finally {
             if (pst != null) {
@@ -197,27 +196,27 @@ public final class DataBaseHelper {
 
     }
 
-    public static<T> List<T> executeObjectQueryBySQLAndLink(DataLink dl,Class<T> cls, String sql){
-        List<Map> retMapList = executeQueryBySQLAndLink(dl,sql);
-        if(CommonUtils.isEmpty(retMapList)){
+    public static <T> List<T> executeObjectQueryBySQLAndLink(DataLink dl, Class<T> cls, String sql) {
+        List<Map> retMapList = executeQueryBySQLAndLink(dl, sql);
+        if (CommonUtils.isEmpty(retMapList)) {
             return new ArrayList<T>();
         }
         List<T> retList = new ArrayList<T>();
-        for(Map map:retMapList){
+        for (Map map : retMapList) {
             Map extendMap = new HashMap();
-            for(Object key:map.keySet()){
+            for (Object key : map.keySet()) {
                 String newKey = CommonUtils.underlineToCamel(String.valueOf(key));
-                extendMap.put(newKey,map.get(key));
+                extendMap.put(newKey, map.get(key));
             }
 
-           // map.putAll(extendMap);
-           // System.out.println(extendMap);
+            // map.putAll(extendMap);
+            // System.out.println(extendMap);
             String json = JSON.toJSONString(extendMap);
             //System.out.println(json);
             try {
                 T t = JSON.parseObject(json, cls);
                 retList.add(t);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 continue;
             }
@@ -226,50 +225,34 @@ public final class DataBaseHelper {
         }
         return retList;
     }
-    public static String getTableName(Class cls){
 
+    public static String getTableName(Class cls) {
         String name = cls.getSimpleName();
-        String dbType = ConfigService.getPropertyByName("local_db_type","0");
-
-        if(CommonUtils.isEmpty(dbType)){
-            return CommonUtils.camelToUnderline(name);
-        }else{
-            if("1".equals(dbType)){
-                return "\""+CommonUtils.camelToUnderline(name)+"\"";
-            }else{
-                return CommonUtils.camelToUnderline(name);
-            }
-
-        }
-
-
+        return CommonUtils.camelToUnderline(name);
     }
-    public static String genSelectAllSQL(Class cls){
+
+    public static String genSelectAllSQL(Class cls) {
 
         String name = getTableName(cls);
-        String sql = "select * from " +name;
+        String sql = "select * from " + name;
 
         return sql;
 
     }
-    public static <T> T getDataByTypeAndId(DataLink dl,Class<T> cls,Long id){
 
-        String sql = "select * from "+getTableName(cls)+" where id="+id;
-        if("1".equals(dl.getDbType())){
-            sql = "select * from "+getTableName(cls)+" where \"id\"="+id;
-        }
-        List<T> dataMap = executeObjectQueryBySQLAndLink(dl,cls,sql);
-        if(CommonUtils.isEmpty(dataMap)){
+    public static <T> T getDataByTypeAndId(DataLink dl, Class<T> cls, Long id) {
+
+        String sql = "select * from " + getTableName(cls) + " where id=" + id;
+        List<T> dataMap = executeObjectQueryBySQLAndLink(dl, cls, sql);
+        if (CommonUtils.isEmpty(dataMap)) {
             return null;
         }
         return dataMap.get(0);
     }
-    public static<T> Integer deleteByTypeAndId(DataLink dl,Class<T> cls,Long id){
-        String sql = "delete from "+getTableName(cls)+" where id="+id;
-        if("1".equals(dl.getDbType())){
-            sql = "delete from "+getTableName(cls)+" where \"id\"="+id;
-        }
-        return  executeUpdateBySQLAndLink(dl,sql);
+
+    public static <T> Integer deleteByTypeAndId(DataLink dl, Class<T> cls, Long id) {
+        String sql = "delete from " + getTableName(cls) + " where id=" + id;
+        return executeUpdateBySQLAndLink(dl, sql);
 
     }
 
@@ -330,8 +313,8 @@ public final class DataBaseHelper {
         } else if ("2".equals(type)) {
             dbType = "sqlserver";
         }
-        tbName = tbName.replaceAll("\"","");
-       // System.out.println(tbName);
+        tbName = tbName.replaceAll("\"", "");
+        // System.out.println(tbName);
         String path = ScriptHook.class.getResource(dbType + File.separator + tbName + ".sql").getPath();
 
         File f = new File(path);
@@ -351,7 +334,7 @@ public final class DataBaseHelper {
         ResultSet rs = null;
         Statement st = null;
         try {
-            tableName = tableName.replaceAll("\"","");
+            tableName = tableName.replaceAll("\"", "");
             conn = ConnectionBuilder.openConnection(link);
 
             rs = conn.getMetaData().getTables(null, null, tableName, null);
@@ -420,7 +403,7 @@ public final class DataBaseHelper {
         Object id = null;
         Class root = obj.getClass();
         do {
-            Object tempId = filledValues(dl,root, obj, values, fieldNames, insFields);
+            Object tempId = filledValues(dl, root, obj, values, fieldNames, insFields);
             if (tempId != null) {
                 id = tempId;
             }
@@ -433,88 +416,77 @@ public final class DataBaseHelper {
             if (id != null) {
                 System.out.println("id not null:" + id);
                 String countSql = "select count(id) as c_count from " + tbName + " where id=" + id;
-                if("1".equals(dl.getDbType())){
-                     countSql = "select count(\"id\") as c_count from " + tbName + " where \"id\"=" + id;
-                }
                 List<Map> existData = executeQueryBySQLAndLink(dl, countSql);
                 //System.out.println(existData);
                 if (!CommonUtils.isEmpty(existData)) {
 
                     Object count = existData.get(0).get("c_count");
-                    if(count!=null){
-                        if(Integer.parseInt(String.valueOf(count))>0){
+                    if (count != null) {
+                        if (Integer.parseInt(String.valueOf(count)) > 0) {
                             isUpdate = true;
-                        }else{
+                        } else {
                             isUpdate = false;
                         }
-                    }else{
-                        isUpdate =false;
+                    } else {
+                        isUpdate = false;
                     }
-                }else{
-                    isUpdate =false;
+                } else {
+                    isUpdate = false;
 
                 }
             }
             if (isUpdate) {
-                if("1".equals(dl.getDbType())){
-                    stb.append("UPDATE " + tbName);
-                    stb.append(" SET ");
-                    List<String> sqlSequections = toUpdateSQLString(dl,insFields, fieldNames, values);
-                    if (CommonUtils.isEmpty(sqlSequections)) {
-                        return;
-                    }
-                    stb.append(join(sqlSequections, ","));
-                    if("1".equals(dl.getDbType())){
-                        stb.append(" WHERE \"id\"=" + id);
-                    }else{
-                        stb.append(" WHERE id=" + id);
-                    }
 
-                    System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString(),insFields,values);
-                }else{
-                    stb.append("UPDATE " + tbName);
-                    stb.append(" SET ");
-                    List<String> sqlSequections = toUpdateSQLString(dl,insFields, fieldNames, values);
-                    if (CommonUtils.isEmpty(sqlSequections)) {
-                        return;
-                    }
-                    stb.append(join(sqlSequections, ","));
-                    if("1".equals(dl.getDbType())){
-                        stb.append(" WHERE \"id\"=" + id);
-                    }else{
-                        stb.append(" WHERE id=" + id);
-                    }
-
-                    System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString());
-
+                stb.append("UPDATE " + tbName);
+                stb.append(" SET ");
+                List<String> sqlSequections = toUpdateSQLString(dl, insFields, fieldNames, values);
+                if (CommonUtils.isEmpty(sqlSequections)) {
+                    return;
                 }
+                stb.append(join(sqlSequections, ","));
+                stb.append(" WHERE id=" + id);
+                System.out.println(stb);
+                executeUpdateBySQLAndLink(dl, stb.toString(), insFields, values);
+
+//                else {
+//                    stb.append("UPDATE " + tbName);
+//                    stb.append(" SET ");
+//                    List<String> sqlSequections = toUpdateSQLString(dl, insFields, fieldNames, values);
+//                    if (CommonUtils.isEmpty(sqlSequections)) {
+//                        return;
+//                    }
+//                    stb.append(join(sqlSequections, ","));
+//
+//                    stb.append(" WHERE id=" + id);
+//                    System.out.println(stb);
+//                    executeUpdateBySQLAndLink(dl, stb.toString());
+//
+//                }
 
             } else {
-                if("1".equals(dl.getDbType())){
+//                if ("1".equals(dl.getDbType())) {
                     stb.append("INSERT INTO " + tbName);
                     //List<String> sqlValueList = toInsertSQLString( dl,insFields, values,true);
-                    createTableIfNotExist(tbName, dl);
+                   // createTableIfNotExist(tbName, dl);
                     //String vals = join(sqlValueList, ",");
                     String fils = join(fieldNames, ",");
                     stb.append("(").append(fils).append(")");//fils+
                     stb.append("VALUES");
-                    stb.append("(").append(join(genChars("?",fieldNames.size()),",")).append(")");
+                    stb.append("(").append(join(genChars("?", fieldNames.size()), ",")).append(")");
                     System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString(),insFields,values);
-                }else{
-                    stb.append("INSERT INTO " + tbName);
-                    List<String> sqlValueList = toInsertSQLString( dl,insFields, values,false);
-                    createTableIfNotExist(tbName, dl);
-                    String vals = join(sqlValueList, ",");
-                    String fils = join(fieldNames, ",");
-                    stb.append("(").append(fils).append(")");//fils+
-                    stb.append("VALUES");
-                    stb.append("(").append(vals).append(")");
-                    System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString());
-                }
+                    executeUpdateBySQLAndLink(dl, stb.toString(), insFields, values);
+//                } else {
+//                    stb.append("INSERT INTO " + tbName);
+//                    List<String> sqlValueList = toInsertSQLString(dl, insFields, values, false);
+//                    createTableIfNotExist(tbName, dl);
+//                    String vals = join(sqlValueList, ",");
+//                    String fils = join(fieldNames, ",");
+//                    stb.append("(").append(fils).append(")");//fils+
+//                    stb.append("VALUES");
+//                    stb.append("(").append(vals).append(")");
+//                    System.out.println(stb);
+//                    executeUpdateBySQLAndLink(dl, stb.toString());
+//                }
 
             }
 
@@ -523,16 +495,16 @@ public final class DataBaseHelper {
 
     }
 
-    private static List<String> genChars(String charToken,int size){
+    private static List<String> genChars(String charToken, int size) {
         List<String> retList = new ArrayList<String>(size);
-        for(int i=0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             retList.add(charToken);
         }
         return retList;
 
     }
 
-    private static Object filledValues(DataLink dl,Class cls, Object obj, List<Object> values, List<String> fieldNames, List<Field> insFields) {
+    private static Object filledValues(DataLink dl, Class cls, Object obj, List<Object> values, List<String> fieldNames, List<Field> insFields) {
 
         Field[] fields = cls.getDeclaredFields();
         Object id = null;
@@ -542,12 +514,7 @@ public final class DataBaseHelper {
                 Method mdd = cls.getMethod(getMethodName, null);
                 Object val = mdd.invoke(obj);
                 if (val != null) {
-                    if("1".equals(dl.getDbType())){
-                        fieldNames.add("\""+CommonUtils.camelToUnderline(fd.getName())+"\"");
-                    }else{
-                        fieldNames.add(CommonUtils.camelToUnderline(fd.getName()));
-                    }
-
+                    fieldNames.add(CommonUtils.camelToUnderline(fd.getName()));
                     values.add(val);
                     insFields.add(fd);
                     if (fd.getName().equals("id")) {
@@ -564,7 +531,7 @@ public final class DataBaseHelper {
 
     }
 
-    private static List<String> toUpdateSQLString(DataLink dl,List<Field> insFields, List<String> fieldNames, List dataList) {
+    private static List<String> toUpdateSQLString(DataLink dl, List<Field> insFields, List<String> fieldNames, List dataList) {
         List<String> updateData = new ArrayList<String>();
         if (CommonUtils.isEmpty(insFields) || CommonUtils.isEmpty(dataList)) {
             throw new RuntimeException("Can not execute insert: field or values is empty");
@@ -585,11 +552,12 @@ public final class DataBaseHelper {
             if ("id".equals(fieldNames.get(i))) {
                 continue;
             }
-            if("1".equals(dl.getDbType())){
-                updateData.add(fieldNames.get(i) + "=" + "?");
-            }else{
-                updateData.add(fieldNames.get(i) + "=" + trans2SqlString(dl,type, val,false));
-            }
+            updateData.add(fieldNames.get(i) + "=" + "?");
+//            if ("1".equals(dl.getDbType())) {
+//                updateData.add(fieldNames.get(i) + "=" + "?");
+//            } else {
+//                updateData.add(fieldNames.get(i) + "=" + trans2SqlString(dl, type, val, false));
+//            }
 
         }
         return updateData;
@@ -597,7 +565,7 @@ public final class DataBaseHelper {
     }
 
 
-    private static List<String> toInsertSQLString(DataLink dl,List<Field> insFields, List dataList,boolean pst) {
+    private static List<String> toInsertSQLString(DataLink dl, List<Field> insFields, List dataList, boolean pst) {
         List<String> data = new ArrayList<String>();
         if (CommonUtils.isEmpty(insFields) || CommonUtils.isEmpty(dataList)) {
             throw new RuntimeException("Can not execute insert: field or values is empty");
@@ -614,14 +582,14 @@ public final class DataBaseHelper {
             if (val == null) {
                 throw new RuntimeException("Error:null value is not permitted!!");
             }
-            data.add(trans2SqlString(dl,type, val,pst));
+            data.add(trans2SqlString(dl, type, val, pst));
 
         }
         return data;
 
     }
 
-    private static String trans2SqlString(DataLink dl,Class type, Object val,boolean pst) {
+    private static String trans2SqlString(DataLink dl, Class type, Object val, boolean pst) {
         if (type == Boolean.class) {
 
             if (Boolean.FALSE.equals(val)) {
@@ -630,7 +598,7 @@ public final class DataBaseHelper {
                 return "1";
             }
         } else if (Date.class == type || Timestamp.class == type) {
-            if("1".equals(dl.getDbType())){
+            if ("1".equals(dl.getDbType())) {
                 //to_date('2011-2-28 15:42:56','yyyy-mm-dd hh24:mi:ss')
                 return "to_date('" + CommonUtils.formatDate((Date) val) + "','yyyy-mm-dd hh24:mi:ss')";
             }
@@ -639,16 +607,16 @@ public final class DataBaseHelper {
             if (Long.class == type || Float.class == type || Integer.class == type || Double.class == type) {
                 return String.valueOf(val);
             } else if (String.class == type) {
-                if(pst){
-                    return (String)val;
-                }else{
+                if (pst) {
+                    return (String) val;
+                } else {
                     return "'" + val + "'";
                 }
 
             } else {
-                if(pst){
+                if (pst) {
                     return JSON.toJSONString(val);
-                }else{
+                } else {
                     return "'" + JSON.toJSONString(val) + "'";
                 }
 
@@ -695,7 +663,7 @@ public final class DataBaseHelper {
                         Object value;
                         if (rsmd.getColumnType(j) == 93) {
                             value = rs.getTimestamp(columnName);
-                        } else if (rsmd.getColumnType(j) == 2005||rsmd.getColumnType(j) == 2011) {
+                        } else if (rsmd.getColumnType(j) == 2005 || rsmd.getColumnType(j) == 2011) {
                             value = extractClobString(rs, columnName);
                         } else {
                             value = rs.getObject(columnName);
@@ -880,9 +848,7 @@ public final class DataBaseHelper {
         return null;
     }
 
-    public String genCreateSql(DataLink dl,Object cls){
-
-
+    public String genCreateSql(DataLink dl, Object cls) {
 
 
         return null;
@@ -892,7 +858,7 @@ public final class DataBaseHelper {
     public static void main(String[] args) {
         DataLink dl = new DataLink();
         dl.setHost("192.168.1.98");
-        dl.setUser("root");
+        dl.setUserName("root");
         dl.setName("localhost2");
         dl.setExtString2("3306");
         dl.setPort("3306");
@@ -902,14 +868,13 @@ public final class DataBaseHelper {
         dl.setUpdateTime(new Date());
         dl.setId(515598634434511623L);
 
-        getCreateTableScript("\"data_link\"",dl);
+        getCreateTableScript("data_link", dl);
 //      System.out.println(queryColumnsByTableAndLink(dl,"ctp_enum"));
 //        String json="{\"extString2\":\"3306\",\"dbType\":\"0\",\"updateTime\":1543900217000,\"password\":\"admin123!\",\"createTime\":1543831990000,\"port\":\"3306\",\"name\":\"localhost2\",\"host\":\"192.168.1.98\",\"id\":515598634434511623,\"dataBaseName\":\"zrzx\",\"user\":\"root\",\"status\":0}";
 //       // persistCommonVo(dl, dl);
 //        DataLink link = JSON.parseObject(json,DataLink.class);
 //         System.out.println(dl instanceof CommonPo);
     }
-
 
 
 }

@@ -7,7 +7,7 @@ public class DataLink extends CommonPo {
 
     private String dataBaseName;
     private String host;
-    private String user;
+    private String userName;
     private String password;
     private String port;
     private String extString1;
@@ -58,12 +58,12 @@ public class DataLink extends CommonPo {
         this.host = host;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
