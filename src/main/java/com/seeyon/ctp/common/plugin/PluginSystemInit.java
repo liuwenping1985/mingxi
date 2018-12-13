@@ -9,6 +9,9 @@ import com.seeyon.ctp.cluster.ClusterConfigBean;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ModuleType;
 import com.seeyon.ctp.common.SystemEnvironment;
+import com.seeyon.ctp.common.cache.CacheAccessable;
+import com.seeyon.ctp.common.cache.CacheFactory;
+import com.seeyon.ctp.common.cache.CacheObject;
 import com.seeyon.ctp.common.config.PropertiesLoader;
 import com.seeyon.ctp.common.constants.SystemProperties;
 import com.seeyon.ctp.common.content.ContentConfig;
@@ -56,8 +59,18 @@ public final class PluginSystemInit {
         File pluginHome = new File(AppContext.getCfgHome(), "/plugin");
         if(pluginHome.exists() && pluginHome.isDirectory()) {
             LOGGER.debug("系统插件定义文件路径：" + pluginHome.getAbsolutePath());
-            boolean isClusterSlave = !ClusterConfigBean.getInstance().isClusterMain();
-            Properties masterProperties = new Properties();
+            boolean isCluster = ClusterConfigBean.getInstance().isClusterEnabled();
+            boolean isClusterSlave = isCluster && !ClusterConfigBean.getInstance().isClusterMain();
+            CacheAccessable factory = CacheFactory.getInstance(SystemProperties.class);
+            String cacheName = "masterProperties";
+            Properties masterProperties;
+            if(isClusterSlave) {
+                CacheObject<Properties> cache = factory.getObject("masterProperties");
+                masterProperties = (Properties)cache.get();
+            } else {
+                masterProperties = new Properties();
+            }
+
             File[] plugins = pluginHome.listFiles(new DirOnlyFilter());
             String userProps = System.getProperty("SEEYON_HOME");
             if(userProps == null) {
@@ -78,22 +91,22 @@ public final class PluginSystemInit {
             if(indexProFile.exists() && "local".equals(PropertiesLoader.load(indexProFile).getProperty("modelName"))) {
                 try {
                     regNumber = Integer.parseInt(String.valueOf(MclclzUtil.invoke(c3, "getTotalservernum", (Class[])null, MclclzUtil.invoke(c3, "getInstance", new Class[]{String.class}, (Object)null, new Object[]{""}), (Object[])null)));
-                } catch (Exception var35) {
+                } catch (Exception var38) {
                     LOGGER.warn(" 获取并发数错误！");
                 }
             }
 
             Set<String> disabledPlugins = Utils.getDisabledPlugins();
-            File[] var18 = plugins;
-            int var17 = plugins.length;
+            File[] var21 = plugins;
+            int var20 = plugins.length;
 
             File pluginPropFile;
             File plugin;
-            int var16;
+            int var19;
             Properties props;
             String initializer;
-            for(var16 = 0; var16 < var17; ++var16) {
-                plugin = var18[var16];
+            for(var19 = 0; var19 < var20; ++var19) {
+                plugin = var21[var19];
                 pluginPropFile = new File(plugin, "pluginProperties.xml");
                 if(!pluginPropFile.exists() || !pluginPropFile.isFile()) {
                     pluginPropFile = new File(plugin, "pluginProperties.properties");
@@ -104,12 +117,12 @@ public final class PluginSystemInit {
                     props = PropertiesLoader.load(pluginPropFile);
                     if(props != null && !props.isEmpty()) {
                         Object o;
-                        Iterator var21;
+                        Iterator var24;
                         if(isClusterSlave) {
-                            var21 = props.keySet().iterator();
+                            var24 = props.keySet().iterator();
 
-                            while(var21.hasNext()) {
-                                o = var21.next();
+                            while(var24.hasNext()) {
+                                o = var24.next();
                                 initializer = (String)o;
                                 if(masterProperties.containsKey(initializer)) {
                                     props.put(initializer, masterProperties.get(initializer));
@@ -118,10 +131,10 @@ public final class PluginSystemInit {
                         }
 
                         if(pluginCustomProps != null) {
-                            var21 = pluginCustomProps.keySet().iterator();
+                            var24 = pluginCustomProps.keySet().iterator();
 
-                            while(var21.hasNext()) {
-                                o = var21.next();
+                            while(var24.hasNext()) {
+                                o = var24.next();
                                 initializer = (String)o;
                                 props.put(initializer, pluginCustomProps.get(initializer));
                             }
@@ -132,11 +145,11 @@ public final class PluginSystemInit {
                 }
             }
 
-            var18 = plugins;
-            var17 = plugins.length;
+            var21 = plugins;
+            var20 = plugins.length;
 
-            for(var16 = 0; var16 < var17; ++var16) {
-                plugin = var18[var16];
+            for(var19 = 0; var19 < var20; ++var19) {
+                plugin = var21[var19];
                 File pluginCfg = new File(plugin, "pluginCfg.xml");
                 if(pluginCfg.exists() && pluginCfg.isFile()) {
                     props = PropertiesLoader.load(pluginCfg);
@@ -161,14 +174,14 @@ public final class PluginSystemInit {
 
                                 try {
                                     category = Integer.parseInt(categoryStr);
-                                } catch (Throwable var37) {
+                                } catch (Throwable var40) {
                                     LOGGER.error("Plugin not loaded, 'category' format error: " + pluginCfg.getAbsolutePath());
                                     continue;
                                 }
                             }
 
                             this.pluginIds4Map.put(id, Boolean.valueOf(false));
-                            if(!disabledPlugins.contains(id)&&id!=null&&!"formBiz".equals(id)&&!"formBizModify".equals(id)) {
+                            if(!disabledPlugins.contains(id)) {
                                 PluginDefinition d = new PluginDefinition();
                                 d.setId(id);
                                 d.setName(name);
@@ -193,20 +206,20 @@ public final class PluginSystemInit {
                                             if(regNumber > localRegMaxNumber) {
                                                 LOGGER.warn("因并发数超过" + localRegMaxNumber + "必须分离部署全文检索。");
                                             }
-                                        } catch (Exception var34) {
+                                        } catch (Exception var37) {
                                             LOGGER.warn("全文检索插件本地注册最大数拼写错误！");
                                         }
                                     }
 
                                     if(pluginProps != null && !pluginProps.isEmpty()) {
                                         d.setPluginProperties(pluginProps);
-                                        Iterator var29;
+                                        Iterator var32;
                                         Object o;
                                         if(isClusterSlave) {
-                                            var29 = pluginProps.keySet().iterator();
+                                            var32 = pluginProps.keySet().iterator();
 
-                                            while(var29.hasNext()) {
-                                                o = var29.next();
+                                            while(var32.hasNext()) {
+                                                o = var32.next();
                                                 key = (String)o;
                                                 if(masterProperties.containsKey(key)) {
                                                     pluginProps.put(key, masterProperties.get(key));
@@ -215,14 +228,14 @@ public final class PluginSystemInit {
                                         }
 
                                         if(pluginCustomProps != null) {
-                                            var29 = pluginCustomProps.keySet().iterator();
+                                            var32 = pluginCustomProps.keySet().iterator();
 
-                                            while(var29.hasNext()) {
-                                                o = var29.next();
+                                            while(var32.hasNext()) {
+                                                o = var32.next();
                                                 key = (String)o;
                                                 if(key.startsWith(id)) {
                                                     pluginProps.put(key, pluginCustomProps.get(key));
-                                                    LOGGER.info("Plugin custome config: " + key + "=" + pluginCustomProps.get(key));
+                                                    LOGGER.debug("Plugin custom config: " + key + "=" + pluginCustomProps.get(key));
                                                 }
                                             }
                                         }
@@ -238,7 +251,10 @@ public final class PluginSystemInit {
 
                                 if(PlugInList.getAllPluginList4ProductLine().get(id) != null) {
                                     Boolean o = (Boolean)MclclzUtil.invoke(c1, "hasPlugin", new Class[]{String.class}, (Object)null, new Object[]{d.getId()});
-                                    if(!o.booleanValue()) {
+                                    //d.getId().equals("formBiz")
+                                    //d.getId().equals("formBiz")
+                                    if(!o.booleanValue()&&(!d.getId().equals("formBiz"))) {
+                                        LOGGER.debug("加密狗中不存在插件[" + d + "]，跳过。");
                                         continue;
                                     }
                                 }
@@ -271,8 +287,8 @@ public final class PluginSystemInit {
                                                 LOGGER.error("插件[" + d + "]的initializer[" + initializer + "]禁止了此插件的启动.");
                                                 continue;
                                             }
-                                        } catch (Exception var36) {
-                                            LOGGER.error("插件[" + d + "]的initializer[" + initializer + "]初始化失败.", var36);
+                                        } catch (Exception var39) {
+                                            LOGGER.error("插件[" + d + "]的initializer[" + initializer + "]初始化失败.", var39);
                                             continue;
                                         }
                                     }
@@ -292,10 +308,10 @@ public final class PluginSystemInit {
                                             }
                                         }
 
-                                        Iterator var33 = removeList.iterator();
+                                        Iterator var36 = removeList.iterator();
 
-                                        while(var33.hasNext()) {
-                                            k = (String)var33.next();
+                                        while(var36.hasNext()) {
+                                            k = (String)var36.next();
                                             pluginProps.remove(k);
                                         }
 

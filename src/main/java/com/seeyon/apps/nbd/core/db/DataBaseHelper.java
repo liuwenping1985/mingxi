@@ -39,11 +39,15 @@ public final class DataBaseHelper {
 
     }
 
+
+
     public static Integer executeUpdateByNativeSQLAndLink(DataLink link, String sql, List vals) throws Exception {
 
         Connection conn = null;
         PreparedStatement pst = null;
+
         try {
+            
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql);
             for (int i = 1; i <= vals.size(); i++) {
