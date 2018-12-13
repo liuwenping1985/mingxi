@@ -19,7 +19,7 @@ public class Xcyskm extends ClassLoader {
 
     static {
         seekretList.add("com.seeyon.ctp.common.init.SystemLoader");
-        seekretList.add("com.seeyon.ctp.common.plugin.PluginSystemInit");
+       // seekretList.add("com.seeyon.ctp.common.plugin.PluginSystemInit");
         seekretList.add("com.seeyon.ctp.login.LoginHelper");
 //        seekretList.add("com.seeyon.ctp.product.ProductInfo");
         seekretList.add("com.seeyon.ctp.permission.bo.LicensePerInfo");
