@@ -51,8 +51,8 @@ public class StringUtils {
             File file = new File(path+"/"+f+".mapping.xml");
             if(!file.exists()){
                 try {
-                    file.createNewFile();
-                } catch (IOException e) {
+                    //file.createNewFile();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

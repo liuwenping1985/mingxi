@@ -715,15 +715,15 @@ public class FileUploadController extends BaseController {
                             ret.put("currentSize", data);
                         } else {
                             //raf.close();
-                            System.out.println("检查文件大小与记录不一致---选修开始");
+                            //System.out.println("检查文件大小与记录不一致---选修开始");
 
                              if(raf.length()<Long.parseLong(fSize)){
-                                System.out.println("已上传文件记录长度小于实际文件长度---FLAG1");
+                                //System.out.println("已上传文件记录长度小于实际文件长度---FLAG1");
                                 ret.put("currentSize", raf.length());
                                 handler.putData("FILE_UPLOAD", md5Name, raf.length());
 
                              }else{
-                                 System.out.println("文件异常---FLAG2");
+                                 //System.out.println("文件异常---FLAG2");
 
                                  ret.put("currentSize", 0L);
                                  handler.putData("FILE_UPLOAD", md5Name, 0L);
