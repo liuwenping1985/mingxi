@@ -130,7 +130,7 @@ public class SsoController extends BaseController {
 
             @Override
             public void run() {
-                System.out.println("read-msg");
+               // System.out.println("read-msg");
                 JDBCAgent agent = new JDBCAgent();
                 try {
                     String sql = "select * from ctp_user_history_message where is_read=0 and link_param_9 is null";
@@ -143,14 +143,14 @@ public class SsoController extends BaseController {
                     url = url + "&syskey=" + skey;
 
                     if (!CollectionUtils.isEmpty(msgList)) {
-                        System.out.println("send messages:"+msgList.size());
+                      //  System.out.println("send messages:"+msgList.size());
                         for (Map map : msgList) {
                          //   Long id = UIUtils.getLong(map.get("id"));
                             Map param = genMsgParam(map);
                            // System.out.println("param:" + param);
                             if (param != null) {
                                 Map data = UIUtils.post(url, param);
-                                System.out.println(data);
+                              // System.out.println(data);
                             }
                         }
                         String updateSql="update ctp_user_history_message set link_param_9='1' where link_param_9 is null and is_read=0";
@@ -221,9 +221,9 @@ public class SsoController extends BaseController {
         try {
             String url = ConfigService.getPropertyByName("lens_url", "");
             url = url + "?loginname=" + user_name + "&password=" + password + "&syskey=" + skey;
-            System.out.println(url);
+            //System.out.println(url);
             ret = UIUtils.get(url);
-            System.out.println(ret);
+           // System.out.println(ret);
             String retStatus = String.valueOf(ret.get("result"));
             if ("0".equals(retStatus)) {
                 V3xOrgMember member = this.getOrgManager().getMemberByLoginName(user_name);
@@ -416,11 +416,11 @@ public class SsoController extends BaseController {
            for (CtpAffair af:affairList) {
                 if(!isAffairSended(af.getId())){
                     Map param = genParam(af, 0);
-                    System.out.println("开始发送：" + param);
+              //      System.out.println("开始发送：" + param);
                     Map ret = null;
                     try {
                         ret = UIUtils.post(url, param);
-                        System.out.println(ret);
+                //        System.out.println(ret);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -468,11 +468,11 @@ public class SsoController extends BaseController {
             for (CtpAffair af:affairList) {
                 if(!isAffairSended(af.getId())){
                     Map param = genParam(af, 0);
-                    System.out.println("开始发送：" + param);
+                   // System.out.println("开始发送：" + param);
                     Map ret = null;
                     try {
                         ret = UIUtils.post(addurl, param);
-                        System.out.println(ret);
+                      //  System.out.println(ret);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -507,7 +507,7 @@ public class SsoController extends BaseController {
         Map ret = null;
         try {
             ret = UIUtils.post(url, param);
-            System.out.println(ret);
+          //  System.out.println(ret);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -526,7 +526,7 @@ public class SsoController extends BaseController {
             url = url + "&syskey=" + skey;
             Map param = genParam(affair, 2);
             Map ret = UIUtils.post(url, param);
-            System.out.println(ret);
+          //  System.out.println(ret);
 
         } catch (BusinessException e) {
             e.printStackTrace();
@@ -586,7 +586,7 @@ public class SsoController extends BaseController {
             param.put("istate", 2);
 
         }
-        System.out.println(param);
+       // System.out.println(param);
 
         return param;
     }

@@ -6,7 +6,9 @@ import com.seeyon.apps.nbd.po.Formmain0635;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.apps.nbd.vo.CheckResult;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.content.mainbody.MainbodyManager;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
@@ -151,7 +153,31 @@ public class NbdController extends BaseController {
             String address = parameter.$("address");
             formmain0635.setField0012(address);
             formmain0635.setIdIfNew();
+
+            CtpContentAll ctpContentAll = new CtpContentAll();
+            ctpContentAll.setIdIfNew();
+            ctpContentAll.setModuleType(42);
+            ctpContentAll.setModuleId(formmain0635.getId());
+            ctpContentAll.setContentTemplateId(-581838719560560662L);
+            ctpContentAll.setContentType(20);
+            ctpContentAll.setCreateDate(new Date());
+            ctpContentAll.setModifyDate(ctpContentAll.getCreateDate());
+            ctpContentAll.setContentDataId(formmain0635.getId());
+            try {
+                ctpContentAll.setCreateId(Long.parseLong(formmain0635.getStartMemberId()));
+            }catch(Exception e){
+                ctpContentAll.setCreateId(-6356881920935376361L);
+            }
+            ctpContentAll.setModuleTemplateId(8115560079747926234L);
+            System.out.println("ctpContentAll:TEST");
+            //DBAgent.save(ctpContentAll);
+            MainbodyManager ma = (MainbodyManager)AppContext.getBean("ctpMainbodyManager");
+            DBAgent.save(ctpContentAll);
+           // DBAgent.commit();
+            System.out.println("ctpContentAll:TEST222");
+
             DBAgent.save(formmain0635);
+            DBAgent.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -368,7 +394,7 @@ public class NbdController extends BaseController {
     }
 
     public static void main(String []args){
-        System.out.println("test1");
+        System.out.println("test23332");
     }
 
 }
