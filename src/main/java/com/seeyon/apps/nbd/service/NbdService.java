@@ -81,6 +81,12 @@ public class NbdService {
     public NbdResponseEntity lanchForm(CommonParameter p){
         NbdResponseEntity entity = new NbdResponseEntity();
         entity.setResult(false);
+        String affairType = p.$("affairType");
+        if(CommonUtils.isEmpty(affairType)){
+            affairType = "GYSDJB";
+        }
+        String sql ="select * from "+DataBaseHelper.getTableName(OtherToA8ConfigEntity.class)+" where ";
+        //OtherToA8ConfigEntity entity = DataBaseHelper.executeQueryByNativeSQL();
         entity.setMsg("发起流程失败");
         entity.setData(p);
         return entity;
