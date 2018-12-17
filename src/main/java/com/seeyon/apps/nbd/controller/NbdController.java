@@ -11,6 +11,7 @@ import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.rest.util.CommonUtil;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.util.CollectionUtils;
@@ -105,13 +106,19 @@ public class NbdController extends BaseController {
 
             return null;
         }
+        String number = parameter.$("number");
+        String sql ="from Formmain0635 where field0002='"+number+"'";
+        List<Formmain0635> fmList = DBAgent.find(sql);
+        if(!CollectionUtils.isEmpty(fmList)){
+            return update(request,response);
+        }
         Map retMap = new HashMap();
         Formmain0635 formmain0635 = new Formmain0635();
 
         try {
             String name = parameter.$("name");
             formmain0635.setField0001(name);
-            String number = parameter.$("number");
+
             formmain0635.setField0002(number);
             String region = parameter.$("region");
             formmain0635.setField0003(region);
@@ -171,7 +178,7 @@ public class NbdController extends BaseController {
             ctpContentAll.setModuleTemplateId(8115560079747926234L);
             System.out.println("ctpContentAll:TEST");
             //DBAgent.save(ctpContentAll);
-            MainbodyManager ma = (MainbodyManager)AppContext.getBean("ctpMainbodyManager");
+           // MainbodyManager ma = (MainbodyManager)AppContext.getBean("ctpMainbodyManager");
             DBAgent.save(ctpContentAll);
            // DBAgent.commit();
             System.out.println("ctpContentAll:TEST222");
@@ -369,24 +376,24 @@ public class NbdController extends BaseController {
 
         }
 
-        String startdate = parameter.$("startdate");
-
-        if (StringUtils.isEmpty(startdate)) {
-
-            ret.setResult(false);
-            ret.setMsg("开始时间不能为空");
-            ret.setData(parameter);
-            return ret;
-        }
-
-        Date ddt = UIUtils.parseDateYearMonthDay(startdate);
-
-        if (ddt == null) {
-            ret.setResult(false);
-            ret.setMsg("开始时间格式不能为空");
-            ret.setData(parameter);
-            return ret;
-        }
+//        String startdate = parameter.$("startdate");
+//
+//        if (StringUtils.isEmpty(startdate)) {
+//
+//            ret.setResult(false);
+//            ret.setMsg("开始时间不能为空");
+//            ret.setData(parameter);
+//            return ret;
+//        }
+//
+//        Date ddt = UIUtils.parseDateYearMonthDay(startdate);
+//
+//        if (ddt == null) {
+//            ret.setResult(false);
+//            ret.setMsg("开始时间格式不能为空");
+//            ret.setData(parameter);
+//            return ret;
+//        }
 
         return ret;
 
