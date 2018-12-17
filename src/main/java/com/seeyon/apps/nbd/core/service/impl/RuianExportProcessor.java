@@ -193,6 +193,11 @@ public class RuianExportProcessor implements CustomExportProcess {
         return dataMap;
     }
 
+    public static void main(){
+
+        System.out.println("  Test in action ");
+    }
+
     public void process(String code, CtpAffair affair) {
         Long formRecordId = affair.getFormRecordid();
         CommonParameter cp = new CommonParameter();
