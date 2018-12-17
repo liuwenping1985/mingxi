@@ -122,6 +122,7 @@ public final class DataBaseHelper {
 
 
                     } else {
+                        //System.out.println(cls+","+val+","+(i+1));
                         pst.setObject(i + 1, val);
                     }
 
@@ -341,7 +342,7 @@ public final class DataBaseHelper {
             tableName = tableName.replaceAll("\"", "");
             conn = ConnectionBuilder.openConnection(link);
 
-            rs = conn.getMetaData().getTables(null, null, tableName, null);
+            rs = conn.getMetaData().getTables(null, null, tableName.toUpperCase(), null);
             if (rs.next()) {
                 //存在
                 return;
@@ -353,9 +354,9 @@ public final class DataBaseHelper {
             }
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+           // e.printStackTrace();
         } finally {
 
             if (rs != null) {
@@ -545,7 +546,7 @@ public final class DataBaseHelper {
         }
 
         int len = insFields.size();
-
+        int idIndex = -1;
         for (int i = 0; i < len; i++) {
             Field fd = insFields.get(i);
             Class type = fd.getType();
@@ -553,7 +554,9 @@ public final class DataBaseHelper {
             if (val == null) {
                 throw new RuntimeException("Error:null value is not permitted!!");
             }
+            //这里的id跳戏了
             if ("id".equals(fieldNames.get(i))) {
+                idIndex = i;
                 continue;
             }
             updateData.add(fieldNames.get(i) + "=" + "?");
@@ -564,6 +567,32 @@ public final class DataBaseHelper {
 //            }
 
         }
+        //dataList 删除id
+        if(idIndex>=0){
+            int tag =0;
+            Iterator it = dataList.iterator();
+            while(it.hasNext()){
+                Object obj = it.next();
+                if(idIndex==tag){
+                    System.out.println("remove id="+idIndex+" and value is "+obj);
+                    it.remove();
+                    break;
+                }
+                tag++;
+            }
+            Iterator fit = insFields.iterator();
+            tag=0;
+            while(fit.hasNext()){
+                Object obj = fit.next();
+                if(idIndex==tag){
+                    System.out.println("remove id="+idIndex+" and value is "+obj);
+                    fit.remove();
+                    break;
+                }
+                tag++;
+            }
+        }
+
         return updateData;
 
     }

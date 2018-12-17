@@ -130,7 +130,7 @@ public class NbdService {
     public NbdResponseEntity postUpdate(CommonParameter p) {
         NbdResponseEntity entity = preProcess(p);
         String type = p.$("data_type");
-        System.out.println("post--->>>>" + p.$("id"));
+       // System.out.println("post--->>>>" + p.$("id"));
         Long id = Long.parseLong("" + p.$("id"));
         CommonPo cVo = transferService.transData(type, p);
         if (id != null) {
@@ -140,11 +140,11 @@ public class NbdService {
             entity.setMsg("id is not presented!");
         }
         DataLink dataLink = ConfigService.getA8DefaultDataLink();
-        System.out.println("post--->>>>" + cVo.getId());
+        //System.out.println("post--->>>>" + cVo.getId());
         Class cls = transferService.getTransferClass(type);
         CommonPo vo2 = (CommonPo) DataBaseHelper.getDataByTypeAndId(dataLink, cls, id);
         // CommonPo vo2 = (CommonPo) handler.getDataByKeyAndClassType(type, ""+cVo.getId(), cls);
-        System.out.println("post2--->>>>" + vo2.getId());
+        //System.out.println("post2--->>>>" + vo2.getId());
         //handler.removeDataByKey(type,vo2.getId());
         vo2 = CommonUtils.copyProIfNotNullReturnSource(vo2, cVo);
 

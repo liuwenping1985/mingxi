@@ -41,7 +41,7 @@
             $(items).each(function (index, item) {
                 htmls.push("<tr class='data_link_row' >");
                 htmls.push("<td><input type='checkbox' value='" + item.sid + "' class='data_link_selected' /> </td>");
-                htmls.push("<td>" + item.name + "</td>");
+                htmls.push("<td>" + decodeURIComponent(item.name) + "</td>");
                 htmls.push("<td>" + item.host + "</td>");
                 htmls.push("<td>" + item.port + "</td>");
 
@@ -175,7 +175,12 @@
                                 if (name) {
                                     var val_ = data[name];
                                     if (val_ != undefined) {
-                                        $(item).val(val_);
+                                        if(name=="name"){
+                                            $(item).val(decodeURIComponent(val_));
+                                        }else{
+                                            $(item).val(val_);
+                                        }
+
                                     }
                                 }
                                 if(name=="id"){

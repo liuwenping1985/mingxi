@@ -215,7 +215,11 @@
                                 if (name) {
                                     var val_ = data[name];
                                     if (val_ != undefined) {
-                                        $(item).val(val_);
+                                        if(name=="name"){
+                                            $(item).val(decodeURIComponent(val_));
+                                        }else{
+                                            $(item).val(val_);
+                                        }
                                     }
                                 }
                                 if(name=="id"){
@@ -288,7 +292,8 @@
                 // console.log(ret);
                 Dao.getList("a82other", function (data2) {
                     $(".nbd_content").hide();
-                    $("#link_config").show();
+                    $("#a82other_list_btn").click();
+                    //other2a8_list_btn
                     A82OTHER.renderList(data2);
                 });
             });

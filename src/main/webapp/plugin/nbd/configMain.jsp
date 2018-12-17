@@ -402,7 +402,7 @@
                             <col width="200">
                             <col width="150">
                             <col width="150">
-
+                            <col width="">
                             <col width="">
                         </colgroup>
                         <thead>
@@ -411,12 +411,12 @@
                             <th>表单名称</th>
                             <th>触发机制</th>
                             <th>数据连接</th>
-                            <th>数据对接方式</th>
+                            <th>数据获取方式</th>
                             <th>表单模板编号</th>
-
+                            <th>是否触发流程</th>
                         </tr>
                         </thead>
-                        <tbody id="a82other_list_body">
+                        <tbody id="other2a8_list_body">
 
                         </tbody>
                     </table>
@@ -432,6 +432,7 @@
                 </span>
             <br><br>
             <form class="layui-form" id="other2a8_form" action="">
+                <input type="hidden" name="id" value />
                 <div class="layui-form-item">
                     <label class="layui-form-label">名称</label>
                     <div class="layui-input-block" style="width:300px">
@@ -453,8 +454,8 @@
                     <div class="layui-input-inline" style="width:300px">
                         <select name="exportType" lay-verify="required">
                             <option value="mid_table">中间表</option>
-                            <!-- <option value="api">接口传输</option>
-                                                <option value="ws">WebService服务</option> -->
+                            <option value="api">接口传输</option>
+                            <option value="ws">WebService服务</option>
 
                         </select>
                     </div>
@@ -473,6 +474,8 @@
                     <div class="layui-input-block" style="width:300px">
                         <select name="triggerType" lay-verify="required">
                             <option value="schedule">定时</option>
+                            <option value="api_receive">外部调用A8接口传入</option>
+                            <option value="api_get">A8调用外部接口获取</option>
                         </select>
                     </div>
                 </div>
@@ -486,7 +489,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">是否触发流程</label>
                     <div class="layui-input-block" style="width:300px">
-                        <select name="triggerType" lay-verify="required">
+                        <select name="triggerProcess" lay-verify="required">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
@@ -495,7 +498,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">A8表单模板编号</label>
                     <div class="layui-input-inline">
-                        <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect">
+                        <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect2">
                             <!-- <option value="api">接口传输</option>
                                             <option value="ws">WebService服务</option> -->
 

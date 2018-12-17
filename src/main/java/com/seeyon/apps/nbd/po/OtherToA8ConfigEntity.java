@@ -10,7 +10,7 @@ public class OtherToA8ConfigEntity extends A8ToOtherConfigEntity {
 
     private String period;
 
-    private boolean triggerProcess;
+    private String triggerProcess;
 
 
     public String getPeriod() {
@@ -21,13 +21,14 @@ public class OtherToA8ConfigEntity extends A8ToOtherConfigEntity {
         this.period = period;
     }
 
-    public boolean isTriggerProcess() {
+    public String getTriggerProcess() {
         return triggerProcess;
     }
 
-    public void setTriggerProcess(boolean triggerProcess) {
+    public void setTriggerProcess(String triggerProcess) {
         this.triggerProcess = triggerProcess;
     }
+
     public String getTableName() {
         return tableName;
     }

@@ -169,12 +169,18 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         String export = cpa.$(key + "_export");
         if (!CommonUtils.isEmpty(clsName)) {
             ff.setClassname(clsName);
+        }else{
+            ff.setClassname("");
         }
         if (!CommonUtils.isEmpty(barCode)) {
             ff.setBarcode(barCode);
+        }else{
+            ff.setBarcode("");
         }
         if (!CommonUtils.isEmpty(export)) {
             ff.setExport(export);
+        }else{
+            ff.setExport("");
         }
 
 
