@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
  */
 public class LancherService {
 
-
+    private ServiceConfigMain configMain;
 
     private NbdBpmnService nbdBpmnService;
 
@@ -520,7 +520,36 @@ public class LancherService {
         return null;
     }
 
+    public ServiceAffairs getServiceAffairs(String affairType){
+        if(StringUtils.isEmpty(affairType)){
+            return null;
+        }
+        List<ServiceAffairs> sasList = this.configMain.getAffairsList();
+        if(!CollectionUtils.isEmpty(sasList)){
+            for(ServiceAffairs affairs:sasList){
+                if(affairType.equals(affairs.getName())){
+                    return affairs;
+                }
 
+            }
+        }
+        return null;
+    }
+    public boolean containAffairType(String affairType) {
+        if(StringUtils.isEmpty(affairType)){
+            return false;
+        }
+        List<ServiceAffairs> sasList = this.configMain.getAffairsList();
+        if(!CollectionUtils.isEmpty(sasList)){
+            for(ServiceAffairs affairs:sasList){
+                if(affairType.equals(affairs.getName())){
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
     public static void main(String[] args) throws UnsupportedEncodingException {
 
         String input = "BR-%E8%AE%A1%E8%B4%B9%E5%87%86%E7%A1%AE%E6%80%A7%E8%B0%83%E6%95%B4%E6%96%B9%E6%A1%88%E7%9B%B8%E5%85%B3%E9%9C%80%E6%B1.docx";

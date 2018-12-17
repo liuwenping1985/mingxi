@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.platform.oa;
 
 import com.seeyon.apps.nbd.core.entity.Entity;
+import com.seeyon.apps.nbd.core.vo.CommonParameter;
 
 import java.util.Map;
 
@@ -10,5 +11,5 @@ import java.util.Map;
 public interface SubEntityFieldParser {
 
 
-    public void parse(Map dataMap, Map inputDataMap, Entity entity);
+    public void parse(CommonParameter commonParameter, Map dataMap, Map inputDataMap, Entity entity);
 }
