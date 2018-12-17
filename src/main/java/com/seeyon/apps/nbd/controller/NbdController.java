@@ -1,7 +1,5 @@
 package com.seeyon.apps.nbd.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.dao.DocResourceDaoImpl;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -15,6 +13,7 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.util.LightWeightEncoder;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -244,7 +243,8 @@ public class NbdController extends BaseController {
 
     public static void main(String[] args) {
 
-        System.out.println("TEST1");
+        String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
+        System.out.println(codde);
     }
 
 }

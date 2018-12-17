@@ -1,19 +1,24 @@
 package com.seeyon.apps.nbd.service;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.bulletin.bo.BulDataBO;
 import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
+import com.seeyon.apps.nbd.core.entity.*;
+import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.CustomExportProcess;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
+import com.seeyon.apps.nbd.core.service.NbdBpmnService;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.platform.oa.SubEntityFieldParser;
 import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
@@ -22,9 +27,15 @@ import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.UUIDLong;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
+import com.seeyon.v3x.bulletin.domain.BulData;
+import com.seeyon.v3x.bulletin.manager.BulDataManagerImpl;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -36,8 +47,13 @@ public class NbdService {
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
     private CollaborationTemplateManager collaborationTemplateManager;
-
-
+    private NbdBpmnService nbdBpmnService;
+    private NbdBpmnService getNbdBpmnService() {
+        if (nbdBpmnService == null) {
+            nbdBpmnService = new NbdBpmnService();
+        }
+        return nbdBpmnService;
+    }
 
     private CollaborationTemplateManager getCollaborationTemplateManager() {
         if (collaborationTemplateManager == null) {
@@ -78,20 +94,75 @@ public class NbdService {
         return loginControl;
     }
 
-    public NbdResponseEntity lanchForm(CommonParameter p){
-        NbdResponseEntity entity = new NbdResponseEntity();
-        entity.setResult(false);
-        String affairType = p.$("affairType");
-        if(CommonUtils.isEmpty(affairType)){
-            affairType = "GYSDJB";
+        public NbdResponseEntity lanchForm(CommonParameter p){
+            NbdResponseEntity entity = new NbdResponseEntity();
+            entity.setResult(false);
+            String affairType = p.$("affairType");
+            if(CommonUtils.isEmpty(affairType)){
+                affairType = "GYSDJB";
+            }
+            DataLink dl = ConfigService.getA8DefaultDataLink();
+            String sql ="select * from "+DataBaseHelper.getTableName(OtherToA8ConfigEntity.class)+" where affairType='"+affairType+"'";
+            try {
+                List<OtherToA8ConfigEntity> otaceList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl,OtherToA8ConfigEntity.class,sql);
+                if(CommonUtils.isEmpty(otaceList)){
+                    entity.setMsg("接受失败，没有找到对应的配置项："+affairType);
+                    entity.setResult(false);
+                    entity.setData(p);
+                    return entity;
+                }
+                //这里分为两段逻辑
+                //从外部接受存入底表和表单,先写表单的
+               for(OtherToA8ConfigEntity otace:otaceList){
+                    if("1".equals(otace.getTriggerProcess())){
+                        otace =  DataBaseHelper.getDataByTypeAndId(dl,OtherToA8ConfigEntity.class,otace.getId());
+                        FormTableDefinition ftd = otace.getFtd();
+                        Map<String, Object> params = genCollData(p,ftd);
+                        Long summaryId = getNbdBpmnService().sendCollaboration(affairType,params);
+                        entity.setResult(true);
+                        entity.setData(summaryId);
+                    }
+               }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                entity.setMsg("发起流程失败:"+e.getMessage());
+                entity.setResult(false);
+            }
+           // entity.setMsg("发起流程失败");
+            entity.setData(p);
+            return entity;
+
+
         }
-        String sql ="select * from "+DataBaseHelper.getTableName(OtherToA8ConfigEntity.class)+" where ";
-        //OtherToA8ConfigEntity entity = DataBaseHelper.executeQueryByNativeSQL();
-        entity.setMsg("发起流程失败");
-        entity.setData(p);
-        return entity;
+    private void setData(FormField meta,Map dataMap,Map inputData){
+        String barCode = meta.getBarcode();
+        String name = meta.getName();
+        if(!StringUtils.isEmpty(barCode)&&!StringUtils.isEmpty(name)){
+
+            dataMap.put(name,inputData.get(barCode));
+        }
+    }
+    private Map<String,Object> genCollData(CommonParameter inputData,FormTableDefinition ftd){
+
+        Map<String,Object> param = new HashMap<String,Object>();
+        FormTable entity = ftd.getFormTable();
+        List<FormField> fields = entity.getFormFieldList();
+        if(!CollectionUtils.isEmpty(fields)){
+            for(FormField meta:fields){
+                setData(meta,param,inputData);
+            }
+        }
+        // System.out.println("parse--sub-entity");
+        List<FormTable> slaveFtList = entity.getSlaveTableList();
+
+        if(!CollectionUtils.isEmpty(slaveFtList)){
+            //   System.out.println("parse--sub2-entity");
 
 
+        }
+
+        return param;
     }
 
     public NbdResponseEntity postAdd(CommonParameter p) {
