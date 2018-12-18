@@ -5,8 +5,12 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.Constants;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
+import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.filemanager.manager.NbdFileUtils;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.UUIDLong;
@@ -27,6 +31,35 @@ public class CommonParameter extends HashMap{
     private List<Attachment> attachmentList;
 
     private HttpServletRequest request;
+
+    private AttachmentManager attachmentManager;
+    private FileManager fileManager;
+    private FormManager formManager;
+
+
+    public AttachmentManager getAttachmentManager() {
+        if (this.attachmentManager == null) {
+            this.attachmentManager = (AttachmentManager) AppContext.getBean("attachmentManager");
+        }
+
+        return this.attachmentManager;
+    }
+
+
+    public FileManager getFileManager() {
+        if (this.fileManager == null) {
+            this.fileManager = (FileManager) AppContext.getBean("fileManager");
+        }
+
+        return this.fileManager;
+    }
+
+    public FormManager getFormManager(){
+        if(formManager == null){
+            formManager = (FormManager) AppContext.getBean("formManager");
+        }
+        return formManager;
+    }
 
     public List<Attachment> getAttachmentList() {
         return attachmentList;
@@ -49,21 +82,24 @@ public class CommonParameter extends HashMap{
 
     public static CommonParameter parseParameter(HttpServletRequest request){
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        CommonParameter parameter = new CommonParameter();
+
         List<Attachment> list = null;
         if (isMultipart) {
             try {
                 System.out.println("is isMultipart");
                 Map data = new HashMap();
-                list = this.uploadFiles(request, data);
+                list = parameter.uploadFiles(request, data);
                 Object obj = data.get("req");
                 if (obj != null) {
-                    this.request = (HttpServletRequest) obj;
+                    parameter.request = (HttpServletRequest) obj;
                 }
+                parameter.setAttachmentList(list);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        CommonParameter parameter = new CommonParameter();
+
         Enumeration<String> ps = request.getParameterNames();
         while(ps.hasMoreElements()){
             String psCode = ps.nextElement();
@@ -160,4 +196,11 @@ public class CommonParameter extends HashMap{
         return new ArrayList<Attachment>();
     }
 
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
 }
