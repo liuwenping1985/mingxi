@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.po;
 
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.ctp.util.UUIDLong;
@@ -84,13 +85,24 @@ public class CommonPo {
         }
 
     }
+    public void saveOrUpdate(){
 
+        saveOrUpdate(ConfigService.getA8DefaultDataLink());
+    }
     public void saveOrUpdate(DataLink dl){
         DataBaseHelper.persistCommonVo(dl,this);
+    }
+    public void updateBySample(CommonPo vo){
+        updateBySample(ConfigService.getA8DefaultDataLink(),vo);
+        //DataBaseHelper.persistCommonVo(ConfigService.getA8DefaultDataLink(),vo);
     }
     public void updateBySample(DataLink dl,CommonPo vo){
         vo.setId(this.getId());
         DataBaseHelper.persistCommonVo(dl,vo);
+    }
+    public void delete(){
+
+        delete(ConfigService.getA8DefaultDataLink());
     }
     public void delete(DataLink dl){
         String table = CommonUtils.camelToUnderline(this.getClass().getSimpleName());

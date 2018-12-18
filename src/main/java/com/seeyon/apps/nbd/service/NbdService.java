@@ -617,7 +617,7 @@ public class NbdService {
     public Map exportMasterData(Long formRecordId, FormTableDefinition ftd, boolean usingName) throws Exception {
         Map masterRecord = new HashMap();
         String sql = ftd.genQueryById(formRecordId);
-        System.out.println(sql);
+        //System.out.println(sql);
 
         List<Map> dataMapList = DataBaseHelper.executeQueryByNativeSQL(sql);
         if (CommonUtils.isEmpty(dataMapList)) {
@@ -629,7 +629,7 @@ public class NbdService {
 
         //只会有一条
         masterRecord = retList.get(0);
-        System.out.println("master_record:" + masterRecord);
+        //System.out.println("master_record:" + masterRecord);
         //处理子表
         List<FormTable> slaveTables = ftd.getFormTable().getSlaveTableList();
         if (!CommonUtils.isEmpty(slaveTables)) {

@@ -53,6 +53,9 @@ public class TransferService {
         DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(OtherToA8ConfigEntity.class.getSimpleName()),link);
         DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(LogEntry.class.getSimpleName()),link);
         DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(Ftd.class.getSimpleName()),link);
+        if("0".equals(link.getDbType())){
+            DataBaseHelper.createTableIfNotExist(CommonUtils.camelToUnderline(ZrzxUserSchedule.class.getSimpleName()),link);
+        }
 
     }
     private TransferService ins = null;

@@ -14,13 +14,14 @@
 	<bean name="/nbd.do" class="com.seeyon.apps.nbd.controller.NbdController">
 		<property name="nbdService" ref="nbdService" />
 	</bean>
+
 	<bean name="/form/receive.do" class="com.seeyon.apps.nbd.controller.OtherToA8Controller">
 		<property name="nbdService" ref="nbdService" />
 	</bean>
 
-
-
-
+	<bean name="/datakit/get.do" class="com.seeyon.apps.nbd.controller.CommonDataController">
+		<property name="nbdService" ref="nbdService" />
+	</bean>
 
 
 

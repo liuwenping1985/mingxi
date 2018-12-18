@@ -77,7 +77,10 @@
                 var htmls=[];
                 for (var p = 0; p < data.length; p++) {
                     var item= data[p];
-                    console.log(this.op.data_prop["img"]);
+                    //console.log(this.op.data_prop["img"]);
+                    if(!this.op_.img_size) {
+                        this.op_.img_size="4";
+                    }
                     htmls.push("<div><img height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item[this.op.data_prop["img"]] + "'> </div>");
                 }
                 this.body.append($(htmls.join("")));

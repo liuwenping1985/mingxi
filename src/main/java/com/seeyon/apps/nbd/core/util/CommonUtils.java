@@ -2,6 +2,9 @@ package com.seeyon.apps.nbd.core.util;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.organization.manager.OrgManager;
+
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -18,6 +21,7 @@ import java.util.*;
  */
 public class CommonUtils {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
     public static boolean isEmpty(Collection collection) {
         if (collection == null || collection.isEmpty()) {
@@ -81,6 +85,12 @@ public class CommonUtils {
 
     public static Date parseDate(String dateStr) {
         try {
+            if(CommonUtils.isEmpty(dateStr)){
+                return null;
+            }
+            if(dateStr.trim().length()=="yyyy-MM-dd".length()){
+                return sdf2.parse(dateStr);
+            }
             Date dt = sdf.parse(dateStr);
             return dt;
         } catch (ParseException e) {
@@ -223,6 +233,19 @@ public class CommonUtils {
 
         }
         return obj;
+    }
+    public static  Map<String, String> genTableDataMapByColumns(List<Map> columnDataList) {
+        Map<String, String> dataMap = new HashMap<String, String>();
+        for (Map col : columnDataList) {
+            dataMap.put("" + col.get("column_name"), "" + col.get("type_name"));
+        }
+        return dataMap;
+    }
+
+    public static OrgManager getOrgManager(){
+
+
+        return (OrgManager)AppContext.getBean("orgManager");
     }
 
     public static <T> T  copyProIfNotNullReturnSource(T source,T dest){
