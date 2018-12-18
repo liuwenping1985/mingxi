@@ -155,9 +155,9 @@
 
 }
 .lx-left-menu{
-  position:fixed;
-  left:0px;
-  top:182px;
+    position:fixed;
+    left:0px;
+    top:182px;
 }
 .lx-right-menu{
     position:fixed;
@@ -207,7 +207,7 @@
     width:100%;
 }
 .lx-root-body{
-   
+
 }
 .lx-eclipse {
     white-space: nowrap;
@@ -350,10 +350,10 @@
     height:44px;
 }
 .lx-btn-span{
- font-style: italic;
- font-size: 40px;
- line-height: 100%;
- 
+    font-style: italic;
+    font-size: 40px;
+    line-height: 100%;
+
 }
 .lx-content-zq{
     position:absolute;
@@ -364,25 +364,25 @@
     height: 40px;
     width: 120px;
     padding-bottom:1000px;
-  }
-  .lx-dropdown-zq{
-    position:relative;  
-   flex-direction:column-reverse;
-  }
-  
-  .lx-dropdown-zq:hover .lx-content-zq{
-    display:flex;  
+}
+.lx-dropdown-zq{
+    position:relative;
     flex-direction:column-reverse;
-  }
-  .lx-content-zq span{
+}
+
+.lx-dropdown-zq:hover .lx-content-zq{
+    display:flex;
+    flex-direction:column-reverse;
+}
+.lx-content-zq span{
     color:red;
     display: block;
     background-color:black;
-  }
-  .lx-left-menu-zq{
-      width:70px;
-  }
-  .lx-right-menu-zq{
+}
+.lx-left-menu-zq{
+    width:70px;
+}
+.lx-right-menu-zq{
     width:70px;
 }
 .lx-icon-margin-zq{
@@ -401,35 +401,64 @@
 }
 
 .lx-box-style{
-display:flex;
-justify-content: space-between;
-align-items: center;
-color:black;
-width: 90%;
-margin:0 auto;
-margin-bottom: 5px;
-height:28px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    color:black;
+    width: 90%;
+    margin:0 auto;
+    margin-bottom: 5px;
+    height:28px;
 }
 .lx-text-style{
-   color:#BBBDC1;
+    color:#BBBDC1;
 }
 .lx-table-zq{
-   padding-left:10px;
-   padding-right:10px;
-   color:#524849;
-   font-size: 18px;
-  
+    padding-left:10px;
+    padding-right:10px;
+    color:#524849;
+    font-size: 18px;
+
 }
 .lx-top-menu-zq{
-   
-    margin: 0 auto; 
+
+    margin: 0 auto;
 }
 .lx-changeFont-zq{
-   font-size:16px;
+    font-size:16px;
 }
 .lx-nav-font{
     font-weight:bold;
     font-size:18px;
 
 }
+.lx-cal-item{
 
+    height:31px;
+
+}
+.lx-cal-name{
+    font-size:18px;
+    color:rgba(0,0,0,0.5);
+    padding-right:15px;
+}
+.lx-cal-bj-in{
+    color: #009688;
+    font-size:16px;
+
+}
+.lx-cal-bj-out{
+
+    color: rgb(228,148,108);
+    font-size:16px;
+
+}
+.lx-cal-gray{
+    color:rgb(176,185,199);
+    font-size:16px;
+}
+.lx-cal-split-line{
+    width:100%;
+    height:1px;
+    background-color: #333;
+}

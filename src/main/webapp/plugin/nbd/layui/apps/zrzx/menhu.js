@@ -1,7 +1,7 @@
 ;var URL_BASE = "http://10.100.249.84:612";
 
 var URL_REPO = {
-   //第一行-要情、公告、工作动态
+    //第一行-要情、公告、工作动态
     "tupianxinwen": URL_BASE + "/seeyon/menhu.do?method=getImgNewList&typeId=1&offset=0&limit=7",
     "tongzhigonggao": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=7305481828924604761&offset=0&limit=7",
     "zuoriyaoqing": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-2220615473202182672&offset=0&limit=7",//昨日要请
@@ -19,10 +19,10 @@ var URL_REPO = {
     "shibada2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=5469896967953073526&offset=0&limit=6",
     "sanhuiyike2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8503501149007790685&offset=0&limit=6",
     "sanhuiyike1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8339111925347929889&offset=0&limit=6",
-   //行前、执行、国际
-    "xqgs": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=3563212477215886478&offset=0&limit=7",
-    "zhixinggongshi": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8922663637462369764&offset=0&limit=7",
-    "guojidongtai": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=6475027635041617679&offset=0&limit=7",
+    //行前、执行、国际
+    "xqgs": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=3563212477215886478&offset=0&limit=8",
+    "zhixinggongshi": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8922663637462369764&offset=0&limit=8",
+    "guojidongtai": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=6475027635041617679&offset=0&limit=8",
     //信息报
     "xinxizhuanbao": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4787332904735427042&offset=0&limit=7",//信息专报
     "zhengwuxinxitongbao": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2101297384881669972&offset=0&limit=7",
@@ -32,7 +32,7 @@ var URL_REPO = {
     "genzongduban": URL_BASE + "/seeyon/menhu.do?method=getSuperviseList&offset=0&limit=7",
     "wodemoban1": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=0&limit=3",//登陆才有
     "wodemoban2": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=4&limit=6",
-   //办公室和领导班子
+    //办公室和领导班子
     "bangonghui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=3297213230734002184&offset=0&limit=7",
     "lingdaobanzihui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=-7007958826195137660&offset=0&limit=7",
     "zhurenzhutihui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=-3156250650104348435&offset=0&limit=7",
@@ -51,16 +51,21 @@ var URL_REPO = {
     "guizhangzhidu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8314899268065577424&offset=0&limit=7",
     "hyjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8567852862769874037&offset=0&limit=7",
     "bmfzjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7211608043895997701&offset=0&limit=7",
-    "zxyy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=7"
-    
-    
+    "zxyy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=7",
+
+    "my_cal":URL_BASE+"/seeyon/datakit/get.do?method=getMyCalendar&day=",
+    "s_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getDepartmentLeaderCalendar&day=",
+    "m_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getAccountLeaderCalendar&day="
+
+
 };
 (function () {
 
-    lx.use(["jquery", "carousel", "element", "row", "col", "sTab", "mTab", "list", "lunbo", "mixed", "datepicker"], function () {
+    lx.use(["jquery", "carousel", "element", "row", "col", "sTab", "mTab", "list", "lunbo", "mixed", "datepicker","laydate"], function () {
         var default_height = "height:300px"
         var default_height_value = "300px";
         var default_height_col = "height:300px";
+        var laydate=lx.laydate;
         var Row = lx.row;
         var MTab = lx.mTab;
         var Tab = lx["sTab"];
@@ -153,7 +158,7 @@ var URL_REPO = {
         });
         var col10 = Col.create({
             size: 6,
-            style: default_height_col
+            style: "height:350px"
         });
         row4.append(col8);
         row4.append(col9);
@@ -185,7 +190,7 @@ var URL_REPO = {
         row7.append(col15);
         var list1 = List.create({
             name: "通知公告",
-            link_prop:"link",      
+            link_prop:"link",
             data_url: URL_REPO.tongzhigonggao,
             data_prop: [{
                 name: "title",
@@ -193,25 +198,25 @@ var URL_REPO = {
                 render: function (name, data,item) {
                     if(item.readFlag){//有错误
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
-                 }
+                    }
                 }
             }, {
                 "name": "updateDate",
@@ -230,7 +235,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    
+
                 }
             },
             new_btn: {
@@ -259,7 +264,7 @@ var URL_REPO = {
             }
         });
         var list31 = List.create({
-            link_prop:"link",  
+            link_prop:"link",
             data_url: URL_REPO.zuoriyaoqing,
             data_prop: [{
                 name: "title",
@@ -267,25 +272,25 @@ var URL_REPO = {
                 render: function (name, data,item) {
                     if(item.readFlag){
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";                                     
-                        }else if(item.body_type=="OfficeWord"){                           
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";                                               
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                        }else if(item.body_type=="OfficeWord"){
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }    
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                        }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";                                     
-                        }else if(item.body_type=="OfficeWord"){                           
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";                                               
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                        }else if(item.body_type=="OfficeWord"){
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }    
-                 }  
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                        }
+                    }
                 }
             }, {
                 "name": "createDate",
@@ -296,7 +301,7 @@ var URL_REPO = {
             }]
         });
         function isNumber(str){
-            var re = /^([0-9]+)([.]?)([0-9]*)$/;  
+            var re = /^([0-9]+)([.]?)([0-9]*)$/;
             return re.test(str);
         }
         var list32 = List.create({
@@ -307,38 +312,38 @@ var URL_REPO = {
                 render: function (name, data,item) {
                     if(item.readFlag){//有错误
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
-                 }
+                    }
                 }
             }, {
                 "name": "createDate",
                 size: 2,
                 render: function (name, data,item) {
-                  
+
                     var txtDate = new Date(item);
                     if(isNumber(item)){
                         return (new Date()+"").substring(5, 10);
                     }else{
                         return data.substring(5, 10);
                     }
-                   
+
                 }
             }]
         });
@@ -383,25 +388,25 @@ var URL_REPO = {
 
                     if(item.readFlag){//有错误
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
-                 }    
+                    }
                 },
                 size: 10
             }, {
@@ -512,16 +517,16 @@ var URL_REPO = {
             mode: "col",
             size: 12
         });
-        
+
         var btn_htmls = ['<button  class="layui-btn layui-btn-lg layui-btn-primary lx-btn-zq lx-btn-zq1"><span class="lx-btn-span">2</span><span style="margin: 0 30px 0 30px;line-height:44px">|</span>公文审批</button>'];
         btn_htmls.push('<br><div style="width:1px;height:10px"></div><button  class="layui-btn layui-btn-lg layui-btn-primary lx-btn-zq"><span class="lx-btn-span">2</span><span style="margin: 0 30px 0 30px">|</span>协同办理</button>');
         btn_htmls.push('<br><div style="width:1px;height:10px"></div><button  class="layui-btn layui-btn-lg layui-btn-primary lx-btn-zq"><span class="lx-btn-span">1</span><span style="margin: 0 30px 0 30px">|</span>任务执行</button>');
         btn_htmls.push('<br><div style="width:1px;height:10px"></div><button  class="layui-btn layui-btn-lg layui-btn-primary lx-btn-zq"><span class="lx-btn-span">0</span><span style="margin: 0 30px 0 30px">|</span>会议日程</button>');
-    //    function myButton(id){
-    //         var x=document.getElementById(id);
-    //          x.style.color="blue";
-    //    };
-   
+        //    function myButton(id){
+        //         var x=document.getElementById(id);
+        //          x.style.color="blue";
+        //    };
+
 
         var mix511 = Mixed.create({
             id: "mixed2",
@@ -543,10 +548,10 @@ var URL_REPO = {
         //mix512.append();
         mixRoot51.append(mix511);
         mixRoot51.append(mix512);
-        
-        
+
+
         //mix512.append();
-       
+
         var mTab5 = MTab.create({
             id: "pending-main-mTab5",
             root_style:default_height,
@@ -558,24 +563,24 @@ var URL_REPO = {
                 id:"pending-li-1",
                 content: mixRoot51
             }, {
-                
+
                 name: "<span id='yifa2'  class='lx-tab-multi-head'>已发[12]</span>",
                 checked: false,
                 contentType: "cmp",
                 id:"pending-li-2",
-              
+
             }, {
                 name: "<span class='lx-tab-multi-head'>已办[12]</span>",
                 checked: false,
                 contentType: "cmp",
                 id:"pending-li-3",
-               
+
             }, {
                 name: "<span class='lx-tab-multi-head'>超期[1]</span>",
                 checked: false,
                 contentType: "cmp",
                 id:"pending-li-4",
-               
+
             }],
             on_tab:function(item){
                 var curTab = $("#pending-main-mTab5").find(".layui-tab-item.layui-show");
@@ -601,7 +606,7 @@ var URL_REPO = {
                     mix512.root.append(list54.root);
                     list54.root.show();
                 }
-              
+
             },
             more_btn: {
                 class_name: "lx-tab-more-btn",
@@ -626,7 +631,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "subject",
                 render: function (name, data,item) {
-                
+
                     if(item.bodyType=="20"){
                         return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
                         //审批单--政务信息审批单
@@ -650,7 +655,7 @@ var URL_REPO = {
             data_url: URL_REPO.wodemoban2,
             max:3,
             data_prop: [{
-                "name": "subject",               
+                "name": "subject",
                 render: function (name, data,item) {
                     if(item.bodyType=="20"){
                         return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
@@ -708,7 +713,7 @@ var URL_REPO = {
                 }
             }
         });
-       
+
         var sTab7 = Tab.create({
             "title": "<span class='lx-tab-head lx-tab-color1'>快捷通道</span>",
             "style": "height:150px;overflow-y:auto",
@@ -784,7 +789,7 @@ var URL_REPO = {
         });
         var mTab8 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
+            root_style:"height:340px",
             root_class:"layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>行前公示</span>",
@@ -824,23 +829,26 @@ var URL_REPO = {
                 "name": "frName",
                 size:12,
                 render: function (name, data,item) {
-                if(item.status=="3"){
-                    if(item.bodyType=="20"){
-                        return "<span style=’color:blue‘>[发文]</span><span>"+data+"</span><span class='lx_icon16_form_temp'>";
-                        //审批单--政务信息审批单
-                    }else if(item.bodyType=="41"){
-                        return "<span></span><span>"+data+"</span><span class='lx_icon16_text_type_template'></span>";
-                        //审批单--工作简报/信息专报审批单
-                    }else if(item.bodyType=="10"){
-                        return "<span></span><span>"+data+"</span><span class='lx_icon16_red_text_type_template'></span>";
-                        //审批单--阅稿纸
-                    }else if(item.bodyType=="45"){
-                        return "<span></span><span>"+data+"</span><span class='lx_icon16_text_type_template'></span>";
-                        //审批单--传真收文稿纸
+                    console.log(item);
+                    if(item.status=="3"){
+                        if(item.bodyType=="20"){
+                            return "<span style=’color:blue‘>[发文]</span><span>"+data+"</span><span class='lx_icon16_form_temp'>";
+                            //审批单--政务信息审批单
+                        }else if(item.bodyType=="41"){
+                            return "<span></span><span>"+data+"</span><span class='lx_icon16_text_type_template'></span>";
+                            //审批单--工作简报/信息专报审批单
+                        }else if(item.bodyType=="10"){
+                            return "<span></span><span>"+data+"</span><span class='lx_icon16_red_text_type_template'></span>";
+                            //审批单--阅稿纸
+                        }else if(item.bodyType=="45"){
+                            return "<span></span><span>"+data+"</span><span class='lx_icon16_text_type_template'></span>";
+                            //审批单--传真收文稿纸
+                        }else{
+                            return "<span></span><span>"+data+"</span><span class='lx_icon16_message lx-icon-margin-zq'></span>";
+                        }
                     }else{
-                        return "<span></span><span>"+data+"</span><span class='lx_icon16_message lx-icon-margin-zq'></span>";
+                        return data;
                     }
-                }
                 }
             }]
 
@@ -855,10 +863,10 @@ var URL_REPO = {
         });
         var sTab9 = Tab.create({
             "title": "<span class='lx-tab-head lx-tab-color2'>我的收藏</span>",
-            "style": default_height,
+            "style": "height:340px",
             contentType: "cmp",
             content: list9,
-           
+
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -870,7 +878,7 @@ var URL_REPO = {
 
         var sTab10 = Tab.create({
             "title": "<span class='lx-tab-head lx-tab-color3'>日程管理</span>",
-            "style": default_height,
+            "style": "height:340px",
             contentType: "jq",
             content: $("#calendar_container"),
             more_btn: {
@@ -922,7 +930,7 @@ var URL_REPO = {
             }]
 
         });
-        
+
         var list112 = List.create({
             name: "中心组学习",
             data_url: URL_REPO.zhongxinzuxuexi,
@@ -1088,7 +1096,7 @@ var URL_REPO = {
                 }
             }
         });
-       
+
         var list121 = List.create({
             data_url: URL_REPO.xinxizhuanbao,
             data_prop: [{
@@ -1134,24 +1142,24 @@ var URL_REPO = {
                 }
             }]
         });
-      
-            var zhuanbao1=$("#zhuanbao1");
-           zhuanbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E8%AE%A1%E5%88%92%E5%AE%8C%E6%88%90.rpx&match=2'></iframe>");
-            var zhuanbao2=$("#zhuanbao2");
-            zhuanbao2.append(list121.root);
-            var zhuanbao=$("#zhuanbao");
 
-            var jianbao1=$("#jianbao1");
-            jianbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E9%83%A8%E9%97%A8%E7%BB%9F%E8%AE%A1.rpx&match=2'></iframe>");
-            var jianbao2=$("#jianbao2");
-            jianbao2.append(list122.root);
-            var jianbao=$("#jianbao");
+        var zhuanbao1=$("#zhuanbao1");
+        zhuanbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E8%AE%A1%E5%88%92%E5%AE%8C%E6%88%90.rpx&match=2'></iframe>");
+        var zhuanbao2=$("#zhuanbao2");
+        zhuanbao2.append(list121.root);
+        var zhuanbao=$("#zhuanbao");
 
-            var tongbao1=$("#tongbao1");
-            tongbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E5%8D%95%E4%BD%8D%E6%8A%A5%E8%A1%A8%E4%BF%A1%E6%81%AF%E4%B8%93%E6%8A%A5%E9%A6%96%E9%A1%B5/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
-            var tongbao2=$("#tongbao2");
-            tongbao2.append(list123.root);
-            var tongbao=$("#tongbao");
+        var jianbao1=$("#jianbao1");
+        jianbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E9%83%A8%E9%97%A8%E7%BB%9F%E8%AE%A1.rpx&match=2'></iframe>");
+        var jianbao2=$("#jianbao2");
+        jianbao2.append(list122.root);
+        var jianbao=$("#jianbao");
+
+        var tongbao1=$("#tongbao1");
+        tongbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E5%8D%95%E4%BD%8D%E6%8A%A5%E8%A1%A8%E4%BF%A1%E6%81%AF%E4%B8%93%E6%8A%A5%E9%A6%96%E9%A1%B5/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
+        var tongbao2=$("#tongbao2");
+        tongbao2.append(list123.root);
+        var tongbao=$("#tongbao");
         var mTab12 = MTab.create({
             id: "pending-main-1",
             root_style:default_height,
@@ -1230,25 +1238,25 @@ var URL_REPO = {
                 render: function (name, data,item) {
                     if(item.readFlag){//有错误
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
                         }else if(item.body_type=="OfficeWord"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
                         }
-                 }
+                    }
                 },
                 size: 8
             }, {
@@ -1291,7 +1299,7 @@ var URL_REPO = {
                 }
             }
         });
-        
+
         var list1411 = List.create({
             data_url: URL_REPO.yianweijian1,
             data_prop: [{
@@ -1301,7 +1309,7 @@ var URL_REPO = {
                         return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/doc.do?method=knowledgeBrowse&docResId="+item.id+"&entranceType="+item.entranceType+"&v="+item.v+"&docId="+item.id+"&ownerId="+item.ownerId+"\")'>"+data+"</span>";
                     }else{
                         return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/doc.do?method=knowledgeBrowse&docResId="+item.id+"&entranceType="+item.entranceType+"&v="+item.v+"&docId="+item.id+"&ownerId="+item.ownerId+"\")'>"+data+"</span>";
-                    }         
+                    }
 
                 },
                 size: 9
@@ -1509,7 +1517,7 @@ var URL_REPO = {
         var yian2=$("#yian2");
         yian2.append(list1412.root);
         var yian=$("#yian");
-        
+
 
         var shijiuda1=$("#shijiuda1");
         shijiuda1.append(list1421.root);
@@ -1664,6 +1672,198 @@ var URL_REPO = {
                 }
             }
         });
+        /**
+         * <div class="layui-inline lx-cal-name">
+         任勇勇
+         </div>
+         <div class="layui-inline lx-cal-bj-out">
+         在京，
+         </div>
+         <div class="layui-inline lx-cal-bj-out">
+         在家办公
+         </div>
+         </div>
+         */
+        function renderCal(item,type){
+            var htmls=[];
+            var start = item.startDate;
+            var endd = item.endDate;
+            var userName = item.userName;
+            var location = item.location;
+            var reason = item.reason;
+            var _cls="";
+            var _location="在京"
+            var inbj=true;
+            if(type=="s"||type=="m"||type=="n"){
+                htmls.push("<div class='lx-cal-item'>");
+                if(userName.length==2){
+                    userName=userName[0]+"<span style='color:white'>一</span>"+userName[1];
+                }
+                htmls.push('<div class="layui-inline lx-cal-name">');
+                htmls.push(userName+":");
+                htmls.push("</div>");
+
+                if(location==""&&reason==""){
+                    _cls="layui-inline lx-cal-gray";
+                    _location="在京"
+                }else if(reason!=""&&location=="北京"){
+                    _cls="layui-inline lx-cal-bj-in";
+                    _location="在京,"
+                }else if(reason!=""&&location!="北京"){
+                    _cls="layui-inline lx-cal-bj-out";
+                    _location="不在京,"
+                    inbj=false;
+                }else{
+                    _cls="layui-inline lx-cal-gray";
+                    _location="在京,"
+                }
+                htmls.push("<div class='"+_cls+"'>"+_location+"</div>");
+                htmls.push("<div style='padding-left:8px' class='"+_cls+"'>"+reason+"</div>");
+                htmls.push("</div>");
+
+            }
+
+            var obj={
+
+            }
+            obj.html=htmls.join("");
+
+            obj.inbj=inbj?1:0;
+            return obj;
+        }
+        function show_cal(day){
+            /**
+             "my_cal":URL_BASE+"/seeyon/datakit/get.do?method=getMyCalendar&day=",
+             "s_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getDepartmentLeaderCalendar&day=",
+             "m_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getAccountLeaderCalendar&day="
+             */
+            $.ajax({
+                url: URL_REPO.my_cal+day,
+                async: true, //同步方式发送请求，true为异步发送
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+
+                    if(data.items){
+                        //me.render(data.items);
+                        console.log(data);
+                        var htmls=[];
+                        var inbj=0;
+                        $(data.items).each(function(index,item){
+                            var ret = renderCal(item,"n");
+                            htmls.push(ret.html);
+
+                        })
+                        var h = htmls.join("");
+                        if(h==""){
+                            h="<span class='lx-cal-gray'>无日程安排</span>"
+                        }
+                        $("#my_cal").html(h);
+                    }
+                },
+                error: function (res) {
+
+                }
+            });
+            $.ajax({
+                url: URL_REPO.s_leader_cal+day,
+                async: true, //同步方式发送请求，true为异步发送
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if(data.items){
+                        // me.render(data.items);
+                        var htmls_left=[];
+                        var htmls_right=[];
+                        var in_bj=0;
+                        $(data.items).each(function(index,item){
+                            var ret = renderCal(item,"s");
+                            if(index<7){
+                                htmls_left.push(ret.html);
+                            }else{
+                                htmls_right.push(ret.html);
+                            }
+                            in_bj+=ret.inbj;
+
+                        });
+                        //var h = htmls.join("");
+
+                        $("#s_leader_cal_left").html(htmls_left.join(""));
+                        $("#s_leader_cal_right").html(htmls_right.join(""));
+                        $("#s_leader_cal_header").html("部门负责人("+in_bj+"/"+data.items.length+")");
+                    }
+                },
+                error: function (res) {
+
+                }
+            });
+            $.ajax({
+                url: URL_REPO.m_leader_cal+day,
+                async: true, //同步方式发送请求，true为异步发送
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if(data.items){
+                        // me.render(data.items);
+                        var htmls=[];
+                        var in_bj=0;
+                        $(data.items).each(function(index,item){
+                            var ret=renderCal(item,"m");
+                            htmls.push(ret.html);
+                            in_bj+=ret.inbj;
+                        })
+                        var h = htmls.join("");
+
+                        $("#m_leader_cal").html(h);
+                        $("#m_leader_cal_header").html("中心领导("+in_bj+"/"+data.items.length+")");
+                    }
+                },
+                error: function (res) {
+
+                }
+            });
+
+        }
         col15.append(mTab15);
+
+        laydate.render({
+            elem: '#cal_date_picker'
+            ,showBottom: false
+            ,position: 'static'
+            ,format: 'yyyy-MM-dd',
+            done:function(value,date){
+                show_cal(value);
+            }
+        });
+        //cal_leader_container
+        var cal_mtab = MTab.create({
+            id: "cal-main-1",
+            root_style:"height:265px",
+            root_class:"layui-tab layui-tab-brief",
+            tabs: [{
+                name: "<span class='lx-tab-multi-head'>我的日程</span>",
+                checked: false,
+                contentType: "jq",
+                content:$("#my_cal")
+            }, {
+                name: "<span id='m_leader_cal_header' class='lx-tab-multi-head'>中心领导</span>",
+                checked: true,
+                contentType: "jq",
+                content:$("#m_leader_cal")
+            }, {
+                name: "<span id='s_leader_cal_header' class='lx-tab-multi-head'>部门负责人</span>",
+                checked: false,
+                contentType: "jq",
+                content:$("#s_leader_cal")
+            }]
+
+        });
+        $("#cal_leader_container").append(cal_mtab.root);
+
+        var now = new Date();
+        show_cal(now.format("yyyy-MM-dd"));
+        //--------------//
+//http://10.100.249.84:612/seeyon/nbd.do?method=goPage&page=report
+        // cal_date_picker
     });
 }(window));
