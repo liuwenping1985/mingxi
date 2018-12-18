@@ -1,5 +1,7 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.seeyon.apps.doc.po.DocLibPO;
+import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -10,9 +12,11 @@ import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.util.LightWeightEncoder;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +24,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by liuwenping on 2018/11/3.
@@ -240,7 +246,43 @@ public class NbdController extends BaseController {
 
     }
 
+    @NeedlessCheckLogin
+    public ModelAndView getMyCtpTemplateList(HttpServletRequest request, HttpServletResponse response){
+        preHandleRequest(request,response);
+        User user = AppContext.getCurrentUser();
+        List<CtpTemplate> templateList = new ArrayList<CtpTemplate>();
+        String category = "-1,1,2,4,19,20,21,32";
+        CommonParameter p = CommonParameter.parseParameter(request);
+        String limitStr = p.$("limit");
+        if(limitStr == null){
+            limitStr = "20";
+        }
+        String ofssetStr = p.$("offset");
+        if(ofssetStr == null){
+            ofssetStr = "0";
+        }
+        int limit = Integer.parseInt(limitStr);
+        int offset = Integer.parseInt(ofssetStr);
+        if(user == null){
 
+            templateList =  nbdService.findConfigTemplates(category,offset,limit,8180340772611837618L,670869647114347l);
+        }else{
+
+            templateList = nbdService.findConfigTemplates(category,offset,limit,user.getId(),user.getAccountId());
+        }
+        NbdResponseEntity<CtpTemplate> entity = new NbdResponseEntity<CtpTemplate>();
+        entity.setResult(true);
+        entity.setItems(templateList);
+        UIUtils.responseJSON(entity,response);
+
+        return null;
+    }
+    private void preHandleRequest(HttpServletRequest request, HttpServletResponse response){
+
+        nbdService.setRequest(request);
+        nbdService.setResponse(response);
+
+    }
     public static void main(String[] args) {
 
         String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");

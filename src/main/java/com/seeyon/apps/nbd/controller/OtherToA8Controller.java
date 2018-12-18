@@ -27,7 +27,6 @@ public class OtherToA8Controller extends BaseController {
     }
 
     public ModelAndView receive(HttpServletRequest request, HttpServletResponse response){
-
         CommonParameter parameter = new CommonParameter();
         CommonParameter.parseParameter(request);
         NbdResponseEntity entity = getNbdService().lanchForm(parameter);

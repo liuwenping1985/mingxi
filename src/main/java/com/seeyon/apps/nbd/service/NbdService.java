@@ -1,12 +1,10 @@
 package com.seeyon.apps.nbd.service;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.bulletin.bo.BulDataBO;
 import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
-import com.seeyon.apps.nbd.core.entity.*;
 import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
@@ -18,24 +16,35 @@ import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
-import com.seeyon.apps.nbd.platform.oa.SubEntityFieldParser;
 import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.constants.Constants;
+import com.seeyon.ctp.common.constants.LoginResult;
+import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.flag.BrowserEnum;
+import com.seeyon.ctp.common.flag.SysFlag;
+import com.seeyon.ctp.common.i18n.LocaleContext;
+import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
 import com.seeyon.ctp.login.LoginControlImpl;
+import com.seeyon.ctp.login.online.OnlineRecorder;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.FlipInfo;
+import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
-import com.seeyon.v3x.bulletin.controller.BulDataController;
-import com.seeyon.v3x.bulletin.domain.BulData;
-import com.seeyon.v3x.bulletin.manager.BulDataManagerImpl;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLDecoder;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -81,6 +90,7 @@ public class NbdService {
     }
 
     public void setResponse(HttpServletResponse response) {
+
         this.response = response;
     }
 
@@ -117,7 +127,24 @@ public class NbdService {
                     if("1".equals(otace.getTriggerProcess())){
                         otace =  DataBaseHelper.getDataByTypeAndId(dl,OtherToA8ConfigEntity.class,otace.getId());
                         FormTableDefinition ftd = otace.getFtd();
-                        Map<String, Object> params = genCollData(p,ftd);
+                        Map<String, Object> params = new HashMap<String, Object>();
+                        Map<String, Object> data = genCollData(p,ftd);
+                        params.put("data",JSON.toJSONString(data));
+                        params.put("transfertype","json");
+                        Object subject =data.get("subject");
+                        if(subject==null||CommonUtils.isEmpty(String.valueOf(subject))){
+                            subject = data.get("field0001");
+                            if(subject==null||"".equals(subject)){
+                                subject=affairType+"-"+CommonUtils.formatDate(new Date());
+                            }
+                            params.put("subject",subject);
+
+                        }
+                        String loginName =(String)p.get("senderLoginName");
+                        if(CommonUtils.isEmpty(loginName)){
+                            loginName="oa1";
+                            params.put("senderLoginName",loginName);
+                        }
                         Long summaryId = getNbdBpmnService().sendCollaboration(affairType,params);
                         entity.setResult(true);
                         entity.setData(summaryId);
@@ -641,6 +668,162 @@ public class NbdService {
         return exportMasterData(formRecordId, ftd, usingName);
     }
 
+
+    private User login(V3xOrgMember handleMember) throws BusinessException {
+        User user = new User();
+        user.setId(handleMember.getId());
+        user.setDepartmentId(handleMember.getOrgDepartmentId());
+        user.setLoginAccount(handleMember.getOrgAccountId());
+        user.setLoginName(handleMember.getLoginName());
+        user.setName(handleMember.getName());
+        user.setSecurityKey(UUIDLong.longUUID());
+        user.setUserAgentFrom("pc");
+        user.setBrowser(BrowserEnum.IE);
+        String remoteAddr = Strings.getRemoteAddr(request);
+        user.setRemoteAddr(remoteAddr);
+        HttpSession session = request.getSession(true);
+        String sessionId = session.getId();
+        user.setSessionId(sessionId);
+        user.setTimeZone(TimeZone.getDefault());
+        user.setLoginState(User.login_state_enum.ok);
+        Locale locale = LocaleContext.make4Frontpage(request);
+        user.setLocale(locale);
+        LoginResult result = mergeUserInfo(user, this.getLoginControl());
+        if (!result.isOK()) {
+            return null;
+        }
+        user.setLoginState(User.login_state_enum.ok);
+        AppContext.putSessionContext(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
+        session.setAttribute("com.seeyon.current_user", user);
+        AppContext.putThreadContext("SESSION_CONTEXT_USERINFO_KEY", user);
+        OnlineRecorder.moveToOffline(user.getLoginName(), user.getLoginSign(), Constants.LoginOfflineOperation.loginAnotherone);
+        this.getLoginControl().getOnlineManager().updateOnlineState(user);
+        this.getLoginControl().createLog(user);
+        this.getLoginControl().getTopFrame(user, request);
+        this.response.addHeader("LoginOK", "ok");
+        this.response.addHeader("VJA", user.isAdmin() ? "1" : "0");
+        return user;
+    }
+
+
+    private static LoginResult mergeUserInfo(User currentUser, LoginControlImpl loginControl) {
+        if (currentUser == null) {
+            return LoginResult.ERROR_UNKNOWN_USER;
+        } else {
+            try {
+                String loginName = currentUser.getLoginName();
+                V3xOrgMember member = loginControl.getOrgManager().getMemberByLoginName(loginName);
+                if (member != null && member.isValid()) {
+                    long userId = member.getId().longValue();
+                    V3xOrgAccount account = loginControl.getOrgManager().getAccountById(member.getOrgAccountId());
+                    V3xOrgAccount loginAccount;
+                    if (currentUser.getLoginAccount() != null) {
+                        loginAccount = loginControl.getOrgManager().getAccountById(currentUser.getLoginAccount());
+                    } else {
+                        loginAccount = account;
+                    }
+
+                    if (account != null && loginAccount != null && account.isValid() && loginAccount.isValid()) {
+                        currentUser.setId(Long.valueOf(userId));
+                        currentUser.setAccountId(account.getId());
+                        currentUser.setLoginAccount(loginAccount.getId());
+                        currentUser.setLoginAccountName(loginAccount.getName());
+                        currentUser.setLoginAccountShortName(loginAccount.getShortName());
+                        currentUser.setExternalType(member.getExternalType());
+                        String name = null;
+                        if (member.getIsAdmin().booleanValue()) {
+                            if (loginControl.getOrgManager().isAuditAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setAuditAdmin(true);
+                                name = ResourceUtil.getString("org.auditAdminName.value");
+                            } else if (loginControl.getOrgManager().isGroupAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setGroupAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.groupAdminName.value" + (String) SysFlag.EditionSuffix.getFlag());
+                            } else if (loginControl.getOrgManager().isAdministratorById(Long.valueOf(userId), loginAccount).booleanValue()) {
+                                currentUser.setAdministrator(true);
+                                name = loginAccount.getName() + ResourceUtil.getString("org.account_form.adminName.value");
+                            } else if (loginControl.getOrgManager().isSystemAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setSystemAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.systemAdminName.value");
+                            } else if (loginControl.getOrgManager().isSuperAdmin(loginName, loginAccount).booleanValue()) {
+                                currentUser.setSuperAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.superAdminName.value");
+                            } else if (loginControl.getOrgManager().isPlatformAdminById(Long.valueOf(userId)).booleanValue()) {
+                                currentUser.setPlatformAdmin(true);
+                                name = ResourceUtil.getString("org.account_form.platformAdminName.value");
+                            }
+                        } else {
+                            name = member.getName();
+                        }
+
+                        currentUser.setName(name);
+                        currentUser.setDepartmentId(member.getOrgDepartmentId());
+                        currentUser.setLevelId(member.getOrgLevelId());
+                        currentUser.setPostId(member.getOrgPostId());
+                        currentUser.setInternal(member.getIsInternal().booleanValue());
+                        return LoginResult.OK;
+                    } else {
+                        return LoginResult.ERROR_UNKNOWN_USER;
+                    }
+                } else {
+                    return LoginResult.ERROR_UNKNOWN_USER;
+                }
+            } catch (Throwable var9) {
+                loginControl.getLogger().error(var9.getLocalizedMessage(), var9);
+                return LoginResult.ERROR_UNKNOWN_USER;
+            }
+        }
+    }
+    public List<CtpTemplate> findConfigTemplates(String category,int offset, int limit,Long userId,Long accountId) {
+        List<CtpTemplate> templateList = new ArrayList();
+
+        if(limit <= 0) {
+            return (List)templateList;
+        } else {
+            FlipInfo flipInfo = new FlipInfo();
+            flipInfo.setPage(1);
+            flipInfo.setSize(limit+offset);
+
+            flipInfo.setNeedTotal(false);
+            Map<String, Object> params = new HashMap();
+            if(userId!=null){
+
+                params.put("userId", userId);
+                params.put("accountId", accountId);
+            }else{
+                User user = AppContext.getCurrentUser();
+                params.put("userId", user.getId());
+                params.put("accountId", user.getLoginAccount());
+            }
+
+            params.put("category", category);
+
+            try {
+                templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
+                if(templateList.size()<offset){
+                    return new ArrayList<CtpTemplate>();
+                }else{
+                    return templateList.subList(offset,offset+limit);
+                }
+            } catch (BusinessException var8) {
+
+            }
+
+            return (List)templateList;
+        }
+    }
+
+    public void login(Long userId){
+
+        OrgManager om = this.getOrgManager();
+        if(om!=null){
+            try {
+                V3xOrgMember vm = om.getMemberById(userId);
+                login(vm);
+            } catch (BusinessException e) {
+
+            }
+        }
+    }
     public static void main(String[] args) {
         NbdService nbds = new NbdService();
         CommonParameter p = new CommonParameter();
