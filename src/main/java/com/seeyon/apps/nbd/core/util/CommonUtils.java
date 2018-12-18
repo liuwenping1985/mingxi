@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.core.util;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.util.UIUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -238,6 +239,13 @@ public class CommonUtils {
         }
         return (T) JSON.parseObject(JSON.toJSONString(sourceMap),source.getClass());
 
+    }
+    public static void processCrossOriginResponse(HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
+        response.setHeader("Access-Control-Max-Age", "3628800");
     }
     public static String getGetMethodName(Field fd){
         String preFix = "get";

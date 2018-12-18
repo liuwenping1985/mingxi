@@ -116,7 +116,7 @@ public class NbdService {
             try {
                 List<OtherToA8ConfigEntity> otaceList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl,OtherToA8ConfigEntity.class,sql);
                 if(CommonUtils.isEmpty(otaceList)){
-                    entity.setMsg("接受失败，没有找到对应的配置项："+affairType);
+                    entity.setMsg("处理失败，没有找到对应的配置项："+affairType);
                     entity.setResult(false);
                     entity.setData(p);
                     return entity;
@@ -185,10 +185,8 @@ public class NbdService {
 
         if(!CollectionUtils.isEmpty(slaveFtList)){
             //   System.out.println("parse--sub2-entity");
-
-
         }
-
+        System.out.println(param);
         return param;
     }
 

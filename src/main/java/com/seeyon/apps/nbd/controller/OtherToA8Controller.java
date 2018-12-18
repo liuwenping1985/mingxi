@@ -1,10 +1,12 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +28,10 @@ public class OtherToA8Controller extends BaseController {
         this.nbdService = nbdService;
     }
 
+    @NeedlessCheckLogin
     public ModelAndView receive(HttpServletRequest request, HttpServletResponse response){
-        CommonParameter parameter = new CommonParameter();
-        CommonParameter.parseParameter(request);
+        CommonUtils.processCrossOriginResponse(response);
+        CommonParameter parameter =  CommonParameter.parseParameter(request);
         NbdResponseEntity entity = getNbdService().lanchForm(parameter);
         UIUtils.responseJSON(entity,response);
         return null;
