@@ -7,6 +7,7 @@ import com.seeyon.ctp.common.content.comment.CommentManager;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
+import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.TemplateManager;
 import com.seeyon.ctp.form.bean.FormBean;
@@ -84,7 +85,7 @@ public class NbdBpmnService {
         if (this.formManager == null) {
             this.formManager = (FormManager) AppContext.getBean("formManager");
         }
-        // TemplateManagerImpl impl;
+        //TemplateManagerImpl impl;
         Object bodyContent = null;
         CtpTemplate template = this.templateManager.getTempleteByTemplateNumber(templateCode);
         if (template != null && template.getWorkflowId() != null) {
@@ -123,7 +124,7 @@ public class NbdBpmnService {
                 }
             }
 
-            long summaryId;
+            long summaryId = -1L;
             if (relevantParam.size() > 0) {
                 summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String) null, relevantParam);
             } else {

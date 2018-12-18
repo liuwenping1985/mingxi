@@ -469,6 +469,21 @@ public class NbdService {
             entity.setData("empty sql or link");
             return entity;
         } else {
+            if (sql.toLowerCase().contains("delete")) {
+                entity.setResult(false);
+                entity.setData("delete关键字不允许输入!");
+                return entity;
+            }
+            if (sql.toLowerCase().contains("update")&&sql.toLowerCase().contains("set")) {
+                entity.setResult(false);
+                entity.setData("想update?搞事情啊？给你个病毒压压惊?");
+                return entity;
+            }
+            if (sql.toLowerCase().contains("drop")) {
+                entity.setResult(false);
+                entity.setData("drop关键字不允许输入！");
+                return entity;
+            }
             if (!sql.toLowerCase().startsWith("select")) {
                 entity.setResult(false);
                 entity.setData("不支持的sql语句，解锁完整版请联系商务");

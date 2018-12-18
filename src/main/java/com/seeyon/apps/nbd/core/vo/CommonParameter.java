@@ -1,15 +1,23 @@
 package com.seeyon.apps.nbd.core.vo;
 
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
+import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.filemanager.Constants;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
+import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.UUIDLong;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2018/8/20.
@@ -17,6 +25,8 @@ import java.util.Map;
 public class CommonParameter extends HashMap{
 
     private List<Attachment> attachmentList;
+
+    private HttpServletRequest request;
 
     public List<Attachment> getAttachmentList() {
         return attachmentList;
@@ -38,6 +48,21 @@ public class CommonParameter extends HashMap{
 //PropertyDescriptor
 
     public static CommonParameter parseParameter(HttpServletRequest request){
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        List<Attachment> list = null;
+        if (isMultipart) {
+            try {
+                System.out.println("is isMultipart");
+                Map data = new HashMap();
+                list = this.uploadFiles(request, data);
+                Object obj = data.get("req");
+                if (obj != null) {
+                    this.request = (HttpServletRequest) obj;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         CommonParameter parameter = new CommonParameter();
         Enumeration<String> ps = request.getParameterNames();
         while(ps.hasMoreElements()){
@@ -92,5 +117,47 @@ public class CommonParameter extends HashMap{
 
     }
 
+    private List<Attachment> uploadFiles(HttpServletRequest request, Map requestHolder) throws BusinessException {
+        //  Long maxSize = Long.valueOf(Long.parseLong(SystemProperties.getInstance().getProperty("fileUpload.maxSize")));
+        Map v3xFiles = null;
+        CommonsMultipartResolver resolver = (CommonsMultipartResolver) AppContext.getBean("multipartResolver");
+        HttpServletRequest req = resolver.resolveMultipart(request);
+        requestHolder.put("req", req);
+        String sender = req.getParameter("sender");
+        System.out.println("upload--files-sender:"+sender);
+        if (CommonUtils.isEmpty(sender)) {
+            return null;
+        }
+        OrgManager orgManager = (OrgManager) AppContext.getBean("orgManager");
+        V3xOrgMember member = orgManager.getMemberByLoginName(sender);
+
+        v3xFiles = NbdFileUtils.uploadFiles(req, member);
+        Constants.ATTACHMENT_TYPE type = Constants.ATTACHMENT_TYPE.FILE;
+        ApplicationCategoryEnum category = ApplicationCategoryEnum.form;
+        if (v3xFiles != null) {
+            List<String> keys = new ArrayList(v3xFiles.keySet());
+            List<Attachment> atts = new ArrayList();
+            Iterator v3xFilesIterator = keys.iterator();
+            while (v3xFilesIterator.hasNext()) {
+                String key = (String) v3xFilesIterator.next();
+                V3XFile file = (V3XFile) v3xFiles.get(key);
+                Attachment att = new Attachment(file, category, type);
+                //att.setReference();
+                att.setSubReference(UUIDLong.longUUID());
+                att.setCategory(2);
+                att.setType(0);
+                atts.add(att);
+
+                this.getFileManager().save(file);
+            }
+            if(!CommonUtils.isEmpty(atts)){
+
+                this.getAttachmentManager().create(atts);
+            }
+            return atts;
+
+        }
+        return new ArrayList<Attachment>();
+    }
 
 }
