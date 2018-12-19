@@ -40,7 +40,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         List<FormTable> slaveTableList = new ArrayList<FormTable>();
         for (Map table : tables) {
             String jString = JSON.toJSONString(table);
-            System.out.println(jString);
+            //System.out.println(jString);
             FormTable ft = JSON.parseObject(jString, FormTable.class);
             Map fieldList = (Map) table.get("FieldList");
             if (!CommonUtils.isEmpty(fieldList)) {

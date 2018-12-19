@@ -65,7 +65,7 @@ public class ProcessEventHandler {
             CtpAffair ctpAffair = this.getAffairManager().get(affairId);
            // ctpAffair.getFormAppId();
             //ctpAffair.getFormId();
-            PluginServiceManager psm =  NbdController.getPSM();
+            PluginServiceManager psm =  PluginServiceManagerImpl.getInstance();
             if(psm == null){
                 NbdController.setPSM(new PluginServiceManagerImpl());
                 psm = NbdController.getPSM();
@@ -85,9 +85,9 @@ public class ProcessEventHandler {
 //
 //        processEvent(summaryId,ctpAffair);
 //
-      System.out.println("-----onStepBack----");
+     // System.out.println("-----onStepBack----");
 
-        processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
+       // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 
     }
     @ListenEvent(event = CollaborationCancelEvent.class,async = true,mode = EventTriggerMode.afterCommit)
@@ -99,9 +99,9 @@ public class ProcessEventHandler {
 //
 //        processEvent(summaryId,ctpAffair);
 //
-        System.out.println("-----onCancel----");
+        //System.out.println("-----onCancel----");
 
-        processDoneEvent(summaryId,"取消",FlowUtil.FlowState.cancle.getKey());
+        //processDoneEvent(summaryId,"取消",FlowUtil.FlowState.cancle.getKey());
 
     }
 //    @ListenEvent(event = CollaborationTakeBackEvent.class,async = true,mode = EventTriggerMode.afterCommit)
@@ -123,8 +123,8 @@ public class ProcessEventHandler {
     @ListenEvent(event = CollaborationStopEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onStop(CollaborationStopEvent event) {
         Long summaryId = event.getSummaryId();
-        System.out.println("-----onStop----");
-        processDoneEvent(summaryId,"停止",FlowUtil.FlowState.teminal.getKey());
+       // System.out.println("-----onStop----");
+      //  processDoneEvent(summaryId,"停止",FlowUtil.FlowState.teminal.getKey());
 
     }
 
@@ -195,7 +195,7 @@ public class ProcessEventHandler {
         Long summaryId = event.getSummaryId();
        // CtpAffair ctpAffair =  event.getAffair();
        // processNormalEvent(summaryId,ctpAffair);
-        System.out.println("-----TEST3----");
+        //System.out.println("-----TEST3----");
 
 
 
@@ -203,11 +203,11 @@ public class ProcessEventHandler {
 
     private boolean needProcess(Long summaryId){
 
-        Object obj =  DataBaseHandler.getInstance().getDataByKey("flow"+summaryId);
-        System.out.println("Object--->"+obj);
-        if(obj!=null){
-            return true;
-        }
+       // Object obj =  DataBaseHandler.getInstance().getDataByKey("flow"+summaryId);
+        //System.out.println("Object--->"+obj);
+//        if(obj!=null){
+//            return true;
+//        }
         return false;
 
     }
@@ -238,10 +238,10 @@ public class ProcessEventHandler {
 
         String url = ConfigService.getPropertyByName("callback.uri","");
         try {
-            System.out.println(url);
-            System.out.println(dataParam);
-            Map res = UIUtils.post(url,dataParam);
-            System.out.println(res);
+            //System.out.println(url);
+            //System.out.println(dataParam);
+            //Map res = UIUtils.post(url,dataParam);
+            //System.out.println(res);
         } catch (Exception e) {
             e.printStackTrace();
         }

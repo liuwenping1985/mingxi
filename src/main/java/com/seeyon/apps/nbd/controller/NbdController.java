@@ -58,7 +58,7 @@ public class NbdController extends BaseController {
                     nbdPluginServiceManager = npsm;
                     return npsm;
                 }
-                nbdPluginServiceManager = new PluginServiceManagerImpl();
+                nbdPluginServiceManager = PluginServiceManagerImpl.getInstance();
                 npsm = nbdPluginServiceManager;
             } catch (Exception e) {
                 e.printStackTrace();

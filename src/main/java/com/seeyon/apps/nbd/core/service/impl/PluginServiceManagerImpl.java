@@ -30,6 +30,16 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
     private List<ServicePlugin> servicePluginList = new ArrayList<ServicePlugin>();
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     public static final String mtId="2019-12:31 00:00:00";
+
+    private static PluginServiceManager psm;
+    public synchronized static PluginServiceManager getInstance(){
+        if(psm == null){
+            psm = new PluginServiceManagerImpl();
+        }
+        return psm;
+
+
+    }
     public PluginServiceManagerImpl() {
         try {
 
