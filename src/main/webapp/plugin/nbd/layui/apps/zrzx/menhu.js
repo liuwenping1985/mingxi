@@ -1,4 +1,4 @@
-;var URL_BASE = "http://10.100.249.84:612";
+;var URL_BASE = "http://192.168.1.98:612";
 
 var URL_REPO = {
     //第一行-要情、公告、工作动态
