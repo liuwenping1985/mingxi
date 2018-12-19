@@ -29,16 +29,24 @@ public class OtherToA8Controller extends BaseController {
     }
 
     @NeedlessCheckLogin
-    public ModelAndView receive(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView receive(HttpServletRequest request, HttpServletResponse response) {
         CommonUtils.processCrossOriginResponse(response);
-        CommonParameter parameter =  CommonParameter.parseParameter(request);
-        NbdResponseEntity entity = getNbdService().lanchForm(parameter);
-        UIUtils.responseJSON(entity,response);
+        CommonParameter parameter = CommonParameter.parseParameter(request);
+        try {
+            NbdResponseEntity entity = getNbdService().lanchForm(parameter);
+            UIUtils.responseJSON(entity, response);
+        } catch (Exception e) {
+            UIUtils.responseJSON("ERROR", response);
+            e.printStackTrace();
+        }catch(Error error){
+            error.printStackTrace();
+        }
+
         return null;
     }
 
     @NeedlessCheckLogin
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response){
-        return receive(request,response);
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
+        return receive(request, response);
     }
 }

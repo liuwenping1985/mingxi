@@ -90,6 +90,9 @@ public class CommonPo {
         saveOrUpdate(ConfigService.getA8DefaultDataLink());
     }
     public void saveOrUpdate(DataLink dl){
+        if(this.getUpdateTime()==null){
+            this.setUpdateTime(new Date());
+        }
         DataBaseHelper.persistCommonVo(dl,this);
     }
     public void updateBySample(CommonPo vo){

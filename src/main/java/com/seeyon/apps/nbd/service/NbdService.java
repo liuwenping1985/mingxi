@@ -112,7 +112,7 @@ public class NbdService {
                 affairType = "GYSDJB";
             }
             DataLink dl = ConfigService.getA8DefaultDataLink();
-            String sql ="select * from "+DataBaseHelper.getTableName(OtherToA8ConfigEntity.class)+" where affairType='"+affairType+"'";
+            String sql ="select * from "+DataBaseHelper.getTableName(OtherToA8ConfigEntity.class)+" where affair_type='"+affairType+"'";
             try {
                 List<OtherToA8ConfigEntity> otaceList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl,OtherToA8ConfigEntity.class,sql);
                 if(CommonUtils.isEmpty(otaceList)){
@@ -125,7 +125,12 @@ public class NbdService {
                 //从外部接受存入底表和表单,先写表单的
                for(OtherToA8ConfigEntity otace:otaceList){
                     if("1".equals(otace.getTriggerProcess())){
-                        otace =  DataBaseHelper.getDataByTypeAndId(dl,OtherToA8ConfigEntity.class,otace.getId());
+
+                        CommonParameter cp = new CommonParameter();
+                        cp.$("id",otace.getId());
+                        cp.$("data_type",NbdConstant.OTHER_TO_A8);
+                        NbdResponseEntity<OtherToA8ConfigEntity> responseEntity = getDataById(cp);
+                        otace = responseEntity.getData();
                         FormTableDefinition ftd = otace.getFtd();
                         Map<String, Object> params = new HashMap<String, Object>();
                         Map<String, Object> data = genCollData(p,ftd);
@@ -142,7 +147,9 @@ public class NbdService {
                         }
                         String loginName =(String)p.get("senderLoginName");
                         if(CommonUtils.isEmpty(loginName)){
-                            loginName="oa1";
+                            loginName="oa";
+                            params.put("senderLoginName",loginName);
+                        }else{
                             params.put("senderLoginName",loginName);
                         }
                         Long summaryId = getNbdBpmnService().sendCollaboration(affairType,params);
@@ -727,7 +734,11 @@ public class NbdService {
                         currentUser.setLoginAccount(loginAccount.getId());
                         currentUser.setLoginAccountName(loginAccount.getName());
                         currentUser.setLoginAccountShortName(loginAccount.getShortName());
-                        currentUser.setExternalType(member.getExternalType());
+//                        try {
+//                           // currentUser.setExternalType(member.getExternalType());
+//                        }catch(Error e){
+//                            e.printStackTrace();
+//                        }
                         String name = null;
                         if (member.getIsAdmin().booleanValue()) {
                             if (loginControl.getOrgManager().isAuditAdminById(Long.valueOf(userId)).booleanValue()) {

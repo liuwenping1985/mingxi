@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.core.vo;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
@@ -16,6 +17,7 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.UUIDLong;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.http.entity.ContentType;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.ServletInputStream;
@@ -26,7 +28,7 @@ import java.util.*;
 /**
  * Created by liuwenping on 2018/8/20.
  */
-public class CommonParameter extends HashMap{
+public class CommonParameter extends HashMap {
 
     private List<Attachment> attachmentList;
 
@@ -54,8 +56,8 @@ public class CommonParameter extends HashMap{
         return this.fileManager;
     }
 
-    public FormManager getFormManager(){
-        if(formManager == null){
+    public FormManager getFormManager() {
+        if (formManager == null) {
             formManager = (FormManager) AppContext.getBean("formManager");
         }
         return formManager;
@@ -69,18 +71,18 @@ public class CommonParameter extends HashMap{
         this.attachmentList = attachmentList;
     }
 
-    public<T> T $(String key){
-        return (T)this.get(key);
+    public <T> T $(String key) {
+        return (T) this.get(key);
     }
 
-    public CommonParameter $(String key,Object val){
-        this.put(key,val);
+    public CommonParameter $(String key, Object val) {
+        this.put(key, val);
         return this;
     }
 
 //PropertyDescriptor
 
-    public static CommonParameter parseParameter(HttpServletRequest request){
+    public static CommonParameter parseParameter(HttpServletRequest request) {
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         CommonParameter parameter = new CommonParameter();
 
@@ -101,27 +103,27 @@ public class CommonParameter extends HashMap{
         }
 
         Enumeration<String> ps = request.getParameterNames();
-        while(ps.hasMoreElements()){
+        while (ps.hasMoreElements()) {
             String psCode = ps.nextElement();
-            parameter.put(psCode,request.getParameter(psCode));
+            parameter.put(psCode, request.getParameter(psCode));
         }
-        if(parameter.isEmpty()){
-           Map<String,String[]> pMap =  request.getParameterMap();
-           for(Entry<String,String[]>entry:pMap.entrySet()){
+        if (parameter.isEmpty()) {
+            Map<String, String[]> pMap = request.getParameterMap();
+            for (Entry<String, String[]> entry : pMap.entrySet()) {
 
                 String key = entry.getKey();
                 String[] values = entry.getValue();
-                if(values!=null){
-                    if(values.length==1){
-                        parameter.put(key,values[0]);
-                    }else{
-                        parameter.put(key,values);
+                if (values != null) {
+                    if (values.length == 1) {
+                        parameter.put(key, values[0]);
+                    } else {
+                        parameter.put(key, values);
                     }
 
-                }else{
-                    parameter.put(key,null);
+                } else {
+                    parameter.put(key, null);
                 }
-           }
+            }
 
         }
         try {
@@ -129,22 +131,43 @@ public class CommonParameter extends HashMap{
             int i = 1;
             byte[] bs = new byte[1024];
             StringBuilder stb = new StringBuilder();
-            while((i = inputStream.read(bs)) != -1){
-              //  System.out.println();
-                stb.append(new String(new String(bs, 0, i).getBytes("UTF-8"),"UTF-8"));
+            while ((i = inputStream.read(bs)) != -1) {
+                String lens = new String(bs, 0, i);
+                lens = new String(lens.getBytes(),"utf-8");
+                stb.append(lens);
             }
             System.out.println(stb.toString());
-            if(!CommonUtils.isEmpty(stb.toString())){
-                String[] vals = stb.toString().split("&");
-                for(String val:vals){
-                    String[] subVals = val.split("=");
-                    if(subVals.length!=2){
-                        parameter.put(subVals[0],"");
-                    }else{
-                        parameter.put(subVals[0],subVals[1]);
+            String contentType = request.getContentType()+"";
+            contentType = contentType.toLowerCase();
+            if (contentType.contains(ContentType.APPLICATION_JSON.getMimeType())) {
+                if (!CommonUtils.isEmpty(stb.toString())) {
+                    try {
+                        Map map = JSON.parseObject(stb.toString(), HashMap.class);
+                        if(map!=null){
+                            parameter.putAll(map);
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("error");
+
+                    }
+
+                }
+
+            } else {
+                if (!CommonUtils.isEmpty(stb.toString())) {
+                    String[] vals = stb.toString().split("&");
+                    for (String val : vals) {
+                        String[] subVals = val.split("=");
+                        if (subVals.length != 2) {
+                            parameter.put(subVals[0], "");
+                        } else {
+                            parameter.put(subVals[0], subVals[1]);
+                        }
                     }
                 }
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,7 +184,7 @@ public class CommonParameter extends HashMap{
         HttpServletRequest req = resolver.resolveMultipart(request);
         requestHolder.put("req", req);
         String sender = req.getParameter("sender");
-        System.out.println("upload--files-sender:"+sender);
+        System.out.println("upload--files-sender:" + sender);
         if (CommonUtils.isEmpty(sender)) {
             return null;
         }
@@ -187,7 +210,7 @@ public class CommonParameter extends HashMap{
 
                 this.getFileManager().save(file);
             }
-            if(!CommonUtils.isEmpty(atts)){
+            if (!CommonUtils.isEmpty(atts)) {
 
                 this.getAttachmentManager().create(atts);
             }

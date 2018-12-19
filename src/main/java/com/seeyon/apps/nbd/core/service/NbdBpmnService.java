@@ -4,6 +4,7 @@ import com.kg.commons.utils.CollectionUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.content.comment.CommentManager;
+import com.seeyon.ctp.common.content.mainbody.MainbodyType;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
@@ -12,6 +13,7 @@ import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.TemplateManager;
 import com.seeyon.ctp.form.bean.FormBean;
 import com.seeyon.ctp.form.bean.FormFieldBean;
+import com.seeyon.ctp.form.bean.FormTableBean;
 import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.bo.V3xOrgEntity;
 import com.seeyon.ctp.organization.manager.OrgManager;
@@ -26,10 +28,14 @@ import com.seeyon.v3x.services.ServiceException;
 import com.seeyon.v3x.services.document.DocumentFactory;
 import com.seeyon.v3x.services.flow.FlowFactory;
 import com.seeyon.v3x.services.flow.FlowService;
+import com.seeyon.v3x.services.flow.FlowUtil;
 import com.seeyon.v3x.services.flow.log.FlowLog;
 import com.seeyon.v3x.services.flow.log.FlowLogFactory;
 import com.seeyon.v3x.services.form.FormUtils;
+import com.seeyon.v3x.services.form.bean.DefinitionExport;
 import com.seeyon.v3x.services.form.bean.FormExport;
+import com.seeyon.v3x.services.form.bean.SubordinateFormExport;
+import com.seeyon.v3x.services.util.SaveFormToXml;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +44,8 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.tree.BaseElement;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URLDecoder;
 import java.util.*;
 
@@ -126,7 +134,7 @@ public class NbdBpmnService {
 
             long summaryId = -1L;
             if (relevantParam.size() > 0) {
-                summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String) null, relevantParam);
+                summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String) null);
             } else {
                 summaryId = this.flowFactory.sendCollaboration(senderLoginName, templateCode, subject, formExportData, attachments, state, (String) null);
             }
@@ -563,5 +571,75 @@ public class NbdBpmnService {
         } else {
             return null;
         }
+    }
+
+    public String getTemplateXml(String templateCode) throws ServiceException {
+        CtpTemplate template = this.getTemplateManager().getTempleteByTemplateNumber(templateCode);
+        String result = "";
+        if(template != null && template.getWorkflowId() != null) {
+            String bodyType = template.getBodyType();
+            if(bodyType.equals(String.valueOf(MainbodyType.FORM.getKey()))) {
+                FormExport export = new FormExport();
+
+                FormBean formBean;
+                try {
+                    formBean = this.getFormManager().getFormByFormCode(template);
+                } catch (BusinessException var19) {
+                    throw new ServiceException(var19.getLocalizedMessage());
+                }
+
+                List<DefinitionExport> define = new ArrayList();
+                List<SubordinateFormExport> subordinateFormExport = new ArrayList();
+                export.setSubordinateForms(subordinateFormExport);
+                FormTableBean masterTableBean = formBean.getMasterTableBean();
+                export.setFormName(masterTableBean.getTableName());
+                export.setDefinitions(define);
+                List<FormFieldBean> fieldBean = masterTableBean.getFields();
+                Iterator var11 = fieldBean.iterator();
+
+                while(var11.hasNext()) {
+                    FormFieldBean field = (FormFieldBean)var11.next();
+                    FlowUtil.getDefinition(field, define);
+                    //logger.debug(field.getDisplay() + " " + field.getFieldType() + " ");
+                }
+
+                List<FormTableBean> subtalbes = formBean.getSubTableBean();
+                Iterator var21 = subtalbes.iterator();
+
+                while(var21.hasNext()) {
+                    FormTableBean formTableBean = (FormTableBean)var21.next();
+                    SubordinateFormExport sub = new SubordinateFormExport();
+                    List<DefinitionExport> subDefine = new ArrayList();
+                    sub.setDefinitions(subDefine);
+                    subordinateFormExport.add(sub);
+                    List<FormFieldBean> subfieldBeans = formTableBean.getFields();
+                    Iterator var17 = subfieldBeans.iterator();
+
+                    while(var17.hasNext()) {
+                        FormFieldBean subFieldValue = (FormFieldBean)var17.next();
+                        FlowUtil.getDefinition(subFieldValue, subDefine);
+                        //logger.debug(subFieldValue.getDisplay() + " " + subFieldValue.getFieldType() + " ");
+                    }
+                }
+
+                result = this.toXml(export);
+            }
+
+            return result;
+        } else {
+            throw new ServiceException(ErrorServiceMessage.flowTempleExist.getErroCode(), ErrorServiceMessage.flowTempleExist.getValue() + ":" + templateCode);
+        }
+    }
+
+    private String toXml(FormExport export) {
+        StringWriter writer = new StringWriter();
+
+        try {
+            SaveFormToXml.getInstance().saveXMLToStream(writer, export);
+        } catch (IOException var4) {
+            var4.printStackTrace();
+        }
+
+        return writer.toString();
     }
 }
