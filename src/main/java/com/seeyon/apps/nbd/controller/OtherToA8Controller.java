@@ -37,5 +37,8 @@ public class OtherToA8Controller extends BaseController {
         return null;
     }
 
-
+    @NeedlessCheckLogin
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response){
+        return receive(request,response);
+    }
 }

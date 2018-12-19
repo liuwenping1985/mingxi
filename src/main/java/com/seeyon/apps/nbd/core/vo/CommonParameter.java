@@ -131,8 +131,9 @@ public class CommonParameter extends HashMap{
             StringBuilder stb = new StringBuilder();
             while((i = inputStream.read(bs)) != -1){
               //  System.out.println();
-                stb.append(new String(new String(bs, 0, i).getBytes(),"UTF-8"));
+                stb.append(new String(new String(bs, 0, i).getBytes("UTF-8"),"UTF-8"));
             }
+            System.out.println(stb.toString());
             if(!CommonUtils.isEmpty(stb.toString())){
                 String[] vals = stb.toString().split("&");
                 for(String val:vals){
