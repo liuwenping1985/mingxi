@@ -437,7 +437,7 @@ public class NbdBpmnService {
         ArrayList subFields = new ArrayList();
 
         try {
-            templateXml = this.getFlowFactory().getTemplateXml(templateCode);
+            templateXml = this.getTemplateXml(templateCode);
         } catch (ServiceException var28) {
             var28.printStackTrace();
         }

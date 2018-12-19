@@ -351,7 +351,7 @@ public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletRe
        Map<String, Object> params = new HashMap<String, Object>();
        params.put("userName", userName);
        params.put("docLibId", String.valueOf(docLibPo.getId()));
-       List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
+       List<DocResourcePO> poList = null;//docResourceDao.findFavoriteByCondition(params);
        List<DocResourcePO> pagingFavor = Helper.paggingList(poList,p);
        data.setItems(pagingFavor);
        Helper.responseJSON(data, response);
