@@ -149,8 +149,8 @@ public class NbdController extends BaseController {
             String enddate = parameter.$("enddate");
             formmain0635.setField0007(UIUtils.parseDateYearMonthDay(enddate));
             String state = parameter.$("state");
-            String stateId = UIUtils.getEnumIdByState(state);
-            formmain0635.setField0008(stateId);
+            //String stateId = UIUtils.getEnumIdByState(state);
+            formmain0635.setField0008(state);
             String remark = parameter.$("remark");
             formmain0635.setField0009(remark);
             String createdate = parameter.$("createdate");
@@ -262,8 +262,8 @@ public class NbdController extends BaseController {
 
             String state = parameter.$("state");
             if(!StringUtils.isEmpty(state)){
-                String stateId = UIUtils.getEnumIdByState(state);
-                formmain0635.setField0008(stateId);
+               // String stateId = UIUtils.getEnumIdByState(state);
+                formmain0635.setField0008(state);
             }
             String remark = parameter.$("remark");
             if(!StringUtils.isEmpty(remark)){
