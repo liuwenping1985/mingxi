@@ -1,4 +1,4 @@
-;var URL_BASE = "http://192.168.1.98:612";
+;var URL_BASE = "http://10.100.249.84:612";
 
 var URL_REPO = {
     //第一行-要情、公告、工作动态
@@ -531,7 +531,7 @@ var URL_REPO = {
         var mix511 = Mixed.create({
             id: "mixed2",
             mode: "col",
-            size: 4,
+            size: 3,
             cmps: [{
                 contentType: "html",
                 content: btn_htmls.join(""),
@@ -542,7 +542,7 @@ var URL_REPO = {
         var mix512 = Mixed.create({
             id: "mixed3",
             mode: "col",
-            size: 8
+            size: 9
         });
         mix512.append(list51);
         //mix512.append();
@@ -905,27 +905,27 @@ var URL_REPO = {
             data_url: URL_REPO.bangonghui,
             data_prop: [{
                 "name": "field0002",
-                size: 3,
+                size: 2,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
+            }, {
+                "name": "field0004",
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0004",
-                size: 3,
-                render: function (name, data) {
-                    return data.substring(5, 10);
-                }
-            }, {
                 "name": "field0005",
-                size: 3,
+                size: 5,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }, {
                 "name": "field0003",
-                size: 3,
+                size: 1,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }]
 
@@ -936,27 +936,27 @@ var URL_REPO = {
             data_url: URL_REPO.zhongxinzuxuexi,
             data_prop: [{
                 "name": "field0002",
-                size: 3,
+                size: 2,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
+            }, {
+                "name": "field0004",
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0004",
-                size: 3,
-                render: function (name, data) {
-                    return data.substring(5, 10);
-                }
-            }, {
                 "name": "field0005",
-                size: 3,
+                size: 5,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }, {
                 "name": "field0003",
-                size: 3,
+                size: 1,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }]
         });
@@ -965,27 +965,27 @@ var URL_REPO = {
             data_url: URL_REPO.lingdaobanzihui,
             data_prop: [{
                 "name": "field0002",
-                size: 3,
+                size: 2,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
+            }, {
+                "name": "field0004",
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0004",
-                size: 3,
-                render: function (name, data) {
-                    return data.substring(5, 10);
-                }
-            }, {
                 "name": "field0005",
-                size: 3,
+                size: 5,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }, {
                 "name": "field0003",
-                size: 3,
+                size: 1,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }]
 
@@ -995,27 +995,27 @@ var URL_REPO = {
             data_url: URL_REPO.zhurenzhutihui,
             data_prop: [{
                 "name": "field0002",
-                size: 3,
+                size: 2,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
+            }, {
+                "name": "field0004",
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0004",
-                size: 3,
-                render: function (name, data) {
-                    return data.substring(5, 10);
-                }
-            }, {
                 "name": "field0005",
-                size: 3,
+                size: 5,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }, {
                 "name": "field0003",
-                size: 3,
+                size: 1,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }]
         });
@@ -1024,27 +1024,27 @@ var URL_REPO = {
             data_url: URL_REPO.dangweihui,
             data_prop: [{
                 "name": "field0002",
-                size: 3,
+                size: 2,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
+            }, {
+                "name": "field0004",
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0004",
-                size: 3,
-                render: function (name, data) {
-                    return data.substring(5, 10);
-                }
-            }, {
                 "name": "field0005",
-                size: 3,
+                size: 5,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }, {
                 "name": "field0003",
-                size: 3,
+                size: 1,
                 render: function (name, data) {
-                    return data.substring(5, 10);
+                    return data;
                 }
             }]
         });
@@ -1156,7 +1156,7 @@ var URL_REPO = {
         var jianbao=$("#jianbao");
 
         var tongbao1=$("#tongbao1");
-        tongbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E5%8D%95%E4%BD%8D%E6%8A%A5%E8%A1%A8%E4%BF%A1%E6%81%AF%E4%B8%93%E6%8A%A5%E9%A6%96%E9%A1%B5/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
+        tongbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
         var tongbao2=$("#tongbao2");
         tongbao2.append(list123.root);
         var tongbao=$("#tongbao");
@@ -1228,7 +1228,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list133 = List.create({
@@ -1258,10 +1261,13 @@ var URL_REPO = {
                         }
                     }
                 },
-                size: 8
+                size: 9
             }, {
                 "name": "updateDate",
-                size: 4
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var mTab13 = MTab.create({
@@ -1315,7 +1321,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1412 = List.create({
@@ -1332,7 +1341,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1421 = List.create({
@@ -1350,7 +1362,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1422 = List.create({
@@ -1367,7 +1382,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1431 = List.create({
@@ -1384,7 +1402,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1432 = List.create({
@@ -1401,7 +1422,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1441 = List.create({
@@ -1418,7 +1442,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1442 = List.create({
@@ -1435,7 +1462,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1451 = List.create({
@@ -1452,7 +1482,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1452 = List.create({
@@ -1469,7 +1502,10 @@ var URL_REPO = {
                 size: 9
             }, {
                 "name": "createTime",
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1461 = List.create({
@@ -1489,7 +1525,10 @@ var URL_REPO = {
                 render: function (name, data) {
                     return data.substring(5, 10);
                 },
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var list1462 = List.create({
@@ -1509,7 +1548,10 @@ var URL_REPO = {
                 render: function (name, data) {
                     return data.substring(5, 10);
                 },
-                size: 3
+                size: 3,
+                render: function (name, data) {
+                    return data.substring(0,10);
+                }
             }]
         });
         var yian1=$("#yian1");
@@ -1756,9 +1798,11 @@ var URL_REPO = {
                         })
                         var h = htmls.join("");
                         if(h==""){
-                            h="<span class='lx-cal-gray'>无日程安排</span>"
+                            h="<span class='lx-cal-gray'>无日程安排</span>";
                         }
                         $("#my_cal").html(h);
+                    }else{
+                        $("#my_cal").html("<span class='lx-cal-gray'>无日程安排</span>");
                     }
                 },
                 error: function (res) {

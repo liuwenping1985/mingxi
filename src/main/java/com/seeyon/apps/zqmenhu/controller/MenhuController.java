@@ -955,5 +955,9 @@ public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletRe
         return null;
     }
 
+    public static void main(String[] args){
+
+    }
+
 
 }

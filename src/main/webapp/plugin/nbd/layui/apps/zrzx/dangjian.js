@@ -3,10 +3,10 @@ var URL_REPO = {
     "dangbanxinwen": URL_BASE + "/seeyon/menhu.do?method=getNewList&typeId=1464919845832769560&offset=0&limit=7",
     "tupianxinwen": URL_BASE + "/seeyon/menhu.do?method=getImgNewList&typeId=1&offset=0&limit=7",
     "dangbangonggao": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-5359331239448328220&offset=0&limit=7",
-   
+
     "buyouxiudangyuan": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=6285356941213060786&offset=0&limit=7",
     "zhongxinyouxiudangyuan": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=47447023049396154&offset=0&limit=7",
-   
+
     "zhongxinzuxuexi": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=4327169891904341638&offset=0&limit=7",
     "dangjiangongzuogongshi": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=575989468633646689&offset=0&limit=7",
 
@@ -25,7 +25,7 @@ var URL_REPO = {
 
     "guizhangzhidu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8314899268065577424&offset=0&limit=7",
 
-    
+
 };
 (function () {
 
@@ -68,7 +68,7 @@ var URL_REPO = {
         var col2=Col.create({
             size: 4,
             style: default_height_col,
-            id: "col2"  
+            id: "col2"
         });
         var col3=Col.create({
             size: 4,
@@ -104,7 +104,7 @@ var URL_REPO = {
         row4.append(col8);
         var list1=List.create({
             name: "党办公告",
-            link_prop:"link",      
+            link_prop:"link",
             data_url: URL_REPO.dangbangonggao,
             data_prop: [{
                 name: "title",
@@ -112,25 +112,25 @@ var URL_REPO = {
                 render: function (name, data,item) {
                     if(item.readFlag){//有错误
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";                                     
-                        }else if(item.body_type=="OfficeWord"){                           
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";                                               
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                        }else if(item.body_type=="OfficeWord"){
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }    
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                        }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";                                     
-                        }else if(item.body_type=="OfficeWord"){                           
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";                                               
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                        }else if(item.body_type=="OfficeWord"){
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }    
-                 }  
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                        }
+                    }
                 }
             }, {
                 "name": "updateDate",
@@ -154,7 +154,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    
+
                 }
             },
             new_btn: {
@@ -184,7 +184,7 @@ var URL_REPO = {
         col2.append(lunbo2);
 
         function isNumber(str){
-            var re = /^([0-9]+)([.]?)([0-9]*)$/;  
+            var re = /^([0-9]+)([.]?)([0-9]*)$/;
             return re.test(str);
         };
         var list3=List.create({
@@ -192,30 +192,30 @@ var URL_REPO = {
             link_prop:"link",
             data_prop: [{
                 name: "title",
-               
+
                 size: 10,
                 render: function (name, data,item) {
                     if(item.readFlag){
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";                                     
-                        }else if(item.body_type=="OfficeWord"){                           
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";                                               
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                        }else if(item.body_type=="OfficeWord"){
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }    
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                        }
                     }else{
                         if(item.body_type=="Pdf"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";                                     
-                        }else if(item.body_type=="OfficeWord"){                           
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";                                               
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
+                        }else if(item.body_type=="OfficeWord"){
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
                         }else if(item.body_type=="20"){
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
                         }else{
-                                    return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                       }    
-                 }  
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                        }
+                    }
                 }
             }, {
                 "name": "publishDate",
@@ -225,10 +225,10 @@ var URL_REPO = {
                     if(isNumber(item)){
                         return (new Date()+"").substring(5, 10);
                     }else{
-                      //  alert(data);
-                         return data.substring(5,10);
+                        //  alert(data);
+                        return data.substring(5,10);
                     }
-                   
+
                 }
             }]
         });
@@ -245,7 +245,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    
+
                 }
             },
             new_btn: {
@@ -256,11 +256,11 @@ var URL_REPO = {
                 }
             }
         });
-        col3.append(mTab3);      
+        col3.append(mTab3);
         var row211=Row.create({
             parent_id: "root_body",
             "id": "row211"
-            
+
         });
         var row212=Row.create({
             parent_id: "root_body",
@@ -278,7 +278,7 @@ var URL_REPO = {
         row212.append(col212);
         col4.append(row211);
         col4.append(row212);
-     //   var leader=$("#leader_table");
+        //   var leader=$("#leader_table");
         var sTab41 =Tab.create({
             "title": "<span style='font-size:20px;border-left:6px solid cornflowerblue;padding: 5px'>中心党委</span>",
             style:"height:300px",
@@ -288,7 +288,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    
+
                 }
             },
             new_btn: {
@@ -353,7 +353,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    
+
                 }
             },
             new_btn: {
@@ -368,22 +368,22 @@ var URL_REPO = {
             "title": "<span style='font-size:20px;border-left:6px solid cornflowerblue;padding: 5px'>党员结构</span>",
             style: default_height,
             contentType:"html",
-             content:"<iframe  style='height:250px;overflow-x: hidden' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/dangjian-baobiao/sszbtj.rpx&match=2'></iframe>",
-             more_btn: {
-                 class_name: "lx-tab-more-btn",
-                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
-                 click: function (e) {
-                     
-                 }
-             },
-             new_btn: {
-                 class_name: "lx-tab-new-btn",
-                 html: "<span class='lx-new-btn'>+</span>",
-                 click: function (e) {
-                     //alert("click2");
-                 }
-             }
-            
+            content:"<iframe  style='height:250px;overflow-x: hidden' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/dangjian-baobiao/sszbtj.rpx&match=2'></iframe>",
+            more_btn: {
+                class_name: "lx-tab-more-btn",
+                html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
+                click: function (e) {
+
+                }
+            },
+            new_btn: {
+                class_name: "lx-tab-new-btn",
+                html: "<span class='lx-new-btn'>+</span>",
+                click: function (e) {
+                    //alert("click2");
+                }
+            }
+
         });
         var list451 = List.create({
             name: "部优秀党员",
@@ -392,11 +392,11 @@ var URL_REPO = {
                 "name": "frName",
                 size: 10,
                 render: function (name, data,item) {
-                    if(item.readFlag){                       
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                     }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                    }              
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
                 }
             }, {
                 "name": "createTime",
@@ -413,11 +413,11 @@ var URL_REPO = {
                 "name": "frName",
                 size: 10,
                 render: function (name, data,item) {
-                    if(item.readFlag){                       
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                     }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                    }              
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
                 }
             }, {
                 "name": "createTime",
@@ -446,7 +446,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    
+
                 }
             },
             new_btn: {
@@ -466,11 +466,11 @@ var URL_REPO = {
                 "name": "frName",
                 size: 10,
                 render: function (name, data,item) {
-                    if(item.readFlag){                       
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
                     }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                    }              
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
                 }
             }, {
                 "name": "createTime",
@@ -539,254 +539,254 @@ var URL_REPO = {
             }
         });
         col6.append(mTab6);
-                var list711 = List.create({
-                    data_url: URL_REPO.yianweijian1,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }             
+        var list711 = List.create({
+            data_url: URL_REPO.yianweijian1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
 
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list712 = List.create({
-                    data_url: URL_REPO.yianweijian2,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   //doc少readFlag
-                            }       
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list721 = List.create({
-                    data_url: URL_REPO.shijiuda1,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }                
-        
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list722 = List.create({
-                    data_url: URL_REPO.shijiuda2,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list731 = List.create({
-                    data_url: URL_REPO.sanyansanshi1,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list732 = List.create({
-                    data_url: URL_REPO.sanyansanshi2,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list741 = List.create({
-                    data_url: URL_REPO.liangxueyizuo1,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }     
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list742 = List.create({
-                    data_url: URL_REPO.liangxueyizuo2,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list751 = List.create({
-                    data_url: URL_REPO.shibada1,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list752 = List.create({
-                    data_url: URL_REPO.shibada2,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        size: 3
-                    }]
-                });
-                var list761 = List.create({
-                    data_url: URL_REPO.sanhuiyike1,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                            }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        render: function (name, data) {
-                            return data.substring(5, 10);
-                        },
-                        size: 3
-                    }]
-                });
-                var list762 = List.create({
-                    data_url: URL_REPO.sanhuiyike2,
-                    data_prop: [{
-                        "name": "frName",
-                        render: function (name, data,item) {
-                            if(item.readFlag){                       
-                                return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";                            
-                            }else{
-                                return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   
-                                }   
-                        },
-                        size: 9
-                    }, {
-                        "name": "createTime",
-                        render: function (name, data) {
-                            return data.substring(5, 10);
-                        },
-                        size: 3
-                    }]
-                });
-                var yian1=$("#yian1");
-                yian1.append(list711.root);
-                var yian2=$("#yian2");
-                yian2.append(list712.root);
-                var yian=$("#yian");
-                
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list712 = List.create({
+            data_url: URL_REPO.yianweijian2,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";   //doc少readFlag
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list721 = List.create({
+            data_url: URL_REPO.shijiuda1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
 
-                var shijiuda1=$("#shijiuda1");
-                shijiuda1.append(list721.root);
-                var shijiuda2=$("#shijiuda2");
-                shijiuda2.append(list722.root);
-                var shijiuda=$("#shijiuda");
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list722 = List.create({
+            data_url: URL_REPO.shijiuda2,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list731 = List.create({
+            data_url: URL_REPO.sanyansanshi1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list732 = List.create({
+            data_url: URL_REPO.sanyansanshi2,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list741 = List.create({
+            data_url: URL_REPO.liangxueyizuo1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list742 = List.create({
+            data_url: URL_REPO.liangxueyizuo2,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list751 = List.create({
+            data_url: URL_REPO.shibada1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list752 = List.create({
+            data_url: URL_REPO.shibada2,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                size: 3
+            }]
+        });
+        var list761 = List.create({
+            data_url: URL_REPO.sanhuiyike1,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                render: function (name, data) {
+                    return data.substring(5, 10);
+                },
+                size: 3
+            }]
+        });
+        var list762 = List.create({
+            data_url: URL_REPO.sanhuiyike2,
+            data_prop: [{
+                "name": "frName",
+                render: function (name, data,item) {
+                    if(item.readFlag){
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }else{
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    }
+                },
+                size: 9
+            }, {
+                "name": "createTime",
+                render: function (name, data) {
+                    return data.substring(5, 10);
+                },
+                size: 3
+            }]
+        });
+        var yian1=$("#yian1");
+        yian1.append(list711.root);
+        var yian2=$("#yian2");
+        yian2.append(list712.root);
+        var yian=$("#yian");
 
-                var sanyan1=$("#sanyan1");
-                sanyan1.append(list731.root);
-                var sanyan2=$("#sanyan2");
-                sanyan2.append(list732.root);
-                var sanyan=$("#sanyan");
 
-                var liangxue1=$("#liangxue1");
-                liangxue1.append(list741.root);
-                var liangxue2=$("#liangxue2");
-                liangxue2.append(list742.root);
-                var liangxue=$("#liangxue");
+        var shijiuda1=$("#shijiuda1");
+        shijiuda1.append(list721.root);
+        var shijiuda2=$("#shijiuda2");
+        shijiuda2.append(list722.root);
+        var shijiuda=$("#shijiuda");
 
-                var shibada1=$("#shibada1");
-                shibada1.append(list751.root);
-                var shibada2=$("#shibada2");
-                shibada2.append(list752.root);
-                var shibada=$("#shibada");
+        var sanyan1=$("#sanyan1");
+        sanyan1.append(list731.root);
+        var sanyan2=$("#sanyan2");
+        sanyan2.append(list732.root);
+        var sanyan=$("#sanyan");
 
-                var sanhui1=$("#sanhui1");
-                sanhui1.append(list761.root);
-                var sanhui2=$("#sanhui2");
-                sanhui2.append(list762.root);
-                var sanhui=$("#sanhui");
+        var liangxue1=$("#liangxue1");
+        liangxue1.append(list741.root);
+        var liangxue2=$("#liangxue2");
+        liangxue2.append(list742.root);
+        var liangxue=$("#liangxue");
+
+        var shibada1=$("#shibada1");
+        shibada1.append(list751.root);
+        var shibada2=$("#shibada2");
+        shibada2.append(list752.root);
+        var shibada=$("#shibada");
+
+        var sanhui1=$("#sanhui1");
+        sanhui1.append(list761.root);
+        var sanhui2=$("#sanhui2");
+        sanhui2.append(list762.root);
+        var sanhui=$("#sanhui");
         var mTab7=MTab.create({
             id:"pending-main-1",
             root_style:default_height,
@@ -795,7 +795,7 @@ var URL_REPO = {
                 checked:true,
                 contentType:"jq",
                 content:yian
-                
+
             },{
                 name:"<div style='color:black;font-size:12px'>十九大</div>",
                 checked:false,
@@ -847,14 +847,14 @@ var URL_REPO = {
         var row81=Row.create({
             parent_id: "root_body",
             "id": "row81",
-           // style:"margin-top:14px"
+            // style:"margin-top:14px"
         });
         var row82=Row.create({
             parent_id: "root_body",
             "id": "row82",
             style:"margin-top:14px"
         });
-        var col81=Col.create({ 
+        var col81=Col.create({
             size:6,
             style:"height:300px"
         });
@@ -887,7 +887,7 @@ var URL_REPO = {
                     //alert("click2");
                 }
             }
-           
+
         });
         var mTab812=MTab.create({
             id:"pending-main-1",
@@ -933,7 +933,7 @@ var URL_REPO = {
                 }
             }
         });
-        
+
         row81.append(col81);
         row81.append(col82);
         row82.append(col83);
@@ -950,31 +950,31 @@ var URL_REPO = {
                 checked:true,
                 contentType: "cmp",
                 content:mixRoot
-           
+
             },{
                 name:"<span style='color:black;font-size:12px'>组织工作</span>",
                 checked:false
-                
+
             },{
                 name:"<span style='color:black;font-size:12px'>纪检工作</span>",
                 checked:false
-                
+
             },{
                 name:"<span style='color:black;font-size:12px'>工会工作</span>",
                 checked:false
-                
+
             },{
                 name:"<span style='color:black;font-size:12px'>团委工作</span>",
                 checked:false
-                
+
             },{
                 name:"<span style='color:black;font-size:12px'>妇委工作</span>",
                 checked:false
-               
+
             },{
                 name:"<span style='color:black;font-size:12px'>全部工作</span>",
                 checked:false
-               
+
             }],
             more_btn: {
                 class_name: "lx-tab-more-btn",
