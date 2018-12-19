@@ -160,7 +160,7 @@
     window.layex = layex;
     window.lx = layex;
     layex.config({
-        base: '/seeyon/apps_res/nbd/layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
+        base: 'layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
     });
 
 }());
