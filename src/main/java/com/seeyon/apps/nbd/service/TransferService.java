@@ -35,7 +35,7 @@ public class TransferService {
     }
     public EnumManager getEnumManager() {
         if(enumManager==null){
-            enumManager = (EnumManager)AppContext.getBean("enumManager");
+            enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
         }
         return enumManager;
     }
@@ -120,6 +120,7 @@ public class TransferService {
             if (CommonUtils.isEmpty(st) || st.equals("normal")) {
                 return val;
             }
+            System.out.println("------+"+st+"+-----");
             OrgManager orgManager = this.getOrgManager();
             Long id = CommonUtils.getLong(val);//得到id
 
@@ -129,7 +130,7 @@ public class TransferService {
                     if("id_2_org_name".equals(st)){
                         return  account.getName();
                     }else {
-                        return  account.getId();
+                        return  account.getCode();
                     }
                 }
             }
@@ -139,7 +140,7 @@ public class TransferService {
                     if("id_2_dept_name".equals(st)){
                         return  department.getName();
                     }else {
-                        return  department.getId();
+                        return  department.getCode();
                     }
                 }
             }
@@ -149,15 +150,17 @@ public class TransferService {
                     if("id_2_person_name".equals(st)){
                         return member.getName();
                     }else {
-                        return  member.getId();
+                        return  member.getCode();
                     }
                 }
             }
             EnumManager enumManager=this.getEnumManager();
             if("enum_2_name".equals(st)||"enum_2_value".equals(st)){
+                System.out.println("id:"+id);
                 CtpEnumItem enumItem=enumManager.getEnumItem(id);
+                System.out.println("is null:"+enumItem==null);
                 if(enumItem!=null){
-                    if("id_2_person_name".equals(st)){
+                    if("enum_2_name".equals(st)){
                         return enumItem.getName();
                     }else {
                         return  enumItem.getShowvalue();
