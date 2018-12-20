@@ -75,9 +75,18 @@ public class ZrzxLeaderOutExportProcessor implements CustomExportProcess {
         Object userId = data.get("user_id");
         String userName = "";
         if(userId != null){
-
+            Object ext2 = data.get("extString2");
+            Object ext3 = data.get("extString3");
             schedule.setExtString1(entity.getAffairType());
-            schedule.setExtString2(entity.getName());
+            if(ext2!=null){
+                schedule.setExtString2(String.valueOf(ext2));
+            }else{
+                schedule.setExtString2(entity.getName());
+            }
+            if(ext3!=null){
+                schedule.setExtString3(String.valueOf(ext3));
+            }
+
            Long uid = CommonUtils.getLong(userId);
            if(uid == null){
                userName = ""+userId;
