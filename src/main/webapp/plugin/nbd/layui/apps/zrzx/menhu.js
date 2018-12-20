@@ -42,7 +42,7 @@ var URL_REPO = {
     "yiban": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=4&offset=0&limit=7",
     "yifa": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=2&offset=0&limit=7",
     "daibangongzuo": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&offset=0&limit=7",
-    "chaoqi": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=7&subState=12&offset=0&limit=7",
+    "chaoqi": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&subState=12&offset=0&limit=7",
     //光荣、下载、菜单
     "meizhoucaidan": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-8736948720711547028&offset=0&limit=7",
     "xiazaizhuanqu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2296413374197223074&offset=0&limit=7",
@@ -53,19 +53,19 @@ var URL_REPO = {
     "bmfzjy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7211608043895997701&offset=0&limit=7",
     "zxyy": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4678376827589578511&offset=0&limit=7",
 
-    "my_cal":URL_BASE+"/seeyon/datakit/get.do?method=getMyCalendar&day=",
-    "s_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getDepartmentLeaderCalendar&day=",
-    "m_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getAccountLeaderCalendar&day="
+    "my_cal": URL_BASE + "/seeyon/datakit/get.do?method=getMyCalendar&day=",
+    "s_leader_cal": URL_BASE + "/seeyon/datakit/get.do?method=getDepartmentLeaderCalendar&day=",
+    "m_leader_cal": URL_BASE + "/seeyon/datakit/get.do?method=getAccountLeaderCalendar&day="
 
 
 };
 (function () {
 
-    lx.use(["jquery", "carousel", "element", "row", "col", "sTab", "mTab", "list", "lunbo", "mixed", "datepicker","laydate"], function () {
+    lx.use(["jquery", "carousel", "element", "row", "col", "sTab", "mTab", "list", "lunbo", "mixed", "datepicker", "laydate"], function () {
         var default_height = "height:300px"
         var default_height_value = "300px";
         var default_height_col = "height:300px";
-        var laydate=lx.laydate;
+        var laydate = lx.laydate;
         var Row = lx.row;
         var MTab = lx.mTab;
         var Tab = lx["sTab"];
@@ -83,32 +83,32 @@ var URL_REPO = {
         var row2 = Row.create({
             parent_id: "root_body",
             "id": "row1129",
-            style:"margin-top:14px"
+            style: "margin-top:14px"
         });
         var row3 = Row.create({
             parent_id: "root_body",
             "id": "row1139",
-            style:"margin-top:14px;height:150px"
+            style: "margin-top:14px;height:150px"
         });
         var row4 = Row.create({
             parent_id: "root_body",
             "id": "row1149",
-            style:"margin-top:14px;height:300px"
+            style: "margin-top:14px;height:300px"
         });
         var row5 = Row.create({
             parent_id: "root_body",
             "id": "row1159",
-            style:"margin-top:14px"
+            style: "margin-top:14px"
         });
         var row6 = Row.create({
             parent_id: "root_body",
             "id": "row1169",
-            style:"margin-top:14px"
+            style: "margin-top:14px"
         });
         var row7 = Row.create({
             parent_id: "root_body",
             "id": "row1179",
-            style:"margin-top:14px"
+            style: "margin-top:14px"
         });
         //列
         var col1 = Col.create({
@@ -188,35 +188,39 @@ var URL_REPO = {
             style: default_height_col
         });
         row7.append(col15);
+        function showIcon(readFlag,data,type) {
+            var temp = ""
+            if (readFlag) {
+                temp = "lx_icon16_messa";
+            } else {
+                temp = "lx_icon16_message";
+            }
+            if (type) {
+                var temp2 = "";
+                if (type == "Pdf") {
+                    temp2 = "lx_icon16_pdf";
+                } else if (type == "OfficeWord") {
+                    temp2 = "lx_icon16_word";
+                } else if (type == "20") {
+                    temp2 = "lx_icon16_form_temp";
+                } else {
+                    temp2 = "";
+                }
+                return "<span class='" + temp + " lx-icon-margin-zq'></span><span>" + data + "</span><span class='" + temp2 + "'></span>";
+            }else{
+                return "<span class='" + temp + " lx-icon-margin-zq'></span><span>" + data + "</span>";
+            }
+        }
+
         var list1 = List.create({
             name: "通知公告",
-            link_prop:"link",
+            link_prop: "link",
             data_url: URL_REPO.tongzhigonggao,
             data_prop: [{
                 name: "title",
                 size: 10,
-                render: function (name, data,item) {
-                    if(item.readFlag){//有错误
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }else{
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }
+                render: function (name, data, item) {
+                    return showIcon(item.readFlag,data,item.body_type);
                 }
             }, {
                 "name": "updateDate",
@@ -256,7 +260,7 @@ var URL_REPO = {
             size: 4,
             interval: 3000,
             width: col2.root.width() + "px",
-            height:default_height_value,
+            height: default_height_value,
             data_url: URL_REPO.tupianxinwen,
             data_prop: {
                 "name": "title",
@@ -264,33 +268,13 @@ var URL_REPO = {
             }
         });
         var list31 = List.create({
-            link_prop:"link",
+            link_prop: "link",
             data_url: URL_REPO.zuoriyaoqing,
             data_prop: [{
                 name: "title",
                 size: 10,
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }else{
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }
+                render: function (name, data, item) {
+                    return showIcon(item.readFlag,data,item.body_type);
                 }
             }, {
                 "name": "createDate",
@@ -300,47 +284,29 @@ var URL_REPO = {
                 }
             }]
         });
-        function isNumber(str){
+
+        function isNumber(str) {
             var re = /^([0-9]+)([.]?)([0-9]*)$/;
             return re.test(str);
         }
+
         var list32 = List.create({
             data_url: URL_REPO.gongzuodongtai,
             data_prop: [{
                 name: "title",
                 size: 10,
-                render: function (name, data,item) {
-                    if(item.readFlag){//有错误
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }else{
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }
+                render: function (name, data, item) {
+                    return showIcon(item.readFlag,data,item.body_type);
                 }
             }, {
                 "name": "createDate",
                 size: 2,
-                render: function (name, data,item) {
+                render: function (name, data, item) {
 
                     var txtDate = new Date(item);
-                    if(isNumber(item)){
-                        return (new Date()+"").substring(5, 10);
-                    }else{
+                    if (isNumber(item)) {
+                        return (new Date() + "").substring(5, 10);
+                    } else {
                         return data.substring(5, 10);
                     }
 
@@ -349,8 +315,8 @@ var URL_REPO = {
         });
         var mTab3 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>昨日要情</span>",
                 checked: true,
@@ -384,29 +350,9 @@ var URL_REPO = {
             data_url: URL_REPO.genzongduban,
             data_prop: [{
                 "name": "subject",
-                render: function (name, data,item) {
+                render: function (name, data, item) {
 
-                    if(item.readFlag){//有错误
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }else{
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                        }
-                    }
+                    return showIcon(item.readFlag,data,item.body_type);
                 },
                 size: 10
             }, {
@@ -432,7 +378,8 @@ var URL_REPO = {
             }
         });
         var list51 = List.create({
-            id:"daiban",
+            id: "daiban",
+            link_prop: "link",
             data_url: URL_REPO.daibangongzuo,
             data_prop: [{
                 "name": "subject",
@@ -452,7 +399,8 @@ var URL_REPO = {
             }]
         });
         var list52 = List.create({
-            id:"yifa",
+            id: "yifa",
+            link_prop: "link",
             data_url: URL_REPO.yifa,
             data_prop: [{
                 "name": "subject",
@@ -473,7 +421,8 @@ var URL_REPO = {
 
         });
         var list53 = List.create({
-            id:"yiban",
+            id: "yiban",
+            link_prop: "link",
             data_url: URL_REPO.yiban,
             data_prop: [{
                 "name": "subject",
@@ -493,7 +442,8 @@ var URL_REPO = {
             }]
         });
         var list54 = List.create({
-            id:"chaoqi",
+            id: "chaoqi",
+            link_prop: "link",
             data_url: URL_REPO.chaoqi,
             data_prop: [{
                 "name": "subject",
@@ -554,35 +504,35 @@ var URL_REPO = {
 
         var mTab5 = MTab.create({
             id: "pending-main-mTab5",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>待办[5]</span>",
                 checked: true,
                 contentType: "cmp",
-                id:"pending-li-1",
+                id: "pending-li-1",
                 content: mixRoot51
             }, {
 
                 name: "<span id='yifa2'  class='lx-tab-multi-head'>已发[12]</span>",
                 checked: false,
                 contentType: "cmp",
-                id:"pending-li-2",
+                id: "pending-li-2",
 
             }, {
                 name: "<span class='lx-tab-multi-head'>已办[12]</span>",
                 checked: false,
                 contentType: "cmp",
-                id:"pending-li-3",
+                id: "pending-li-3",
 
             }, {
                 name: "<span class='lx-tab-multi-head'>超期[1]</span>",
                 checked: false,
                 contentType: "cmp",
-                id:"pending-li-4",
+                id: "pending-li-4",
 
             }],
-            on_tab:function(item){
+            on_tab: function (item) {
                 var curTab = $("#pending-main-mTab5").find(".layui-tab-item.layui-show");
                 curTab.append(mixRoot51.root);
                 var curId = $(item).attr("lay-id");
@@ -590,19 +540,19 @@ var URL_REPO = {
                 list52.root.hide();
                 list53.root.hide();
                 list54.root.hide();
-                if(curId=="pending-li-1"){
+                if (curId == "pending-li-1") {
                     mix512.root.append(list51.root);
                     list51.root.show();
                 }
-                if(curId=="pending-li-2"){
+                if (curId == "pending-li-2") {
                     mix512.root.append(list52.root);
                     list52.root.show();
                 }
-                if(curId=="pending-li-3"){
+                if (curId == "pending-li-3") {
                     mix512.root.append(list53.root);
                     list53.root.show();
                 }
-                if(curId=="pending-li-4"){
+                if (curId == "pending-li-4") {
                     mix512.root.append(list54.root);
                     list54.root.show();
                 }
@@ -630,22 +580,22 @@ var URL_REPO = {
             data_url: URL_REPO.wodemoban1,
             data_prop: [{
                 "name": "subject",
-                render: function (name, data,item) {
+                render: function (name, data, item) {
 
-                    if(item.bodyType=="20"){
-                        return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    if (item.bodyType == "20") {
+                        return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--政务信息审批单
-                    }else if(item.bodyType=="41"){
-                        return "<span  class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else if (item.bodyType == "41") {
+                        return "<span  class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--工作简报/信息专报审批单
-                    }else if(item.bodyType=="10"){
-                        return "<span  class='lx_icon16_red_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else if (item.bodyType == "10") {
+                        return "<span  class='lx_icon16_red_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--阅稿纸
-                    }else if(item.bodyType=="45"){
-                        return "<span class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else if (item.bodyType == "45") {
+                        return "<span class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--传真收文稿纸
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else {
+                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                     }
                 },
                 size: 12
@@ -653,24 +603,24 @@ var URL_REPO = {
         });
         var list62 = List.create({
             data_url: URL_REPO.wodemoban2,
-            max:3,
+            max: 3,
             data_prop: [{
                 "name": "subject",
-                render: function (name, data,item) {
-                    if(item.bodyType=="20"){
-                        return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.bodyType == "20") {
+                        return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--政务信息审批单
-                    }else if(item.bodyType=="41"){
-                        return "<span  class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else if (item.bodyType == "41") {
+                        return "<span  class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--工作简报/信息专报审批单
-                    }else if(item.bodyType=="10"){
-                        return "<span  class='lx_icon16_red_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else if (item.bodyType == "10") {
+                        return "<span  class='lx_icon16_red_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--阅稿纸
-                    }else if(item.bodyType=="45"){
-                        return "<span class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else if (item.bodyType == "45") {
+                        return "<span class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                         //审批单--传真收文稿纸
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId="+item.id+"\")'>"+data+"</span>";
+                    } else {
+                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
                     }
                 },
                 size: 12
@@ -695,11 +645,11 @@ var URL_REPO = {
         // mix62.append(list62);
         // mixRoot6.append(mix61);
         // mixRoot6.append(mix62);
-        var tpl_one=$("#tpl_one");
+        var tpl_one = $("#tpl_one");
         tpl_one.append(list61.root);
-        var tpl_two=$("#tpl_two");
+        var tpl_two = $("#tpl_two");
         tpl_two.append(list62.root);
-        var tpl_all=$("#tpl_all");
+        var tpl_all = $("#tpl_all");
         var sTab6 = Tab.create({
             "title": "<span class='lx-tab-head'>我的模板</span>",
             "style": "height:150px",
@@ -726,16 +676,13 @@ var URL_REPO = {
 
         var list81 = List.create({
             name: "行前公示",
+            link_prop: "link",
             data_url: URL_REPO.xqgs,
             data_prop: [{
                 "name": "frName",
                 size: 10,
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }
+                render: function (name, data, item) {
+                    return showIcon(item.readFlag,data);
                 }
             }, {
                 "name": "createTime",
@@ -747,16 +694,13 @@ var URL_REPO = {
         });
         var list82 = List.create({
             name: "执行公示",
+            link_prop: "link",
             data_url: URL_REPO.zhixinggongshi,
             data_prop: [{
                 "name": "frName",
                 size: 10,
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }
+                render: function (name, data, item) {
+                    return showIcon(item.readFlag,data);
                 }
             }, {
                 "name": "createTime",
@@ -768,16 +712,13 @@ var URL_REPO = {
         });
         var list83 = List.create({
             name: "国际动态",
+            link_prop: "link",
             data_url: URL_REPO.guojidongtai,
             data_prop: [{
                 "name": "frName",
                 size: 10,
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }
+                render: function (name, data, item) {
+                    return showIcon(item.readFlag,data);
                 }
             }, {
                 "name": "createTime",
@@ -789,8 +730,8 @@ var URL_REPO = {
         });
         var mTab8 = MTab.create({
             id: "pending-main-1",
-            root_style:"height:340px",
-            root_class:"layui-tab layui-tab-brief",
+            root_style: "height:340px",
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>行前公示</span>",
                 checked: true,
@@ -824,32 +765,27 @@ var URL_REPO = {
         });
         var list9 = List.create({
             data_url: URL_REPO.wodeshoucang,
-            size:12,
+            link_prop: "link",
+            size: 12,
             data_prop: [{
                 "name": "frName",
-                size:12,
-                render: function (name, data,item) {
+                size: 12,
+                render: function (name, data, item) {
                     console.log(item);
-                    if(item.status=="3"){
-                        if(item.bodyType=="20"){
-                            return "<span style=’color:blue‘>[发文]</span><span>"+data+"</span><span class='lx_icon16_form_temp'>";
-                            //审批单--政务信息审批单
-                        }else if(item.bodyType=="41"){
-                            return "<span></span><span>"+data+"</span><span class='lx_icon16_text_type_template'></span>";
-                            //审批单--工作简报/信息专报审批单
-                        }else if(item.bodyType=="10"){
-                            return "<span></span><span>"+data+"</span><span class='lx_icon16_red_text_type_template'></span>";
-                            //审批单--阅稿纸
-                        }else if(item.bodyType=="45"){
-                            return "<span></span><span>"+data+"</span><span class='lx_icon16_text_type_template'></span>";
-                            //审批单--传真收文稿纸
-                        }else{
-                            return "<span></span><span>"+data+"</span><span class='lx_icon16_message lx-icon-margin-zq'></span>";
-                        }
-                    }else{
-                        return data;
+
+                    if (item.pDF) {
+                        return "<span class='lx_icon16_pdf lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else if (item.isFolder) {
+                        return "<span class='lx_icon16_dir lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else if (item.new) {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else if (item.uploadOfficeOrWps) {
+                        return "<span class='lx_icon16_word lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 }
+
             }]
 
         });
@@ -893,6 +829,7 @@ var URL_REPO = {
                 html: "<span class='lx-new-btn'>+</span>",
                 click: function (e) {
                     //alert("click2");
+                    window.open('/seeyon/collaboration/collaboration.do?method=newColl&templateId=2658410856033043541&from=templateNewColl');
                 }
             }
         });
@@ -902,12 +839,13 @@ var URL_REPO = {
         col10.append(sTab10);
         var list111 = List.create({
             name: "办公会",
+            link_prop: "link",
             data_url: URL_REPO.bangonghui,
             data_prop: [{
                 "name": "field0002",
                 size: 2,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }, {
                 "name": "field0004",
@@ -934,11 +872,12 @@ var URL_REPO = {
         var list112 = List.create({
             name: "中心组学习",
             data_url: URL_REPO.zhongxinzuxuexi,
+            link_prop: "link",
             data_prop: [{
                 "name": "field0002",
                 size: 2,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }, {
                 "name": "field0004",
@@ -963,11 +902,12 @@ var URL_REPO = {
         var list113 = List.create({
             name: "领导班子会",
             data_url: URL_REPO.lingdaobanzihui,
+            link_prop: "link",
             data_prop: [{
                 "name": "field0002",
                 size: 2,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }, {
                 "name": "field0004",
@@ -993,11 +933,12 @@ var URL_REPO = {
         var list114 = List.create({
             name: "主任主题会",
             data_url: URL_REPO.zhurenzhutihui,
+            link_prop: "link",
             data_prop: [{
                 "name": "field0002",
                 size: 2,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }, {
                 "name": "field0004",
@@ -1022,11 +963,12 @@ var URL_REPO = {
         var list115 = List.create({
             name: "党委会",
             data_url: URL_REPO.dangweihui,
+            link_prop: "link",
             data_prop: [{
                 "name": "field0002",
                 size: 2,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }, {
                 "name": "field0004",
@@ -1048,13 +990,13 @@ var URL_REPO = {
                 }
             }]
         });
-        var bangonghui=$("#bangonghui");
+        var bangonghui = $("#bangonghui");
         bangonghui.append(list111.root);
 
         var mTab11 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>办公会</span>",
                 checked: true,
@@ -1099,15 +1041,16 @@ var URL_REPO = {
 
         var list121 = List.create({
             data_url: URL_REPO.xinxizhuanbao,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
                 size: 12,
-                render: function (name, data,item) {
+                render: function (name, data, item) {
 
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 }
             }]
@@ -1115,55 +1058,57 @@ var URL_REPO = {
         });
         var list122 = List.create({
             data_url: URL_REPO.xinxijianbao,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
                 size: 12,
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 }
             }]
         });
         var list123 = List.create({
             name: "政务信息通报",
+            link_prop: "link",
             data_url: URL_REPO.zhengwuxinxitongbao,
             data_prop: [{
                 "name": "frName",
                 size: 12,
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 }
             }]
         });
 
-        var zhuanbao1=$("#zhuanbao1");
+        var zhuanbao1 = $("#zhuanbao1");
         zhuanbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E8%AE%A1%E5%88%92%E5%AE%8C%E6%88%90.rpx&match=2'></iframe>");
-        var zhuanbao2=$("#zhuanbao2");
+        var zhuanbao2 = $("#zhuanbao2");
         zhuanbao2.append(list121.root);
-        var zhuanbao=$("#zhuanbao");
+        var zhuanbao = $("#zhuanbao");
 
-        var jianbao1=$("#jianbao1");
+        var jianbao1 = $("#jianbao1");
         jianbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E9%83%A8%E9%97%A8%E7%BB%9F%E8%AE%A1.rpx&match=2'></iframe>");
-        var jianbao2=$("#jianbao2");
+        var jianbao2 = $("#jianbao2");
         jianbao2.append(list122.root);
-        var jianbao=$("#jianbao");
+        var jianbao = $("#jianbao");
 
-        var tongbao1=$("#tongbao1");
+        var tongbao1 = $("#tongbao1");
         tongbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
-        var tongbao2=$("#tongbao2");
+        var tongbao2 = $("#tongbao2");
         tongbao2.append(list123.root);
-        var tongbao=$("#tongbao");
+        var tongbao = $("#tongbao");
         var mTab12 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>信息专报</span>",
                 checked: true,
@@ -1202,7 +1147,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 size: 10,
-                render: function (name, data,item) {
+                render: function (name, data, item) {
                     //<  onclick="window.open("/seeyon/menhu.do?method=openLink&linkType=news&id="+item.id") />"
                     return data;
                 }
@@ -1216,13 +1161,14 @@ var URL_REPO = {
         });
         var list132 = List.create({
             data_url: URL_REPO.xiazaizhuanqu,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1230,34 +1176,35 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list133 = List.create({
             data_url: URL_REPO.meizhoucaidan,
+            link_prop: "link",
             data_prop: [{
                 "name": "title",
-                render: function (name, data,item) {
-                    if(item.readFlag){//有错误
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {//有错误
+                        if (item.body_type == "Pdf") {
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_pdf'></span>";
+                        } else if (item.body_type == "OfficeWord") {
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_word'></span>";
+                        } else if (item.body_type == "20") {
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_form_temp'></span>";
+                        } else {
+                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
                         }
-                    }else{
-                        if(item.body_type=="Pdf"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_pdf'></span>";
-                        }else if(item.body_type=="OfficeWord"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_word'></span>";
-                        }else if(item.body_type=="20"){
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span><span class='lx_icon16_form_temp'></span>";
-                        }else{
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                    } else {
+                        if (item.body_type == "Pdf") {
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_pdf'></span>";
+                        } else if (item.body_type == "OfficeWord") {
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_word'></span>";
+                        } else if (item.body_type == "20") {
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_form_temp'></span>";
+                        } else {
+                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                         }
                     }
                 },
@@ -1266,14 +1213,14 @@ var URL_REPO = {
                 "name": "updateDate",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var mTab13 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>光荣榜</span>",
                 checked: true,
@@ -1308,13 +1255,14 @@ var URL_REPO = {
 
         var list1411 = List.create({
             data_url: URL_REPO.yianweijian1,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/doc.do?method=knowledgeBrowse&docResId="+item.id+"&entranceType="+item.entranceType+"&v="+item.v+"&docId="+item.id+"&ownerId="+item.ownerId+"\")'>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/doc.do?method=knowledgeBrowse&docResId="+item.id+"&entranceType="+item.entranceType+"&v="+item.v+"&docId="+item.id+"&ownerId="+item.ownerId+"\")'>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
 
                 },
@@ -1323,19 +1271,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1412 = List.create({
             data_url: URL_REPO.yianweijian2,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1343,19 +1292,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1421 = List.create({
             data_url: URL_REPO.shijiuda1,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
 
                 },
@@ -1364,19 +1314,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1422 = List.create({
             data_url: URL_REPO.shijiuda2,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1384,19 +1335,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1431 = List.create({
             data_url: URL_REPO.sanyansanshi1,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1404,19 +1356,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1432 = List.create({
             data_url: URL_REPO.sanyansanshi2,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1424,19 +1377,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1441 = List.create({
             data_url: URL_REPO.liangxueyizuo1,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1444,19 +1398,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1442 = List.create({
             data_url: URL_REPO.liangxueyizuo2,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1464,19 +1419,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1451 = List.create({
             data_url: URL_REPO.shibada1,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1484,19 +1440,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1452 = List.create({
             data_url: URL_REPO.shibada2,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1504,19 +1461,20 @@ var URL_REPO = {
                 "name": "createTime",
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1461 = List.create({
             data_url: URL_REPO.sanhuiyike1,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1527,19 +1485,20 @@ var URL_REPO = {
                 },
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
         var list1462 = List.create({
             data_url: URL_REPO.sanhuiyike2,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
-                render: function (name, data,item) {
-                    if(item.readFlag){
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>"+data+"</span>";
-                    }else{
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>"+data+"</span>";
+                render: function (name, data, item) {
+                    if (item.readFlag) {
+                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
+                    } else {
+                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
                     }
                 },
                 size: 9
@@ -1550,80 +1509,80 @@ var URL_REPO = {
                 },
                 size: 3,
                 render: function (name, data) {
-                    return data.substring(0,10);
+                    return data.substring(0, 10);
                 }
             }]
         });
-        var yian1=$("#yian1");
+        var yian1 = $("#yian1");
         yian1.append(list1411.root);
-        var yian2=$("#yian2");
+        var yian2 = $("#yian2");
         yian2.append(list1412.root);
-        var yian=$("#yian");
+        var yian = $("#yian");
 
 
-        var shijiuda1=$("#shijiuda1");
+        var shijiuda1 = $("#shijiuda1");
         shijiuda1.append(list1421.root);
-        var shijiuda2=$("#shijiuda2");
+        var shijiuda2 = $("#shijiuda2");
         shijiuda2.append(list1422.root);
-        var shijiuda=$("#shijiuda");
+        var shijiuda = $("#shijiuda");
 
-        var sanyan1=$("#sanyan1");
+        var sanyan1 = $("#sanyan1");
         sanyan1.append(list1431.root);
-        var sanyan2=$("#sanyan2");
+        var sanyan2 = $("#sanyan2");
         sanyan2.append(list1432.root);
-        var sanyan=$("#sanyan");
+        var sanyan = $("#sanyan");
 
-        var liangxue1=$("#liangxue1");
+        var liangxue1 = $("#liangxue1");
         liangxue1.append(list1441.root);
-        var liangxue2=$("#liangxue2");
+        var liangxue2 = $("#liangxue2");
         liangxue2.append(list1442.root);
-        var liangxue=$("#liangxue");
+        var liangxue = $("#liangxue");
 
-        var shibada1=$("#shibada1");
+        var shibada1 = $("#shibada1");
         shibada1.append(list1451.root);
-        var shibada2=$("#shibada2");
+        var shibada2 = $("#shibada2");
         shibada2.append(list1452.root);
-        var shibada=$("#shibada");
+        var shibada = $("#shibada");
 
-        var sanhui1=$("#sanhui1");
+        var sanhui1 = $("#sanhui1");
         sanhui1.append(list1461.root);
-        var sanhui2=$("#sanhui2");
+        var sanhui2 = $("#sanhui2");
         sanhui2.append(list1462.root);
-        var sanhui=$("#sanhui");
+        var sanhui = $("#sanhui");
         var mTab14 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>以案为鉴</span>",
                 checked: true,
                 contentType: "jq",
-                content:yian
+                content: yian
             }, {
                 name: "<div class='lx-tab-multi-head'>十九大</div>",
                 checked: false,
                 contentType: "jq",
-                content:shijiuda
+                content: shijiuda
             }, {
                 name: "<span class='lx-tab-multi-head'>三严三实</span>",
                 checked: false,
                 contentType: "jq",
-                content:sanyan
+                content: sanyan
             }, {
                 name: "<span class='lx-tab-multi-head'>两学一做</span>",
                 checked: false,
                 contentType: "jq",
-                content:liangxue
+                content: liangxue
             }, {
                 name: "<span class='lx-tab-multi-head'>十八大</span>",
                 checked: false,
                 contentType: "jq",
-                content:shibada
+                content: shibada
             }, {
                 name: "<span class='lx-tab-multi-head'>三会一课</span>",
                 checked: false,
                 contentType: "jq",
-                content:sanhui
+                content: sanhui
             }],
             more_btn: {
                 class_name: "lx-tab-more-btn",
@@ -1676,8 +1635,8 @@ var URL_REPO = {
         });
         var mTab15 = MTab.create({
             id: "pending-main-1",
-            root_style:default_height,
-            root_class:"layui-tab layui-tab-brief",
+            root_style: default_height,
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>重点工作</span>",
                 checked: true,
@@ -1714,6 +1673,7 @@ var URL_REPO = {
                 }
             }
         });
+
         /**
          * <div class="layui-inline lx-cal-name">
          任勇勇
@@ -1726,82 +1686,101 @@ var URL_REPO = {
          </div>
          </div>
          */
-        function renderCal(item,type){
-            var htmls=[];
+        function renderCal(item, type) {
+            var htmls = [];
             var start = item.startDate;
             var endd = item.endDate;
             var userName = item.userName;
             var location = item.location;
             var reason = item.reason;
-            var _cls="";
-            var _location="在京"
-            var inbj=true;
-            if(type=="s"||type=="m"||type=="n"){
-                htmls.push("<div class='lx-cal-item'>");
-                if(userName.length==2){
-                    userName=userName[0]+"<span style='color:white'>一</span>"+userName[1];
+            var ext3 = item.extString3;
+            //console.log(item);
+            //alert(1);
+            var _cls = "";
+            var _location = "在京"
+            var inbj = true;
+            if (type == "s" || type == "m" || type == "n") {
+                htmls.push("<div class='lx-cal-item'><table><tr>");
+                if (userName.length == 2) {
+                    userName = userName[0] + "<span style='color:white'>一</span>" + userName[1];
                 }
-                htmls.push('<div class="layui-inline lx-cal-name">');
-                htmls.push(userName+":");
-                htmls.push("</div>");
+                htmls.push('<td style="width:75px"><div class="layui-inline lx-cal-name">');
+                htmls.push(userName + ":");
+                htmls.push("</div></td>");
+                if (ext3) {
+                    if (ext3 == "中心") {
+                        _cls = "layui-inline lx-cal-black";
+                        _location = "中心,"
+                    } else if (ext3 == "京外") {
+                        _cls = "layui-inline lx-cal-bj-out";
+                        _location = "京外,"
+                    } else {
+                        _cls = "layui-inline lx-cal-bj-in";
+                        _location = "在京,"
+                    }
 
-                if(location==""&&reason==""){
-                    _cls="layui-inline lx-cal-gray";
-                    _location="在京"
-                }else if(reason!=""&&location=="北京"){
-                    _cls="layui-inline lx-cal-bj-in";
-                    _location="在京,"
-                }else if(reason!=""&&location!="北京"){
-                    _cls="layui-inline lx-cal-bj-out";
-                    _location="不在京,"
-                    inbj=false;
-                }else{
-                    _cls="layui-inline lx-cal-gray";
-                    _location="在京,"
+
+                } else if (location == "" && reason == "") {
+                    _cls = "layui-inline lx-cal-gray";
+                    _location = "在京"
+                } else if (reason != "" && location == "北京") {
+                    _cls = "layui-inline lx-cal-bj-in";
+                    _location = "在京,"
+                } else if (reason != "" && location != "北京") {
+                    _cls = "layui-inline lx-cal-bj-out";
+                    _location = "京外,"
+                    inbj = false;
+                } else {
+                    _cls = "layui-inline lx-cal-gray";
+                    _location = "在京,"
                 }
-                htmls.push("<div class='"+_cls+"'>"+_location+"</div>");
-                htmls.push("<div style='padding-left:8px' class='"+_cls+"'>"+reason+"</div>");
-                htmls.push("</div>");
+                if (type == "s") {
+                    _cls = _cls + " lx-cal-max-s";
+                } else {
+                    _cls = _cls + " lx-cal-max-m";
+                }
+                htmls.push("<td><div class='" + _cls + "'>" + _location + "</div></td>");
+                htmls.push("<td><div style='padding-left:8px' class='lx-eclipse " + _cls + "'><a title='" + reason + "'>" + reason + "</a></div></td>");
+                htmls.push("</tr></table></div>");
 
             }
 
-            var obj={
+            var obj = {}
+            obj.html = htmls.join("");
 
-            }
-            obj.html=htmls.join("");
-
-            obj.inbj=inbj?1:0;
+            obj.inbj = inbj ? 1 : 0;
             return obj;
         }
-        function show_cal(day){
+
+        function show_cal(day) {
             /**
              "my_cal":URL_BASE+"/seeyon/datakit/get.do?method=getMyCalendar&day=",
              "s_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getDepartmentLeaderCalendar&day=",
              "m_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getAccountLeaderCalendar&day="
              */
             $.ajax({
-                url: URL_REPO.my_cal+day,
+                url: URL_REPO.my_cal + day,
                 async: true, //同步方式发送请求，true为异步发送
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
 
-                    if(data.items){
+                    if (data.items) {
                         //me.render(data.items);
                         console.log(data);
-                        var htmls=[];
-                        var inbj=0;
-                        $(data.items).each(function(index,item){
-                            var ret = renderCal(item,"n");
+                        var htmls = [];
+                        var inbj = 0;
+                        $(data.items).each(function (index, item) {
+                            var ret = renderCal(item, "n");
                             htmls.push(ret.html);
 
                         })
                         var h = htmls.join("");
-                        if(h==""){
-                            h="<span class='lx-cal-gray'>无日程安排</span>";
+                        if (h == "") {
+                            h = "<span class='lx-cal-gray'>无日程安排</span>";
                         }
                         $("#my_cal").html(h);
-                    }else{
+                    } else {
                         $("#my_cal").html("<span class='lx-cal-gray'>无日程安排</span>");
                     }
                 },
@@ -1810,31 +1789,31 @@ var URL_REPO = {
                 }
             });
             $.ajax({
-                url: URL_REPO.s_leader_cal+day,
+                url: URL_REPO.s_leader_cal + day,
                 async: true, //同步方式发送请求，true为异步发送
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
-                    if(data.items){
+                    if (data.items) {
                         // me.render(data.items);
-                        var htmls_left=[];
-                        var htmls_right=[];
-                        var in_bj=0;
-                        $(data.items).each(function(index,item){
-                            var ret = renderCal(item,"s");
-                            if(index<7){
+                        var htmls_left = [];
+                        var htmls_right = [];
+                        var in_bj = 0;
+                        $(data.items).each(function (index, item) {
+                            var ret = renderCal(item, "s");
+                            if (index < 7) {
                                 htmls_left.push(ret.html);
-                            }else{
+                            } else {
                                 htmls_right.push(ret.html);
                             }
-                            in_bj+=ret.inbj;
+                            in_bj += ret.inbj;
 
                         });
                         //var h = htmls.join("");
 
                         $("#s_leader_cal_left").html(htmls_left.join(""));
                         $("#s_leader_cal_right").html(htmls_right.join(""));
-                        $("#s_leader_cal_header").html("部门负责人("+in_bj+"/"+data.items.length+")");
+                        $("#s_leader_cal_header").html("部门负责人(" + in_bj + "/" + data.items.length + ")");
                     }
                 },
                 error: function (res) {
@@ -1842,24 +1821,24 @@ var URL_REPO = {
                 }
             });
             $.ajax({
-                url: URL_REPO.m_leader_cal+day,
+                url: URL_REPO.m_leader_cal + day,
                 async: true, //同步方式发送请求，true为异步发送
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
-                    if(data.items){
+                    if (data.items) {
                         // me.render(data.items);
-                        var htmls=[];
-                        var in_bj=0;
-                        $(data.items).each(function(index,item){
-                            var ret=renderCal(item,"m");
+                        var htmls = [];
+                        var in_bj = 0;
+                        $(data.items).each(function (index, item) {
+                            var ret = renderCal(item, "m");
                             htmls.push(ret.html);
-                            in_bj+=ret.inbj;
+                            in_bj += ret.inbj;
                         })
                         var h = htmls.join("");
 
                         $("#m_leader_cal").html(h);
-                        $("#m_leader_cal_header").html("中心领导("+in_bj+"/"+data.items.length+")");
+                        $("#m_leader_cal_header").html("中心领导(" + in_bj + "/" + data.items.length + ")");
                     }
                 },
                 error: function (res) {
@@ -1868,37 +1847,38 @@ var URL_REPO = {
             });
 
         }
+
         col15.append(mTab15);
 
         laydate.render({
             elem: '#cal_date_picker'
-            ,showBottom: false
-            ,position: 'static'
-            ,format: 'yyyy-MM-dd',
-            done:function(value,date){
+            , showBottom: false
+            , position: 'static'
+            , format: 'yyyy-MM-dd',
+            done: function (value, date) {
                 show_cal(value);
             }
         });
         //cal_leader_container
         var cal_mtab = MTab.create({
             id: "cal-main-1",
-            root_style:"height:265px",
-            root_class:"layui-tab layui-tab-brief",
+            root_style: "height:265px",
+            root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>我的日程</span>",
                 checked: false,
                 contentType: "jq",
-                content:$("#my_cal")
+                content: $("#my_cal")
             }, {
                 name: "<span id='m_leader_cal_header' class='lx-tab-multi-head'>中心领导</span>",
                 checked: true,
                 contentType: "jq",
-                content:$("#m_leader_cal")
+                content: $("#m_leader_cal")
             }, {
                 name: "<span id='s_leader_cal_header' class='lx-tab-multi-head'>部门负责人</span>",
                 checked: false,
                 contentType: "jq",
-                content:$("#s_leader_cal")
+                content: $("#s_leader_cal")
             }]
 
         });

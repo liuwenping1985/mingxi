@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
@@ -24,9 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2018/11/3.
@@ -272,7 +271,14 @@ public class NbdController extends BaseController {
         }
         NbdResponseEntity<CtpTemplate> entity = new NbdResponseEntity<CtpTemplate>();
         entity.setResult(true);
-        entity.setItems(templateList);
+        List<Map> retList = new ArrayList<Map>();
+        for(CtpTemplate template:templateList){
+            String jsonMapString = JSON.toJSONString(template);
+            Map map = JSON.parseObject(jsonMapString,HashMap.class);
+            map.put("id",String.valueOf(map.get("id")));
+            retList.add(map);
+        }
+        entity.setItems(retList);
         UIUtils.responseJSON(entity,response);
 
         return null;
