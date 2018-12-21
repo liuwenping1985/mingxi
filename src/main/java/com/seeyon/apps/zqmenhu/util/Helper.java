@@ -1,13 +1,18 @@
 package com.seeyon.apps.zqmenhu.util;
 
 import com.seeyon.apps.zqmenhu.vo.CommonTypeParameter;
+import com.seeyon.ctp.common.security.MessageEncoder;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import com.seeyon.ctp.util.json.JSONUtil;
+import com.seeyon.oainterface.impl.organizationmgr.Login;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +121,7 @@ public class Helper {
         return list.subList(start, end);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
 
         List list = new ArrayList();
         list.add(1);
@@ -124,7 +129,11 @@ public class Helper {
         list.add(3);
         list.add(4);
         list.add(5);
-        System.out.println(list.subList(3, 3));
+        PrincipalManagerImpl dla;
+        MessageEncoder encode = new MessageEncoder();
+        String pwdC = encode.encode("aizhi", "123456");
+
+        System.out.println(pwdC);
     }
 
 

@@ -28,6 +28,7 @@ public final class DataBaseHelper {
         JDBCAgent jdbc = new JDBCAgent();
         try {
             jdbc.execute(sql.toString());
+
             List<Map> list = jdbc.resultSetToList();
             return list;
         } catch (Exception e) {

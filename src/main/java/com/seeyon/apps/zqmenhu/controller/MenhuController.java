@@ -339,6 +339,7 @@ public class MenhuController extends BaseController {
         return null;
     }
     //
+
     public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletResponse response){
 
         CommonResultVo data = new CommonResultVo();
@@ -347,17 +348,17 @@ public class MenhuController extends BaseController {
             DocResourceDao docResourceDao = (DocResourceDao) AppContext.getBean("docResourceDao");
             User user = AppContext.getCurrentUser();
             String userName = user.getName();
-            DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
-            DocLibPO docLibPo = docLibManager.getPersonalLibOfUser(user.getId());
+            //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
+            //DocLibPO docLibPo = docLibManager.getPersonalLibOfUser(user.getId());
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("userName", userName);
-            params.put("docLibId", String.valueOf(docLibPo.getId()));
+            //params.put("docLibId", String.valueOf(docLibPo.getId()));
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
             List<DocResourcePO> pagingFavor = Helper.paggingList(poList,p);
             data.setItems(pagingFavor);
             Helper.responseJSON(data, response);
-            System.out.println("params："+params);
-            System.out.println("list："+poList);
+          //  System.out.println("params："+params);
+            //System.out.println("list："+poList);
             return null;
         }catch (Exception e){
             data.setResult(false);
@@ -416,10 +417,6 @@ public class MenhuController extends BaseController {
                 } else {
                     retList.addAll(newsDataItemList);
                 }
-
-                Helper.responseJSON(data, response);
-            } else {
-                Helper.responseJSON(data, response);
             }
             List<Map> contain= new ArrayList<Map>();
             for(NewsDataItem item:retList){
@@ -429,7 +426,6 @@ public class MenhuController extends BaseController {
                 contain.add(map);
 
             }
-
             data.setItems(contain);
             data.setResult(true);
         } catch (Exception var15) {
@@ -460,6 +456,9 @@ public class MenhuController extends BaseController {
             }
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql);
             formDataList = Helper.paggingList(formDataList,p);
+            for(Map fd:formDataList){
+                fd.put("link","/seeyon/nbd.do?method=openLink&type=form&id="+fd.get("id"));
+            }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
             return null;
@@ -487,13 +486,11 @@ public class MenhuController extends BaseController {
             String sql1 = "select * from ctp_supervise_detail";
 
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql1);
-
-            for(Map maps:formDataList){
-                maps.put("link","/seeyon/collaboration/collaboration.do?method=summary&affairId="+maps.get("affair_id")+"&summaryId="+maps.get("entity_id")+"&openFrom=supervise&type="+maps.get("status"));
-
-            }
             formDataList = Helper.paggingList(formDataList,p);
-
+            for(Map fd:formDataList){
+                // maps.put("link","/seeyon/collaboration/collaboration.do?method=summary&affairId="+maps.get("affair_id")+"&summaryId="+maps.get("entity_id")+"&openFrom=supervise&type="+maps.get("status"));
+                fd.put("link","/seeyon/nbd.do?method=openLink&type=supervise&id="+fd.get("id"));
+            }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
             return null;
@@ -528,7 +525,7 @@ public class MenhuController extends BaseController {
                 sql = "from NewsDataItem where state=30 and typeId="+p.getTypeId()+" order by createDate desc";
             }
 
-
+            //DBAgent.find
             List<NewsDataItem> newsDataList = DBAgent.find(sql);
             //
             AttachmentManager impl = null;
@@ -681,26 +678,18 @@ public class MenhuController extends BaseController {
 
             Map data = JSON.parseObject(jsonMap,HashMap.class);
             data.put("link","/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId="+data.get("id"));
-            retList.add(data);
-
             try {
                 if(ctpAffair!=null) {
-
-
-
                     V3xOrgMember member = orgManager.getMemberById(ctpAffair.getSenderId());
                     if (member != null) {
                         data.put("senderName", member.getName());
-
                         data.put("receiveFormatDate", formt.format(ctpAffair.getReceiveTime()));
                     }
                 }
 
+            }catch (BusinessException e){
             }
-            catch (BusinessException e) {
-
-                e.printStackTrace();
-            }
+            retList.add(data);
 
         }
         return retList;
@@ -796,7 +785,6 @@ public class MenhuController extends BaseController {
 
 
     @NeedlessCheckLogin
-
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -938,6 +926,9 @@ public class MenhuController extends BaseController {
             if(dbc!=null){
                 return dbc.knowledgeBrowse(request,response);
             }
+        }
+        if("form".equals(linkType)){
+            //TODO
         }
 
 
