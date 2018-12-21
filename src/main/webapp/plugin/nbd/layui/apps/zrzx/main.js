@@ -35,6 +35,7 @@
                     btn: ['确定', '取消'] //可以无限个按钮
                 }, function(index, layero){
                     //按钮【按钮一】的回调
+                    window.location.href="/seeyon/main.do?method=logout"
                 }, function(index){
                     //按钮【按钮二】的回调
                 });

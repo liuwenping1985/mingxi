@@ -6,6 +6,16 @@ public class DocVo extends DocResourcePO{
     private String v;
     private  String ownerId;
     private String entranceType;
+    private  String link;
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+
 
     public String getOwnerId() {
         return ownerId;

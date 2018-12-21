@@ -1,11 +1,11 @@
-;var URL_BASE = "http://10.100.249.84:612";
+;var URL_BASE = "http://192.168.1.98:612";
 
 var URL_REPO = {
     //第一行-要情、公告、工作动态
     "tupianxinwen": URL_BASE + "/seeyon/menhu.do?method=getImgNewList&typeId=1&offset=0&limit=7",
     "tongzhigonggao": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=7305481828924604761&offset=0&limit=7",
     "zuoriyaoqing": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-2220615473202182672&offset=0&limit=7",//昨日要请
-    "gongzuodongtai": URL_BASE + "/seeyon/menhu.do?method=getNewsByAccountAndDepartment&orgCountStr=3&deptCountStr=3",
+    "gongzuodongtai": URL_BASE + "/seeyon/menhu.do?method=getNewsByAccountAndDepartment&orgCountStr=3&deptCountStr=4",
     //以案为鉴
     "liangxueyizuo1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=1268478479319909049&offset=0&limit=6",
     "liangxueyizuo2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8188009082124256867&offset=0&limit=6",
@@ -39,10 +39,10 @@ var URL_REPO = {
     "dangweihui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=-6730682058817912143&offset=0&limit=7",
     "zhongxinzuxuexi": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=4327169891904341638&offset=0&limit=7",
     //待办
-    "yiban": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=4&offset=0&limit=7",
-    "yifa": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=2&offset=0&limit=7",
-    "daibangongzuo": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&offset=0&limit=7",
-    "chaoqi": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&subState=12&offset=0&limit=7",
+    "yiban": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=4&offset=0&limit=6",
+    "yifa": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=2&offset=0&limit=6",
+    "daibangongzuo": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&offset=0&limit=6",
+    "chaoqi": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&subState=12&offset=0&limit=6",
     //光荣、下载、菜单
     "meizhoucaidan": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-8736948720711547028&offset=0&limit=7",
     "xiazaizhuanqu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2296413374197223074&offset=0&limit=7",
@@ -292,6 +292,7 @@ var URL_REPO = {
 
         var list32 = List.create({
             data_url: URL_REPO.gongzuodongtai,
+            link_prop:"link",
             data_prop: [{
                 name: "title",
                 size: 10,
@@ -1046,12 +1047,7 @@ var URL_REPO = {
                 "name": "frName",
                 size: 12,
                 render: function (name, data, item) {
-
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 }
             }]
 
@@ -1063,11 +1059,7 @@ var URL_REPO = {
                 "name": "frName",
                 size: 12,
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 }
             }]
         });
@@ -1079,29 +1071,25 @@ var URL_REPO = {
                 "name": "frName",
                 size: 12,
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 }
             }]
         });
 
         var zhuanbao1 = $("#zhuanbao1");
-        zhuanbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E8%AE%A1%E5%88%92%E5%AE%8C%E6%88%90.rpx&match=2'></iframe>");
+        zhuanbao1.append("<iframe  style='height:250px;overflow:hidden' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E8%AE%A1%E5%88%92%E5%AE%8C%E6%88%90.rpx&match=2'></iframe>");
         var zhuanbao2 = $("#zhuanbao2");
         zhuanbao2.append(list121.root);
         var zhuanbao = $("#zhuanbao");
 
         var jianbao1 = $("#jianbao1");
-        jianbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E9%83%A8%E9%97%A8%E7%BB%9F%E8%AE%A1.rpx&match=2'></iframe>");
+        jianbao1.append("<iframe  style='height:250px;overflow:hidden' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E9%83%A8%E9%97%A8%E7%BB%9F%E8%AE%A1.rpx&match=2'></iframe>");
         var jianbao2 = $("#jianbao2");
         jianbao2.append(list122.root);
         var jianbao = $("#jianbao");
 
         var tongbao1 = $("#tongbao1");
-        tongbao1.append("<iframe  style='height:250px' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
+        tongbao1.append("<iframe  style='height:250px;overflow:hidden' class='layui-col-md12' frameborder=0 src='http://10.10.204.107:8080/v2018bi/reportJsp/matchReport.jsp?rpx=/%E9%A6%96%E9%A1%B5-%E6%8A%A5%E8%A1%A8/%E5%88%8A%E5%8F%91%E9%87%87%E7%94%A8.rpx&match=2'></iframe>");
         var tongbao2 = $("#tongbao2");
         tongbao2.append(list123.root);
         var tongbao = $("#tongbao");
@@ -1165,11 +1153,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1186,27 +1170,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "title",
                 render: function (name, data, item) {
-                    if (item.readFlag) {//有错误
-                        if (item.body_type == "Pdf") {
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_pdf'></span>";
-                        } else if (item.body_type == "OfficeWord") {
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_word'></span>";
-                        } else if (item.body_type == "20") {
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_form_temp'></span>";
-                        } else {
-                            return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                        }
-                    } else {
-                        if (item.body_type == "Pdf") {
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_pdf'></span>";
-                        } else if (item.body_type == "OfficeWord") {
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_word'></span>";
-                        } else if (item.body_type == "20") {
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span><span class='lx_icon16_form_temp'></span>";
-                        } else {
-                            return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                        }
-                    }
+                    return showIcon(item.readFlag,data,item.body_type);
                 },
                 size: 9
             }, {
@@ -1259,12 +1223,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
-
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1281,11 +1240,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1302,12 +1257,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
-
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1324,11 +1274,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1345,11 +1291,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1366,11 +1308,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1387,11 +1325,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1408,11 +1342,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1429,11 +1359,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1450,11 +1376,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1471,11 +1393,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1495,11 +1413,7 @@ var URL_REPO = {
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
-                    if (item.readFlag) {
-                        return "<span class='lx_icon16_messa lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+                    return showIcon(item.readFlag,data);
                 },
                 size: 9
             }, {
@@ -1714,6 +1628,7 @@ var URL_REPO = {
                     } else if (ext3 == "京外") {
                         _cls = "layui-inline lx-cal-bj-out";
                         _location = "京外,"
+                        inbj = false;
                     } else {
                         _cls = "layui-inline lx-cal-bj-in";
                         _location = "在京,"
