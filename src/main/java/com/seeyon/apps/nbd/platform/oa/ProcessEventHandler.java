@@ -26,6 +26,8 @@ import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.v3x.services.flow.FlowUtil;
 import com.seeyon.v3x.services.form.impl.FormFactoryImpl;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 import java.util.HashMap;
@@ -35,7 +37,7 @@ import java.util.Map;
  * Created by liuwenping on 2018/8/20.
  */
 public class ProcessEventHandler {
-
+    private Log log = LogFactory.getLog(ProcessEventHandler.class);
 
     private ColManager colManager;
 
@@ -96,7 +98,7 @@ public class ProcessEventHandler {
         Long affairId = event.getAffairId();
         try {
             String code = event.getTemplateCode();
-            System.out.println("code:"+code);
+
             ServicePlugin sp =  this.getNbdPluginServiceManager().getServicePluginsByAffairType(code);
             if(sp!=null){
                 CommonParameter parameter = new CommonParameter();
@@ -104,14 +106,13 @@ public class ProcessEventHandler {
                 parameter.$("affairId",event.getAffairId());
                 CtpAffair affair = this.getColManager().getAffairById(affairId);
                 parameter.$("form_record_id",String.valueOf(affair.getFormRecordid()));
-                System.out.println(JSON.toJSONString(parameter));
+                log.error(JSON.toJSONString(parameter));
                 CommonDataVo vo = sp.processAffair(parameter);
-                System.out.println(JSON.toJSONString(vo));
-            }else{
-                System.out.println("sp is null");
+                log.error(JSON.toJSONString(vo));
             }
         } catch (BusinessException e) {
-            e.printStackTrace();
+            log.error("error",e);
+            //e.printStackTrace();
         }
 
     }
@@ -124,7 +125,7 @@ public class ProcessEventHandler {
 //
 //        processEvent(summaryId,ctpAffair);
 //
-      System.out.println("-----onStepBack----");
+      //System.out.println("-----onStepBack----");
 
        // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 
@@ -138,7 +139,7 @@ public class ProcessEventHandler {
 //
 //        processEvent(summaryId,ctpAffair);
 //
-        System.out.println("-----onCancel----");
+        //System.out.println("-----onCancel----");
 
       //  processDoneEvent(summaryId,"取消",FlowUtil.FlowState.cancle.getKey());
 
@@ -161,8 +162,8 @@ public class ProcessEventHandler {
 //    }
     @ListenEvent(event = CollaborationStopEvent.class,async = true,mode = EventTriggerMode.afterCommit)
     public void onStop(CollaborationStopEvent event) {
-        Long summaryId = event.getSummaryId();
-        System.out.println("-----onStop----");
+       // Long summaryId = event.getSummaryId();
+        //System.out.println("-----onStop----");
        // processDoneEvent(summaryId,"停止",FlowUtil.FlowState.teminal.getKey());
 
     }
@@ -234,7 +235,7 @@ public class ProcessEventHandler {
         Long summaryId = event.getSummaryId();
        // CtpAffair ctpAffair =  event.getAffair();
        // processNormalEvent(summaryId,ctpAffair);
-        System.out.println("-----TEST3----");
+       // System.out.println("-----TEST3----");
 
 
 
@@ -243,7 +244,7 @@ public class ProcessEventHandler {
     private boolean needProcess(Long summaryId){
 
         Object obj =  DataBaseHandler.getInstance().getDataByKey("flow"+summaryId);
-        System.out.println("Object--->"+obj);
+       // System.out.println("Object--->"+obj);
         if(obj!=null){
             return true;
         }
