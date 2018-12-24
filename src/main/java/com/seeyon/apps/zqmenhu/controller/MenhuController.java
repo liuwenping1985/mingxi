@@ -457,14 +457,15 @@ public class MenhuController extends BaseController {
                     retList.addAll(newsDataItemList);
                 }
             }
-            List<Map> contain = new ArrayList<Map>();
-            for (NewsDataItem item : retList) {
-                String sJson = JSON.toJSONString(item);
-                Map map = JSON.parseObject(sJson, HashMap.class);
-                map.put("link", "/seeyon/newsData.do?method=newsView&newsId=" + map.get("id"));
-                contain.add(map);
-
-            }
+          //  List<Map> contain = new ArrayList<Map>();
+            List<NewsVo> contain= transToNewsVo(retList);
+//            for (NewsDataItem item : retList) {
+//                String sJson = JSON.toJSONString(item);
+//                Map map = JSON.parseObject(sJson, HashMap.class);
+//                map.put("link", "/seeyon/newsData.do?method=newsView&newsId=" + map.get("id"));
+//                contain.add(map);
+//
+//            }
             data.setItems(contain);
             data.setResult(true);
         } catch (Exception var15) {
@@ -678,21 +679,26 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             StringBuilder sql = new StringBuilder("from CtpAffair where 1=1 ");
+            StringBuilder countSql = new StringBuilder("select count(*) from CtpAffair where 1=1 ");
             Long state = p.getTypeId();
             if (state == null) {
                 state = 3L;
             }
             sql.append(" and state="+state);
+            countSql.append(" and state="+state);
            // sql.append("and state="+state);
             if (subState != null) {
                 sql.append(" and subState="+ subState );
+                countSql.append(" and subState="+ subState );
             }
             if (userId != null) {
                 sql.append(" and memberId=" + userId);
+                countSql.append(" and memberId=" + userId);
             }
             if(appType!=null){
 
                 sql.append(" and app=" + appType);
+                countSql.append(" and app=" + appType);
             }
             sql.append(" order by createDate desc");
 
@@ -707,7 +713,7 @@ public class MenhuController extends BaseController {
             List<CtpAffair> ctpaffair = DBAgent.find(sql.toString(),null,info);;
 
             if("true".equals(count)){
-                Integer count_ = DBAgent.count(sql.toString());
+                Integer count_ = DBAgent.count(countSql.toString());
                 data.setCount(count_);
             }
             //List<CtpAffair> paggingctpaffairs = Helper.paggingList(ctpaffair, p);
