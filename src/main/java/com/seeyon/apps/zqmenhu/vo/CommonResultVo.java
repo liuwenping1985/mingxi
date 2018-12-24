@@ -12,6 +12,15 @@ public class CommonResultVo {
     private String msg="";
     private Object data;
     private boolean result = true;
+    private Integer count;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 
     public List getItems() {
         return items;

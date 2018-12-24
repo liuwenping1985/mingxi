@@ -239,7 +239,9 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-
+                    window.open('/seeyon/bulData.do?method=bulIndex&typeId=7305481828924604761&spaceType=&spaceId=');
+                    e.stopPropagation();
+                    e.preventDefault();
                 }
             },
             new_btn: {
@@ -247,6 +249,9 @@ var URL_REPO = {
                 html: "<span class='lx-new-btn'>+</span>",
                 click: function (e) {
                     //alert("click2");
+                    e.stopPropagation();
+                    e.preventDefault();
+                    window.open('/seeyon/bulData.do?method=bulEdit&spaceType=2&bulTypeId=7305481828924604761&spaceId=670869647114347&bulId=&openFlag=true');
                 }
             }
         });
@@ -319,12 +324,12 @@ var URL_REPO = {
             root_style: default_height,
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
-                name: "<span class='lx-tab-multi-head'>昨日要情</span>",
+                name: "<span id='zryq_head' class='lx-tab-multi-head'>昨日要情</span>",
                 checked: true,
                 contentType: "cmp",
                 content: list31
             }, {
-                name: "<span class='lx-tab-multi-head'>工作动态</span>",
+                name: "<span id='gzdt_head' class='lx-tab-multi-head'>工作动态</span>",
                 checked: false,
                 contentType: "cmp",
                 content: list32
@@ -334,6 +339,14 @@ var URL_REPO = {
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
                     //alert("click");
+                    if($("#zryq_head").hasClass("layui-this")||$("#zryq_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/bulData.do?method=bulIndex&typeId=-2220615473202182672&spaceType=&spaceId=");
+                    }else{
+                        window.open("/seeyon/newsData.do?method=newsIndex&_resourceCode=F05_newsIndexAccount");
+                    }
+                    e.stopPropagation();
+                    e.preventDefault();
+
                 }
             },
             new_btn: {
@@ -341,6 +354,15 @@ var URL_REPO = {
                 html: "<span class='lx-new-btn'>+</span>",
                 click: function (e) {
                     //alert("click2");
+                    if($("#zryq_head").hasClass("layui-this")||$("#zryq_head").parent().hasClass("layui-this")){
+                        // alert("zryq");
+                        window.open("/seeyon/bulData.do?method=bulEdit&spaceType=2&bulTypeId=-2220615473202182672&spaceId=670869647114347&bulId=&openFlag=true");
+                    }else{
+                        // alert("gzdt");
+                        window.open("/seeyon/newsData.do?method=newsEdit&newsType=&newsTypeId=&newsId=&spaceType=&spaceId=&openFlag=true");
+                    }
+                    e.stopPropagation();
+                    e.preventDefault();
                 }
             }
         });

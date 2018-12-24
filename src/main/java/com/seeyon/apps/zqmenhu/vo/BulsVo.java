@@ -8,7 +8,7 @@ import java.util.List;
  * Created by liuwenping on 2018/10/24.
  */
 public class BulsVo {
-
+    private String id;
     private String title;
     private Timestamp createDate;
     private Long accountId;
@@ -173,6 +173,14 @@ public class BulsVo {
 
     public String getLink() {
         return link;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setLink(String link) {

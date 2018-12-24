@@ -13,12 +13,20 @@ import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.ctp.common.customize.manager.CustomizeManager;
+import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.bo.V3xOrgPost;
+import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.LightWeightEncoder;
+import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,6 +44,19 @@ public class NbdController extends BaseController {
     private PluginServiceManager nbdPluginServiceManager;
     private FileManager fileManager;
     private NbdService nbdService;
+
+    private CustomizeManager customizeManager;
+
+    public CustomizeManager getCustomizeManager() {
+        if(customizeManager == null){
+            customizeManager = (CustomizeManager)AppContext.getBean("customizeManager");
+        }
+        return customizeManager;
+    }
+
+    public void setCustomizeManager(CustomizeManager customizeManager) {
+        this.customizeManager = customizeManager;
+    }
 
     public NbdService getNbdService() {
         return nbdService;
@@ -85,12 +106,89 @@ public class NbdController extends BaseController {
             page = "index";
         }
 
-        ModelAndView mav = new ModelAndView("apps/nbd/" + page);
 
+        ModelAndView mav = new ModelAndView("apps/nbd/" + page);
+        User user = AppContext.getCurrentUser();
+        if (user != null) {
+            //userLogoImage
+            //${userName}
+            OrgManager orgManager = (OrgManager) AppContext.getBean("orgManager");
+            mav.addObject("userName", user.getName());
+            V3xOrgDepartment department = null;
+            try {
+                department = orgManager.getDepartmentById(user.getDepartmentId());
+            } catch (BusinessException e) {
+
+            }
+            if (department != null) {
+                mav.addObject("userDepartment", department.getName());
+            } else {
+                mav.addObject("userDepartment", "中日中心");
+            }
+            V3xOrgPost post = null;
+            try {
+                post = orgManager.getPostById(user.getPostId());
+                mav.addObject("userType", post.getName());
+            } catch (BusinessException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                String logo = getAvatarImageUrl(orgManager.getMemberById(user.getId()));
+                mav.addObject("userLogoImage", logo);
+            } catch (BusinessException e) {
+                e.printStackTrace();
+                mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
+            }
+            //${userDepartment}
+            //${userType}
+        } else {
+            mav.addObject("userName", "超电磁炮");
+            mav.addObject("userType", "团委书记");
+            mav.addObject("userDepartment", "小学三年级5班");
+            mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
+        }
         return mav;
 
     }
+    public String getAvatarImageUrl(V3xOrgMember member) {
+        String contextPath = SystemEnvironment.getContextPath();
+        return getAvatarImageUrl(member, contextPath);
+    }
+    private String getAvatarImageUrl(V3xOrgMember member, String contextPath) {
+        String imageSrc = contextPath + "/apps_res/v3xmain/images/personal/pic.gif";
+        String isUseDefaultAvatar = "enable";
+        try {
+            if (member != null) {
+                Object property = member.getProperty("imageid");
+                if (property != null) {
+                    String imageId = member.getProperty("imageid").toString();
+                    if (Strings.isNotBlank(imageId)) {
+                        imageSrc = contextPath + imageId;
+                        return imageSrc;
+                    }
+                } else {
+                    return imageSrc;
+                }
+            }
+            String fileName = getCustomizeManager().getCustomizeValue(member.getId(), "avatar");
+            if (fileName != null && !Strings.equals("pic.gif", fileName)) {
+                fileName = fileName.replaceAll(" on", " son");
+                if (fileName.startsWith("fileId")) {
+                    imageSrc = contextPath + "/fileUpload.do?method=showRTE&" + fileName + "&type=image";
+                } else {
+                    imageSrc = contextPath + "/apps_res/v3xmain/images/personal/" + fileName;
+                }
+            } else if (Strings.equals("enable", isUseDefaultAvatar)) {
 
+            }
+            //GovDocController
+
+        } catch (Exception var8) {
+            var8.printStackTrace();
+        }
+        return imageSrc;
+    }
     @NeedlessCheckLogin
     public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
@@ -246,53 +344,55 @@ public class NbdController extends BaseController {
     }
 
     @NeedlessCheckLogin
-    public ModelAndView getMyCtpTemplateList(HttpServletRequest request, HttpServletResponse response){
-        preHandleRequest(request,response);
+    public ModelAndView getMyCtpTemplateList(HttpServletRequest request, HttpServletResponse response) {
+        preHandleRequest(request, response);
         User user = AppContext.getCurrentUser();
         List<CtpTemplate> templateList = new ArrayList<CtpTemplate>();
         String category = "-1,1,2,4,19,20,21,32";
         CommonParameter p = CommonParameter.parseParameter(request);
         String limitStr = p.$("limit");
-        if(limitStr == null){
+        if (limitStr == null) {
             limitStr = "20";
         }
         String ofssetStr = p.$("offset");
-        if(ofssetStr == null){
+        if (ofssetStr == null) {
             ofssetStr = "0";
         }
         int limit = Integer.parseInt(limitStr);
         int offset = Integer.parseInt(ofssetStr);
-        if(user == null){
+        if (user == null) {
 
-            templateList =  nbdService.findConfigTemplates(category,offset,limit,8180340772611837618L,670869647114347l);
-        }else{
+            templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347l);
+        } else {
 
-            templateList = nbdService.findConfigTemplates(category,offset,limit,user.getId(),user.getAccountId());
+            templateList = nbdService.findConfigTemplates(category, offset, limit, user.getId(), user.getAccountId());
         }
         NbdResponseEntity<CtpTemplate> entity = new NbdResponseEntity<CtpTemplate>();
         entity.setResult(true);
         List<Map> retList = new ArrayList<Map>();
-        for(CtpTemplate template:templateList){
+        for (CtpTemplate template : templateList) {
             String jsonMapString = JSON.toJSONString(template);
-            Map map = JSON.parseObject(jsonMapString,HashMap.class);
-            map.put("id",String.valueOf(map.get("id")));
+            Map map = JSON.parseObject(jsonMapString, HashMap.class);
+            map.put("id", String.valueOf(map.get("id")));
             retList.add(map);
         }
         entity.setItems(retList);
-        UIUtils.responseJSON(entity,response);
+        UIUtils.responseJSON(entity, response);
 
         return null;
     }
-    private void preHandleRequest(HttpServletRequest request, HttpServletResponse response){
+
+    private void preHandleRequest(HttpServletRequest request, HttpServletResponse response) {
 
         nbdService.setRequest(request);
         nbdService.setResponse(response);
 
     }
+
     public static void main(String[] args) {
 
-        String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
-        System.out.println(codde);
+        //String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
+        //System.out.println(codde);
     }
 
 }

@@ -1,12 +1,15 @@
 package com.seeyon.apps.zqmenhu.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.enums.CollaborationEnum;
 import com.seeyon.apps.doc.controller.DocController;
 import com.seeyon.apps.doc.dao.DocResourceDao;
 import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.doc.util.Constants;
+import com.seeyon.apps.form.enums.FormEnums;
+import com.seeyon.apps.m3.app.vo.AppInfoVO;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.zqmenhu.po.BulDataItem;
@@ -31,11 +34,15 @@ import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.controller.BulDataController;
+import com.seeyon.v3x.bulletin.domain.BulRead;
 import com.seeyon.v3x.bulletin.domain.BulType;
 import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,23 +55,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MenhuController extends BaseController {
 
+public class MenhuController extends BaseController {
+    private static Logger LOG = LoggerFactory.getLogger(MenhuController.class);
     private MenhuService menHuService;
     private PrincipalManager principalManager = null;
     private AttachmentManager attachmentManager;
     private OrgManager orgManager;
-    private DocLibManager docLibManager =null ;
+    private DocLibManager docLibManager = null;
 
-    private FileManager fileManager ;
+    private FileManager fileManager;
+
     public FileManager getFileManager() {
-        if(fileManager == null){
-            fileManager = (FileManager)AppContext.getBean("fileManager");
+        if (fileManager == null) {
+            fileManager = (FileManager) AppContext.getBean("fileManager");
         }
         return fileManager;
     }
 
-    private Integer parseEntranceType( DocLibPO docLib){
+    private Integer parseEntranceType(DocLibPO docLib) {
         Integer entranceType = 6;
         if (docLib.getType() == Constants.PERSONAL_LIB_TYPE) {
             entranceType = 1;
@@ -73,6 +82,7 @@ public class MenhuController extends BaseController {
         }
         return entranceType;
     }
+
     public MenhuService getMenHuService() {
         return menHuService;
     }
@@ -82,25 +92,27 @@ public class MenhuController extends BaseController {
     }
 
     public PrincipalManager getPrincipalManager() {
-        if(principalManager == null){
-            principalManager = (PrincipalManager)AppContext.getBean("principalManager");
+        if (principalManager == null) {
+            principalManager = (PrincipalManager) AppContext.getBean("principalManager");
         }
         return principalManager;
     }
+
     public DocLibManager getDocLibManager() {
-        if(docLibManager==null) {
+        if (docLibManager == null) {
             docLibManager = (DocLibManager) AppContext.getBean("docLibManager");
         }
         return docLibManager;
     }
 
     public OrgManager getOrgManager() {
-        if(orgManager == null){
-            orgManager = (OrgManager)AppContext.getBean("orgManager");
+        if (orgManager == null) {
+            orgManager = (OrgManager) AppContext.getBean("orgManager");
         }
         return orgManager;
     }
-    private void preResponse(HttpServletResponse response){
+
+    private void preResponse(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
@@ -113,30 +125,30 @@ public class MenhuController extends BaseController {
     public ModelAndView checkUserInfo(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
 //查用户信息
         preResponse(response);
-        Map<String,Object> data = new HashMap<String,Object>();
-        data.put("result",false);
-        data.put("msg","");
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("result", false);
+        data.put("msg", "");
         String userName = request.getParameter("userName");
 
         //dm
         String password = request.getParameter("password");
-        if(userName == null){
-            data.put("msg","用户名为空");
-            Helper.responseJSON(data,response);
+        if (userName == null) {
+            data.put("msg", "用户名为空");
+            Helper.responseJSON(data, response);
             return null;
         }
-        if(password == null){
+        if (password == null) {
             password = "";
         }
-        userName = new String (Base64.decodeBase64(userName.getBytes()));
+        userName = new String(Base64.decodeBase64(userName.getBytes()));
         password = new String(Base64.decodeBase64(password.getBytes()));
         MessageEncoder encode = null;
         try {
             encode = new MessageEncoder();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            data.put("msg","OA加密算法错误");
-            Helper.responseJSON(data,response);
+            data.put("msg", "OA加密算法错误");
+            Helper.responseJSON(data, response);
             return null;
         }
 
@@ -144,59 +156,60 @@ public class MenhuController extends BaseController {
         try {
             memId = getPrincipalManager().getMemberIdByLoginName(userName);
         } catch (NoSuchPrincipalException e) {
-            data.put("msg","用户名不存在");
-            Helper.responseJSON(data,response);
+            data.put("msg", "用户名不存在");
+            Helper.responseJSON(data, response);
             e.printStackTrace();
             return null;
         }
         if (memId == null) {
-            data.put("msg","用户名不存在");
-            Helper.responseJSON(data,response);
+            data.put("msg", "用户名不存在");
+            Helper.responseJSON(data, response);
             return null;
         }
 
         try {
             String pwdC = encode.encode(userName, password);
-            String cr =  getPrincipalManager().getPassword(memId);
-            if(cr.equals(pwdC)){
+            String cr = getPrincipalManager().getPassword(memId);
+            if (cr.equals(pwdC)) {
 
                 V3xOrgMember member = this.getOrgManager().getMemberById(memId);
                 V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
                 String avatar = Functions.getAvatarImageUrl(memId);
-                Map<String,String> userInfo = new HashMap<String, String>();
+                Map<String, String> userInfo = new HashMap<String, String>();
                 Long postId = member.getOrgPostId();
                 V3xOrgPost post = getOrgManager().getPostById(postId);
-                userInfo.put("name",member.getName());
-                if(post!=null) {
+                userInfo.put("name", member.getName());
+                if (post != null) {
                     userInfo.put("post", post.getName());
-                }else{
-                    userInfo.put("post","");
+                } else {
+                    userInfo.put("post", "");
                 }
                 V3xOrgLevel orgLevel = getOrgManager().getLevelById(member.getOrgLevelId());
-                if(orgLevel!=null){
-                    userInfo.put("orgLevel",orgLevel.getName());
-                }else{
-                    userInfo.put("orgLevel","");
+                if (orgLevel != null) {
+                    userInfo.put("orgLevel", orgLevel.getName());
+                } else {
+                    userInfo.put("orgLevel", "");
                 }
-                userInfo.put("departmentName",dept.getName());
-                userInfo.put("avatar",avatar);
-                data.put("msg","成功");
-                data.put("result",true);
-                data.put("userInfo",userInfo);
-                Helper.responseJSON(data,response);
+                userInfo.put("departmentName", dept.getName());
+                userInfo.put("avatar", avatar);
+                data.put("msg", "成功");
+                data.put("result", true);
+                data.put("userInfo", userInfo);
+                Helper.responseJSON(data, response);
                 return null;
-            }else{
-                data.put("msg","密码错误");
-                Helper.responseJSON(data,response);
+            } else {
+                data.put("msg", "密码错误");
+                Helper.responseJSON(data, response);
                 return null;
             }
         } catch (NoSuchPrincipalException e) {
             e.printStackTrace();
-            data.put("msg","用户名不存在");
-            Helper.responseJSON(data,response);
+            data.put("msg", "用户名不存在");
+            Helper.responseJSON(data, response);
             return null;
         }
     }
+
     //查新闻类型列表
     @NeedlessCheckLogin
     public ModelAndView getNewsTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -204,23 +217,23 @@ public class MenhuController extends BaseController {
         CommonResultVo data = new CommonResultVo();
         try {
             List<NewsType> newsTypeList = DBAgent.find("from NewsType where usedFlag =1");
-            if(CollectionUtils.isEmpty(newsTypeList)){
+            if (CollectionUtils.isEmpty(newsTypeList)) {
                 data.setMsg("NO-DATA");
-                Helper.responseJSON(data,response);
+                Helper.responseJSON(data, response);
                 return null;
             }
-            List<TypeVo> types= new ArrayList<TypeVo>();
-            for(NewsType type:newsTypeList){
+            List<TypeVo> types = new ArrayList<TypeVo>();
+            for (NewsType type : newsTypeList) {
                 TypeVo vo = new TypeVo();
                 vo.setSort(String.valueOf(type.getSortNum()));
                 vo.setTypeId(String.valueOf(type.getId()));
                 vo.setTypeName(type.getTypeName());
-                try{
+                try {
                     V3xOrgAccount account = this.getOrgManager().getAccountById(type.getAccountId());
-                    if(account!=null){
+                    if (account != null) {
                         vo.setAccountName(account.getName());
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
 
                 }
                 vo.setAccountId(type.getAccountId());
@@ -233,25 +246,26 @@ public class MenhuController extends BaseController {
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
         return null;
     }
+
     @NeedlessCheckLogin  //得到文档库类型
     public ModelAndView getDocTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
         try {
             List<DocLibPO> docTypeList = DBAgent.find("from DocLibPO ");
-            if(CollectionUtils.isEmpty(docTypeList)){
+            if (CollectionUtils.isEmpty(docTypeList)) {
                 data.setMsg("NO-DATA");
-                Helper.responseJSON(data,response);
+                Helper.responseJSON(data, response);
                 return null;
             }
 
@@ -261,16 +275,17 @@ public class MenhuController extends BaseController {
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
         return null;
     }
+
     //得公告类型列表
     @NeedlessCheckLogin
     public ModelAndView getBulletinTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -279,20 +294,20 @@ public class MenhuController extends BaseController {
         try {
 
             List<BulType> bulsTypeList = DBAgent.find("from BulType where usedFlag=1");
-            List<TypeVo> typeList= new ArrayList<TypeVo>();
-            for(BulType type:bulsTypeList){
+            List<TypeVo> typeList = new ArrayList<TypeVo>();
+            for (BulType type : bulsTypeList) {
                 TypeVo vo = new TypeVo();
                 typeList.add(vo);
                 vo.setSort(String.valueOf(type.getSortNum()));
                 vo.setTypeId(String.valueOf(type.getId()));
                 vo.setTypeName(type.getTypeName());
                 vo.setAccountId(type.getAccountId());
-                try{
+                try {
                     V3xOrgAccount account = this.getOrgManager().getAccountById(vo.getAccountId());
-                    if(account!=null){
+                    if (account != null) {
                         vo.setAccountName(account.getName());
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -302,16 +317,17 @@ public class MenhuController extends BaseController {
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
         return null;
     }
+
     //得文档列表
     @NeedlessCheckLogin
     public ModelAndView getDocList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -319,20 +335,20 @@ public class MenhuController extends BaseController {
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-            Long typeId=p.getTypeId();
-            String sql="from DocResourcePO where parentFrId =  "+typeId+" order by createTime desc";
+            Long typeId = p.getTypeId();
+            String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by createTime desc";
             List<DocResourcePO> docDataList = DBAgent.find(sql);
-            List<DocResourcePO> pagingDocDataList = Helper.paggingList(docDataList,p);
+            List<DocResourcePO> pagingDocDataList = Helper.paggingList(docDataList, p);
             data.setItems(transToDocVo(pagingDocDataList));
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
@@ -340,7 +356,7 @@ public class MenhuController extends BaseController {
     }
     //
 
-    public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletResponse response) {
 
         CommonResultVo data = new CommonResultVo();
         try {
@@ -354,19 +370,19 @@ public class MenhuController extends BaseController {
             params.put("userName", userName);
             //params.put("docLibId", String.valueOf(docLibPo.getId()));
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
-            List<DocResourcePO> pagingFavor = Helper.paggingList(poList,p);
+            List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
             data.setItems(pagingFavor);
             Helper.responseJSON(data, response);
-          //  System.out.println("params："+params);
+            //  System.out.println("params："+params);
             //System.out.println("list："+poList);
             return null;
-        }catch (Exception e){
+        } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
-        }catch (Error e){
+        } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
@@ -418,11 +434,11 @@ public class MenhuController extends BaseController {
                     retList.addAll(newsDataItemList);
                 }
             }
-            List<Map> contain= new ArrayList<Map>();
-            for(NewsDataItem item:retList){
-                String sJson= JSON.toJSONString(item);
-                Map map = JSON.parseObject(sJson,HashMap.class);
-                map.put("link","/seeyon/newsData.do?method=newsView&newsId="+map.get("id"));
+            List<Map> contain = new ArrayList<Map>();
+            for (NewsDataItem item : retList) {
+                String sJson = JSON.toJSONString(item);
+                Map map = JSON.parseObject(sJson, HashMap.class);
+                map.put("link", "/seeyon/newsData.do?method=newsView&newsId=" + map.get("id"));
                 contain.add(map);
 
             }
@@ -451,24 +467,24 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String sql = "";
-            if(p.getTypeId()!=null){
-                sql = "select * from formmain_0732 where field0001="+p.getTypeId();
+            if (p.getTypeId() != null) {
+                sql = "select * from formmain_0732 where field0001=" + p.getTypeId();
             }
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql);
-            formDataList = Helper.paggingList(formDataList,p);
-            for(Map fd:formDataList){
-                fd.put("link","/seeyon/nbd.do?method=openLink&type=form&id="+fd.get("id"));
+            formDataList = Helper.paggingList(formDataList, p);
+            for (Map fd : formDataList) {
+                fd.put("link", "/seeyon/nbd.do?method=openLink&type=form&id=" + fd.get("id"));
             }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
 
@@ -482,25 +498,33 @@ public class MenhuController extends BaseController {
 
         CommonResultVo data = new CommonResultVo();
         try {
+            User user = AppContext.getCurrentUser();
+            String sql1 = "";
+            if (user == null) {
+                sql1 = "select * from ctp_supervise_detail";
+            } else {
+                sql1 = "select * from ctp_supervise_detail where forward_member=" + user.getId();
+            }
+
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-            String sql1 = "select * from ctp_supervise_detail";
+
 
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql1);
-            formDataList = Helper.paggingList(formDataList,p);
-            for(Map fd:formDataList){
+            formDataList = Helper.paggingList(formDataList, p);
+            for (Map fd : formDataList) {
                 // maps.put("link","/seeyon/collaboration/collaboration.do?method=summary&affairId="+maps.get("affair_id")+"&summaryId="+maps.get("entity_id")+"&openFrom=supervise&type="+maps.get("status"));
-                fd.put("link","/seeyon/nbd.do?method=openLink&type=supervise&id="+fd.get("id"));
+                fd.put("link", "/seeyon/nbd.do?method=openLink&type=supervise&id=" + fd.get("id"));
             }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
@@ -509,6 +533,7 @@ public class MenhuController extends BaseController {
 
     /**
      * //查单位图片新闻
+     *
      * @param request
      * @param response
      * @return
@@ -521,8 +546,8 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String sql = "from NewsDataItem where state=30 order by createDate desc";
-            if(p.getTypeId()!=null){
-                sql = "from NewsDataItem where state=30 and typeId="+p.getTypeId()+" order by createDate desc";
+            if (p.getTypeId() != null) {
+                sql = "from NewsDataItem where state=30 and typeId=" + p.getTypeId() + " order by createDate desc";
             }
 
             //DBAgent.find
@@ -530,23 +555,23 @@ public class MenhuController extends BaseController {
             //
             AttachmentManager impl = null;
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
-            for(NewsDataItem item:newsDataList){
-                if(item.isImageNews()){
+            for (NewsDataItem item : newsDataList) {
+                if (item.isImageNews()) {
                     retNewsDataList.add(item);
                 }
             }
-            List<NewsDataItem> pagingNewsDataList = Helper.paggingList(retNewsDataList,p);
+            List<NewsDataItem> pagingNewsDataList = Helper.paggingList(retNewsDataList, p);
             data.setItems(transToNewsVo(pagingNewsDataList));
 
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
@@ -555,6 +580,7 @@ public class MenhuController extends BaseController {
 
     /**
      * //查Mime类型
+     *
      * @param request
      * @param response
      * @return
@@ -566,92 +592,113 @@ public class MenhuController extends BaseController {
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-            String departmentId=request.getParameter("deptId");
+            String departmentId = request.getParameter("deptId");
             String sql = "from NewsDataItem where state=30 order by createDate desc";
-            if(p.getTypeId()!=null){
-                sql = "from NewsDataItem where state=30 and typeId="+p.getTypeId()+" order by createDate desc";
+            if (p.getTypeId() != null) {
+                sql = "from NewsDataItem where state=30 and typeId=" + p.getTypeId() + " order by createDate desc";
             }
-            if(departmentId!=null){
-                sql = "from NewsDataItem where state=30 and typeId="+p.getTypeId()+" and publishDepartmentId="+departmentId+" order by createDate desc";
+            if (departmentId != null) {
+                sql = "from NewsDataItem where state=30 and typeId=" + p.getTypeId() + " and publishDepartmentId=" + departmentId + " order by createDate desc";
             }
 
             List<NewsDataItem> newsDataList = DBAgent.find(sql);
-            AttachmentManager impl = (AttachmentManager)AppContext.getBean("attachmentManager");
+            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
-            for(NewsDataItem item:newsDataList){
-                if(item.getAttachmentsFlag()){
+            for (NewsDataItem item : newsDataList) {
+                if (item.getAttachmentsFlag()) {
                     List<Attachment> attachments = impl.getByReference(item.getId());
-                    List<String> list= new ArrayList<String>();
-                    for(Attachment attch:attachments){
+                    List<String> list = new ArrayList<String>();
+                    for (Attachment attch : attachments) {
                         list.add(attch.getMimeType());
                     }
                     item.setMimeTypes(list);
                     retNewsDataList.add(item);
-                }else{
+                } else {
                     retNewsDataList.add(item);
                 }
             }
-            List<NewsDataItem> pagingNewsDataList = Helper.paggingList(retNewsDataList,p);
+            List<NewsDataItem> pagingNewsDataList = Helper.paggingList(retNewsDataList, p);
             data.setItems(transToNewsVo(pagingNewsDataList));
 
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
         return null;
     }
 
+
     //查事务列表
     @NeedlessCheckLogin
-    public ModelAndView getUserCptList(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getUserCptList(HttpServletRequest request, HttpServletResponse response) {
         preResponse(response);
         User user = AppContext.getCurrentUser();
         CommonResultVo data = new CommonResultVo();
-        Long mockUserId = null;
-        String subState=request.getParameter("subState");
-        if(user==null){
-            mockUserId = 8180340772611837618L;
+        Long userId = null;
+        String subState = request.getParameter("subState");
+        String appType = request.getParameter("appType");
+        String count = request.getParameter("$count");
+        if (user == null) {
+            userId = 8180340772611837618L;
+        }else{
+            userId = user.getId();
         }
+
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-            String sql = "from CtpAffair where state=3 order by createDate desc";
+            StringBuilder sql = new StringBuilder("from CtpAffair where 1=1 ");
             Long state = p.getTypeId();
-            if(state==null){
-                state=3L;
+            if (state == null) {
+                state = 3L;
             }
-            if(mockUserId!=null){
-                sql = "from CtpAffair where state="+state+" and memberId="+mockUserId+" order by createDate desc";
-            }else {
-                if (p.getTypeId() != null) {
-                    sql = "from CtpAffair where state="+state+" and memberId=" + user.getId() + " order by createDate desc";
-                    if(subState!=null){
-                        sql = "from CtpAffair where state="+state+"and subState="+subState+" and memberId=" + user.getId() + " order by createDate desc ";
-                    }
-                }
+            sql.append(" and state="+state);
+           // sql.append("and state="+state);
+            if (subState != null) {
+                sql.append(" and subState="+ subState );
             }
-            List<CtpAffair> ctpaffair = DBAgent.find(sql);
+            if (userId != null) {
+                sql.append(" and memberId=" + userId);
+            }
+            if(appType!=null){
+
+                sql.append(" and app=" + appType);
+            }
+            sql.append(" order by createDate desc");
 
 
-            List<CtpAffair> paggingctpaffairs = Helper.paggingList(ctpaffair,p);
-            data.setItems(wrapperCtpAffairList(paggingctpaffairs));
+            Integer offset = p.getOffset();
+            Integer limit = p.getLimit();
+            FlipInfo info = new FlipInfo();
+
+            info.setPage(offset/limit);
+            info.setSize(limit);
+
+            List<CtpAffair> ctpaffair = DBAgent.find(sql.toString(),null,info);;
+
+            if("true".equals(count)){
+                Integer count_ = DBAgent.count(sql.toString());
+                data.setCount(count_);
+            }
+            //List<CtpAffair> paggingctpaffairs = Helper.paggingList(ctpaffair, p);
+            data.setItems(wrapperCtpAffairList(ctpaffair));
 
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
@@ -660,26 +707,26 @@ public class MenhuController extends BaseController {
     }
 
     private SimpleDateFormat formt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     //重点，查包装事务列表
-    private List wrapperCtpAffairList(List<CtpAffair> affairList){
+    private List wrapperCtpAffairList(List<CtpAffair> affairList) {
 
 
         List retList = new ArrayList();
 
 
-
-        if(CommonUtils.isEmpty(affairList)){
+        if (CommonUtils.isEmpty(affairList)) {
             return retList;
         }
 
-        for(CtpAffair ctpAffair:affairList){
+        for (CtpAffair ctpAffair : affairList) {
 
             String jsonMap = JSON.toJSONString(ctpAffair);
 
-            Map data = JSON.parseObject(jsonMap,HashMap.class);
-            data.put("link","/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId="+data.get("id"));
+            Map data = JSON.parseObject(jsonMap, HashMap.class);
+            data.put("link", "/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=" + data.get("id"));
             try {
-                if(ctpAffair!=null) {
+                if (ctpAffair != null) {
                     V3xOrgMember member = orgManager.getMemberById(ctpAffair.getSenderId());
                     if (member != null) {
                         data.put("senderName", member.getName());
@@ -687,7 +734,7 @@ public class MenhuController extends BaseController {
                     }
                 }
 
-            }catch (BusinessException e){
+            } catch (BusinessException e) {
             }
             retList.add(data);
 
@@ -695,15 +742,22 @@ public class MenhuController extends BaseController {
         return retList;
 
     }
-    private List<NewsVo> transToNewsVo(List<NewsDataItem> newsDataList){
+
+
+
+    private List<NewsVo> transToNewsVo(List<NewsDataItem> newsDataList) {
         List<NewsVo> retList = new ArrayList<NewsVo>();
-        if(CollectionUtils.isEmpty(newsDataList)){
+        if (CollectionUtils.isEmpty(newsDataList)) {
             return retList;
         }
-        for(NewsDataItem item:newsDataList){
+
+        List<Long> idList = new ArrayList<Long>();
+        User user = AppContext.getCurrentUser();
+        for (NewsDataItem item : newsDataList) {
             NewsVo vo = new NewsVo();
             retList.add(vo);
             vo.setTitle(item.getTitle());
+            idList.add(item.getId());
             vo.setAccountId(item.getAccountId());
             vo.setCreateDate(item.getCreateDate());
             vo.setUpdateDate(item.getUpdateDate());
@@ -712,58 +766,92 @@ public class MenhuController extends BaseController {
             vo.setImgNews(item.isImageNews());
             vo.setFocusNews(item.isFocusNews());
             vo.setBrief(item.getBrief());
-
+            vo.setId(String.valueOf(item.getId()));
             Long imageId = item.getImageId();
-            if(imageId!=null){
-                vo.setImgUrl("/seeyon/commonimage.do?method=showImage&id="+imageId);
+            if (imageId != null) {
+                vo.setImgUrl("/seeyon/commonimage.do?method=showImage&id=" + imageId);
             }
             vo.setCreateUserId(item.getCreateUser());
             vo.setPublishDepartmentId(item.getPublishDepartmentId());
             vo.setPublishUserId(item.getPublishUserId());
             vo.setAttachmentsFlag(item.getAttachmentsFlag());
-            //   vo.setMimeTypes(item.getMimeTypes());
-            // vo.setReadFlag(item.isReadFlag());
-            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=news&id="+item.getId());
+
+            vo.setReadFlag(false);
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=news&id=" + item.getId());
             filledVo(vo);
+        }
+
+
+        if (user != null) {
+
+            String sql = null;
+            if(CommonUtils.isEmpty(idList)){
+                sql = "select * from news_read where news_id in(" + DataBaseHelper.join(idList,",") + ") and manager_id="+user.getId();
+                try {
+                    List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if(CommonUtils.isEmpty(dataList)){
+                        return retList;
+                    }
+                    for(NewsVo vo:retList){
+                        for(Map data:dataList){
+                            Long newsId = CommonUtils.getLong(data.get("news_id"));
+                            if(newsId==null){
+                                continue;
+                            }
+                            if(String.valueOf(newsId).equals(vo.getId())){
+                                vo.setReadFlag(true);
+                                break;
+                            }
+
+                        }
+                    }
+                    //
+                } catch (Exception e) {
+
+                }
+            }
+
         }
 
         return retList;
     }
-    private List<DocVo> transToDocVo(List<DocResourcePO> newsDataList){
+
+    private List<DocVo> transToDocVo(List<DocResourcePO> newsDataList) {
         //0、将po转换成Vo
         //  DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
         List<DocVo> voList = new ArrayList<DocVo>();
-        if(CommonUtils.isEmpty(newsDataList)){
+        if (CommonUtils.isEmpty(newsDataList)) {
             return voList;
         }
         Long curDocLibId = 0l;
         DocLibPO curDocLibPo = null;
 
-
-        for(DocResourcePO po:newsDataList){
+        List<Long> idList = new ArrayList<Long>();
+        for (DocResourcePO po : newsDataList) {
             boolean find = false;
             String json = JSON.toJSONString(po);
             Long docLibId = po.getDocLibId();
-            if(curDocLibId!=null&&curDocLibId.equals(docLibId)){
+
+            if (curDocLibId != null && curDocLibId.equals(docLibId)) {
                 find = true;
-            }else{
+            } else {
                 curDocLibId = docLibId;
                 find = false;
             }
             List<Long> ids = getDocLibManager().getOwnersByDocLibId(curDocLibId);
-            if(CommonUtils.isEmpty(ids)){
+            if (CommonUtils.isEmpty(ids)) {
                 continue;
             }
-            DocVo vo = JSON.parseObject(json,DocVo.class);
-            if(!find){
-                curDocLibPo =  this.getDocLibManager().getDocLibById(curDocLibId);
+            DocVo vo = JSON.parseObject(json, DocVo.class);
+            if (!find) {
+                curDocLibPo = this.getDocLibManager().getDocLibById(curDocLibId);
                 // this.getDocLibManager().getDocLibByIds()
             }
             Integer enType = parseEntranceType(curDocLibPo);
 
             try {
-                System.out.println();
-                String v =SecurityHelper.digest(new Object[]{po.getSourceId()});
+                //System.out.println();
+                String v = SecurityHelper.digest(new Object[]{po.getSourceId()});
                 vo.setV(v);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -772,16 +860,43 @@ public class MenhuController extends BaseController {
 
             vo.setEntranceType(String.valueOf(enType));
             vo.setOwnerId(String.valueOf(ids.get(0)));
-            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&versionFlag=false&entranceTypes="+vo.getEntranceType()+"&docResId="+po.getId()+"&docId="+po.getId()+"&v="+vo.getV());
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&versionFlag=false&entranceTypes=" + vo.getEntranceType() + "&docResId=" + po.getId() + "&docId=" + po.getId() + "&v=" + vo.getV());
             voList.add(vo);
+            vo.setId(po.getId());
+            idList.add(po.getId());
         }
-        //1、找V，通过循环找出PO的id,构造出idList
+        User user = AppContext.getCurrentUser();
+        if (user != null) {
+            String sql = null;
+            if(CommonUtils.isEmpty(idList)){
+                sql = "select * from doc_action where subject_id in(" + DataBaseHelper.join(idList,",") + ") and action_type=3 and action_user_id="+user.getId();
+                try {
+                    List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if(CommonUtils.isEmpty(dataList)){
+                        return voList;
+                    }
+                    for(DocVo vo:voList){
+                        for(Map data:dataList){
+                            Long subjectId = CommonUtils.getLong(data.get("subject_id"));
+                            if(subjectId==null){
+                                continue;
+                            }
+                            if(subjectId.equals(vo.getId())){
+                                vo.setReadFlag(true);
+                                break;
+                            }
 
-        //2、把找出来的attachmn中的v字段填充到vo中
+                        }
+                    }
+                    //
+                } catch (Exception e) {
 
+                }
+            }
+
+        }
         return voList;
     }
-
 
 
     @NeedlessCheckLogin
@@ -791,56 +906,58 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
 
-            String departmentId =request.getParameter("deptId");
+            String departmentId = request.getParameter("deptId");
             String sql = "from BulDataItem where state=30  order by createDate desc";
-            if(p.getTypeId()!=null){
-                sql = "from BulDataItem where state=30 and typeId="+p.getTypeId()+" order by createDate desc";
+            if (p.getTypeId() != null) {
+                sql = "from BulDataItem where state=30 and typeId=" + p.getTypeId() + " order by createDate desc";
             }
-            if(departmentId!=null){
-                sql = "from BulDataItem where state=30 and typeId="+p.getTypeId()+" and publishDepartmentId="+departmentId+" order by createDate desc";
+            if (departmentId != null) {
+                sql = "from BulDataItem where state=30 and typeId=" + p.getTypeId() + " and publishDepartmentId=" + departmentId + " order by createDate desc";
             }
             List<BulDataItem> dataList = DBAgent.find(sql);
             List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
-            AttachmentManager impl = (AttachmentManager)AppContext.getBean("attachmentManager");
-            List<String> list= new ArrayList<String>();
-            for(BulDataItem item:dataList){
-                if(item.getAttachmentsFlag()){
+            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
+            List<String> list = new ArrayList<String>();
+            for (BulDataItem item : dataList) {
+                if (item.getAttachmentsFlag()) {
                     List<Attachment> attachments = impl.getByReference(item.getId());
 
-                    for(Attachment attch:attachments){
+                    for (Attachment attch : attachments) {
                         list.add(attch.getMimeType());
                     }
                     item.setMimeTypes(list);
                     retdataList.add(item);
-                }else{
+                } else {
                     retdataList.add(item);  //不一定对
                 }
             }
-            List<BulDataItem> pagingBulsDataList = Helper.paggingList(retdataList,p);
+
+            List<BulDataItem> pagingBulsDataList = Helper.paggingList(retdataList, p);
             data.setItems(transToBulVo(pagingBulsDataList));
+            //Flag flag = null;
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:"+e.getMessage());
+            data.setMsg("EXCEPTION:" + e.getMessage());
             e.printStackTrace();
         } catch (Error e) {
             data.setResult(false);
-            data.setMsg("ERROR:"+e.getMessage());
+            data.setMsg("ERROR:" + e.getMessage());
             e.printStackTrace();
         }
         Helper.responseJSON(data, response);
         return null;
     }
-    private List<BulsVo> transToBulVo(List<BulDataItem> bulsDataList){
+
+    private List<BulsVo> transToBulVo(List<BulDataItem> bulsDataList) {
         List<BulsVo> retList = new ArrayList<BulsVo>();
-        if(CollectionUtils.isEmpty(bulsDataList)){
+        if (CollectionUtils.isEmpty(bulsDataList)) {
             return retList;
         }
 
-
-
-        for(BulDataItem item:bulsDataList){
+        List<Long> idList = new ArrayList<Long>();
+        for (BulDataItem item : bulsDataList) {
             BulsVo vo = new BulsVo();
             retList.add(vo);
             vo.setTitle(item.getTitle());
@@ -854,32 +971,66 @@ public class MenhuController extends BaseController {
             vo.setPublishDepartmentId(item.getPublishDepartmentId());
             vo.setPublishUserId(item.getPublishUserId());
             vo.setAttachmentsFlag(item.getAttachmentsFlag());
+            idList.add(item.getId());
+            vo.setId(String.valueOf(item.getId()));
             //  vo.setMimeTypes();
             // vo.setReadFlag();
-            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=bul&id="+item.getId());
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=bul&id=" + item.getId());
             filledVo(vo);
+
+        }
+        User user = AppContext.getCurrentUser();
+        if (user != null) {
+
+            String sql = null;
+            if(CommonUtils.isEmpty(idList)){
+                sql = "select * from bul_read where bulletin_id in(" + DataBaseHelper.join(idList,",") + ") and manager_id="+user.getId();
+                try {
+                    List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if(CommonUtils.isEmpty(dataList)){
+                        return retList;
+                    }
+                    for(BulsVo vo:retList){
+                        for(Map data:dataList){
+                            Long bulletinId = CommonUtils.getLong(data.get("bulletin_id"));
+                            if(bulletinId==null){
+                                continue;
+                            }
+                            if(String.valueOf(bulletinId).equals(vo.getId())){
+                                vo.setReadFlag(true);
+                                break;
+                            }
+
+                        }
+                    }
+                    //
+                } catch (Exception e) {
+
+                }
+            }
 
         }
 
         return retList;
 
     }
-    private BulsVo filledVo(BulsVo vo){
+
+    private BulsVo filledVo(BulsVo vo) {
         try {
             V3xOrgAccount account = this.getOrgManager().getAccountById(vo.getAccountId());
-            if(account!=null){
+            if (account != null) {
                 vo.setAccountName(account.getName());
             }
             V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(vo.getPublishDepartmentId());
-            if(dept !=null){
+            if (dept != null) {
                 vo.setPublishDepartmentName(dept.getName());
             }
             V3xOrgMember createMember = this.getOrgManager().getMemberById(vo.getCreateUserId());
-            if(createMember!=null){
+            if (createMember != null) {
                 vo.setCreateUserName(createMember.getName());
             }
             V3xOrgMember publishMember = this.getOrgManager().getMemberById(vo.getPublishUserId());
-            if(publishMember!=null){
+            if (publishMember != null) {
                 vo.setPublishUserName(publishMember.getName());
             }
 
@@ -894,64 +1045,68 @@ public class MenhuController extends BaseController {
     public ModelAndView openLink(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String linkType = request.getParameter("linkType");
 
-        if("bul".equals(linkType)){
+        if ("bul".equals(linkType)) {
             //BulDataController bdc = (BulDataController)AppContext.getBean("bulDataController");
             BulDataController bdc = null;
-            Map<String,BulDataController> dataMaps = AppContext.getBeansOfType(BulDataController.class);
-            if(!CommonUtils.isEmpty(dataMaps)){
-                bdc =  dataMaps.values().iterator().next();
+            Map<String, BulDataController> dataMaps = AppContext.getBeansOfType(BulDataController.class);
+            if (!CommonUtils.isEmpty(dataMaps)) {
+                bdc = dataMaps.values().iterator().next();
             }
-            if(bdc!=null){
-                return bdc.userView(request,response);
+            if (bdc != null) {
+                return bdc.userView(request, response);
             }
         }
-        if("news".equals(linkType)){
+        if ("news".equals(linkType)) {
 
             NewsDataController nbc = null;
-            Map<String,NewsDataController> dataMaps = AppContext.getBeansOfType(NewsDataController.class);
-            if(!CommonUtils.isEmpty(dataMaps)){
-                nbc =  dataMaps.values().iterator().next();
+            Map<String, NewsDataController> dataMaps = AppContext.getBeansOfType(NewsDataController.class);
+            if (!CommonUtils.isEmpty(dataMaps)) {
+                nbc = dataMaps.values().iterator().next();
             }
-            if(nbc!=null){
-                return nbc.userView(request,response);
+            if (nbc != null) {
+                return nbc.userView(request, response);
             }
         }
-        if("doc".equals(linkType)){
+        if ("doc".equals(linkType)) {
 
             DocController dbc = null;
-            Map<String,DocController> dataMaps = AppContext.getBeansOfType(DocController.class);
-            if(!CommonUtils.isEmpty(dataMaps)){
+            Map<String, DocController> dataMaps = AppContext.getBeansOfType(DocController.class);
+            if (!CommonUtils.isEmpty(dataMaps)) {
                 dbc = dataMaps.values().iterator().next();
             }
-            if(dbc!=null){
-                return dbc.knowledgeBrowse(request,response);
+            if (dbc != null) {
+                return dbc.knowledgeBrowse(request, response);
             }
         }
-        if("form".equals(linkType)){
+        if ("form".equals(linkType)) {
             //TODO
+        }
+        if ("supervise".equals(linkType)) {
+
+
         }
 
 
-        Helper.responseJSON("error",response);
+        Helper.responseJSON("error", response);
         return null;
     }
 
-    public ModelAndView getCommonDataByTableName(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView getCommonDataByTableName(HttpServletRequest request, HttpServletResponse response) {
         //preHandleRequest(request,response);
         CommonResultVo data = new CommonResultVo();
         String tbName = request.getParameter("tableName");
         String columns = request.getParameter("columns");
         CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-        if(CommonUtils.isEmpty(tbName)){
+        if (CommonUtils.isEmpty(tbName)) {
             data.setResult(false);
             data.setMsg("表名未传递");
-            Helper.responseJSON(data,response);
+            Helper.responseJSON(data, response);
             return null;
         }
 
-        String condition =  request.getParameter("condition");
+        String condition = request.getParameter("condition");
         String whereStr = "";
-        if(!CommonUtils.isEmpty(condition)){
+        if (!CommonUtils.isEmpty(condition)) {
             /**
              * TODO
              * 解析条件 格式为 key1_op_value1_and_key2_op_value2_or_key3_op_value3
@@ -965,26 +1120,27 @@ public class MenhuController extends BaseController {
              *  注:括号不可少
              */
         }
-        if(CommonUtils.isEmpty(columns)){
-            columns="*";
+        if (CommonUtils.isEmpty(columns)) {
+            columns = "*";
         }
-        String sql = "select "+columns+" from "+tbName+" where 1=1";
-        if(CommonUtils.isEmpty(whereStr)){
-            sql+=" and "+whereStr;
+        String sql = "select " + columns + " from " + tbName + " where 1=1";
+        if (CommonUtils.isEmpty(whereStr)) {
+            sql += " and " + whereStr;
         }
         try {
             List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
-            dataList = Helper.paggingList(dataList,p);
+            dataList = Helper.paggingList(dataList, p);
             data.setItems(dataList);
             data.setResult(true);
-            Helper.responseJSON(data,response);
+            Helper.responseJSON(data, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
     }
-    public static  void main(String []args){
+
+    public static void main(String[] args) {
         System.out.println("a");
 
     }

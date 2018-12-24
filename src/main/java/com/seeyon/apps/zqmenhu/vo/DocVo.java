@@ -7,6 +7,7 @@ public class DocVo extends DocResourcePO{
     private  String ownerId;
     private String entranceType;
     private  String link;
+    private boolean readFlag;
     public String getLink() {
         return link;
     }
@@ -41,4 +42,11 @@ public class DocVo extends DocResourcePO{
         this.v = v;
     }
 
+    public boolean isReadFlag() {
+        return readFlag;
+    }
+
+    public void setReadFlag(boolean readFlag) {
+        this.readFlag = readFlag;
+    }
 }
