@@ -3,10 +3,10 @@ package com.seeyon.apps.zqmenhu.controller;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.enums.CollaborationEnum;
 import com.seeyon.apps.doc.controller.DocController;
+import com.seeyon.apps.doc.dao.DocActionDaoImpl;
 import com.seeyon.apps.doc.dao.DocResourceDao;
-import com.seeyon.apps.doc.manager.DocAclNewManager;
-import com.seeyon.apps.doc.manager.DocHierarchyManager;
-import com.seeyon.apps.doc.manager.DocLibManager;
+import com.seeyon.apps.doc.manager.*;
+import com.seeyon.apps.doc.po.DocActionPO;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.doc.util.Constants;
@@ -22,11 +22,15 @@ import com.seeyon.apps.zqmenhu.util.Helper;
 import com.seeyon.apps.zqmenhu.vo.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
+import com.seeyon.ctp.common.content.mainbody.MainbodyController;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.common.security.SecurityHelper;
@@ -51,15 +55,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
+import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class MenhuController extends BaseController {
@@ -76,6 +79,8 @@ public class MenhuController extends BaseController {
 
     private DocAclNewManager docAclNewManager;
 
+    private OperationlogManager operationlogManager;
+
     public FileManager getFileManager() {
         if (fileManager == null) {
             fileManager = (FileManager) AppContext.getBean("fileManager");
@@ -87,6 +92,12 @@ public class MenhuController extends BaseController {
             docHierarchyManager = (DocHierarchyManager) AppContext.getBean("docHierarchyManager");
         }
         return docHierarchyManager;
+    }
+    public OperationlogManager getOperationlogManager() {
+        if (operationlogManager == null) {
+            operationlogManager = (OperationlogManager) AppContext.getBean("operationlogManager");
+        }
+        return operationlogManager;
     }
 
     public DocAclNewManager getDocAclNewManager(){
@@ -532,10 +543,11 @@ public class MenhuController extends BaseController {
 
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
 
-
+//            ApplicationCategoryEnum enum2;
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql1);
             formDataList = Helper.paggingList(formDataList, p);
             for (Map fd : formDataList) {
+
                 // maps.put("link","/seeyon/collaboration/collaboration.do?method=summary&affairId="+maps.get("affair_id")+"&summaryId="+maps.get("entity_id")+"&openFrom=supervise&type="+maps.get("status"));
                 fd.put("link", "/seeyon/nbd.do?method=openLink&type=supervise&id=" + fd.get("id"));
             }
@@ -889,8 +901,17 @@ public class MenhuController extends BaseController {
 
             vo.setEntranceType(String.valueOf(enType));
             vo.setOwnerId(String.valueOf(ids.get(0)));
+            /**
+             *  this.accessOneTime(dr.getId(), dr.getIsLearningDoc(), !validUserId.equals(dr.getCreateUserId()));
+             if(this.docLibManager.getDocLibById(dr.getDocLibId()).getLogView()) {
+             this.operationlogManager.insertOplog(dr.getId(), Long.valueOf(dr.getParentFrId()), ApplicationCategoryEnum.doc, "log.doc.view", "log.doc.view.desc", new Object[]{AppContext.currentUserName(), dr.getFrName()});
+             }
+             */
             String url = DocMVCUtils.getOpenKnowledgeUrl(po, enType.intValue(), this.getDocAclNewManager(), this.getDocHierarchyManager(), null);
-            vo.setLink("/seeyon/"+url);
+
+            url = "/seeyon"+url;
+            String link = Base64Util.encode(url);
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&id="+vo.getId()+"&link=" + link);
             voList.add(vo);
             vo.setId(po.getId());
             idList.add(po.getId());
@@ -1005,7 +1026,7 @@ public class MenhuController extends BaseController {
             vo.setId(String.valueOf(item.getId()));
             //  vo.setMimeTypes();
             // vo.setReadFlag();
-            DocHierarchyManager m;
+            //DocHierarchyManager m;
             vo.setLink("/seeyon/menhu.do?method=openLink&linkType=bul&id=" + item.getId());
             filledVo(vo);
 
@@ -1099,20 +1120,85 @@ public class MenhuController extends BaseController {
             }
         }
         if ("doc".equals(linkType)) {
-
-            DocController dbc = null;
-            Map<String, DocController> dataMaps = AppContext.getBeansOfType(DocController.class);
-            if (!CommonUtils.isEmpty(dataMaps)) {
-                dbc = dataMaps.values().iterator().next();
+            String link = request.getParameter("link");
+            String id = request.getParameter("id");
+            DocResourcePO dr = this.getDocHierarchyManager().getDocResBySourceId(CommonUtils.getLong(id));
+            if(dr!=null){
+                String sql = "select COUNT(*) from DocActionPO where actionUserId="+AppContext.currentUserId()+" and subjectId="+dr.getId();
+                int count = DBAgent.count(sql);
+                if(count == 0){
+                    DocActionPO po = new DocActionPO();
+                    po.setActionTime(new Date());
+                    po.setSubjectId(dr.getId());
+                    po.setActionType(3);
+                    po.setIdIfNew();
+                    po.setActionUserId(AppContext.currentUserId());
+                    po.setDescription("read");
+                    po.setUserAccountId(AppContext.getCurrentUser().getAccountId());
+                    DBAgent.save(po);
+                }
             }
-            if (dbc != null) {
-                return dbc.knowledgeBrowse(request, response);
-            }
+           response.sendRedirect(Base64Util.decode(link));
+           return null;
         }
         if ("form".equals(linkType)) {
             //TODO
+            ///seeyon/content/content.do?isFullPage=true&_isModalDialog=true&moduleId=5362885690085430039&moduleType=37&rightId=-7543887085843953036.-4745304762424997952&contentType=20&viewState=2
+            String id = request.getParameter("id");
+            List<CtpContentAll> cont = DBAgent.find("from CtpContentAll where id="+id);
+            if(!CommonUtils.isEmpty(cont)){
+                String url = "";
+                CtpContentAll cca= cont.get(0);
+                url = "/seeyon/content/content.do?isFullPage=true&_isModalDialog=false&moduleId="+cca.getModuleId()+"&moduleType="+cca.getModuleType()+"&rightId=&contentType="+cca.getContentType()+"&viewState=2";
+
+                response.sendRedirect(url);
+                MainbodyController mdc;
+            }
+
+            return null;
         }
         if ("supervise".equals(linkType)) {
+            String id = request.getParameter("id");
+            if(!CommonUtils.isEmpty(id)){
+                String sql ="select * from ctp_supervise_detail where id = "+id;
+                List<Map> data = DataBaseHelper.executeQueryByNativeSQL(sql);
+                if(!CommonUtils.isEmpty(data)){
+                    Map dataMap = data.get(0);
+                    Object affairId = dataMap.get("affair_id");
+                    Object summaryId = dataMap.get("entity_id");
+                    Integer app = Integer.parseInt(""+dataMap.get("app"));
+                    ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
+                    if(appEnum!=null){
+                        String url ="";
+                        switch(appEnum){
+                            case edoc:
+                            case edocSign:
+                            case edocRec:
+                            case edocSend:
+                            case edocRegister:
+                            case edocRecDistribute:{
+                                url = "/seeyon/edocController.do?method=detailIFrame&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
+                                break;
+                            }
+                            case collaboration:
+                            default:{
+                                url = "seeyon/collaboration/collaboration.do?method=summary&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
+
+                            }
+
+                        }
+                        response.sendRedirect(url);
+                        return null;
+
+                    }else{
+
+                    }
+
+
+                }
+
+            }
+            //http://192.168.1.98:612/seeyon/edocController.do?method=detailIFrame&affairId=3979121591364177700&summaryId=1332069481704211477&openFrom=supervise&type=0
 
 
         }
