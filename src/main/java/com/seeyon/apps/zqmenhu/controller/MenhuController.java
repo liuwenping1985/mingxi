@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.enums.CollaborationEnum;
 import com.seeyon.apps.doc.controller.DocController;
 import com.seeyon.apps.doc.dao.DocResourceDao;
+import com.seeyon.apps.doc.manager.DocAclNewManager;
+import com.seeyon.apps.doc.manager.DocHierarchyManager;
 import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.doc.util.Constants;
+import com.seeyon.apps.doc.util.DocMVCUtils;
 import com.seeyon.apps.form.enums.FormEnums;
 import com.seeyon.apps.m3.app.vo.AppInfoVO;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
@@ -32,6 +35,9 @@ import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.portal.section.templete.BaseSectionTemplete;
+import com.seeyon.ctp.privilege.enums.ResourceCategoryEnums;
+import com.seeyon.ctp.privilege.enums.ResourceTypeEnums;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
@@ -66,11 +72,28 @@ public class MenhuController extends BaseController {
 
     private FileManager fileManager;
 
+    private DocHierarchyManager docHierarchyManager;
+
+    private DocAclNewManager docAclNewManager;
+
     public FileManager getFileManager() {
         if (fileManager == null) {
             fileManager = (FileManager) AppContext.getBean("fileManager");
         }
         return fileManager;
+    }
+    public DocHierarchyManager getDocHierarchyManager() {
+        if (docHierarchyManager == null) {
+            docHierarchyManager = (DocHierarchyManager) AppContext.getBean("docHierarchyManager");
+        }
+        return docHierarchyManager;
+    }
+
+    public DocAclNewManager getDocAclNewManager(){
+        if (docAclNewManager == null) {
+            docAclNewManager = (DocAclNewManager) AppContext.getBean("docAclNewManager");
+        }
+        return docAclNewManager;
     }
 
     private Integer parseEntranceType(DocLibPO docLib) {
@@ -860,7 +883,8 @@ public class MenhuController extends BaseController {
 
             vo.setEntranceType(String.valueOf(enType));
             vo.setOwnerId(String.valueOf(ids.get(0)));
-            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&versionFlag=false&entranceTypes=" + vo.getEntranceType() + "&docResId=" + po.getId() + "&docId=" + po.getId() + "&v=" + vo.getV());
+            String url = DocMVCUtils.getOpenKnowledgeUrl(po, enType.intValue(), this.getDocAclNewManager(), this.getDocHierarchyManager(), null);
+            vo.setLink("/seeyon/"+url);
             voList.add(vo);
             vo.setId(po.getId());
             idList.add(po.getId());
@@ -975,6 +999,7 @@ public class MenhuController extends BaseController {
             vo.setId(String.valueOf(item.getId()));
             //  vo.setMimeTypes();
             // vo.setReadFlag();
+            DocHierarchyManager m;
             vo.setLink("/seeyon/menhu.do?method=openLink&linkType=bul&id=" + item.getId());
             filledVo(vo);
 
