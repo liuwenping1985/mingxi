@@ -808,7 +808,7 @@ public class MenhuController extends BaseController {
         if (user != null) {
 
             String sql = null;
-            if(CommonUtils.isEmpty(idList)){
+            if(!CommonUtils.isEmpty(idList)){
                 sql = "select * from news_read where news_id in(" + DataBaseHelper.join(idList,",") + ") and manager_id="+user.getId();
                 try {
                     List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
@@ -892,7 +892,7 @@ public class MenhuController extends BaseController {
         User user = AppContext.getCurrentUser();
         if (user != null) {
             String sql = null;
-            if(CommonUtils.isEmpty(idList)){
+            if(!CommonUtils.isEmpty(idList)){
                 sql = "select * from doc_action where subject_id in(" + DataBaseHelper.join(idList,",") + ") and action_type=3 and action_user_id="+user.getId();
                 try {
                     List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
@@ -1008,7 +1008,7 @@ public class MenhuController extends BaseController {
         if (user != null) {
 
             String sql = null;
-            if(CommonUtils.isEmpty(idList)){
+            if(!CommonUtils.isEmpty(idList)){
                 sql = "select * from bul_read where bulletin_id in(" + DataBaseHelper.join(idList,",") + ") and manager_id="+user.getId();
                 try {
                     List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
