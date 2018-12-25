@@ -35,7 +35,7 @@ public class TransferService {
     }
     public EnumManager getEnumManager() {
         if(enumManager==null){
-            enumManager = (EnumManager)AppContext.getBean("enumManager");
+            enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
         }
         return enumManager;
     }
@@ -156,7 +156,7 @@ public class TransferService {
             EnumManager enumManager=this.getEnumManager();
             if("enum_2_name".equals(st)||"enum_2_value".equals(st)){
 
-                CtpEnumItem enumItem=enumManager.getCacheEnumItem(id);
+                CtpEnumItem enumItem= enumManager.getCacheEnumItem(id);
                 if(enumItem!=null){
                     //enumItem.getCode();
                     if("enum_2_name".equals(st)){
