@@ -776,6 +776,8 @@ public class MenhuController extends BaseController {
             String jsonMap = JSON.toJSONString(ctpAffair);
 
             Map data = JSON.parseObject(jsonMap, HashMap.class);
+            ctpAffair.getApp();
+            ctp
             data.put("link", "/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=" + data.get("id"));
             try {
                 if (ctpAffair != null) {
