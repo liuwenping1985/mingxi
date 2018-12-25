@@ -509,7 +509,13 @@ public class MenhuController extends BaseController {
             formDataList = Helper.paggingList(formDataList, p);
             for (Map fd : formDataList) {
                 fd.put("link", "/seeyon/menhu.do?method=openLink&openType=form&id=" + fd.get("id"));
+                try {
+                    fd.put("speaker", this.getOrgManager().getMemberById(CommonUtils.getLong(fd.get("field0003"))));
+                }catch(Exception e){
+                    fd.put("speaker","unknown");
+                }
             }
+
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
             return null;

@@ -156,14 +156,14 @@ public class TransferService {
             }
             EnumManager enumManager=this.getEnumManager();
             if("enum_2_name".equals(st)||"enum_2_value".equals(st)){
-                System.out.println("id:"+id);
+                //System.out.println("id:"+id);
                 CtpEnumItem enumItem=enumManager.getEnumItem(id);
-                System.out.println("is null:"+enumItem==null);
+                //System.out.println("is null:"+enumItem==null);
                 if(enumItem!=null){
                     if("enum_2_name".equals(st)){
-                        return enumItem.getName();
+                        return enumItem.getShowvalue();
                     }else {
-                        return  enumItem.getShowvalue();
+                        return  enumItem.getEnumvalue();
                     }
                 }
             }
