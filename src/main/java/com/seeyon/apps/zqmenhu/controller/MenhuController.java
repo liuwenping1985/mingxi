@@ -405,7 +405,7 @@ public class MenhuController extends BaseController {
             params.put("docLibId", String.valueOf(docLibPo.getId()));
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
             List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
-            data.setItems(pagingFavor);
+            data.setItems(transToDocVo(pagingFavor));
             Helper.responseJSON(data, response);
             //  System.out.println("params："+params);
             //System.out.println("list："+poList);
@@ -468,7 +468,7 @@ public class MenhuController extends BaseController {
                     retList.addAll(newsDataItemList);
                 }
             }
-          //  List<Map> contain = new ArrayList<Map>();
+            //  List<Map> contain = new ArrayList<Map>();
             List<NewsVo> contain= transToNewsVo(retList);
 //            for (NewsDataItem item : retList) {
 //                String sJson = JSON.toJSONString(item);
@@ -515,7 +515,6 @@ public class MenhuController extends BaseController {
                     fd.put("speaker","unknown");
                 }
             }
-
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
             return null;
@@ -544,7 +543,7 @@ public class MenhuController extends BaseController {
             if (user == null) {
                 sql1 = "select * from ctp_supervise_detail";
             } else {
-                sql1 = "select * from ctp_supervise_detail where forward_member=" + user.getId();
+                sql1 = "select * from ctp_supervise_detail where forward_member=" + user.getId()+" and status=0 order by create_date desc";
             }
 
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
@@ -705,7 +704,7 @@ public class MenhuController extends BaseController {
             CtpAffair cd;
             sql.append(" and state="+state);
             countSql.append(" and state="+state);
-           // sql.append("and state="+state);
+            // sql.append("and state="+state);
             if (subState != null) {
                 sql.append(" and subState="+ subState );
                 countSql.append(" and subState="+ subState );
@@ -783,7 +782,10 @@ public class MenhuController extends BaseController {
 
             Map data = JSON.parseObject(jsonMap, HashMap.class);
 
-            data.put("link", "/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=" + data.get("id"));
+            data.put("link", "/seeyon/menhu.do?method=openLink&linkType=affair&id=" + data.get("id"));
+
+
+
             try {
                 if (ctpAffair != null) {
                     V3xOrgMember member = orgManager.getMemberById(ctpAffair.getSenderId());
@@ -925,7 +927,7 @@ public class MenhuController extends BaseController {
              this.operationlogManager.insertOplog(dr.getId(), Long.valueOf(dr.getParentFrId()), ApplicationCategoryEnum.doc, "log.doc.view", "log.doc.view.desc", new Object[]{AppContext.currentUserName(), dr.getFrName()});
              }
              */
-           // LoginHelper lr;
+            // LoginHelper lr;
             String url = DocMVCUtils.getOpenKnowledgeUrl(po, enType.intValue(), this.getDocAclNewManager(), this.getDocHierarchyManager(), null);
 
             url = "/seeyon"+url;
@@ -1157,8 +1159,62 @@ public class MenhuController extends BaseController {
                     DBAgent.save(po);
                 }
             }
-           response.sendRedirect(Base64Util.decode(link));
-           return null;
+            response.sendRedirect(Base64Util.decode(link));
+            return null;
+        }
+        if("affair".equals(linkType)){
+            String id = request.getParameter("id");
+            List<CtpAffair> affairsList = DBAgent.find("from CtpAffair where id="+id);
+            if(!CommonUtils.isEmpty(affairsList)){
+                CtpAffair ctpAffair= affairsList.get(0);
+
+                Long summaryId=ctpAffair.getObjectId();
+                Integer app= ctpAffair.getApp();
+                Integer state= ctpAffair.getState();
+                String url="";
+                String openFrom = "";
+                if(state==3){
+                    openFrom="listPending";
+
+                }else if(state==2){
+                    openFrom="listSent";
+                }else if(state==4){
+                    openFrom="listDone";
+                }else {
+                    openFrom="";
+                }
+                ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
+                switch(appEnum){
+                    case edoc:
+                    case edocSign:
+                    case edocRec:
+                    case edocSend:
+                    case edocRegister:
+                    case edocRecDistribute:{
+                        if(openFrom==""){
+                            openFrom="listPending";
+                        }
+                        if("listPending".equals(openFrom)){
+                            openFrom="Pending";
+                        }
+                        if("listDone".equals(openFrom)){
+                            openFrom="Done";
+                        }
+                        url = "/seeyon/edocController.do?method=detailIFrame&affairId="+ctpAffair.getId()+"&summaryId="+summaryId+"&From="+openFrom;
+                        break;
+                    }
+                    case collaboration:
+                    default:{
+                        url = "/seeyon/collaboration/collaboration.do?method=summary&affairId="+ctpAffair.getId()+"&summaryId="+summaryId+"&openFrom="+openFrom;
+
+                    }
+
+                }
+
+                response.sendRedirect(url);
+                return null;
+
+            }
         }
         if ("form".equals(linkType)) {
             //TODO
