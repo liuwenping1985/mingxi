@@ -129,7 +129,7 @@ public class TransferService {
                     if("id_2_org_name".equals(st)){
                         return  account.getName();
                     }else {
-                        return  account.getId();
+                        return  account.getCode();
                     }
                 }
             }
@@ -139,7 +139,7 @@ public class TransferService {
                     if("id_2_dept_name".equals(st)){
                         return  department.getName();
                     }else {
-                        return  department.getId();
+                        return  department.getCode();
                     }
                 }
             }
@@ -149,7 +149,7 @@ public class TransferService {
                     if("id_2_person_name".equals(st)){
                         return member.getName();
                     }else {
-                        return  member.getId();
+                        return  member.getCode();
                     }
                 }
             }
@@ -158,6 +158,7 @@ public class TransferService {
 
                 CtpEnumItem enumItem=enumManager.getCacheEnumItem(id);
                 if(enumItem!=null){
+                    //enumItem.getCode();
                     if("enum_2_name".equals(st)){
                         return enumItem.getShowvalue();
                     }else {
