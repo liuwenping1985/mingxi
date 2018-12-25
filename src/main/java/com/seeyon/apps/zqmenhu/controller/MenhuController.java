@@ -399,10 +399,10 @@ public class MenhuController extends BaseController {
             User user = AppContext.getCurrentUser();
             String userName = user.getName();
             //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
-            //DocLibPO docLibPo = docLibManager.getPersonalLibOfUser(user.getId());
+            DocLibPO docLibPo = getDocLibManager().getPersonalLibOfUser(user.getId());
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("userName", userName);
-            //params.put("docLibId", String.valueOf(docLibPo.getId()));
+            params.put("docLibId", String.valueOf(docLibPo.getId()));
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
             List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
             data.setItems(pagingFavor);
@@ -776,8 +776,7 @@ public class MenhuController extends BaseController {
             String jsonMap = JSON.toJSONString(ctpAffair);
 
             Map data = JSON.parseObject(jsonMap, HashMap.class);
-            ctpAffair.getApp();
-            ctp
+
             data.put("link", "/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=" + data.get("id"));
             try {
                 if (ctpAffair != null) {
@@ -920,6 +919,7 @@ public class MenhuController extends BaseController {
              this.operationlogManager.insertOplog(dr.getId(), Long.valueOf(dr.getParentFrId()), ApplicationCategoryEnum.doc, "log.doc.view", "log.doc.view.desc", new Object[]{AppContext.currentUserName(), dr.getFrName()});
              }
              */
+           // LoginHelper lr;
             String url = DocMVCUtils.getOpenKnowledgeUrl(po, enType.intValue(), this.getDocAclNewManager(), this.getDocHierarchyManager(), null);
 
             url = "/seeyon"+url;

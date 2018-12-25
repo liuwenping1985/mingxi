@@ -106,7 +106,7 @@ public class LancherService {
             vo.setMsg("affair_id 没有传入！");
             vo.setData(parameter);
             return vo;
-
+            //com.seeyon.ctp.workflow.designer.controller.WorkFlowDesignerController
         }
         ServiceAffairs affairs = getServiceAffairs(affairType);
         ServiceAffair affair = affairs.getAffairHolder().get("receive");
