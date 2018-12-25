@@ -8,5 +8,13 @@ CREATE TABLE log_entry(
   "level" NVARCHAR2(255),
   success NUMBER(6,0),
   data NVARCHAR2(512),
+  ext_string1    NVARCHAR2(255),
+  ext_string2    NVARCHAR2(255),
+  ext_string3    NVARCHAR2(255),
+  ext_string4    NVARCHAR2(255),
+  ext_string5    NVARCHAR2(255),
+  ext_string6    NVARCHAR2(255),
+  ext_string7    NVARCHAR2(255),
+  ext_string8    NVARCHAR2(255),
   PRIMARY KEY (id)
 )

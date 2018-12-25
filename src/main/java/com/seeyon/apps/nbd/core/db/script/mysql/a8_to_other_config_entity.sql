@@ -9,6 +9,14 @@ CREATE TABLE `a8_to_other_config_entity` (
   `export_type` varchar(255) DEFAULT NULL,
   `export_url` varchar(255) DEFAULT NULL,
   `link_id` varchar(255) DEFAULT NULL,
+`ext_string1` varchar(255) DEFAULT NULL,
+`ext_string2` varchar(255) DEFAULT NULL,
+`ext_string3` varchar(255) DEFAULT NULL,
+`ext_string4` varchar(255) DEFAULT NULL,
+`ext_string5` varchar(255) DEFAULT NULL,
+`ext_string6` varchar(255) DEFAULT NULL,
+`ext_string7` varchar(255) DEFAULT NULL,
+`ext_string8` varchar(255) DEFAULT NULL,
   `ftd_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

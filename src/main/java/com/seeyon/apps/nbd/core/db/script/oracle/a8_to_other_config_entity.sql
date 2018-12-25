@@ -11,6 +11,14 @@ CREATE TABLE a8_to_other_config_entity
   export_url   NVARCHAR2(255),
   link_id      NVARCHAR2(255),
   ftd_id       NUMBER(20, 0),
+  ext_string1    NVARCHAR2(255),
+  ext_string2    NVARCHAR2(255),
+  ext_string3    NVARCHAR2(255),
+  ext_string4    NVARCHAR2(255),
+  ext_string5    NVARCHAR2(255),
+  ext_string6    NVARCHAR2(255),
+  ext_string7    NVARCHAR2(255),
+  ext_string8    NVARCHAR2(255),
   PRIMARY KEY (id)
 
 )

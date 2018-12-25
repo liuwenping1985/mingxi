@@ -15,6 +15,9 @@ CREATE TABLE data_link
   ext_string3    NVARCHAR(255),
   ext_string4    NVARCHAR(255),
   ext_string5    NVARCHAR(255),
+  ext_string6    NVARCHAR(255),
+  ext_string7    NVARCHAR(255),
+  ext_string8    NVARCHAR(255),
   link_type      NVARCHAR(255),
   db_type        NVARCHAR(255),
   PRIMARY KEY (id)

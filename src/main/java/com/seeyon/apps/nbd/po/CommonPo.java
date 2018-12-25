@@ -26,6 +26,15 @@ public class CommonPo {
 
     private Integer status;
 
+    private String extString1;
+    private String extString2;
+    private String extString3;
+    private String extString4;
+    private String extString5;
+    private String extString6;
+    private String extString7;
+    private String extString8;
+
     public Integer getStatus() {
         return status;
     }
@@ -115,6 +124,70 @@ public class CommonPo {
         }
         DataBaseHelper.executeUpdateBySQLAndLink(dl,sql);
         DataBaseHelper.persistCommonVo(dl,this);
+    }
+
+    public String getExtString1() {
+        return extString1;
+    }
+
+    public void setExtString1(String extString1) {
+        this.extString1 = extString1;
+    }
+
+    public String getExtString2() {
+        return extString2;
+    }
+
+    public void setExtString2(String extString2) {
+        this.extString2 = extString2;
+    }
+
+    public String getExtString3() {
+        return extString3;
+    }
+
+    public void setExtString3(String extString3) {
+        this.extString3 = extString3;
+    }
+
+    public String getExtString4() {
+        return extString4;
+    }
+
+    public void setExtString4(String extString4) {
+        this.extString4 = extString4;
+    }
+
+    public String getExtString5() {
+        return extString5;
+    }
+
+    public void setExtString5(String extString5) {
+        this.extString5 = extString5;
+    }
+
+    public String getExtString6() {
+        return extString6;
+    }
+
+    public void setExtString6(String extString6) {
+        this.extString6 = extString6;
+    }
+
+    public String getExtString7() {
+        return extString7;
+    }
+
+    public void setExtString7(String extString7) {
+        this.extString7 = extString7;
+    }
+
+    public String getExtString8() {
+        return extString8;
+    }
+
+    public void setExtString8(String extString8) {
+        this.extString8 = extString8;
     }
 
     public String getSid() {
