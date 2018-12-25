@@ -1,31 +1,38 @@
 package com.seeyon.apps.menhu.controller;
 
-import com.seeyon.apps.collaboration.manager.PendingManager;
 import com.seeyon.apps.doc.manager.DocAclNewManager;
 import com.seeyon.apps.doc.manager.DocHierarchyManager;
 import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.menhu.util.Helper;
+import com.seeyon.apps.menhu.vo.MemberVo;
+import com.seeyon.apps.menhu.vo.OrgVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
+import com.seeyon.ctp.organization.bo.V3xOrgAccount;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
+import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -51,12 +58,14 @@ public class MenhuController extends BaseController {
         }
         return fileManager;
     }
+
     public DocHierarchyManager getDocHierarchyManager() {
         if (docHierarchyManager == null) {
             docHierarchyManager = (DocHierarchyManager) AppContext.getBean("docHierarchyManager");
         }
         return docHierarchyManager;
     }
+
     public OperationlogManager getOperationlogManager() {
         if (operationlogManager == null) {
             operationlogManager = (OperationlogManager) AppContext.getBean("operationlogManager");
@@ -64,7 +73,7 @@ public class MenhuController extends BaseController {
         return operationlogManager;
     }
 
-    public DocAclNewManager getDocAclNewManager(){
+    public DocAclNewManager getDocAclNewManager() {
         if (docAclNewManager == null) {
             docAclNewManager = (DocAclNewManager) AppContext.getBean("docAclNewManager");
         }
@@ -120,23 +129,23 @@ public class MenhuController extends BaseController {
         data.put("msg", "error");
         data.put("data", "0");
         String loginName = request.getParameter("loginName");
-        if(StringUtils.isEmpty(loginName)){
+        if (StringUtils.isEmpty(loginName)) {
             data.put("msg", "登录名不能为空");
             data.put("data", "-1");
-        }else{
+        } else {
             V3xOrgMember member = this.getOrgManager().getMemberByLoginName(loginName);
-            if(member == null){
+            if (member == null) {
                 data.put("msg", "根据登录名找不到用户");
                 data.put("data", "-1");
-            }else{
+            } else {
                 try {
-                   // CtpAffair affair;
+                    // CtpAffair affair;
 
                     Integer count = DBAgent.count("select count(1) from CtpAffair where memberId=" + member.getId() + " and state=3 and is_delete=0");
                     data.put("data", count);
                     data.put("msg", "success");
                     data.put("result", true);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     data.put("msg", e.getMessage());
                 }
@@ -144,11 +153,174 @@ public class MenhuController extends BaseController {
 
         }
 
-        Helper.responseJSON(data,response);
+        Helper.responseJSON(data, response);
         return null;
 
     }
 
+    private Map<String, Object> genRet() {
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("result", true);
+        data.put("msg", "success");
+        data.put("data", null);
+        data.put("items", new ArrayList());
+
+        return data;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView getOrgInfoList(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        //查用户信息
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        List<OrgVo> voList = new ArrayList<OrgVo>();
+        try {
+            List<V3xOrgAccount> orgAccounts = this.getOrgManager().getAllAccounts();
+            for (V3xOrgAccount account : orgAccounts) {
+
+                OrgVo vo = new OrgVo();
+                vo.setCode(account.getCode());
+                vo.setFullName(account.getName());
+                vo.setOrganType(0);
+                vo.setId(String.valueOf(account.getId()));
+                vo.setOrganTypeName("单位");
+                vo.setParentId("0");
+                vo.setPath(account.getPath());
+                Long sortId = account.getSortId();
+                if (sortId != null) {
+                    vo.setSortFlag(sortId.intValue());
+                } else {
+
+                    vo.setSortFlag(-1);
+                }
+                String shortName = account.getShortName();
+                if (StringUtils.isEmpty(shortName)) {
+                    vo.setName(account.getName());
+                } else {
+                    vo.setName(shortName);
+                }
+                voList.add(vo);
+                List<V3xOrgDepartment> depts = this.getOrgManager().getAllDepartments(account.getId());
+                if (!CollectionUtils.isEmpty(depts)) {
+                    for (V3xOrgDepartment dept : depts) {
+                        OrgVo de = new OrgVo();
+                        de.setId(String.valueOf(dept.getId()));
+                        de.setCode(dept.getCode());
+                        de.setName(dept.getName());
+                        String wn = dept.getWholeName();
+                        if (StringUtils.isEmpty(wn)) {
+                            de.setFullName(de.getName());
+                        } else {
+                            de.setFullName(dept.getWholeName());
+                        }
+                        de.setParentId(dept.getParentPath());
+                        de.setPath(dept.getPath());
+                        de.setOrganType(1);
+                        de.setOrganTypeName("部门");
+                        sortId = dept.getSortId();
+                        if (sortId != null) {
+                            de.setSortFlag(sortId.intValue());
+                        } else {
+
+                            de.setSortFlag(-1);
+                        }
+                        voList.add(de);
+
+                    }
+                }
+
+            }
+            List<OrgVo> tempList = new ArrayList<OrgVo>();
+            tempList.addAll(voList);
+            OUT_LABEL:
+            for (OrgVo vo1 : tempList) {
+                INNER_LABEL:
+                for (OrgVo vo2 : voList) {
+                    String path = vo1.getPath();
+
+                    if (StringUtils.isEmpty(path)) {
+                        continue OUT_LABEL;
+                    }
+                    String myPath = vo2.getParentId();
+                    if (StringUtils.isEmpty(myPath)) {
+                        continue INNER_LABEL;
+                    }
+                    if(myPath.equals(path)){
+                        vo2.setParentId(vo1.getId());
+                    }
+                }
+            }
+            data.put("items", voList);
+        } catch (Exception e) {
+            data.put("result", false);
+            data.put("msg", "错误：" + e.getMessage());
+        }
+
+        Helper.responseJSON(data, response);
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView getUserList(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        //查用户信息
+        preResponse(response);
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("result", false);
+        data.put("msg", "error");
+        data.put("data", "0");
+        List<MemberVo> voList = new ArrayList<MemberVo>();
+        try {
+            List<V3xOrgAccount> orgAccounts = this.getOrgManager().getAllAccounts();
+            for (V3xOrgAccount account : orgAccounts) {
+
+                List<V3xOrgMember> members = this.getOrgManager().getAllMembers(account.getId());
+                if(CollectionUtils.isEmpty(members)){
+                    continue;
+                }
+                for(V3xOrgMember member:members){
+                    MemberVo vo = new MemberVo();
+                    vo.setActualName(member.getName());
+                    Long postId = member.getOrgPostId();
+                    if(postId!=null){
+                        V3xOrgPost post = this.getOrgManager().getPostById(postId);
+                        if(post!=null){
+                            vo.setDuty(post.getName());
+                            vo.setDutyRank(post.getCode());
+                        }
+
+                    }else{
+                        vo.setDuty("");
+                        vo.setDutyRank("");
+                    }
+
+                    vo.setEmail(member.getEmailAddress());
+                    vo.setTel(member.getTelNumber());
+                    vo.setId(String.valueOf(member.getId()));
+                    vo.setOrganId(String.valueOf(member.getOrgDepartmentId()));
+                    Integer gender = member.getGender();
+                    if(gender!=null){
+                        if(gender==-1){
+                            vo.setSex("其它");
+                        }else{
+                            vo.setSex(member.getGender()==1?"男":"女");
+                        }
+                    }
+                    vo.setName(member.getName());
+                    vo.setCode(member.getCode());
+                    voList.add(vo);
+                }
+            }
+            data.put("items",voList);
+        }catch(Exception e){
+            data.put("result", false);
+            data.put("msg", "错误：" + e.getMessage());
+        }
+
+
+        Helper.responseJSON(data, response);
+        return null;
+
+    }
 
 
     public static void main(String[] args) {
