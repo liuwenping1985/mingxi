@@ -14,7 +14,8 @@
             init:function (options) {
                 this.jq = $;
                 this.data_prop=options.data_prop;
-                this.root = $("<div class='" + options.className + "'></div>")
+                this.root = $("<div class='" + options.className + "'></div>");
+                this.options = options;
                 if(options.parent_id){
                     this.parent = $("#" + this.op_.parent_id);
                     this.parent.append(this.root);
@@ -35,10 +36,10 @@
                     this.max=-1;
                 }
                 if(options.link_prop){
-                       this.link_prop=options.link_prop;
-                   }else{
+                    this.link_prop=options.link_prop;
+                }else{
                     this.link_prop=false;
-                   }
+                }
                 if (options.data_url) {
                     var me = this;
                     $.ajax({
@@ -48,7 +49,7 @@
                         dataType: "json",
                         success: function (data) {
                             if(data.items){
-                                me.render(data.items);
+                                me.render(data.items,data.count);
                             }
                         },
                         error: function (res) {
@@ -57,12 +58,36 @@
                     })
                 }else{
                     if(options.data){
-                        this.render(options.data);
+                        this.render(options.data,options.data?options.data.length:-1);
                     }
                 }
 
             },
-            render:function(data){
+            refresh:function(url){
+                var me = this;
+                if(!url){
+                    url = this.options.data_url;
+                }
+                if(!url){
+                    return ;
+                }
+                $.ajax({
+                    url: url,
+                    async: true, //同步方式发送请求，true为异步发送
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if(data.items){
+                            me.render(data.items,data.count);
+                        }
+                    },
+                    error: function (res) {
+
+                    }
+                })
+
+            },
+            render:function(data,count__){
                 var key = [];
                 if(typeof (data)=="string"){
                     return ;
@@ -82,18 +107,18 @@
                     for(var p=0;p<data.length;p++){
                         var p_data = data[p];
                         if(!this.link_prop){
-                             htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:#524849' class='layui-row'>");
+                            htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:#524849' class='layui-row'>");
                         }else{
                             var link_url= p_data[this.link_prop];
                             if(link_url){
 
-                             htmls.push("<div onclick='window.open(\""+link_url+"\")' style='height:35px;cursor:pointer;font-size:18px;color:#524849' class='layui-row'>");
+                                htmls.push("<div onclick='window.open(\""+link_url+"\")' style='height:35px;cursor:pointer;font-size:18px;color:#524849' class='layui-row'>");
                             }else{
 
-                             htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:#524849' class='layui-row'>");
+                                htmls.push("<div style='height:35px;cursor:pointer;font-size:18px;color:#524849' class='layui-row'>");
                             }
                         }
-                       
+
 
                         if(this.max&&this.max>0){
                             if(p+1>this.max){
@@ -107,7 +132,7 @@
                                 cell.size=4;
                             }
                             if(cell&&cell.render){
-                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],p_data) + "</div>");
+                                htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + cell.render(cell.name, p_data[cell.name],p_data,count__) + "</div>");
                             }else{
                                 htmls.push("<div class='lx-eps layui-col-md" + cell.size + "'>" + p_data[cell.name] + "</div>");
                             }

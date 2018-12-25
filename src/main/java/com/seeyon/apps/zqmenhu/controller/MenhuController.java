@@ -508,7 +508,7 @@ public class MenhuController extends BaseController {
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql);
             formDataList = Helper.paggingList(formDataList, p);
             for (Map fd : formDataList) {
-                fd.put("link", "/seeyon/nbd.do?method=openLink&type=form&id=" + fd.get("id"));
+                fd.put("link", "/seeyon/menhu.do?method=openLink&openType=form&id=" + fd.get("id"));
             }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
@@ -549,7 +549,7 @@ public class MenhuController extends BaseController {
             for (Map fd : formDataList) {
 
                 // maps.put("link","/seeyon/collaboration/collaboration.do?method=summary&affairId="+maps.get("affair_id")+"&summaryId="+maps.get("entity_id")+"&openFrom=supervise&type="+maps.get("status"));
-                fd.put("link", "/seeyon/nbd.do?method=openLink&type=supervise&id=" + fd.get("id"));
+                fd.put("link", "/seeyon/menhu.do?method=openLink&linkType=supervise&id=" + fd.get("id"));
             }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
@@ -696,6 +696,7 @@ public class MenhuController extends BaseController {
             if (state == null) {
                 state = 3L;
             }
+            CtpAffair cd;
             sql.append(" and state="+state);
             countSql.append(" and state="+state);
            // sql.append("and state="+state);
@@ -708,10 +709,20 @@ public class MenhuController extends BaseController {
                 countSql.append(" and memberId=" + userId);
             }
             if(appType!=null){
+                if("4".equals(appType)){
+                    sql.append(" and app in(4,19,20,21)");
+                    countSql.append(" and app in(4,19,20,21)");
+                }else{
+                    sql.append(" and app=" + appType);
+                    countSql.append(" and app=" + appType);
+                }
 
-                sql.append(" and app=" + appType);
-                countSql.append(" and app=" + appType);
+            }else{
+                sql.append(" and app in(1,2,3,4,6,19,20,21)");
+                countSql.append(" and app in(1,2,3,4,6,19,20,21)");
             }
+            sql.append(" and is_delete =0");
+            countSql.append(" and is_delete =0");
             sql.append(" order by createDate desc");
 
 
@@ -1122,9 +1133,9 @@ public class MenhuController extends BaseController {
         if ("doc".equals(linkType)) {
             String link = request.getParameter("link");
             String id = request.getParameter("id");
-            DocResourcePO dr = this.getDocHierarchyManager().getDocResBySourceId(CommonUtils.getLong(id));
+            DocResourcePO dr = this.getDocHierarchyManager().getDocResourceById(CommonUtils.getLong(id));
             if(dr!=null){
-                String sql = "select COUNT(*) from DocActionPO where actionUserId="+AppContext.currentUserId()+" and subjectId="+dr.getId();
+                String sql = "select COUNT(*) from DocActionPO where actionUserId="+AppContext.currentUserId()+" and subjectId="+dr.getId()+" and actionType=3";
                 int count = DBAgent.count(sql);
                 if(count == 0){
                     DocActionPO po = new DocActionPO();
@@ -1182,7 +1193,7 @@ public class MenhuController extends BaseController {
                             }
                             case collaboration:
                             default:{
-                                url = "seeyon/collaboration/collaboration.do?method=summary&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
+                                url = "/seeyon/collaboration/collaboration.do?method=summary&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
 
                             }
 
