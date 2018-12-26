@@ -18,10 +18,7 @@ import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
-import com.seeyon.ctp.organization.bo.V3xOrgAccount;
-import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
-import com.seeyon.ctp.organization.bo.V3xOrgMember;
-import com.seeyon.ctp.organization.bo.V3xOrgPost;
+import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.rest.resources.M3PendingResource;
@@ -300,6 +297,8 @@ public class MenhuController extends BaseController {
                     }
                 }
             }
+            data.put("msg", "success");
+            data.put("result", true);
             data.put("items", voList);
         } catch (Exception e) {
             data.put("result", false);
@@ -335,11 +334,20 @@ public class MenhuController extends BaseController {
                         V3xOrgPost post = this.getOrgManager().getPostById(postId);
                         if(post!=null){
                             vo.setDuty(post.getName());
-                            vo.setDutyRank(post.getCode());
                         }
 
                     }else{
                         vo.setDuty("");
+
+                    }
+                    Long levelId = member.getOrgLevelId();
+                    if(levelId!=null){
+                        V3xOrgLevel level =  this.getOrgManager().getLevelById(levelId);
+                        if(level!=null){
+                            vo.setDutyRank(level.getName());
+                        }
+
+                    }else{
                         vo.setDutyRank("");
                     }
 
@@ -360,6 +368,8 @@ public class MenhuController extends BaseController {
                     voList.add(vo);
                 }
             }
+            data.put("msg", "success");
+            data.put("result", true);
             data.put("items",voList);
         }catch(Exception e){
             data.put("result", false);
