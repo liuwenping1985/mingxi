@@ -97,7 +97,7 @@ public final class DataBaseHelper {
                 Field f = fields.get(i);
                 Class cls = f.getType();
                 Object val = vals.get(i);
-                System.out.println("--------------------");
+                //System.out.println("--------------------");
                 ClobText t = f.getAnnotation(ClobText.class);
                 if (t != null) {
                     Clob clob = conn.createClob();
@@ -269,7 +269,7 @@ public final class DataBaseHelper {
         try {
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql, 1004, 1007);
-            System.out.println(sql);
+            //System.out.println(sql);
             rs = pst.executeQuery();
             return resultSetToList(rs, true);
         } catch (ClassNotFoundException e) {

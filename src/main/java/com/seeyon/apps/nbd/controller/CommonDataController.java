@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.service.impl.ZrzxLeaderOutExportProcessor;
@@ -68,12 +69,15 @@ public class CommonDataController extends BaseController {
             }
             DataLink dl = ConfigService.getA8DefaultDataLink();
             List<ZrzxUserSchedule> dataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl, ZrzxUserSchedule.class, sql);
+
+
             if (!CommonUtils.isEmpty(dataList)) {
                 for (ZrzxUserSchedule schedule : dataList) {
                     retMap.put(schedule.getUserName(),schedule);
                 }
             }
             List<ZrzxUserSchedule> vals = new ArrayList<ZrzxUserSchedule>();
+
             vals.addAll(retMap.values());
             Collections.sort(vals, new Comparator<ZrzxUserSchedule>() {
                 public int compare(ZrzxUserSchedule o1, ZrzxUserSchedule o2) {
@@ -88,7 +92,16 @@ public class CommonDataController extends BaseController {
                     return ret1-ret2;
                 }
             });
-            entity.setItems(vals);
+            List<Map> dt=new ArrayList<Map>();
+            for(ZrzxUserSchedule userSchedule : vals){
+
+                String jsonString= JSON.toJSONString(userSchedule);
+                Map map = JSON.parseObject(jsonString,HashMap.class);
+                map.put("id",String.valueOf(map.get("id")));
+                map.put("userId",String.valueOf(map.get("userId")));
+                dt.add(map);
+            }
+            entity.setItems(dt);
         } catch (Exception e) {
             e.printStackTrace();
             entity.setResult(false);
