@@ -18,12 +18,12 @@ import java.util.Map;
  */
 public class BairongFileParser implements SubEntityFieldParser {
     public void parse(CommonParameter inputParameter, Map dataMap, Map inputDataMap, Entity entity) {
-        System.out.println("parse---- start-----");
+        //System.out.println("parse---- start-----");
         List<FieldMeta> fieldMetaList = entity.getFields();
         if (CollectionUtils.isEmpty(fieldMetaList)) {
             return;
         }
-        System.out.println("parse---- start-----:" + inputDataMap);
+        //System.out.println("parse---- start-----:" + inputDataMap);
         Map subMapOutside = new HashMap();
         for (FieldMeta meta : fieldMetaList) {
             Object data = inputDataMap.get(meta.getSource());
@@ -36,7 +36,7 @@ public class BairongFileParser implements SubEntityFieldParser {
                     }
                     List<Attachment> attList = inputParameter.getAttachmentList();
 
-                    System.out.println("attList:" + attList.isEmpty() + ",attList-size:" + attList.size());
+                    //System.out.println("attList:" + attList.isEmpty() + ",attList-size:" + attList.size());
                     if (!CollectionUtils.isEmpty(attList)) {
                       //  List ll = new ArrayList();
                        // Map subMap = new HashMap();
@@ -50,7 +50,7 @@ public class BairongFileParser implements SubEntityFieldParser {
                         //((List)sub).add(subMap);
 
                     }
-                    System.out.println("<<---------sub--map----------->>" + JSON.toJSONString(sub));
+                    //System.out.println("<<---------sub--map----------->>" + JSON.toJSONString(sub));
 
 
                 } else {
@@ -62,13 +62,13 @@ public class BairongFileParser implements SubEntityFieldParser {
                     }
                     List<Attachment> attList = inputParameter.getAttachmentList();
                     boolean isFound = false;
-                    System.out.println("attList-------------------:" + attList.isEmpty() + ",attList-size:" + attList.size());
+                    //System.out.println("attList-------------------:" + attList.isEmpty() + ",attList-size:" + attList.size());
                     if (!CollectionUtils.isEmpty(attList)) {
                         int tag = 0;
                         for (Attachment att : attList) {
-                            System.out.println("att---:" + att.getFilename() + ",att2:" + ((Map) data).get("name"));
+                            //System.out.println("att---:" + att.getFilename() + ",att2:" + ((Map) data).get("name"));
                             if ((((Map) data).get("name")).equals(att.getFilename())) {
-                                System.out.println("name---------put" + meta.getName() + "," + att.getId());
+                                //System.out.println("name---------put" + meta.getName() + "," + att.getId());
 
                                 subMap.put(meta.getName(), att.getSubReference());
                                 isFound = true;
@@ -76,14 +76,14 @@ public class BairongFileParser implements SubEntityFieldParser {
                             }
                         }
                         if (!isFound) {
-                            System.out.println("name3-----put" + meta.getName() + "," + attList.get(tag).getId());
+                            //System.out.println("name3-----put" + meta.getName() + "," + attList.get(tag).getId());
 
                             subMap.put(meta.getName(), attList.get(tag).getSubReference());
                         }
                         tag++;
                     }
                     // subMap.put(meta.getName(),((Map)data).get("name"));
-                    System.out.println("<<||||||---------sub--map-----------|||||||>>" + subMap);
+                    //System.out.println("<<||||||---------sub--map-----------|||||||>>" + subMap);
                     ((List) sub).add(subMap);
                 }
 

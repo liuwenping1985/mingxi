@@ -144,7 +144,7 @@ public class BairongService implements ServicePlugin {
                     att.setReference(flowId);
                     try {
                         String attName = att.getFilename();
-                        System.out.println(attName);
+                       //System.out.println(attName);
                         //attName.replaceAll("/./.",".")
                         att.setFilename(URLDecoder.decode(att.getFilename(), "UTF-8"));
                     }catch(Exception e){
@@ -155,7 +155,7 @@ public class BairongService implements ServicePlugin {
                 /**
                  * 暴力一点吧 没办法了
                  */
-                insertOtherAttachment(attachments);
+                insertOtherAttachment(affairType,attachments);
             }
             String key = affairType+"_"+affairId;
             DataBaseHandler.getInstance().putData(key,flowId);
@@ -177,11 +177,13 @@ public class BairongService implements ServicePlugin {
         return vo;
     }
 
-    private void insertOtherAttachment(List<Attachment> attachments){
+    private void insertOtherAttachment(String affairName,List<Attachment> attachments){
 
+        System.out.println("Insert into ------------"+affairName+"------------");
+        String table_name = ConfigService.getPropertyByName(affairName+".filesubForm","formson_0231");
+        String field_name = ConfigService.getPropertyByName(affairName+".filesfield","field0024");
 
-        String table_name = ConfigService.getPropertyByName("filesubForm","formson_0231");
-       // System.out.println(table_name);
+        // System.out.println(table_name);
         StringBuilder querySQL = new StringBuilder("select * from ");
         querySQL.append(table_name);
         StringBuilder inStatement = new StringBuilder();
@@ -199,9 +201,9 @@ public class BairongService implements ServicePlugin {
 
         }
         inStatement.append(")");
-        querySQL.append(" where field0024 in ");
+        querySQL.append(" where "+field_name+" in ");
         querySQL.append(inStatement);
-     //   System.out.println(querySQL);
+        System.out.println("query:::===>>>"+querySQL);
         JDBCAgent agent = new JDBCAgent();
         try {
 
@@ -211,15 +213,18 @@ public class BairongService implements ServicePlugin {
             List<String> insertSQLList = new ArrayList<String>();
             StringBuilder insertSQLPre = new StringBuilder();
             insertSQLPre.append("insert into ").append(table_name);
-            insertSQLPre.append("(id,formmain_id,sort,field0024)values");
+            insertSQLPre.append("(id,formmain_id,sort,"+field_name+")values");
             Object formmainId=null;
-           // System.out.println(retList);
+            Object exId = null;
+           //System.out.println(retList);
             if(retList != null&&retList.size()>0){
                 for(Object obj:retList){
                     Map data = (Map)obj;
                   //  System.out.println(data);
                     formmainId = data.get("formmain_id");
-                    existInsertMap.put(String.valueOf(data.get("field0024")),"1");
+
+
+                    existInsertMap.put(String.valueOf(data.get(field_name)),"101");
                 }
               //  System.out.println("formmain_id:"+formmainId);
              //   System.out.println("----------------------------");
@@ -234,12 +239,14 @@ public class BairongService implements ServicePlugin {
                         insql.append(insertSQLPre.toString());
                         insql.append("(").append(UUIDLong.longUUID()).append(","+formmainId+",");
                         insql.append(sort).append(",").append(att.getSubReference()).append(")");
+                        System.out.println(insql.toString());
                         insertSQLList.add(insql.toString());
                         sort++;
                     }
                     if(!CollectionUtils.isEmpty(insertSQLList)){
 
                         agent.executeBatch(insertSQLList);
+                        //agent.execute("delete from "+table_name+" where id in("+exId+")");
                     }
                 }
             }
