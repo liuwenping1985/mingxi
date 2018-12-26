@@ -27,6 +27,7 @@ import com.seeyon.ctp.organization.principal.PrincipalManager;
 import com.seeyon.ctp.rest.resources.M3PendingResource;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.services.flow.FlowUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -149,7 +150,9 @@ public class MenhuController extends BaseController {
                     data.put("data", "-1");
                 }else{
                     ModelAndView mav = new ModelAndView("apps/menhu/pending");
+
                     mav.addObject("affair",affair);
+                    
                     mav.addObject("affairJSON", JSON.toJSONString(affair));
                     mav.addObject("member",member);
                     mav.addObject("memberJSON",JSON.toJSONString(member));
