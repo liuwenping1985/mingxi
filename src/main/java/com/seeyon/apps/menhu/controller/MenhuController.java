@@ -1,25 +1,30 @@
 package com.seeyon.apps.menhu.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.doc.manager.DocAclNewManager;
 import com.seeyon.apps.doc.manager.DocHierarchyManager;
 import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.util.Constants;
+import com.seeyon.apps.m3.core.controller.M3CoreController;
 import com.seeyon.apps.menhu.util.Helper;
 import com.seeyon.apps.menhu.vo.MemberVo;
 import com.seeyon.apps.menhu.vo.OrgVo;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
+import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.rest.resources.M3PendingResource;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.slf4j.Logger;
@@ -118,7 +123,49 @@ public class MenhuController extends BaseController {
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
         response.setHeader("Access-Control-Max-Age", "3628800");
     }
+    @NeedlessCheckLogin
+    public ModelAndView showPending(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        //查用户信息
+        preResponse(response);
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("result", false);
+        data.put("msg", "error");
+        data.put("data", "0");
+        String loginName = request.getParameter("loginName");
+        String affairId = request.getParameter("affairId");
+        if (StringUtils.isEmpty(loginName)) {
+            data.put("msg", "登录名不能为空");
+            data.put("data", "-1");
+        } else {
+            V3xOrgMember member = this.getOrgManager().getMemberByLoginName(loginName);
+            if (member == null) {
+                data.put("msg", "根据登录名找不到用户");
+                data.put("data", "-1");
+            } else {
+                AffairManager manager = (AffairManager)(AppContext.getBean("affairManager"));
+                CtpAffair affair = manager.get(Long.parseLong(affairId));
+                if(affair == null){
+                    data.put("msg", "根据待办id找不到待办，处理失败");
+                    data.put("data", "-1");
+                }else{
+                    ModelAndView mav = new ModelAndView("apps/menhu/pending");
+                    mav.addObject("affair",affair);
+                    mav.addObject("affairJSON", JSON.toJSONString(affair));
+                    mav.addObject("member",member);
+                    mav.addObject("memberJSON",JSON.toJSONString(member));
+                    return mav;
+                }
 
+
+
+            }
+
+        }
+
+        Helper.responseJSON(data, response);
+        return null;
+
+    }
 
     @NeedlessCheckLogin
     public ModelAndView pendingCount(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
