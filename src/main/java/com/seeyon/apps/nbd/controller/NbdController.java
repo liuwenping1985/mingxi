@@ -142,7 +142,9 @@ public class NbdController extends BaseController {
             }
             //${userDepartment}
             //${userType}
+            mav.addObject("userId",String.valueOf(user.getId()));
         } else {
+            mav.addObject("userId","-1");
             mav.addObject("userName", "超电磁炮");
             mav.addObject("userType", "团委书记");
             mav.addObject("userDepartment", "小学三年级5班");
