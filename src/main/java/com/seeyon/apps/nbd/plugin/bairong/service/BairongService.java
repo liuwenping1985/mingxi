@@ -21,10 +21,13 @@ import com.seeyon.ctp.common.content.affair.constants.StateEnum;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
+import com.seeyon.ctp.common.po.template.CtpTemplate;
+import com.seeyon.ctp.common.template.manager.TemplateManager;
 import com.seeyon.ctp.form.bean.FormBean;
 import com.seeyon.ctp.form.bean.FormDataMasterBean;
 import com.seeyon.ctp.form.bean.FormDataSubBean;
 import com.seeyon.ctp.form.bean.FormTableBean;
+import com.seeyon.ctp.form.po.FormRelationRecord;
 import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.form.service.FormService;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
@@ -143,7 +146,7 @@ public class BairongService implements ServicePlugin {
                 for(Attachment att:attachments){
                     att.setReference(flowId);
                     try {
-                        String attName = att.getFilename();
+                        //String attName = att.getFilename();
                        //System.out.println(attName);
                         //attName.replaceAll("/./.",".")
                         att.setFilename(URLDecoder.decode(att.getFilename(), "UTF-8"));
@@ -157,6 +160,52 @@ public class BairongService implements ServicePlugin {
                  */
                 insertOtherAttachment(affairType,attachments);
             }
+           /**
+            * __releation_field__
+            * __releation_summary__
+            */
+           Object obj = parameter.get("__releation_summary__");
+           if(obj!=null&&obj instanceof ColSummary){
+
+               ColSummary insertCol = (ColSummary)obj;
+               List<ColSummary> cols = DBAgent.find("from ColSummary where id="+flowId);
+               if(!CollectionUtils.isEmpty(cols)){
+                   FormRelationRecord cord = new FormRelationRecord();
+                   ColSummary masterCol =  cols.get(0);
+                   cord.setIdIfNew();
+                   cord.setType(1);
+                   cord.setFormType(37);
+                   cord.setFromSubdataId(0L);
+                   cord.setToSubdataId(0l);
+                   cord.setFieldName(""+parameter.get("__releation_field__"));
+                   cord.setFromFormId(insertCol.getFormid());
+                   cord.setToFormId(masterCol.getFormid());
+                   cord.setMemberId(masterCol.getStartMemberId());
+                   Long template = masterCol.getTempleteId();
+                   TemplateManager tplMgr=(TemplateManager)AppContext.getBean("templateManager");
+                   if(cord.getToFormId()==null){
+                       CtpTemplate maT = tplMgr.getCtpTemplate(template);
+                       FormBean fb = this.getFormManager().getFormByFormCode(maT);
+                       Long maFid =fb.getId();
+                       cord.setToFormId(maFid);
+                       cord.setFormType(fb.getFormType());
+                   }
+                   if(cord.getFromFormId()==null){
+                       CtpTemplate toT = tplMgr.getCtpTemplate(insertCol.getTempleteId());
+                       Long toFid = this.getFormManager().getFormByFormCode(toT).getId();
+                       cord.setFromFormId(toFid);
+                   }
+                   cord.setFromMasterDataId(insertCol.getFormRecordid());
+                   cord.setToMasterDataId(masterCol.getFormRecordid());
+                   cord.setState(1);
+                   DBAgent.save(cord);
+
+               }
+
+
+
+           }
+
             String key = affairType+"_"+affairId;
             DataBaseHandler.getInstance().putData(key,flowId);
             DataBaseHandler.getInstance().putData("flow"+flowId,key);
@@ -354,30 +403,24 @@ public class BairongService implements ServicePlugin {
         List<FieldMeta> fields = entity.getFields();
         if(!CollectionUtils.isEmpty(fields)){
             for(FieldMeta meta:fields){
-                setData(meta,param,inputData);
+                setData(meta,param,inputData,inputParameter);
+                //meta.getType()
             }
         }
        // System.out.println("parse--sub-entity");
         List<OriginalField> ofList = entity.getOriginalFields();
-
         if(!CollectionUtils.isEmpty(ofList)){
-         //   System.out.println("parse--sub2-entity");
             for(OriginalField meta:ofList){
                 Entity subEntity =  meta.getEntity();
-
                 if(subEntity!=null){
-                    //System.out.println("parse--sub3-entity");
+
                     if(!StringUtils.isEmpty(subEntity.getParse())){
-                        //System.out.println("parse--sub4-entity");
                         String parse = subEntity.getParse();
-                        //System.out.println("parse--sub5-entity:"+parse);
                         try {
                             Class cls = Class.forName(parse);
                             Object instance = cls.newInstance();
                             if(instance instanceof SubEntityFieldParser){
-                                //System.out.println("parse--sub6-entity");
                                 SubEntityFieldParser parser = (SubEntityFieldParser)instance;
-                                //System.out.println("----coming----");
                                 parser.parse(inputParameter,param,inputData,subEntity);
                             }
                         } catch (Exception e) {
@@ -388,7 +431,7 @@ public class BairongService implements ServicePlugin {
                         Map subParam = new HashMap();
                         List<FieldMeta> subFields = subEntity.getFields();
                         for(FieldMeta meta2:subFields){
-                            setData(meta2,subParam,inputData);
+                            setData(meta2,subParam,inputData,inputParameter);
                         }
                         Object sub = param.get("sub");
                         if(sub == null){
@@ -406,11 +449,29 @@ public class BairongService implements ServicePlugin {
         return JSON.toJSONString(param);
     }
 
-    private void setData(FieldMeta meta,Map dataMap,Map inputData){
+    private void setData(FieldMeta meta,Map dataMap,Map inputData,CommonParameter inputParameter){
         String source = meta.getSource();
         String name = meta.getName();
+        String type = meta.getType();
         if(!StringUtils.isEmpty(source)&&!StringUtils.isEmpty(name)){
+            if(!StringUtils.isEmpty(type)){
+                if(type.startsWith("releation_form_data")){
+                    //get summaryId;
+                    Object summaryId = inputData.get(source);
+                    List<ColSummary> summaryList = DBAgent.find("from ColSummary where id="+summaryId);
+                    if(CollectionUtils.isEmpty(summaryList)){
+                        System.out.println("oa id is not valid!!!!:"+summaryId);
+                        dataMap.put(name,summaryId);
+                    }else{
+                        ColSummary colSummary = summaryList.get(0);
+                        dataMap.put(name,colSummary.getSubject());
+                        inputParameter.put("__releation_summary__",colSummary);
+                        inputParameter.put("__releation_field__",name);
+                        return;
+                    }
 
+                }
+            }
             dataMap.put(name,unicodeStr2String(inputData.get(source)));
         }
     }
