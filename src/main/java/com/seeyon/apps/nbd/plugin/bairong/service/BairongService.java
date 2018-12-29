@@ -178,25 +178,27 @@ public class BairongService implements ServicePlugin {
                    cord.setFromSubdataId(0L);
                    cord.setToSubdataId(0l);
                    cord.setFieldName(""+parameter.get("__releation_field__"));
-                   cord.setFromFormId(insertCol.getFormid());
-                   cord.setToFormId(masterCol.getFormid());
+                   //cord.setFromFormId(insertCol.getFormid());
+                   //cord.setToFormId(masterCol.getFormid());
                    cord.setMemberId(masterCol.getStartMemberId());
                    Long template = masterCol.getTempleteId();
                    TemplateManager tplMgr=(TemplateManager)AppContext.getBean("templateManager");
-                   if(cord.getToFormId()==null){
+                   if(cord.getFromFormId()==null){
                        CtpTemplate maT = tplMgr.getCtpTemplate(template);
                        FormBean fb = this.getFormManager().getFormByFormCode(maT);
                        Long maFid =fb.getId();
-                       cord.setToFormId(maFid);
+                       cord.setFromFormId(maFid);
                        cord.setFormType(fb.getFormType());
                    }
-                   if(cord.getFromFormId()==null){
+                   if(cord.getToFormId()==null){
                        CtpTemplate toT = tplMgr.getCtpTemplate(insertCol.getTempleteId());
-                       Long toFid = this.getFormManager().getFormByFormCode(toT).getId();
-                       cord.setFromFormId(toFid);
+                       //Long toFid =
+                       FormBean toFb = this.getFormManager().getFormByFormCode(toT);
+                       cord.setToFormId(toFb.getId());
+
                    }
-                   cord.setFromMasterDataId(insertCol.getFormRecordid());
-                   cord.setToMasterDataId(masterCol.getFormRecordid());
+                   cord.setFromMasterDataId(masterCol.getFormRecordid());
+                   cord.setToMasterDataId(insertCol.getFormRecordid());
                    cord.setState(1);
                    DBAgent.save(cord);
 

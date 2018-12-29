@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name='format-detection' content='telephone=no,email=no'>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-tab.css?buildversion=18108101035"/>
+
+<!-- 
+
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-listView.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-att.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-accDoc.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-audio.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-selectOrg.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-picker.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/cmp/css/cmp-search.css?buildversion=18108101035"/> 
+ -->
+
+<link rel="stylesheet" href="/seeyon/m3/apps/v5/commons/cmp-resources/M1H5.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/apps/v5/collaboration/css/cmp-col.css?buildversion=18108101035"/>
+<link rel="stylesheet" href="/seeyon/m3/apps/v5/collaboration/css/summary-media.css?buildversion=18108101035"/>
+<!-- 正文组件样式css col-->
+<link rel="stylesheet" href="/seeyon/m3/apps/v5/commons/cmp-resources/content.css?buildversion=18108101035"/>
+
+<!-- 引用表单CSS结束 -->
+<!-- 
+<link rel="stylesheet" href="/seeyon/m3/apps/v5/workflow/css/wf.css?buildversion=18108101035"/>
+ -->
+<!-- form css -->
+<!-- <link rel="stylesheet" href="/seeyon/m3/apps/v5/form/css/index.css?buildversion=18108101035"/> -->
+
+<title></title>
+<style type="text/css">
+    .comment_animation{transition : top 200ms linear; -webkit-transition : top 200ms linear; }
+    .title_animation{transition : height 200ms linear; -webkit-transition : height 200ms linear; }
+    .head-style:before{height: 0px; }
+    .cmp-fullscreen{ background-color: #f4f4f4; }
+    #commentStyle p{font-size:16px; color:black;}
+    /*英文正文显示正常换行，样式覆盖*/
+	.content-widget p{word-break: break-word;}
+</style>
+</head>
+<body class="cmp-fullscreen ">
+<header id="page_header" class="cmp-bar cmp-bar-nav head-style" style="display:none;">
+        <a id="goAheadBtn" href="javascript:void(0)" class="cmp-pull-left left-btn">
+            <span class="see-icon-v5-common-arrow-back"></span><i18n key="collaboration.page.lable.goBack"></i18n>
+        </a>
+        <a href="javascript:void(0)" class="cmp-pull-right right-btn">
+            <!-- <span id="handler_switch_btn" class="see-icon-v5-common-switch-light-form left-icon display_none"></span> -->
+        </a>
+        <h1 class="cmp-title" style="padding-left:15px;" id="showTitle"><i18n key="collaboration.affairs.details"></i18n></h1>
+    <div class="add_border border_t"></div>
+</header>
+<div id="handler_switch_btn" class="see-icon-v5-common-switch-light-form left-icon display_none">
+</div>
+<!-- 引导 -->
+ <div id="src_form_view_hint" class="new_synergy_hint col display_none" style="right:10px;left:auto;top:110px;">
+   <i class="circle"></i>
+   <i class="line"></i>
+   <div class="content">
+       <div class="text">
+           <span id="src_form_view_hint_txt"><!-- 提示信息 --></span>
+       </div>
+       <div class="btn"><i18n key="collaboration.page.lable.whenExit_2"></i18n><!-- 知道了 --></div>
+   </div>
+ </div>
+    
+<div id="body_content_div" class="cmp-content cmp-col-content cmp-content-none"  style="position: absolute;bottom: 0px; width: 100%;">
+     
+    <!-- 标题区域 -->
+    <div id="summary_titile_container" class="main-title" style="overflow: hidden; background-color: #E8F5FF; ">
+        <ul class="cmp-table-view m1-details-title col">
+            <li class="cmp-list-cell ">
+                <div class="cmp-list-cell-info" id="title_div" style="font-weight: bold"></div>
+            </li>
+        </ul>
+    </div>
+    <div id="contentAndWfTags" class="btn-wrap border_b">
+         <div id='promoteBackedDiv' style="overflow: hidden;display:none;
+              width: 100%;
+              position: absolute;
+              bottom: -36px;
+              left: 0;
+              height: 36px;
+              line-height: 36px;
+              background: rgba(251,130,58,0.80);
+              color:#fff;
+              z-index: 2;
+              box-shadow: 0 0 4px 0 rgba(0,0,0,0.30);">
+                  <span style="float:left;margin:0 7px 0 18px;" class="see-icon-v5-common-back-tips"></span>
+                  <span style="float:left;max-width:70%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"><i18n key="collaboration.summary.title.beBacked"><i18n></span>
+                  <span style="float:right;margin:0 15px 0 0;" onclick="closePromoteBacked()" class="see-icon-v5-common-close"></span>
+        </div>
+         <ul>
+           <li id="allAffairBtn" class="list-people fix-form" style="width:36%;">
+              <div class="all-people">
+                 <span id="all_num" class="number">0</span>
+                 <span class="people"><i18n key="collaboration.page.lable.allMembers"></i18n><!-- 未处理/全部 --></span>
+              </div>
+            </li>
+           <li id="dataRelationBtn" class="list-people fix-form" style="width:30%;flex:1;line-height:32px;text-align:center;color:#3aadfb; font-size:17px; display:none;">
+                <div><span class="see-icon-v5-common-relevance" style="margin-right:6px; font-size:19px;"></span><i18n key="collaboration.page.lable.button.dataRelation"></i18n></div>
+            </li>
+            <li id="workflowBtn" class="workflow" style="font-size: 17px;">
+               <div><span style="position: relative;" class="see-icon-v5-common-lookflow"><em id="workflow_dot" style="width:7px;height:7px;background-color:#f00;border-radius:50%;position:absolute;left:14px;top:1px;" class="dot display_none"></em></span><i18n key="collaboration.page.lable.button.flow"></i18n></div>
+            </li>
+         </ul>
+     </div>
+     <!-- 表单多视图 -->
+     <div id="form_view_container">
+        <ul id="form_views" class="cmp-tabText display_none"></ul>
+     </div>
+     <div id="summary_info" style="overflow: hidden;" class="main-content white">
+        <div id="protectData" style="display: none;"></div>
+         <!-- 正文 -->
+         <div id="newInputPosition" style="position:relative;height: 100%;word-break: break-word;"><!-- listviewbox -->
+             <span id="form_placeholder"><!-- CAP4表单渲染占位元素 --></span>
+         </div>
+         <div id="form_body" style="height: 100%;"></div>
+     </div>
+</div>
+<div id="contentView" class="white" style="width: 100%;position: fixed;top: 100%;z-index: 9">
+      <div class="cmp-scroll" style="min-height: 100%;" style="background-color: #f4f4f4;">
+             <!-- 附件 -->
+            <div id="attachment_container" class="attach-wrap add-new-div display_none">
+               <div class="attach-title dropdown add-new-title">
+                     <span class="see-icon-accessory tit_fujian"></span>
+                     <span><i18n key="collaboration.page.lable.attachment"></i18n></span><span>&#40;</span><span id="att_file_count">0</span><span>&#41;</span><span>&amp;</span>
+                     <span><i18n key="collaboration.page.lable.relateDoc"></i18n></span><span>&#40;</span><span id="att_ass_count">0</span><span>&#41;</span>
+                     <span class="see-icon-v5-common-arrow-top right jiantou"></span>
+               </div>
+               <div class="attach-body">
+                   <ul id="attachments_ul" class="cmp-list-content cmp-accessory-content margin_top-1 wh100"></ul>
+               </div>
+           </div>
+           
+           <!-- 转发附言 , 占位DIV-->
+           <div id="forwordCommentLocaltion" class="display_none"></div>
+           
+           <!-- 附言 -->
+           <div id="sender_comment_container" class="attach-wrap add-new-div display_none">
+           
+               <div class="attach-title dropdown add-new-title">
+                    <span class="title-mark"></span>
+                    <span><i18n key="collaboration.page.lable.postscript"></i18n><!-- 附言 --></span>
+                    <span>&#40;</span><span id="sender_comment_count">0</span><span>&#41;</span>
+                    <span id="add_sender_comment" class="new-attach display_none"><i18n key="collaboration.page.lable.button.newpostscript"></i18n><!-- 新增附言 --></span>
+                    <span class="see-icon-v5-common-arrow-top right jiantou"></span>
+               </div>
+               <div class="attach-body">
+                  <ul id="sender_comment_ul" class="attach-list white">
+                  </ul>
+              </div>
+           </div>
+           
+           <!-- 意见点赞 -->
+          <div id="comments_container" class="attach-wrap add-new-div display_none border_b">
+              <div class="attach-title opinion-page add-new-title">
+                  <span class="title-mark"></span>
+                  <span><i18n key="collaboration.page.lable.Opinion"></i18n></span><span>&#40;</span><span id="comment_count">0</span><span>&#41;</span><span id="canPraise1">&amp;</span>
+                              <span id="canPraise2"><i18n key="collaboration.page.lable.like"></i18n></span><span id="canPraise3">&#40;</span><span id="comment_like_count">0</span><span id="canPraise4">&#41;</span>
+                              <!-- 意见更多页面屏蔽，但是先别删代码，产品经理可能会后悔, 还原的时候上面要加样式，增加点击区域  style="padding-right: 0px;"-->
+                              <!-- <span id="more_comment_btn" style="text-align: right;width: 40px;padding-right: 10px" class="see-icon-v5-common-drag right moreOpinion"></span> -->
+                              <span class="see-icon-v5-common-arrow-top right jiantou"></span>
+              </div>
+              <div class="attach-body">
+                  <ul id="summary_comment_ul" class="attach-list" style="padding-bottom: 10px">
+                  </ul>
+              </div>
+          </div>
+           
+      </div>
+  </div>
+
+<!-- <div style="position:fixed;bottom:50px;width:100%;background-color:#fff;">
+  <li id="dataRelationBtn" class='cmp-table-view-cell alltopborder' style="list-style:none;height:40px;display:none;">
+      <a class='cmp-navigate-right' style="text-align:left;">
+        <span class="see-icon-v5-common-relevance" style="vertical-align: middle;
+    margin-right: 5px;color:#3AADFB;"></span><i18n key="collaboration.page.lable.button.dataRelation"></i18n>
+      </a>
+  </li>
+</div> -->
+<!-- cmp-bar  -->
+<footer id="footer_btns" class="cmp-bar conmmon-b cmp-bar-footer back_white " style="display: none; height: 50px; ">
+    <div id="handleBtns" class="cmp-block-with-btn conmmon-b handle_btn border_t">
+        <button  id="deal_summary_btn" style="top:8px;padding:6px 12px;" type="button" class="cmp-btn cmp-btn-primary2 cmp-btn-width40"><i18n key="collaboration.page.lable.button.deal"></i18n></button>
+        <a href="javascript:void(0)" id="deal_more_btn" type="button" class="cmp-btn cmp-icon see-icon-more"></a>
+    </div>
+    <div id="otherBtns" class="footer_handler_content border_t" style=" background-color: white;border: none; "></div>
+</footer>
+<script src="/seeyon/m3/cmp/js/cmp-ajax-fast.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/collaboration/js/common.js?buildversion=18108101035" type="text/javascript"></script>
+<script src="/seeyon/m3/apps/v5/collaboration/js/details/summary-req.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/collaboration/i18n/Collaboration_zh_CN.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-i18n.js?buildversion=18108101035"></script>
+<script type="text/javascript">  
+  cmp.i18n.init('/seeyon/m3/apps/v5/collaboration/i18n/', 'Collaboration');
+</script>
+<script src="/seeyon/m3/cmp/js/cmp.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/s3utils.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/collaboration/js/collaboration-jssdk.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/commons/wechat-jssdk.js?buildversion=18108101035"></script>
+
+<script src="/seeyon/m3/cmp/js/cmp-asyncLoad.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-app.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-handWriteSignature.js?buildversion=18108101035"></script>
+<!-- 
+<script src="/seeyon/m3/cmp/js/cmp-headerFixed.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-webviewListener.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-imgCache.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-listView.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-att.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-flowV5.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-zoom.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-accDoc.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-push.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-audio.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-server.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-lbs.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-selectOrg.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-picker.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-dtPicker.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-search.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-popPicker.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-barcode.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-contentEdit.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-emoji.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/cmp/js/cmp-v5.js?buildversion=18108101035"></script>
+ -->
+ 
+<!-- 
+<script src="/seeyon/m3/apps/v5/collaboration/js/mplus_apps_collaboration.s3js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/collaboration/collaboration_m_api.s3js?buildversion=18108101035" ></script> 
+-->
+<script src="/seeyon/m3/apps/v5/collaboration/js/details/summary.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/collaboration/js/details/deal.js?buildversion=18108101035"></script>
+
+<!-- 
+<script src="/seeyon/m3/apps/v5/workflow/js/wf.js?buildversion=18108101035"></script>
+ -->
+
+<!--
+电话会议，延迟加载 
+<script src="/seeyon/m3/apps/v5/collaboration/js/multicall.js?buildversion=18108101035"></script>
+ -->
+
+<!-- 引用表单js开始 -->
+<!-- 
+<script src="/seeyon/m3/apps/v5/form/js/lib/vue/vue.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/form/js/dataService.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/form/js/sui.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/unflowform/unflowform_m_api.s3js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/commons/cmp-resources/project/js/projectAccountList.js?buildversion=18108101035"></script>
+ -->
+ 
+ 
+<!--附件-->
+<script src="/seeyon/m3/apps/v5/commons/widget/SeeyonAttachment.s3js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/commons/widget/SeeyonContent.js?buildversion=18108101035"></script>
+<!-- 正文编辑 -->
+<!-- <script src="/seeyon/m3/apps/v5/commons/widget/ContentEdit-debug.js?buildversion=18108101035"></script> -->
+<!-- 签章 -->
+<!-- 
+<script src="/seeyon/m3/apps/v5/commons/js/signet-jssdk.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/commons/jquery/jquery-2.1.4.min.js?buildversion=18108101035"></script>
+<script src="/seeyon/m3/apps/v5/commons/widget/signaturePhone/iSignaturePhone.js?temp=1&buildversion=18108101035&skin=blue"></script> 
+<script src="/seeyon/m3/apps/v5/commons/widget/signaturePhone/m3iSignature-debug.js?buildversion=18108101035"></script>
+ -->
+
+<!-- 表单多视图填出选择模板 -->
+<script type="text/html" id="more_view_item_tpl">
+   <li style="padding:0 5px;<%if(this.width){%>width:<%=this.width%><%}%>" class="li <%if(this.active){%>selected<%}%>"
+       isOffice="<%=this.isOffice%>" 
+       isLightForm="<%=this.isLightForm%>" 
+       index="<%=this.index%>"
+       layIndex="<%=this.layIndex%>"
+       fileId="<%=this.fileId%>" 
+       extension="<%=this.extension%>" 
+	   lastModified="<%=this.lastModified%>"
+    >
+       <div class="text"><%=this.viewTitle%></div>
+   </li>
+</script>
+
+<!--转发附言模板 -->
+<script type="text/html" id="forword_comment_tpl">
+<div id="<%=this.id%>" class="attach-wrap add-new-div">
+     <div class="attach-title add-new-title <%=this.titleClass%>">
+          <span class="title-mark"></span>
+          <span><%=this.senderLabel%></span>
+          <span class="see-icon-v5-common-arrow-top right jiantou"></span>
+     </div>
+     <div class="attach-body">
+        <ul id="<%=this.conmentsId%>" class="attach-list <%=this.bodyClass%>">
+           <% 
+             for(var i = 0; i < this.noteList.length; i++){
+             var c = this.noteList[i];
+            %>
+            <li class="attach-lisy-li">
+                 <div>
+                     <div class="script-div none-border">
+                        <p class="script-name" style="word-wrap: break-word;"><%=c.content%></p>
+                     </div>
+                     <ul id="senderCommentAttr<%=c.id%>" class="cmp-list-content cmp-accessory-content margin_top-1"></ul>
+                     <div class="script-time-div">
+                         <span class="cmp-ellipsis" style="font-size:14px; width:72px; margin-right:9px; float:left; color:#48A0DE;"><%=c.createName%></span>
+                         <span class="script-time"><%=c.createDate%></span>
+                     </div>
+                 </div>
+             </li>
+            <%
+               }
+            %>
+        </ul>
+    </div>
+ </div>
+</script>
+<script type="text/html" id="other_btn_template">
+<%
+   for(var i = 0, len = this.length;i < len;i++){
+      var btn = this[i];
+%>
+<a href="javascript:void(0)" <%=btn.attrs%> id="<%=btn.id%>">
+  <!--<img id="<%=btn.id%>Img" src="<%=btn.img%>" alt="<%=btn.lable%>">-->
+  <lable style="color:#3AADFB;font-size:16px;" id="<%=btn.id%>Img" class="<%=btn.class%>"></lable>
+  <lable id="<%=btn.id%>Lable"><%=btn.lable%></lable>
+</a>
+<%
+}
+%>
+</script>
+<script type="text/html" id="title_template">
+<span class="list_title_name fix-form" style="white-space:normal;word-break: break-word;word-wrap: break-word;">
+<%if(this.importantLevel && this.importantLevel > 1){%>
+<span class="absolute import cmp-icon see-icon-v5-common-important-<%=(this.importantLevel - 1)%>"></span>
+<%}%><%=escapeStringToHTML(this.subject, false)%>
+</span>
+</span>
+<h5 class="cmp-ellipsis list_cont_info fix-form" >
+    <span class="cmp-pull-left">
+        <span class="fix-form" style="max-width:72px;min-width:40px;"><%=escapeStringToHTML(this.startMemberName, true)%></span>
+        <span class="fix-form"><%=this.createDate%></span>
+    </span>
+    <span class="cmp-pull-right hidden">
+
+        <a href="javascript:void(0)" class="href_show" style="-webkit-touch-callout:none;">
+            <%if(this.attachmentCount > 0){%>
+            <span class="cmp-icon see-icon-accessory" style="margin-right:5px;font-size:14px;" ></span>
+            <span class="blue-color font-16 fix-form"><%=this.attachmentCount%></span>
+            <%}%>
+        </a>
+    </span>
+</h5>
+</script>
+<script type="text/html" id="sender_comment_template">
+<% 
+   for(var i = 0; i < this.length; i++){
+     var c = this[i];
+%>
+<li class="attach-lisy-li">
+     <div>
+         <div class="script-div none-border">
+            <p class="script-name" style="word-wrap: break-word;"><%=c.content%></p>
+         </div>
+         <ul id="senderCommentAttr<%=c.id%>" class="cmp-list-content cmp-accessory-content margin_top-1 white margin_l_15"></ul>
+         <div class="script-time-div">
+             <span class="script-time"><%=c.createDate%></span>
+         </div>
+     </div>
+ </li>
+
+<%
+   }
+%>
+</script>
+</body>
+</html>
