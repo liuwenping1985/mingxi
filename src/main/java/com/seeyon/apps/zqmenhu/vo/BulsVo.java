@@ -25,6 +25,7 @@ public class BulsVo {
     private String publishUserName;
     private String link;
     private String brief;
+    private Byte topOrder;
     private List<String> mimeTypes;
     private Boolean attachmentsFlag = false;
     private Boolean readFlag=false;
@@ -181,6 +182,14 @@ public class BulsVo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Byte getTopOrder() {
+        return topOrder;
+    }
+
+    public void setTopOrder(Byte topOrder) {
+        this.topOrder = topOrder;
     }
 
     public void setLink(String link) {

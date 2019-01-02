@@ -92,7 +92,16 @@ public class CommonDataController extends BaseController {
                     return ret1-ret2;
                 }
             });
-            entity.setItems(vals);
+            List<Map> dt=new ArrayList<Map>();
+            for(ZrzxUserSchedule userSchedule : vals){
+
+                String jsonString= JSON.toJSONString(userSchedule);
+                Map map = JSON.parseObject(jsonString,HashMap.class);
+                map.put("id",String.valueOf(map.get("id")));
+                map.put("userId",String.valueOf(map.get("userId")));
+                dt.add(map);
+            }
+            entity.setItems(dt);
         } catch (Exception e) {
             e.printStackTrace();
             entity.setResult(false);

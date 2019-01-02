@@ -45,6 +45,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -553,19 +554,74 @@ public class NbdService {
 
                 masterRecord = exportMasterData(formRecordId, a8ToOtherConfigEntity, false);
                 //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
-                A8ToOther a8OutputVo = new A8ToOther();
-                a8OutputVo.setCreateTime(new Date());
-                a8OutputVo.setData(JSON.toJSONString(masterRecord));
-                a8OutputVo.setId(UUIDLong.longUUID());
-                a8OutputVo.setSourceId(formRecordId);
-                a8OutputVo.setStatus(0);
-                a8OutputVo.setUpdateTime(new Date());
-                a8OutputVo.setName(a8ToOtherConfigEntity.getAffairType());
-                System.out.println("to_be_saved:" + JSON.toJSONString(a8OutputVo));
                 Long linkId = a8ToOtherConfigEntity.getLinkId();
                 DataLink link = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), DataLink.class, linkId);
-                DataBaseHelper.persistCommonVo(link, a8OutputVo);
+                String tableName =a8ToOtherConfigEntity.getExportUrl();
+                if(CommonUtils.isEmpty(tableName)){
+                    A8ToOther a8OutputVo = new A8ToOther();
+                    a8OutputVo.setCreateTime(new Date());
+                    a8OutputVo.setData(JSON.toJSONString(masterRecord));
+                    a8OutputVo.setId(UUIDLong.longUUID());
+                    a8OutputVo.setSourceId(formRecordId);
+                    a8OutputVo.setStatus(0);
+                    a8OutputVo.setUpdateTime(new Date());
+                    a8OutputVo.setName(a8ToOtherConfigEntity.getAffairType());
+                    System.out.println("to_be_saved:" + JSON.toJSONString(a8OutputVo));
+                    DataBaseHelper.persistCommonVo(link, a8OutputVo);
+                }else{
 
+                    List<Map> dataMap = DataBaseHelper.queryColumnsByTableAndLink(link,tableName);
+                    Map<String, String> columnsData = genDataMap(dataMap);
+                    Map insertMap = new HashMap();
+                    for (String colName : columnsData.keySet()) {
+                        String lowerCaseCol = colName.toLowerCase();
+                        String type = columnsData.get(colName);
+                        Object obj = masterRecord.get(lowerCaseCol);
+                        if (obj != null) {
+                            if(type.toLowerCase().contains("timestamp")){
+                                try{
+                                    if(obj instanceof Date){
+                                        insertMap.put(colName,new Timestamp(((Date)obj).getTime()));
+                                    }else if(obj instanceof String){
+                                        Date dt = new Date((String)obj);
+                                        insertMap.put(colName,new Timestamp(dt.getTime()));
+                                    }else{
+                                        insertMap.put(colName,new Timestamp(new Date().getTime()));
+                                    }
+
+                                }catch(Exception e){
+
+                                }
+                            }else{
+                                insertMap.put(colName,obj);
+                            }
+
+                        }
+                    }
+                    List<String> keyList = new ArrayList<String>();
+                    List<Object> valueList = new ArrayList<Object>();
+                    List<String> wenhao = new ArrayList<String>();
+                    for(Object key:insertMap.keySet()){
+                        keyList.add(String.valueOf(key));
+                        if("id".equals(key.toString().toLowerCase())){
+                            valueList.add(UUIDLong.longUUID());
+                        }else{
+                            valueList.add(insertMap.get(key));
+                        }
+
+                        wenhao.add("?");
+                    }
+                    String sql = "INSERT INTO " + tableName+" (" +DataBaseHelper.join(keyList,",")+") VALUES("+DataBaseHelper.join(wenhao,",")+")";
+                    try {
+                        Integer count =  DataBaseHelper.executeUpdateByNativeSQLAndLink(link,sql,valueList);
+                        //  System.out.println(count);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("[ERROR]EXECUTE ERROR:" + e.getMessage());
@@ -620,7 +676,13 @@ public class NbdService {
         }
 
     }
-
+    private Map<String, String> genDataMap(List<Map> columnDataList) {
+        Map<String, String> dataMap = new HashMap<String, String>();
+        for (Map col : columnDataList) {
+            dataMap.put("" + col.get("column_name"), "" + col.get("type_name"));
+        }
+        return dataMap;
+    }
     public Map exportMasterData(Long formRecordId, FormTableDefinition ftd, boolean usingName) throws Exception {
         Map masterRecord = new HashMap();
         String sql = ftd.genQueryById(formRecordId);

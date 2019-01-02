@@ -8,5 +8,13 @@ CREATE TABLE `log_entry` (
   `level` varchar(255) DEFAULT NULL,
   `success` smallint(6) DEFAULT '0',
   `data` varchar(512) DEFAULT NULL,
+`ext_string1` varchar(255) DEFAULT NULL,
+`ext_string2` varchar(255) DEFAULT NULL,
+`ext_string3` varchar(255) DEFAULT NULL,
+`ext_string4` varchar(255) DEFAULT NULL,
+`ext_string5` varchar(255) DEFAULT NULL,
+`ext_string6` varchar(255) DEFAULT NULL,
+`ext_string7` varchar(255) DEFAULT NULL,
+`ext_string8` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

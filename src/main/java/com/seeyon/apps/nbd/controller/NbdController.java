@@ -115,8 +115,11 @@ public class NbdController extends BaseController {
             //${userName}
             OrgManager orgManager = (OrgManager) AppContext.getBean("orgManager");
             mav.addObject("userName", user.getName());//加的。
+<<<<<<< HEAD
 
             mav.addObject("userLevel", user.getLevelId());//加的。
+=======
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             V3xOrgDepartment department = null;
             try {
                 department = orgManager.getDepartmentById(user.getDepartmentId());
@@ -147,11 +150,20 @@ public class NbdController extends BaseController {
             //${userDepartment}
             //${userType}
         } else {
+<<<<<<< HEAD
             mav.addObject("userId","-1");
             mav.addObject("userName", "超电磁炮");
             mav.addObject("userType", "团委书记");
             mav.addObject("userDepartment", "小学三年级5班");
             mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
+=======
+            try {
+                response.sendRedirect("/seeyon/main.do?method=main");
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
         }
         return mav;
 

@@ -1,18 +1,17 @@
 package com.seeyon.apps.zqmenhu.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.collaboration.enums.CollaborationEnum;
 import com.seeyon.apps.doc.controller.DocController;
-import com.seeyon.apps.doc.dao.DocActionDaoImpl;
 import com.seeyon.apps.doc.dao.DocResourceDao;
-import com.seeyon.apps.doc.manager.*;
+import com.seeyon.apps.doc.manager.DocAclNewManager;
+import com.seeyon.apps.doc.manager.DocHierarchyManager;
+import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocActionPO;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
+import com.seeyon.apps.doc.po.DocTypePO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.doc.util.DocMVCUtils;
-import com.seeyon.apps.form.enums.FormEnums;
-import com.seeyon.apps.m3.app.vo.AppInfoVO;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.zqmenhu.po.BulDataItem;
@@ -35,22 +34,24 @@ import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.common.taglibs.functions.Functions;
+import com.seeyon.ctp.login.online.OnlineChecker;
+import com.seeyon.ctp.login.online.OnlineManager;
+import com.seeyon.ctp.login.online.OnlineManagerImpl;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
-import com.seeyon.ctp.portal.section.templete.BaseSectionTemplete;
-import com.seeyon.ctp.privilege.enums.ResourceCategoryEnums;
-import com.seeyon.ctp.privilege.enums.ResourceTypeEnums;
+import com.seeyon.ctp.portal.controller.PortalController;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
+import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.controller.BulDataController;
-import com.seeyon.v3x.bulletin.domain.BulRead;
 import com.seeyon.v3x.bulletin.domain.BulType;
 import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsType;
+import com.seeyon.v3x.personalaffair.controller.IndividualManagerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -59,7 +60,6 @@ import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -87,12 +87,14 @@ public class MenhuController extends BaseController {
         }
         return fileManager;
     }
+
     public DocHierarchyManager getDocHierarchyManager() {
         if (docHierarchyManager == null) {
             docHierarchyManager = (DocHierarchyManager) AppContext.getBean("docHierarchyManager");
         }
         return docHierarchyManager;
     }
+
     public OperationlogManager getOperationlogManager() {
         if (operationlogManager == null) {
             operationlogManager = (OperationlogManager) AppContext.getBean("operationlogManager");
@@ -100,7 +102,7 @@ public class MenhuController extends BaseController {
         return operationlogManager;
     }
 
-    public DocAclNewManager getDocAclNewManager(){
+    public DocAclNewManager getDocAclNewManager() {
         if (docAclNewManager == null) {
             docAclNewManager = (DocAclNewManager) AppContext.getBean("docAclNewManager");
         }
@@ -163,7 +165,7 @@ public class MenhuController extends BaseController {
         data.put("result", false);
         data.put("msg", "");
         String userName = request.getParameter("userName");
-
+        PortalController PC;
         //dm
         String password = request.getParameter("password");
         if (userName == null) {
@@ -236,6 +238,7 @@ public class MenhuController extends BaseController {
                 Helper.responseJSON(data, response);
                 return null;
             }
+            //IndividualManagerController imc;
         } catch (NoSuchPrincipalException e) {
             e.printStackTrace();
             data.put("msg", "用户名不存在");
@@ -245,7 +248,6 @@ public class MenhuController extends BaseController {
     }
 
     //查新闻类型列表
-    @NeedlessCheckLogin
     public ModelAndView getNewsTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -291,7 +293,7 @@ public class MenhuController extends BaseController {
         return null;
     }
 
-    @NeedlessCheckLogin  //得到文档库类型
+    //得到文档库类型
     public ModelAndView getDocTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -321,7 +323,6 @@ public class MenhuController extends BaseController {
     }
 
     //得公告类型列表
-    @NeedlessCheckLogin
     public ModelAndView getBulletinTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -363,19 +364,41 @@ public class MenhuController extends BaseController {
     }
 
     //得文档列表
-    @NeedlessCheckLogin
     public ModelAndView getDocList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
+<<<<<<< HEAD
         String typeId2=request.getParameter("typeId2");
+=======
+        String typeId2 = request.getParameter("typeId2");
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             Long typeId = p.getTypeId();
             String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by createTime desc";
+<<<<<<< HEAD
             if(typeId2!=null){
                 sql = "from DocResourcePO where parentFrId in (" + typeId + ","+typeId2+") order by createTime desc";
             }
             List<DocResourcePO> docDataList = DBAgent.find(sql);
+=======
+            if (typeId2 != null) {
+                sql = "from DocResourcePO where parentFrId in (" + typeId + "," + typeId2 + ") order by createTime desc";
+            }
+
+            Integer offset = p.getOffset();
+            if(offset == null){
+                offset = 0;
+            }
+            Integer limit = p.getLimit();
+            if(limit == null){
+                limit = 7;
+            }
+            FlipInfo info = new FlipInfo();
+            info.setPage(offset / limit);
+            info.setSize(limit);
+            List<DocResourcePO> docDataList = DBAgent.find(sql,null,info);
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             List<DocResourcePO> pagingDocDataList = Helper.paggingList(docDataList, p);
             data.setItems(transToDocVo(pagingDocDataList));
             Helper.responseJSON(data, response);
@@ -405,8 +428,14 @@ public class MenhuController extends BaseController {
             //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
             DocLibPO docLibPo = getDocLibManager().getPersonalLibOfUser(user.getId());
             Map<String, Object> params = new HashMap<String, Object>();
+<<<<<<< HEAD
             params.put("userName", userName);
            params.put("docLibId", String.valueOf(docLibPo.getId()));
+=======
+            // params.put("userName", userName);
+            params.put("docLibId", String.valueOf(docLibPo.getId()));
+
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
             List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
             data.setItems(transToDocVo(pagingFavor));
@@ -427,7 +456,6 @@ public class MenhuController extends BaseController {
         return null;
     }
 
-    @NeedlessCheckLogin
     public ModelAndView getNewsByAccountAndDepartment(HttpServletRequest request, HttpServletResponse response) throws Exception {
         this.preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -472,8 +500,8 @@ public class MenhuController extends BaseController {
                     retList.addAll(newsDataItemList);
                 }
             }
-          //  List<Map> contain = new ArrayList<Map>();
-            List<NewsVo> contain= transToNewsVo(retList);
+            //  List<Map> contain = new ArrayList<Map>();
+            List<NewsVo> contain = transToNewsVo(retList);
 //            for (NewsDataItem item : retList) {
 //                String sJson = JSON.toJSONString(item);
 //                Map map = JSON.parseObject(sJson, HashMap.class);
@@ -498,7 +526,6 @@ public class MenhuController extends BaseController {
     }
 
 
-    @NeedlessCheckLogin
     public ModelAndView getFormmainList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -515,8 +542,13 @@ public class MenhuController extends BaseController {
                 fd.put("link", "/seeyon/menhu.do?method=openLink&linkType=form&id=" + fd.get("id"));
                 try {
                     fd.put("speaker", this.getOrgManager().getMemberById(CommonUtils.getLong(fd.get("field0003"))));
+<<<<<<< HEAD
                 }catch(Exception e){
                     fd.put("speaker","unknown");
+=======
+                } catch (Exception e) {
+                    fd.put("speaker", "unknown");
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
                 }
             }
             data.setItems(formDataList);
@@ -536,7 +568,6 @@ public class MenhuController extends BaseController {
         return null;
     }
 
-    @NeedlessCheckLogin
     public ModelAndView getSuperviseList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
 
@@ -547,7 +578,11 @@ public class MenhuController extends BaseController {
             if (user == null) {
                 sql1 = "select * from ctp_supervise_detail";
             } else {
+<<<<<<< HEAD
                 sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName()+"%' and status=0 order by create_date desc";
+=======
+                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName() + "%' and status=0 order by create_date desc";
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             }
 
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
@@ -584,24 +619,47 @@ public class MenhuController extends BaseController {
      * @return
      * @throws Exception
      */
-    @NeedlessCheckLogin
     public ModelAndView getImgNewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
 
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
+<<<<<<< HEAD
             StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 ");
             if (p.getTypeId() != null) {
                 sql.append("and state=30 and typeId=" + p.getTypeId());
+=======
+            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30 and image_news=1");
+            if (p.getTypeId() != null) {
+                sql.append(" and typeId=" + p.getTypeId());
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             }
 
             sql.append(" order by createDate desc");
 
             //DBAgent.find
+<<<<<<< HEAD
             List<NewsDataItem> newsDataList = DBAgent.find(sql.toString());
+=======
+            Integer offset = p.getOffset();
+            if (offset == null) {
+                offset = 0;
+            }
+
+            Integer limit = p.getLimit();
+            if (limit == null) {
+                limit = 7;
+            }
+            FlipInfo info = new FlipInfo();
+
+            info.setPage(offset / limit);
+            info.setSize(limit);
+
+            List<NewsDataItem> newsDataList = DBAgent.find(sql.toString(),null,info);
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             //
-            AttachmentManager impl = null;
+
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
             for (NewsDataItem item : newsDataList) {
                 if (item.isImageNews()) {
@@ -634,7 +692,6 @@ public class MenhuController extends BaseController {
      * @return
      * @throws Exception
      */
-    @NeedlessCheckLogin
     public ModelAndView getNewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -643,6 +700,7 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String departmentId = request.getParameter("deptId");
+<<<<<<< HEAD
             StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 ");
             if (p.getTypeId() != null) {
                 sql.append(" and state=30 and typeId=" + p.getTypeId());
@@ -654,6 +712,31 @@ public class MenhuController extends BaseController {
             sql.append(" order by createDate desc");
 
             List<NewsDataItem> newsDataList = DBAgent.find(sql.toString());
+=======
+            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30");
+            if (p.getTypeId() != null) {
+                sql.append(" and typeId=" + p.getTypeId());
+            }
+            if (departmentId != null) {
+                sql.append(" and publishDepartmentId=" + departmentId);
+            }
+
+            sql.append(" order by createDate desc");
+            Integer offset = p.getOffset();
+            if (offset == null) {
+                offset = 0;
+            }
+
+            Integer limit = p.getLimit();
+            if (limit == null) {
+                limit = 7;
+            }
+            FlipInfo info = new FlipInfo();
+
+            info.setPage(offset / limit);
+            info.setSize(limit);
+            List<NewsDataItem> newsDataList = DBAgent.find(sql.toString(),null,info);
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
             for (NewsDataItem item : newsDataList) {
@@ -689,7 +772,6 @@ public class MenhuController extends BaseController {
 
 
     //查事务列表
-    @NeedlessCheckLogin
     public ModelAndView getUserCptList(HttpServletRequest request, HttpServletResponse response) {
         preResponse(response);
         User user = AppContext.getCurrentUser();
@@ -700,7 +782,7 @@ public class MenhuController extends BaseController {
         String count = request.getParameter("$count");
         if (user == null) {
             userId = 8180340772611837618L;
-        }else{
+        } else {
             userId = user.getId();
         }
 
@@ -713,27 +795,27 @@ public class MenhuController extends BaseController {
                 state = 3L;
             }
             CtpAffair cd;
-            sql.append(" and state="+state);
-            countSql.append(" and state="+state);
-           // sql.append("and state="+state);
+            sql.append(" and state=" + state);
+            countSql.append(" and state=" + state);
+            // sql.append("and state="+state);
             if (subState != null) {
-                sql.append(" and subState="+ subState );
-                countSql.append(" and subState="+ subState );
+                sql.append(" and subState=" + subState);
+                countSql.append(" and subState=" + subState);
             }
             if (userId != null) {
                 sql.append(" and memberId=" + userId);
                 countSql.append(" and memberId=" + userId);
             }
-            if(appType!=null){
-                if("4".equals(appType)){
+            if (appType != null) {
+                if ("4".equals(appType)) {
                     sql.append(" and app in(4,19,20,21)");
                     countSql.append(" and app in(4,19,20,21)");
-                }else{
+                } else {
                     sql.append(" and app=" + appType);
                     countSql.append(" and app=" + appType);
                 }
 
-            }else{
+            } else {
                 sql.append(" and app in(1,2,3,4,6,19,20,21)");
                 countSql.append(" and app in(1,2,3,4,6,19,20,21)");
             }
@@ -743,15 +825,23 @@ public class MenhuController extends BaseController {
 
 
             Integer offset = p.getOffset();
+            if (offset == null) {
+                offset = 0;
+            }
+
             Integer limit = p.getLimit();
+            if (limit == null) {
+                limit = 7;
+            }
             FlipInfo info = new FlipInfo();
 
-            info.setPage(offset/limit);
+            info.setPage(offset / limit);
             info.setSize(limit);
 
-            List<CtpAffair> ctpaffair = DBAgent.find(sql.toString(),null,info);;
+            List<CtpAffair> ctpaffair = DBAgent.find(sql.toString(), null, info);
+            ;
 
-            if("true".equals(count)){
+            if ("true".equals(count)) {
                 Integer count_ = DBAgent.count(countSql.toString());
                 data.setCount(count_);
             }
@@ -796,7 +886,10 @@ public class MenhuController extends BaseController {
             data.put("link", "/seeyon/menhu.do?method=openLink&linkType=affair&id=" + data.get("id"));
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             try {
                 if (ctpAffair != null) {
                     V3xOrgMember member = orgManager.getMemberById(ctpAffair.getSenderId());
@@ -814,7 +907,6 @@ public class MenhuController extends BaseController {
         return retList;
 
     }
-
 
 
     private List<NewsVo> transToNewsVo(List<NewsDataItem> newsDataList) {
@@ -857,20 +949,20 @@ public class MenhuController extends BaseController {
         if (user != null) {
 
             String sql = null;
-            if(!CommonUtils.isEmpty(idList)){
-                sql = "select * from news_read where news_id in(" + DataBaseHelper.join(idList,",") + ") and manager_id="+user.getId();
+            if (!CommonUtils.isEmpty(idList)) {
+                sql = "select * from news_read where news_id in(" + DataBaseHelper.join(idList, ",") + ") and manager_id=" + user.getId();
                 try {
-                    List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
-                    if(CommonUtils.isEmpty(dataList)){
+                    List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if (CommonUtils.isEmpty(dataList)) {
                         return retList;
                     }
-                    for(NewsVo vo:retList){
-                        for(Map data:dataList){
+                    for (NewsVo vo : retList) {
+                        for (Map data : dataList) {
                             Long newsId = CommonUtils.getLong(data.get("news_id"));
-                            if(newsId==null){
+                            if (newsId == null) {
                                 continue;
                             }
-                            if(String.valueOf(newsId).equals(vo.getId())){
+                            if (String.valueOf(newsId).equals(vo.getId())) {
                                 vo.setReadFlag(true);
                                 break;
                             }
@@ -921,15 +1013,6 @@ public class MenhuController extends BaseController {
             }
             Integer enType = parseEntranceType(curDocLibPo);
 
-            try {
-                //System.out.println();
-                String v = SecurityHelper.digest(new Object[]{po.getSourceId()});
-                vo.setV(v);
-            } catch (Exception e) {
-                e.printStackTrace();
-                vo.setV(po.getv());
-            }
-
             vo.setEntranceType(String.valueOf(enType));
             vo.setOwnerId(String.valueOf(ids.get(0)));
             /**
@@ -938,12 +1021,12 @@ public class MenhuController extends BaseController {
              this.operationlogManager.insertOplog(dr.getId(), Long.valueOf(dr.getParentFrId()), ApplicationCategoryEnum.doc, "log.doc.view", "log.doc.view.desc", new Object[]{AppContext.currentUserName(), dr.getFrName()});
              }
              */
-           // LoginHelper lr;
+            // LoginHelper lr;
             String url = DocMVCUtils.getOpenKnowledgeUrl(po, enType.intValue(), this.getDocAclNewManager(), this.getDocHierarchyManager(), null);
 
-            url = "/seeyon"+url;
+            url = "/seeyon" + url;
             String link = Base64Util.encode(url);
-            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&id="+vo.getId()+"&link=" + link);
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&id=" + vo.getId() + "&link=" + link);
             voList.add(vo);
             vo.setId(po.getId());
             idList.add(po.getId());
@@ -951,20 +1034,20 @@ public class MenhuController extends BaseController {
         User user = AppContext.getCurrentUser();
         if (user != null) {
             String sql = null;
-            if(!CommonUtils.isEmpty(idList)){
-                sql = "select * from doc_action where subject_id in(" + DataBaseHelper.join(idList,",") + ") and action_type=3 and action_user_id="+user.getId();
+            if (!CommonUtils.isEmpty(idList)) {
+                sql = "select * from doc_action where subject_id in(" + DataBaseHelper.join(idList, ",") + ") and action_type=3 and action_user_id=" + user.getId();
                 try {
-                    List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
-                    if(CommonUtils.isEmpty(dataList)){
+                    List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if (CommonUtils.isEmpty(dataList)) {
                         return voList;
                     }
-                    for(DocVo vo:voList){
-                        for(Map data:dataList){
+                    for (DocVo vo : voList) {
+                        for (Map data : dataList) {
                             Long subjectId = CommonUtils.getLong(data.get("subject_id"));
-                            if(subjectId==null){
+                            if (subjectId == null) {
                                 continue;
                             }
-                            if(subjectId.equals(vo.getId())){
+                            if (subjectId.equals(vo.getId())) {
                                 vo.setReadFlag(true);
                                 break;
                             }
@@ -982,7 +1065,7 @@ public class MenhuController extends BaseController {
     }
 
 
-    @NeedlessCheckLogin
+
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
@@ -992,11 +1075,16 @@ public class MenhuController extends BaseController {
             String departmentId = request.getParameter("deptId");
             String departmentId2 = request.getParameter("deptId2");
 
+<<<<<<< HEAD
             StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30 ");
+=======
+            StringBuilder sql = new StringBuilder("from BulDataItem where deleted_flag=0 and state=30");
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             if (p.getTypeId() != null) {
                 sql.append(" and typeId=" + p.getTypeId());
             }
 
+<<<<<<< HEAD
 
             if(departmentId2!=null&&departmentId!=null){
                 sql.append( " and departmentId in (" + departmentId +","+departmentId2+ ")" );
@@ -1016,18 +1104,48 @@ public class MenhuController extends BaseController {
             for (BulDataItem item : dataList) {
                 if (item.getAttachmentsFlag()) {
                     List<Attachment> attachments = impl.getByReference(item.getId());
+=======
+            if (departmentId2 != null && departmentId != null) {
+                sql.append(" and publishDepartmentId in (" + departmentId + "," + departmentId2 + ")");
 
-                    for (Attachment attch : attachments) {
-                        list.add(attch.getMimeType());
-                    }
-                    item.setMimeTypes(list);
-                    retdataList.add(item);
-                } else {
-                    retdataList.add(item);  //不一定对
-                }
+            } else if (departmentId != null || departmentId2 != null) {
+                sql.append(" and publishDepartmentId = " + departmentId);
+            }
+            sql.append(" order by top_order desc,createDate desc");
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
+
+            Integer offset = p.getOffset();
+            if (offset == null) {
+                offset = 0;
             }
 
-            List<BulDataItem> pagingBulsDataList = Helper.paggingList(retdataList, p);
+            Integer limit = p.getLimit();
+            if (limit == null) {
+                limit = 7;
+            }
+            FlipInfo info = new FlipInfo();
+
+            info.setPage(offset / limit);
+            info.setSize(limit);
+            List<BulDataItem> dataList = DBAgent.find(sql.toString(),null,info);
+          //  List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
+//            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
+//            List<String> list = new ArrayList<String>();
+//            for (BulDataItem item : dataList) {
+//                if (item.getAttachmentsFlag()) {
+//                    List<Attachment> attachments = impl.getByReference(item.getId());
+//
+//                    for (Attachment attch : attachments) {
+//                        list.add(attch.getMimeType());
+//                    }
+//                    item.setMimeTypes(list);
+//                    retdataList.add(item);
+//                } else {
+//                    retdataList.add(item);  //不一定对
+//                }
+//            }
+
+            List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList, p);
             data.setItems(transToBulVo(pagingBulsDataList));
             //Flag flag = null;
             Helper.responseJSON(data, response);
@@ -1068,6 +1186,7 @@ public class MenhuController extends BaseController {
             vo.setAttachmentsFlag(item.getAttachmentsFlag());
             idList.add(item.getId());
             vo.setId(String.valueOf(item.getId()));
+            vo.setTopOrder(item.getTopOrder());
             //  vo.setMimeTypes();
             // vo.setReadFlag();
             //DocHierarchyManager m;
@@ -1079,20 +1198,20 @@ public class MenhuController extends BaseController {
         if (user != null) {
 
             String sql = null;
-            if(!CommonUtils.isEmpty(idList)){
-                sql = "select * from bul_read where bulletin_id in(" + DataBaseHelper.join(idList,",") + ") and manager_id="+user.getId();
+            if (!CommonUtils.isEmpty(idList)) {
+                sql = "select * from bul_read where bulletin_id in(" + DataBaseHelper.join(idList, ",") + ") and manager_id=" + user.getId();
                 try {
-                    List<Map>  dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
-                    if(CommonUtils.isEmpty(dataList)){
+                    List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                    if (CommonUtils.isEmpty(dataList)) {
                         return retList;
                     }
-                    for(BulsVo vo:retList){
-                        for(Map data:dataList){
+                    for (BulsVo vo : retList) {
+                        for (Map data : dataList) {
                             Long bulletinId = CommonUtils.getLong(data.get("bulletin_id"));
-                            if(bulletinId==null){
+                            if (bulletinId == null) {
                                 continue;
                             }
-                            if(String.valueOf(bulletinId).equals(vo.getId())){
+                            if (String.valueOf(bulletinId).equals(vo.getId())) {
                                 vo.setReadFlag(true);
                                 break;
                             }
@@ -1167,10 +1286,10 @@ public class MenhuController extends BaseController {
             String link = request.getParameter("link");
             String id = request.getParameter("id");
             DocResourcePO dr = this.getDocHierarchyManager().getDocResourceById(CommonUtils.getLong(id));
-            if(dr!=null){
-                String sql = "select COUNT(*) from DocActionPO where actionUserId="+AppContext.currentUserId()+" and subjectId="+dr.getId()+" and actionType=3";
+            if (dr != null) {
+                String sql = "select COUNT(*) from DocActionPO where actionUserId=" + AppContext.currentUserId() + " and subjectId=" + dr.getId() + " and actionType=3";
                 int count = DBAgent.count(sql);
-                if(count == 0){
+                if (count == 0) {
                     DocActionPO po = new DocActionPO();
                     po.setActionTime(new Date());
                     po.setSubjectId(dr.getId());
@@ -1182,8 +1301,62 @@ public class MenhuController extends BaseController {
                     DBAgent.save(po);
                 }
             }
-           response.sendRedirect(Base64Util.decode(link));
-           return null;
+            response.sendRedirect(Base64Util.decode(link));
+            return null;
+        }
+        if ("affair".equals(linkType)) {
+            String id = request.getParameter("id");
+            List<CtpAffair> affairsList = DBAgent.find("from CtpAffair where id=" + id);
+            if (!CommonUtils.isEmpty(affairsList)) {
+                CtpAffair ctpAffair = affairsList.get(0);
+
+                Long summaryId = ctpAffair.getObjectId();
+                Integer app = ctpAffair.getApp();
+                Integer state = ctpAffair.getState();
+                String url = "";
+                String openFrom = "";
+                if (state == 3) {
+                    openFrom = "listPending";
+
+                } else if (state == 2) {
+                    openFrom = "listSent";
+                } else if (state == 4) {
+                    openFrom = "listDone";
+                } else {
+                    openFrom = "";
+                }
+                ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
+                switch (appEnum) {
+                    case edoc:
+                    case edocSign:
+                    case edocRec:
+                    case edocSend:
+                    case edocRegister:
+                    case edocRecDistribute: {
+                        if (openFrom == "") {
+                            openFrom = "listPending";
+                        }
+                        if ("listPending".equals(openFrom)) {
+                            openFrom = "Pending";
+                        }
+                        if ("listDone".equals(openFrom)) {
+                            openFrom = "Done";
+                        }
+                        url = "/seeyon/edocController.do?method=detailIFrame&affairId=" + ctpAffair.getId() + "&summaryId=" + summaryId + "&from=" + openFrom;
+                        break;
+                    }
+                    case collaboration:
+                    default: {
+                        url = "/seeyon/collaboration/collaboration.do?method=summary&affairId=" + ctpAffair.getId() + "&summaryId=" + summaryId + "&openFrom=" + openFrom;
+
+                    }
+
+                }
+
+                response.sendRedirect(url);
+                return null;
+
+            }
         }
         if("affair".equals(linkType)){
             String id = request.getParameter("id");
@@ -1243,11 +1416,16 @@ public class MenhuController extends BaseController {
             //TODO
             ///seeyon/content/content.do?isFullPage=true&_isModalDialog=true&moduleId=5362885690085430039&moduleType=37&rightId=-7543887085843953036.-4745304762424997952&contentType=20&viewState=2
             String id = request.getParameter("id");
+<<<<<<< HEAD
             List<CtpContentAll> cont = DBAgent.find("from CtpContentAll where content_data_id="+id);
             if(!CommonUtils.isEmpty(cont)){
+=======
+            List<CtpContentAll> cont = DBAgent.find("from CtpContentAll where content_data_id=" + id);
+            if (!CommonUtils.isEmpty(cont)) {
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
                 String url = "";
-                CtpContentAll cca= cont.get(0);
-                url = "/seeyon/content/content.do?isFullPage=true&_isModalDialog=false&moduleId="+cca.getModuleId()+"&moduleType="+cca.getModuleType()+"&rightId=&contentType="+cca.getContentType()+"&viewState=2";
+                CtpContentAll cca = cont.get(0);
+                url = "/seeyon/content/content.do?isFullPage=true&_isModalDialog=false&moduleId=" + cca.getModuleId() + "&moduleType=" + cca.getModuleType() + "&rightId=&contentType=" + cca.getContentType() + "&viewState=2";
 
                 response.sendRedirect(url);
                 MainbodyController mdc;
@@ -1257,30 +1435,30 @@ public class MenhuController extends BaseController {
         }
         if ("supervise".equals(linkType)) {
             String id = request.getParameter("id");
-            if(!CommonUtils.isEmpty(id)){
-                String sql ="select * from ctp_supervise_detail where id = "+id;
+            if (!CommonUtils.isEmpty(id)) {
+                String sql = "select * from ctp_supervise_detail where id = " + id;
                 List<Map> data = DataBaseHelper.executeQueryByNativeSQL(sql);
-                if(!CommonUtils.isEmpty(data)){
+                if (!CommonUtils.isEmpty(data)) {
                     Map dataMap = data.get(0);
                     Object affairId = dataMap.get("affair_id");
                     Object summaryId = dataMap.get("entity_id");
-                    Integer app = Integer.parseInt(""+dataMap.get("app"));
+                    Integer app = Integer.parseInt("" + dataMap.get("app"));
                     ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
-                    if(appEnum!=null){
-                        String url ="";
-                        switch(appEnum){
+                    if (appEnum != null) {
+                        String url = "";
+                        switch (appEnum) {
                             case edoc:
                             case edocSign:
                             case edocRec:
                             case edocSend:
                             case edocRegister:
-                            case edocRecDistribute:{
-                                url = "/seeyon/edocController.do?method=detailIFrame&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
+                            case edocRecDistribute: {
+                                url = "/seeyon/edocController.do?method=detailIFrame&affairId=" + affairId + "&summaryId=" + summaryId + "&openFrom=supervise&type=0";
                                 break;
                             }
                             case collaboration:
-                            default:{
-                                url = "/seeyon/collaboration/collaboration.do?method=summary&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
+                            default: {
+                                url = "/seeyon/collaboration/collaboration.do?method=summary&affairId=" + affairId + "&summaryId=" + summaryId + "&openFrom=supervise&type=0";
 
                             }
 
@@ -1288,7 +1466,7 @@ public class MenhuController extends BaseController {
                         response.sendRedirect(url);
                         return null;
 
-                    }else{
+                    } else {
 
                     }
 
@@ -1300,7 +1478,11 @@ public class MenhuController extends BaseController {
 
 
         }
+<<<<<<< HEAD
         if("template".equals(linkType)){
+=======
+        if ("template".equals(linkType)) {
+>>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
 
         }
 
@@ -1355,6 +1537,24 @@ public class MenhuController extends BaseController {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+
+    public ModelAndView getOnLineMemberNum(HttpServletRequest request, HttpServletResponse response) {
+
+        OnlineManager onlineManager = (OnlineManager) AppContext.getBean("onlineManager");
+        CommonResultVo data = new CommonResultVo();
+        data.setCount(0);
+        data.setResult(false);
+        if (onlineManager != null) {
+            data.setData(onlineManager.getOnlineNumber());
+            data.setResult(true);
+        } else {
+            data.setData("-");
+            data.setResult(false);
+        }
+        Helper.responseJSON(data, response);
         return null;
     }
 

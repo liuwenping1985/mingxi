@@ -14,6 +14,9 @@ CREATE TABLE `data_link` (
   `ext_string3` varchar(255) DEFAULT NULL,
   `ext_string4` varchar(255) DEFAULT NULL,
   `ext_string5` varchar(255) DEFAULT NULL,
+  `ext_string6` varchar(255) DEFAULT NULL,
+  `ext_string7` varchar(255) DEFAULT NULL,
+  `ext_string8` varchar(255) DEFAULT NULL,
   `link_type` varchar(255) DEFAULT NULL,
   `db_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)

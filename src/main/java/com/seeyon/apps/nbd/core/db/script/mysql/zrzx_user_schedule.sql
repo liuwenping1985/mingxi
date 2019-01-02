@@ -13,6 +13,11 @@ CREATE TABLE `zrzx_user_schedule` (
 `create_time` datetime DEFAULT NULL,
 `update_time` datetime DEFAULT NULL,
 `status` smallint(6) DEFAULT '0',
+`ext_string4` varchar(255) DEFAULT NULL,
+`ext_string5` varchar(255) DEFAULT NULL,
+`ext_string6` varchar(255) DEFAULT NULL,
+`ext_string7` varchar(255) DEFAULT NULL,
+`ext_string8` varchar(255) DEFAULT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
