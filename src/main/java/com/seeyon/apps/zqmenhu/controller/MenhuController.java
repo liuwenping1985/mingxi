@@ -3,10 +3,10 @@ package com.seeyon.apps.zqmenhu.controller;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.enums.CollaborationEnum;
 import com.seeyon.apps.doc.controller.DocController;
+import com.seeyon.apps.doc.dao.DocActionDaoImpl;
 import com.seeyon.apps.doc.dao.DocResourceDao;
-import com.seeyon.apps.doc.manager.DocAclNewManager;
-import com.seeyon.apps.doc.manager.DocHierarchyManager;
-import com.seeyon.apps.doc.manager.DocLibManager;
+import com.seeyon.apps.doc.manager.*;
+import com.seeyon.apps.doc.po.DocActionPO;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.doc.util.Constants;
@@ -22,11 +22,15 @@ import com.seeyon.apps.zqmenhu.util.Helper;
 import com.seeyon.apps.zqmenhu.vo.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
+import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
+import com.seeyon.ctp.common.content.mainbody.MainbodyController;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
+import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.common.security.SecurityHelper;
@@ -51,15 +55,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
+import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class MenhuController extends BaseController {
@@ -76,6 +79,8 @@ public class MenhuController extends BaseController {
 
     private DocAclNewManager docAclNewManager;
 
+    private OperationlogManager operationlogManager;
+
     public FileManager getFileManager() {
         if (fileManager == null) {
             fileManager = (FileManager) AppContext.getBean("fileManager");
@@ -87,6 +92,12 @@ public class MenhuController extends BaseController {
             docHierarchyManager = (DocHierarchyManager) AppContext.getBean("docHierarchyManager");
         }
         return docHierarchyManager;
+    }
+    public OperationlogManager getOperationlogManager() {
+        if (operationlogManager == null) {
+            operationlogManager = (OperationlogManager) AppContext.getBean("operationlogManager");
+        }
+        return operationlogManager;
     }
 
     public DocAclNewManager getDocAclNewManager(){
@@ -355,11 +366,15 @@ public class MenhuController extends BaseController {
     @NeedlessCheckLogin
     public ModelAndView getDocList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
+        String typeId2=request.getParameter("typeId2");
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             Long typeId = p.getTypeId();
             String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by createTime desc";
+            if(typeId2!=null){
+                sql = "from DocResourcePO where parentFrId in (" + typeId + ","+typeId2+") order by createTime desc";
+            }
             List<DocResourcePO> docDataList = DBAgent.find(sql);
             List<DocResourcePO> pagingDocDataList = Helper.paggingList(docDataList, p);
             data.setItems(transToDocVo(pagingDocDataList));
@@ -388,13 +403,13 @@ public class MenhuController extends BaseController {
             User user = AppContext.getCurrentUser();
             String userName = user.getName();
             //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
-            //DocLibPO docLibPo = docLibManager.getPersonalLibOfUser(user.getId());
+            DocLibPO docLibPo = getDocLibManager().getPersonalLibOfUser(user.getId());
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("userName", userName);
-            //params.put("docLibId", String.valueOf(docLibPo.getId()));
+           params.put("docLibId", String.valueOf(docLibPo.getId()));
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
             List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
-            data.setItems(pagingFavor);
+            data.setItems(transToDocVo(pagingFavor));
             Helper.responseJSON(data, response);
             //  System.out.println("params："+params);
             //System.out.println("list："+poList);
@@ -418,10 +433,10 @@ public class MenhuController extends BaseController {
         CommonResultVo data = new CommonResultVo();
 
         try {
-            String orgSql = "from NewsDataItem where state=30 and typeId=1 order by createDate desc";
+            String orgSql = "from NewsDataItem where state=30 and typeId=1 and deleted_flag=0 order by createDate desc";
             String orgCountStr = request.getParameter("orgCount");
             String deptCountStr = request.getParameter("deptCount");
-            String deptId = request.getParameter("deptId");
+
             if (CommonUtils.isEmpty(orgCountStr)) {
                 orgCountStr = "3";
             }
@@ -447,7 +462,7 @@ public class MenhuController extends BaseController {
                 }
             }
 
-            String deptSql = "from NewsDataItem where state=30 and typeId!=1 order by createDate desc";
+            String deptSql = "from NewsDataItem where state=30 and typeId!=1 and deleted_flag=0 order by createDate desc";
             newsDataItemList = DBAgent.find(deptSql);
             if (!CommonUtils.isEmpty(newsDataItemList)) {
                 int size = newsDataItemList.size();
@@ -497,7 +512,12 @@ public class MenhuController extends BaseController {
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql);
             formDataList = Helper.paggingList(formDataList, p);
             for (Map fd : formDataList) {
-                fd.put("link", "/seeyon/nbd.do?method=openLink&type=form&id=" + fd.get("id"));
+                fd.put("link", "/seeyon/menhu.do?method=openLink&linkType=form&id=" + fd.get("id"));
+                try {
+                    fd.put("speaker", this.getOrgManager().getMemberById(CommonUtils.getLong(fd.get("field0003"))));
+                }catch(Exception e){
+                    fd.put("speaker","unknown");
+                }
             }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
@@ -527,17 +547,18 @@ public class MenhuController extends BaseController {
             if (user == null) {
                 sql1 = "select * from ctp_supervise_detail";
             } else {
-                sql1 = "select * from ctp_supervise_detail where forward_member=" + user.getId();
+                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName()+"%' and status=0 order by create_date desc";
             }
 
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
 
-
+//            ApplicationCategoryEnum enum2;
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql1);
             formDataList = Helper.paggingList(formDataList, p);
             for (Map fd : formDataList) {
+
                 // maps.put("link","/seeyon/collaboration/collaboration.do?method=summary&affairId="+maps.get("affair_id")+"&summaryId="+maps.get("entity_id")+"&openFrom=supervise&type="+maps.get("status"));
-                fd.put("link", "/seeyon/nbd.do?method=openLink&type=supervise&id=" + fd.get("id"));
+                fd.put("link", "/seeyon/menhu.do?method=openLink&linkType=supervise&id=" + fd.get("id"));
             }
             data.setItems(formDataList);
             Helper.responseJSON(data, response);
@@ -567,15 +588,18 @@ public class MenhuController extends BaseController {
     public ModelAndView getImgNewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
+
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-            String sql = "from NewsDataItem where state=30 order by createDate desc";
+            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 ");
             if (p.getTypeId() != null) {
-                sql = "from NewsDataItem where state=30 and typeId=" + p.getTypeId() + " order by createDate desc";
+                sql.append("and state=30 and typeId=" + p.getTypeId());
             }
 
+            sql.append(" order by createDate desc");
+
             //DBAgent.find
-            List<NewsDataItem> newsDataList = DBAgent.find(sql);
+            List<NewsDataItem> newsDataList = DBAgent.find(sql.toString());
             //
             AttachmentManager impl = null;
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
@@ -614,18 +638,22 @@ public class MenhuController extends BaseController {
     public ModelAndView getNewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
         CommonResultVo data = new CommonResultVo();
+
+
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String departmentId = request.getParameter("deptId");
-            String sql = "from NewsDataItem where state=30 order by createDate desc";
+            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 ");
             if (p.getTypeId() != null) {
-                sql = "from NewsDataItem where state=30 and typeId=" + p.getTypeId() + " order by createDate desc";
+                sql.append(" and state=30 and typeId=" + p.getTypeId());
             }
             if (departmentId != null) {
-                sql = "from NewsDataItem where state=30 and typeId=" + p.getTypeId() + " and publishDepartmentId=" + departmentId + " order by createDate desc";
+                sql.append( " and publishDepartmentId=" + departmentId );
             }
 
-            List<NewsDataItem> newsDataList = DBAgent.find(sql);
+            sql.append(" order by createDate desc");
+
+            List<NewsDataItem> newsDataList = DBAgent.find(sql.toString());
             AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
             for (NewsDataItem item : newsDataList) {
@@ -684,6 +712,7 @@ public class MenhuController extends BaseController {
             if (state == null) {
                 state = 3L;
             }
+            CtpAffair cd;
             sql.append(" and state="+state);
             countSql.append(" and state="+state);
            // sql.append("and state="+state);
@@ -696,11 +725,21 @@ public class MenhuController extends BaseController {
                 countSql.append(" and memberId=" + userId);
             }
             if(appType!=null){
+                if("4".equals(appType)){
+                    sql.append(" and app in(4,19,20,21)");
+                    countSql.append(" and app in(4,19,20,21)");
+                }else{
+                    sql.append(" and app=" + appType);
+                    countSql.append(" and app=" + appType);
+                }
 
-                sql.append(" and app=" + appType);
-                countSql.append(" and app=" + appType);
+            }else{
+                sql.append(" and app in(1,2,3,4,6,19,20,21)");
+                countSql.append(" and app in(1,2,3,4,6,19,20,21)");
             }
-            sql.append(" order by createDate desc");
+            sql.append(" and is_delete =0");
+            countSql.append(" and is_delete =0");
+            sql.append(" order by case when app in (4,19,20,21) then 0 else 1 end,createDate desc");
 
 
             Integer offset = p.getOffset();
@@ -753,7 +792,11 @@ public class MenhuController extends BaseController {
             String jsonMap = JSON.toJSONString(ctpAffair);
 
             Map data = JSON.parseObject(jsonMap, HashMap.class);
-            data.put("link", "/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId=" + data.get("id"));
+
+            data.put("link", "/seeyon/menhu.do?method=openLink&linkType=affair&id=" + data.get("id"));
+
+
+
             try {
                 if (ctpAffair != null) {
                     V3xOrgMember member = orgManager.getMemberById(ctpAffair.getSenderId());
@@ -889,8 +932,18 @@ public class MenhuController extends BaseController {
 
             vo.setEntranceType(String.valueOf(enType));
             vo.setOwnerId(String.valueOf(ids.get(0)));
+            /**
+             *  this.accessOneTime(dr.getId(), dr.getIsLearningDoc(), !validUserId.equals(dr.getCreateUserId()));
+             if(this.docLibManager.getDocLibById(dr.getDocLibId()).getLogView()) {
+             this.operationlogManager.insertOplog(dr.getId(), Long.valueOf(dr.getParentFrId()), ApplicationCategoryEnum.doc, "log.doc.view", "log.doc.view.desc", new Object[]{AppContext.currentUserName(), dr.getFrName()});
+             }
+             */
+           // LoginHelper lr;
             String url = DocMVCUtils.getOpenKnowledgeUrl(po, enType.intValue(), this.getDocAclNewManager(), this.getDocHierarchyManager(), null);
-            vo.setLink("/seeyon/"+url);
+
+            url = "/seeyon"+url;
+            String link = Base64Util.encode(url);
+            vo.setLink("/seeyon/menhu.do?method=openLink&linkType=doc&id="+vo.getId()+"&link=" + link);
             voList.add(vo);
             vo.setId(po.getId());
             idList.add(po.getId());
@@ -937,14 +990,26 @@ public class MenhuController extends BaseController {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
 
             String departmentId = request.getParameter("deptId");
-            String sql = "from BulDataItem where state=30  order by createDate desc";
+            String departmentId2 = request.getParameter("deptId2");
+
+            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30 ");
             if (p.getTypeId() != null) {
-                sql = "from BulDataItem where state=30 and typeId=" + p.getTypeId() + " order by createDate desc";
+                sql.append(" and typeId=" + p.getTypeId());
             }
-            if (departmentId != null) {
-                sql = "from BulDataItem where state=30 and typeId=" + p.getTypeId() + " and publishDepartmentId=" + departmentId + " order by createDate desc";
+
+
+            if(departmentId2!=null&&departmentId!=null){
+                sql.append( " and departmentId in (" + departmentId +","+departmentId2+ ")" );
+
+            }else if(departmentId!=null||departmentId2!=null){
+                sql.append( " and departmentId = " + departmentId);
+            }else{
+                sql.append(" order by createDate desc");
             }
-            List<BulDataItem> dataList = DBAgent.find(sql);
+
+
+
+            List<BulDataItem> dataList = DBAgent.find(sql.toString());
             List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
             AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
             List<String> list = new ArrayList<String>();
@@ -1005,7 +1070,7 @@ public class MenhuController extends BaseController {
             vo.setId(String.valueOf(item.getId()));
             //  vo.setMimeTypes();
             // vo.setReadFlag();
-            DocHierarchyManager m;
+            //DocHierarchyManager m;
             vo.setLink("/seeyon/menhu.do?method=openLink&linkType=bul&id=" + item.getId());
             filledVo(vo);
 
@@ -1099,21 +1164,143 @@ public class MenhuController extends BaseController {
             }
         }
         if ("doc".equals(linkType)) {
-
-            DocController dbc = null;
-            Map<String, DocController> dataMaps = AppContext.getBeansOfType(DocController.class);
-            if (!CommonUtils.isEmpty(dataMaps)) {
-                dbc = dataMaps.values().iterator().next();
+            String link = request.getParameter("link");
+            String id = request.getParameter("id");
+            DocResourcePO dr = this.getDocHierarchyManager().getDocResourceById(CommonUtils.getLong(id));
+            if(dr!=null){
+                String sql = "select COUNT(*) from DocActionPO where actionUserId="+AppContext.currentUserId()+" and subjectId="+dr.getId()+" and actionType=3";
+                int count = DBAgent.count(sql);
+                if(count == 0){
+                    DocActionPO po = new DocActionPO();
+                    po.setActionTime(new Date());
+                    po.setSubjectId(dr.getId());
+                    po.setActionType(3);
+                    po.setIdIfNew();
+                    po.setActionUserId(AppContext.currentUserId());
+                    po.setDescription("read");
+                    po.setUserAccountId(AppContext.getCurrentUser().getAccountId());
+                    DBAgent.save(po);
+                }
             }
-            if (dbc != null) {
-                return dbc.knowledgeBrowse(request, response);
+           response.sendRedirect(Base64Util.decode(link));
+           return null;
+        }
+        if("affair".equals(linkType)){
+            String id = request.getParameter("id");
+            List<CtpAffair> affairsList = DBAgent.find("from CtpAffair where id="+id);
+            if(!CommonUtils.isEmpty(affairsList)){
+                CtpAffair ctpAffair= affairsList.get(0);
+
+                Long summaryId=ctpAffair.getObjectId();
+                Integer app= ctpAffair.getApp();
+                Integer state= ctpAffair.getState();
+                String url="";
+              String openFrom = "";
+                if(state==3){
+                    openFrom="listPending";
+
+                }else if(state==2){
+                    openFrom="listSent";
+                }else if(state==4){
+                    openFrom="listDone";
+                }else {
+                    openFrom="";
+                }
+                ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
+                switch(appEnum){
+                    case edoc:
+                    case edocSign:
+                    case edocRec:
+                    case edocSend:
+                    case edocRegister:
+                    case edocRecDistribute:{
+                        if(openFrom==""){
+                            openFrom="listPending";
+                        }
+                        if("listPending".equals(openFrom)){
+                            openFrom="Pending";
+                        }
+                        if("listDone".equals(openFrom)){
+                            openFrom="Done";
+                        }
+                        url = "/seeyon/edocController.do?method=detailIFrame&affairId="+ctpAffair.getId()+"&summaryId="+summaryId+"&From="+openFrom;
+                        break;
+                    }
+                    case collaboration:
+                    default:{
+                        url = "/seeyon/collaboration/collaboration.do?method=summary&affairId="+ctpAffair.getId()+"&summaryId="+summaryId+"&openFrom="+openFrom;
+
+                    }
+
+                }
+
+                response.sendRedirect(url);
+                return null;
+
             }
         }
         if ("form".equals(linkType)) {
             //TODO
+            ///seeyon/content/content.do?isFullPage=true&_isModalDialog=true&moduleId=5362885690085430039&moduleType=37&rightId=-7543887085843953036.-4745304762424997952&contentType=20&viewState=2
+            String id = request.getParameter("id");
+            List<CtpContentAll> cont = DBAgent.find("from CtpContentAll where content_data_id="+id);
+            if(!CommonUtils.isEmpty(cont)){
+                String url = "";
+                CtpContentAll cca= cont.get(0);
+                url = "/seeyon/content/content.do?isFullPage=true&_isModalDialog=false&moduleId="+cca.getModuleId()+"&moduleType="+cca.getModuleType()+"&rightId=&contentType="+cca.getContentType()+"&viewState=2";
+
+                response.sendRedirect(url);
+                MainbodyController mdc;
+            }
+
+            return null;
         }
         if ("supervise".equals(linkType)) {
+            String id = request.getParameter("id");
+            if(!CommonUtils.isEmpty(id)){
+                String sql ="select * from ctp_supervise_detail where id = "+id;
+                List<Map> data = DataBaseHelper.executeQueryByNativeSQL(sql);
+                if(!CommonUtils.isEmpty(data)){
+                    Map dataMap = data.get(0);
+                    Object affairId = dataMap.get("affair_id");
+                    Object summaryId = dataMap.get("entity_id");
+                    Integer app = Integer.parseInt(""+dataMap.get("app"));
+                    ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
+                    if(appEnum!=null){
+                        String url ="";
+                        switch(appEnum){
+                            case edoc:
+                            case edocSign:
+                            case edocRec:
+                            case edocSend:
+                            case edocRegister:
+                            case edocRecDistribute:{
+                                url = "/seeyon/edocController.do?method=detailIFrame&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
+                                break;
+                            }
+                            case collaboration:
+                            default:{
+                                url = "/seeyon/collaboration/collaboration.do?method=summary&affairId="+affairId+"&summaryId="+summaryId+"&openFrom=supervise&type=0";
 
+                            }
+
+                        }
+                        response.sendRedirect(url);
+                        return null;
+
+                    }else{
+
+                    }
+
+
+                }
+
+            }
+            //http://192.168.1.98:612/seeyon/edocController.do?method=detailIFrame&affairId=3979121591364177700&summaryId=1332069481704211477&openFrom=supervise&type=0
+
+
+        }
+        if("template".equals(linkType)){
 
         }
 

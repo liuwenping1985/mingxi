@@ -13,17 +13,21 @@
                 $(".lx-nav-item p").removeClass("lx-nav-this");
                 var e = e||window.event;
                 var target = e.target;
+                var link= $(target).attr("data-link");
+            
+               window.location.href=link; 
                 $(target).append(pointer);
                 $(target).addClass("lx-nav-this");
                 //$("").window.open("");
                
-                var link = $(target).attr("data-link");
-            
-                window.location.href="link";
-
+                
+              
             });
             $(".lx-changeFont-zq").click(function(e){
 
+                $("#sTab1").show();
+                $("#sTab2").show();
+                $("#sTab3").show();
                 $(".lx-changeFont-zq").removeClass("lx-nav-font");              
                 var e = e||window.event;
                 var target = e.target;
@@ -52,13 +56,7 @@
             // });
 
             $(".lx-btn-zq").click(function(e){
-                $(".lx-btn-zq").removeClass("lx-btn-zq1");
-                 e = e||window.event;
-                var target = e.target;
-                if(target.tagName=="span"||target.tagName=="SPAN"){
-                    target = $(target).parent();
-                }
-                $(target).addClass("lx-btn-zq1");
+               
             
             });
             

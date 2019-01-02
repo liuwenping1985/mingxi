@@ -21,6 +21,7 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
+import com.seeyon.ctp.common.template.enums.TemplateEnum;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
@@ -98,7 +99,7 @@ public class NbdController extends BaseController {
 
     }
 
-    @NeedlessCheckLogin
+
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
@@ -113,7 +114,9 @@ public class NbdController extends BaseController {
             //userLogoImage
             //${userName}
             OrgManager orgManager = (OrgManager) AppContext.getBean("orgManager");
-            mav.addObject("userName", user.getName());
+            mav.addObject("userName", user.getName());//加的。
+
+            mav.addObject("userLevel", user.getLevelId());//加的。
             V3xOrgDepartment department = null;
             try {
                 department = orgManager.getDepartmentById(user.getDepartmentId());
@@ -136,6 +139,7 @@ public class NbdController extends BaseController {
             try {
                 String logo = getAvatarImageUrl(orgManager.getMemberById(user.getId()));
                 mav.addObject("userLogoImage", logo);
+                mav.addObject("userId",user.getId());
             } catch (BusinessException e) {
                 e.printStackTrace();
                 mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
@@ -143,6 +147,7 @@ public class NbdController extends BaseController {
             //${userDepartment}
             //${userType}
         } else {
+            mav.addObject("userId","-1");
             mav.addObject("userName", "超电磁炮");
             mav.addObject("userType", "团委书记");
             mav.addObject("userDepartment", "小学三年级5班");
@@ -374,8 +379,10 @@ public class NbdController extends BaseController {
             String jsonMapString = JSON.toJSONString(template);
             Map map = JSON.parseObject(jsonMapString, HashMap.class);
             map.put("id", String.valueOf(map.get("id")));
+            map.put("link","/seeyon/menhu.do?method=openLink&linkType=template&id="+template.getId()+"&templateType="+template.getType());
             retList.add(map);
         }
+
         entity.setItems(retList);
         UIUtils.responseJSON(entity, response);
 

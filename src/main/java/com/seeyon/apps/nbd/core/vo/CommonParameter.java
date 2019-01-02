@@ -23,6 +23,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -101,49 +104,49 @@ public class CommonParameter extends HashMap {
                 e.printStackTrace();
             }
         }
+        try {
+            Enumeration<String> ps = request.getParameterNames();
+            while (ps.hasMoreElements()) {
+                String psCode = ps.nextElement();
+                parameter.put(psCode, URLDecoder.decode(request.getParameter(psCode), "utf-8"));
+            }
+            if (parameter.isEmpty()) {
+                Map<String, String[]> pMap = request.getParameterMap();
+                for (Entry<String, String[]> entry : pMap.entrySet()) {
 
-        Enumeration<String> ps = request.getParameterNames();
-        while (ps.hasMoreElements()) {
-            String psCode = ps.nextElement();
-            parameter.put(psCode, request.getParameter(psCode));
-        }
-        if (parameter.isEmpty()) {
-            Map<String, String[]> pMap = request.getParameterMap();
-            for (Entry<String, String[]> entry : pMap.entrySet()) {
+                    String key = entry.getKey();
+                    String[] values = entry.getValue();
+                    if (values != null) {
+                        if (values.length == 1) {
+                            parameter.put(key, URLDecoder.decode(values[0], "UTF-8"));
+                        } else {
+                            parameter.put(key, values);
+                        }
 
-                String key = entry.getKey();
-                String[] values = entry.getValue();
-                if (values != null) {
-                    if (values.length == 1) {
-                        parameter.put(key, values[0]);
                     } else {
-                        parameter.put(key, values);
+                        parameter.put(key, null);
                     }
-
-                } else {
-                    parameter.put(key, null);
                 }
+
             }
 
-        }
-        try {
             ServletInputStream inputStream = request.getInputStream();
             int i = 1;
             byte[] bs = new byte[1024];
             StringBuilder stb = new StringBuilder();
             while ((i = inputStream.read(bs)) != -1) {
                 String lens = new String(bs, 0, i);
-                lens = new String(lens.getBytes(),"utf-8");
+                lens = new String(lens.getBytes(), "utf-8");
                 stb.append(lens);
             }
             System.out.println(stb.toString());
-            String contentType = request.getContentType()+"";
+            String contentType = request.getContentType() + "";
             contentType = contentType.toLowerCase();
             if (contentType.contains(ContentType.APPLICATION_JSON.getMimeType())) {
                 if (!CommonUtils.isEmpty(stb.toString())) {
                     try {
                         Map map = JSON.parseObject(stb.toString(), HashMap.class);
-                        if(map!=null){
+                        if (map != null) {
                             parameter.putAll(map);
                         }
 
@@ -162,7 +165,7 @@ public class CommonParameter extends HashMap {
                         if (subVals.length != 2) {
                             parameter.put(subVals[0], "");
                         } else {
-                            parameter.put(subVals[0], subVals[1]);
+                            parameter.put(subVals[0], URLDecoder.decode(subVals[1], "UTF-8"));
                         }
                     }
                 }
@@ -226,5 +229,12 @@ public class CommonParameter extends HashMap {
 
     public void setRequest(HttpServletRequest request) {
         this.request = request;
+    }
+
+
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        String tt = "HZ%40123654";
+        System.out.println(URLDecoder.decode(tt, "UTF-8"));
+
     }
 }
