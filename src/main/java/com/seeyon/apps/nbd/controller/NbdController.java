@@ -99,7 +99,7 @@ public class NbdController extends BaseController {
 
     }
 
-
+    @NeedlessCheckLogin
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
@@ -145,11 +145,12 @@ public class NbdController extends BaseController {
             //${userDepartment}
             //${userType}
         } else {
-            mav.addObject("userId","-1");
-            mav.addObject("userName", "超电磁炮");
-            mav.addObject("userType", "团委书记");
-            mav.addObject("userDepartment", "小学三年级5班");
-            mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
+            try {
+                response.sendRedirect("/seeyon/main.do?method=main");
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return mav;
 
