@@ -383,10 +383,11 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     Long formRecordId = summary.getFormRecordid();
                     List<A8OutputVo> dataList = exportDataSingle(affairType, formRecordId);
                     if (!CommonUtils.isEmpty(dataList)) {
-
+                        System.out.println("SAVED-SAVED-SAVED");
 
                         DBAgent.save(dataList.get(0));
                        // DBAgent.save(dataList.get(0))
+                        System.out.println("AFTER-SAVED-SAVED");
                     }
 
                 }
