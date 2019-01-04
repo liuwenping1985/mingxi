@@ -112,34 +112,6 @@ public final class ProductInfo {
     public static final Integer DELAY_SHUTDOWN_MINUTES;
     private static Integer expireDayNum;
 
-    static {
-        fileSeparator = File.separator;
-        mocnoyeesA = null;
-        mocnoyeesVer = null;
-        isVerDev = false;
-        productLine = null;
-        appFolder = SystemEnvironment.getApplicationFolder();
-        if(MclclzUtil.sfsdflkjfl) {
-            appFolder = "D:/runtime/v5/ApacheJetspeed/webapps/seeyon";
-        }
-
-        versionFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "portaletMenu.js";
-        developEditionFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "partaletindev.js";
-        productFolder = (new File(appFolder)).getParentFile().getParentFile().getParentFile().getAbsolutePath();
-        BaseLicenseFolder = productFolder + fileSeparator + "base" + fileSeparator + "license";
-        lisenceFileFullPath = BaseLicenseFolder + fileSeparator;
-        signatureFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "publicinfomenu.js";
-        oldDog = null;
-        isOldTG = false;
-        mxProductLine = "M1";
-        isVJoinInited = false;
-        c3 = MclclzUtil.ioiekc("com.seeyon.ctp.permission.bo.LicensePerInfo");
-        ClusterTempHostNo = String.valueOf(UUID.randomUUID().getMostSignificantBits());
-        ClusterSlaveOK = false;
-        DELAY_SHUTDOWN_MINUTES = Integer.valueOf(10);
-        expireDayNum = null;
-    }
-
     public ProductInfo() {
     }
 
@@ -156,7 +128,7 @@ public final class ProductInfo {
                     while(!ClusterSlaveOK && var3++ < 10) {
                         try {
                             Thread.sleep(2000L);
-                        } catch (InterruptedException var13) {
+                        } catch (InterruptedException var14) {
                             ;
                         }
                     }
@@ -175,16 +147,16 @@ public final class ProductInfo {
             }
 
             if(isLoadDog) {
+                String msg;
                 try {
                     mocnoyeesVer = new VERMocnoyees(versionFileFullPath);
-                    String oem = mocnoyeesVer.methodg("");
-                    logger.info(mocnoyeesVer.methode("") + " " + mocnoyeesVer.methodc("") + " " + (oem == null?"":oem));
-                } catch (Throwable var12) {
-                    out("验证产品版本文件无效: " + var12.getMessage());
+                    msg = mocnoyeesVer.methodg("");
+                    logger.info(mocnoyeesVer.methode("") + " " + mocnoyeesVer.methodc("") + " " + (msg == null?"":msg));
+                } catch (Throwable var13) {
+                    out("验证产品版本文件无效: " + var13.getMessage());
                     return;
                 }
 
-                String msg;
                 if(isNCOEM()) {
                     logger.info("NC-OEM版开始初始化。");
                     this.initEditionNC();
@@ -199,7 +171,7 @@ public final class ProductInfo {
                         if(mocnoyeesVer.methoddev(developEditionFileFullPath)) {
                             isVerDev = true;
                         }
-                    } catch (Throwable var11) {
+                    } catch (Throwable var12) {
                         logger.info("不是开发版");
                     }
 
@@ -209,8 +181,8 @@ public final class ProductInfo {
                         oldDog = new OutNa();
                         oldDog.proc1(1);
                         isOldTG = oldDog.proc9();
-                    } catch (Throwable var17) {
-                        msg = var17.getMessage();
+                    } catch (Throwable var18) {
+                        msg = var18.getMessage();
                         if(msg.contains("3023") || msg.contains("1008") || msg.contains("2021") || msg.contains("2022") || msg.contains("2023")) {
                             out("D-" + msg);
                             return;
@@ -243,7 +215,7 @@ public final class ProductInfo {
                                 } else {
                                     try {
                                         lrwmmocnoyees = new LRWMMocnoyees(productLine);
-                                    } catch (Exception var10) {
+                                    } catch (Exception var11) {
                                         lrwmmocnoyees = new LRWMMocnoyees("UD");
                                         isOldTG = true;
                                         this.initDog2Cache();
@@ -272,8 +244,8 @@ public final class ProductInfo {
                                 if(!isOldTG && !String.valueOf(UserTypeEnum.internal.getKey()).equals(mocnoyeesA.methoda(productLine))) {
                                     this.checkProductInfo4DogAndProgram();
                                 }
-                            } catch (Throwable var14) {
-                                out("验证版本号和版本匹配情况异常: " + var14.getMessage());
+                            } catch (Throwable var15) {
+                                out("验证版本号和版本匹配情况异常: " + var15.getMessage());
                                 return;
                             }
 
@@ -284,14 +256,14 @@ public final class ProductInfo {
                                 CHKUMocnoyees.checkFile(signatureFileFullPath, rootFolder);
                             }
                         }
-                    } catch (DogException var15) {
-                        out("验证产品加密狗无效: " + var15.getErrorMsg());
-                        var15.printStackTrace();
-                        throw var15;
-                    } catch (Throwable var16) {
-                        out("验证产品加密狗无效: " + var16.getMessage());
+                    } catch (DogException var16) {
+                        out("验证产品加密狗无效: " + var16.getErrorMsg());
                         var16.printStackTrace();
-                        throw new DogException(var16);
+                        throw var16;
+                    } catch (Throwable var17) {
+                        out("验证产品加密狗无效: " + var17.getMessage());
+                        var17.printStackTrace();
+                        throw new DogException(var17);
                     }
 
                     this.initOnlineSize(isVerDev);
@@ -305,16 +277,15 @@ public final class ProductInfo {
             }
 
             this.checkProductInfoDBAndProgram();
-            //this.updateAccountBind();
             if(this.con != null) {
                 try {
                     this.con.close();
-                } catch (SQLException var9) {
+                } catch (SQLException var10) {
                     ;
                 }
             }
-        } catch (Exception var18) {
-            var18.printStackTrace();
+        } catch (Exception var19) {
+            var19.printStackTrace();
         }
 
         this.runExpireCheck((Map)null);
@@ -524,7 +495,7 @@ public final class ProductInfo {
                 HttpClientUtil h = new HttpClientUtil();
 
                 String re;
-                label141: {
+                label151: {
                     try {
                         re = join(plugin2NCProductCode.values(), ",");
                         h.open(url, "post");
@@ -535,9 +506,9 @@ public final class ProductInfo {
                         h.addParameter("B", plugin2NCProductCode.getProperty("M1"));
                         h.send();
                         result = h.getResponseBodyAsString((String)null);
-                        break label141;
-                    } catch (Throwable var25) {
-                        out("获取NC-OA产品加密信息失败[" + prefix + "]，通路异常: " + var25.getMessage());
+                        break label151;
+                    } catch (Throwable var26) {
+                        out("获取NC-OA产品加密信息失败[" + prefix + "]，通路异常: " + var26.getMessage());
                     } finally {
                         h.close();
                     }
@@ -559,15 +530,15 @@ public final class ProductInfo {
                         String[] lics = lic.split("[#]");
                         maxOnlineSize = NumberUtils.toInt(lics[0], 0);
                         int maxM1OnlineSize;
-                        if(maxOnlineSize > 0) {
-                            maxM1OnlineSize = NumberUtils.toInt(lics[1], 0);
-                            maxCompanySize = NumberUtils.toInt(lics[2], 0);
-
-                            for(int i = 3; i < lics.length; ++i) {
-                                String p = lics[i];
-                                pluginInfos.add((String)NCProductCodePlugin.get(p));
+                        if(maxOnlineSize <= 0) {
+                            if(maxOnlineSize != -1) {
+                                out("NC-OA产品加密信息无效: " + maxOnlineSize);
+                                return;
                             }
 
+                            maxOnlineSize = 5;
+                            maxM1OnlineSize = 3;
+                            pluginInfos.addAll(NCProductCodePlugin.values());
                             pluginInfos.add("nc");
                             pluginInfos.add("edoc");
                             pluginInfos.add("officeOcx");
@@ -580,14 +551,14 @@ public final class ProductInfo {
                             pluginInfos.add("lbs");
                             pluginInfos.add("advanceOffice");
                         } else {
-                            if(maxOnlineSize != -1) {
-                                out("NC-OA产品加密信息无效: " + maxOnlineSize);
-                                return;
+                            maxM1OnlineSize = NumberUtils.toInt(lics[1], 0);
+                            maxCompanySize = NumberUtils.toInt(lics[2], 0);
+
+                            for(int i = 3; i < lics.length; ++i) {
+                                String p = lics[i];
+                                pluginInfos.add((String)NCProductCodePlugin.get(p));
                             }
 
-                            maxOnlineSize = 5;
-                            maxM1OnlineSize = 3;
-                            pluginInfos.addAll(NCProductCodePlugin.values());
                             pluginInfos.add("nc");
                             pluginInfos.add("edoc");
                             pluginInfos.add("officeOcx");
@@ -611,9 +582,10 @@ public final class ProductInfo {
             } else {
                 out("验证NC-OA产品加密无效: 请先配置OA相关信息");
             }
-        } catch (Throwable var27) {
-            out("验证NC-OA产品加密无效e: [" + result + "]" + var27);
+        } catch (Throwable var28) {
+            out("验证NC-OA产品加密无效e: [" + result + "]" + var28);
         }
+
     }
 
     public static Map initDogBinding(String ver, String m1Lic) {
@@ -628,8 +600,8 @@ public final class ProductInfo {
                     Object maxOnline = licMap.get(ver + "MaxOnlineSize");
                     Object maxReg = licMap.get(ver + "MaxRegisterSize");
                     Object overDate = licMap.get(ver + "OverDate");
-                    curBindMap.put("MaxOnlineSize", "100");
-                    curBindMap.put("MaxRegisterSize", "10000");
+                    curBindMap.put("MaxOnlineSize", maxOnline);
+                    curBindMap.put("MaxRegisterSize", maxReg);
                     curBindMap.put("VersionName", licMap.get(ver + "VersionName"));
                     curBindMap.put("OverDate", overDate);
                     logger.info("初始化" + mxProductLine + "加密信息成功： " + maxOnline + " " + maxReg + " " + overDate);
@@ -697,6 +669,7 @@ public final class ProductInfo {
                 isVJoinInited = true;
             }
         }
+
     }
 
     private static boolean checkRongCloud() {
@@ -754,8 +727,8 @@ public final class ProductInfo {
         }
 
         Map<String, String> initM1 = new HashMap();
-        initM1.put("M1MaxOnlineSize", "200");
-        initM1.put("M1MaxRegisterSize", "10000");
+        initM1.put("M1MaxOnlineSize", maxOnline);
+        initM1.put("M1MaxRegisterSize", "100");
         initM1.put("M1VersionName", "2.0");
         initM1.put("M1OverDate", overDate);
         initM1.put("M1DogType", "1");
@@ -826,6 +799,7 @@ public final class ProductInfo {
         if(!mocnoyeesA.methoda(productLine).equals(String.valueOf(UserTypeEnum.internal.getKey()))) {
             mocnoyeesA.checkDatabase(this.getConnection());
         }
+
     }
 
     private static void initEdition() {
@@ -836,26 +810,27 @@ public final class ProductInfo {
         } else {
             ProductEditionEnum.initCurrentProductEdition(edition);
             productLine = mocnoyeesVer.methoda("productLine");
-            lisenceFileFullPath = lisenceFileFullPath + productLine.toLowerCase() + "." + "seeyonkey";
+            lisenceFileFullPath = lisenceFileFullPath + productLine.toLowerCase() + ".seeyonkey";
         }
+
     }
-    private int max_on_line = 100;
-    private int max_mx_on_line = 200;
-    private int max_reg = 1000;
+
     private void initOnlineSize(boolean isVerDev) {
         maxOnlineSize = 100;
-
-
     }
 
     private void initRegisterSize(boolean isVerDev) {
-        maxRegisterSize = 10000;
+        if(isVerDev) {
+            maxRegisterSize = 0;
+        } else if(isOldTG) {
+            maxRegisterSize = 0;
+        } else {
+            maxRegisterSize = NumberUtils.toInt(mocnoyeesA.methodq(productLine), 0);
+        }
 
     }
 
     public static boolean checkCrack() {
-
-
         return false;
     }
 
@@ -888,6 +863,7 @@ public final class ProductInfo {
         } else {
             out("版本文件版本号[" + mocnoyeesVerVersionNo + "]和加密狗版本号不一致[" + mocnoyeesDogVersionNo + "].");
         }
+
     }
 
     private void checkProductInfoDBAndProgram() {
@@ -901,11 +877,12 @@ public final class ProductInfo {
             if(productEdition != null && productEdition.equals(String.valueOf(currentProductEdition.getValue()))) {
                 logger.info("当前产品版本: " + currentProductEdition + "; " + getEditionA() + "; " + currentVersion.getCanonicalVersion());
             } else {
-                out(productLine + "数据表版本名称[" + productEdition + "]和" + "应用程序版本名称不一致[" + currentProductEdition.getValue() + "].\n说明:A6V5-1:A6企业,A6V5-2:A6-s版, A8V5-1:企业版, A8V5-2:集团版, G6V5-1:政务版, G6V5-2:政务多组织版, NCV5-1:NC协同OA");
+                out(productLine + "数据表版本名称[" + productEdition + "]和应用程序版本名称不一致[" + currentProductEdition.getValue() + "].\n说明:A6V5-1:A6企业,A6V5-2:A6-s版, A8V5-1:企业版, A8V5-2:集团版, G6V5-1:政务版, G6V5-2:政务多组织版, NCV5-1:NC协同OA");
             }
         } else {
             out(productLine + "数据表版本号[" + version + "]和" + productLine + "应用程序版本号不一致[" + currentVersion.getCanonicalVersion() + "].");
         }
+
     }
 
     private static ProductEditionEnum getCurrentProductEdition() {
@@ -917,7 +894,9 @@ public final class ProductInfo {
     }
 
     private static boolean checkPlugin(String pluginId) {
-        if(pluginInfos.contains(pluginId)) {
+        if("m3".equals(pluginId)) {
+            return true;
+        } else if(pluginInfos.contains(pluginId)) {
             return true;
         } else {
             try {
@@ -1136,8 +1115,8 @@ public final class ProductInfo {
             }
 
             logger.info("当前连接的产品为" + mxProductLine + "。");
-            String maxOnlineSize = "200";
-            String maxRegistSize = "10000";
+            String maxOnlineSize = (String)data.get("concurrentNum");
+            String maxRegistSize = (String)data.get("registerNum");
             String versionStr = (String)data.get("m1VersionNum");
             if(versionStr == null) {
                 versionStr = "5.0.0";
@@ -1152,8 +1131,8 @@ public final class ProductInfo {
             }
 
             Map<String, String> initM1 = new HashMap();
-            initM1.put("M1MaxOnlineSize", "200");
-            initM1.put("M1MaxRegisterSize", "10000");
+            initM1.put("M1MaxOnlineSize", maxOnlineSize);
+            initM1.put("M1MaxRegisterSize", "100");
             initM1.put("M1VersionName", versionName);
             initM1.put("M1OverDate", overDate);
             initM1.put("M1DogType", dogType);
@@ -1243,7 +1222,12 @@ public final class ProductInfo {
 
     /** @deprecated */
     public static int getM1MaxOnline() {
-        return 200;
+        if(isU8OEM()) {
+            return 0;
+        } else {
+            Map bindMap = (Map)dogBindingMap.get("M1");
+            return bindMap != null?NumberUtils.toInt((String)bindMap.get("MaxOnlineSize"), 0):0;
+        }
     }
 
     public static int getMxMaxOnline() {
@@ -1292,7 +1276,7 @@ public final class ProductInfo {
 
     /** @deprecated */
     public static int getM1MaxRegisterSize() {
-        return 10000;
+        return 100;
     }
 
     public static int getMxMaxRegisterSize() {
@@ -1501,5 +1485,33 @@ public final class ProductInfo {
         }
 
         return "";
+    }
+
+    static {
+        fileSeparator = File.separator;
+        mocnoyeesA = null;
+        mocnoyeesVer = null;
+        isVerDev = false;
+        productLine = null;
+        appFolder = SystemEnvironment.getApplicationFolder();
+        if(MclclzUtil.sfsdflkjfl) {
+            appFolder = "D:/runtime/v5/ApacheJetspeed/webapps/seeyon";
+        }
+
+        versionFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "portaletMenu.js";
+        developEditionFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "partaletindev.js";
+        productFolder = (new File(appFolder)).getParentFile().getParentFile().getParentFile().getAbsolutePath();
+        BaseLicenseFolder = productFolder + fileSeparator + "base" + fileSeparator + "license";
+        lisenceFileFullPath = BaseLicenseFolder + fileSeparator;
+        signatureFileFullPath = appFolder + fileSeparator + "common" + fileSeparator + "js" + fileSeparator + "ui" + fileSeparator + "publicinfomenu.js";
+        oldDog = null;
+        isOldTG = false;
+        mxProductLine = "M1";
+        isVJoinInited = false;
+        c3 = MclclzUtil.ioiekc("com.seeyon.ctp.permission.bo.LicensePerInfo");
+        ClusterTempHostNo = String.valueOf(UUID.randomUUID().getMostSignificantBits());
+        ClusterSlaveOK = false;
+        DELAY_SHUTDOWN_MINUTES = Integer.valueOf(10);
+        expireDayNum = null;
     }
 }
