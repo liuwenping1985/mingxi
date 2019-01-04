@@ -387,17 +387,39 @@ public class MenhuController extends BaseController {
          * http://培训系统网址/usLoginBySSO.jsp?token=aaa&url=us-home
          * String userSyncCode, String name, String content, Date createdTime, Integer validDays, String url
          */
+        preResponse(response);
+        Map<String, Object> data = genRet();
         String userSyncCode = request.getParameter("userSyncCode");
         String name = request.getParameter("name");
         String content = request.getParameter("content");
         String createdTime = request.getParameter("createdTime");
         String validDays = request.getParameter("validDays");
         String url = request.getParameter("url");
+        if(StringUtils.isEmpty(userSyncCode)){
+            data.put("msg","userSyncCode值为空 用户为空");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        if(StringUtils.isEmpty(name)){
+            data.put("msg","name为空");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+
+        Long userId = Long.parseLong(userSyncCode);
+        V3xOrgMember member = this.getOrgManager().getMemberById(userId);
+
+
         CtpAffair affair = new CtpAffair();
 
         affair.setState(3);
         affair.setIdentifier("outside");
         affair.setAddition(url);
+        affair.setSubject(StringUtils.isEmpty(name)?content:name);
+        affair.setMemberId(member.getId());
+        //affair
         //affair.setOverTime();
         affair.setMemberId(Long.parseLong(userSyncCode));
 
