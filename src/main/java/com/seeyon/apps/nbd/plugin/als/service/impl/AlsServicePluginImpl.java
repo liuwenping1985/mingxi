@@ -229,6 +229,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 }
             }
             System.out.println("dataList:"+dataList.size());
+            return dataList;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -382,7 +383,10 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     Long formRecordId = summary.getFormRecordid();
                     List<A8OutputVo> dataList = exportDataSingle(affairType, formRecordId);
                     if (!CommonUtils.isEmpty(dataList)) {
-                        DBAgent.saveAll(dataList);
+
+
+                        DBAgent.save(dataList.get(0));
+                       // DBAgent.save(dataList.get(0))
                     }
 
                 }
