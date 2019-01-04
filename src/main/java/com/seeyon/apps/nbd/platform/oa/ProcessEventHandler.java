@@ -62,6 +62,7 @@ public class ProcessEventHandler {
     public void onFinish(CollaborationFinishEvent event) {
         Long affairId = event.getAffairId();
         try {
+            System.out.println("ON---FINISH");
             CtpAffair ctpAffair = this.getAffairManager().get(affairId);
            // ctpAffair.getFormAppId();
             //ctpAffair.getFormId();
