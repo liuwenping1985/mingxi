@@ -1,8 +1,7 @@
 package com.seeyon.apps.nbd.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.po.DocLibPO;
-import com.seeyon.apps.doc.po.DocResourcePO;
+import com.seeyon.apps.nbd.constant.PageResourceConstant;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -12,6 +11,7 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.apps.nbd.vo.PageResourceVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.authenticate.domain.User;
@@ -21,14 +21,13 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
-import com.seeyon.ctp.common.template.enums.TemplateEnum;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.util.LightWeightEncoder;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,7 +98,7 @@ public class NbdController extends BaseController {
 
     }
 
-    @NeedlessCheckLogin
+
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
@@ -115,6 +114,8 @@ public class NbdController extends BaseController {
             //${userName}
             OrgManager orgManager = (OrgManager) AppContext.getBean("orgManager");
             mav.addObject("userName", user.getName());//加的。
+
+            mav.addObject("userDepartId", user.getDepartmentId());
             V3xOrgDepartment department = null;
             try {
                 department = orgManager.getDepartmentById(user.getDepartmentId());
@@ -123,6 +124,7 @@ public class NbdController extends BaseController {
             }
             if (department != null) {
                 mav.addObject("userDepartment", department.getName());
+
             } else {
                 mav.addObject("userDepartment", "中日中心");
             }
@@ -142,8 +144,11 @@ public class NbdController extends BaseController {
                 e.printStackTrace();
                 mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
             }
+            mav.addObject("pagePrivileges", PageResourceConstant.hasZRYQPrivilege(user)?"YES":"NO");
+
             //${userDepartment}
             //${userType}
+
         } else {
             try {
                 response.sendRedirect("/seeyon/main.do?method=main");
@@ -388,6 +393,22 @@ public class NbdController extends BaseController {
         return null;
     }
 
+
+
+
+
+
+    public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
+        User user =  AppContext.getCurrentUser();
+        Collection<PageResourceVo> voList = PageResourceConstant.getUserReportPrivileges(user);
+        NbdResponseEntity<PageResourceVo> entity = new NbdResponseEntity<PageResourceVo>();
+        entity.setResult(true);
+        List list = new ArrayList();
+        list.addAll(voList);
+        entity.setItems(list);;
+        UIUtils.responseJSON(entity,response);
+        return null;
+    }
     private void preHandleRequest(HttpServletRequest request, HttpServletResponse response) {
 
         nbdService.setRequest(request);
@@ -397,6 +418,10 @@ public class NbdController extends BaseController {
 
     public static void main(String[] args) {
 
+
+        //6wmVh2CifkRdCLY36FoY1x3UlWQ=
+
+        BulDataController bulDataController;
         //String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
         //System.out.println(codde);
     }

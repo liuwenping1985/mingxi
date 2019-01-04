@@ -55,7 +55,10 @@ public class CommonDataController extends BaseController {
 
         CommonParameter parameter = CommonParameter.parseParameter(request);
         String day = parameter.$("day");
-        String sql = "select * from zrzx_user_schedule where name='S_LEADER' and start_date <='" + day + "' and end_date>= '" + day + "'";
+        String startDay = day+" 23:59:59";
+        Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime()-24*3600*1000);
+        String endDay = CommonUtils.formatDate(endDayDate);
+        String sql = "select * from zrzx_user_schedule where name='S_LEADER' and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
         Collection<String> sLeaderName = ZrzxLeaderOutExportProcessor.S_LEADER.keySet();
         NbdResponseEntity entity = new NbdResponseEntity();
         try {
@@ -117,7 +120,11 @@ public class CommonDataController extends BaseController {
 
         CommonParameter parameter = CommonParameter.parseParameter(request);
         String day = parameter.$("day");
-        String sql = "select * from zrzx_user_schedule where name='M_LEADER' and start_date <='" + day + "' and end_date>= '" + day + "'";
+        //day = day+" 23:59:59";
+        String startDay = day+" 23:59:59";
+        Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime()-24*3600*1000);
+        String endDay = CommonUtils.formatDate(endDayDate);
+        String sql = "select * from zrzx_user_schedule where name='M_LEADER' and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
         Set<String> mLeaderName = ZrzxLeaderOutExportProcessor.M_LEADER.keySet();
         NbdResponseEntity entity = new NbdResponseEntity();
         try {
@@ -176,7 +183,11 @@ public class CommonDataController extends BaseController {
         }
         CommonParameter parameter = CommonParameter.parseParameter(request);
         String day = parameter.$("day");
-        String sql = "select * from zrzx_user_schedule where user_id="+user.getId()+" and start_date <='" + day + "' and end_date>= '" + day + "'";
+        String startDay = day+" 23:59:59";
+        Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime()-24*3600*1000);
+        String endDay = CommonUtils.formatDate(endDayDate);
+        //day = day+" 23:59:59";
+        String sql = "select * from zrzx_user_schedule where user_id="+user.getId()+" and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
         DataLink dl = ConfigService.getA8DefaultDataLink();
         List<ZrzxUserSchedule> mDataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl, ZrzxUserSchedule.class, sql);
         if(!CommonUtils.isEmpty(mDataList)){
