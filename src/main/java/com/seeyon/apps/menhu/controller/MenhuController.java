@@ -381,9 +381,68 @@ public class MenhuController extends BaseController {
         return null;
 
     }
+    @NeedlessCheckLogin
+    public ModelAndView receiveAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        /**
+         * http://培训系统网址/usLoginBySSO.jsp?token=aaa&url=us-home
+         * String userSyncCode, String name, String content, Date createdTime, Integer validDays, String url
+         */
+        String userSyncCode = request.getParameter("userSyncCode");
+        String name = request.getParameter("name");
+        String content = request.getParameter("content");
+        String createdTime = request.getParameter("createdTime");
+        String validDays = request.getParameter("validDays");
+        String url = request.getParameter("url");
+        CtpAffair affair = new CtpAffair();
+
+        affair.setState(3);
+        affair.setIdentifier("outside");
+        affair.setAddition(url);
+        //affair.setOverTime();
+        affair.setMemberId(Long.parseLong(userSyncCode));
 
 
-    public static void main(String[] args) {
+
+      return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView updateAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        /**
+         * http://培训系统网址/usLoginBySSO.jsp?token=aaa&url=us-home
+         * String userSyncCode, String name, String content, Date createdTime, Integer validDays, String url
+         */
+        String userSyncCode = request.getParameter("userSyncCode");
+        String name = request.getParameter("name");
+        String content = request.getParameter("content");
+        String createdTime = request.getParameter("createdTime");
+        String validDays = request.getParameter("validDays");
+        String url = request.getParameter("url");
+
+
+        return null;
+    }
+    @NeedlessCheckLogin
+    public ModelAndView deleteAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        /**
+         * http://培训系统网址/usLoginBySSO.jsp?token=aaa&url=us-home
+         * String userSyncCode, String name, String content, Date createdTime, Integer validDays, String url
+         */
+        String userSyncCode = request.getParameter("userSyncCode");
+        String name = request.getParameter("name");
+        String content = request.getParameter("content");
+        String createdTime = request.getParameter("createdTime");
+        String validDays = request.getParameter("validDays");
+        String url = request.getParameter("url");
+
+
+        return null;
+    }
+
+
+
+
+        public static void main(String[] args) {
         System.out.println("a");
 
     }
