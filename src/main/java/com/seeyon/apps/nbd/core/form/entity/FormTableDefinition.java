@@ -111,6 +111,7 @@ public class FormTableDefinition {
                 sff.setDisplay(ff.getDisplay());
                 sff.setName(ff.getName());
                 sff.setClassName(ff.getClassname());
+
                 sff.setValue(objs.get(ff.getName()));
                 sffList.add(sff);
             }

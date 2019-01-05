@@ -27,6 +27,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.JDBCAgent;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,21 +152,12 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 Map<Long, Map> masterTempMap = new HashMap<Long, Map>();
                 for (Map masterMap : list) {
                     Object id = masterMap.get("id");
-                    if (id != null) {
-                        if (id instanceof Long) {
-                            masterTempMap.put((Long) id, masterMap);
-                        } else if (id instanceof BigDecimal) {
-                            masterTempMap.put(((BigDecimal) id).longValue(), masterMap);
-                        } else {
-                            try {
-                                Long r_id = Long.parseLong(String.valueOf(id));
-                                masterTempMap.put(r_id, masterMap);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
 
+                    if (id != null) {
+                        Long key = getLong(id);
+                        masterTempMap.put(key,masterMap);
                     }
+
                 }
                 //System.out.println("master map:" + masterTempMap.values().size());
                 for (FormTable ft : slaveTables) {
@@ -186,19 +178,12 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                             Object fmId = slaveTableMap.get("formmain_id");
                             // System.out.println("fmId:"+fmId);
                             if (fmId != null) {
-                                Long key = null;
-                                if (fmId instanceof Long) {
-                                    key = (Long) fmId;
-                                } else if (fmId instanceof BigDecimal) {
-                                    key = ((BigDecimal) fmId).longValue();
-                                } else {
-                                    key = Long.parseLong(String.valueOf(fmId));
-                                }
+                                Long key = getLong(fmId);
                                 Map masterMap = masterTempMap.get(key);
                                 if (!CommonUtils.isEmpty(masterMap)) {
                                     //getDisplayText
                                     for (Object skey : slaveTableMap.keySet()) {
-                                        slaveTableMap.put(skey, getDisplayTextByValue("" + skey, "", slaveTableMap.get(skey)));
+                                        slaveTableMap.put(skey, getDisplayTextByValue(null,"" + skey, "", slaveTableMap.get(skey)));
 
                                     }
                                     List<Map> slaveMaps = (List<Map>) masterMap.get(ft.getDisplay());
@@ -237,7 +222,17 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         return dataList;
 
     }
-
+    private Long getLong(Object fmId){
+        Long key = null;
+        if (fmId instanceof Long) {
+            key = (Long) fmId;
+        } else if (fmId instanceof BigDecimal) {
+            key = ((BigDecimal) fmId).longValue();
+        } else {
+            key = Long.parseLong(String.valueOf(fmId));
+        }
+        return key;
+    }
     public List<A8OutputVo> exportData(String affairType) {
         List<A8OutputVo> dataList = new ArrayList<A8OutputVo>();
         if (!this.getSupportAffairTypes().contains(affairType)) {
@@ -248,7 +243,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
 
         try {
             //这里增加逻辑
-            String s_sql = sql + " where id not in (select source_id from A8FK2YW where type='" + affairType + "')";
+            String s_sql = sql + " where finishedflag=1 and id not in (select source_id from A8FK2YW where type='" + affairType + "')";
             // List<Map> idList = DataBaseHelper.executeQueryByNativeSQL(s_sql);
             //Map<Long,Object> idMap
 
@@ -262,19 +257,8 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 for (Map masterMap : list) {
                     Object id = masterMap.get("id");
                     if (id != null) {
-                        if (id instanceof Long) {
-                            masterTempMap.put((Long) id, masterMap);
-                        } else if (id instanceof BigDecimal) {
-                            masterTempMap.put(((BigDecimal) id).longValue(), masterMap);
-                        } else {
-                            try {
-                                Long r_id = Long.parseLong(String.valueOf(id));
-                                masterTempMap.put(r_id, masterMap);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
+                        Long key = getLong(id);
+                        masterTempMap.put(key,masterMap);
                     }
                 }
                 //System.out.println("master map:" + masterTempMap.values().size());
@@ -296,19 +280,19 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                             Object fmId = slaveTableMap.get("formmain_id");
                             // System.out.println("fmId:"+fmId);
                             if (fmId != null) {
-                                Long key = null;
-                                if (fmId instanceof Long) {
-                                    key = (Long) fmId;
-                                } else if (fmId instanceof BigDecimal) {
-                                    key = ((BigDecimal) fmId).longValue();
-                                } else {
-                                    key = Long.parseLong(String.valueOf(fmId));
-                                }
+                                Long key = getLong(fmId);
+//                                if (fmId instanceof Long) {
+//                                    key = (Long) fmId;
+//                                } else if (fmId instanceof BigDecimal) {
+//                                    key = ((BigDecimal) fmId).longValue();
+//                                } else {
+//                                    key = Long.parseLong(String.valueOf(fmId));
+//                                }
                                 Map masterMap = masterTempMap.get(key);
                                 if (!CommonUtils.isEmpty(masterMap)) {
                                     //getDisplayText
                                     for (Object skey : slaveTableMap.keySet()) {
-                                        slaveTableMap.put(skey, getDisplayTextByValue("" + skey, "", slaveTableMap.get(skey)));
+                                        slaveTableMap.put(skey, getDisplayTextByValue(null,"" + skey, "", slaveTableMap.get(skey)));
 
                                     }
                                     List<Map> slaveMaps = (List<Map>) masterMap.get(ft.getDisplay());
@@ -384,10 +368,30 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     List<A8OutputVo> dataList = exportDataSingle(affairType, formRecordId);
                     if (!CommonUtils.isEmpty(dataList)) {
                         System.out.println("SAVED-SAVED-SAVED");
-
-                        DBAgent.save(dataList.get(0));
+                        A8OutputVo vo = dataList.get(0);
+                        JDBCAgent agent = new JDBCAgent();
+                        String insert = "insert into A8FK2YW(id,subject,data,source_id,createdate,type,status,updatedate)values(?,?,?,?,?,?,?,?)";
+                        //agent.execute()
+                        //DBAgent.save(dataList.get(0));
                        // DBAgent.save(dataList.get(0))
-                        System.out.println("AFTER-SAVED-SAVED");
+                        List params = new ArrayList();
+                        params.add(vo.getId());
+                        params.add(vo.getSubject());
+                        params.add(vo.getData());
+                        params.add(vo.getSourceId());
+                        params.add(vo.getCreateDate());
+                        params.add(vo.getType());
+                        params.add(vo.getStatus());
+                        params.add(vo.getUpdateDate());
+                        try {
+                            int state = agent.execute(insert, params);
+                            System.out.println("AFTER-SAVED-SAVED:"+state);
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }finally {
+                            agent.close();
+                        }
+
                     }
 
                 }
@@ -436,7 +440,11 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         vo.setUpdateDate(vo.getCreateDate());
         vo.setType(affairType);
         //处理子表
-
+        for (SimpleFormField sff : sffList) {
+            if (sff.getName().toLowerCase().equals("id")) {
+                vo.setSourceId(CommonUtils.paserLong(sff.getValue()));
+            }
+        }
         //end of 处理
         for (SimpleFormField sff : sffList) {
             if (sff.getName().toLowerCase().equals("id")) {
@@ -452,19 +460,19 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
              * 翻译
              */
             // this.getCtpEnumItemById()
-            dataMap.put(sff.getDisplay(), getDisplayText(sff));
+            dataMap.put(sff.getDisplay(), getDisplayText(vo.getSourceId(),sff));
         }
         vo.setData(JSON.toJSONString(dataMap));
         vo.setIdIfNew();
         return vo;
     }
 
-    private Object getDisplayText(SimpleFormField sff) {
+    private Object getDisplayText(Long dataId,SimpleFormField sff) {
         Object val = sff.getValue();
-        return getDisplayTextByValue(sff.getDisplay(), sff.getClassName(), val);
+        return getDisplayTextByValue(dataId,sff.getDisplay(), sff.getClassName(), val);
     }
 
-    private Object getDisplayTextByValue(String displayName, String className, Object val) {
+    private Object getDisplayTextByValue(Long formDataId,String displayName, String className, Object val) {
         Long sid = null;
         try {
             if (val instanceof Long) {
@@ -522,7 +530,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 //System.out.println("---I am in attchment---:"+sff.getValue());
                 // String sql = "select * from ctp_attachment where id=" + sid + " or reference=" + sid + " or sub_reference=" + sid;
                 try {
-                    List<Map> dataList = getFiles(sid);
+                    List<Map> dataList = getFiles(formDataId,sid);
                     if (!CommonUtils.isEmpty(dataList)) {
                         Map<String, Map> checkFilesMap = new HashMap<String, Map>();
                         for (Map dts : dataList) {
@@ -590,6 +598,8 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
     }
 
     private static final List<Map> fileDataList = new ArrayList<Map>();
+    private static final Map<String,String> colSummaryIdMap = new HashMap<String,String>();
+
 
     private synchronized List<Map> getDataByCache() {
         if (fileDataList.isEmpty()) {
@@ -606,19 +616,61 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         }
         return fileDataList;
     }
+    private synchronized Map getColSummaryDataCache() {
+        if (colSummaryIdMap.isEmpty()) {
+            String sql = "SELECT id,form_recordid FROM col_summary WHERE form_recordid is not null";
+            try {
+                List<Map> dataList = DataBaseHelper.executeQueryByNativeSQL(sql);
+                if (dataList == null || CommonUtils.isEmpty(dataList)) {
+                    return colSummaryIdMap;
+                }
+                for(Map data:dataList){
+                    colSummaryIdMap.put(data.get("form_recordid").toString(),data.get("id").toString());
+                }
+                //colSummaryDataList.addAll(dataList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return colSummaryIdMap;
+    }
 
-    private List<Map> getFiles(Long id) {
+    private List<Map> getFiles(Long formDataId,Long id) {
 
         List<Map> dataList = this.getDataByCache();
         List<Map> retList = new ArrayList<Map>();
+        Map<String,String> summaryIdMap = getColSummaryDataCache();
         for (Map map : dataList) {
             Long fid = CommonUtils.getLong(map.get("id"));
             Long referenceId = CommonUtils.getLong(map.get("reference"));
             Long subReferenceId = CommonUtils.getLong(map.get("sub_reference"));
             if (id.equals(fid) || id.equals(referenceId) || id.equals(subReferenceId)) {
-                retList.add(map);
+                if(formDataId!=null){
+                    String val = summaryIdMap.get(String.valueOf(formDataId));
+                    if(val!=null){
+                        if(val.equals(String.valueOf(referenceId))){
+                            retList.add(map);
+                        }
+                    }else{
+                        retList.add(map);
+                    }
+
+                }else{
+                    retList.add(map);
+                }
+
+
             }
 
+        }
+        if(CommonUtils.isEmpty(retList)){
+            String sql = "select * from ctp_attachment where reference="+id+" or sub_reference="+id;
+            try {
+               List<Map> dataMap =  DataBaseHelper.executeQueryByNativeSQL(sql);
+               return dataMap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return retList;
     }
