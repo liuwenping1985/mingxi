@@ -120,6 +120,7 @@ public class MenhuController extends BaseController {
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
         response.setHeader("Access-Control-Max-Age", "3628800");
     }
+
     @NeedlessCheckLogin
     public ModelAndView showPending(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         //查用户信息
@@ -139,22 +140,21 @@ public class MenhuController extends BaseController {
                 data.put("msg", "根据登录名找不到用户");
                 data.put("data", "-1");
             } else {
-                AffairManager manager = (AffairManager)(AppContext.getBean("affairManager"));
+                AffairManager manager = (AffairManager) (AppContext.getBean("affairManager"));
                 CtpAffair affair = manager.get(Long.parseLong(affairId));
-                if(affair == null){
+                if (affair == null) {
                     data.put("msg", "根据待办id找不到待办，处理失败");
                     data.put("data", "-1");
-                }else{
+                } else {
                     ModelAndView mav = new ModelAndView("apps/menhu/pending");
 
-                    mav.addObject("affair",affair);
-                    
+                    mav.addObject("affair", affair);
+
                     mav.addObject("affairJSON", JSON.toJSONString(affair));
-                    mav.addObject("member",member);
-                    mav.addObject("memberJSON",JSON.toJSONString(member));
+                    mav.addObject("member", member);
+                    mav.addObject("memberJSON", JSON.toJSONString(member));
                     return mav;
                 }
-
 
 
             }
@@ -291,7 +291,7 @@ public class MenhuController extends BaseController {
                     if (StringUtils.isEmpty(myPath)) {
                         continue INNER_LABEL;
                     }
-                    if(myPath.equals(path)){
+                    if (myPath.equals(path)) {
                         vo2.setParentId(vo1.getId());
                     }
                 }
@@ -322,31 +322,31 @@ public class MenhuController extends BaseController {
             for (V3xOrgAccount account : orgAccounts) {
 
                 List<V3xOrgMember> members = this.getOrgManager().getAllMembers(account.getId());
-                if(CollectionUtils.isEmpty(members)){
+                if (CollectionUtils.isEmpty(members)) {
                     continue;
                 }
-                for(V3xOrgMember member:members){
+                for (V3xOrgMember member : members) {
                     MemberVo vo = new MemberVo();
                     vo.setActualName(member.getName());
                     Long postId = member.getOrgPostId();
-                    if(postId!=null){
+                    if (postId != null) {
                         V3xOrgPost post = this.getOrgManager().getPostById(postId);
-                        if(post!=null){
+                        if (post != null) {
                             vo.setDuty(post.getName());
                         }
 
-                    }else{
+                    } else {
                         vo.setDuty("");
 
                     }
                     Long levelId = member.getOrgLevelId();
-                    if(levelId!=null){
-                        V3xOrgLevel level =  this.getOrgManager().getLevelById(levelId);
-                        if(level!=null){
+                    if (levelId != null) {
+                        V3xOrgLevel level = this.getOrgManager().getLevelById(levelId);
+                        if (level != null) {
                             vo.setDutyRank(level.getName());
                         }
 
-                    }else{
+                    } else {
                         vo.setDutyRank("");
                     }
 
@@ -355,11 +355,11 @@ public class MenhuController extends BaseController {
                     vo.setId(String.valueOf(member.getId()));
                     vo.setOrganId(String.valueOf(member.getOrgDepartmentId()));
                     Integer gender = member.getGender();
-                    if(gender!=null){
-                        if(gender==-1){
+                    if (gender != null) {
+                        if (gender == -1) {
                             vo.setSex("其它");
-                        }else{
-                            vo.setSex(member.getGender()==1?"男":"女");
+                        } else {
+                            vo.setSex(member.getGender() == 1 ? "男" : "女");
                         }
                     }
                     vo.setName(member.getName());
@@ -369,8 +369,8 @@ public class MenhuController extends BaseController {
             }
             data.put("msg", "success");
             data.put("result", true);
-            data.put("items",voList);
-        }catch(Exception e){
+            data.put("items", voList);
+        } catch (Exception e) {
             data.put("result", false);
             data.put("msg", "错误：" + e.getMessage());
         }
@@ -380,6 +380,7 @@ public class MenhuController extends BaseController {
         return null;
 
     }
+
     @NeedlessCheckLogin
     public ModelAndView receiveAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         /**
@@ -388,69 +389,79 @@ public class MenhuController extends BaseController {
          */
         preResponse(response);
         Map<String, Object> data = genRet();
-        CommonParameter p = CommonParameter.parseParameter(request);
-        String userSyncCode = p.get("userSyncCode");
-        String name = p.get("name");
-        String content = p.get("content");
-        String createdTime = p.get("createdTime");
-        String validDays = p.get("validDays");
-        String url = p.get("url");
-        if(StringUtils.isEmpty(userSyncCode)){
-            data.put("msg","userSyncCode值为空 用户为空,传值因为用户ID");
-            data.put("result",false);
-            Helper.responseJSON(data, response);
-            return null;
-        }
-        if(StringUtils.isEmpty(name)){
-            data.put("msg","name为空");
-            data.put("result",false);
-            Helper.responseJSON(data, response);
-            return null;
-        }
-        if(StringUtils.isEmpty(url)){
-            data.put("msg","添加失败,url为空，待办无法处理");
-            data.put("result",false);
-            Helper.responseJSON(data, response);
-            return null;
-        }
-        CtpAffair affair = new CtpAffair();
-        if(!StringUtils.isEmpty(createdTime)){
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
 
-            try{
-                Date ft = format.parse(createdTime);
-                affair.setCreateDate(ft);
-            }catch (Exception e){
-
+            CommonParameter p = CommonParameter.parseParameter(request);
+            String userSyncCode = p.$("userSyncCode");
+            String name = p.$("name");
+            String content = p.$("content");
+            String createdTime = p.$("createdTime");
+            String validDays = p.$("validDays");
+            String url = p.$("url");
+            if (StringUtils.isEmpty(userSyncCode)) {
+                data.put("msg", "userSyncCode值为空 用户为空,传值因为用户ID");
+                data.put("result", false);
+                Helper.responseJSON(data, response);
+                return null;
             }
-        }else{
-            affair.setCreateDate(new Date());
-        }
-        if(!StringUtils.isEmpty(validDays)){
-            try {
-                Integer days = Integer.parseInt(validDays);
-                affair.setOverTime(days*3600*24*1000L);
-            }catch(Exception e){
-
+            if (StringUtils.isEmpty(name)) {
+                data.put("msg", "name为空");
+                data.put("result", false);
+                Helper.responseJSON(data, response);
+                return null;
             }
+            if (StringUtils.isEmpty(url)) {
+                data.put("msg", "添加失败,url为空，待办无法处理");
+                data.put("result", false);
+                Helper.responseJSON(data, response);
+                return null;
+            }
+            CtpAffair affair = new CtpAffair();
+            if (!StringUtils.isEmpty(createdTime)) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                try {
+                    Date ft = format.parse(createdTime);
+                    affair.setCreateDate(ft);
+                } catch (Exception e) {
+
+                }
+            } else {
+                affair.setCreateDate(new Date());
+            }
+            if (!StringUtils.isEmpty(validDays)) {
+                try {
+                    Integer days = Integer.parseInt(validDays);
+                    affair.setOverTime(days * 3600 * 24 * 1000L);
+                } catch (Exception e) {
+
+                }
+            }
+
+            Long userId = Long.parseLong(userSyncCode);
+            V3xOrgMember member = this.getOrgManager().getMemberById(userId);
+
+            affair.setState(3);
+            affair.setIdentifier("outside");
+            affair.setAddition(url);
+            affair.setSubject(StringUtils.isEmpty(name) ? content : name);
+            affair.setMemberId(member.getId());
+            //Helper.parseCommonTypeParameter()
+            //affair
+            //affair.setOverTime();
+            affair.setMemberId(Long.parseLong(userSyncCode));
+            affair.setIdIfNew();
+            affair.setSenderId(affair.getMemberId());
+            affair.setApp(20);
+            DBAgent.save(affair);
+            data.put("data", affair);
+            Helper.responseJSON(data, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.put("msg", e.getMessage());
+            data.put("result",false);
+
         }
-
-        Long userId = Long.parseLong(userSyncCode);
-        V3xOrgMember member = this.getOrgManager().getMemberById(userId);
-
-        affair.setState(3);
-        affair.setIdentifier("outside");
-        affair.setAddition(url);
-        affair.setSubject(StringUtils.isEmpty(name)?content:name);
-        affair.setMemberId(member.getId());
-       //Helper.parseCommonTypeParameter()
-        //affair
-        //affair.setOverTime();
-        affair.setMemberId(Long.parseLong(userSyncCode));
-        affair.setIdIfNew();
-        DBAgent.save(affair);
-        data.put("data",affair);
-        Helper.responseJSON(data, response);
         return null;
     }
 
@@ -463,27 +474,28 @@ public class MenhuController extends BaseController {
         preResponse(response);
         Map<String, Object> data = genRet();
         String affairId = request.getParameter("affairId");
-        AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
-        if(StringUtils.isEmpty(affairId)){
-            data.put("msg","affairId为空,传值因为affairId");
-            data.put("result",false);
+        AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
+        if (StringUtils.isEmpty(affairId)) {
+            data.put("msg", "affairId为空,传值因为affairId");
+            data.put("result", false);
             Helper.responseJSON(data, response);
             return null;
         }
         CtpAffair affair = affairManager.get(Long.parseLong(affairId));
-        if(affair == null){
-            data.put("msg","affair为空,根据affairId找不到待办");
-            data.put("result",false);
+        if (affair == null) {
+            data.put("msg", "affair为空,根据affairId找不到待办");
+            data.put("result", false);
             Helper.responseJSON(data, response);
             return null;
         }
         affair.setState(4);
 
         DBAgent.update(affair);
-        data.put("data",affair);
+        data.put("data", affair);
         Helper.responseJSON(data, response);
         return null;
     }
+
     @NeedlessCheckLogin
     public ModelAndView deleteAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         /**
@@ -493,30 +505,28 @@ public class MenhuController extends BaseController {
         preResponse(response);
         Map<String, Object> data = genRet();
         String affairId = request.getParameter("affairId");
-        AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
-        if(StringUtils.isEmpty(affairId)){
-            data.put("msg","affairId为空,传值因为affairId");
-            data.put("result",false);
+        AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
+        if (StringUtils.isEmpty(affairId)) {
+            data.put("msg", "affairId为空,传值因为affairId");
+            data.put("result", false);
             Helper.responseJSON(data, response);
             return null;
         }
         CtpAffair affair = affairManager.get(Long.parseLong(affairId));
-        if(affair == null){
-            data.put("msg","affair为空,根据affairId找不到待办");
-            data.put("result",false);
+        if (affair == null) {
+            data.put("msg", "affair为空,根据affairId找不到待办");
+            data.put("result", false);
             Helper.responseJSON(data, response);
             return null;
         }
         DBAgent.delete(affair);
-        data.put("data",affair);
+        data.put("data", affair);
         Helper.responseJSON(data, response);
         return null;
     }
 
 
-
-
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         System.out.println("a");
 
     }

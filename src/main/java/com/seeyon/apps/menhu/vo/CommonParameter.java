@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Created by liuwenping on 2019/1/7.
  */
@@ -18,7 +19,7 @@ public class CommonParameter extends HashMap {
 
 
     public static CommonParameter parseParameter(HttpServletRequest request) {
-       // boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        // boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         CommonParameter parameter = new CommonParameter();
 
 //        List<Attachment> list = null;
@@ -60,7 +61,7 @@ public class CommonParameter extends HashMap {
                 lens = new String(lens.getBytes(), "utf-8");
                 stb.append(lens);
             }
-           // System.out.println(stb.toString());
+            // System.out.println(stb.toString());
             String contentType = request.getContentType() + "";
             contentType = contentType.toLowerCase();
             if (contentType.contains(ContentType.APPLICATION_JSON.getMimeType())) {
@@ -99,6 +100,16 @@ public class CommonParameter extends HashMap {
 
         return parameter;
 
+    }
+
+    public String $(String key) {
+        Object val = this.get(key);
+        return val == null ? null : val.toString();
+    }
+
+    public CommonParameter $(String key, Object val) {
+        this.put(key, val);
+        return this;
     }
 
 
