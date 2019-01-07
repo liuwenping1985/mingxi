@@ -8,6 +8,7 @@ import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.m3.core.controller.M3CoreController;
 import com.seeyon.apps.menhu.util.Helper;
+import com.seeyon.apps.menhu.vo.CommonParameter;
 import com.seeyon.apps.menhu.vo.MemberVo;
 import com.seeyon.apps.menhu.vo.OrgVo;
 import com.seeyon.ctp.common.AppContext;
@@ -387,12 +388,13 @@ public class MenhuController extends BaseController {
          */
         preResponse(response);
         Map<String, Object> data = genRet();
-        String userSyncCode = request.getParameter("userSyncCode");
-        String name = request.getParameter("name");
-        String content = request.getParameter("content");
-        String createdTime = request.getParameter("createdTime");
-        String validDays = request.getParameter("validDays");
-        String url = request.getParameter("url");
+        CommonParameter p = CommonParameter.parseParameter(request);
+        String userSyncCode = p.get("userSyncCode");
+        String name = p.get("name");
+        String content = p.get("content");
+        String createdTime = p.get("createdTime");
+        String validDays = p.get("validDays");
+        String url = p.get("url");
         if(StringUtils.isEmpty(userSyncCode)){
             data.put("msg","userSyncCode值为空 用户为空,传值因为用户ID");
             data.put("result",false);
