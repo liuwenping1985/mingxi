@@ -442,22 +442,22 @@ public class MenhuController extends BaseController {
         try {
             String orgSql = "from NewsDataItem where state=30 and typeId=1 and deleted_flag=0 ";
             //scope
-            StringBuilder stb = new StringBuilder();
+//            StringBuilder stb = new StringBuilder();
 
-            stb.append(" and (");
-            User user = AppContext.getCurrentUser();
-            //3连，account,dept,member
-            List<String> scopeCause = getScopeLikeCause(user);
-
-
-            if(CommonUtils.isEmpty(scopeCause)){
-                stb.append("1=1");
-            }else{
-                stb.append(DataBaseHelper.join(scopeCause," or "));
-            }
-            stb.append(") ");
-            //scope
-            orgSql+=stb.toString();
+//            stb.append(" and (");
+//            User user = AppContext.getCurrentUser();
+//            //3连，account,dept,member
+//            List<String> scopeCause = getScopeLikeCause(user);
+//
+//
+//            if(CommonUtils.isEmpty(scopeCause)){
+//                stb.append("1=1");
+//            }else{
+//                stb.append(DataBaseHelper.join(scopeCause," or "));
+//            }
+//            stb.append(") ");
+//            //scope
+//            orgSql+=stb.toString();
             orgSql+="order by createDate desc";
 //
            // sql.append(stb.toString());
@@ -490,7 +490,7 @@ public class MenhuController extends BaseController {
             }
 
             String deptSql = "from NewsDataItem where state=30 and typeId!=1 and deleted_flag=0 ";
-            deptSql+=stb.toString();
+
             deptSql+="order by createDate desc";
             newsDataItemList = DBAgent.find(deptSql);
             if (!CommonUtils.isEmpty(newsDataItemList)) {
@@ -1136,6 +1136,16 @@ public class MenhuController extends BaseController {
         List<String> scopeCauseList = new ArrayList<String>();
         scopeCauseList.add("publish_scope like '%Account|"+accountId+"%'");
         scopeCauseList.add("publish_scope like '%Department|"+deptId+"%'");
+        //找这个部分的上级部门
+        try {
+            V3xOrgDepartment pDept =  this.getOrgManager().getParentDepartment(deptId);
+            while(pDept!=null){
+                scopeCauseList.add("publish_scope like '%Department|"+pDept.getId()+"%'");
+                pDept =  this.getOrgManager().getParentDepartment(pDept.getId());
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
         scopeCauseList.add("publish_scope like '%Member|"+userId+"%'");
         try {
             List<V3xOrgTeam> teams =  this.getOrgManager().getTeamsByMember(userId,accountId);
