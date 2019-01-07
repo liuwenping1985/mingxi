@@ -1,6 +1,7 @@
 package com.seeyon.apps.menhu.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.controller.CollaborationController;
 import com.seeyon.apps.doc.manager.DocAclNewManager;
 import com.seeyon.apps.doc.manager.DocHierarchyManager;
 import com.seeyon.apps.doc.manager.DocLibManager;
@@ -37,6 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -507,6 +509,9 @@ public class MenhuController extends BaseController {
         preResponse(response);
         Map<String, Object> data = genRet();
         String affairId = request.getParameter("affairId");
+        if(affairId==null){
+            affairId = request.getParameter("jobId");
+        }
         AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
         if (StringUtils.isEmpty(affairId)) {
             data.put("msg", "affairId为空,传值因为affairId");
@@ -540,6 +545,9 @@ public class MenhuController extends BaseController {
         preResponse(response);
         Map<String, Object> data = genRet();
         String affairId = request.getParameter("affairId");
+        if(affairId==null){
+            affairId = request.getParameter("jobId");
+        }
         AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
         if (StringUtils.isEmpty(affairId)) {
             data.put("msg", "affairId为空,传值因为affairId");
@@ -563,10 +571,35 @@ public class MenhuController extends BaseController {
         return null;
     }
 
+    @NeedlessCheckLogin
+    public ModelAndView openLink(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        String affairId = request.getParameter("affairId");
+        AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
 
+        CtpAffair affair = affairManager.get(Long.parseLong(affairId));
+        if (StringUtils.isEmpty(affair)) {
+            data.put("msg", "affair为空,affairId:"+affairId);
+            data.put("result", false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        String link = affair.getAddition();
+        try {
+            response.sendRedirect(link);
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ModelAndView mav = new ModelAndView("");
+
+        return mav;
+        //CollaborationController
+    }
     public static void main(String[] args) {
         System.out.println("a");
-
+        CollaborationController cm;
     }
 
 
