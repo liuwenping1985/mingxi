@@ -87,6 +87,7 @@ public class CommonParameter extends HashMap {
                         if (subVals.length != 2) {
                             parameter.put(subVals[0], "");
                         } else {
+                            //\b 去掉
                             parameter.put(subVals[0], URLDecoder.decode(subVals[1], "UTF-8"));
                         }
                     }

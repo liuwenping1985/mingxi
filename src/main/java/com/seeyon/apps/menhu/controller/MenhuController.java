@@ -11,8 +11,11 @@ import com.seeyon.apps.menhu.util.Helper;
 import com.seeyon.apps.menhu.vo.CommonParameter;
 import com.seeyon.apps.menhu.vo.MemberVo;
 import com.seeyon.apps.menhu.vo.OrgVo;
+import com.seeyon.apps.taskmanage.enums.ImportantLevelEnums;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.content.affair.AffairManager;
+import com.seeyon.ctp.common.content.affair.constants.StateEnum;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
@@ -440,7 +443,12 @@ public class MenhuController extends BaseController {
 
             Long userId = Long.parseLong(userSyncCode);
             V3xOrgMember member = this.getOrgManager().getMemberById(userId);
-
+            if (member==null) {
+                data.put("msg", "根据userSyncCode值查找用户为空");
+                data.put("result", false);
+                Helper.responseJSON(data, response);
+                return null;
+            }
             affair.setState(3);
             affair.setIdentifier("outside");
             affair.setAddition(url);
@@ -452,7 +460,32 @@ public class MenhuController extends BaseController {
             affair.setMemberId(Long.parseLong(userSyncCode));
             affair.setIdIfNew();
             affair.setSenderId(affair.getMemberId());
-            affair.setApp(20);
+
+
+            affair.setApp(Integer.valueOf(ApplicationCategoryEnum.collaboration.ordinal()));
+
+            affair.putExtraAttr("linkAddress", url);
+            affair.putExtraAttr("outside_affair", "YES");
+            affair.setUpdateDate(new Date());
+            affair.setReceiveTime(new Date());
+            affair.setSubState(11);
+            //affair.setSenderId(sender.getId());
+
+            affair.setObjectId(Long.valueOf(0L));
+            affair.setActivityId(Long.valueOf(0L));
+            affair.setNodePolicy("collaboration");
+            affair.setBodyType("20");
+            affair.setTrack(Integer.valueOf(0));
+            affair.setDealTermType(Integer.valueOf(0));
+            affair.setDealTermUserid(Long.valueOf(-1L));
+            affair.setSubApp(Integer.valueOf(0));
+
+            affair.setImportantLevel(Integer.valueOf(ImportantLevelEnums.general.getKey()));
+            affair.setState(Integer.valueOf(StateEnum.col_pending.key()));
+            Long accountId = member.getOrgAccountId();
+            if(accountId != null) {
+                affair.setOrgAccountId(accountId);
+            }
             DBAgent.save(affair);
             data.put("data", affair);
             Helper.responseJSON(data, response);
@@ -488,7 +521,9 @@ public class MenhuController extends BaseController {
             Helper.responseJSON(data, response);
             return null;
         }
-        affair.setState(4);
+        affair.setState(Integer.valueOf(StateEnum.col_done.key()));
+        affair.setFinish(true);
+        affair.setSubState(null);
 
         DBAgent.update(affair);
         data.put("data", affair);
@@ -519,6 +554,9 @@ public class MenhuController extends BaseController {
             Helper.responseJSON(data, response);
             return null;
         }
+        affair.setDelete(true);
+        affair.setFinish(true);
+        affair.setState(4);
         DBAgent.delete(affair);
         data.put("data", affair);
         Helper.responseJSON(data, response);
