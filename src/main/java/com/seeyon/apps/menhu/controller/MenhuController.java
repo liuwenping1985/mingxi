@@ -436,9 +436,6 @@ public class MenhuController extends BaseController {
         Long userId = Long.parseLong(userSyncCode);
         V3xOrgMember member = this.getOrgManager().getMemberById(userId);
 
-
-
-
         affair.setState(3);
         affair.setIdentifier("outside");
         affair.setAddition(url);
