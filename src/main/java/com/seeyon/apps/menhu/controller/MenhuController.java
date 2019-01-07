@@ -33,10 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class MenhuController extends BaseController {
@@ -396,7 +394,7 @@ public class MenhuController extends BaseController {
         String validDays = request.getParameter("validDays");
         String url = request.getParameter("url");
         if(StringUtils.isEmpty(userSyncCode)){
-            data.put("msg","userSyncCode值为空 用户为空");
+            data.put("msg","userSyncCode值为空 用户为空,传值因为用户ID");
             data.put("result",false);
             Helper.responseJSON(data, response);
             return null;
@@ -407,41 +405,84 @@ public class MenhuController extends BaseController {
             Helper.responseJSON(data, response);
             return null;
         }
+        if(StringUtils.isEmpty(url)){
+            data.put("msg","添加失败,url为空，待办无法处理");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        CtpAffair affair = new CtpAffair();
+        if(!StringUtils.isEmpty(createdTime)){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            try{
+                Date ft = format.parse(createdTime);
+                affair.setCreateDate(ft);
+            }catch (Exception e){
+
+            }
+        }else{
+            affair.setCreateDate(new Date());
+        }
+        if(!StringUtils.isEmpty(validDays)){
+            try {
+                Integer days = Integer.parseInt(validDays);
+                affair.setOverTime(days*3600*24*1000L);
+            }catch(Exception e){
+
+            }
+        }
 
         Long userId = Long.parseLong(userSyncCode);
         V3xOrgMember member = this.getOrgManager().getMemberById(userId);
 
 
-        CtpAffair affair = new CtpAffair();
+
 
         affair.setState(3);
         affair.setIdentifier("outside");
         affair.setAddition(url);
         affair.setSubject(StringUtils.isEmpty(name)?content:name);
         affair.setMemberId(member.getId());
+       //Helper.parseCommonTypeParameter()
         //affair
         //affair.setOverTime();
         affair.setMemberId(Long.parseLong(userSyncCode));
-
-
-
-      return null;
+        affair.setIdIfNew();
+        DBAgent.save(affair);
+        data.put("data",affair);
+        Helper.responseJSON(data, response);
+        return null;
     }
 
     @NeedlessCheckLogin
-    public ModelAndView updateAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+    public ModelAndView fininshAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         /**
          * http://培训系统网址/usLoginBySSO.jsp?token=aaa&url=us-home
          * String userSyncCode, String name, String content, Date createdTime, Integer validDays, String url
          */
-        String userSyncCode = request.getParameter("userSyncCode");
-        String name = request.getParameter("name");
-        String content = request.getParameter("content");
-        String createdTime = request.getParameter("createdTime");
-        String validDays = request.getParameter("validDays");
-        String url = request.getParameter("url");
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        String affairId = request.getParameter("affairId");
+        AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
+        if(StringUtils.isEmpty(affairId)){
+            data.put("msg","affairId为空,传值因为affairId");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        CtpAffair affair = affairManager.get(Long.parseLong(affairId));
+        if(affair == null){
+            data.put("msg","affair为空,根据affairId找不到待办");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        affair.setState(4);
 
-
+        DBAgent.update(affair);
+        data.put("data",affair);
+        Helper.responseJSON(data, response);
         return null;
     }
     @NeedlessCheckLogin
@@ -450,14 +491,26 @@ public class MenhuController extends BaseController {
          * http://培训系统网址/usLoginBySSO.jsp?token=aaa&url=us-home
          * String userSyncCode, String name, String content, Date createdTime, Integer validDays, String url
          */
-        String userSyncCode = request.getParameter("userSyncCode");
-        String name = request.getParameter("name");
-        String content = request.getParameter("content");
-        String createdTime = request.getParameter("createdTime");
-        String validDays = request.getParameter("validDays");
-        String url = request.getParameter("url");
-
-
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        String affairId = request.getParameter("affairId");
+        AffairManager affairManager = (AffairManager)AppContext.getBean("affairManager");
+        if(StringUtils.isEmpty(affairId)){
+            data.put("msg","affairId为空,传值因为affairId");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        CtpAffair affair = affairManager.get(Long.parseLong(affairId));
+        if(affair == null){
+            data.put("msg","affair为空,根据affairId找不到待办");
+            data.put("result",false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        DBAgent.delete(affair);
+        data.put("data",affair);
+        Helper.responseJSON(data, response);
         return null;
     }
 
