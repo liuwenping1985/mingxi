@@ -27,7 +27,6 @@ import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
-import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,6 +115,7 @@ public class NbdController extends BaseController {
             mav.addObject("userName", user.getName());//加的。
 
             mav.addObject("userDepartId", user.getDepartmentId());
+            mav.addObject("userLevel", user.getLevelId());
             V3xOrgDepartment department = null;
             try {
                 department = orgManager.getDepartmentById(user.getDepartmentId());
@@ -145,6 +145,8 @@ public class NbdController extends BaseController {
                 mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
             }
             mav.addObject("pagePrivileges", PageResourceConstant.hasZRYQPrivilege(user)?"YES":"NO");
+            mav.addObject("pagePrivileges_huiyi", PageResourceConstant.hasHuiYiAllPrivilege(user)?"YES":"NO");
+            mav.addObject("pagePrivileges_richeng", PageResourceConstant.hasRiChenPrivilege(user)?"YES":"NO");
 
             //${userDepartment}
             //${userType}
@@ -421,7 +423,7 @@ public class NbdController extends BaseController {
 
         //6wmVh2CifkRdCLY36FoY1x3UlWQ=
 
-        BulDataController bulDataController;
+
         //String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
         //System.out.println(codde);
     }

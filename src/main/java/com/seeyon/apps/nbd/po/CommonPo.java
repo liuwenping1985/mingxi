@@ -123,7 +123,7 @@ public class CommonPo {
             sql = "delete from \""+table+"\" where \"id\"="+this.getId();
         }
         DataBaseHelper.executeUpdateBySQLAndLink(dl,sql);
-        DataBaseHelper.persistCommonVo(dl,this);
+       // DataBaseHelper.persistCommonVo(dl,this);
     }
 
     public String getExtString1() {

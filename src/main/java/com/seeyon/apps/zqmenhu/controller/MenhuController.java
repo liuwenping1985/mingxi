@@ -1,7 +1,6 @@
 package com.seeyon.apps.zqmenhu.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.controller.DocController;
 import com.seeyon.apps.doc.dao.DocResourceDao;
 import com.seeyon.apps.doc.manager.DocAclNewManager;
 import com.seeyon.apps.doc.manager.DocHierarchyManager;
@@ -9,7 +8,6 @@ import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocActionPO;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
-import com.seeyon.apps.doc.po.DocTypePO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.doc.util.DocMVCUtils;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
@@ -32,11 +30,8 @@ import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.MessageEncoder;
-import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.common.taglibs.functions.Functions;
-import com.seeyon.ctp.login.online.OnlineChecker;
 import com.seeyon.ctp.login.online.OnlineManager;
-import com.seeyon.ctp.login.online.OnlineManagerImpl;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
@@ -45,13 +40,13 @@ import com.seeyon.ctp.portal.controller.PortalController;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
-import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.controller.BulDataController;
 import com.seeyon.v3x.bulletin.domain.BulType;
+import com.seeyon.v3x.bulletin.manager.BulDataManager;
+import com.seeyon.v3x.bulletin.portal.section.BulletinSection;
 import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsType;
-import com.seeyon.v3x.personalaffair.controller.IndividualManagerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -445,7 +440,27 @@ public class MenhuController extends BaseController {
         CommonResultVo data = new CommonResultVo();
 
         try {
-            String orgSql = "from NewsDataItem where state=30 and typeId=1 and deleted_flag=0 order by createDate desc";
+            String orgSql = "from NewsDataItem where state=30 and typeId=1 and deleted_flag=0 ";
+            //scope
+            StringBuilder stb = new StringBuilder();
+
+            stb.append(" and (");
+            User user = AppContext.getCurrentUser();
+            //3连，account,dept,member
+            List<String> scopeCause = getScopeLikeCause(user);
+
+
+            if(CommonUtils.isEmpty(scopeCause)){
+                stb.append("1=1");
+            }else{
+                stb.append(DataBaseHelper.join(scopeCause," or "));
+            }
+            stb.append(") ");
+            //scope
+            orgSql+=stb.toString();
+            orgSql+="order by createDate desc";
+//
+           // sql.append(stb.toString());
             String orgCountStr = request.getParameter("orgCount");
             String deptCountStr = request.getParameter("deptCount");
 
@@ -474,7 +489,9 @@ public class MenhuController extends BaseController {
                 }
             }
 
-            String deptSql = "from NewsDataItem where state=30 and typeId!=1 and deleted_flag=0 order by createDate desc";
+            String deptSql = "from NewsDataItem where state=30 and typeId!=1 and deleted_flag=0 ";
+            deptSql+=stb.toString();
+            deptSql+="order by createDate desc";
             newsDataItemList = DBAgent.find(deptSql);
             if (!CommonUtils.isEmpty(newsDataItemList)) {
                 int size = newsDataItemList.size();
@@ -557,7 +574,7 @@ public class MenhuController extends BaseController {
             if (user == null) {
                 sql1 = "select * from ctp_supervise_detail";
             } else {
-                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName() + "%' and status=0 order by create_date desc";
+                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName() + "%' and status=0 and app=1 order by create_date desc";
             }
 
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
@@ -605,7 +622,11 @@ public class MenhuController extends BaseController {
                 sql.append(" and typeId=" + p.getTypeId());
             }
 
+            //scope
+
             sql.append(" order by createDate desc");
+
+
 
             //DBAgent.find
             Integer offset = p.getOffset();
@@ -672,7 +693,7 @@ public class MenhuController extends BaseController {
             if (departmentId != null) {
                 sql.append(" and publishDepartmentId=" + departmentId);
             }
-
+            //scope
             sql.append(" order by createDate desc");
             Integer offset = p.getOffset();
             if (offset == null) {
@@ -1033,8 +1054,27 @@ public class MenhuController extends BaseController {
             } else if (departmentId != null || departmentId2 != null) {
                 sql.append(" and publishDepartmentId = " + departmentId);
             }
-            sql.append(" order by top_order desc,createDate desc");
 
+            //scope
+            StringBuilder stb = new StringBuilder();
+
+            stb.append(" and (");
+            User user = AppContext.getCurrentUser();
+            //3连，account,dept,member
+            List<String> scopeCause = getScopeLikeCause(user);
+
+
+            if(CommonUtils.isEmpty(scopeCause)){
+                stb.append("1=1");
+            }else{
+                stb.append(DataBaseHelper.join(scopeCause," or "));
+            }
+            stb.append(")");
+            //scope
+
+            sql.append(stb.toString());
+            sql.append(" order by top_order desc,createDate desc");
+            System.out.println(sql);
             Integer offset = p.getOffset();
             if (offset == null) {
                 offset = 0;
@@ -1049,7 +1089,7 @@ public class MenhuController extends BaseController {
             info.setPage(offset / limit);
             info.setSize(limit);
             List<BulDataItem> dataList = DBAgent.find(sql.toString(),null,info);
-          //  List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
+            //  List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
 //            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
 //            List<String> list = new ArrayList<String>();
 //            for (BulDataItem item : dataList) {
@@ -1066,6 +1106,9 @@ public class MenhuController extends BaseController {
 //                }
 //            }
 
+
+           // BulDataManager manager = (BulDataManager)AppContext.getBean("bulDataManager");
+           // manager.findByReadUserForIndex();
             List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList, p);
             data.setItems(transToBulVo(pagingBulsDataList));
             //Flag flag = null;
@@ -1083,7 +1126,30 @@ public class MenhuController extends BaseController {
         Helper.responseJSON(data, response);
         return null;
     }
+    private List<String> getScopeLikeCause(User user){
+        if(user==null){
+            return null;
+        }
+        Long userId = user.getId();
+        Long deptId = user.getDepartmentId();
+        Long accountId = user.getAccountId();
+        List<String> scopeCauseList = new ArrayList<String>();
+        scopeCauseList.add("publish_scope like '%Account|"+accountId+"%'");
+        scopeCauseList.add("publish_scope like '%Department|"+deptId+"%'");
+        scopeCauseList.add("publish_scope like '%Member|"+userId+"%'");
+        try {
+            List<V3xOrgTeam> teams =  this.getOrgManager().getTeamsByMember(userId,accountId);
+            if(!CommonUtils.isEmpty(teams)){
+                for(V3xOrgTeam team:teams){
+                    scopeCauseList.add("publish_scope like '%Team|"+team.getId()+"%'");
+                }
+            }
 
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        return scopeCauseList;
+    }
     private List<BulsVo> transToBulVo(List<BulDataItem> bulsDataList) {
         List<BulsVo> retList = new ArrayList<BulsVo>();
         if (CollectionUtils.isEmpty(bulsDataList)) {
@@ -1269,6 +1335,60 @@ public class MenhuController extends BaseController {
                     case collaboration:
                     default: {
                         url = "/seeyon/collaboration/collaboration.do?method=summary&affairId=" + ctpAffair.getId() + "&summaryId=" + summaryId + "&openFrom=" + openFrom;
+
+                    }
+
+                }
+
+                response.sendRedirect(url);
+                return null;
+
+            }
+        }
+        if("affair".equals(linkType)){
+            String id = request.getParameter("id");
+            List<CtpAffair> affairsList = DBAgent.find("from CtpAffair where id="+id);
+            if(!CommonUtils.isEmpty(affairsList)){
+                CtpAffair ctpAffair= affairsList.get(0);
+
+                Long summaryId=ctpAffair.getObjectId();
+                Integer app= ctpAffair.getApp();
+                Integer state= ctpAffair.getState();
+                String url="";
+                String openFrom = "";
+                if(state==3){
+                    openFrom="listPending";
+
+                }else if(state==2){
+                    openFrom="listSent";
+                }else if(state==4){
+                    openFrom="listDone";
+                }else {
+                    openFrom="";
+                }
+                ApplicationCategoryEnum appEnum = ApplicationCategoryEnum.valueOf(app);
+                switch(appEnum){
+                    case edoc:
+                    case edocSign:
+                    case edocRec:
+                    case edocSend:
+                    case edocRegister:
+                    case edocRecDistribute:{
+                        if(openFrom==""){
+                            openFrom="listPending";
+                        }
+                        if("listPending".equals(openFrom)){
+                            openFrom="Pending";
+                        }
+                        if("listDone".equals(openFrom)){
+                            openFrom="Done";
+                        }
+                        url = "/seeyon/edocController.do?method=detailIFrame&affairId="+ctpAffair.getId()+"&summaryId="+summaryId+"&From="+openFrom;
+                        break;
+                    }
+                    case collaboration:
+                    default:{
+                        url = "/seeyon/collaboration/collaboration.do?method=summary&affairId="+ctpAffair.getId()+"&summaryId="+summaryId+"&openFrom="+openFrom;
 
                     }
 

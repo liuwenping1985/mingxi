@@ -8,7 +8,6 @@ import com.seeyon.ctp.common.content.mainbody.MainbodyType;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
-import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.TemplateManager;
 import com.seeyon.ctp.form.bean.FormBean;
@@ -20,11 +19,8 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.manager.OrgManagerDirect;
 import com.seeyon.ctp.services.CTPLocator;
 import com.seeyon.ctp.util.json.JSONUtil;
-import com.seeyon.ctp.workflow.supernode.WorkflowSuperNodeApi;
 import com.seeyon.oainterface.common.PropertyList;
 import com.seeyon.v3x.edoc.dao.EdocOpinionDao;
-import com.seeyon.v3x.services.ErrorServiceMessage;
-import com.seeyon.v3x.services.ServiceException;
 import com.seeyon.v3x.services.document.DocumentFactory;
 import com.seeyon.v3x.services.flow.FlowFactory;
 import com.seeyon.v3x.services.flow.FlowService;
@@ -66,10 +62,10 @@ public class NbdBpmnService {
     private OrgManager orgManager;
     private OrgManagerDirect orgManagerDirect;
     private CommentManager commentManager;
-    private WorkflowSuperNodeApi api;
+    //private WorkflowSuperNodeApi api;
 
 
-    public long sendCollaboration(String templateCode, Map<String, Object> param) throws ServiceException, Exception, BusinessException {
+    public long sendCollaboration(String templateCode, Map<String, Object> param) throws  Exception, BusinessException {
         String transfertype = "xml";
         transfertype = (String) param.get("transfertype");
         Map<String, Object> mapError = new HashMap();
@@ -77,6 +73,7 @@ public class NbdBpmnService {
             param = this.jsonValueToXml(param, templateCode);
             System.out.println(param);
             if (param == null) {
+                //com.seeyon.ctp.workflow.supernode.
                 mapError.put("success", Boolean.valueOf(false));
                 mapError.put("msg", "转换JSON失败！");
                 throw new RuntimeException("转换JSON失败！");
@@ -147,7 +144,7 @@ public class NbdBpmnService {
 
             return summaryId;
         } else {
-            throw new ServiceException(ErrorServiceMessage.flowTempleExist.getErroCode(), ErrorServiceMessage.flowTempleExist.getValue() + ":" + templateCode);
+            throw new Exception( "模板编号不存在:" + templateCode);
         }
     }
 
@@ -414,13 +411,13 @@ public class NbdBpmnService {
         this.commentManager = commentManager;
     }
 
-    public WorkflowSuperNodeApi getApi() {
-        return api;
-    }
-
-    public void setApi(WorkflowSuperNodeApi api) {
-        this.api = api;
-    }
+//    public WorkflowSuperNodeApi getApi() {
+//        return api;
+//    }
+//
+//    public void setApi(WorkflowSuperNodeApi api) {
+//        this.api = api;
+//    }
 
 
     private Map<String, Object> jsonValueToXml(Map<String, Object> param, String templateCode) {
@@ -438,7 +435,7 @@ public class NbdBpmnService {
 
         try {
             templateXml = this.getFlowFactory().getTemplateXml(templateCode);
-        } catch (ServiceException var28) {
+        } catch (Exception var28) {
             var28.printStackTrace();
         }
 
@@ -573,7 +570,7 @@ public class NbdBpmnService {
         }
     }
 
-    public String getTemplateXml(String templateCode) throws ServiceException {
+    public String getTemplateXml(String templateCode) throws Exception {
         CtpTemplate template = this.getTemplateManager().getTempleteByTemplateNumber(templateCode);
         String result = "";
         if(template != null && template.getWorkflowId() != null) {
@@ -585,7 +582,7 @@ public class NbdBpmnService {
                 try {
                     formBean = this.getFormManager().getFormByFormCode(template);
                 } catch (BusinessException var19) {
-                    throw new ServiceException(var19.getLocalizedMessage());
+                    throw new Exception(var19.getLocalizedMessage());
                 }
 
                 List<DefinitionExport> define = new ArrayList();
@@ -627,7 +624,7 @@ public class NbdBpmnService {
 
             return result;
         } else {
-            throw new ServiceException(ErrorServiceMessage.flowTempleExist.getErroCode(), ErrorServiceMessage.flowTempleExist.getValue() + ":" + templateCode);
+            throw new Exception("模板id不存在:" + templateCode);
         }
     }
 
