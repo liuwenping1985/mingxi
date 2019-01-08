@@ -1547,16 +1547,63 @@ public class MenhuController extends BaseController {
         return null;
     }
 
-    private List<String> genCauseList(String condition){
+    private static List<String> genCauseList(String condition){
+        //todo 逻辑没有写完，需要递归调用
         List<String> causeList = new ArrayList<String>();
         String[] conditions = condition.split("_and_");
+        List<String> opps = new ArrayList<String>();
+        for(String cd:conditions){
+            if(CommonUtils.isEmpty(cd)){
 
+                continue;
+            }
+            opps.add("and");
+            String[] cds = cd.split("_or_");
+            if(cds.length==1){
+                opps.add("or");
+            }else{
+
+            }
+            for(String result:cds){
+                String[] vals = result.split("_ne_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"<>"+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_eq_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"="+"'"+vals[1]+"'");
+                    continue;
+                }
+                //gt(>) , lt(<),gte(>=),lte(<=)
+                vals = result.split("_gt_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+">"+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_lt_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"<"+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_gte_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+">="+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_lte_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"<="+"'"+vals[1]+"'");
+
+                }
+
+            }
+        }
         return causeList;
     }
 
     public static void main(String[] args) {
-
-        System.out.println("a");
+        //System.out.println(genCauseList("key1_ne_value1_and_key2_eq_value2_or_key3_lte_value3"));
 
     }
 

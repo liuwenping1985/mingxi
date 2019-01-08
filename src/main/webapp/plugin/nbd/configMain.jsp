@@ -495,12 +495,13 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="layui-form-item">
                     <label class="layui-form-label">A8表单模板编号</label>
                     <div class="layui-input-inline">
                         <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect2">
                             <!-- <option value="api">接口传输</option>
-                                            <option value="ws">WebService服务</option> -->
+                                <option value="ws">WebService服务</option> -->
 
                         </select>
 

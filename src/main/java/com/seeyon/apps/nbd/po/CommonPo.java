@@ -119,9 +119,7 @@ public class CommonPo {
     public void delete(DataLink dl){
         String table = CommonUtils.camelToUnderline(this.getClass().getSimpleName());
         String sql = "delete from "+table+" where id="+this.getId();
-        if("1".equals(dl.getDbType())){
-            sql = "delete from \""+table+"\" where \"id\"="+this.getId();
-        }
+
         DataBaseHelper.executeUpdateBySQLAndLink(dl,sql);
        // DataBaseHelper.persistCommonVo(dl,this);
     }

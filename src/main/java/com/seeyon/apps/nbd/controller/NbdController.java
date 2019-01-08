@@ -97,7 +97,7 @@ public class NbdController extends BaseController {
 
     }
 
-
+    
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
@@ -107,6 +107,9 @@ public class NbdController extends BaseController {
 
 
         ModelAndView mav = new ModelAndView("apps/nbd/" + page);
+
+
+
         User user = AppContext.getCurrentUser();
         if (user != null) {
             //userLogoImage

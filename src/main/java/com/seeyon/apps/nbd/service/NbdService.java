@@ -105,7 +105,7 @@ public class NbdService {
         return loginControl;
     }
 
-        public NbdResponseEntity lanchForm(CommonParameter p){
+        public NbdResponseEntity lanch(CommonParameter p){
             NbdResponseEntity entity = new NbdResponseEntity();
             entity.setResult(false);
             String affairType = p.$("affairType");
@@ -125,8 +125,11 @@ public class NbdService {
                 //这里分为两段逻辑
                 //从外部接受存入底表和表单,先写表单的
                for(OtherToA8ConfigEntity otace:otaceList){
-                    if("1".equals(otace.getTriggerProcess())){
+                    //先判断是否是更新
+                   String update_key = otace.getPeriod();
 
+                    if("1".equals(otace.getTriggerProcess())){
+                        //-- otace.getExtString1();
                         CommonParameter cp = new CommonParameter();
                         cp.$("id",otace.getId());
                         cp.$("data_type",NbdConstant.OTHER_TO_A8);

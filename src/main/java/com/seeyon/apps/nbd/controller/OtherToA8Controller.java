@@ -33,7 +33,7 @@ public class OtherToA8Controller extends BaseController {
         CommonUtils.processCrossOriginResponse(response);
         CommonParameter parameter = CommonParameter.parseParameter(request);
         try {
-            NbdResponseEntity entity = getNbdService().lanchForm(parameter);
+            NbdResponseEntity entity = getNbdService().lanch(parameter);
             UIUtils.responseJSON(entity, response);
         } catch (Exception e) {
             UIUtils.responseJSON("ERROR", response);
