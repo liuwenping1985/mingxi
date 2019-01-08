@@ -43,8 +43,6 @@ import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.controller.BulDataController;
 import com.seeyon.v3x.bulletin.domain.BulType;
-import com.seeyon.v3x.bulletin.manager.BulDataManager;
-import com.seeyon.v3x.bulletin.portal.section.BulletinSection;
 import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsType;
 import org.slf4j.Logger;
@@ -1507,6 +1505,9 @@ public class MenhuController extends BaseController {
              *   （key1 = value1 and key2!=value2） or key3 <value3
              *  注:括号不可少
              */
+            List<String> gcList = genCauseList(condition);
+            whereStr = DataBaseHelper.join(gcList," ");
+
         }
         if (CommonUtils.isEmpty(columns)) {
             columns = "*";
@@ -1546,7 +1547,15 @@ public class MenhuController extends BaseController {
         return null;
     }
 
+    private List<String> genCauseList(String condition){
+        List<String> causeList = new ArrayList<String>();
+        String[] conditions = condition.split("_and_");
+
+        return causeList;
+    }
+
     public static void main(String[] args) {
+
         System.out.println("a");
 
     }
