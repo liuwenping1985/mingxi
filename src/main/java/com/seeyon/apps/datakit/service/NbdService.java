@@ -796,11 +796,6 @@ public class NbdService {
                         currentUser.setLoginAccount(loginAccount.getId());
                         currentUser.setLoginAccountName(loginAccount.getName());
                         currentUser.setLoginAccountShortName(loginAccount.getShortName());
-//                        try {
-//                           // currentUser.setExternalType(member.getExternalType());
-//                        }catch(Error e){
-//                            e.printStackTrace();
-//                        }
                         String name = null;
                         if (member.getIsAdmin().booleanValue()) {
                             if (loginControl.getOrgManager().isAuditAdminById(Long.valueOf(userId)).booleanValue()) {

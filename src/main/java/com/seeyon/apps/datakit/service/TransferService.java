@@ -100,18 +100,6 @@ public class TransferService {
      'enum_2_value': "枚举转枚举值",
      'file_2_downlaod': "附件转http下载"
      */
-    /**
-     'normal': "默认不转换",
-     'id_2_org_code': "单位转编码",
-     'id_2_org_name': "单位转名称",
-     'id_2_dept_code': "部门转编码",
-     'id_2_dept_name': "部门转名称", getDepartmentsByName
-     'id_2_person_code': "人员转编码",
-     'id_2_person_name': "人员转名称",
-     'enum_2_name': "枚举转名称",
-     'enum_2_value': "枚举转枚举值",
-     'file_2_downlaod': "附件转http下载"
-     */
     public Object transForm2Other(FormField formField, Object val){
         final String st = formField.getClassname();
         try {
