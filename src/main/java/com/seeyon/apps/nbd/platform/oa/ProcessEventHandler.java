@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.platform.oa;
 
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
+import com.seeyon.apps.collaboration.manager.ColManagerImpl;
 import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.nbd.controller.NbdController;
 import com.seeyon.apps.nbd.core.config.ConfigService;
@@ -18,6 +19,8 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import com.seeyon.v3x.services.flow.FlowUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 import java.util.HashMap;
@@ -27,7 +30,7 @@ import java.util.Map;
  * Created by liuwenping on 2018/8/20.
  */
 public class ProcessEventHandler {
-
+    private static final Log log = LogFactory.getLog(ProcessEventHandler.class);
 
     private ColManager colManager;
 
@@ -39,7 +42,7 @@ public class ProcessEventHandler {
         if(this.colManager == null) {
             this.colManager = (ColManager) AppContext.getBean("colManager");
         }
-
+        ColManagerImpl impl;
         return this.colManager;
     }
     public AffairManager getAffairManager() {
@@ -62,7 +65,7 @@ public class ProcessEventHandler {
     public void onFinish(CollaborationFinishEvent event) {
         Long affairId = event.getAffairId();
         try {
-            System.out.println("ON---FINISH");
+            log.error("ON---FINISH");
             CtpAffair ctpAffair = this.getAffairManager().get(affairId);
            // ctpAffair.getFormAppId();
             //ctpAffair.getFormId();
@@ -71,6 +74,9 @@ public class ProcessEventHandler {
                 NbdController.setPSM(new PluginServiceManagerImpl());
                 psm = NbdController.getPSM();
             }
+
+            log.error("ctpAffair:"+ctpAffair.getId());
+
             psm.getServicePlugins().get(0).exportData(ctpAffair);
         } catch (BusinessException e) {
             e.printStackTrace();

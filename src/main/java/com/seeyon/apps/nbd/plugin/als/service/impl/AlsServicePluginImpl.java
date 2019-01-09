@@ -13,7 +13,6 @@ import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
-import com.seeyon.apps.nbd.platform.oa.ProcessEventHandler;
 import com.seeyon.apps.nbd.plugin.als.po.A8OutputVo;
 import com.seeyon.apps.nbd.plugin.als.service.AbstractAlsServicePlugin;
 import com.seeyon.ctp.common.AppContext;
@@ -28,14 +27,12 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.JDBCAgent;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.JSONObject;
 import org.json.XML;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -43,6 +40,8 @@ import java.util.*;
  * Created by liuwenping on 2018/9/7.
  */
 public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
+    private static final Log log222 = LogFactory.getLog(AlsServicePluginImpl.class);
+
     private LogBuilder log = new LogBuilder("Export_LOG");
     private EnumManager enumManager;
 
@@ -141,7 +140,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
         FormTableDefinition ftd = this.getFormTableDefinition(affairType);
         String sql = ftd.genAllQuery();
         sql += " where t.id=" + formRecrodId;
-
+        log.log(sql);
         try {
             List<Map> list = DataBaseHelper.executeQueryByNativeSQL(sql);
             log.log(ftd.getFormTable().getName() + "master table data size:" + list.size());
@@ -194,7 +193,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                                     }
                                     slaveMaps.add(slaveTableMap);
                                     if (tag == 0) {
-                                        System.out.println(slaveTableMap);
+                                        //System.out.println(slaveTableMap);
                                         tag++;
                                     }
                                 } else {
@@ -213,12 +212,13 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     dataList.add(a8OutputVo);
                 }
             }
-            System.out.println("dataList:"+dataList.size());
+            log.log("dataList:"+dataList.size());
             return dataList;
         } catch (Exception e) {
+            log222.error(e.getMessage(),e);
             e.printStackTrace();
         }
-        System.out.println(" end of export master table");
+       // log.log(" end of export master table");
         return dataList;
 
     }
@@ -340,7 +340,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
     public List<A8OutputVo> exportData(CtpAffair affair) {
 
         Long templateId = affair.getTempleteId();
-        System.out.println("templateId:"+templateId);
+        log.log("templateId:"+templateId);
         if (templateId != null) {
             String sql = "select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where id=" + templateId + "))";
             try {
@@ -355,9 +355,9 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 FormTableDefinition ftd = manager.parseFormTableMapping(data);
                 //只是为了得个表名
                 String tbName = ftd.getFormTable().getName().toLowerCase();
-                System.out.println("tbName:"+tbName);
+                log.log("tbName:"+tbName);
                 String affairType = mappingTable.get(tbName);
-                System.out.println("affairType:"+affairType);
+                log.log("affairType:"+affairType);
                 if (!CommonUtils.isEmpty(affairType)) {
 
                     Long summaryId = affair.getObjectId();
@@ -367,7 +367,7 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                     Long formRecordId = summary.getFormRecordid();
                     List<A8OutputVo> dataList = exportDataSingle(affairType, formRecordId);
                     if (!CommonUtils.isEmpty(dataList)) {
-                        System.out.println("SAVED-SAVED-SAVED");
+                        log.log("SAVED-SAVED-SAVED");
                         A8OutputVo vo = dataList.get(0);
                         JDBCAgent agent = new JDBCAgent();
                         String insert = "insert into A8FK2YW(id,subject,data,source_id,createdate,type,status,updatedate)values(?,?,?,?,?,?,?,?)";
@@ -385,8 +385,10 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                         params.add(vo.getUpdateDate());
                         try {
                             int state = agent.execute(insert, params);
-                            System.out.println("AFTER-SAVED-SAVED:"+state);
+                            log.log("AFTER-SAVED-SAVED:"+state);
                         }catch(Exception e){
+                            log.log("exception-message:"+e.getMessage());
+                            log222.error(e.getMessage(),e);
                             e.printStackTrace();
                         }finally {
                             agent.close();
@@ -397,6 +399,8 @@ public class AlsServicePluginImpl extends AbstractAlsServicePlugin {
                 }
 
             } catch (Exception e) {
+                log.log("exception-message:"+e.getMessage());
+                log222.error(e.getMessage(),e);
                 e.printStackTrace();
             }
 
