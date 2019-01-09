@@ -1,9 +1,10 @@
 $(document).ready(function(){
     lx.use(["jquery", "carousel", "element", "row", "col", "sTab", "mTab", "list", "lunbo", "mixed", "datepicker", "laydate"], function () {
         var url_repo={
-            "data_link":"data_link.html"
-        }
-
+            "data_link":"data_link.html",
+            "a82other":"a82other.html",
+            "other2a8":"other2a8.html"
+        };
         var page_prop={
             "data_link":{
                 name:"data_link",
@@ -51,13 +52,12 @@ $(document).ready(function(){
                 legendName:"表单对接列表",
                 columns:[
                     {"name":"","width":"40"},
-                    {"name":"连接名称","width":"150"},
-                    {"name":"地址","width":"200"},
-                    {"name":"端口","width":"150"},
-                    {"name":"数据库类型","width":"150"},
-                    {"name":"用户名","width":"200"},
-                    {"name":"数据库名","width":""},
-                    {"name":"操作","width":""}
+                    {"name":"表单名称","width":"150"},
+                    {"name":"触发机制","width":"200"},
+                    {"name":"数据连接","width":"150"},
+                    {"name":"数据获取方式","width":"150"},
+                    {"name":"表单模板编号","width":"200"},
+                    {"name":"是否触发流程","width":""}
                 ],
                 keys:[{"name":"id"},{"name":"extString1"},{"name":"host"},{
                     "name":"extString2"
@@ -73,6 +73,7 @@ $(document).ready(function(){
         var initData = page_prop[data_type];
         initData.dataChecked={};
         initData.items=[];
+        initData.style="padding:15px;display:none";
         var vueDataList=  new Vue({
             el:"#dataList",
             data:initData,
@@ -131,20 +132,9 @@ $(document).ready(function(){
         });
         //加载数据
         Dao.getList(data_type, function (data) {
-
-            vueDataList.items = data.items||[];
+           vueDataList.items = data.items||[];
+           $("#dataList").show();
 
         });
-
-        //渲染
-
-
-
     });
-
-
-
-
-
-
 });

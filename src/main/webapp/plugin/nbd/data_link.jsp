@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 
 <head>
@@ -6,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>A82Other配置管理后台</title>
     <!--[if lt IE 9]>
-    <script src="layui/html5.min.js"></script>
-    <script src="layui/respond.min.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/html5.min.js"></script>
+    <script src="/seeyon/apps_res/nbd/layui/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="vue/vue.min.js"></script>
-    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="/seeyon/apps_res/nbd/vue/vue.min.js"></script>
+    <link rel="stylesheet" href="/seeyon/apps_res/nbd/layui/css/layui.css">
 </head>
 
 <body class="layui-layout-body">
@@ -94,7 +95,7 @@
     window.$ = $;
     // window.layui = layui;
 </script>
-<script src="layui/lx.js"></script>
-<script src="app/dao.js"></script>
-<script src="app/datalink.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/lx.js"></script>
+<script src="/seeyon/apps_res/nbd/app/dao.js"></script>
+<script src="/seeyon/apps_res/nbd/app/datalink.js"></script>
 </body>

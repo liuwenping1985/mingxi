@@ -17,18 +17,18 @@
 
 
 <div id="link_create" class="nbd_content" style="padding: 15px;width:500px;">
-<form class="layui-form"  action="" >
+<form class="layui-form" id="data_link_form" action="" >
 <div class="layui-form-item">
     <label class="layui-form-label">连接名称</label>
     <div class="layui-input-block">
-        <input type="text" v-model="item.name" required lay-verify="required" placeholder="请输入名称"
+        <input type="text" name="extString1" required lay-verify="required" placeholder="请输入名称"
                autocomplete="off" class="layui-input">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">连接地址</label>
     <div class="layui-input-inline">
-        <input type="text" v-model="item.host"  required lay-verify="required" placeholder="请输入地址"
+        <input type="text" name="host" required lay-verify="required" placeholder="请输入地址"
                autocomplete="off" class="layui-input">
     </div>
     <div class="layui-form-mid layui-word-aux">IP地址</div>
@@ -36,14 +36,14 @@
 <div class="layui-form-item">
     <label class="layui-form-label">端口</label>
     <div class="layui-input-inline">
-        <input type="text" v-model="item.port"   required lay-verify="required" placeholder="请输入端口"
+        <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口"
                autocomplete="off" class="layui-input">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">数据库类型</label>
     <div class="layui-input-block">
-        <select v-model="item.dbType" lay-verify="required">
+        <select name="dbType" lay-verify="required">
             <option value="0">Mysql</option>
             <option value="1">Oracle</option>
             <option value="2">SQLServer</option>
@@ -51,23 +51,24 @@
     </div>
 </div>
 <div class="layui-form-item">
+    <input type="hidden" name="id" value/>
     <label class="layui-form-label">用户名</label>
     <div class="layui-input-inline">
-        <input type="text" v-model="item.user" required lay-verify="required" placeholder="请输入用户名"
+        <input type="text" name="user" required lay-verify="required" placeholder="请输入用户名"
                autocomplete="off" class="layui-input">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">密码</label>
     <div class="layui-input-block">
-        <input type="password" v-model="item.password"  required lay-verify="required" autocomplete="off"
+        <input type="password" name="password" required lay-verify="required" autocomplete="off"
                class="layui-input">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">数据库名</label>
     <div class="layui-input-block">
-        <input type="text" v-model="item.dataBaseName" required lay-verify="required" placeholder="请输入数据库名"
+        <input type="text" name="dataBaseName" required lay-verify="required" placeholder="请输入数据库名"
                autocomplete="off" class="layui-input">
     </div>
 </div>
@@ -75,10 +76,10 @@
 </form>
 <div class="layui-form-item">
     <div class="layui-input-block">
-        <button class="layui-btn" v-if="mode=='create'" @click="createSubmit">立即提交</button>
-        <button class="layui-btn" v-if="mode=='update'" @click="updateSubmit">立即提交</button>
-        <button class="layui-btn" @click="goBack">返回</button>
-        <button class="layui-btn" @click="testConnection">连接测试</button>
+        <button class="layui-btn" id="data_link_submit">立即提交</button>
+        <button class="layui-btn" style="display:none" id="data_link_update_submit">立即提交</button>
+        <button class="layui-btn" id="data_link_return">返回</button>
+        <button class="layui-btn" id="data_link_test">连接测试</button>
     </div>
 </div>
 
@@ -95,6 +96,5 @@
     // window.layui = layui;
 </script>
 <script src="layui/lx.js"></script>
-<script src="app/dao.js"></script>
 <script src="app/datalink.js"></script>
 </body>

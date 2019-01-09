@@ -23,19 +23,14 @@
         }
 
         $("#config_list_btn").click(function () {
-
             show("data_link");
         });
         $("#a82other_list_btn").click(function () {
-
             show("a82other");
-
         });
 
         $("#other2a8_list_btn").click(function () {
-
             show("other2a8");
-
         });
 
         $("#log_list_btn").click(function () {
