@@ -83,7 +83,7 @@ public class NbdController extends BaseController {
         if (fileManager == null) {
             fileManager = (FileManager) AppContext.getBean("fileManager");
         }
-        Collection coll;
+
         return fileManager;
     }
 
@@ -96,6 +96,7 @@ public class NbdController extends BaseController {
         return null;
 
     }
+
 
     
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {

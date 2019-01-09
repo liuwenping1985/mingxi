@@ -127,7 +127,9 @@ public class NbdService {
                for(OtherToA8ConfigEntity otace:otaceList){
                     //先判断是否是更新
                    String update_key = otace.getPeriod();
-
+                   String tableName = otace.getTableName();
+                   String exportType = otace.getExportType();
+                   
                     if("1".equals(otace.getTriggerProcess())){
                         //-- otace.getExtString1();
                         CommonParameter cp = new CommonParameter();

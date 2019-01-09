@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.core.db.link;
 
+import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.driver.DriverConstant;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.po.DataLink;
@@ -24,6 +25,7 @@ public class ConnectionBuilder {
         String host = link.getHost();
         String port = link.getPort();
         String type = link.getDbType();
+        //ConfigService.getPropertyByName("licenseKey");
         if ("0".equals(type)) {
             return "jdbc:mysql://" + host + ":" + port + "/" + link.getDataBaseName()+"?characterEncoding=UTF-8";
         }
