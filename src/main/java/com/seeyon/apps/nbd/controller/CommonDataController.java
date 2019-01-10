@@ -46,7 +46,7 @@ public class CommonDataController extends BaseController {
         String startDate = parameter.$("day");
 
 
-        NbdResponseEntity entity = getNbdService().lanchForm(parameter);
+        NbdResponseEntity entity = getNbdService().lanch(parameter);
         UIUtils.responseJSON(entity, response);
         return null;
     }

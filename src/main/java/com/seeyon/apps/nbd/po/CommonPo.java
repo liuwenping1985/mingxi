@@ -1,5 +1,6 @@
 package com.seeyon.apps.nbd.po;
 
+import com.seeyon.apps.nbd.annotation.DBIgnore;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -13,9 +14,9 @@ import java.util.Date;
 public class CommonPo {
 
     private Long id;
-
+    @DBIgnore
     private String sid;
-
+    @DBIgnore
     private String sLinkId;
 
     private String name;
@@ -27,12 +28,19 @@ public class CommonPo {
     private Integer status;
 
     private String extString1;
+
     private String extString2;
+
     private String extString3;
+
     private String extString4;
+
     private String extString5;
+
     private String extString6;
+
     private String extString7;
+
     private String extString8;
 
     public Integer getStatus() {
@@ -75,53 +83,60 @@ public class CommonPo {
         this.name = name;
     }
 
-    public void setIdIfNew(){
-        if(this.id==null){
+    public void setIdIfNew() {
+        if (this.id == null) {
             this.id = UUIDLong.longUUID();
         }
 
     }
-    public void setDefaultValueIfNull(){
+
+    public void setDefaultValueIfNull() {
         setIdIfNew();
-        if(this.createTime==null){
+        if (this.createTime == null) {
             this.createTime = new Date();
         }
-        if(this.status==null){
+        if (this.status == null) {
             this.status = 0;
         }
-        if(this.updateTime==null){
+        if (this.updateTime == null) {
             this.updateTime = this.createTime;
         }
 
     }
-    public void saveOrUpdate(){
+
+    public void saveOrUpdate() {
 
         saveOrUpdate(ConfigService.getA8DefaultDataLink());
     }
-    public void saveOrUpdate(DataLink dl){
-        if(this.getUpdateTime()==null){
+
+    public void saveOrUpdate(DataLink dl) {
+        if (this.getUpdateTime() == null) {
             this.setUpdateTime(new Date());
         }
-        DataBaseHelper.persistCommonVo(dl,this);
+        DataBaseHelper.persistCommonVo(dl, this);
     }
-    public void updateBySample(CommonPo vo){
-        updateBySample(ConfigService.getA8DefaultDataLink(),vo);
+
+    public void updateBySample(CommonPo vo) {
+        updateBySample(ConfigService.getA8DefaultDataLink(), vo);
         //DataBaseHelper.persistCommonVo(ConfigService.getA8DefaultDataLink(),vo);
     }
-    public void updateBySample(DataLink dl,CommonPo vo){
+
+    public void updateBySample(DataLink dl, CommonPo vo) {
         vo.setId(this.getId());
-        DataBaseHelper.persistCommonVo(dl,vo);
+        DataBaseHelper.persistCommonVo(dl, vo);
     }
-    public void delete(){
+
+    public void delete() {
 
         delete(ConfigService.getA8DefaultDataLink());
     }
-    public void delete(DataLink dl){
-        String table = CommonUtils.camelToUnderline(this.getClass().getSimpleName());
-        String sql = "delete from "+table+" where id="+this.getId();
 
-        DataBaseHelper.executeUpdateBySQLAndLink(dl,sql);
-       // DataBaseHelper.persistCommonVo(dl,this);
+    public void delete(DataLink dl) {
+        String table = CommonUtils.camelToUnderline(this.getClass().getSimpleName());
+        String sql = "delete from " + table + " where id=" + this.getId();
+
+        DataBaseHelper.executeUpdateBySQLAndLink(dl, sql);
+        // DataBaseHelper.persistCommonVo(dl,this);
     }
 
     public String getExtString1() {
@@ -189,6 +204,11 @@ public class CommonPo {
     }
 
     public String getSid() {
+        if (sid == null) {
+            if (id != null) {
+                return String.valueOf(id);
+            }
+        }
         return sid;
     }
 
