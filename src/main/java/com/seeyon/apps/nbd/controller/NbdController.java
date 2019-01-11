@@ -105,12 +105,7 @@ public class NbdController extends BaseController {
         if (page == null) {
             page = "index";
         }
-
-
         ModelAndView mav = new ModelAndView("apps/nbd/" + page);
-
-
-
         User user = AppContext.getCurrentUser();
         if (user != null) {
             //userLogoImage
@@ -315,7 +310,6 @@ public class NbdController extends BaseController {
             V3XFile v3xfile = getFileManager().getV3XFile(Long.parseLong(fileId));
             File file = getFileManager().getFile(Long.parseLong(fileId), v3xfile.getCreateDate());
             String filename = v3xfile.getFilename();
-
             // 取得文件名。
             // 取得文件的后缀名。
             //String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
@@ -398,12 +392,6 @@ public class NbdController extends BaseController {
 
         return null;
     }
-
-
-
-
-
-
     public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
         User user =  AppContext.getCurrentUser();
         Collection<PageResourceVo> voList = PageResourceConstant.getUserReportPrivileges(user);
