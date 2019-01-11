@@ -1,7 +1,6 @@
 package com.seeyon.apps.zqmenhu.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.controller.DocController;
 import com.seeyon.apps.doc.dao.DocResourceDao;
 import com.seeyon.apps.doc.manager.DocAclNewManager;
 import com.seeyon.apps.doc.manager.DocHierarchyManager;
@@ -9,7 +8,6 @@ import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocActionPO;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
-import com.seeyon.apps.doc.po.DocTypePO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.doc.util.DocMVCUtils;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
@@ -32,11 +30,8 @@ import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.MessageEncoder;
-import com.seeyon.ctp.common.security.SecurityHelper;
 import com.seeyon.ctp.common.taglibs.functions.Functions;
-import com.seeyon.ctp.login.online.OnlineChecker;
 import com.seeyon.ctp.login.online.OnlineManager;
-import com.seeyon.ctp.login.online.OnlineManagerImpl;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.NoSuchPrincipalException;
@@ -45,13 +40,11 @@ import com.seeyon.ctp.portal.controller.PortalController;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
-import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.controller.BulDataController;
 import com.seeyon.v3x.bulletin.domain.BulType;
 import com.seeyon.v3x.news.controller.NewsDataController;
 import com.seeyon.v3x.news.domain.NewsType;
-import com.seeyon.v3x.personalaffair.controller.IndividualManagerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -445,7 +438,27 @@ public class MenhuController extends BaseController {
         CommonResultVo data = new CommonResultVo();
 
         try {
-            String orgSql = "from NewsDataItem where state=30 and typeId=1 and deleted_flag=0 order by createDate desc";
+            String orgSql = "from NewsDataItem where state=30 and typeId=1 and deleted_flag=0 ";
+            //scope
+//            StringBuilder stb = new StringBuilder();
+
+//            stb.append(" and (");
+//            User user = AppContext.getCurrentUser();
+//            //3连，account,dept,member
+//            List<String> scopeCause = getScopeLikeCause(user);
+//
+//
+//            if(CommonUtils.isEmpty(scopeCause)){
+//                stb.append("1=1");
+//            }else{
+//                stb.append(DataBaseHelper.join(scopeCause," or "));
+//            }
+//            stb.append(") ");
+//            //scope
+//            orgSql+=stb.toString();
+            orgSql+="order by createDate desc";
+//
+           // sql.append(stb.toString());
             String orgCountStr = request.getParameter("orgCount");
             String deptCountStr = request.getParameter("deptCount");
 
@@ -474,7 +487,9 @@ public class MenhuController extends BaseController {
                 }
             }
 
-            String deptSql = "from NewsDataItem where state=30 and typeId!=1 and deleted_flag=0 order by createDate desc";
+            String deptSql = "from NewsDataItem where state=30 and typeId!=1 and deleted_flag=0 ";
+
+            deptSql+="order by createDate desc";
             newsDataItemList = DBAgent.find(deptSql);
             if (!CommonUtils.isEmpty(newsDataItemList)) {
                 int size = newsDataItemList.size();
@@ -605,7 +620,11 @@ public class MenhuController extends BaseController {
                 sql.append(" and typeId=" + p.getTypeId());
             }
 
+            //scope
+
             sql.append(" order by createDate desc");
+
+
 
             //DBAgent.find
             Integer offset = p.getOffset();
@@ -672,7 +691,7 @@ public class MenhuController extends BaseController {
             if (departmentId != null) {
                 sql.append(" and publishDepartmentId=" + departmentId);
             }
-
+            //scope
             sql.append(" order by createDate desc");
             Integer offset = p.getOffset();
             if (offset == null) {
@@ -1032,17 +1051,23 @@ public class MenhuController extends BaseController {
                 sql.append(" and publishDepartmentId = " + departmentId);
             }
 
+            //scope
             StringBuilder stb = new StringBuilder();
+
             stb.append(" and (");
             User user = AppContext.getCurrentUser();
-            List<String> scopeCause = this.getScopeLikeCause(user);
-            if (CommonUtils.isEmpty(scopeCause)) {
-                stb.append("1=1");
-            } else {
-                stb.append(DataBaseHelper.join(scopeCause, " or "));
-            }
+            //3连，account,dept,member
+            List<String> scopeCause = getScopeLikeCause(user);
 
+
+            if(CommonUtils.isEmpty(scopeCause)){
+                stb.append("1=1");
+            }else{
+                stb.append(DataBaseHelper.join(scopeCause," or "));
+            }
             stb.append(")");
+            //scope
+
             sql.append(stb.toString());
             sql.append(" order by top_order desc,createDate desc");
             System.out.println(sql);
@@ -1059,7 +1084,27 @@ public class MenhuController extends BaseController {
             FlipInfo info = new FlipInfo();
             info.setPage(offset / limit);
             info.setSize(limit);
-            List<BulDataItem> dataList = DBAgent.find(sql.toString(), (Map)null, info);
+            List<BulDataItem> dataList = DBAgent.find(sql.toString(),null,info);
+            //  List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
+//            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
+//            List<String> list = new ArrayList<String>();
+//            for (BulDataItem item : dataList) {
+//                if (item.getAttachmentsFlag()) {
+//                    List<Attachment> attachments = impl.getByReference(item.getId());
+//
+//                    for (Attachment attch : attachments) {
+//                        list.add(attch.getMimeType());
+//                    }
+//                    item.setMimeTypes(list);
+//                    retdataList.add(item);
+//                } else {
+//                    retdataList.add(item);  //不一定对
+//                }
+//            }
+
+
+           // BulDataManager manager = (BulDataManager)AppContext.getBean("bulDataManager");
+           // manager.findByReadUserForIndex();
             List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList, p);
             data.setItems(this.transToBulVo(pagingBulsDataList));
             Helper.responseJSON(data, response);
@@ -1077,47 +1122,40 @@ public class MenhuController extends BaseController {
         Helper.responseJSON(data, response);
         return null;
     }
-
-    private List<String> getScopeLikeCause(User user) {
-        if (user == null) {
+    private List<String> getScopeLikeCause(User user){
+        if(user==null){
             return null;
-        } else {
-            Long userId = user.getId();
-            Long deptId = user.getDepartmentId();
-            Long accountId = user.getAccountId();
-            List<String> scopeCauseList = new ArrayList();
-            scopeCauseList.add("publish_scope like '%Account|" + accountId + "%'");
-            scopeCauseList.add("publish_scope like '%Department|" + deptId + "%'");
-
-            try {
-                for(V3xOrgDepartment pDept = this.getOrgManager().getParentDepartment(deptId); pDept != null; pDept = this.getOrgManager().getParentDepartment(pDept.getId())) {
-                    scopeCauseList.add("publish_scope like '%Department|" + pDept.getId() + "%'");
-                }
-            } catch (BusinessException var10) {
-                var10.printStackTrace();
-            }
-
-            scopeCauseList.add("publish_scope like '%Member|" + userId + "%'");
-
-            try {
-                List<V3xOrgTeam> teams = this.getOrgManager().getTeamsByMember(userId, accountId);
-                if (!CommonUtils.isEmpty(teams)) {
-                    Iterator var7 = teams.iterator();
-
-                    while(var7.hasNext()) {
-                        V3xOrgTeam team = (V3xOrgTeam)var7.next();
-                        scopeCauseList.add("publish_scope like '%Team|" + team.getId() + "%'");
-                    }
-                }
-            } catch (BusinessException var9) {
-                var9.printStackTrace();
-            }
-
-            return scopeCauseList;
         }
+        Long userId = user.getId();
+        Long deptId = user.getDepartmentId();
+        Long accountId = user.getAccountId();
+        List<String> scopeCauseList = new ArrayList<String>();
+        scopeCauseList.add("publish_scope like '%Account|"+accountId+"%'");
+        scopeCauseList.add("publish_scope like '%Department|"+deptId+"%'");
+        //找这个部分的上级部门
+        try {
+            V3xOrgDepartment pDept =  this.getOrgManager().getParentDepartment(deptId);
+            while(pDept!=null){
+                scopeCauseList.add("publish_scope like '%Department|"+pDept.getId()+"%'");
+                pDept =  this.getOrgManager().getParentDepartment(pDept.getId());
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        scopeCauseList.add("publish_scope like '%Member|"+userId+"%'");
+        try {
+            List<V3xOrgTeam> teams =  this.getOrgManager().getTeamsByMember(userId,accountId);
+            if(!CommonUtils.isEmpty(teams)){
+                for(V3xOrgTeam team:teams){
+                    scopeCauseList.add("publish_scope like '%Team|"+team.getId()+"%'");
+                }
+            }
+
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        return scopeCauseList;
     }
-
-
     private List<BulsVo> transToBulVo(List<BulDataItem> bulsDataList) {
         List<BulsVo> retList = new ArrayList<BulsVo>();
         if (CollectionUtils.isEmpty(bulsDataList)) {
@@ -1323,7 +1361,7 @@ public class MenhuController extends BaseController {
                 Integer app= ctpAffair.getApp();
                 Integer state= ctpAffair.getState();
                 String url="";
-              String openFrom = "";
+                String openFrom = "";
                 if(state==3){
                     openFrom="listPending";
 
@@ -1465,6 +1503,9 @@ public class MenhuController extends BaseController {
              *   （key1 = value1 and key2!=value2） or key3 <value3
              *  注:括号不可少
              */
+            List<String> gcList = genCauseList(condition);
+            whereStr = DataBaseHelper.join(gcList," ");
+
         }
         if (CommonUtils.isEmpty(columns)) {
             columns = "*";
@@ -1504,8 +1545,63 @@ public class MenhuController extends BaseController {
         return null;
     }
 
+    private static List<String> genCauseList(String condition){
+        //todo 逻辑没有写完，需要递归调用
+        List<String> causeList = new ArrayList<String>();
+        String[] conditions = condition.split("_and_");
+        List<String> opps = new ArrayList<String>();
+        for(String cd:conditions){
+            if(CommonUtils.isEmpty(cd)){
+
+                continue;
+            }
+            opps.add("and");
+            String[] cds = cd.split("_or_");
+            if(cds.length==1){
+                opps.add("or");
+            }else{
+
+            }
+            for(String result:cds){
+                String[] vals = result.split("_ne_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"<>"+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_eq_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"="+"'"+vals[1]+"'");
+                    continue;
+                }
+                //gt(>) , lt(<),gte(>=),lte(<=)
+                vals = result.split("_gt_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+">"+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_lt_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"<"+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_gte_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+">="+"'"+vals[1]+"'");
+                    continue;
+                }
+                vals = result.split("_lte_");
+                if(vals.length==2){
+                    causeList.add(vals[0]+"<="+"'"+vals[1]+"'");
+
+                }
+
+            }
+        }
+        return causeList;
+    }
+
     public static void main(String[] args) {
-        System.out.println("a");
+        //System.out.println(genCauseList("key1_ne_value1_and_key2_eq_value2_or_key3_lte_value3"));
 
     }
 

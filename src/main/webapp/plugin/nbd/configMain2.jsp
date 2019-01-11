@@ -117,7 +117,74 @@
 
         </div>
 
+        <div id="link_create" class="nbd_content" style="padding: 15px;width:500px;display:none">
+            <form class="layui-form" id="data_link_form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">连接名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" required lay-verify="required" placeholder="请输入名称"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">连接地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="host" required lay-verify="required" placeholder="请输入地址"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">IP地址</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">端口</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="port" required lay-verify="required" placeholder="请输入端口"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">数据库类型</label>
+                    <div class="layui-input-block">
+                        <select name="dbType" lay-verify="required">
+                            <option value="0">Mysql</option>
+                            <option value="1">Oracle</option>
+                            <option value="2">SQLServer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <input type="hidden" name="id" value />
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userName" required lay-verify="required" placeholder="请输入用户名"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" required lay-verify="required" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">数据库名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="dataBaseName" required lay-verify="required" placeholder="请输入数据库名"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
 
+            </form>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" id="data_link_submit">立即提交</button>
+                    <button class="layui-btn" style="display:none" id="data_link_update_submit">立即提交</button>
+                    <button class="layui-btn" id="data_link_return">返回</button>
+                    <button class="layui-btn" id="data_link_test">连接测试</button>
+                </div>
+            </div>
+
+        </div>
         <!-- 需要弹出的添加员工界面 -->
         <div class="layui-row" id="sql_console" style="display: none;">
 
@@ -139,7 +206,7 @@
             </div>
         </div>
 
-        <div id="a8ToOtherConfigEntity" class="nbd_content" style="padding:15px;display:none">
+        <div id="a82other" class="nbd_content" style="padding:15px;display:none">
                 <span class="layui-breadcrumb">
                     <a href="">首页</a>
                     <a href="">数据转换</a>
@@ -214,10 +281,16 @@
                         <select name="exportType" lay-verify="required">
                             <option value="mid_table">中间表</option>
                             <option value="http">接口传输</option>
+                            <option value="custom">自定义</option>
+
                             <!-- <option value="api">接口传输</option>
                                 <option value="ws">WebService服务</option> -->
 
                         </select>
+                    </div>
+                    <div class="layui-input-inline" style="width:300px">
+                        <input style="width:300px" type="text" name="exportUrl" required lay-verify="required" placeholder="exportUrl"
+                               autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-form-mid layui-word-aux">中间表:A8_TO_OTHER</div>
                 </div>
@@ -329,7 +402,7 @@
                             <col width="200">
                             <col width="150">
                             <col width="150">
-
+                            <col width="">
                             <col width="">
                         </colgroup>
                         <thead>
@@ -338,12 +411,12 @@
                             <th>表单名称</th>
                             <th>触发机制</th>
                             <th>数据连接</th>
-                            <th>数据对接方式</th>
+                            <th>数据获取方式</th>
                             <th>表单模板编号</th>
-
+                            <th>是否触发流程</th>
                         </tr>
                         </thead>
-                        <tbody id="a82other_list_body">
+                        <tbody id="other2a8_list_body">
 
                         </tbody>
                     </table>
@@ -359,6 +432,7 @@
                 </span>
             <br><br>
             <form class="layui-form" id="other2a8_form" action="">
+                <input type="hidden" name="id" value />
                 <div class="layui-form-item">
                     <label class="layui-form-label">名称</label>
                     <div class="layui-input-block" style="width:300px">
@@ -380,8 +454,8 @@
                     <div class="layui-input-inline" style="width:300px">
                         <select name="exportType" lay-verify="required">
                             <option value="mid_table">中间表</option>
-                            <!-- <option value="api">接口传输</option>
-                                                <option value="ws">WebService服务</option> -->
+                            <option value="api">接口传输</option>
+                            <option value="ws">WebService服务</option>
 
                         </select>
                     </div>
@@ -400,6 +474,8 @@
                     <div class="layui-input-block" style="width:300px">
                         <select name="triggerType" lay-verify="required">
                             <option value="schedule">定时</option>
+                            <option value="api_receive">外部调用A8接口传入</option>
+                            <option value="api_get">A8调用外部接口获取</option>
                         </select>
                     </div>
                 </div>
@@ -413,18 +489,19 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">是否触发流程</label>
                     <div class="layui-input-block" style="width:300px">
-                        <select name="triggerType" lay-verify="required">
+                        <select name="triggerProcess" lay-verify="required">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="layui-form-item">
                     <label class="layui-form-label">A8表单模板编号</label>
                     <div class="layui-input-inline">
-                        <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect">
+                        <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairTypeSelect2">
                             <!-- <option value="api">接口传输</option>
-                                            <option value="ws">WebService服务</option> -->
+                                <option value="ws">WebService服务</option> -->
 
                         </select>
 
@@ -519,10 +596,11 @@
 <script src="/seeyon/apps_res/nbd/layui/apps/app.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/nav.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/data_link.js"></script>
-<script src="/seeyon/apps_res/nbd/layui/apps/a8ToOtherConfigEntity.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/apps/a82other.js"></script>
 <script src="/seeyon/apps_res/nbd/layui/apps/other2a8.js"></script>
 <script>
     //Demo
+    //admin123!
     // layui.use('form', function () {
     //     var form = layui.form;
     //     //监听提交

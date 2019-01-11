@@ -16,7 +16,7 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+
                 if (callback_) {
                     callback_(data);
                 }
@@ -42,7 +42,7 @@
             data: data_,
             dataType: "json",
             success: function (data) {
-                console.log(data);
+
                 if (callback_) {
                     callback_(data);
                 }
@@ -67,7 +67,7 @@
             type: "POST",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+
                 if (callback_) {
                     callback_(data);
                 }
@@ -159,7 +159,7 @@
             type: "POST",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+
                 if (callBack) {
                     callBack(data);
                 }
@@ -185,7 +185,7 @@
             type: "POST",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+
                 if (callBack) {
                     callBack(data);
                 }
@@ -211,7 +211,7 @@
             type: "POST",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+
                 if (callBack) {
                     callBack(data);
                 }

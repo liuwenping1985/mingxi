@@ -22,6 +22,7 @@ import java.util.Map;
 /**
  * 字段
  * Created by liuwenping on 2018/9/7.
+ *
  * @author liuwenping
  */
 public class MappingServiceManagerImpl implements MappingServiceManager {
@@ -87,26 +88,20 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         }
         return definition;
     }
-    private String getTableName(String tableName){
 
-        String dbType = ConfigService.getPropertyByName("local_db_type","0");
-        if("1".equals(dbType)){
+    private String getTableName(String tableName) {
+        return tableName.toUpperCase();
 
-            return "\""+tableName.toUpperCase()+"\"";
-
-        }else{
-
-            return tableName.toUpperCase();
-        }
     }
+
     public Ftd saveFormTableDefinition(CommonParameter p) {
         String affairType = p.$("affairType");
-        if(CommonUtils.isEmpty(affairType)){
-            System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
+        if (CommonUtils.isEmpty(affairType)) {
+           // System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
             return null;
         }
-       // String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
-        String sql = " select * from "+getTableName("FORM_DEFINITION")+" where ID = (select  CONTENT_TEMPLATE_ID from "+getTableName("CTP_CONTENT_ALL")+" where ID =(select BODY from "+getTableName("CTP_TEMPLATE")+" where TEMPLETE_NUMBER='" + affairType + "'))";
+        // String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
+        String sql = " select * from " + getTableName("FORM_DEFINITION") + " where ID = (select  CONTENT_TEMPLATE_ID from " + getTableName("CTP_CONTENT_ALL") + " where ID =(select BODY from " + getTableName("CTP_TEMPLATE") + " where TEMPLETE_NUMBER='" + affairType + "'))";
         DataLink dl = ConfigService.getA8DefaultDataLink();
         List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
         if (!CommonUtils.isEmpty(items)) {
@@ -169,17 +164,17 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         String export = cpa.$(key + "_export");
         if (!CommonUtils.isEmpty(clsName)) {
             ff.setClassname(clsName);
-        }else{
+        } else {
             ff.setClassname("");
         }
         if (!CommonUtils.isEmpty(barCode)) {
             ff.setBarcode(barCode);
-        }else{
+        } else {
             ff.setBarcode("");
         }
         if (!CommonUtils.isEmpty(export)) {
             ff.setExport(export);
-        }else{
+        } else {
             ff.setExport("");
         }
 
@@ -190,13 +185,13 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
     public Ftd deleteFormTableDefinition(CommonParameter p) {
 
         String ftdId = String.valueOf(p.$("id"));
-        if(CommonUtils.isEmpty(ftdId)){
+        if (CommonUtils.isEmpty(ftdId)) {
             System.out.println("deleteFormTableDefinition: ID NOT PRESENTED");
             return null;
         }
         Long fid = Long.parseLong(ftdId);
         DataLink dl = ConfigService.getA8DefaultDataLink();
-        Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,fid);
+        Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, fid);
         ftd.delete(dl);
         return ftd;
 
@@ -204,12 +199,12 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public Ftd getFormTableDefinition(CommonParameter p) {
         String ftdId = p.$("id");
-        if(CommonUtils.isEmpty(ftdId)){
+        if (CommonUtils.isEmpty(ftdId)) {
             System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
             return null;
         }
         DataLink dl = ConfigService.getA8DefaultDataLink();
-        Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(ftdId));
+        Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, Long.parseLong(ftdId));
         return ftd;
     }
 
@@ -217,17 +212,17 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
     public Ftd updateFormTableDefinition(CommonParameter p) {
         //String affairType = p.$("affairType");
         String id = String.valueOf(p.$("id"));
-        if(CommonUtils.isEmpty(id)){
+        if (CommonUtils.isEmpty(id)) {
             System.out.println("updateFormTableDefinition: ID NOT PRESENTED");
             return null;
         }
         DataLink dl = ConfigService.getA8DefaultDataLink();
-        Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl,Ftd.class,Long.parseLong(id));
-        if(ftdHolder!=null){
+        Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, Long.parseLong(id));
+        if (ftdHolder != null) {
             FormTableDefinition ftd = Ftd.getFormTableDefinition(ftdHolder);
             FormTable ft = ftd.getFormTable();
-            if(ft!=null){
-                filledTable(ft,p);
+            if (ft != null) {
+                filledTable(ft, p);
             }
             ftdHolder.setData(JSON.toJSONString(ftd));
             ftdHolder.saveOrUpdate(dl);
@@ -236,7 +231,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         return null;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println(11);
     }
 }

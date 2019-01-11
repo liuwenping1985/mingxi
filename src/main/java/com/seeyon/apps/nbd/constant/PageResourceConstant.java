@@ -8,12 +8,12 @@ import java.util.*;
 
 public final class PageResourceConstant {
 
-   private static List<PageResourceVo> RENSHI_RESOURCE= new ArrayList<PageResourceVo>();
+    private static List<PageResourceVo> RENSHI_RESOURCE= new ArrayList<PageResourceVo>();
 
-   static{                                                                  //人事
+    static{                                                                  //人事
 
-       RENSHI_RESOURCE.add(new PageResourceVo("rstj"));
-   }
+        RENSHI_RESOURCE.add(new PageResourceVo("rstj"));
+    }
     private static List<PageResourceVo> ZICHAN_RESOURCE= new ArrayList<PageResourceVo>();
     static{
 
@@ -73,7 +73,7 @@ public final class PageResourceConstant {
     private static List<PageResourceVo> HUIYI_RESOURCE= new ArrayList<PageResourceVo>();
     static{
 
-            HUIYI_RESOURCE.add(new PageResourceVo("huiyi"));            //会议资源
+        HUIYI_RESOURCE.add(new PageResourceVo("huiyi"));            //会议资源
     }
     private static List<PageResourceVo> RiCheng_RESOURCE= new ArrayList<PageResourceVo>();
     static{

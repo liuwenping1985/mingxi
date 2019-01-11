@@ -2,6 +2,7 @@ package com.seeyon.apps.nbd.core.db;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.annotation.ClobText;
+import com.seeyon.apps.nbd.annotation.DBIgnore;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
 import com.seeyon.apps.nbd.core.db.script.ScriptHook;
@@ -28,7 +29,7 @@ public final class DataBaseHelper {
         JDBCAgent jdbc = new JDBCAgent();
         try {
             jdbc.execute(sql.toString());
-
+            //jdbc.
             List<Map> list = jdbc.resultSetToList();
             return list;
         } catch (Exception e) {
@@ -515,6 +516,10 @@ public final class DataBaseHelper {
         Field[] fields = cls.getDeclaredFields();
         Object id = null;
         for (Field fd : fields) {
+            DBIgnore dbIgnore = fd.getAnnotation(DBIgnore.class);
+            if(dbIgnore!=null){
+                continue;
+            }
             String getMethodName = CommonUtils.getGetMethodName(fd);
             try {
                 Method mdd = cls.getMethod(getMethodName, null);
@@ -550,6 +555,10 @@ public final class DataBaseHelper {
         int idIndex = -1;
         for (int i = 0; i < len; i++) {
             Field fd = insFields.get(i);
+            DBIgnore dbIgnore = fd.getAnnotation(DBIgnore.class);
+            if(dbIgnore!=null){
+                continue;
+            }
             Class type = fd.getType();
             Object val = dataList.get(i);
             if (val == null) {

@@ -1,8 +1,6 @@
 package com.seeyon.apps.nbd.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.po.DocLibPO;
-import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.nbd.constant.PageResourceConstant;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
@@ -23,15 +21,10 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
-import com.seeyon.ctp.common.template.enums.TemplateEnum;
-import com.seeyon.ctp.login.SSOTicketLoginAuthentication;
-import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.portal.sso.SSOLoginHandshakeServletImpl;
-import com.seeyon.ctp.util.LightWeightEncoder;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import com.seeyon.v3x.bulletin.controller.BulDataController;
@@ -91,7 +84,7 @@ public class NbdController extends BaseController {
         if (fileManager == null) {
             fileManager = (FileManager) AppContext.getBean("fileManager");
         }
-        Collection coll;
+
         return fileManager;
     }
 
@@ -106,6 +99,7 @@ public class NbdController extends BaseController {
     }
 
 
+    
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
@@ -115,6 +109,9 @@ public class NbdController extends BaseController {
 
 
         ModelAndView mav = new ModelAndView("apps/nbd/" + page);
+
+
+
         User user = AppContext.getCurrentUser();
         if (user != null) {
             //userLogoImage
@@ -132,7 +129,6 @@ public class NbdController extends BaseController {
             }
             if (department != null) {
                 mav.addObject("userDepartment", department.getName());
-               
             } else {
                 mav.addObject("userDepartment", "中日中心");
             }
@@ -430,7 +426,6 @@ public class NbdController extends BaseController {
 
         //6wmVh2CifkRdCLY36FoY1x3UlWQ=
 
-        BulDataController bulDataController;
         //String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
         //System.out.println(codde);
     }

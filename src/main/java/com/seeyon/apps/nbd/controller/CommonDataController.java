@@ -20,6 +20,8 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,7 +36,9 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class CommonDataController extends BaseController {
     private NbdService nbdService;
@@ -56,8 +60,10 @@ public class CommonDataController extends BaseController {
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
         CommonUtils.processCrossOriginResponse(response);
         CommonParameter parameter = CommonParameter.parseParameter(request);
-        String startDate = (String)parameter.$("day");
-        NbdResponseEntity entity = this.getNbdService().lanchForm(parameter);
+        String startDate = parameter.$("day");
+
+
+        NbdResponseEntity entity = getNbdService().lanch(parameter);
         UIUtils.responseJSON(entity, response);
         return null;
     }
@@ -66,9 +72,16 @@ public class CommonDataController extends BaseController {
     public ModelAndView getDepartmentLeaderCalendar(HttpServletRequest request, HttpServletResponse response) {
         CommonUtils.processCrossOriginResponse(response);
         CommonParameter parameter = CommonParameter.parseParameter(request);
-        String day = (String)parameter.$("day");
-        String startDay = day + " 23:59:59";
-        Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime() - 86400000L);
+        String day = parameter.$("day");
+        String startDay = day+" 23:59:59";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date endDayDate = null;
+        try {
+            endDayDate = new Date(sdf.parse(startDay).getTime()-24*3600*1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            endDayDate = new Date();
+        }
         String endDay = CommonUtils.formatDate(endDayDate);
         String sql = "select * from zrzx_user_schedule where name='S_LEADER' and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
         Collection<String> sLeaderName = ZrzxLeaderOutExportProcessor.S_LEADER.keySet();
@@ -141,64 +154,73 @@ public class CommonDataController extends BaseController {
     @NeedlessCheckLogin
     public ModelAndView getAccountLeaderCalendar(HttpServletRequest request, HttpServletResponse response) {
         CommonUtils.processCrossOriginResponse(response);
-        CommonParameter parameter = CommonParameter.parseParameter(request);
-        String day = (String)parameter.$("day");
-        String startDay = day + " 23:59:59";
-        Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime() - 86400000L);
-        String endDay = CommonUtils.formatDate(endDayDate);
-        String sql = "select * from zrzx_user_schedule where name='M_LEADER' and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
-        Set<String> mLeaderName = ZrzxLeaderOutExportProcessor.M_LEADER.keySet();
-        NbdResponseEntity entity = new NbdResponseEntity();
-
         try {
-            Map<String, ZrzxUserSchedule> retMap = new HashMap();
-            Iterator var12 = mLeaderName.iterator();
-
-            while(var12.hasNext()) {
-                String sName = (String)var12.next();
-                ZrzxUserSchedule srzx = new ZrzxUserSchedule();
-                srzx.setLocation("");
-                srzx.setReason("");
-                srzx.setUserName(sName);
-                retMap.put(sName, srzx);
+            CommonParameter parameter = CommonParameter.parseParameter(request);
+            String day = parameter.$("day");
+            //day = day+" 23:59:59";
+            String startDay = day + " 23:59:59";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date endDayDate = null;
+            try {
+                endDayDate = new Date(sdf.parse(startDay).getTime()-24*3600*1000);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                endDayDate = new Date();
             }
-
-            DataLink dl = ConfigService.getA8DefaultDataLink();
-            List<ZrzxUserSchedule> mDataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl, ZrzxUserSchedule.class, sql);
-            if (!CommonUtils.isEmpty(mDataList)) {
-                Iterator var19 = mDataList.iterator();
-
-                while(var19.hasNext()) {
-                    ZrzxUserSchedule schedule = (ZrzxUserSchedule)var19.next();
-                    retMap.put(schedule.getUserName(), schedule);
+            String endDay = CommonUtils.formatDate(endDayDate);
+            String sql = "select * from zrzx_user_schedule where name='M_LEADER' and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
+            Set<String> mLeaderName = ZrzxLeaderOutExportProcessor.M_LEADER.keySet();
+            NbdResponseEntity entity = new NbdResponseEntity();
+            try {
+                Map<String, ZrzxUserSchedule> retMap = new HashMap<String, ZrzxUserSchedule>();
+                for (String sName : mLeaderName) {
+                    ZrzxUserSchedule srzx = new ZrzxUserSchedule();
+                    srzx.setLocation("");
+                    srzx.setReason("");
+                    srzx.setUserName(sName);
+                    retMap.put(sName, srzx);
                 }
+                DataLink dl = ConfigService.getA8DefaultDataLink();
+                List<ZrzxUserSchedule> mDataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl, ZrzxUserSchedule.class, sql);
+                if (!CommonUtils.isEmpty(mDataList)) {
+                    for (ZrzxUserSchedule schedule : mDataList) {
+                        retMap.put(schedule.getUserName(), schedule);
+                    }
+                }
+                List<ZrzxUserSchedule> vals = new ArrayList<ZrzxUserSchedule>();
+                vals.addAll(retMap.values());
+                Collections.sort(vals, new Comparator<ZrzxUserSchedule>() {
+                    public int compare(ZrzxUserSchedule o1, ZrzxUserSchedule o2) {
+                        Integer ret1 = ZrzxLeaderOutExportProcessor.M_LEADER.get(o1.getUserName());
+                        if (ret1 == null) {
+                            ret1 = 0;
+                        }
+                        Integer ret2 = ZrzxLeaderOutExportProcessor.M_LEADER.get(o2.getUserName());
+                        if (ret2 == null) {
+                            ret2 = 0;
+                        }
+                        return ret1 - ret2;
+                    }
+                });
+                List<Map> dt = new ArrayList<Map>();
+                for (ZrzxUserSchedule userSchedule : vals) {
+
+                    String jsonString = JSON.toJSONString(userSchedule);
+                    Map map = JSON.parseObject(jsonString, HashMap.class);
+                    map.put("id", String.valueOf(map.get("id")));
+                    map.put("userId", String.valueOf(map.get("userId")));
+                    dt.add(map);
+                }
+                entity.setItems(dt);
+            } catch (Exception e) {
+                e.printStackTrace();
+                entity.setResult(false);
+                entity.setMsg("[ERROR]" + e.getMessage());
             }
-
-            List<ZrzxUserSchedule> vals = new ArrayList();
-            vals.addAll(retMap.values());
-            Collections.sort(vals, new Comparator<ZrzxUserSchedule>() {
-                public int compare(ZrzxUserSchedule o1, ZrzxUserSchedule o2) {
-                    Integer ret1 = (Integer)ZrzxLeaderOutExportProcessor.M_LEADER.get(o1.getUserName());
-                    if (ret1 == null) {
-                        ret1 = 0;
-                    }
-
-                    Integer ret2 = (Integer)ZrzxLeaderOutExportProcessor.M_LEADER.get(o2.getUserName());
-                    if (ret2 == null) {
-                        ret2 = 0;
-                    }
-
-                    return ret1 - ret2;
-                }
-            });
-            entity.setItems(vals);
-        } catch (Exception var16) {
-            var16.printStackTrace();
-            entity.setResult(false);
-            entity.setMsg("[ERROR]" + var16.getMessage());
+            UIUtils.responseJSON(entity, response);
+        }catch(Exception e){
+            e.printStackTrace();;
         }
-
-        UIUtils.responseJSON(entity, response);
         return null;
     }
 
@@ -214,27 +236,45 @@ public class CommonDataController extends BaseController {
             return null;
         } else {
             CommonParameter parameter = CommonParameter.parseParameter(request);
-            String day = (String)parameter.$("day");
+            String day = parameter.$("day");
             String startDay = day + " 23:59:59";
-            Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime() - 86400000L);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date endDayDate = null;
+            try {
+                endDayDate = new Date(sdf.parse(startDay).getTime() - 24 * 3600 * 1000);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                endDayDate = new Date();
+            }
+            // Date endDayDate = new Date(CommonUtils.parseDate(startDay).getTime()-24*3600*1000);
             String endDay = CommonUtils.formatDate(endDayDate);
+            //day = day+" 23:59:59";
             String sql = "select * from zrzx_user_schedule where user_id=" + user.getId() + " and start_date <='" + startDay + "' and end_date>= '" + endDay + "'";
             DataLink dl = ConfigService.getA8DefaultDataLink();
             List<ZrzxUserSchedule> mDataList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl, ZrzxUserSchedule.class, sql);
             if (!CommonUtils.isEmpty(mDataList)) {
-                entity.setItems(mDataList);
+                List<Map> dt = new ArrayList<Map>();
+                for (ZrzxUserSchedule userSchedule : mDataList) {
+
+                    String jsonString = JSON.toJSONString(userSchedule);
+                    Map map = JSON.parseObject(jsonString, HashMap.class);
+                    map.put("id", String.valueOf(map.get("id")));
+                    map.put("userId", String.valueOf(map.get("userId")));
+                    dt.add(map);
+                }
+                entity.setItems(dt);
                 entity.setResult(true);
             } else {
-                entity.setData((Object)null);
+                entity.setData(null);
                 entity.setResult(false);
             }
-
             UIUtils.responseJSON(entity, response);
             return null;
         }
-    }
 
-    private static TreeMap<Integer, String> getSLeaderSortedMap() {
+
+    }
+    private static TreeMap<Integer, String> getSLeaderSortedMap(){
         if (S_LEADER_SORTED.isEmpty()) {
             Iterator var0 = ZrzxLeaderOutExportProcessor.S_LEADER.entrySet().iterator();
 
