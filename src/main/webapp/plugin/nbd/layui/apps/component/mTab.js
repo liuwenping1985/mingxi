@@ -6,6 +6,7 @@
         var $ = lx.jquery || lx.jQuery;
         var default_h = lx.eutil.getGlodenHeight();
         var _default_options = {
+          
             id: "mTab" + "_uuid",
             body_id: "",
             parent_id: "",

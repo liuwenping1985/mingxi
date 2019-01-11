@@ -364,9 +364,9 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             Long typeId = p.getTypeId();
-            String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by createTime desc";
+            String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by fr_order asc";
             if (typeId2 != null) {
-                sql = "from DocResourcePO where parentFrId in (" + typeId + "," + typeId2 + ") order by createTime desc";
+                sql = "from DocResourcePO where parentFrId in (" + typeId + "," + typeId2 + ") order by fr_order asc";
             }
 
             Integer offset = p.getOffset();
@@ -533,7 +533,7 @@ public class MenhuController extends BaseController {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String sql = "";
             if (p.getTypeId() != null) {
-                sql = "select * from formmain_0732 where field0001=" + p.getTypeId();
+                sql = "select * from formmain_0732 where field0001=" + p.getTypeId()+" order by field0002 desc";
             }
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql);
             formDataList = Helper.paggingList(formDataList, p);
@@ -791,7 +791,7 @@ public class MenhuController extends BaseController {
             }
             sql.append(" and is_delete =0");
             countSql.append(" and is_delete =0");
-            sql.append(" order by case when app in (4,19,20,21) then 0 else 1 end,createDate desc");
+            sql.append(" order by case when app in (4,19,20,21) then 0 else 1 end,receive_time desc");
 
 
             Integer offset = p.getOffset();
@@ -1033,14 +1033,13 @@ public class MenhuController extends BaseController {
 
 
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        preResponse(response);
+        this.preResponse(response);
         CommonResultVo data = new CommonResultVo();
+
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-
             String departmentId = request.getParameter("deptId");
             String departmentId2 = request.getParameter("deptId2");
-
             StringBuilder sql = new StringBuilder("from BulDataItem where deleted_flag=0 and state=30");
             if (p.getTypeId() != null) {
                 sql.append(" and typeId=" + p.getTypeId());
@@ -1048,7 +1047,6 @@ public class MenhuController extends BaseController {
 
             if (departmentId2 != null && departmentId != null) {
                 sql.append(" and publishDepartmentId in (" + departmentId + "," + departmentId2 + ")");
-
             } else if (departmentId != null || departmentId2 != null) {
                 sql.append(" and publishDepartmentId = " + departmentId);
             }
@@ -1082,8 +1080,8 @@ public class MenhuController extends BaseController {
             if (limit == null) {
                 limit = 7;
             }
-            FlipInfo info = new FlipInfo();
 
+            FlipInfo info = new FlipInfo();
             info.setPage(offset / limit);
             info.setSize(limit);
             List<BulDataItem> dataList = DBAgent.find(sql.toString(),null,info);
@@ -1108,19 +1106,19 @@ public class MenhuController extends BaseController {
            // BulDataManager manager = (BulDataManager)AppContext.getBean("bulDataManager");
            // manager.findByReadUserForIndex();
             List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList, p);
-            data.setItems(transToBulVo(pagingBulsDataList));
-            //Flag flag = null;
+            data.setItems(this.transToBulVo(pagingBulsDataList));
             Helper.responseJSON(data, response);
             return null;
-        } catch (Exception e) {
+        } catch (Exception var16) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:" + e.getMessage());
-            e.printStackTrace();
-        } catch (Error e) {
+            data.setMsg("EXCEPTION:" + var16.getMessage());
+            var16.printStackTrace();
+        } catch (Error var17) {
             data.setResult(false);
-            data.setMsg("ERROR:" + e.getMessage());
-            e.printStackTrace();
+            data.setMsg("ERROR:" + var17.getMessage());
+            var17.printStackTrace();
         }
+
         Helper.responseJSON(data, response);
         return null;
     }

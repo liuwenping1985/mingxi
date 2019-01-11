@@ -28,6 +28,7 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -124,7 +125,6 @@ public class NbdController extends BaseController {
             }
             if (department != null) {
                 mav.addObject("userDepartment", department.getName());
-
             } else {
                 mav.addObject("userDepartment", "中日中心");
             }
@@ -374,7 +374,6 @@ public class NbdController extends BaseController {
 
             templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347l);
         } else {
-
             templateList = nbdService.findConfigTemplates(category, offset, limit, user.getId(), user.getAccountId());
         }
         NbdResponseEntity<CtpTemplate> entity = new NbdResponseEntity<CtpTemplate>();
@@ -415,7 +414,6 @@ public class NbdController extends BaseController {
 
 
         //6wmVh2CifkRdCLY36FoY1x3UlWQ=
-
 
         //String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
         //System.out.println(codde);

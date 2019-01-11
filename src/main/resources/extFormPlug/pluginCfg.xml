@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugin>
+    <id>extFormPlug</id>  <!-- 这里应该对应文件夹名称-->
+    <name>自定义表单控件</name>
+    <category>34075</category>
+</plugin>

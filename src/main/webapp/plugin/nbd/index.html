@@ -16,7 +16,22 @@
     <link rel="stylesheet" href="css/icon.css">
 
     <script src="layui/layui.js"></script>
-
+    <style>
+    .drop-zq{
+        position: relative;
+        display: inline-block;
+    }
+    .content-zq{
+        display: none;
+        position: absolute;
+        left:100px;
+        color: black;
+        z-index: 999;
+    }
+    .drop-zq:hover .content-zq{
+        display: block;
+    }
+    </style>
 
 
 </head>
@@ -84,7 +99,14 @@
     </div>
 </div>
 <div id="lx-left-menu" class="lx-left-menu">
-    <div class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">协同<br>管理</div>
+        <div class="drop-zq">
+                <div class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">协同<br>管理 </div>
+                <ul class="content-zq">
+                        <li>hehe</li>
+                        <li>111</li>
+                        <li>22</li>
+                        </ul>
+                </div>
     <div  class="lx-menu-item lx-left-menu-zq ">公文<br>管理</div>
     <div  class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">任务<br>管理</div>
     <div  class="lx-menu-item lx-left-menu-zq">会议<br>管理</div>
