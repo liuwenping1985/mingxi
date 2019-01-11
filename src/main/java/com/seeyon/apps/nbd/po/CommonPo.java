@@ -14,6 +14,7 @@ import java.util.Date;
 public class CommonPo {
 
     private Long id;
+    //前端用的
     @DBIgnore
     private String sid;
     @DBIgnore

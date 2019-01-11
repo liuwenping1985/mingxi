@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 /**
+ * 瑞安的变态逻辑
  * Created by liuwenping on 2018/12/10.
  */
 public class RuianExportProcessor implements CustomExportProcess {

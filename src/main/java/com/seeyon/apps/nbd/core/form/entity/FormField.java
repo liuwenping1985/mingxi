@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.core.form.entity;
 
 /**
+ * 简化form的那一坨大便一样的逻辑
  * Created by liuwenping on 2018/9/7.
  */
 public class FormField {

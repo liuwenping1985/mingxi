@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ *
+ * 实现简单mongodb的一些小功能
  * Created by liuwenping on 2018/8/24.
  */
 public class DataBaseHandler {

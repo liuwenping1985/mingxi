@@ -45,6 +45,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -537,6 +538,20 @@ public class NbdService {
             return entity;
         }
         try {
+            //保证前端显示正确,老司机不用泛型
+            for(Map map:items){
+                for(Object key:map.keySet()){
+                    Object val = map.get(key);
+                    if(val instanceof Long){
+                        String vals = String.valueOf(val);
+                        map.put(key,vals);
+                    }
+                    if(val instanceof BigDecimal){
+                        BigDecimal vals = (BigDecimal)val;
+                        map.put(key,vals.toPlainString());
+                    }
+                }
+            }
             entity.setItems(items);
             entity.setResult(true);
             return entity;
@@ -906,6 +921,7 @@ public class NbdService {
         p.$("type", 123);
         p.$("type2", "66we");
         p.$("data_type", "3474646");
+        BigDecimal decimal = new BigDecimal(123l);
 
         //nbds.handler.createNewDataBaseByNameIfNotExist("test");
 
@@ -913,6 +929,6 @@ public class NbdService {
 //        String json = JSON.toJSONString(p);
         // Test t = JSON.parseObject(json,Test.class);
         //Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
-        //System.out.println(t.getType());
+        System.out.println(decimal.toPlainString());
     }
 }

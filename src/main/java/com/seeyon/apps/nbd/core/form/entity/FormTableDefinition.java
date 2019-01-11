@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 简化form的那一坨大便一样的逻辑
  * Created by liuwenping on 2018/9/7.
  */
 public class FormTableDefinition {

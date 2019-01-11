@@ -21,6 +21,22 @@ import java.util.Date;
 
 
 /**
+ * 初步实现一个结合mybatis和hibernate优点的简单DB访问框架
+ * 规划功能
+ * 1、自动生成建表语句
+ * 2、自动生成update语句（智能化，有值更新和全量更新）
+ * 3、自动生成insert语句
+ * 4、简单的orm
+ * 5、各种数据库管理小工具
+ * 6、完善的日志
+ * 7、方便的适配外部数据库和内部数据库的数据通道
+ * 8、加强底层jdbc的理解，复习一下
+ * 9、广义数据传输的一部分-http-db-ws 构成闭环
+ * 10、规则引擎的设计思想要引入进来
+ * 现在实现的是个最最low的版本，连接池没有，日志没有 工具也没有我屮艸芔茻
+ * 下一步：针对每个连接的连接池的管理，初步拷贝实现一个hibernate的1级缓存
+ *       mybatis的定制化sql用注解来实现
+ *
  * Created by liuwenping on 2018/9/9.
  */
 public final class DataBaseHelper {
@@ -218,6 +234,7 @@ public final class DataBaseHelper {
 
             // map.putAll(extendMap);
             // System.out.println(extendMap);
+            //最简单的orm了吧 艹，效率低了一点
             String json = JSON.toJSONString(extendMap);
             //System.out.println(json);
             try {
@@ -422,6 +439,7 @@ public final class DataBaseHelper {
             boolean isUpdate = false;
             if (id != null) {
                 System.out.println("id not null:" + id);
+                //判断一下是更新还是新增
                 String countSql = "select count(id) as c_count from " + tbName + " where id=" + id;
                 List<Map> existData = executeQueryBySQLAndLink(dl, countSql);
                 //System.out.println(existData);
@@ -683,7 +701,7 @@ public final class DataBaseHelper {
 
     }
 
-
+    //反编译的 懒得自己写了
     private static List resultSetToList(ResultSet rs, boolean lowercaseKey) throws SQLException {
         if (rs == null) {
             throw new RuntimeException("查询结果集对象不能为空！");
@@ -839,7 +857,7 @@ public final class DataBaseHelper {
         Connection conn = null;
         DatabaseMetaData dm = null;
         ResultSet rs = null;
-        ResultSet rm = null;
+
         try {
             conn = ConnectionBuilder.openConnection(link);//数据库连接
             dm = conn.getMetaData();

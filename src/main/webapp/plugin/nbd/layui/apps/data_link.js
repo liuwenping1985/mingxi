@@ -248,7 +248,7 @@
                 var tt = item.split("=");
                 data[tt[0]] = tt[1];
             });
-             console.log(data);
+
             Dao.update("data_link", data, function (ret) {
                 //console.log(ret);
                 Dao.getList("data_link", function (data2) {

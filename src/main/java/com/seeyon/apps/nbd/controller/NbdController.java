@@ -25,6 +25,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;
