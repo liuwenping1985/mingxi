@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.controller;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.po.DocResourcePO;
+import com.seeyon.apps.nbd.constant.PageResourceConstant;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
@@ -12,6 +13,7 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.apps.nbd.vo.PageResourceVo;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.authenticate.domain.User;
@@ -22,13 +24,17 @@ import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.enums.TemplateEnum;
+import com.seeyon.ctp.login.SSOTicketLoginAuthentication;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.portal.sso.SSOLoginHandshakeServletImpl;
 import com.seeyon.ctp.util.LightWeightEncoder;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.v3x.bulletin.controller.BulDataController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,11 +121,9 @@ public class NbdController extends BaseController {
             //${userName}
             OrgManager orgManager = (OrgManager) AppContext.getBean("orgManager");
             mav.addObject("userName", user.getName());//加的。
-<<<<<<< HEAD
 
-            mav.addObject("userLevel", user.getLevelId());//加的。
-=======
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
+            mav.addObject("userDepartId", user.getDepartmentId());
+            mav.addObject("userLevel", user.getLevelId());
             V3xOrgDepartment department = null;
             try {
                 department = orgManager.getDepartmentById(user.getDepartmentId());
@@ -128,6 +132,7 @@ public class NbdController extends BaseController {
             }
             if (department != null) {
                 mav.addObject("userDepartment", department.getName());
+               
             } else {
                 mav.addObject("userDepartment", "中日中心");
             }
@@ -147,23 +152,20 @@ public class NbdController extends BaseController {
                 e.printStackTrace();
                 mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
             }
+            mav.addObject("pagePrivileges", PageResourceConstant.hasZRYQPrivilege(user)?"YES":"NO");
+            mav.addObject("pagePrivileges_huiyi", PageResourceConstant.hasHuiYiAllPrivilege(user)?"YES":"NO");
+            mav.addObject("pagePrivileges_richeng", PageResourceConstant.hasRiChenPrivilege(user)?"YES":"NO");
+
             //${userDepartment}
             //${userType}
+
         } else {
-<<<<<<< HEAD
-            mav.addObject("userId","-1");
-            mav.addObject("userName", "超电磁炮");
-            mav.addObject("userType", "团委书记");
-            mav.addObject("userDepartment", "小学三年级5班");
-            mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
-=======
             try {
                 response.sendRedirect("/seeyon/main.do?method=main");
                 return null;
             } catch (IOException e) {
                 e.printStackTrace();
             }
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
         }
         return mav;
 
@@ -381,7 +383,6 @@ public class NbdController extends BaseController {
 
             templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347l);
         } else {
-
             templateList = nbdService.findConfigTemplates(category, offset, limit, user.getId(), user.getAccountId());
         }
         NbdResponseEntity<CtpTemplate> entity = new NbdResponseEntity<CtpTemplate>();
@@ -401,6 +402,22 @@ public class NbdController extends BaseController {
         return null;
     }
 
+
+
+
+
+
+    public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
+        User user =  AppContext.getCurrentUser();
+        Collection<PageResourceVo> voList = PageResourceConstant.getUserReportPrivileges(user);
+        NbdResponseEntity<PageResourceVo> entity = new NbdResponseEntity<PageResourceVo>();
+        entity.setResult(true);
+        List list = new ArrayList();
+        list.addAll(voList);
+        entity.setItems(list);;
+        UIUtils.responseJSON(entity,response);
+        return null;
+    }
     private void preHandleRequest(HttpServletRequest request, HttpServletResponse response) {
 
         nbdService.setRequest(request);
@@ -410,6 +427,10 @@ public class NbdController extends BaseController {
 
     public static void main(String[] args) {
 
+
+        //6wmVh2CifkRdCLY36FoY1x3UlWQ=
+
+        BulDataController bulDataController;
         //String codde = LightWeightEncoder.decodeString("YmVuam8yMzQi");
         //System.out.println(codde);
     }

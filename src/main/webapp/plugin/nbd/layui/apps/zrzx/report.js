@@ -33,86 +33,99 @@
         });
         var row7 = Row.create({
             parent_id: "root_body",
-            "id": "row1119",
+            "id": "rowReport1",
 
         });
         var row8 = Row.create({
             parent_id: "root_body",
-            "id": "row1129"
+            "id": "rowReport2"
         });
         var row9 = Row.create({
             parent_id: "root_body",
-            "id": "row1139"
+            "id": "rowReport3"
         });
         var row10 = Row.create({
             parent_id: "root_body",
-            "id": "row1149"
+            "id": "rowReport4"
         });
         var row11 = Row.create({
             parent_id: "root_body",
-            "id": "row1159"
+            "id": "rowReport5"
         });
         var row12 = Row.create({
             parent_id: "root_body",
-            "id": "row1169"
+            "id": "rowReport6"
         });
         var row13 = Row.create({
             parent_id: "root_body",
-            "id": "row1179"
+            "id": "rowReport7"
         });
         var row14 = Row.create({
             parent_id: "root_body",
-            "id": "row1189"
+            "id": "rowReport8"
         });
         var col1 = Col.create({
+            id:"colReport1",
             size: 12,
             style:"height:560px"
         });
         var col2 = Col.create({
+            id:"colReport2",
             size: 6,
             style:"height:560px"
         });
         var col3 = Col.create({
+            id:"colReport3",
             size: 6,
             style:"height:560px"
         });
         var col4 = Col.create({
+            id:"colReport4",
             size: 6,
             style:"height:560px"
         });
         var col5 = Col.create({
+            id:"colReport5",
             size: 6,
             style:"height:760px"
         });
         var col6 = Col.create({
+            id:"colReport6",
             size: 6,
             style:"height:560px;"
         });
         var col7 = Col.create({
+            id:"colReport7",
             size: 6,
             style:"height:560px"
         });
         var col8 = Col.create({
+            id:"colReport8",
             size: 6,
             style:"height:560px"
         });
         var col9 = Col.create({
+            id:"colReport9",
             size: 6,
             style:"height:560px"
         });
         var col10 = Col.create({
+            id:"colReport10",
             size: 6,
             style:"height:560px"
         });
         var col11 = Col.create({
+            id:"colReport11",
             size: 6,
             style:"height:560px"
         });
         var col12 = Col.create({
+            id:"colReport12",
             size: 6,
             style:"height:560px"
         });
         var col13 = Col.create({
+            id:"colReport13",
             size: 6,
             style:"height:560px"
         });
@@ -120,6 +133,7 @@
         var Tab = lx["sTab"];
 
         var sTab1 = Tab.create({
+            id:"sTab_renshi",
             "title": "<span id='renyuan' style='font-size:30px'>人员信息&nbsp&nbsp</span><span style='color:gray'>HR Report</span>",
             "style":"height:540px;background-color:white"
         });
@@ -180,6 +194,7 @@
         sTab1.append(mixRoot);
 
         var sTab2 = Tab.create({
+            id:"sTab_dangyuan",
             "title":"<span id='dangjian' style='font-size:30px'>党员统计&nbsp&nbsp</span><span style='color:gray'>Party member</span>",
             "style":"height:540px;margin:15px 10px 15px 0px;background-color:white"
         });
@@ -221,6 +236,7 @@
         });
         sTab2.append(mTab2);
         var sTab3 = Tab.create({
+            id:"sTab_xuncha",
             "title": "<span id='xuncha' style='font-size:30px'>巡查督查&nbsp&nbsp</span><span style='color:gray'>Partrol inspection</span>",
             "style":"height:540px;margin:15px 10px 15px 0px;background-color:white"
         });
@@ -248,10 +264,12 @@
         sTab3.append(mTab3);
 
         var sTab4 = Tab.create({
+            id:"sTab_niandu",
             "title": "<span id='niandu' style='font-size:30px'>年度工作&nbsp&nbsp</span><span style='color:gray'>Task Report</span>",
             "style":"height:740px;margin:15px 10px 15px 0px;background-color:white"
         });
         var mTab4 = MTab.create({
+            
             root_class:"layui-tab layui-tab-brief",
             tabs:[{
                 name:"<span style='color:black;font-size:14px'>整体情况</span>",
@@ -262,6 +280,7 @@
         });
         sTab4.append(mTab4);
         var sTab5 = Tab.create({
+            id:"sTab_yusuan",
             "title": "<span id='caiwu' style='font-size:30px'>预算执行&nbsp&nbsp</span><span style='color:gray'>Budget execution</span>",
             "style":"height:740px;margin:15px 0px 15px 10px;background-color:white"
         });
@@ -276,6 +295,7 @@
         });
         sTab5.append(mTab5);
         var sTab6 = Tab.create({
+            id:"sTab_gongzuo",
             "title": "<span id='dongtai' style='font-size:30px'>工作动态&nbsp&nbsp</span><span style='color:gray'>Work Dynamics</span>",
             "style":"height:540px;margin:15px 10px 15px 0px;background-color:white"
         });
@@ -302,6 +322,7 @@
         });
         sTab6.append(mTab6);
         var sTab7 = Tab.create({
+            id:"sTab_zhuanbao",
             "title": "<span id='zhuanbao' style='font-size:30px'>信息专报&nbsp&nbsp</span><span style='color:gray'>Information Report</span>",
             "style":"height:540px;margin:15px 0px 15px 10px;background-color:white"
         });
@@ -331,6 +352,7 @@
         });
         sTab7.append(mTab7);
         var sTab8 = Tab.create({
+            id:"sTab_gongwen",
             "title": "<span id='gongwen' style='font-size:30px'>公文统计&nbsp&nbsp</span><span style='color:gray'>Official Document Report</span>",
             "style":"height:540px;margin:15px 10px 15px 0px;background-color:white"
         });
@@ -357,6 +379,7 @@
         });
         sTab8.append(mTab8);
         var sTab9 = Tab.create({
+            id:"sTab_yongzhang",
             "title": "<span id='yongzhang' style='font-size:30px'>用章登记&nbsp&nbsp</span><span style='color:gray'>Seal Report</span>",
             "style":"height:540px;margin:15px 0px 15px 10px;background-color:white"
         });
@@ -377,6 +400,7 @@
         });
         sTab9.append(mTab9);
         var sTab10 = Tab.create({
+            id:"sTab_zichan",
             "title": "<span id='zichan' style='font-size:40px;font-size:30px'>资产统计&nbsp&nbsp</span><span style='color:gray'>Assets</span>",
             "style":"height:540px;margin:15px 0px 15px 10px;background-color:white"
         });
@@ -406,6 +430,7 @@
         });
         sTab10.append(mTab10);
         var sTab11 = Tab.create({
+            id:"sTab_huiyi",
             "title": "<span id='huiyi' style='font-size:30px'>会议情况&nbsp&nbsp</span><span style='color:gray'>Conference</span>",
             "style":"height:540px;margin:15px 10px 15px 0px;background-color:white"
         });
@@ -421,6 +446,7 @@
 
         sTab11.append(mTab11);
         var sTab12 = Tab.create({
+            id:"sTab_xitong",
             "title": "<div id='xitong' style='width: 100%'><span style='font-size:30px'>系统数据&nbsp&nbsp</span><span style='color:gray'>System Data</span> </div>",
             "style":"height:540px;margin:15px 0px 15px 10px;background-color:white"
         });
@@ -438,6 +464,7 @@
 
         sTab12.append(mTab12);
         var sTab13 = Tab.create({
+            id:"sTab_hetong",
             "title": "<span id='hetong' style='font-size:30px'>合同管理&nbsp&nbsp</span><span style='color:gray'>Contract</span>",
             "style":"height:540px;margin:15px 0px 15px 10px;background-color:white"
         });

@@ -90,6 +90,7 @@
         </div>
     </div>
     <input type="hidden"  id="userId" value="${userId}"/>
+    <input type="hidden"  id="userDepartId" value="${userDepartId}"/>
     <div class="lx-top-user">
 
     </div>

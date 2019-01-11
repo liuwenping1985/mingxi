@@ -366,24 +366,14 @@ public class MenhuController extends BaseController {
     //得文档列表
     public ModelAndView getDocList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         preResponse(response);
-<<<<<<< HEAD
-        String typeId2=request.getParameter("typeId2");
-=======
         String typeId2 = request.getParameter("typeId2");
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
         CommonResultVo data = new CommonResultVo();
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             Long typeId = p.getTypeId();
-            String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by createTime desc";
-<<<<<<< HEAD
-            if(typeId2!=null){
-                sql = "from DocResourcePO where parentFrId in (" + typeId + ","+typeId2+") order by createTime desc";
-            }
-            List<DocResourcePO> docDataList = DBAgent.find(sql);
-=======
+            String sql = "from DocResourcePO where parentFrId =  " + typeId + " order by fr_order asc";
             if (typeId2 != null) {
-                sql = "from DocResourcePO where parentFrId in (" + typeId + "," + typeId2 + ") order by createTime desc";
+                sql = "from DocResourcePO where parentFrId in (" + typeId + "," + typeId2 + ") order by fr_order asc";
             }
 
             Integer offset = p.getOffset();
@@ -398,7 +388,6 @@ public class MenhuController extends BaseController {
             info.setPage(offset / limit);
             info.setSize(limit);
             List<DocResourcePO> docDataList = DBAgent.find(sql,null,info);
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             List<DocResourcePO> pagingDocDataList = Helper.paggingList(docDataList, p);
             data.setItems(transToDocVo(pagingDocDataList));
             Helper.responseJSON(data, response);
@@ -428,14 +417,9 @@ public class MenhuController extends BaseController {
             //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
             DocLibPO docLibPo = getDocLibManager().getPersonalLibOfUser(user.getId());
             Map<String, Object> params = new HashMap<String, Object>();
-<<<<<<< HEAD
-            params.put("userName", userName);
-           params.put("docLibId", String.valueOf(docLibPo.getId()));
-=======
             // params.put("userName", userName);
             params.put("docLibId", String.valueOf(docLibPo.getId()));
 
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
             List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
             data.setItems(transToDocVo(pagingFavor));
@@ -534,7 +518,7 @@ public class MenhuController extends BaseController {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String sql = "";
             if (p.getTypeId() != null) {
-                sql = "select * from formmain_0732 where field0001=" + p.getTypeId();
+                sql = "select * from formmain_0732 where field0001=" + p.getTypeId()+" order by field0002 desc";
             }
             List<Map> formDataList = DataBaseHelper.executeQueryByNativeSQL(sql);
             formDataList = Helper.paggingList(formDataList, p);
@@ -542,13 +526,8 @@ public class MenhuController extends BaseController {
                 fd.put("link", "/seeyon/menhu.do?method=openLink&linkType=form&id=" + fd.get("id"));
                 try {
                     fd.put("speaker", this.getOrgManager().getMemberById(CommonUtils.getLong(fd.get("field0003"))));
-<<<<<<< HEAD
-                }catch(Exception e){
-                    fd.put("speaker","unknown");
-=======
                 } catch (Exception e) {
                     fd.put("speaker", "unknown");
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
                 }
             }
             data.setItems(formDataList);
@@ -578,11 +557,7 @@ public class MenhuController extends BaseController {
             if (user == null) {
                 sql1 = "select * from ctp_supervise_detail";
             } else {
-<<<<<<< HEAD
-                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName()+"%' and status=0 order by create_date desc";
-=======
-                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName() + "%' and status=0 order by create_date desc";
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
+                sql1 = "select * from ctp_supervise_detail where supervisors like '%" + user.getName() + "%' and status=0 and app=1 order by create_date desc";
             }
 
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
@@ -625,23 +600,14 @@ public class MenhuController extends BaseController {
 
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-<<<<<<< HEAD
-            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 ");
-            if (p.getTypeId() != null) {
-                sql.append("and state=30 and typeId=" + p.getTypeId());
-=======
             StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30 and image_news=1");
             if (p.getTypeId() != null) {
                 sql.append(" and typeId=" + p.getTypeId());
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             }
 
             sql.append(" order by createDate desc");
 
             //DBAgent.find
-<<<<<<< HEAD
-            List<NewsDataItem> newsDataList = DBAgent.find(sql.toString());
-=======
             Integer offset = p.getOffset();
             if (offset == null) {
                 offset = 0;
@@ -657,7 +623,6 @@ public class MenhuController extends BaseController {
             info.setSize(limit);
 
             List<NewsDataItem> newsDataList = DBAgent.find(sql.toString(),null,info);
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             //
 
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
@@ -700,19 +665,6 @@ public class MenhuController extends BaseController {
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
             String departmentId = request.getParameter("deptId");
-<<<<<<< HEAD
-            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 ");
-            if (p.getTypeId() != null) {
-                sql.append(" and state=30 and typeId=" + p.getTypeId());
-            }
-            if (departmentId != null) {
-                sql.append( " and publishDepartmentId=" + departmentId );
-            }
-
-            sql.append(" order by createDate desc");
-
-            List<NewsDataItem> newsDataList = DBAgent.find(sql.toString());
-=======
             StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30");
             if (p.getTypeId() != null) {
                 sql.append(" and typeId=" + p.getTypeId());
@@ -736,7 +688,6 @@ public class MenhuController extends BaseController {
             info.setPage(offset / limit);
             info.setSize(limit);
             List<NewsDataItem> newsDataList = DBAgent.find(sql.toString(),null,info);
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
             List<NewsDataItem> retNewsDataList = new ArrayList<NewsDataItem>();
             for (NewsDataItem item : newsDataList) {
@@ -821,7 +772,7 @@ public class MenhuController extends BaseController {
             }
             sql.append(" and is_delete =0");
             countSql.append(" and is_delete =0");
-            sql.append(" order by case when app in (4,19,20,21) then 0 else 1 end,createDate desc");
+            sql.append(" order by case when app in (4,19,20,21) then 0 else 1 end,receive_time desc");
 
 
             Integer offset = p.getOffset();
@@ -886,10 +837,6 @@ public class MenhuController extends BaseController {
             data.put("link", "/seeyon/menhu.do?method=openLink&linkType=affair&id=" + data.get("id"));
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             try {
                 if (ctpAffair != null) {
                     V3xOrgMember member = orgManager.getMemberById(ctpAffair.getSenderId());
@@ -1067,53 +1014,38 @@ public class MenhuController extends BaseController {
 
 
     public ModelAndView getBulData(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        preResponse(response);
+        this.preResponse(response);
         CommonResultVo data = new CommonResultVo();
+
         try {
             CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-
             String departmentId = request.getParameter("deptId");
             String departmentId2 = request.getParameter("deptId2");
-
-<<<<<<< HEAD
-            StringBuilder sql = new StringBuilder("from NewsDataItem where deleted_flag=0 and state=30 ");
-=======
             StringBuilder sql = new StringBuilder("from BulDataItem where deleted_flag=0 and state=30");
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
             if (p.getTypeId() != null) {
                 sql.append(" and typeId=" + p.getTypeId());
             }
 
-<<<<<<< HEAD
-
-            if(departmentId2!=null&&departmentId!=null){
-                sql.append( " and departmentId in (" + departmentId +","+departmentId2+ ")" );
-
-            }else if(departmentId!=null||departmentId2!=null){
-                sql.append( " and departmentId = " + departmentId);
-            }else{
-                sql.append(" order by createDate desc");
-            }
-
-
-
-            List<BulDataItem> dataList = DBAgent.find(sql.toString());
-            List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
-            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
-            List<String> list = new ArrayList<String>();
-            for (BulDataItem item : dataList) {
-                if (item.getAttachmentsFlag()) {
-                    List<Attachment> attachments = impl.getByReference(item.getId());
-=======
             if (departmentId2 != null && departmentId != null) {
                 sql.append(" and publishDepartmentId in (" + departmentId + "," + departmentId2 + ")");
-
             } else if (departmentId != null || departmentId2 != null) {
                 sql.append(" and publishDepartmentId = " + departmentId);
             }
-            sql.append(" order by top_order desc,createDate desc");
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
 
+            StringBuilder stb = new StringBuilder();
+            stb.append(" and (");
+            User user = AppContext.getCurrentUser();
+            List<String> scopeCause = this.getScopeLikeCause(user);
+            if (CommonUtils.isEmpty(scopeCause)) {
+                stb.append("1=1");
+            } else {
+                stb.append(DataBaseHelper.join(scopeCause, " or "));
+            }
+
+            stb.append(")");
+            sql.append(stb.toString());
+            sql.append(" order by top_order desc,createDate desc");
+            System.out.println(sql);
             Integer offset = p.getOffset();
             if (offset == null) {
                 offset = 0;
@@ -1123,45 +1055,68 @@ public class MenhuController extends BaseController {
             if (limit == null) {
                 limit = 7;
             }
-            FlipInfo info = new FlipInfo();
 
+            FlipInfo info = new FlipInfo();
             info.setPage(offset / limit);
             info.setSize(limit);
-            List<BulDataItem> dataList = DBAgent.find(sql.toString(),null,info);
-          //  List<BulDataItem> retdataList = new ArrayList<BulDataItem>();
-//            AttachmentManager impl = (AttachmentManager) AppContext.getBean("attachmentManager");
-//            List<String> list = new ArrayList<String>();
-//            for (BulDataItem item : dataList) {
-//                if (item.getAttachmentsFlag()) {
-//                    List<Attachment> attachments = impl.getByReference(item.getId());
-//
-//                    for (Attachment attch : attachments) {
-//                        list.add(attch.getMimeType());
-//                    }
-//                    item.setMimeTypes(list);
-//                    retdataList.add(item);
-//                } else {
-//                    retdataList.add(item);  //不一定对
-//                }
-//            }
-
+            List<BulDataItem> dataList = DBAgent.find(sql.toString(), (Map)null, info);
             List<BulDataItem> pagingBulsDataList = Helper.paggingList(dataList, p);
-            data.setItems(transToBulVo(pagingBulsDataList));
-            //Flag flag = null;
+            data.setItems(this.transToBulVo(pagingBulsDataList));
             Helper.responseJSON(data, response);
             return null;
-        } catch (Exception e) {
+        } catch (Exception var16) {
             data.setResult(false);
-            data.setMsg("EXCEPTION:" + e.getMessage());
-            e.printStackTrace();
-        } catch (Error e) {
+            data.setMsg("EXCEPTION:" + var16.getMessage());
+            var16.printStackTrace();
+        } catch (Error var17) {
             data.setResult(false);
-            data.setMsg("ERROR:" + e.getMessage());
-            e.printStackTrace();
+            data.setMsg("ERROR:" + var17.getMessage());
+            var17.printStackTrace();
         }
+
         Helper.responseJSON(data, response);
         return null;
     }
+
+    private List<String> getScopeLikeCause(User user) {
+        if (user == null) {
+            return null;
+        } else {
+            Long userId = user.getId();
+            Long deptId = user.getDepartmentId();
+            Long accountId = user.getAccountId();
+            List<String> scopeCauseList = new ArrayList();
+            scopeCauseList.add("publish_scope like '%Account|" + accountId + "%'");
+            scopeCauseList.add("publish_scope like '%Department|" + deptId + "%'");
+
+            try {
+                for(V3xOrgDepartment pDept = this.getOrgManager().getParentDepartment(deptId); pDept != null; pDept = this.getOrgManager().getParentDepartment(pDept.getId())) {
+                    scopeCauseList.add("publish_scope like '%Department|" + pDept.getId() + "%'");
+                }
+            } catch (BusinessException var10) {
+                var10.printStackTrace();
+            }
+
+            scopeCauseList.add("publish_scope like '%Member|" + userId + "%'");
+
+            try {
+                List<V3xOrgTeam> teams = this.getOrgManager().getTeamsByMember(userId, accountId);
+                if (!CommonUtils.isEmpty(teams)) {
+                    Iterator var7 = teams.iterator();
+
+                    while(var7.hasNext()) {
+                        V3xOrgTeam team = (V3xOrgTeam)var7.next();
+                        scopeCauseList.add("publish_scope like '%Team|" + team.getId() + "%'");
+                    }
+                }
+            } catch (BusinessException var9) {
+                var9.printStackTrace();
+            }
+
+            return scopeCauseList;
+        }
+    }
+
 
     private List<BulsVo> transToBulVo(List<BulDataItem> bulsDataList) {
         List<BulsVo> retList = new ArrayList<BulsVo>();
@@ -1416,13 +1371,8 @@ public class MenhuController extends BaseController {
             //TODO
             ///seeyon/content/content.do?isFullPage=true&_isModalDialog=true&moduleId=5362885690085430039&moduleType=37&rightId=-7543887085843953036.-4745304762424997952&contentType=20&viewState=2
             String id = request.getParameter("id");
-<<<<<<< HEAD
-            List<CtpContentAll> cont = DBAgent.find("from CtpContentAll where content_data_id="+id);
-            if(!CommonUtils.isEmpty(cont)){
-=======
             List<CtpContentAll> cont = DBAgent.find("from CtpContentAll where content_data_id=" + id);
             if (!CommonUtils.isEmpty(cont)) {
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
                 String url = "";
                 CtpContentAll cca = cont.get(0);
                 url = "/seeyon/content/content.do?isFullPage=true&_isModalDialog=false&moduleId=" + cca.getModuleId() + "&moduleType=" + cca.getModuleType() + "&rightId=&contentType=" + cca.getContentType() + "&viewState=2";
@@ -1478,11 +1428,7 @@ public class MenhuController extends BaseController {
 
 
         }
-<<<<<<< HEAD
-        if("template".equals(linkType)){
-=======
         if ("template".equals(linkType)) {
->>>>>>> 4a1dc1fe91851d953d692536a6fc4f90509d9c4d
 
         }
 

@@ -46,8 +46,6 @@
                      this.op_.data_prop={
                          "img":"imgUrl"
                      };
-
-
                 }
                 if (this.op_.data) {
                     var items = this.op_.data;
@@ -81,7 +79,17 @@
                     if(!this.op_.img_size) {
                         this.op_.img_size="4";
                     }
-                    htmls.push("<div><img height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item[this.op.data_prop["img"]] + "'> </div>");
+                    if(this.op.link_prop){
+                        var link = item[this.op.link_prop];
+                        //alert(link);
+
+                    }
+                    if(link){
+                        htmls.push("<div><img style='cursor:pointer' onclick='window.open(\""+link+"\")' height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item[this.op.data_prop["img"]] + "'> <div class='lx-eps' style='position:relative;bottom:55px;width:100%;background:rgba(0,0,0,0.35);color:white'><center>"+item.title+"</div></center></div>");
+                    }else{
+                         htmls.push("<div><img height='" + (this.op_.height)+ "' width='" + this.op_.width + "' src = '" + item[this.op.data_prop["img"]] + "'> <div>"+item.subject+"</div></div>");
+                    }
+                   
                 }
                 this.body.append($(htmls.join("")));
                 carousel.render(this.op_);

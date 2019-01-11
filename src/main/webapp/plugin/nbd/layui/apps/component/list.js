@@ -18,7 +18,7 @@
                 this.root = $("<div class='" + options.className + "'></div>");
                 this.options = options;
                 this.data_offset=options.data_offset;
-                if(!this.data_offset){
+                if(!this.data_offset){                         //显示
                     this.data_offset=0;
                 }
                 if(options.parent_id){
@@ -114,58 +114,59 @@
             render:function(data,count__,isLazy){
                 var key = [];
                 if(typeof (data)=="string"){
-                    return ;
+                    return ;                        //不是json的返回
                 }
-                if(data.length<0){
+                if(data.length<0){                  //长度小于0返回
                     return ;
-                }
+                }                                        //  空链接，创建数组
                 if (!this.data_prop){
                     this.data_prop=[];
-                    for (var p in data[0]) {
+                    for (var p in data[0]) {                //用p变量遍历data数据[0]
                         this.data_prop.push({"name":p});
                     }
                 }
-                var htmls = [''];
+                var htmls = [''];                              //定义个html数组往里写
 
                 if(this.mode=="normal"){
                 
-                    for(var p=0;p<data.length;p++){
+                    for(var p=0;p<data.length;p++){                 //遍历data的长度，对每个数据进行处理
                        
                         if(p<this.data_offset){
-                            continue;
+                            continue;                       //如果p小于data起始的位置，跳出循环进行下一次
                         }
-                        var p_data = data[p];
+                        var p_data = data[p];           //定义p_data变量，得到数据的值
                         if(!this.link_prop){
-                             htmls.push("<div style="+this.style+" class='layui-row'>");
+                             htmls.push("<div style="+this.style+" class='layui-row'>");//若link_prop的属性为空，写个div
                         }else{
-                            var link_url= p_data[this.link_prop];
+                            var link_url= p_data[this.link_prop];               //不为空  url是lin_prop的值
                             if(link_url){
-                            if(link_url.indexOf("/seeyon")==-1&&link_url.indexOf('javascript')!=0){
+                            if(link_url.indexOf("/seeyon")==-1&&link_url.indexOf('javascript')!=0){    //对url做处理
                                 link_url="/seeyon"+link_url;
                             }
                             if(link_url.indexOf('javascript')==0){
-                                htmls.push("<div onclick="+link_url+" style="+this.style+" class='layui-row'>");
-                            }else{
+                                htmls.push("<div onclick="+link_url+" style="+this.style+" class='layui-row'>");        //是javascrit开头，例如我的收藏那块
+                            }else{      
                                 htmls.push("<div onclick='window.open(\""+link_url+"\")' style="+this.style+" class='layui-row'>");
                             }
                              
                             }else{
 
-                             htmls.push("<div style="+this.style+"  class='layui-row'>");
+                             htmls.push("<div style="+this.style+"  class='layui-row'>");     //url空的时候 就写一行
                             }
                         }
                        
 
                         if(this.max&&this.max>0){
-                            if((p-this.data_offset)+1>this.max){
+                            if((p-this.data_offset)+1>this.max){                    //要是能装的最大的数比p-data_offset，跳出循环
 
                                 break;
                             }
                         }
-                        for (var k = 0; k < this.data_prop.length;k++){
-                            var cell = this.data_prop[k];
+                        for (var k = 0; k < this.data_prop.length;k++){                     //遍历 要显示的参数的数组
+                            var cell = this.data_prop[k];                                       
+
                             if(!cell.size){
-                                cell.size=4;
+                                cell.size=4;                                                            //没定义size默认是4
                             }
                             if(cell&&cell.render){
                                 if(!isLazy){
