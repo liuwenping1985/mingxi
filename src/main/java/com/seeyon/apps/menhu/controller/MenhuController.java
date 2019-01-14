@@ -616,6 +616,7 @@ public class MenhuController extends BaseController {
         Map<String, Object> data = genRet();
         User user = AppContext.getCurrentUser();
         String debug = request.getParameter("debug");
+        String logInName = request.getParameter("loginName");
         boolean isdebug = debug == null ? false : "1".equals(debug) ? true : false;
         if (user != null) {
             UserToken token = LoginTokenManager.getInstance().createToken(user);
@@ -623,8 +624,15 @@ public class MenhuController extends BaseController {
             data.put("data", token);
 
         } else {
-            Long userId = -5667632881493391702L;
-            V3xOrgMember member = this.getOrgManager().getMemberById(userId);
+            V3xOrgMember member = null;
+            if(logInName!=null){
+                try {
+                    member = this.getOrgManager().getMemberByLoginName(logInName);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
             if (member != null && isdebug) {
                 UserToken token = LoginTokenManager.getInstance().createToken(member);
                 data.put("result", true);
@@ -687,11 +695,11 @@ public class MenhuController extends BaseController {
         String link = affair.getAddition();
         try {
             UserToken token = LoginTokenManager.getInstance().createToken();
-            //String host = "http://1.119.195.90/usLoginBySSO.jsp?token=aaa&url=us-home";
+            String host = "http://1.119.195.90/usLoginBySSO.jsp?token="+token.getToken()+"&url="+link;
 
 
             //usLoginBySSO.jsp?token=aaa&url=us-home
-            response.sendRedirect(link);
+            response.sendRedirect(host);
             return null;
         } catch (IOException e) {
             e.printStackTrace();

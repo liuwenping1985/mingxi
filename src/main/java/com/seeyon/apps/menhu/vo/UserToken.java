@@ -15,7 +15,7 @@ public class UserToken {
 
     private Long validDate;
     //有效时间
-    private Long period=10*1000L;
+    private Long period=60*1000L;
 
     private String token;
 
