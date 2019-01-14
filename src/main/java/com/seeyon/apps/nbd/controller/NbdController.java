@@ -21,6 +21,7 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
+import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
@@ -150,7 +151,7 @@ public class NbdController extends BaseController {
 
             //${userDepartment}
             //${userType}
-
+           // LoginControlImpl l;
         } else {
             try {
                 response.sendRedirect("/seeyon/main.do?method=main");
