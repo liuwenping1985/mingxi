@@ -161,14 +161,14 @@ $().ready(function() {
             width: '25%'
         }, */
         {
-            display: "${ctp:i18n('cip.service.register.access')}",
+            display: "${ctp:i18n('cip.manager.register.access')}",
             sortable: true,
             name: 'loginPattern',
             width: '25%',
             codecfg : "codeType:'java',codeId:'com.seeyon.apps.cip.enums.AccessTypeEnum'"
         },
         {
-            display: "${ctp:i18n('cip.service.enabled')}",
+            display: "${ctp:i18n('cip.manager.enabled')}",
             sortable: true,
             name: 'isEnable',
             width: '25%',
@@ -535,7 +535,7 @@ $().ready(function() {
             id: 'search_enable',
             name: 'search_enable',
             type: 'select',
-            text: "${ctp:i18n('cip.service.enabled')}",
+            text: "${ctp:i18n('cip.manager.enabled')}",
             value: 'isEnable',
             codecfg : "codeType:'java',codeId:'com.seeyon.apps.cip.enums.CipEnableEnum'"
             

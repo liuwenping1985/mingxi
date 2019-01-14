@@ -17,6 +17,9 @@
     var eutil = {};
     Date.prototype.format = function(format)
     {
+        if(!format){
+            format="yyyy-MM-dd hh:mm:ss";
+        }
         var o = {
             "M+" : this.getMonth()+1, //month
             "d+" : this.getDate(),    //day
@@ -68,6 +71,20 @@
             h2=280;
         }
         return h2;
+    }
+    layex.eutil.getRequestParam=function(){
+        var url = location.search||window.location.href; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+
+
     }
     var Class_ = function () {
         var klass = function () {
@@ -160,7 +177,7 @@
     window.layex = layex;
     window.lx = layex;
     layex.config({
-        base: 'layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
+        base: '/seeyon/apps_res/nbd/layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
     });
 
 }());

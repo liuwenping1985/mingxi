@@ -69,19 +69,19 @@
         </div>
         <div style="overflow:hidden;margin-left:0;margin-right:0;line-height: 40px;width:1100px;background: dodgerblue" class="nav-all move-left " >
             <nav style="margin: 0 auto;width: 1000px;display: flex;justify-content: space-between;text-align: center">
-            <span class="nav-item">&nbsp&nbsp&nbsp&nbsp<a href="xuncha" style="font-size:20px;color:white">  人&nbsp&nbsp事&nbsp&nbsp</a></span>
-            <span class="nav-item"><a href="dangjian" style="font-size:20px;color:white">/&nbsp党&nbsp&nbsp建&nbsp</a></span>
-            <span class="nav-item"><a href="xuncha" style="font-size:20px;color:white">/&nbsp巡&nbsp&nbsp查&nbsp</a></span>
-            <span class="nav-item"><a href="niandu" style="font-size:20px;color:white">/&nbsp年&nbsp&nbsp度&nbsp</a></span>
-            <span class="nav-item"><a href="hudong" style="font-size:20px;color:white">/&nbsp财&nbsp&nbsp务&nbsp</a></span>
-            <span class="nav-item"><a href="dongtai" style="font-size:20px;color:white">/&nbsp动&nbsp&nbsp态&nbsp</a></span>
-            <span class="nav-item"><a href="zhuanbao" style="font-size:20px;color:white">/&nbsp专&nbsp&nbsp报&nbsp</a></span>
-            <span class="nav-item"><a href="gongwen" style="font-size:20px;color:white">/&nbsp公&nbsp&nbsp文&nbsp</a></span>
-            <span class="nav-item"><a href="yongzhang" style="font-size:20px;color:white">/&nbsp用&nbsp&nbsp章&nbsp</a></span>
-            <span class="nav-item"><a href="hudong" style="font-size:20px;color:white">/&nbsp资&nbsp&nbsp产&nbsp</a></span>
-            <span class="nav-item"><a href="huiyi" style="font-size:20px;color:white">/&nbsp会&nbsp&nbsp议&nbsp</a></span>
-            <span class="nav-item"><a href="hudong" style="font-size:20px;color:white">/&nbsp&nbsp系&nbsp&nbsp统&nbsp</a></span>
-            <span class="nav-item"><a href="hudong" style="font-size:20px;color:white">/&nbsp合&nbsp&nbsp同&nbsp</a></span>
+            <span class="nav-item">&nbsp&nbsp&nbsp&nbsp<a href="#renyuan" style="font-size:20px;color:white">  人&nbsp&nbsp事&nbsp&nbsp</a></span>
+            <span class="nav-item"><a href="#dangjian" style="font-size:20px;color:white">/&nbsp党&nbsp&nbsp建&nbsp</a></span>
+            <span class="nav-item"><a href="#xuncha" style="font-size:20px;color:white">/&nbsp巡&nbsp&nbsp查&nbsp</a></span>
+            <span class="nav-item"><a href="#niandu" style="font-size:20px;color:white">/&nbsp年&nbsp&nbsp度&nbsp</a></span>
+            <span class="nav-item"><a href="#caiwu" style="font-size:20px;color:white">/&nbsp财&nbsp&nbsp务&nbsp</a></span>
+            <span class="nav-item"><a href="#dongtai" style="font-size:20px;color:white">/&nbsp动&nbsp&nbsp态&nbsp</a></span>
+            <span class="nav-item"><a href="#zhuanbao" style="font-size:20px;color:white">/&nbsp专&nbsp&nbsp报&nbsp</a></span>
+            <span class="nav-item"><a href="#gongwen" style="font-size:20px;color:white">/&nbsp公&nbsp&nbsp文&nbsp</a></span>
+            <span class="nav-item"><a href="#yongzhang" style="font-size:20px;color:white">/&nbsp用&nbsp&nbsp章&nbsp</a></span>
+            <span class="nav-item"><a href="#zichan" style="font-size:20px;color:white">/&nbsp资&nbsp&nbsp产&nbsp</a></span>
+            <span class="nav-item"><a href="#huiyi" style="font-size:20px;color:white">/&nbsp会&nbsp&nbsp议&nbsp</a></span>
+            <span class="nav-item"><a href="#xitong" style="font-size:20px;color:white">/&nbsp&nbsp系&nbsp&nbsp统&nbsp</a></span>
+            <span class="nav-item"><a href="#hetong" style="font-size:20px;color:white">/&nbsp合&nbsp&nbsp同&nbsp</a></span>
 
             </nav>
 

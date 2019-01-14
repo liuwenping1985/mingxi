@@ -23,7 +23,7 @@
 .lx_icon16_messa{
     display:inline-block;
     width:21px;
-    height:16px;
+    height:20px;
     background:url('../images/message_open.png');
 }
 .lx_icon16_text_type_template{
@@ -53,4 +53,19 @@
     height:16px;
     background:url('../images/icon16.png');
     background-position: -336px -16px;
+}
+.ico16{
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
+    background: url(../images/icon16.png) no-repeat;
+    background-position: 0 0;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.lately_text_type_template_16 {
+    background-position: -0px -80px;
 }

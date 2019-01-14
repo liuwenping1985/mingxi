@@ -29,8 +29,8 @@
 
 }
 .lx-logo{
-    width: 70px;
-    height:70px;
+  /*  width: 70px;
+    height:70px;*/
     vertical-align: text-bottom;
 }
 .lx-online-banner{
@@ -42,7 +42,7 @@
 .lx-search-btn{
     padding-right:350px;
     position: absolute;
-    top:25px;
+    top:60px;
     right:0px;
 
 }
@@ -61,6 +61,12 @@
 }
 .h78px{
     height:78px;
+}
+.h88px{
+    height:88px;
+}
+.h98px{
+    height:98px;
 }
 .w150px{
     width:150px;
@@ -127,7 +133,7 @@
 .lx-user-area{
     position:absolute;
     right:0px;
-    top:89px;
+    top:115px;
     width:242px;
 }
 .lx-user-img-wrapper{
@@ -157,12 +163,14 @@
 .lx-left-menu{
     position:fixed;
     left:0px;
-    top:182px;
+    top:202px;
+    z-index:999;
 }
 .lx-right-menu{
     position:fixed;
     right:0px;
-    top:182px;
+    top:202px; 
+    z-index:999;
 }
 .lx-menu-item{
     width:55px;
@@ -203,7 +211,7 @@
 }
 .lx-root{
     position:absolute;
-    top:148px;
+    top:168px;
     width:100%;
 }
 .lx-root-body{
@@ -229,6 +237,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding-left:8px;
+    
 }
 .layui-tab-card>.layui-tab-title{
     background-color: white;
@@ -336,23 +345,26 @@
 .lx-btn-zq{
     background-color: #BCC2CE;
     color: white;
-    line-height:100%;
+    padding-bottom: 10px;
     border: none;
-    margin-left: 30px;
+    
     height:44px;
 }
 .lx-btn-zq1{
     background-color:#299AC6;
     color: white;
     border: none;
-    margin-left: 30px;
-    line-height: 100%;
+   
+    
     height:44px;
 }
 .lx-btn-span{
     font-style: italic;
     font-size: 40px;
-    line-height: 100%;
+    width: 44px;
+    
+    display: inline-block;
+    
 
 }
 .lx-content-zq{
@@ -474,5 +486,69 @@
 .lx-cal-max-s{
 
     max-width:100px
+
+}
+.lx-eps:hover span{
+    color:#4C98C2;
+}
+
+.lx-dropdownzq-zq{
+    display: relative;
+    list-style: none;
+}
+.lx-contentzq-zq{
+    display: none;
+    position: absolute;
+    width: 100px;
+    left:71px;
+    top:0px;
+    
+}
+.lx-menu-item-zq{
+
+   padding-top: 2px;
+   padding-right: 2px;
+   border-bottom: 1px solid white;
+   color: white;
+   text-align: center;
+   line-height: 25px;
+   font-size: 15px;
+   font-weight: normal;
+   background-color: #4C98C2;
+   cursor: pointer
+}
+
+.lx-dropdownzq-zq:hover .lx-contentzq-zq{
+       display: block !important;        
+}
+.lx-bg-color-zq{
+   background:rgb(76,140,193);
+}
+.lx-type-zq{
+    color:rgb(88, 118, 143);
+}
+.lx-menu-item-zq:hover{
+    background-color: rgb(76,140,193);
+}
+.lx-nav-item-zq{
+    display:inline-block;
+    font-size:20px;
+    color:white;
+    padding-right:32px;
+    margin-right:5px;
+    line-height:36px;
+    cursor:pointer;
+    width:140px;
+}
+.lx-cursor-zq{
+    cursor: pointer
+}
+.layui-carousel-ind {
+position: relative;
+     top: -5px; 
+    width: 100%;
+    line-height: 0!important;
+    text-align: center;
+    font-size: 0;
 
 }

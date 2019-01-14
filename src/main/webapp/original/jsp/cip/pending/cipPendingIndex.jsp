@@ -182,7 +182,7 @@ $().ready(function() {
             width: '15%'
         },
         {
-            display: "${ctp:i18n('cip.service.register.access')}",
+            display: "${ctp:i18n('cip.manager.register.access')}",
             sortable: true,
             name: 'accessMethod',
             width: '15%',
@@ -196,7 +196,7 @@ $().ready(function() {
             codecfg : "codeType:'java',codeId:'com.seeyon.apps.cip.enums.GetModeEnum'"
         },
         {
-            display: "${ctp:i18n('cip.service.enabled')}",
+            display: "${ctp:i18n('cip.manager.enabled')}",
             sortable: true,
             name: 'isEnable',
             width: '15%',
@@ -314,7 +314,7 @@ $().ready(function() {
             id: 'accessMethod',
             name: 'accessMethod',
             type: 'select',
-            text: "${ctp:i18n('cip.service.register.access')}",
+            text: "${ctp:i18n('cip.manager.register.access')}",
             value: 'accessMethod',
 			codecfg : "codeType:'java',codeId:'com.seeyon.apps.cip.enums.AccessTypeEnum'"			
         },
@@ -322,7 +322,7 @@ $().ready(function() {
             id: 'search_enable',
             name: 'search_enable',
             type: 'select',
-            text: "${ctp:i18n('cip.service.enabled')}",
+            text: "${ctp:i18n('cip.manager.enabled')}",
             value: 'isEnable',
             codecfg : "codeType:'java',codeId:'com.seeyon.apps.cip.enums.CipEnableEnum'"
             

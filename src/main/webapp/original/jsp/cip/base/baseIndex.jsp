@@ -45,7 +45,7 @@
           </li>
           <li>
             <a  href="javascript:void(0)" tgt="instance_iframe">
-              <span>${ctp:i18n('cip.service.register')}</span>
+              <span>${ctp:i18n('cip.manager.register')}</span>
             </a>
           </li>
              <li>

@@ -1,24 +1,26 @@
-;var URL_BASE = "http://10.100.249.84:612";
-
+﻿;var URL_BASE = "";
 var URL_REPO = {
+    "wodemobanAjax":URL_BASE+"/seeyon/ajax.do?method=ajaxAction&managerName=sectionManager&managerMethod=doProjection&arguments=%7B%22sectionBeanId%22%3A%22templeteSection%22%2C%22entityId%22%3A%22-7606328780659406586%22%2C%22ordinal%22%3A%220%22%2C%22spaceType%22%3A%22personal%22%2C%22spaceId%22%3A%221227026578096801094%22%2C%22ownerId%22%3A%22670869647114347%22%2C%22x%22%3A2%2C%22y%22%3A1%2C%22width%22%3A%225%22%2C%22panelId%22%3A0%2C%22paramKeys%22%3A%5B%5D%2C%22paramValues%22%3A%5B%5D%2C%22sprint%22%3A%22%22%7D",
+    "wodeshoucangAjax":URL_BASE+"/seeyon/menhu.do?method=getFavorCollection&offset=0&limit=7",
     //第一行-要情、公告、工作动态
     "tupianxinwen": URL_BASE + "/seeyon/menhu.do?method=getImgNewList&typeId=1&offset=0&limit=7",
     "tongzhigonggao": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=7305481828924604761&offset=0&limit=7",
-    "zuoriyaoqing": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-2220615473202182672&offset=0&limit=7",//昨日要请
-    "gongzuodongtai": URL_BASE + "/seeyon/menhu.do?method=getNewsByAccountAndDepartment&orgCountStr=3&deptCountStr=4",
+	 "zuoriyaoqing": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4918958564664889309&offset=0&limit=6",//昨日要请
+    "gongzuodongtai": URL_BASE + "/seeyon/menhu.do?method=getNewsByAccountAndDepartment&orgCount=3&deptCount=4",
     //以案为鉴
-    "liangxueyizuo1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=1268478479319909049&offset=0&limit=6",
+    "liangxueyizuo1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=5714886982896340558&offset=0&limit=6",
     "liangxueyizuo2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8188009082124256867&offset=0&limit=6",
-    "shijiuda1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8090639548974844938&offset=0&limit=6",
+    "shijiuda1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=5454355836090926272&offset=0&limit=6",
     "shijiuda2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7136252316133508367&offset=0&limit=6",
-    "sanyansanshi1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=1385529657363679024&offset=0&limit=6",
+    "sanyansanshi1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=1669173232673178774&offset=0&limit=6",
     "sanyansanshi2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7462332795861419459&offset=0&limit=6",
     "yianweijian2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2104797802172793544&offset=0&limit=6",
-    "yianweijian1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4815176891167032382&offset=0&limit=6",
-    "shibada1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=4252252302003883022&offset=0&limit=6",
+    "yianweijian1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=6233739044712303377&offset=0&limit=6",
+    "shibada1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=6275709802982230101&offset=0&limit=6",
     "shibada2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=5469896967953073526&offset=0&limit=6",
-    "sanhuiyike2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8503501149007790685&offset=0&limit=6",
-    "sanhuiyike1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8339111925347929889&offset=0&limit=6",
+    "sanhuiyike2": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2265782099952750242&offset=0&limit=6",
+    "sanhuiyike1": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=7691978138737003613&offset=0&limit=6",
+    "dangjiangongzuogongshi": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=575989468633646689&offset=0&limit=7",
     //行前、执行、国际
     "xqgs": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=3563212477215886478&offset=0&limit=8",
     "zhixinggongshi": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8922663637462369764&offset=0&limit=8",
@@ -30,8 +32,8 @@ var URL_REPO = {
     //收藏、模板、跟踪
     "wodeshoucang": URL_BASE + "/seeyon/menhu.do?method=getFavorCollection&offset=0&limit=7",
     "genzongduban": URL_BASE + "/seeyon/menhu.do?method=getSuperviseList&offset=0&limit=7",
-    "wodemoban1": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=0&limit=3",//登陆才有
-    "wodemoban2": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=4&limit=6",
+    "wodemoban1": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=0&limit=4",//登陆才有
+    "wodemoban2": URL_BASE + "/seeyon/nbd.do?method=getMyCtpTemplateList&offset=5&limit=8",
     //办公室和领导班子
     "bangonghui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=3297213230734002184&offset=0&limit=7",
     "lingdaobanzihui": URL_BASE + "/seeyon/menhu.do?method=getFormmainList&typeId=-7007958826195137660&offset=0&limit=7",
@@ -44,8 +46,8 @@ var URL_REPO = {
     "daibangongzuo": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&offset=0&limit=6&$count=true",
     "chaoqi": URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId=3&subState=12&offset=0&limit=6&$count=true",
     //光荣、下载、菜单
-    "meizhoucaidan": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-8736948720711547028&offset=0&limit=7",
-    "xiazaizhuanqu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=2296413374197223074&offset=0&limit=7",
+    "meizhoucaidan": URL_BASE + "/seeyon/menhu.do?method=getBulData&typeId=-8736948720711547028&deletedFlag=0&offset=0&limit=7",
+	"xiazaizhuanqu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8068159451132608944&offset=0&limit=7",
     "guangrongbang": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=820644300868634954&offset=0&limit=7",
     //没用
     "guizhangzhidu": URL_BASE + "/seeyon/menhu.do?method=getDocList&typeId=8314899268065577424&offset=0&limit=7",
@@ -59,7 +61,7 @@ var URL_REPO = {
 
 
 };
-(function () {
+(function(){
 
     lx.use(["jquery", "carousel", "element", "row", "col", "sTab", "mTab", "list", "lunbo", "mixed", "datepicker", "laydate"], function () {
         var default_height = "height:300px"
@@ -106,7 +108,7 @@ var URL_REPO = {
             style: "margin-top:14px"
         });
         var row7 = Row.create({
-            parent_id: "root_body",
+            
             "id": "row1179",
             style: "margin-top:14px"
         });
@@ -188,8 +190,9 @@ var URL_REPO = {
             style: default_height_col
         });
         row7.append(col15);
+        
         function showFont(app,data) {
-
+    
             if (app) {
                 var temp = "";
                 if (app == "1") {
@@ -206,6 +209,12 @@ var URL_REPO = {
                     temp = "公告";
                 }else if (app == "8") {
                     temp = "新闻";
+                }else if (app == "20") {
+                    temp = "收文";
+                }else if (app == "19") {
+                    temp = "发文";
+                }else if (app == "24") {
+                    temp = "登记";
                 }else {
                     temp = "其他";
                 }
@@ -239,13 +248,18 @@ var URL_REPO = {
         }
 
         var list1 = List.create({
+            id:"tongzhigonggao",
             name: "通知公告",
             link_prop: "link",
+            auto_refresh:true,
             data_url: URL_REPO.tongzhigonggao,
             data_prop: [{
                 name: "title",
                 size: 10,
                 render: function (name, data, item) {
+                    if(item.topOrder>0){
+                        data="<span style='font-size:18px;color:red'>[置顶]</span>"+data;
+                    }
                     return showIcon(item.readFlag,data,item.body_type);
                 }
             }, {
@@ -259,8 +273,12 @@ var URL_REPO = {
         });
         var sTab1 = Tab.create({
             "title": "<span class='lx-tab-head'>通知公告</span>",
+            id:"tongzhi",
             style: default_height,
             content: list1,
+            title_click:function(){
+                list1.refresh();
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -285,6 +303,7 @@ var URL_REPO = {
 
         var lunbo2 = Lunbo.create({
             id: "lunbo2",
+            link_prop: "link",
             change: function (res) {
                 //console("changed");
             },
@@ -301,14 +320,16 @@ var URL_REPO = {
         var list31 = List.create({
             link_prop: "link",
             data_url: URL_REPO.zuoriyaoqing,
+            auto_refresh_period:"12000",
+            auto_refresh:true,
             data_prop: [{
-                name: "title",
-                size: 10,
+                "name": "frName",
                 render: function (name, data, item) {
-                    return showIcon(item.readFlag,data,item.body_type);
-                }
+                    return showIcon(item.readFlag,data);
+                },
+                size: 10
             }, {
-                "name": "createDate",
+                "name": "createTime",
                 size: 2,
                 render: function (name, data) {
                     return data.substring(5, 10);
@@ -324,6 +345,8 @@ var URL_REPO = {
         var list32 = List.create({
             data_url: URL_REPO.gongzuodongtai,
             link_prop:"link",
+            auto_refresh:true,
+            auto_refresh_period:"16000",
             data_prop: [{
                 name: "title",
                 size: 10,
@@ -361,13 +384,21 @@ var URL_REPO = {
                 contentType: "cmp",
                 content: list32
             }],
+            title_click:function(e){
+               // console.log(e.target);
+                if($(e.target).attr("id")=="zryq_head"){
+                    list31.refresh();  
+                }else{
+                    list32.refresh();
+                }
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
                     //alert("click");
                     if($("#zryq_head").hasClass("layui-this")||$("#zryq_head").parent().hasClass("layui-this")){
-                        window.open("/seeyon/bulData.do?method=bulIndex&typeId=-2220615473202182672&spaceType=&spaceId=");
+                        window.open("/seeyon/doc.do?method=docHomepageIndex&docResId=4918958564664889309");
                     }else{
                         window.open("/seeyon/newsData.do?method=newsIndex&_resourceCode=F05_newsIndexAccount");
                     }
@@ -382,10 +413,10 @@ var URL_REPO = {
                 click: function (e) {
                     //alert("click2");
                     if($("#zryq_head").hasClass("layui-this")||$("#zryq_head").parent().hasClass("layui-this")){
-                        // alert("zryq");
-                        window.open("/seeyon/bulData.do?method=bulEdit&spaceType=2&bulTypeId=-2220615473202182672&spaceId=670869647114347&bulId=&openFlag=true");
+                       // alert("zryq");
+                      //  window.open("");
                     }else{
-                        // alert("gzdt");
+                       // alert("gzdt");
                         window.open("/seeyon/newsData.do?method=newsEdit&newsType=&newsTypeId=&newsId=&spaceType=&spaceId=&openFlag=true");
                     }
                     e.stopPropagation();
@@ -399,6 +430,8 @@ var URL_REPO = {
         var list4 = List.create({
             data_url: URL_REPO.genzongduban,
             link_prop:"link",
+            auto_refresh:true,
+            auto_refresh_period:"60000",
             data_prop: [{
                 "name": "subject",
                 render: function (name, data, item) {
@@ -408,8 +441,9 @@ var URL_REPO = {
                 size: 10
             }, {
                 "name": "awake_date",
-                render: function (name, data) {
+                render: function (name, data,item) {
                     return data.substring(5, 10);
+                    
                 },
                 size: 2
             }
@@ -420,6 +454,9 @@ var URL_REPO = {
             style: default_height,
             contentType: "cmp",
             content: list4,
+            title_click:function(){
+                list4.refresh();
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -431,7 +468,7 @@ var URL_REPO = {
                 }
             }
         });
-
+        
         var list51 = List.create({
             id: "daiban",
             link_prop: "link",
@@ -442,14 +479,14 @@ var URL_REPO = {
                     if(count!=undefined){
                         $("#pending_list_head").html("待办["+count+"]");
                     }
-
+                   
                     return showFont(item.app,data);
-
+                    
                 },
-                size: 8
+                size: 9
             } ,{
                 "name": "senderName",
-                size: 3,
+                size: 2,
                 render: function (name, data) {
                     return data;
                 }
@@ -474,13 +511,13 @@ var URL_REPO = {
                     if(count!=undefined){
                         $("#sent_list_head").html("已发["+count+"]");
                     }
-
+                   
                     return showFont(item.app,data);
                 },
-                size: 8
+                size: 9
             } ,{
                 "name": "senderName",
-                size: 3,
+                size: 2,
                 render: function (name, data) {
                     return data;
                 }
@@ -506,13 +543,13 @@ var URL_REPO = {
                     if(count!=undefined){
                         $("#done_list_head").html("已办["+count+"]");
                     }
-
+                    
                     return showFont(item.app,data);
                 },
-                size: 8
+                size: 9
             } ,{
                 "name": "senderName",
-                size: 3,
+                size: 2,
                 render: function (name, data) {
                     return data;
                 }
@@ -537,13 +574,13 @@ var URL_REPO = {
                     if(count!=undefined){
                         $("#overdate_list_head").html("超期["+count+"]");
                     }
-
+                   
                     return showFont(item.app,data);
                 },
-                size: 8
+                size: 9
             } ,{
                 "name": "senderName",
-                size: 3,
+                size: 2,
                 render: function (name, data) {
                     return data;
                 }
@@ -577,7 +614,7 @@ var URL_REPO = {
         var mix511 = Mixed.create({
             id: "mixed2",
             mode: "col",
-
+            root_style:"width:270px",
             size: 4,
             cmps: [{
                 contentType: "html",
@@ -631,6 +668,7 @@ var URL_REPO = {
 
             }],
             on_tab: function (item) {
+               
                 var curTab = $("#pending-main-mTab5").find(".layui-tab-item.layui-show");
                 curTab.append(mixRoot51.root);
                 var curId = $(item).attr("lay-id");
@@ -639,18 +677,22 @@ var URL_REPO = {
                 list53.root.hide();
                 list54.root.hide();
                 if (curId == "pending-li-1") {
+                    list51.refresh();
                     mix512.root.append(list51.root);
                     list51.root.show();
                 }
                 if (curId == "pending-li-2") {
+                    list52.refresh();
                     mix512.root.append(list52.root);
                     list52.root.show();
                 }
                 if (curId == "pending-li-3") {
+                    list53.refresh();
                     mix512.root.append(list53.root);
                     list53.root.show();
                 }
                 if (curId == "pending-li-4") {
+                    list54.refresh();
                     mix512.root.append(list54.root);
                     list54.root.show();
                 }
@@ -660,95 +702,118 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    //alert("click");
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.open("/seeyon/collaboration/collaboration.do?method=newColl&rescode=F01_newColl&_resourceCode=F01_newColl");
-                }
-            },
+                    if($("#pending_list_head").hasClass("layui-this")||$("#pending_list_head").parent().hasClass("layui-this")){
+                                if($("#xietong_button").hasClass("lx-btn-zq1")||$("#xietong_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=xietongdaiban");
+                                }else  if($("#gongwen_button").hasClass("lx-btn-zq1")||$("#gongwen_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=gongwendaiban");
+                                }else  if($("#huiyi_button").hasClass("lx-btn-zq1")||$("#huiyi_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=huiyidaiban");
+                                }else if($("#renwu_button").hasClass("lx-btn-zq1")||$("#renwu_button").parent().hasClass("lx-btn-zq1")){
+                                   // window.open("/seeyon/main.do?method=main&openType=menhu&type=renwudaiban");
+                                   alert("该功能暂未开放");
+                                }else{
+                                    alert("请选择事务类型");
+                                }
+                             e.preventDefault();
+                             e.stopPropagation();
+                 }else if($("#sent_list_head").hasClass("layui-this")||$("#sent_list_head").parent().hasClass("layui-this")){
+                                if($("#xietong_button").hasClass("lx-btn-zq1")||$("#xietong_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=xietongyifa");
+                                }else  if($("#gongwen_button").hasClass("lx-btn-zq1")||$("#gongwen_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=gongwenyifa");
+                                }else  if($("#huiyi_button").hasClass("lx-btn-zq1")||$("#huiyi_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=huiyiyifa");
+                                }else if($("#renwu_button").hasClass("lx-btn-zq1")||$("#renwu_button").parent().hasClass("lx-btn-zq1")){
+                                    //window.open("/seeyon/main.do?method=main&openType=menhu&type=renwuyifa");
+                                    alert("该功能暂未开放");
+                                }else{
+                                    alert("请选择事务类型");
+                                }
+                            e.preventDefault();
+                            e.stopPropagation();
+                 }else if($("#done_list_head").hasClass("layui-this")||$("#done_list_head").parent().hasClass("layui-this")){
+                                if($("#xietong_button").hasClass("lx-btn-zq1")||$("#xietong_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=xietongyiban");
+                                }else  if($("#gongwen_button").hasClass("lx-btn-zq1")||$("#gongwen_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=gongwenyiban");
+                                }else  if($("#huiyi_button").hasClass("lx-btn-zq1")||$("#huiyi_button").parent().hasClass("lx-btn-zq1")){
+                                    window.open("/seeyon/main.do?method=main&openType=menhu&type=huiyiyiban");
+                                }else if($("#renwu_button").hasClass("lx-btn-zq1")||$("#renwu_button").parent().hasClass("lx-btn-zq1")){
+                                    //window.open("/seeyon/main.do?method=main&openType=menhu&type=renwuyiban");
+                                    alert("该功能暂未开放");
+
+                                }else{
+                                    alert("请选择事务类型");
+                                }
+                            e.preventDefault();
+                            e.stopPropagation();
+                     }else{
+                                if($("#xietong_button").hasClass("lx-btn-zq1")||$("#xietong_button").parent().hasClass("lx-btn-zq1")){
+                                  //  window.open("/seeyon/main.do?method=main&openType=menhu&type=xietongchaoqi");
+                                  alert("暂无此页面");
+                                }else  if($("#gongwen_button").hasClass("lx-btn-zq1")||$("#gongwen_button").parent().hasClass("lx-btn-zq1")){
+                                  //  window.open("/seeyon/main.do?method=main&openType=menhu&type=gongwenchaoqi");
+                                  alert("暂无此页面");
+                                }else  if($("#huiyi_button").hasClass("lx-btn-zq1")||$("#huiyi_button").parent().hasClass("lx-btn-zq1")){
+                                  //  window.open("/seeyon/main.do?method=main&openType=menhu&type=huiyichaoqi");
+                                  alert("暂无此页面");
+                                }else if($("#renwu_button").hasClass("lx-btn-zq1")||$("#renwu_button").parent().hasClass("lx-btn-zq1")){
+                                    //window.open("/seeyon/main.do?method=main&openType=menhu&type=renwuchaoqi");
+                                    alert("该功能暂未开放");
+
+                                }else{
+                                    alert("请选择事务类型");
+                                }
+                            e.preventDefault();
+                            e.stopPropagation();
+                    }
+            }
+        },
             new_btn: {
                 class_name: "lx-tab-new-btn",
                 html: "<span class='lx-new-btn'>+</span>",
                 click: function (e) {
-                    //alert("click2");
+                    
                     window.open("/seeyon/collaboration/collaboration.do?method=newColl&rescode=F01_newColl&_resourceCode=F01_newColl");
                     e.preventDefault();
                     e.stopPropagation();
-                }
+                    
+                                
+             }
             }
         });
         col4.append(sTab4);
         col5.append(mTab5);
 
         var list61 = List.create({
-            data_url: URL_REPO.wodemoban1,
+            data_url: URL_REPO.wodemobanAjax,
+            link_prop:"link",
+            style:"cursor:pointer;font-size:16px;color:#524849;margin-top:2px",
+            max: 4,
             data_prop: [{
-                "name": "subject",
+                "name": "name",
                 render: function (name, data, item) {
-
-                    if (item.bodyType == "20") {
-                        return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--政务信息审批单
-                    } else if (item.bodyType == "41") {
-                        return "<span  class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--工作简报/信息专报审批单
-                    } else if (item.bodyType == "10") {
-                        return "<span  class='lx_icon16_red_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--阅稿纸
-                    } else if (item.bodyType == "45") {
-                        return "<span class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--传真收文稿纸
-                    } else {
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                    }
+                    return data;
                 },
                 size: 12
             }]
         });
         var list62 = List.create({
-            data_url: URL_REPO.wodemoban2,
-            max: 3,
+            data_url: URL_REPO.wodemobanAjax,
+            data_offset:4,
+            link_prop:"link",
+            style:"cursor:pointer;font-size:16px;color:#524849;margin-top:2px",
+            max: 4,
             data_prop: [{
-                "name": "subject",
+                "name": "name",
                 render: function (name, data, item) {
-                    if (item.bodyType == "20") {
-                        return "<span class='lx_icon16_form_temp'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--政务信息审批单
-                    } else if (item.bodyType == "41") {
-                        return "<span  class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--工作简报/信息专报审批单
-                    } else if (item.bodyType == "10") {
-                        return "<span  class='lx_icon16_red_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--阅稿纸
-                    } else if (item.bodyType == "45") {
-                        return "<span class='lx_icon16_text_type_template'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                        //审批单--传真收文稿纸
-                    } else {
-                        return "<span  class='lx_icon16_message lx-icon-margin-zq'></span><span onclick='window.open(\"/seeyon/collaboration/collaboration.do?method=newColl&from=templateNewColl&templateId=" + item.id + "\")'>" + data + "</span>";
-                    }
+                   
+                    return data;
                 },
                 size: 12
             }]
         });
-        // var mix61 = Mixed.create({
-        //     id: "mixed2",
-        //     mode: "col",
-        //     size: 6
-        // });
-        // var mix62 = Mixed.create({
-        //     id: "mixed3",
-        //     mode: "col",
-        //     size: 6
-        // });
-        // var mixRoot6 = Mixed.create({
-        //     id: "mixed1",
-        //     mode: "col",
-        //     size: 12
-        // });
-        // mix61.append(list61);
-        // mix62.append(list62);
-        // mixRoot6.append(mix61);
-        // mixRoot6.append(mix62);
         var tpl_one = $("#tpl_one");
         tpl_one.append(list61.root);
         var tpl_two = $("#tpl_two");
@@ -759,6 +824,10 @@ var URL_REPO = {
             "style": "height:150px",
             contentType: "jq",
             content: tpl_all,
+            title_click:function(){
+                list61.refresh();
+                list62.refresh();
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -785,6 +854,7 @@ var URL_REPO = {
             name: "行前公示",
             link_prop: "link",
             data_url: URL_REPO.xqgs,
+            auto_refresh:true,
             data_prop: [{
                 "name": "frName",
                 size: 10,
@@ -802,6 +872,7 @@ var URL_REPO = {
         var list82 = List.create({
             name: "执行公示",
             link_prop: "link",
+            auto_refresh:true,
             data_url: URL_REPO.zhixinggongshi,
             data_prop: [{
                 "name": "frName",
@@ -820,6 +891,7 @@ var URL_REPO = {
         var list83 = List.create({
             name: "国际动态",
             link_prop: "link",
+            auto_refresh:true,
             data_url: URL_REPO.guojidongtai,
             data_prop: [{
                 "name": "frName",
@@ -836,81 +908,86 @@ var URL_REPO = {
             }]
         });
         var mTab8 = MTab.create({
-            id: "pending-main-1",
+            id: "xqgszxgsgjdt",
             root_style: "height:340px",
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
-                name: "<span class='lx-tab-multi-head'>行前公示</span>",
+                name: "<span id='xqgs_head' class='lx-tab-multi-head'>行前公示</span>",
                 checked: true,
                 contentType: "cmp",
+                id:"xqgs",
                 content: list81
             }, {
-                name: "<span class='lx-tab-multi-head'>执行公示</span>",
+                name: "<span id='zhixing_head' class='lx-tab-multi-head'>执行公示</span>",
                 checked: false,
                 contentType: "cmp",
+                id:"zxgs",
                 content: list82
             }, {
-                name: "<span class='lx-tab-multi-head'>国际动态</span>",
+                name: "<span id='guoji_head' class='lx-tab-multi-head'>国际动态</span>",
                 checked: false,
                 contentType: "cmp",
+                id:"gjdt",
                 content: list83
             }],
+            on_tab:function(item,context){
+             
+                var id = $(item).attr("lay-id");
+               // alert(id);
+                if(id=="xqgs"){
+                    list81.refresh();
+                }else if(id =="zxgs"){
+                    list82.refresh();
+                }else if(id =="gjdt"){
+                  
+                    list83.refresh();
+                }
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
                     //alert("click");
-                    window.open("");
-                }
-            },
-            new_btn: {
-                class_name: "lx-tab-new-btn",
-                html: "<span class='lx-new-btn'>+</span>",
-                click: function (e) {
-                    //alert("click2");
+                    if($("#xqgs_head").hasClass("layui-this")||$("#xqgs_head").parent().hasClass("layui-this")){
+                    
+                        window.open("/seeyon/doc.do?method=docHomepageIndex&docResId=3563212477215886478");
+                    }else if($("#zhixing_head").hasClass("layui-this")||$("#zhixing_head").parent().hasClass("layui-this")){
+                    
+                    window.open("/seeyon/doc.do?method=docHomepageIndex&docResId=8922663637462369764");
+                    }else{
+                    window.open("/seeyon/doc.do?method=docHomepageIndex&docResId=6475027635041617679");
+                     }
+                     e.stopPropagation();
+                     e.preventDefault();
                 }
             }
         });
         var list9 = List.create({
-            data_url: URL_REPO.wodeshoucang,
+            data_url: URL_REPO.wodeshoucangAjax,
             link_prop: "link",
             size: 12,
             data_prop: [{
                 "name": "frName",
                 size: 12,
                 render: function (name, data, item) {
-                    console.log(item);
-
-                    if (item.pDF) {
-                        return "<span class='lx_icon16_pdf lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else if (item.isFolder) {
-                        return "<span class='lx_icon16_dir lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else if (item.new) {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else if (item.uploadOfficeOrWps) {
-                        return "<span class='lx_icon16_word lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    } else {
-                        return "<span class='lx_icon16_message lx-icon-margin-zq'></span><span>" + data + "</span>";
-                    }
+             
+                    
+                    return data;
+                    
                 }
 
             }]
 
         });
-        var list10 = List.create({
-            data_url: "",
-            data_prop: [{
-                name: "subject",
-                render: "",
-                size: 8
-            }]
-        });
+        
         var sTab9 = Tab.create({
             "title": "<span class='lx-tab-head lx-tab-color2'>我的收藏</span>",
             "style": "height:340px",
             contentType: "cmp",
             content: list9,
-
+            title_click:function(){
+                list9.refresh();
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
@@ -930,7 +1007,7 @@ var URL_REPO = {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    //alert("click");
+                   window.open("http://10.10.204.107:8080/v2018bi/reportJsp/showReport.jsp?rpx=/biao/rcuserid&.rpx&user_id="+$("#userId").val());
                 }
             },
             new_btn: {
@@ -952,6 +1029,8 @@ var URL_REPO = {
         var list111 = List.create({
             name: "办公会",
             link_prop: "link",
+            auto_refresh:true,
+            style_meeting:"text-align:center;height:35px;font-size:18px",
             data_url: URL_REPO.bangonghui,
             data_prop: [{
                 "name": "field0002",
@@ -967,15 +1046,15 @@ var URL_REPO = {
                 }
             }, {
                 "name": "field0005",
-                size: 5,
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0003",
-                size: 1,
+                "name": "speaker",
+                size: 2,
                 render: function (name, data) {
-                    return data;
+                    return data.name;
                 }
             }]
 
@@ -983,7 +1062,9 @@ var URL_REPO = {
 
         var list112 = List.create({
             name: "中心组学习",
+       
             data_url: URL_REPO.zhongxinzuxuexi,
+            style_meeting:"text-align:center;height:35px;font-size:18px",
             link_prop: "link",
             data_prop: [{
                 "name": "field0002",
@@ -999,21 +1080,23 @@ var URL_REPO = {
                 }
             }, {
                 "name": "field0005",
-                size: 5,
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0003",
-                size: 1,
+                "name": "speaker",
+                size: 2,
                 render: function (name, data) {
-                    return data;
+                    return data.name;
                 }
             }]
         });
         var list113 = List.create({
             name: "领导班子会",
+          
             data_url: URL_REPO.lingdaobanzihui,
+            style_meeting:"text-align:center;height:35px;font-size:18px",
             link_prop: "link",
             data_prop: [{
                 "name": "field0002",
@@ -1029,21 +1112,23 @@ var URL_REPO = {
                 }
             }, {
                 "name": "field0005",
-                size: 5,
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0003",
-                size: 1,
+                "name": "speaker",
+                size: 2,
                 render: function (name, data) {
-                    return data;
+                    return data.name;
                 }
             }]
 
         });
         var list114 = List.create({
             name: "主任主题会",
+            
+            style_meeting:"text-align:center;height:35px;font-size:18px",
             data_url: URL_REPO.zhurenzhutihui,
             link_prop: "link",
             data_prop: [{
@@ -1060,21 +1145,23 @@ var URL_REPO = {
                 }
             }, {
                 "name": "field0005",
-                size: 5,
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0003",
-                size: 1,
+                "name": "speaker",
+                size: 2,
                 render: function (name, data) {
-                    return data;
+                    return data.name;
                 }
             }]
         });
         var list115 = List.create({
             name: "党委会",
+            
             data_url: URL_REPO.dangweihui,
+            style_meeting:"text-align:center;height:35px;font-size:18px;color:black",
             link_prop: "link",
             data_prop: [{
                 "name": "field0002",
@@ -1090,63 +1177,85 @@ var URL_REPO = {
                 }
             }, {
                 "name": "field0005",
-                size: 5,
+                size: 4,
                 render: function (name, data) {
                     return data;
                 }
             }, {
-                "name": "field0003",
-                size: 1,
+                "name": "speaker",
+                size: 2,
                 render: function (name, data) {
-                    return data;
+                    return data.name;
                 }
             }]
         });
         var bangonghui = $("#bangonghui");
         bangonghui.append(list111.root);
+        var zhongxinzuxuexi = $("#zhongxinzuxuexi");
+        zhongxinzuxuexi.append(list112.root);
+        var lingdaobanzihui = $("#lingdaobanzi");
+        lingdaobanzihui.append(list113.root);
+        var zhurenzhutihui = $("#zhurenzhutihui");
+        zhurenzhutihui.append(list114.root);
+        var dangweihui = $("#dangweihui");
+        dangweihui.append(list115.root);
 
         var mTab11 = MTab.create({
-            id: "pending-main-1",
+            id: "huiyi-contaner-all",
             root_style: default_height,
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>办公会</span>",
                 checked: true,
                 contentType: "jq",
-                content: bangonghui
+                content: bangonghui,
+                id:"bgh"
             }, {
                 name: "<span class='lx-tab-multi-head'>中心组学习</span>",
                 checked: false,
-                contentType: "cmp",
-                content: list112
+                contentType: "jq",
+                id:"zxxxz",
+                content: zhongxinzuxuexi
             }, {
                 name: "<span class='lx-tab-multi-head'>领导班子会</span>",
                 checked: false,
-                contentType: "cmp",
-                content: list113
+                contentType: "jq",
+                id:"ldbzh",
+                content: lingdaobanzihui
             }, {
                 name: "<span class='lx-tab-multi-head'>主任主题会</span>",
                 checked: false,
-                contentType: "cmp",
-                content: list114
+                contentType: "jq",
+                id:"zrzth",
+                content: zhurenzhutihui
             }, {
                 name: "<span class='lx-tab-multi-head'>党委会</span>",
                 checked: false,
-                contentType: "cmp",
-                content: list115
+                contentType: "jq",
+                id:"dwh",
+                content: dangweihui
             }],
+            on_tab:function(item){
+                var id = $(item).attr("lay-id");
+                if("bgh"==id){
+                    list111.refresh();
+                }else if("zxxxz"==id){
+                    list112.refresh();
+                }else if("ldbzh"==id){
+                    list113.refresh();
+                }else if("zrzth"==id){
+                    list114.refresh();
+                } else if("dwh"==id){
+
+                    list115.refresh();
+                }
+
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    //alert("click");
-                }
-            },
-            new_btn: {
-                class_name: "lx-tab-new-btn",
-                html: "<span class='lx-new-btn'>+</span>",
-                click: function (e) {
-                    //alert("click2");
+                   window.open("/seeyon/form/formData.do?method=showUnflowFormDataList&formId=403684358556434796&formTemplateId=3482925242293241095&type=baseInfo&model=info&unflowFormSectionMore=");
                 }
             }
         });
@@ -1154,12 +1263,14 @@ var URL_REPO = {
         var list121 = List.create({
             data_url: URL_REPO.xinxizhuanbao,
             link_prop: "link",
+            auto_refresh:true,
             data_prop: [{
                 "name": "frName",
                 size: 12,
                 render: function (name, data, item) {
                     return showIcon(item.readFlag,data);
                 }
+                
             }]
 
         });
@@ -1205,37 +1316,57 @@ var URL_REPO = {
         tongbao2.append(list123.root);
         var tongbao = $("#tongbao");
         var mTab12 = MTab.create({
-            id: "pending-main-1",
+            id: "xxzbjbzwxxtb",
             root_style: default_height,
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
-                name: "<span class='lx-tab-multi-head'>信息专报</span>",
+                name: "<span id='zhuanbao_head' class='lx-tab-multi-head'>信息专报</span>",
                 checked: true,
                 contentType: "jq",
+                id:"xxzb",
                 content: zhuanbao
             }, {
-                name: "<span class='lx-tab-multi-head'>信息简报</span>",
+                name: "<span id='jianbao_head' class='lx-tab-multi-head'>信息简报</span>",
                 checked: false,
                 contentType: "jq",
+                id:"xxjb",
                 content: jianbao
             }, {
-                name: "<span class='lx-tab-multi-head'>政务信息通报</span>",
+                name: "<span id='tongbao_head' class='lx-tab-multi-head'>政务信息通报</span>",
                 checked: false,
                 contentType: "jq",
+                id:"zwxxtb",
                 content: tongbao
             }],
+            on_tab:function(item){
+                var id = $(item).attr("lay-id");
+                if(id == "xxzb"){
+                    list121.refresh();
+                }else if(id =="xxjb"){
+                    list122.refresh();
+                }else if (id == "zwxxtb"){
+                    list123.refresh();
+
+                }
+
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    //alert("click");
-                }
-            },
-            new_btn: {
-                class_name: "lx-tab-new-btn",
-                html: "<span class='lx-new-btn'>+</span>",
-                click: function (e) {
-                    //alert("click2");
+                    if($("#zhuanbao_head").hasClass("layui-this")||$("#zhuanbao_head").parent().hasClass("layui-this")){
+                    
+                            window.open("/seeyon/main.do?method=main&openType=menhu&type=zhuanbao");
+                     }else if($("#jianbao_head").hasClass("layui-this")||$("#jianbao_head").parent().hasClass("layui-this")){
+
+                       window.open("/seeyon/main.do?method=main&openType=menhu&type=jianbao");
+                    }else{
+                          window.open("/seeyon/main.do?method=main&openType=menhu&type=tongbao");
+                      }
+                 
+                    
+                    e.stopPropagation();
+                    e.preventDefault();
                 }
             }
         });
@@ -1243,6 +1374,7 @@ var URL_REPO = {
         col12.append(mTab12);
         var list131 = List.create({
             data_url: URL_REPO.guangrongbang,
+            link_prop: "link",
             data_prop: [{
                 "name": "frName",
                 size: 10,
@@ -1297,17 +1429,17 @@ var URL_REPO = {
             root_style: default_height,
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
-                name: "<span class='lx-tab-multi-head'>光荣榜</span>",
+                name: "<span id='guangrong_head' class='lx-tab-multi-head'>光荣榜</span>",
                 checked: true,
                 contentType: "cmp",
                 content: list131
             }, {
-                name: "<span class='lx-tab-multi-head'>下载专区</span>",
+                name: "<span id='xiazai_head' class='lx-tab-multi-head'>下载专区</span>",
                 checked: false,
                 contentType: "cmp",
                 content: list132
             }, {
-                name: "<span class='lx-tab-multi-head'>每周餐单</span>",
+                name: "<span id='caidan_head' class='lx-tab-multi-head'>每周餐单</span>",
                 checked: false,
                 contentType: "cmp",
                 content: list133
@@ -1317,13 +1449,17 @@ var URL_REPO = {
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
                     //alert("click");
-                }
-            },
-            new_btn: {
-                class_name: "lx-tab-new-btn",
-                html: "<span class='lx-new-btn'>+</span>",
-                click: function (e) {
-                    //alert("click2");
+                    if($("#guangrong_head").hasClass("layui-this")||$("#guangrong_head").parent().hasClass("layui-this")){
+                    
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=guangrongbang");
+                    }else if($("#xiazai_head").hasClass("layui-this")||$("#xiazai_head").parent().hasClass("layui-this")){
+                    
+                    window.open("/seeyon/doc.do?method=docHomepageIndex&docResId=8068159451132608944");
+                    }else{
+                    window.open("/seeyon/bulData.do?method=bulIndex&typeId=-8736948720711547028");
+                     }
+                     e.stopPropagation();
+                     e.preventDefault();
                 }
             }
         });
@@ -1331,6 +1467,7 @@ var URL_REPO = {
         var list1411 = List.create({
             data_url: URL_REPO.yianweijian1,
             link_prop: "link",
+            auto_refresh:true,
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
@@ -1348,6 +1485,7 @@ var URL_REPO = {
         var list1412 = List.create({
             data_url: URL_REPO.yianweijian2,
             link_prop: "link",
+            auto_refresh:true,
             data_prop: [{
                 "name": "frName",
                 render: function (name, data, item) {
@@ -1538,6 +1676,23 @@ var URL_REPO = {
                 }
             }]
         });
+        var list1471=List.create({
+            data_url: URL_REPO.dangjiangongzuogongshi,
+            link_prop:"link",
+            data_prop: [{
+                "name": "frName",
+                size: 10,
+                render: function (name, data,item) {
+                    return showIcon(item.readFlag,data);           
+                }
+            },{
+                "name": "createTime",
+                size: 2,
+                render: function (name, data) {
+                    return data.substring(0, 10);
+                }
+            }]
+        });
         var yian1 = $("#yian1");
         yian1.append(list1411.root);
         var yian2 = $("#yian2");
@@ -1575,54 +1730,100 @@ var URL_REPO = {
         sanhui2.append(list1462.root);
         var sanhui = $("#sanhui");
         var mTab14 = MTab.create({
-            id: "pending-main-1",
+            id: "party-list-main",
             root_style: default_height,
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
-                name: "<span class='lx-tab-multi-head'>以案为鉴</span>",
+                name: "<span id='yian_head' class='lx-tab-multi-head'>以案为鉴</span>",
                 checked: true,
                 contentType: "jq",
+                id:"yawj",
                 content: yian
             }, {
-                name: "<div class='lx-tab-multi-head'>十九大</div>",
+                name: "<div id='shijiuda_head' class='lx-tab-multi-head'>十九大</div>",
                 checked: false,
                 contentType: "jq",
+                id:"sjd",
                 content: shijiuda
             }, {
-                name: "<span class='lx-tab-multi-head'>三严三实</span>",
+                name: "<span id='sanyan_head'class='lx-tab-multi-head'>三严三实</span>",
                 checked: false,
                 contentType: "jq",
+                id:"syss",
                 content: sanyan
             }, {
-                name: "<span class='lx-tab-multi-head'>两学一做</span>",
+                name: "<span id='liangxue_head' class='lx-tab-multi-head'>两学一做</span>",
                 checked: false,
                 contentType: "jq",
+                id:"lxyz",
                 content: liangxue
             }, {
-                name: "<span class='lx-tab-multi-head'>十八大</span>",
+                name: "<span id='shibada_head' class='lx-tab-multi-head'>十八大</span>",
                 checked: false,
                 contentType: "jq",
+                id:"sbd",
                 content: shibada
             }, {
-                name: "<span class='lx-tab-multi-head'>三会一课</span>",
+                name: "<span  id='sanhui_head' class='lx-tab-multi-head'>三会一课</span>",
                 checked: false,
                 contentType: "jq",
+                id:"shyk",
                 content: sanhui
+            }, {
+                name: "<span  id='dangjian_head' class='lx-tab-multi-head'>党建工作公示</span>",
+                checked: false,
+                contentType: "cmp",
+                id:"djgzgs",
+                content: list1471
             }],
+            on_tab:function(item){
+                var id = $(item).attr("lay-id");
+                if(id == "yawj"){
+                    list1411.refresh();
+                    list1412.refresh();
+                }else if(id == "sjd"){
+                    list1421.refresh();
+                    list1422.refresh();
+                }else if(id == "syss"){
+                    list1431.refresh();
+                    list1432.refresh();
+                }else if(id == "lxyz"){
+                    list1441.refresh();
+                    list1442.refresh();
+                }else if(id == "sbd"){
+                    list1451.refresh();
+                    list1452.refresh();
+                }else if(id == "shyk"){
+                    list1461.refresh();
+                    list1462.refresh();
+                }else if(id == "djgzgs"){
+                    list1471.refresh();
+                    list1472.refresh();
+                }
+            },
             more_btn: {
                 class_name: "lx-tab-more-btn",
                 html: "<i class='layui-icon layui-icon-more lx-more-btn'></i> ",
                 click: function (e) {
-                    //alert("click");
-                }
-            },
-            new_btn: {
-                class_name: "lx-tab-new-btn",
-                html: "<span class='lx-new-btn'>+</span>",
-                click: function (e) {
-                    //alert("click2");
-                }
+                    if($("#yian_head").hasClass("layui-this")||$("#yian_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=yianweijian");
+                    }else if($("#shijiuda_head").hasClass("layui-this")||$("#shijiuda_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=shijiuda");
+                    }else if($("#shibada_head").hasClass("layui-this")||$("#shibada_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=shibada");
+                    } else if($("#sanhui_head").hasClass("layui-this")||$("#sanhui_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=sanhuiyike");
+                    } else if($("#liangxue_head").hasClass("layui-this")||$("#liangxue_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=liangxueyizuo");
+                    } else if($("#dangjian_head").hasClass("layui-this")||$("#dangjian_head").parent().hasClass("layui-this")){
+                        window.open("/seeyon/doc.do?method=docHomepageIndex&docResId=575989468633646689");
+                    }else{
+                        window.open("/seeyon/main.do?method=main&openType=menhu&type=sanyansanshi");
+                    }
+                    e.stopPropagation();
+                    e.preventDefault();
             }
+        }
         });
         col13.append(mTab13);
         col14.append(mTab14);
@@ -1698,21 +1899,11 @@ var URL_REPO = {
                 }
             }
         });
-
-        /**
-         * <div class="layui-inline lx-cal-name">
-         任勇勇
-         </div>
-         <div class="layui-inline lx-cal-bj-out">
-         在京，
-         </div>
-         <div class="layui-inline lx-cal-bj-out">
-         在家办公
-         </div>
-         </div>
-         */
         function renderCal(item, type) {
             var htmls = [];
+            var userId = item.userId;
+            var id= item.id;
+            var link =" http://10.10.204.107:8080/v2018bi/reportJsp/showReport.jsp?rpx=/biao/rcid.rpx&ID="+item.id;
             var start = item.startDate;
             var endd = item.endDate;
             var userName = item.userName;
@@ -1729,6 +1920,7 @@ var URL_REPO = {
                 if (userName.length == 2) {
                     userName = userName[0] + "<span style='color:white'>一</span>" + userName[1];
                 }
+                
                 htmls.push('<td style="width:75px"><div class="layui-inline lx-cal-name">');
                 htmls.push(userName + ":");
                 htmls.push("</div></td>");
@@ -1766,7 +1958,7 @@ var URL_REPO = {
                     _cls = _cls + " lx-cal-max-m";
                 }
                 htmls.push("<td><div class='" + _cls + "'>" + _location + "</div></td>");
-                htmls.push("<td><div style='padding-left:8px' class='lx-eclipse " + _cls + "'><a title='" + reason + "'>" + reason + "</a></div></td>");
+                htmls.push("<td><div style='padding-left:8px' class='lx-eclipse " + _cls + "'><a class='lx-cursor-zq' onclick='window.open(\""+link+"\")' title='" + reason + "'>" + reason + "</a></div></td>");
                 htmls.push("</tr></table></div>");
 
             }
@@ -1777,13 +1969,8 @@ var URL_REPO = {
             obj.inbj = inbj ? 1 : 0;
             return obj;
         }
-
+//与天数相关联
         function show_cal(day) {
-            /**
-             "my_cal":URL_BASE+"/seeyon/datakit/get.do?method=getMyCalendar&day=",
-             "s_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getDepartmentLeaderCalendar&day=",
-             "m_leader_cal":URL_BASE+"/seeyon/datakit/get.do?method=getAccountLeaderCalendar&day="
-             */
             $.ajax({
                 url: URL_REPO.my_cal + day,
                 async: true, //同步方式发送请求，true为异步发送
@@ -1792,7 +1979,6 @@ var URL_REPO = {
                 success: function (data) {
 
                     if (data.items) {
-                        //me.render(data.items);
                         console.log(data);
                         var htmls = [];
                         var inbj = 0;
@@ -1888,7 +2074,8 @@ var URL_REPO = {
         //cal_leader_container
         var cal_mtab = MTab.create({
             id: "cal-main-1",
-            root_style: "height:265px",
+            link_prop:"link",
+            root_style: "height:265px;width:470px;margin-left:20px",
             root_class: "layui-tab layui-tab-brief",
             tabs: [{
                 name: "<span class='lx-tab-multi-head'>我的日程</span>",
@@ -1912,70 +2099,92 @@ var URL_REPO = {
 
         var now = new Date();
         show_cal(now.format("yyyy-MM-dd"));
-        $("#pending_list_head").click(function(){
+
+
+        // $("#pending_list_head").click(function(){
+        //         list51.refresh(URL_REPO.daibangongzuo);
+        //         renderAllBtnCount("3");
+        // });
+        $($("#pending_list_head").parent()).click(function(e){
             list51.refresh(URL_REPO.daibangongzuo);
             renderAllBtnCount("3");
+          //  e.stopPropagation();
         });
-        $("#overdate_list_head").click(function(){
+        // $("#overdate_list_head").click(function(){
+        //         list54.refresh(URL_REPO.chaoqi);
+        //         renderAllBtnCount("3&subState=12");
+        // });
+        $($("#overdate_list_head").parent()).click(function(e){
             list54.refresh(URL_REPO.chaoqi);
-            renderAllBtnCount("3&subState=12");
+           renderAllBtnCount("3&subState=12");
+           // e.stopPropagation();
         });
-        $("#done_list_head").click(function(){
+        // $("#done_list_head").click(function(){
+        //     list53.refresh(URL_REPO.yiban);
+        //     renderAllBtnCount("4");
+        // });
+        $($("#done_list_head").parent()).click(function(e){
             list53.refresh(URL_REPO.yiban);
             renderAllBtnCount("4");
+          //  e.stopPropagation();
         });
-        $("#sent_list_head").click(function(){
+        // $("#sent_list_head").click(function(){
+        //     list52.refresh(URL_REPO.yifa);
+        //     renderAllBtnCount("2");
+        // });
+        $($("#sent_list_head").parent()).click(function(e){
             list52.refresh(URL_REPO.yifa);
             renderAllBtnCount("2");
+           // e.stopPropagation();
         });
         $("#gongwen_button").click(function(e){
-            // list51.refresh(URL_REPO.daibangongzuo);
-            //
-            refreshList(getCollState(),4,getCollList());
-            $(".lx-btn-zq").removeClass("lx-btn-zq1");
-            e = e||window.event;
-            var target = e.target;
-            if(target.tagName=="span"||target.tagName=="SPAN"){
-                target = $(target).parent();
-            }
-            $(target).addClass("lx-btn-zq1");
+           // list51.refresh(URL_REPO.daibangongzuo);
+           //
+           refreshList(getCollState(),4,getCollList());
+           $(".lx-btn-zq").removeClass("lx-btn-zq1");
+           e = e||window.event;
+          var target = e.target;
+          if(target.tagName=="span"||target.tagName=="SPAN"){
+              target = $(target).parent();
+          }
+          $(target).addClass("lx-btn-zq1");
         });
         $("#xietong_button").click(function(e){
-            //list54.refresh(URL_REPO.chaoqi);
-            refreshList(getCollState(),1,getCollList());
-            $(".lx-btn-zq").removeClass("lx-btn-zq1");
-            e = e||window.event;
-            var target = e.target;
-            if(target.tagName=="span"||target.tagName=="SPAN"){
-                target = $(target).parent();
-            }
-            $(target).addClass("lx-btn-zq1");
+           refreshList(getCollState(),1,getCollList());
+           $(".lx-btn-zq").removeClass("lx-btn-zq1");
+           e = e||window.event;
+          var target = e.target;
+          if(target.tagName=="span"||target.tagName=="SPAN"){
+              target = $(target).parent();
+          }
+          $(target).addClass("lx-btn-zq1");
         });
         $("#renwu_button").click(function(e){
             refreshList(getCollState(),999,getCollList());
             $(".lx-btn-zq").removeClass("lx-btn-zq1");
             e = e||window.event;
-            var target = e.target;
-            if(target.tagName=="span"||target.tagName=="SPAN"){
-                target = $(target).parent();
-            }
-            $(target).addClass("lx-btn-zq1");
+           var target = e.target;
+           if(target.tagName=="span"||target.tagName=="SPAN"){
+               target = $(target).parent();
+           }
+           $(target).addClass("lx-btn-zq1");
         });
         $("#huiyi_button").click(function(e){
             refreshList(getCollState(),6,getCollList());
             $(".lx-btn-zq").removeClass("lx-btn-zq1");
             e = e||window.event;
-            var target = e.target;
-            if(target.tagName=="span"||target.tagName=="SPAN"){
-                target = $(target).parent();
-            }
-            $(target).addClass("lx-btn-zq1");
+           var target = e.target;
+           if(target.tagName=="span"||target.tagName=="SPAN"){
+               target = $(target).parent();
+           }
+           $(target).addClass("lx-btn-zq1");
 
         });
+        //点击按钮刷新列表
         function refreshList(state,type,list){
-            //console.log(state);
-            var url= URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId="+state+"&offset=0&limit=6&$count=true&appType="+type;
-            list.refresh(url);
+            
+          var url= URL_BASE + "/seeyon/menhu.do?method=getUserCptList&typeId="+state+"&offset=0&limit=6&$count=true&appType="+type;
+          list.refresh(url);
         }
         function getCollState(){
 
@@ -1993,8 +2202,8 @@ var URL_REPO = {
             }
             return "";
 
-        }
-        function getCollList(){
+        }    
+          function getCollList(){
 
             if($("#pending_list_head").parent().hasClass("layui-this")){
                 return list51;
@@ -2021,30 +2230,86 @@ var URL_REPO = {
                 dataType: "json",
                 success: function (data) {
                     if (data.count) {
-                        // me.render(data.items);
-                        $(target).html(data.count);
-                    }else{
-                        $(target).html(0);
-                    }
+                       
+                        if(data.count>9999){
+                            $(target).html("<span style='font-size:25px'>"+data.count+"</span>");
+                        }else if(data.count>1000&&data.count<=9999){
+                            //font-size
+                            $(target).html("<span style='font-size:31px'>"+data.count+"</span>");
+                        }else{
+                            $(target).html(data.count);
+                        }
+                        
+                      }else{
+                          $(target).html(0);
+                      }
                 },
                 error: function (res) {
 
                 }
             });
         }
-        function renderAllBtnCount(state){
+        function renderAllBtnCount(state,removeClassFlag){
             renderBtnCount(state,"1",$("#xietong_count"));
             renderBtnCount(state,"4",$("#gongwen_count"));
             renderBtnCount(state,"999",$("#renwu_count"));
             renderBtnCount(state,"6",$("#huiyi_count"));
-            $(".lx-btn-zq").removeClass("lx-btn-zq1");
+            if(!removeClassFlag){
+                $(".lx-btn-zq").removeClass("lx-btn-zq1");
+            }
         }
         //最开始的初始化
         renderBtnCount("3","1",$("#xietong_count"));
         renderBtnCount("3","4",$("#gongwen_count"));
         renderBtnCount("3","999",$("#renwu_count"));
         renderBtnCount("3","6",$("#huiyi_count"));
-
+        function auto_fresh_ctp_affair(){
+            
+            var st = getCollState();
+            var txt = $(".lx-btn-zq1");
+            if(txt.length>0){
+               
+                list51.refresh(null,null,function(data){
+                  
+                    $("#pending_list_head").html("待办["+data.count+"]");
+                });
+                list52.refresh(null,null,function(data){
+                   
+                    $("#sent_list_head").html("已发["+data.count+"]")
+                });
+                list53.refresh(null,null,function(data){
+                    
+                    $("#done_list_head").html("已办["+data.count+"]")
+                });
+                list54.refresh(null,null,function(data){
+                   
+                    $("#overdate_list_head").html("超期["+data.count+"]")
+                });
+                txt.click();
+            }else{
+             
+        
+                list51.refresh(null,null,function(data){
+                    $("#pending_list_head").html("待办["+data.count+"]");
+                });
+                list52.refresh(null,null,function(data){
+                    $("#sent_list_head").html("已发["+data.count+"]")
+                });
+                list53.refresh(null,null,function(data){
+                    $("#done_list_head").html("已办["+data.count+"]")
+                });
+                list54.refresh(null,null,function(data){
+                    $("#overdate_list_head").html("超期["+data.count+"]")
+                });
+            }
+            renderAllBtnCount(st,true);
+           // refreshList(getCollState(),"",getCollList());
+            //refreshList(getCollState(),4,getCollList());
+            //refreshList(getCollState(),6,getCollList());
+            //refreshList(getCollState(),999,getCollList());
+            setTimeout(auto_fresh_ctp_affair,10000);
+        }
+        setTimeout(auto_fresh_ctp_affair,10000);
         //--------------//
 //http://10.100.249.84:612/seeyon/nbd.do?method=goPage&page=report
         // cal_date_picker

@@ -14,7 +14,7 @@
 	attsdata='${ attachmentsJSON}'>
     <form id="form1" name="form1" method="post" action="">
       <div class="companyLogo">
-        <div class="title_l">${ctp:i18n('cip.service.startpage.account.logo')}：</div>
+        <div class="title_l">${ctp:i18n('cip.manager.startpage.account.logo')}：</div>
         <div class="info_r com_t">
           <div class="showImg">
             <img id="loginPath" src=""  class="uploadLogo" name="fileImg" alt=""/>
@@ -27,21 +27,21 @@
 							            canDeleteOriginalAtts:true, originalAttsNeedClone:false, firstSave:true,callMethod:'iconUploadCallback'">
           </a>
           <div class="promptInfo">
-            <p>${ctp:i18n('cip.service.startpage.img.type')}</p>
-            <P>${ctp:i18n('cip.service.startpage.img.size')}</P>
+            <p>${ctp:i18n('cip.manager.startpage.img.type')}</p>
+            <P>${ctp:i18n('cip.manager.startpage.img.size')}</P>
           </div>
         </div>
       </div>
       <div class="motto">
-        <div class="title_l">${ctp:i18n('cip.service.startpage.say')}：</div>
+        <div class="title_l">${ctp:i18n('cip.manager.startpage.say')}：</div>
         <div class="info_r">
-          <textarea id="knowSay" onKeyDown="checkWord(this)" onKeyUp="checkWord(this)" onfocus="if(value=='${ctp:i18n('cip.service.startpage.tip.click')}'){value='';}" onblur="if (value ==''){value='${ctp:i18n('cip.service.startpage.tip.click')}';document.getElementById('knowSay').style.color='#999';}">${ctp:i18n('cip.service.startpage.tip.click')}</textarea>
+          <textarea id="knowSay" onKeyDown="checkWord(this)" onKeyUp="checkWord(this)" onfocus="if(value=='${ctp:i18n('cip.manager.startpage.tip.click')}'){value='';}" onblur="if (value ==''){value='${ctp:i18n('cip.manager.startpage.tip.click')}';document.getElementById('knowSay').style.color='#999';}">${ctp:i18n('cip.manager.startpage.tip.click')}</textarea>
           <!-- <textarea id="motto_info" placeholder="点击添加内容" onKeyDown="checkWord(this)" onKeyUp="checkWord(this)"></textarea> -->
-          <p class="over">${ctp:i18n('cip.service.startpage.text.con1')}<span id="word_check">15</span>${ctp:i18n('cip.service.startpage.text.con2')}</p>
+          <p class="over">${ctp:i18n('cip.manager.startpage.text.con1')}<span id="word_check">15</span>${ctp:i18n('cip.manager.startpage.text.con2')}</p>
         </div>
       </div>
       <div class="company_s_page">
-        <div class="title_l">${ctp:i18n('cip.service.startpage.account.start.page')}：</div>
+        <div class="title_l">${ctp:i18n('cip.manager.startpage.account.start.page')}：</div>
         <div class="info_r">
           <div class="phone_img"><img src="${path}/apps_res/cip/img/phone.png" width="240"/></div>
           <div class="p_bg">
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="p_info_r">
-            <h3>${ctp:i18n('cip.service.startpage.content')}</h3>
+            <h3>${ctp:i18n('cip.manager.startpage.content')}</h3>
             <div class="d_logo">
               <label class="label_logo" for="dis_logo"><input id="dis_logo" value="1" class="dis_logo" type="checkbox" checked="">${ctp:i18n('m3.app.start.islogo')}</label>
             </div>
@@ -64,7 +64,7 @@
               <label class="label_motto" for="dis_motto"><input id="dis_motto" value="1" class="dis_motto" type="checkbox" disabled>${ctp:i18n('m3.app.start.isknowsay')}</label>
             </div>
        
-            <h3>${ctp:i18n('cip.service.startpage.background.color.select')}</h3>
+            <h3>${ctp:i18n('cip.manager.startpage.background.color.select')}</h3>
             <div class="bg_list_div">
               <ul class="bg_list clearfix " id="bcolor">
                 <!--<li  bc="#61AFFF" class="bg_current">
@@ -158,7 +158,7 @@ function showImag(iconDownloadUrl){
 	    $("#btdefault").click(function(){
 	    	
 	        $.confirm({
-	            'msg': "${ctp:i18n('cip.service.startpage.confirm')}",
+	            'msg': "${ctp:i18n('cip.manager.startpage.confirm')}",
 	            ok_fn: function() {
 	                if(getCtpTop() && getCtpTop().startProc)getCtpTop().startProc();
 	                try{
@@ -179,12 +179,12 @@ function showImag(iconDownloadUrl){
 				accountLogo = "";
 			}
 			var knowSay = $("#knowSay").val();
-			if("${ctp:i18n('cip.service.startpage.tip.click')}"===knowSay){
+			if("${ctp:i18n('cip.manager.startpage.tip.click')}"===knowSay){
 				knowSay="";
 			}else{
 				/*var reg=/^[\u4E00-\u9FA5]*$/g;
             if (!reg.test(knowSay)){
-			  $.alert("${ctp:i18n('cip.service.startpage.say')}"+"${ctp:i18n('cip.m3.startcustom.chinesecharacters.error.tip')}");
+			  $.alert("${ctp:i18n('cip.manager.startpage.say')}"+"${ctp:i18n('cip.m3.startcustom.chinesecharacters.error.tip')}");
 			  return;
 			  } */
 			}

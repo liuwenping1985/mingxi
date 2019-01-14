@@ -142,7 +142,7 @@ $().ready(function() {
                        width: '35%'
                    },
                    {
-                     display: "${ctp:i18n('cip.service.binding.thirdaccount')}",
+                     display: "${ctp:i18n('cip.manager.binding.thirdaccount')}",
                      name: 'thirdLoginName',
                      width: '35%',
                      sortable: true

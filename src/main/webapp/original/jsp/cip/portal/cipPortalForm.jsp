@@ -28,7 +28,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th nowrap="nowrap"><label class="margin_r_10" for="text">${ctp:i18n('cip.service.register.access')}:</label></th>
+						<th nowrap="nowrap"><label class="margin_r_10" for="text">${ctp:i18n('cip.manager.register.access')}:</label></th>
 						<td>
 							<div class="common_txtbox_wrap ">
 								<input type="text" id="loginPattern" name="loginPattern" disabled>
@@ -38,7 +38,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th nowrap="nowrap"><label class="margin_r_10" for="text"><font color="red">*</font>${ctp:i18n('cip.service.enabled')}:</label></th>
+						<th nowrap="nowrap"><label class="margin_r_10" for="text"><font color="red">*</font>${ctp:i18n('cip.manager.enabled')}:</label></th>
 						
 						<td width="100%">
 							<div class="common_selectbox_wrap">

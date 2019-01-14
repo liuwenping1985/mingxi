@@ -54,7 +54,7 @@ $().ready(function() {
             codecfg : "codeType:'java',codeId:'com.seeyon.apps.cip.enums.AccessTypeEnum'"
         },
         {
-            display: "${ctp:i18n('cip.service.enabled')}",
+            display: "${ctp:i18n('cip.manager.enabled')}",
             sortable: true,
             name: 'isEnable',
             width: '25%',

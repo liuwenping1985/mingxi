@@ -51,21 +51,21 @@
         </colgroup>
         <tbody>
         <tr>
-            <td><label class="m3-label"><font color="red">*</font>${ctp:i18n('cip.service.pns.server.connectType')}:</label></td>
+            <td><label class="m3-label"><font color="red">*</font>${ctp:i18n('cip.manager.pns.server.connectType')}:</label></td>
             <td><%-- <input type="text" style="width: 99%" name="pnsServerIp" value="${pnsServerIp}"/> --%>
                 <select name="pnsServerType" style="width: 99%;">
-                    <option value="http" ${pnsServerType == 'http' ? 'selected' : ''}>HTTP(${ctp:i18n('cip.service.pns.server.connectType.general')})</option>
+                    <option value="http" ${pnsServerType == 'http' ? 'selected' : ''}>HTTP(${ctp:i18n('cip.manager.pns.server.connectType.general')})</option>
                     <!-- 修改BUG [OA-110735] 屏蔽HTTPS协议-->
-                    <option value="https" ${pnsServerType == 'https' ? 'selected' : ''}>HTTPS(${ctp:i18n('cip.service.pns.server.connectType.secure')})</option>
+                    <option value="https" ${pnsServerType == 'https' ? 'selected' : ''}>HTTPS(${ctp:i18n('cip.manager.pns.server.connectType.secure')})</option>
                 </select>
             </td>
         </tr>
         <tr>
-            <td><label class="m3-label"><font color="red">*</font>${ctp:i18n('cip.service.pns.server.ip')}:</label></td>
+            <td><label class="m3-label"><font color="red">*</font>${ctp:i18n('cip.manager.pns.server.ip')}:</label></td>
             <td><input id="pnsServerIp" type="text" style="width: 99%" name="pnsServerIp" value="${pnsServerIp}"/></td>
         </tr>
         <tr>
-            <td><label class="m3-label"><font color="red">*</font>${ctp:i18n('cip.service.pns.server.port')}:</label></td>
+            <td><label class="m3-label"><font color="red">*</font>${ctp:i18n('cip.manager.pns.server.port')}:</label></td>
             <td><input id="pnsServerPort" type="text" style="width: 99%" name="pnsServerPort" value="${pnsServerPort}"/></td>
         </tr>
         <tr style="display: ${isConnect != true ? 'block' : 'none'}">
@@ -73,7 +73,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center;">
-                <input type="submit" value="${ctp:i18n('cip.service.pns.server.save')}" class="common_button common_button_gray"/>
+                <input type="submit" value="${ctp:i18n('cip.manager.pns.server.save')}" class="common_button common_button_gray"/>
             </td>
         </tr>
 
@@ -145,16 +145,16 @@
 		var re =  /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/;
 		
 		if (pnsServerIp == "" && pnsServerPort == "") {
-			return confirm("${ctp:i18n('cip.service.pns.server.null')}")
+			return confirm("${ctp:i18n('cip.manager.pns.server.null')}")
 		}
 		
 		if(!re.test(pnsServerIp)){
-		    alert("${ctp:i18n('cip.service.pns.server.ip.error')}");
+		    alert("${ctp:i18n('cip.manager.pns.server.ip.error')}");
 		    return false;
 		}
 		
 		if (pnsServerPort == "") {
-			alert("${ctp:i18n('cip.service.pns.server.port.null')}");
+			alert("${ctp:i18n('cip.manager.pns.server.port.null')}");
 		    return false;
 		}
 		// 1-65535
@@ -163,7 +163,7 @@
 			alert("${ctp:i18n('m3.pns.server.port.range')}");
 		    return false;
 		}
-		return confirm("${ctp:i18n('cip.service.pns.server.submit.msg')}");
+		return confirm("${ctp:i18n('cip.manager.pns.server.submit.msg')}");
 	}
 </script>
 </body>

@@ -39,12 +39,12 @@ $().ready(function() {
 	var tipMap = new Properties();
 	var paramCache = new Properties();
 	var versionCache = new Properties();
-	tipMap.put("versionNO","${ctp:i18n('cip.service.register.tip.versionno')}");
-	tipMap.put("appName","${ctp:i18n('cip.service.register.tip.appname')}");
-	tipMap.put("versionIntroduction","${ctp:i18n('cip.service.register.tip.version')}");
-	tipMap.put("appProvider","${ctp:i18n('cip.service.register.tip.appaccess')}");
-	tipMap.put("servicePCURL","${ctp:i18n('cip.service.register.tip.url')}");
-	tipMap.put("serviceH5URL","${ctp:i18n('cip.service.register.tip.url')}");
+	tipMap.put("versionNO","${ctp:i18n('cip.manager.register.tip.versionno')}");
+	tipMap.put("appName","${ctp:i18n('cip.manager.register.tip.appname')}");
+	tipMap.put("versionIntroduction","${ctp:i18n('cip.manager.register.tip.version')}");
+	tipMap.put("appProvider","${ctp:i18n('cip.manager.register.tip.appaccess')}");
+	tipMap.put("servicePCURL","${ctp:i18n('cip.manager.register.tip.url')}");
+	tipMap.put("serviceH5URL","${ctp:i18n('cip.manager.register.tip.url')}");
 	   $("#registerForm").hide();
 	   var rm=new registerManager();
 	   var pr = new productRegisterManager();
@@ -209,10 +209,10 @@ $().ready(function() {
 		}
 		function initURL(){
 			if($("input[name=joinType][value=0]").attr("checked")=="checked"){
-					$(".service").show();
+					$(".manager").show();
 					//$(".appPack").hide();
 			}else{
-				$(".service").hide();
+				$(".manager").hide();
 				//$(".appPack").show();
 			}
 		}
@@ -225,7 +225,7 @@ $().ready(function() {
 		        if(rm.checkSameAppName($("#id").val(),appNameValue)){
 		        	$(this).val("");
 		        	$(this).focus();
-		        	$.alert("${ctp:i18n('cip.service.register.tip.namesame')}");
+		        	$.alert("${ctp:i18n('cip.manager.register.tip.namesame')}");
 		        }
 				}else{
 					$(this).val(tipMap.get($(this).attr("id")));
@@ -277,14 +277,14 @@ $().ready(function() {
           id: 'appName',
           name: 'appName',
           type: 'input',
-          text: "${ctp:i18n('cip.service.register.appname')}",
+          text: "${ctp:i18n('cip.manager.register.appname')}",
           value: 'appName'
         },
         {
             id: 'appCode',
             name: 'app_code',
             type: 'input',
-            text: "${ctp:i18n('cip.service.register.appcode')}",
+            text: "${ctp:i18n('cip.manager.register.appcode')}",
             value: 'app_code'
           },
           {
@@ -298,7 +298,7 @@ $().ready(function() {
               id: 'accessType',
               name: 'access_method',
               type: 'select',
-              text: "${ctp:i18n('cip.service.register.access')}",
+              text: "${ctp:i18n('cip.manager.register.access')}",
               value: 'access_method',
               codecfg: "codeType:'java',codeId:'com.seeyon.apps.cip.enums.AccessTypeEnum'"
             },
@@ -328,7 +328,7 @@ $().ready(function() {
       },
 		{
           id: "packManager",
-          name: "${ctp:i18n('cip.service.register.appPackageManager')}",
+          name: "${ctp:i18n('cip.manager.register.appPackageManager')}",
           className: "ico16 system_16",
           click: openPackPage
       },
@@ -347,7 +347,7 @@ $().ready(function() {
             } else {
             	for(var i = 0; i < v.length; i++) {
             		if(rm.checkIsExistConfig(v[i].id)){
-            			$.alert("${ctp:i18n('cip.service.register.tip.configexist')}");
+            			$.alert("${ctp:i18n('cip.manager.register.tip.configexist')}");
             			return;
             		}
             	}
@@ -388,13 +388,13 @@ $().ready(function() {
           type: 'checkbox'
         }, 
         {
-          display: "${ctp:i18n('cip.service.register.appname')}",
+          display: "${ctp:i18n('cip.manager.register.appname')}",
           name: 'appName',
           width: '30%',
           sortable: true
         }, 
         {
-           display: "${ctp:i18n('cip.service.register.appcode')}",
+           display: "${ctp:i18n('cip.manager.register.appcode')}",
            name: 'appCode',
            width: '10%',
            sortable: true
@@ -406,7 +406,7 @@ $().ready(function() {
             width: '15%'
         },
         {
-            display: "${ctp:i18n('cip.service.register.versionno')}",
+            display: "${ctp:i18n('cip.manager.register.versionno')}",
             sortable: true,
             name: 'versionNO',
             width: '15%'
@@ -418,7 +418,7 @@ $().ready(function() {
             width: '15%'
         },
         {
-            display: "${ctp:i18n('cip.service.register.access')}",
+            display: "${ctp:i18n('cip.manager.register.access')}",
             sortable: true,
             name: 'accessMethod',
             width: '25%',
@@ -509,7 +509,7 @@ $().ready(function() {
     }
     var vo=rm.getRegisterVO(v[0].id);
     if(vo.accessMethod!="2"&&vo.accessMethod!="5"){
-    	$.alert("${ctp:i18n('cip.service.register.appPackageNoUpload')}!");
+    	$.alert("${ctp:i18n('cip.manager.register.appPackageNoUpload')}!");
         return;
     }
 	var appid=  vo.appCode;
@@ -519,7 +519,7 @@ $().ready(function() {
         url: '${path}/cip/appManagerController.do?method=index&appId='+appid+"&registerId="+registerId,
         width: 800,
         height: 400,
-        title: "${ctp:i18n('cip.service.register.appPackageManager')}",
+        title: "${ctp:i18n('cip.manager.register.appPackageManager')}",
 		closeParam:{"show": true},
     });
 	}
@@ -552,7 +552,7 @@ $().ready(function() {
 		if($("input[name=joinType]:checked").val()=="1"){
 			if($("#versionNO").val()==""){
 				try{if(getCtpTop()&&getCtpTop().endProc){getCtpTop().endProc()}}catch(e){};
-				$.alert("${ctp:i18n('cip.service.register.tip.versionnotnull')}");
+				$.alert("${ctp:i18n('cip.manager.register.tip.versionnotnull')}");
 				return;
 			}
 		}

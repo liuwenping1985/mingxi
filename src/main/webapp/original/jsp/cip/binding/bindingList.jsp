@@ -26,46 +26,46 @@
                              type: 'checkbox'
                            }, 
                            {
-                               display: "${ctp:i18n('cip.service.binding.v5.name')}",
+                               display: "${ctp:i18n('cip.manager.binding.v5.name')}",
                                name: 'name',
                                width: '15%',
                                sortable: true
                              }, 
                            {
-                             display: "${ctp:i18n('cip.service.binding.colluser')}",
+                             display: "${ctp:i18n('cip.manager.binding.colluser')}",
                              name: 'memberLoginName',
                              width: '15%',
                              sortable: true
                            }, 
                 {
-                    display: "${ctp:i18n('cip.service.binding.collcode')}",
+                    display: "${ctp:i18n('cip.manager.binding.collcode')}",
                     sortable: true,
                     name: 'memberCode',
                     width: '15%'
                 },
                 {
-                    display: "${ctp:i18n('cip.service.binding.thirdaccount')}",
+                    display: "${ctp:i18n('cip.manager.binding.thirdaccount')}",
                     name: 'thirdAccount',
                     width: '15%'
                 },
                 {
-                    display: "${ctp:i18n('cip.service.binding.thirdcode')}",
+                    display: "${ctp:i18n('cip.manager.binding.thirdcode')}",
                     sortable: true,
                     name: 'thirdCode',
                     width: '15%'
                 },
                 {
-                    display: "${ctp:i18n('cip.service.binding.colum.thirdemail')}",
+                    display: "${ctp:i18n('cip.manager.binding.colum.thirdemail')}",
                     name: 'thirdEmail',
                     width: '15%'
                  }, 
                  {
-                     display: "${ctp:i18n('cip.service.binding.colum.thirdemobile')}",
+                     display: "${ctp:i18n('cip.manager.binding.colum.thirdemobile')}",
                      name: 'thirdMobile',
                      width: '15%'
                   }, 
                 {
-                    display: "${ctp:i18n('cip.service.binding.state')}",
+                    display: "${ctp:i18n('cip.manager.binding.state')}",
                     sortable: true,
                     name: 'isEnable',
                     width: '10%',
@@ -93,35 +93,35 @@
                   id: 'name',
                   name: 'name',
                   type: 'input',
-                  text: "${ctp:i18n('cip.service.binding.v5.name')}",
+                  text: "${ctp:i18n('cip.manager.binding.v5.name')}",
                   value: 'name'
                 },
                 {
                     id: 'login_name',
                     name: 'login_name',
                     type: 'input',
-                    text: "${ctp:i18n('cip.service.binding.colluser')}",
+                    text: "${ctp:i18n('cip.manager.binding.colluser')}",
                     value: 'login_name'
                   },
                   {
                       id: 'third_email',
                       name: 'third_email',
                       type: 'input',
-                      text: "${ctp:i18n('cip.service.binding.colum.thirdemail')}",
+                      text: "${ctp:i18n('cip.manager.binding.colum.thirdemail')}",
                       value: 'third_email'
                     },
                   {
                       id: 'third_mobile',
                       name: 'third_mobile',
                       type: 'input',
-                      text: "${ctp:i18n('cip.service.binding.colum.thirdemobile')}",
+                      text: "${ctp:i18n('cip.manager.binding.colum.thirdemobile')}",
                       value: 'third_mobile'
                     },
                     {
                         id: 'is_enable',
                         name: 'is_enable',
                         type: 'select',
-                        text: "${ctp:i18n('cip.service.binding.state')}",
+                        text: "${ctp:i18n('cip.manager.binding.state')}",
                         value: 'enableValue',
                         codecfg: "codeType:'java',codeId:'com.seeyon.apps.cip.vo.MapperEnableEnum'"
                       }
@@ -162,11 +162,11 @@
             $("#toolbar").toolbar({
                 toolbar: [{
                   id: "auto",
-                  name: "${ctp:i18n('cip.service.binding.automapper')}",
+                  name: "${ctp:i18n('cip.manager.binding.automapper')}",
                   className: "ico16",
                   click: function() {
                       $.confirm({
-                          'msg': "${ctp:i18n('cip.service.binding.confirm.automapper')}",
+                          'msg': "${ctp:i18n('cip.manager.binding.confirm.automapper')}",
                           ok_fn: function() {
                         	  var synType = $("input[name=mapper]:checked", window.parent.document).attr("id");
                         	  document.hiddenIframe.location.href = "<c:url value='/cip/userBindingController.do?method=autoMapper&autoMapperType="+synType+"&registerId="+"${registerId}"+"'/>";                   

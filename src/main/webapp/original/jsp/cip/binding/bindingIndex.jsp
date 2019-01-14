@@ -13,7 +13,7 @@ $().ready(function() {
 		var current = $(this).attr("id");
 		if(current!="${autoMapperType}"){
 		      $.confirm({
-                  'msg': "${ctp:i18n('cip.service.binding.change.type')}",
+                  'msg': "${ctp:i18n('cip.manager.binding.change.type')}",
                   ok_fn: function() {
                 	  mappercfg.changeMapperType(current, {
                           success: function() {
@@ -43,11 +43,11 @@ $().ready(function() {
     <div class="comp" comp="type:'breadcrumb',comptype:'location',code:'cip_user'"></div>
     <div class="layout_north" layout="height:30,sprit:false,border:false">  
         <div id="toolbar1"> 
-           ${ctp:i18n("cip.service.binding.automapper")}：
-           <label for="account" class="margin_r_20 hand">${ctp:i18n("cip.service.binding.accountmapper")} <input type="radio" id="account" name="mapper"></label>
-           <label for="code" class="margin_r_20 hand">${ctp:i18n("cip.service.binding.codemapper")} <input type="radio" id="code" name="mapper"></label>
-           <label for="email" class="margin_r_20 hand">${ctp:i18n("cip.service.binding.emailmapper")}<input type="radio" id="email" name="mapper"></label>
-           <label for="mobile" class="margin_r_20 hand">${ctp:i18n("cip.service.binding.mobilemapper")} <input type="radio" id="mobile" name="mapper"></label>
+           ${ctp:i18n("cip.manager.binding.automapper")}：
+           <label for="account" class="margin_r_20 hand">${ctp:i18n("cip.manager.binding.accountmapper")} <input type="radio" id="account" name="mapper"></label>
+           <label for="code" class="margin_r_20 hand">${ctp:i18n("cip.manager.binding.codemapper")} <input type="radio" id="code" name="mapper"></label>
+           <label for="email" class="margin_r_20 hand">${ctp:i18n("cip.manager.binding.emailmapper")}<input type="radio" id="email" name="mapper"></label>
+           <label for="mobile" class="margin_r_20 hand">${ctp:i18n("cip.manager.binding.mobilemapper")} <input type="radio" id="mobile" name="mapper"></label>
 	  </div>
    </div>
        <div id='layoutCenter' class="layout_center over_hidden" layout="border:false">

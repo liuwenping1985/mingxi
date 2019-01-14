@@ -235,7 +235,7 @@ function openCurrentHref(obj,url,bool,isShow){
                          <c:if test="${ctp:hasPlugin('cip')}">
                          	<c:if test="${cipEnabled == true }">
 	                            <tr>
-	                                <td class="file_name" onclick="showCurrentHref(this,'/cip/userBindingController.do?method=bindingMySelf',false,true)">${ctp:i18n('cip.service.binding.path.person')}</td>
+	                                <td class="file_name" onclick="showCurrentHref(this,'/cip/userBindingController.do?method=bindingMySelf',false,true)">${ctp:i18n('cip.manager.binding.path.person')}</td>
 	                            </tr>
                             </c:if>
                         </c:if>

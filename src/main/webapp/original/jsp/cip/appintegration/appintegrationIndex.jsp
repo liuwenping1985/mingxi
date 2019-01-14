@@ -14,22 +14,22 @@
         <ul class="left">
           <li class="current">
              <a  hidefocus="true" href="javascript:void(0)" tgt="user_iframe">
-              <span>${ctp:i18n('cip.service.user')}</span>
+              <span>${ctp:i18n('cip.manager.user')}</span>
             </a>
           </li>
              <li>
             <a  href="javascript:void(0)" tgt="message_iframe">
-              <span>${ctp:i18n('cip.service.message')}</span>
+              <span>${ctp:i18n('cip.manager.message')}</span>
             </a>
           </li>
             <li>
             <a  href="javascript:void(0)" tgt="pending_iframe">
-              <span>${ctp:i18n('cip.service.pending')}</span>
+              <span>${ctp:i18n('cip.manager.pending')}</span>
             </a>
           </li>
             <li>
             <a  href="javascript:void(0)" tgt="portal_iframe">
-              <span>${ctp:i18n('cip.service.portal')}</span>
+              <span>${ctp:i18n('cip.manager.portal')}</span>
             </a>
           </li>
         </ul>

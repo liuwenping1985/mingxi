@@ -8,12 +8,15 @@ import com.seeyon.apps.doc.manager.DocLibManager;
 import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.m3.core.controller.M3CoreController;
+import com.seeyon.apps.menhu.manager.LoginTokenManager;
 import com.seeyon.apps.menhu.util.Helper;
 import com.seeyon.apps.menhu.vo.CommonParameter;
 import com.seeyon.apps.menhu.vo.MemberVo;
 import com.seeyon.apps.menhu.vo.OrgVo;
+import com.seeyon.apps.menhu.vo.UserToken;
 import com.seeyon.apps.taskmanage.enums.ImportantLevelEnums;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.content.affair.AffairManager;
 import com.seeyon.ctp.common.content.affair.constants.StateEnum;
@@ -23,6 +26,9 @@ import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.login.LoginControlImpl;
+import com.seeyon.ctp.login.LoginInterceptor;
+import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
@@ -58,6 +64,9 @@ public class MenhuController extends BaseController {
     private DocAclNewManager docAclNewManager;
 
     private OperationlogManager operationlogManager;
+
+
+    private String sysKey = "haijinge";
 
     public FileManager getFileManager() {
         if (fileManager == null) {
@@ -325,7 +334,9 @@ public class MenhuController extends BaseController {
         try {
             List<V3xOrgAccount> orgAccounts = this.getOrgManager().getAllAccounts();
             for (V3xOrgAccount account : orgAccounts) {
-
+                if (account.isGroup()) {
+                    continue;
+                }
                 List<V3xOrgMember> members = this.getOrgManager().getAllMembers(account.getId());
                 if (CollectionUtils.isEmpty(members)) {
                     continue;
@@ -355,8 +366,9 @@ public class MenhuController extends BaseController {
                         vo.setDutyRank("");
                     }
 
-                    vo.setEmail(member.getEmailAddress());
-                    vo.setTel(member.getTelNumber());
+                    vo.setEmail(member.getEmailAddress() == null ? "" : member.getEmailAddress());
+                    vo.setTel(member.getTelNumber() == null ? "" : member.getTelNumber());
+                    vo.setMobile(vo.getTel());
                     vo.setId(String.valueOf(member.getId()));
                     vo.setOrganId(String.valueOf(member.getOrgDepartmentId()));
                     Integer gender = member.getGender();
@@ -445,7 +457,7 @@ public class MenhuController extends BaseController {
 
             Long userId = Long.parseLong(userSyncCode);
             V3xOrgMember member = this.getOrgManager().getMemberById(userId);
-            if (member==null) {
+            if (member == null) {
                 data.put("msg", "根据userSyncCode值查找用户为空");
                 data.put("result", false);
                 Helper.responseJSON(data, response);
@@ -485,7 +497,7 @@ public class MenhuController extends BaseController {
             affair.setImportantLevel(Integer.valueOf(ImportantLevelEnums.general.getKey()));
             affair.setState(Integer.valueOf(StateEnum.col_pending.key()));
             Long accountId = member.getOrgAccountId();
-            if(accountId != null) {
+            if (accountId != null) {
                 affair.setOrgAccountId(accountId);
             }
             DBAgent.save(affair);
@@ -494,7 +506,7 @@ public class MenhuController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
             data.put("msg", e.getMessage());
-            data.put("result",false);
+            data.put("result", false);
 
         }
         return null;
@@ -509,7 +521,7 @@ public class MenhuController extends BaseController {
         preResponse(response);
         Map<String, Object> data = genRet();
         String affairId = request.getParameter("affairId");
-        if(affairId==null){
+        if (affairId == null) {
             affairId = request.getParameter("jobId");
         }
         AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
@@ -519,7 +531,19 @@ public class MenhuController extends BaseController {
             Helper.responseJSON(data, response);
             return null;
         }
-        CtpAffair affair = affairManager.get(Long.parseLong(affairId));
+        Long afId = null;
+        try {
+            afId = Long.parseLong(affairId);
+        } catch (Exception e) {
+
+        }
+        if (afId == null) {
+            data.put("msg", "affairId值非法");
+            data.put("result", false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        CtpAffair affair = affairManager.get(afId);
         if (affair == null) {
             data.put("msg", "affair为空,根据affairId找不到待办");
             data.put("result", false);
@@ -545,7 +569,7 @@ public class MenhuController extends BaseController {
         preResponse(response);
         Map<String, Object> data = genRet();
         String affairId = request.getParameter("affairId");
-        if(affairId==null){
+        if (affairId == null) {
             affairId = request.getParameter("jobId");
         }
         AffairManager affairManager = (AffairManager) AppContext.getBean("affairManager");
@@ -555,19 +579,91 @@ public class MenhuController extends BaseController {
             Helper.responseJSON(data, response);
             return null;
         }
-        CtpAffair affair = affairManager.get(Long.parseLong(affairId));
+        Long afId = null;
+        try {
+            afId = Long.parseLong(affairId);
+        } catch (Exception e) {
+
+        }
+        if (afId == null) {
+            data.put("msg", "affairId值非法");
+            data.put("result", false);
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        CtpAffair affair = affairManager.get(afId);
         if (affair == null) {
             data.put("msg", "affair为空,根据affairId找不到待办");
             data.put("result", false);
             Helper.responseJSON(data, response);
             return null;
         }
+        LoginControlImpl impl;
+        LoginInterceptor interceptor;
         affair.setDelete(true);
         affair.setFinish(true);
         affair.setState(4);
         DBAgent.delete(affair);
         data.put("data", affair);
         Helper.responseJSON(data, response);
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView genToken(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        User user = AppContext.getCurrentUser();
+        String debug = request.getParameter("debug");
+        boolean isdebug = debug == null ? false : "1".equals(debug) ? true : false;
+        if (user != null) {
+            UserToken token = LoginTokenManager.getInstance().createToken(user);
+            data.put("result", true);
+            data.put("data", token);
+
+        } else {
+            Long userId = -5667632881493391702L;
+            V3xOrgMember member = this.getOrgManager().getMemberById(userId);
+            if (member != null && isdebug) {
+                UserToken token = LoginTokenManager.getInstance().createToken(member);
+                data.put("result", true);
+                data.put("data", token);
+            } else {
+                data.put("result", false);
+                data.put("data", "");
+                data.put("msg", "请先登录");
+            }
+
+        }
+        Helper.responseJSON(data, response);
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView checkToken(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        String token = request.getParameter("token");
+        UserToken userToken = LoginTokenManager.getInstance().checkToken(token);
+        if (userToken != null) {
+            data.put("result",true);
+            Map<String,String> retData = new HashMap<String, String>();
+            retData.put("loginName",userToken.getUserLoginName());
+            retData.put("token",userToken.getToken());
+            String inMd5 =
+            retData.put("sign",userToken.getToken());
+            data.put("data",retData);
+            AppContext.getSessionContext()
+        }else{
+            data.put("result",false);
+            data.put("msg","无效token");
+
+        }
+        /**
+         * 获取当前用户的登陆帐号和签名（学员帐号+令牌+【集成密钥】的md值的前28位）
+         */
+
+        Helper.responseJSON(data,response);
         return null;
     }
 
@@ -580,13 +676,18 @@ public class MenhuController extends BaseController {
 
         CtpAffair affair = affairManager.get(Long.parseLong(affairId));
         if (StringUtils.isEmpty(affair)) {
-            data.put("msg", "affair为空,affairId:"+affairId);
+            data.put("msg", "affair为空,affairId:" + affairId);
             data.put("result", false);
             Helper.responseJSON(data, response);
             return null;
         }
         String link = affair.getAddition();
         try {
+            UserToken token = LoginTokenManager.getInstance().createToken();
+            //String host = "http://1.119.195.90/usLoginBySSO.jsp?token=aaa&url=us-home";
+
+
+            //usLoginBySSO.jsp?token=aaa&url=us-home
             response.sendRedirect(link);
             return null;
         } catch (IOException e) {
@@ -597,6 +698,7 @@ public class MenhuController extends BaseController {
         return mav;
         //CollaborationController
     }
+
     public static void main(String[] args) {
         System.out.println("a");
         CollaborationController cm;

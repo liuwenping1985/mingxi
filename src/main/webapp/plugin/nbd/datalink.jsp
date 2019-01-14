@@ -117,74 +117,7 @@
 
         </div>
 
-        <div id="link_create" class="nbd_content" style="padding: 15px;width:500px;display:none">
-            <form class="layui-form" id="data_link_form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">连接名称</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="extString1" required lay-verify="required" placeholder="请输入名称"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">连接地址</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="host" required lay-verify="required" placeholder="请输入地址"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-form-mid layui-word-aux">IP地址</div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">端口</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="extString2" required lay-verify="required" placeholder="请输入端口"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">数据库类型</label>
-                    <div class="layui-input-block">
-                        <select name="dbType" lay-verify="required">
-                            <option value="0">Mysql</option>
-                            <option value="1">Oracle</option>
-                            <option value="2">SQLServer</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <input type="hidden" name="id" value />
-                    <label class="layui-form-label">用户名</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="user" required lay-verify="required" placeholder="请输入用户名"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">密码</label>
-                    <div class="layui-input-block">
-                        <input type="password" name="password" required lay-verify="required" autocomplete="off"
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">数据库名</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="dataBaseName" required lay-verify="required" placeholder="请输入数据库名"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
 
-            </form>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" id="data_link_submit">立即提交</button>
-                    <button class="layui-btn" style="display:none" id="data_link_update_submit">立即提交</button>
-                    <button class="layui-btn" id="data_link_return">返回</button>
-                    <button class="layui-btn" id="data_link_test">连接测试</button>
-                </div>
-            </div>
-
-        </div>
         <!-- 需要弹出的添加员工界面 -->
         <div class="layui-row" id="sql_console" style="display: none;">
 

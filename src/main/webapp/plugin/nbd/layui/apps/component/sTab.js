@@ -43,7 +43,9 @@
                     this.id = "stab_" + util.uuid();
                 }
                 this.html = "";
-                this.header = $('<ul class="layui-tab-title" ><li class = "' + this.op_.header_class + '" > <spna style="color: #1E9FFF">' + this.op_.title + '</span> </li></ul>');
+                this.header_title=$('<li class = "' + this.op_.header_class + '" > <spna style="color: #1E9FFF">' + this.op_.title + '</span> </li>');
+                this.header = $('<ul class="layui-tab-title" ></ul>');
+                this.header.append(this.header_title);
                 //<div class = "layui-tab-content" style = "height: 100px;" ><div class = "layui-tab-item layui-show" > 1 < /div> </div>
                 this.body = $('<div class = "layui-tab-item layui-show" > </div> ');
                 if (this.op_.body_id) {
@@ -88,6 +90,13 @@
                     if(this.op_.custom_btn.click){
                         n_b.click(this.op_.custom_btn.click);
                     }
+                }
+                if(this.op_.title_click){
+                    var me = this;
+                    this.header_title.click(function(e){
+                        me.op_.title_click(e);
+
+                    });
                 }
             }
         });

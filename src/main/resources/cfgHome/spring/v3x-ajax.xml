@@ -3,7 +3,7 @@
 <beans>
   <!--
     AJAX Service
-    Registe all AJAX services, define entries' key as the external's request service's name，value as BO's id
+    Registe all AJAX services, define entries' key as the external's requmanagervice's name，value as BO's id
   -->
   <bean id="AJAXService" class="com.seeyon.v3x.common.ajax.impl.AJAXServiceImpl">
     <constructor-arg>

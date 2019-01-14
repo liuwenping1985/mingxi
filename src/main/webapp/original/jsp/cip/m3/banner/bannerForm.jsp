@@ -38,7 +38,7 @@
 				</tr>
 				<tr>
 					<td></td><td class="td-btn">
-						<input type="button" id="btn-upload-img" value="${ctp:i18n('cip.service.login.skin.upload')}" class="common_button common_button_gray"><span id="uploadMsg">&nbsp;&nbsp;${ctp:i18n('m3.banner.form.upload.msg')}<span>
+						<input type="button" id="btn-upload-img" value="${ctp:i18n('cip.manager.login.skin.upload')}" class="common_button common_button_gray"><span id="uploadMsg">&nbsp;&nbsp;${ctp:i18n('m3.banner.form.upload.msg')}<span>
 					</td><td></td>
 				</tr>
 				<tr><td></td><td class="tdLbl">${ctp:i18n('m3.banner.form.url')}</td><td></td></tr>

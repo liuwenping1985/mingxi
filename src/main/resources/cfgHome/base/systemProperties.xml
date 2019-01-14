@@ -51,7 +51,7 @@
                 <!-- 未迁移拦截器 -->    
                 <!--  
                     <intercepter>com.seeyon.v3x.login.interceptor.NCUserSycInterceptor</intercepter> 
-                    <intercepter>net.btdz.oa.mobile.common.service.security.M1UserAuthedInterceptor</intercepter> -->
+                    <intercepter>net.btdz.oa.mobile.commanagervice.security.M1UserAuthedInterceptor</intercepter> -->
             </intercepters>
             <authentications>
                 <!-- 按顺序依次调用认证方法，只要有一个通过则该次登录认证通过，需要实现com.seeyon.ctp.login.LoginAuthentication接口 -->

@@ -82,15 +82,15 @@
 		<div id="tabs_head" class="common_tabs clearfix">
 			<ul class="left">
 				<li><a hidefocus="true"
-					href="javascript:void(0)" tgt="tab1_iframe" id="tab1iframe"><span title="${ctp:i18n('eip.service.template')}">${ctp:i18n('eip.service.template')}</span></a></li>
+					href="javascript:void(0)" tgt="tab1_iframe" id="tab1iframe"><span title="${ctp:i18n('eip.manager.template')}">${ctp:i18n('eip.manager.template')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
-					tgt="tab2_iframe" id="tab2iframe" ><span title="${ctp:i18n('eip.service.setup')} ">${ctp:i18n('eip.service.setup')} </span></a></li>
+					tgt="tab2_iframe" id="tab2iframe" ><span title="${ctp:i18n('eip.manager.setup')} ">${ctp:i18n('eip.manager.setup')} </span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
-					tgt="tab3_iframe" id="tab3iframe"><span title="${ctp:i18n('eip.service.column')}">${ctp:i18n('eip.service.column')}</span></a></li>
+					tgt="tab3_iframe" id="tab3iframe"><span title="${ctp:i18n('eip.manager.column')}">${ctp:i18n('eip.manager.column')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
-					tgt="tab4_iframe" id="tab4iframe"><span title="${ctp:i18n('eip.service.app')}">${ctp:i18n('eip.service.app')}</span></a></li>
+					tgt="tab4_iframe" id="tab4iframe"><span title="${ctp:i18n('eip.manager.app')}">${ctp:i18n('eip.manager.app')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
-					tgt="tab5_iframe" id="tab5iframe"><span title="${ctp:i18n('eip.service.columndetail')}">${ctp:i18n('eip.service.columndetail')}</span></a></li>
+					tgt="tab5_iframe" id="tab5iframe"><span title="${ctp:i18n('eip.manager.columndetail')}">${ctp:i18n('eip.manager.columndetail')}</span></a></li>
 			</ul>
 		</div>
 		<div id="bgimg" style="margin-top:50px;margin-left:80px; ">
@@ -177,7 +177,7 @@
 							</div>
 						</div>
 						<div class="name">
-							<span>${ctp:i18n('eip.service.column')}</span>
+							<span>${ctp:i18n('eip.manager.column')}</span>
 						</div>
 					</div>
 					<div class="operation backColor3" onclick="javascript:openD(1002);">

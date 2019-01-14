@@ -334,7 +334,7 @@
 					<ref-res-links></ref-res-links>
 					<service-url>mNewsManager#getPortalNewsList</service-url>
 					<service-type>1</service-type>
-					<!-- <service-params>[2, #typeID#, 0, #pageSize#]</service-params> -->
+					<!managervice-params>[2, #typeID#, 0, #pageSizemanagervice-params> -->
 				</client-services>
 			</portal-cfg>
 			<!-- 定义单位新闻 -->
@@ -371,7 +371,7 @@
 					<ref-res-links></ref-res-links>
 					<service-url>mNewsManager#getPortalNewsList</service-url>
 					<service-type>1</service-type>
-					<!--  <service-params>[2, #typeID#, 0, #pageSize#]</service-params>-->
+					<!-managervice-params>[2, #typeID#, 0, #pageSizemanagervice-params>-->
 				</client-services>
 			</portal-cfg>
 			<!-- 定义团队新闻 -->
@@ -408,7 +408,7 @@
 					<ref-res-links></ref-res-links>
 					<service-url>mNewsManager#getPortalNewsList</service-url>
 					<service-type>1</service-type>
-					<!-- <service-params>[2, #typeID#, 0, #pageSize#]</service-params> -->
+					<!managervice-params>[2, #typeID#, 0, #pageSizemanagervice-params> -->
 				</client-services>
 			</portal-cfg>
 		</portal-cfg-list>

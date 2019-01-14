@@ -166,7 +166,7 @@ $().ready(function() {
     },
 
     {
-      display: "${ctp:i18n('org.dept.service.grade')}",
+      display: "${ctp:i18n('org.dept.manager.grade')}",
       sortable: true,
       name: 'orgLevelIdname',
       sortname: 'orgLevelId',

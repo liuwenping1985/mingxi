@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html class="h100b">
 <head>
-  <title>${ctp:i18n('cip.service.login.skin.title')}</title>
+  <title>${ctp:i18n('cip.manager.login.skin.title')}</title>
   <style type="text/css">
   	.m3-label {
   		font-size: 12px;
@@ -74,17 +74,17 @@
 			<tbody>
 				<tr >
 					<td style="text-align: right;">
-						<label class="m3-label">${ctp:i18n('cip.service.login.skin.background')}</label>
+						<label class="m3-label">${ctp:i18n('cip.manager.login.skin.background')}</label>
 					</td>
 					<td style="text-align: left;"><input type="text" id="txt-bg-img" style="width: 99%" readonly="readonly" /></td>
-					<td style="text-align: left;"><input type="button" id="btn-upload-bg-img" value="${ctp:i18n('cip.service.login.skin.upload')}" class="common_button common_button_gray"/><span>${ctp:i18n('cip.service.homeSkin.background.size')}</span></td>
+					<td style="text-align: left;"><input type="button" id="btn-upload-bg-img" value="${ctp:i18n('cip.manager.login.skin.upload')}" class="common_button common_button_gray"/><span>${ctp:i18n('cip.manager.homeSkin.background.size')}</span></td>
 				</tr>
 				<tr style="display:none;">
 					<td style="text-align: right;">
 						<label class="m3-label">Logo</label>
 					</td>
 					<td style="text-align: left;"><input type="text" id="txt-logo-img" style="width: 99%" readonly="readonly"/></td>
-					<td style="text-align: left;"><input type="button" id="btn-upload-logo-img" value="${ctp:i18n('cip.service.login.skin.upload')}" class="common_button common_button_gray"/><span>${ctp:i18n('cip.service.homeSkin.logo.size')}</span></td>
+					<td style="text-align: left;"><input type="button" id="btn-upload-logo-img" value="${ctp:i18n('cip.manager.login.skin.upload')}" class="common_button common_button_gray"/><span>${ctp:i18n('cip.manager.homeSkin.logo.size')}</span></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -102,7 +102,7 @@
 				<tr>
 					<td></td>
 					<td height="42px" class="bg-advance-bottom">
-						<input type="button" id="btn-save-upload-img" value="${ctp:i18n('cip.service.login.skin.save')}" class="common_button common_button_gray"/>
+						<input type="button" id="btn-save-upload-img" value="${ctp:i18n('cip.manager.login.skin.save')}" class="common_button common_button_gray"/>
 					</td>
 					<td></td>
 				</tr>

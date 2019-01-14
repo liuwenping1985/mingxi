@@ -58,12 +58,13 @@
         <div id="page_menu" class="lx-bg-color lx-page-menu-nav">
             <div class="lx-content">
 
-                <div class="lx-nav-item lx-nav-this"><p data-link="/seeyon/nbd.do?method=goPage&page=main">平台首页</p>
-                    <p id="triangle-pointer" class="lx-pointer-triangle" style="margin-bottom:-1px"></p></div>
-                <div class="lx-nav-item"><p data-link="/seeyon/nbd.do?method=goPage&page=dangjian">党建中心</p></div>
-                <div class="lx-nav-item"><p>资源中心</p></div>
-                <div class="lx-nav-item"><p>自助专区</p></div>
-                <div class="lx-nav-item"><p>报表中心</p></div>
+                <div class="lx-nav-item"><p data-link="/seeyon/nbd.do?method=goPage&page=main">平台首页</p></div>
+                <div class="lx-nav-item lx-nav-this"><p data-link="/seeyon/nbd.do?method=goPage&page=dangjian">党建中心</p>
+                  <p id="triangle-pointer" class="lx-pointer-triangle" style="margin-bottom:-1px"></p>
+                </div>
+                <div class="lx-nav-item"><p data-link="/seeyon/nbd.do?method=goPage&page=ziyuan">资源中心</p></div>
+                <div class="lx-nav-item"><p data-link="/seeyon/nbd.do?method=goPage&page=zizhu">自助专区</p></div>
+                <div class="lx-nav-item"><p data-link="/seeyon/nbd.do?method=goPage&page=report">报表中心</p></div>
 
             </div>
 
@@ -236,61 +237,39 @@
                 </div>
             </div>
             <div id="leader_table" style="margin-top:20px">
-                    <table style="width: 100%;height:50%"  >
-                            <tr style="margin-bottom:100px">
-                              <td class="lx-table-zq">党委书记：</td>
-                              <td class="lx-table-zq">程春明</td>
-                              <td class="lx-table-zq">副书记：</td>
-                              <td class="lx-table-zq">任勇</td>
+                <table style="width:100%;height:100px"  >
+                        <tr>
+                            <td class="lx-table-zq">党委书记：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp程春明</td>
+                            <td class="lx-table-zq">副书记：&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp任勇</td>
                              </tr>
-                             <tr>
-                                <td class="lx-table-zq">党委书记：</td>
-                                <td class="lx-table-zq">程春明</td>
-                                <td class="lx-table-zq">副书记：</td>
-                                <td class="lx-table-zq">任勇</td>
-                             </tr>
+
+                        <tr>
+                          <td class="lx-table-zq">宣教支部书记：&nbsp&nbsp&nbsp贾峰</td>
+                          <td class="lx-table-zq">科技支部书记：&nbsp&nbsp&nbsp辛志伟</td>
+                         </tr>
+                         <tr>
+                            <td class="lx-table-zq">分测支部书记：&nbsp&nbsp&nbsp黄业茹</td>
+                            <td class="lx-table-zq">环管支部书记：&nbsp&nbsp&nbsp王亚男</td>
+                         </tr>
+                        
+                      </table>
+                      <span class="lx-line-style"></span>
+                      <hr align=center width:100% color=red size=2>
+                 <table style="width:100%;height:100px">
                             <tr>
-                                <td class="lx-table-zq">党委书记：</td>
-                                <td class="lx-table-zq">程春明</td>
-                                <td class="lx-table-zq">副书记：</td>
-                                <td class="lx-table-zq">任勇</td>
-                           </tr>
-                           <tr>
-                                <td class="lx-table-zq">党委书记：</td>
-                                <td class="lx-table-zq">程春明</td>
-                                <td class="lx-table-zq">副书记：</td>
-                                <td class="lx-table-zq">任勇</td>
-                            </tr>
-                          </table>
-                          <span class="lx-line-style"></span>
-                          <hr align=center width:100% color=red size=2>
-                          <table  style="width: 100%;height:50%">
-                                <tr>
-                                  <td class="lx-table-zq">党委书记：</td>
-                                  <td class="lx-table-zq">程春明</td>
-                                  <td class="lx-table-zq">副书记：</td>
-                                  <td class="lx-table-zq">任勇</td>
-                                 </tr>
-                                 <tr>
-                                    <td class="lx-table-zq">党委书记：</td>
-                                    <td class="lx-table-zq">程春明</td>
-                                    <td class="lx-table-zq">副书记：</td>
-                                    <td class="lx-table-zq">任勇</td>
-                                 </tr>
-                                <tr>
-                                    <td class="lx-table-zq">党委书记：</td>
-                                    <td class="lx-table-zq">程春明</td>
-                                    <td class="lx-table-zq">副书记：</td>
-                                    <td class="lx-table-zq">任勇</td>
+                                    <td class="lx-table-zq">标样支部书记：&nbsp&nbsp&nbsp田洪海</td>
+                                    <td class="lx-table-zq">中环支部书记:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp张小丹</td>
                                </tr>
                                <tr>
-                                    <td class="lx-table-zq">党委书记：</td>
-                                    <td class="lx-table-zq">程春明</td>
-                                    <td class="lx-table-zq">副书记：</td>
-                                    <td class="lx-table-zq">任勇</td>
+                                    <td class="lx-table-zq">会物支部书记：&nbsp&nbsp&nbsp张琦</td>
+                                    <td class="lx-table-zq">机关支部书记：&nbsp&nbsp&nbsp&nbsp张耀东</td>
                                 </tr>
-                          </table>
-            </div>
+                                <tr>
+                                        <td class="lx-table-zq">离退休支部书记：张太生</td>
+                                        <td class="lx-table-zq"></td>
+                                    </tr>
+                      </table>
+        </div>
             
     </div>
 

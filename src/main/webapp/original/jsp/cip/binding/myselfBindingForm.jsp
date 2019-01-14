@@ -18,10 +18,10 @@
                     </tr>
                  
                     <tr>
-                        <th nowrap="nowrap"><label class="margin_r_10" for="text"><font color="red">*</font>${ctp:i18n("cip.service.binding.thirdaccount")}:</label></th>
+                        <th nowrap="nowrap"><label class="margin_r_10" for="text"><font color="red">*</font>${ctp:i18n("cip.manager.binding.thirdaccount")}:</label></th>
                    <td>
                     <div class="common_txtbox_wrap">
-                            <input type="text" id="thirdAccount" name="thirdAccount" class="w100b validate" validate="notNull:true,name:'${ctp:i18n('cip.service.binding.thirdaccount')}',minLength:1,maxLength:85">
+                            <input type="text" id="thirdAccount" name="thirdAccount" class="w100b validate" validate="notNull:true,name:'${ctp:i18n('cip.manager.binding.thirdaccount')}',minLength:1,maxLength:85">
                         </div>
                      </td>
                     </tr>
@@ -29,7 +29,7 @@
                         <th nowrap="nowrap"><label class="margin_r_10" for="text">${ctp:i18n('cip.scheme.param.config.third')}${ctp:i18n('cip.scheme.param.config.pass')}:</label></th>
                         <td>
                                 <div class="common_txtbox_wrap">
-                                 <input type="password" id="thirdPassword" name="thirdPassword" class="w100b validate" validate="notNull:false,name:'${ctp:i18n('cip.service.binding.userpassword')}'">
+                                 <input type="password" id="thirdPassword" name="thirdPassword" class="w100b validate" validate="notNull:false,name:'${ctp:i18n('cip.manager.binding.userpassword')}'">
                                 </div>
                             </td>
                     </tr>
@@ -38,7 +38,7 @@
                         <td>
                                 <div class="common_selectbox_wrap">
                                   <select id="bindingType" name="bindingType" >
-                                   <option value="0">${ctp:i18n('cip.service.binding.type.idcard')}</option>
+                                   <option value="0">${ctp:i18n('cip.manager.binding.type.idcard')}</option>
                                   </select>
                                 </div>
                             </td>

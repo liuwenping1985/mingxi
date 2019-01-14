@@ -68,7 +68,7 @@
 				<li><a hidefocus="true" href="javascript:void(0)"
 					tgt="tab3_iframe" id="tab3iframe"><span title="${ctp:i18n('cip.sync.log.title')}">${ctp:i18n('cip.sync.log.title')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
-					tgt="tab4_iframe" id="tab4iframe"><span title="${ctp:i18n('cip.service.binding.accountmapper')}">${ctp:i18n('cip.service.binding.accountmapper')}</span></a></li>
+					tgt="tab4_iframe" id="tab4iframe"><span title="${ctp:i18n('cip.manager.binding.accountmapper')}">${ctp:i18n('cip.manager.binding.accountmapper')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
 					tgt="tab5_iframe" id="tab5iframe"><span title="${ctp:i18n('cip.nc.syn.param')}">${ctp:i18n('cip.nc.syn.param')}</span></a></li>	
 				<li><a hidefocus="true" href="javascript:void(0)"
@@ -144,7 +144,7 @@
 							</div>
 						</div>
 						<div class="name">
-							<span>${ctp:i18n('cip.service.binding.accountmapper')}</span>
+							<span>${ctp:i18n('cip.manager.binding.accountmapper')}</span>
 						</div>
 					</div>
 					<div class="operation backColor3" onclick="javascript:openD(204);">

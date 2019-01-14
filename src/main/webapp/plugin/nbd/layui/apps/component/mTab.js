@@ -95,6 +95,13 @@
                         n_b.click(this.op_.custom_btn.click);
                     }
                 }
+                var me = this;
+                this.head.click(function(e){
+                    if(me.op_.title_click){
+                        me.op_.title_click(e);
+                    }
+
+                });
             },
             addTab:function(tab){
 

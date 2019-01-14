@@ -173,7 +173,7 @@ $().ready(function() {
         name: "-------------"
       },
       {
-        name: "${ctp:i18n('member.in.service')}",
+        name: "${ctp:i18n('member.in.manager')}",
         click: function() {
           o = new Object();
           o.condition = 'state';
@@ -184,7 +184,7 @@ $().ready(function() {
         }
       },
       {
-        name: "${ctp:i18n('member.out.service')}",
+        name: "${ctp:i18n('member.out.manager')}",
         click: function() {
           o = new Object();
           o.condition = 'state';
@@ -258,7 +258,7 @@ $().ready(function() {
     },
     {
       id: "leaveMember",
-      name: "${ctp:i18n('member.out.service.procedure')}",
+      name: "${ctp:i18n('member.out.manager.procedure')}",
       className: "ico16 staff_transferred_out_16",
       click: memberLeave
     },
