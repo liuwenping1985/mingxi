@@ -22,6 +22,7 @@ import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.login.LoginControlImpl;
+import com.seeyon.ctp.login.controller.MainController;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.bo.V3xOrgPost;
@@ -108,6 +109,7 @@ public class NbdController extends BaseController {
         if (page == null) {
             page = "index";
         }
+        MainController impl2;
         ModelAndView mav = new ModelAndView("apps/nbd/" + page);
         User user = AppContext.getCurrentUser();
         if (user != null) {
