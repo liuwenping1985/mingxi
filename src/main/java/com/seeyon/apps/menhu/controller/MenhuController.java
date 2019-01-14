@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
+import www.seeyon.com.utils.MD5Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -650,10 +651,12 @@ public class MenhuController extends BaseController {
             Map<String,String> retData = new HashMap<String, String>();
             retData.put("loginName",userToken.getUserLoginName());
             retData.put("token",userToken.getToken());
-            String inMd5 =
-            retData.put("sign",userToken.getToken());
+            String inMd5 =userToken.getUserLoginName()+userToken.getToken()+sysKey;
+            String md5 = MD5Util.MD5(inMd5);
+            md5 = md5.substring(0,28);
+            retData.put("sign",md5);
             data.put("data",retData);
-            AppContext.getSessionContext()
+
         }else{
             data.put("result",false);
             data.put("msg","无效token");
