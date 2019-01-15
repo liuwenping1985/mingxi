@@ -9,11 +9,10 @@ import com.seeyon.apps.doc.po.DocLibPO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.m3.core.controller.M3CoreController;
 import com.seeyon.apps.menhu.manager.LoginTokenManager;
+import com.seeyon.apps.menhu.util.CommonUtils;
+import com.seeyon.apps.menhu.util.DESUtil;
 import com.seeyon.apps.menhu.util.Helper;
-import com.seeyon.apps.menhu.vo.CommonParameter;
-import com.seeyon.apps.menhu.vo.MemberVo;
-import com.seeyon.apps.menhu.vo.OrgVo;
-import com.seeyon.apps.menhu.vo.UserToken;
+import com.seeyon.apps.menhu.vo.*;
 import com.seeyon.apps.taskmanage.enums.ImportantLevelEnums;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
@@ -26,16 +25,23 @@ import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.operationlog.manager.OperationlogManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.login.LoginInterceptor;
 import com.seeyon.ctp.login.auth.DefaultLoginAuthentication;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.organization.po.OrgPrincipal;
 import com.seeyon.ctp.organization.principal.PrincipalManager;
+import com.seeyon.ctp.organization.principal.PrincipalManagerImpl;
 import com.seeyon.ctp.rest.resources.M3PendingResource;
+import com.seeyon.ctp.services.ServiceException;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import com.seeyon.oainterface.impl.exportdata.MessageExporter;
 import com.seeyon.v3x.services.flow.FlowUtil;
+import com.seeyon.v3x.services.message.impl.MessageServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -46,6 +52,7 @@ import www.seeyon.com.utils.MD5Util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -71,6 +78,7 @@ public class MenhuController extends BaseController {
 
     public FileManager getFileManager() {
         if (fileManager == null) {
+            MessageServiceImpl i2;
             fileManager = (FileManager) AppContext.getBean("fileManager");
         }
         return fileManager;
@@ -398,7 +406,59 @@ public class MenhuController extends BaseController {
         return null;
 
     }
-
+    @NeedlessCheckLogin
+    public ModelAndView receiveMessage(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        MessageExporter messageExporter = new MessageExporter();
+        String receiverId = request.getParameter("receiverId");
+        if(CommonUtils.isEmpty(receiverId)){
+            data.put("result",false);
+            data.put("msg","接受者不能为空");
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        Long userId = CommonUtils.getLong(receiverId);
+        if(userId==null){
+            data.put("result",false);
+            data.put("msg","非法的接受者ID");
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        V3xOrgMember member = this.getOrgManager().getMemberById(userId);
+        if(member==null){
+            data.put("result",false);
+            data.put("msg","找不到接收者");
+            Helper.responseJSON(data, response);
+            return null;
+        }
+//       long messageId =
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        if(title==null){
+            title = "";
+        }
+        if(CommonUtils.isEmpty(content)){
+            data.put("result",false);
+            data.put("msg","消息正文不能为空");
+            Helper.responseJSON(data, response);
+            return null;
+        }
+        content="【"+title+"】"+content;
+        long[] userIds= new long[]{member.getId()};
+//        // 学员ID（接收者），消息标题、消息正文
+        try {
+            long messageId = messageExporter.sendMessage(-1,userIds,content,new String[0]);
+            data.put("data",messageId);
+            data.put("result",true);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            data.put("msg",e.getMessage());
+            data.put("result",false);
+        }
+        Helper.responseJSON(data, response);
+        return null;
+    }
     @NeedlessCheckLogin
     public ModelAndView receiveAffair(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
         /**
@@ -510,6 +570,7 @@ public class MenhuController extends BaseController {
             data.put("result", false);
 
         }
+        Helper.responseJSON(data, response);
         return null;
     }
 
@@ -625,10 +686,10 @@ public class MenhuController extends BaseController {
 
         } else {
             V3xOrgMember member = null;
-            if(logInName!=null){
+            if (logInName != null) {
                 try {
                     member = this.getOrgManager().getMemberByLoginName(logInName);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -655,27 +716,200 @@ public class MenhuController extends BaseController {
         String token = request.getParameter("token");
         UserToken userToken = LoginTokenManager.getInstance().checkToken(token);
         if (userToken != null) {
-            data.put("result",true);
-            Map<String,String> retData = new HashMap<String, String>();
-            retData.put("loginName",userToken.getUserLoginName());
-            retData.put("token",userToken.getToken());
-            String inMd5 =userToken.getUserLoginName()+userToken.getToken()+sysKey;
+            data.put("result", true);
+            Map<String, String> retData = new HashMap<String, String>();
+            retData.put("loginName", userToken.getUserLoginName());
+            retData.put("token", userToken.getToken());
+            String inMd5 = userToken.getUserLoginName() + userToken.getToken() + sysKey;
             String md5 = MD5Util.MD5(inMd5);
-            md5 = md5.substring(0,28);
-            retData.put("sign",md5);
-            data.put("data",retData);
+            md5 = md5.substring(0, 28);
+            retData.put("sign", md5);
+            data.put("data", retData);
 
-        }else{
-            data.put("result",false);
-            data.put("msg","无效token");
+        } else {
+            data.put("result", false);
+            data.put("msg", "无效token");
 
         }
         /**
          * 获取当前用户的登陆帐号和签名（学员帐号+令牌+【集成密钥】的md值的前28位）
          */
 
-        Helper.responseJSON(data,response);
+        Helper.responseJSON(data, response);
         return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView checkUser(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        String loginName = request.getParameter("loginName");
+        String userName = request.getParameter("userName");
+        if (loginName == null) {
+            loginName = userName;
+        }
+        String password = request.getParameter("password");
+        if (CommonUtils.isEmpty(password)) {
+            data.put("result", false);
+            data.put("msg", "密码为空");
+        }
+        if (CommonUtils.isEmpty(loginName)) {
+            data.put("result", false);
+            data.put("msg", "用户名为空");
+        }
+        try {
+
+            Long userId = CommonUtils.getLong(loginName);
+            V3xOrgMember member;
+            if (userId != null) {
+                member = this.getOrgManager().getMemberById(userId);
+            } else {
+                member = this.getOrgManager().getMemberByLoginName(loginName);
+            }
+            if (member == null) {
+                data.put("result", false);
+                data.put("msg", "找不到用户");
+            } else {
+                List<OrgPrincipal> opList = DBAgent.find("from OrgPrincipal where member_id=" + member.getId());
+                if (!CommonUtils.isEmpty(opList)) {
+                    OrgPrincipal op = opList.get(0);
+                    String credentialValue = op.getCredentialValue();
+                    MessageEncoder encode =null;
+                    try {
+                        if(credentialValue.indexOf("$SM3$") >= 0) {
+                            encode = new MessageEncoder("SM3", "BC");
+                        } else {
+                            encode = new MessageEncoder();
+                        }
+                        password = DESUtil.decrypt(password,sysKey);
+                        String pwdC = encode.encode(loginName, password);
+                        boolean result = pwdC.equals(credentialValue);
+                        if(result) {
+                            data.put("result",true);
+                            data.put("msg","合法用户");
+                           // LOG.debug("Password" + pwdC + "!=" + credentialValue);
+                        }else{
+                            data.put("result",false);
+                            data.put("msg","密码不匹配");
+                        }
+                    } catch (Exception var8) {
+                        LOG.warn("", var8);
+                    }
+                } else {
+                    data.put("result", false);
+                    data.put("msg", "找不到登录凭据");
+                }
+            }
+
+        } catch (Exception e) {
+            data.put("result", false);
+            data.put("msg", e.getMessage());
+        }
+
+        Helper.responseJSON(data, response);
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView syncProjectDataList(HttpServletRequest request, HttpServletResponse response) throws BusinessException {
+        preResponse(response);
+        Map<String, Object> data = genRet();
+        String sql = "select id,field0001,field0029,field0037,field0042,field0040 from formmain_0014";
+        JDBCAgent agent = new JDBCAgent();
+        try {
+            agent.execute(sql);
+            List<Map> resultList = agent.resultSetToList(true);
+            if (!CollectionUtils.isEmpty(resultList)) {
+                List<ProjectDataVo> voList = new ArrayList<ProjectDataVo>();
+                for (Map pData : resultList) {
+                    Object pc = pData.get("field0001");
+                    Object pn = pData.get("field0040");
+                    Object pId = pData.get("id");
+                    Object u1List = pData.get("field0029");
+                    Object u2List = pData.get("field0037");
+                    Object u3List = pData.get("field0042");
+                    if (pId == null || (pn == null && u1List == null && u2List == null && u3List == null)) {
+                        continue;
+                    }
+                    String pCode = "";
+                    if (pc != null) {
+                        pCode = pc.toString();
+                    }
+                    String pName = "";
+                    if (pn != null) {
+                        pName = pn.toString();
+                    }
+                    Set<Long> userList = new HashSet<Long>();
+                    filledUserSet(u1List, userList);
+                    filledUserSet(u2List, userList);
+                    filledUserSet(u3List, userList);
+                    ProjectDataVo pVo = new ProjectDataVo();
+                    pVo.setId(String.valueOf(pId));
+                    pVo.setCode(pCode);
+                    pVo.setName(pName);
+                    pVo.setUserList(genUserVoList(userList));
+                    voList.add(pVo);
+
+                }
+                data.put("items", voList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            data.put("result", false);
+            data.put("msg", e.getMessage());
+        } finally {
+            if (agent != null) {
+                try {
+                    agent.close();
+                } catch (Exception e) {
+
+                }
+            }
+        }
+
+        Helper.responseJSON(data, response);
+        return null;
+    }
+
+    private void filledUserSet(Object u1List, Set<Long> userSet) {
+        if (u1List != null) {
+            String[] u1splits = (u1List + "").split(",");
+            for (String s1 : u1splits) {
+                if (s1 != null) {
+                    Long val = CommonUtils.getLong(s1);
+                    if (val != null) {
+                        userSet.add(val);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private List<ProjectUserDataVo> genUserVoList(Set<Long> userSet) {
+
+        List<ProjectUserDataVo> userList = new ArrayList<ProjectUserDataVo>();
+
+        if (userSet == null || userSet.isEmpty()) {
+            return userList;
+        }
+        for (Long id : userSet) {
+
+
+            try {
+                V3xOrgMember member = this.getOrgManager().getMemberById(id);
+                if (member != null) {
+                    ProjectUserDataVo vo = new ProjectUserDataVo();
+                    vo.setCode(member.getCode() == null ? "" : member.getCode());
+                    vo.setId(String.valueOf(member.getId()));
+                    vo.setName(member.getName());
+                    userList.add(vo);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return userList;
     }
 
     @NeedlessCheckLogin
@@ -695,7 +929,7 @@ public class MenhuController extends BaseController {
         String link = affair.getAddition();
         try {
             UserToken token = LoginTokenManager.getInstance().createToken();
-            String host = "http://1.119.195.90/usLoginBySSO.jsp?token="+token.getToken()+"&url="+link;
+            String host = "http://1.119.195.90/usLoginBySSO.jsp?token=" + token.getToken() + "&url=" + link;
 
 
             //usLoginBySSO.jsp?token=aaa&url=us-home

@@ -104,6 +104,6 @@ public class DESUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(encrypt("test", "20010809"));
+        System.out.println(encrypt("123456", "haijinge"));
     }
 }
