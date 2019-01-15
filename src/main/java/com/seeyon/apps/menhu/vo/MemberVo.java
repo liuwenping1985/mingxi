@@ -8,6 +8,7 @@ public class MemberVo {
     private String name;
     private String code;
     private String actualName;
+    private String loginName;
     private String organId;
     private String sex;
     private String duty;
@@ -86,6 +87,14 @@ public class MemberVo {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public String getMobile() {

@@ -379,6 +379,7 @@ public class MenhuController extends BaseController {
                     vo.setTel(member.getTelNumber() == null ? "" : member.getTelNumber());
                     vo.setMobile(vo.getTel());
                     vo.setId(String.valueOf(member.getId()));
+                    vo.setLoginName(member.getLoginName());
                     vo.setOrganId(String.valueOf(member.getOrgDepartmentId()));
                     Integer gender = member.getGender();
                     if (gender != null) {
