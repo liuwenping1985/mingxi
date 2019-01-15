@@ -900,6 +900,9 @@ public class MenhuController extends BaseController {
             try {
                 V3xOrgMember member = this.getOrgManager().getMemberById(id);
                 if (member != null) {
+                    if(member.getIsDeleted()||!member.getEnabled()){
+                        continue;
+                    }
                     ProjectUserDataVo vo = new ProjectUserDataVo();
                     vo.setCode(member.getCode() == null ? "" : member.getCode());
                     vo.setId(String.valueOf(member.getId()));
