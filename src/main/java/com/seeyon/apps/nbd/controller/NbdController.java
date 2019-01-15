@@ -102,14 +102,14 @@ public class NbdController extends BaseController {
     }
 
 
-    
+    @NeedlessCheckLogin
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
         String page = p.$("page");
         if (page == null) {
             page = "index";
         }
-        MainController impl2;
+
         ModelAndView mav = new ModelAndView("apps/nbd/" + page);
         User user = AppContext.getCurrentUser();
         if (user != null) {
@@ -155,12 +155,12 @@ public class NbdController extends BaseController {
             //${userType}
            // LoginControlImpl l;
         } else {
-            try {
-                response.sendRedirect("/seeyon/main.do?method=main");
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                response.sendRedirect("/seeyon/main.do?method=main");
+//                return null;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         return mav;
 

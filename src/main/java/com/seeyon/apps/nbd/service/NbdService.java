@@ -229,6 +229,7 @@ public class NbdService {
                 Ftd ftd = mappingServiceManager.saveFormTableDefinition(p);
                 OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) cVo;
                 otherToA8.setFtdId(ftd.getId());
+
             }
             cVo.saveOrUpdate(dataLink);
             entity.setData(cVo);
