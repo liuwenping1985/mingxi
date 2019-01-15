@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 
@@ -8,20 +9,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>生态环境部环境发展中心</title>
     <!--[if lt IE 9]>
-    <script src="/seeyon/apps_res/nbd/layui/html5.min.js"></script>
-    <script src="/seeyon/apps_res/nbd/layui/respond.min.js"></script>
+    <script src="layui/html5.min.js"></script>
+    <script src="layui/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/css/bootstrap3.css">
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/layui/css/layui.css">
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/css/skin_menhu.css">
     <link rel="stylesheet" href="/seeyon/apps_res/nbd/css/icon.css">
-    <script src="/seeyon/apps_res/nbd/layui/layui.js"></script>
+    
+    <script src="layui/layui.js"></script>
     <style>
         .btn-color{
-            height: 30px;
-            width:90px;
-
+            height:30px;
+            width:120px;
+            line-height:30px;
+            margin-left: 0px !important;
         }
+        .lx-line-style{
+            height: 2px;
+            background: #F7F7FA;
+            flex-grow:2;
+        }
+      
+        .lx-box-style{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 391px;
+        color:black;
+        width: 90%;
+        margin:0 auto;
+        margin-bottom: 5px;
+        }
+       .lx-text-style{
+           color:#BBBDC1;
+       }
     </style>
 
 
@@ -63,7 +85,7 @@
             <div class="lx-content">
 
                 <div class="lx-nav-item lx-nav-this"><p>平台首页</p>
-                    <p id="triangle-pointer" class="lx-pointer-triangle"></p></div>
+                    <p id="triangle-pointer" class="lx-pointer-triangle" style="margin-bottom:-1px"></p></div>
                 <div class="lx-nav-item"><p>党建中心</p></div>
                 <div class="lx-nav-item"><p>资源中心</p></div>
                 <div class="lx-nav-item"><p>自助专区</p></div>
@@ -78,7 +100,7 @@
             </div>
             <div class="lx-inline-block" style="margin-top:10px;color:white">
                 <div><span class="lx-weight">爱因斯坦</span> <span class="font-size-14 lx-weight">普通员工</span></div>
-                <div class="font-size-14 lx-weight">宣教中心音响室</div>
+                 <div class="font-size-14 lx-weight">宣教中心音响室</div>
             </div>
             <span class="lx-inline-block">
                <span class="icon_logout glyphicon glyphicon-log-out"></span>
@@ -90,21 +112,21 @@
     </div>
 </div>
 <div id="lx-left-menu" class="lx-left-menu">
-    <div class="lx-menu-item lx-menu-item-bg-color">协同<br>管理</div>
-    <div  class="lx-menu-item ">公文<br>管理</div>
-    <div  class="lx-menu-item lx-menu-item-bg-color">任务<br>管理</div>
-    <div  class="lx-menu-item">会议<br>管理</div>
-    <div class="lx-menu-item lx-menu-item-bg-color">日程<br>管理</div>
-    <div class="lx-menu-item">行为<br>绩效</div>
-    <div class="lx-menu-item lx-menu-item-bg-color">个人<br>中心</div>
-    <div class="lx-menu-item" style="padding-top:15px">通讯录</div>
+    <div class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">协同<br>管理</div>
+    <div  class="lx-menu-item lx-left-menu-zq ">公文<br>管理</div>
+    <div  class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">任务<br>管理</div>
+    <div  class="lx-menu-item lx-left-menu-zq">会议<br>管理</div>
+    <div class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">日程<br>管理</div>
+    <div class="lx-menu-item lx-left-menu-zq">行为<br>绩效</div>
+    <div class="lx-menu-item lx-menu-item-bg-color lx-left-menu-zq">个人<br>中心</div>
+    <div class="lx-menu-item lx-left-menu-zq" style="padding-top:15px">通讯录</div>
     <div style="background-color:rgb(76,140,193);"><span class="layui-icon " lay-type="top" style="font-size:50px;color:white;font-weight:bold"></span></div>
 </div>
 <div id="lx-right-menu" class="lx-right-menu">
-    <div class="lx-menu-item lx-menu-item-bg-color2">收文<br>督办</div>
-    <div  class="lx-menu-item lx-menu-item-bg-color3">领导<br>批阅</div>
-    <div  class="lx-menu-item lx-menu-item-bg-color2">领导<br>日程</div>
-    <div  class="lx-menu-item lx-menu-item-bg-color3"><span style="font-size:33px;padding-top:8px;" class="glyphicon glyphicon-arrow-right"></span></div>
+    <div class="lx-menu-item lx-menu-item-bg-color2 lx-right-menu-zq">收文<br>督办</div>
+    <div  class="lx-menu-item lx-menu-item-bg-color3 lx-right-menu-zq">领导<br>批阅</div>
+    <div  class="lx-menu-item lx-menu-item-bg-color2 lx-right-menu-zq">领导<br>日程</div>
+    <div  class="lx-menu-item lx-menu-item-bg-color3 lx-right-menu-zq"><span style="font-size:33px;padding-top:8px;" class="glyphicon glyphicon-arrow-right"></span></div>
 
 </div>
 
@@ -115,28 +137,183 @@
     </div>
     <div style="display:none">
 
-        <div id="quick_enter_btns">
-            <div style="display: flex;justify-content: space-between;margin:30px auto">
-                <button class="btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#21A097">办公室</button>
-                <button class="btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#DD8056">党委办公室</button>
-                <button class="btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#D2B02B">人事处</button>
-                <button class="btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#6FA980">财务处</button>
-                <button class="btn-color" style="background-color:#7BCCDD">国际处</button>
-                <button class="btn-color" style="background-color:#A9ADB9">会议/物业</button>
+            <div class="layui-col-xs12" id="tpl_all">
+                    <div class="layui-col-xs6" id="tpl_one"></div>
+
+                    <div class="layui-col-xs6" id="tpl_two"></div>
+            </div>
+            <div class="layui-col-xs12" id="yian">                                
+                    <div class="layui-col-xs6" id="yian1">
+                            <div class="lx-box-style">
+                                    <span class="lx-line-style"></span>
+                                    <span class="lx-text-style">上级精神</span>
+                                    <span class="lx-line-style"></span>
+                            </div>
+                            
+                    </div>          
+                    <div class="layui-col-xs6" id="yian2">
+                            <div class="lx-box-style">
+                                    <span class="lx-line-style"></span>
+                                    <span class="lx-text-style">中心动态</span>
+                                    <span class="lx-line-style"></span>
+                            </div>
+                    </div>
+            </div>
+            <div class="layui-col-xs12" id="shijiuda">
+                <div class="layui-col-xs6" id="shijiuda1">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">上级精神</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            
+                <div class="layui-col-xs6" id="shijiuda2">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">上级精神</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12" id="sanyan">
+                    <div class="layui-col-xs6" id="sanyan1">
+                            <div class="lx-box-style">
+                                    <span class="lx-line-style"></span>
+                                    <span class="lx-text-style">上级精神</span>
+                                    <span class="lx-line-style"></span>
+                            </div>
+                    </div>
+            
+                    <div class="layui-col-xs6" id="sanyan2">
+                            <div class="lx-box-style">
+                                    <span class="lx-line-style"></span>
+                                    <span class="lx-text-style">中心动态</span>
+                                    <span class="lx-line-style"></span>
+                            </div>
+                    </div>
+                    
+            </div>
+            <div class="layui-col-xs12" id="liangxue">
+                <div class="layui-col-xs6" id="liangxue1">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">上级精神</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            
+                <div class="layui-col-xs6" id="liangxue2">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">中心动态</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12" id="shibada">
+                <div class="layui-col-xs6" id="shibada1">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">上级精神</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            
+                <div class="layui-col-xs6" id="shibada2">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">中心动态</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12" id="sanhui">
+                <div class="layui-col-xs6" id="sanhui1">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">上级精神</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            
+                <div class="layui-col-xs6" id="sanhui2">
+                        <div class="lx-box-style">
+                                <span class="lx-line-style"></span>
+                                <span class="lx-text-style">中心动态</span>
+                                <span class="lx-line-style"></span>
+                        </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12" id="jianbao">
+                <div class="layui-col-xs6" id="jianbao1"></div>
+            
+                <div class="layui-col-xs6" id="jianbao2"></div>
+            </div>
+            <div class="layui-col-xs12" id="zhuanbao">
+                <div class="layui-col-xs6" id="zhuanbao1"></div>
+            
+                <div class="layui-col-xs6" id="zhuanbao2"></div>
+            </div>
+            <div class="layui-col-xs12" id="tongbao">
+                <div class="layui-col-xs6" id="tongbao1"></div>
+            
+                <div class="layui-col-xs6" id="tongbao2"></div>
+            </div>
+            <div id="quick_enter_btns" class="layui-col-xs12">
+                <div class="layui-col-xs12" style="margin-top:7px;height:39px;">
+                    <div class="layui-col-xs2 lx-btn-group" >
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#21A097">办公室</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#DD8056">党委办公室</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#D2B02B">人事处</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#6FA980">财务处</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#7BCCDD">国际处</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#A9ADB9">会议/物业</button>
+                    </div>
+                </div>
+                <div class="layui-col-xs12" >
+                
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#299AC6">新建协同</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#299AC6">新建公文</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#299AC6">新建任务</button>
+                </div>
+                <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#299AC6">新建日程</button>
+                    </div>
+                    <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#299AC6">规章制度</button>
+                    </div>
+                    <div class="layui-col-xs2 lx-btn-group">
+                    <button class=" btn-color layui-btn layui-btn-lg layui-btn-normal" style="background-color:#299AC6;">学术委员会</button>
+                </div>
+                
+                </div>
+
 
             </div>
-            <div style="display: flex;justify-content: space-between;margin:30px auto">
-                <button class="btn-color" style="background-color:#299AC6">新建协网</button>
-                <button class="btn-color" style="background-color:#299AC6">新建公文</button>
-                <button class="btn-color" style="background-color:#299AC6">新建任务</button>
-                <button class="btn-color" style="background-color:#299AC6">新建日程</button>
-                <button class="btn-color" style="background-color:#299AC6">规章制度</button>
-                <button class="btn-color" style="background-color:#299AC6">学术委员会</button>
-            </div>
-
-
-        </div>
     </div>
+
+
+
+
+
+
+
 </div>
 
 <script src="/seeyon/apps_res/nbd/layui/lx.js"></script>

@@ -18,7 +18,7 @@
 
 
 <div id="link_create" class="nbd_content" style="padding: 15px;width:500px;">
-<form class="layui-form"  action="" >
+<form class="layui-form" id="data_link_form"  action="" >
 <div class="layui-form-item">
     <label class="layui-form-label">连接名称</label>
     <div class="layui-input-block">
@@ -44,7 +44,7 @@
 <div class="layui-form-item">
     <label class="layui-form-label">数据库类型</label>
     <div class="layui-input-block">
-        <select v-model="item.dbType" lay-verify="required">
+        <select id="dbType" name="dbType" v-model="item.dbType" lay-verify="required">
             <option value="0">Mysql</option>
             <option value="1">Oracle</option>
             <option value="2">SQLServer</option>
@@ -54,7 +54,7 @@
 <div class="layui-form-item">
     <label class="layui-form-label">用户名</label>
     <div class="layui-input-inline">
-        <input type="text" v-model="item.user" required lay-verify="required" placeholder="请输入用户名"
+        <input type="text" v-model="item.userName" required lay-verify="required" placeholder="请输入用户名"
                autocomplete="off" class="layui-input">
     </div>
 </div>
@@ -85,7 +85,7 @@
 
 </div>
 
-<script src="layui/layui.all.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/layui.all.js"></script>
 <script>
     //JavaScript代码区域
     var $ = jQuery = layui.jquery;

@@ -2,9 +2,9 @@
  *
  *
  * layui和vue 一起用的时候会有一些冲突 导致代码写法比较冗余
- * 主页用纯粹js居多，样式和vue的绑定不适配
+ * 主页用纯粹js居多，样式和vue的绑定不适配，时间关系就不写Vue的组件了
  *
- * 没有webpack就是渣
+ * 没有webpack就是渣，还是react舒服
  */
 ;
 (function () {
@@ -18,7 +18,7 @@
         });
         function show(linkContent) {
 
-            $("#pageLayout").attr("src","dataList.html?data_type="+linkContent+"&v="+Math.random());
+            $("#pageLayout").attr("src","/seeyon/nbd.do?method=goPage&page=dataList&data_type="+linkContent+"&v="+Math.random());
 
         }
 

@@ -1,7 +1,25 @@
 ;
 (function (exportObject) {
     var $ = exportObject.$;
-    var openDebug = true;
+    var openDebug = false;
+    
+    var cachedData_={
+        "data_link":{
+            items:[]
+        },
+        "TemplateNumber":{
+            items:[]
+        }
+    }
+    if(window.cachedData){
+        cachedData_ = window.cachedData;
+    }else if(window.parent&&window.parent.cachedData){
+        
+         cachedData_ = window.parent.cachedData;
+        
+    }
+    window.cachedData=cachedData_;
+     
 
     var _getList = function (data_type, callback_, error_callback_) {
         var url = "/seeyon/nbd.do?method=getDataList&data_type=" + data_type;
@@ -16,7 +34,10 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-
+                if(data_type=="data_link"){
+                    console.log("data_link");
+                    cachedData["data_link"].items=data.items;
+                }
                 if (callback_) {
                     callback_(data);
                 }
@@ -131,6 +152,69 @@
         });
     }
     var Dao = {};
+     Dao.transExportType=function(exportType) {
+        if ("mid_table" == exportType) {
+            return "中间表";
+        }
+        if ("http" == exportType) {
+            return "接口发送";
+        }
+        if ("custom" == exportType) {
+            return "自定义";
+        }
+        return exportType;
+    }
+
+    Dao.transTriggerType=function(exportType) {
+        if ("process_start" == exportType) {
+            return "流程开始";
+        }
+        if ("process_end" == exportType) {
+            return "流程结束";
+        }
+        return exportType;
+    }
+    Dao.transDbType=function(val){
+
+        if (val == 0) {
+            return "Mysql";
+        }
+        if (val == 1) {
+            return "Oracle";
+        }
+        if (val == 2) {
+            return "SQLServer";
+        }
+        return "Unknown"
+
+    }
+    Dao.getCacheByKey=function(key){
+
+        return cachedData[key];
+    }
+    Dao.getLinkName=function(val){
+        if(val == null){
+            return val;
+        }
+       var dataLinks =  Dao.getCacheByKey("data_link");
+       if(dataLinks.items){
+           var label=null;
+            for(var p=0;p<dataLinks.items.length;p++){
+                var item = dataLinks.items[p];
+                if(item.sid==val){
+                    label = item.name;
+                    break;
+                } 
+            }
+            if(label){
+                return label;
+            }
+            return val;
+
+       }else{
+           return val;
+       }
+    };
     Dao.getList = function (type, callBack, errorCallBack) {
         _getList(type, callBack, errorCallBack);
     }
@@ -185,7 +269,7 @@
             type: "POST",
             dataType: "json",
             success: function (data) {
-
+                cachedData["TemplateNumber"].items=data.items;
                 if (callBack) {
                     callBack(data);
                 }

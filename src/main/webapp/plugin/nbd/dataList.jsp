@@ -43,6 +43,7 @@
                         <td v-for="key in keys">
                             <button class="layui-btn layui-btn-sm" value="" v-if="key.name == 'op'" @click="onQuery(dataIndex)" >在线查询</button>
                             <span v-if="key.name == 'id'"><input type="checkbox" value="" @click="onSelected(dataIndex)" ></span>
+                            <span v-else-if="key.render!=undefined">{{key.render(item[key.name])}}</span>
                             <span v-else>{{item[key.name]}}</span>
                         </td>
                     </tr>
@@ -56,7 +57,7 @@
 </div>
 
 
-<script src="layui/layui.all.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/layui.all.js"></script>
 <script>
     //JavaScript代码区域
     var $ = jQuery = layui.jquery;

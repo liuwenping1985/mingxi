@@ -215,7 +215,16 @@
                 </div>
             
             
-    </div>
+    
+            </div>
+            <!-- <div class="layui-col-xs12"  id="zizhu">
+                    <div id="zizhu1" class="layui-col-xs2"></div>
+                    <div id="zizhu2" class="layui-col-xs2"></div>
+                    <div id="zizhu3"  class="layui-col-xs2"></div>
+                    <div id="zizhu4" class="layui-col-xs2"></div>
+                    <div id="zizhu5"  class="layui-col-xs2"></div>
+                    <div id="zizhu6" class="layui-col-xs2"></div>
+            </div> -->
 
 
 

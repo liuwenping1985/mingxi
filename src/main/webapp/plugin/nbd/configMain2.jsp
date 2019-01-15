@@ -480,6 +480,16 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">处理方式</label>
+                    <div class="layui-input-block" style="width:300px">
+                        <select name="extString" lay-verify="required">
+                            <option value="normal">普通库表(包含底表)</option>
+                            <option value="api_receive">表单</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">定时时间(秒)</label>
                     <div class="layui-input-block" style="width:300px">
                         <input type="text" name="period" required lay-verify="required" placeholder="定时时间（单位秒）"

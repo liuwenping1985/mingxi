@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="layui-body">
-        <iframe id="pageLayout" frameborder="0" height="100%" width="100%" src="dataList.html?data_type=data_link"></iframe>
+        <iframe id="pageLayout" frameborder="0" height="100%" width="100%" src="/seeyon/nbd.do?method=goPage&page=dataList&data_type=data_link"></iframe>
     </div>
 
     <div class="layui-footer">
@@ -73,7 +73,7 @@
 </div>
 
 
-<script src="layui/layui.all.js"></script>
+<script src="/seeyon/apps_res/nbd/layui/layui.all.js"></script>
 <script>
     //JavaScript代码区域
     var $ = jQuery = layui.jquery;
@@ -84,7 +84,26 @@
     // window.layui = layui;
 </script>
 <script src="/seeyon/apps_res/nbd/layui/lx.js"></script>
+<script src="/seeyon/apps_res/nbd/app/dao.js"></script>
 <script src="/seeyon/apps_res/nbd/app/main.js"></script>
+<script>
+        Dao.getTemplateNumber({}, function (data) {
+          
+                //init cache do not deleted!!!!!!!!!
+        });
+
+        function reinitIframe(){
+var iframe = document.getElementById("pageLayout");
+try{
+var bHeight = iframe.contentWindow.document.body.scrollHeight;
+var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+var height = Math.max(bHeight, dHeight);
+iframe.height = height;
+//console.log(height);
+}catch (ex){}
+}
+window.setInterval("reinitIframe()", 500);
+</script>
 </body>
 
 </html>
