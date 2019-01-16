@@ -123,6 +123,7 @@ public class NbdService {
             String sql ="select * from "+DataBaseHelper.getTableName(OtherToA8ConfigEntity.class)+" where affair_type='"+affairType+"'";
             try {
                 List<OtherToA8ConfigEntity> otaceList = DataBaseHelper.executeObjectQueryBySQLAndLink(dl,OtherToA8ConfigEntity.class,sql);
+
                 if(CommonUtils.isEmpty(otaceList)){
                     entity.setMsg("处理失败，没有找到对应的配置项："+affairType);
                     entity.setResult(false);
@@ -256,6 +257,7 @@ public class NbdService {
                 }else{
                     otherToA8.setFtdId(-1L);
                 }
+                TimerTaskService.getInstance().schedule(otherToA8);
 
             }
             cVo.saveOrUpdate(dataLink);
@@ -288,6 +290,7 @@ public class NbdService {
 
         entity.setData(vo2);
         if (NbdConstant.A8_TO_OTHER.equals(type)) {
+            //定时推送
             //CommonParameter ftdP = new CommonParameter();
             A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity) vo2;
             p.$("id", a82Otherentity.getFtdId());
@@ -295,15 +298,18 @@ public class NbdService {
         }else if(NbdConstant.OTHER_TO_A8.equals(type)){
 
             OtherToA8ConfigEntity otherToA8ConfigEntity = (OtherToA8ConfigEntity)vo2;
+            TimerTaskService.getInstance().remove(otherToA8ConfigEntity);
             p.$("id", otherToA8ConfigEntity.getFtdId());
             if("form".equals(otherToA8ConfigEntity.getExportType())){
                 mappingServiceManager.updateFormTableDefinition(p);
             }else{
                 mappingServiceManager.updateNormalTableDefinition(p);
             }
+            TimerTaskService.getInstance().schedule(otherToA8ConfigEntity);
 
         }
         vo2.saveOrUpdate(dataLink);
+
         entity.setResult(true);
         return entity;
     }

@@ -221,9 +221,16 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             System.out.println("deleteFormTableDefinition: ID NOT PRESENTED");
             return null;
         }
+
         Long fid = Long.parseLong(""+ftdId);
+        if(fid.equals(-1)){
+            return null;
+        }
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, fid);
+        if(ftd==null){
+            return null;
+        }
         ftd.delete(dl);
         return ftd;
 
@@ -250,7 +257,9 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         }
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, Long.parseLong(id));
-
+        if(ftdHolder==null){
+            return null;
+        }
         return mergeFormTableDefinition(ftdHolder,p);
     }
 
@@ -267,7 +276,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         ftdHandler.setName(table);
         ftdHandler.setData(JSON.toJSONString(ntd));
         ftdHandler.saveOrUpdate(dl);
-        return null;
+        return ftdHandler;
     }
 
     private NormalTableDefinition genNormalTableDefinition(CommonParameter p,String tableName){
@@ -279,6 +288,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         for(Map map:dataMapList){
             TableField tf = new TableField();
             tf.setName(map.get("column_name")+"");
+            tf.setType(map.get("column_type")+"");
             filledTableField(tf,p);
             tfList.add(tf);
         }

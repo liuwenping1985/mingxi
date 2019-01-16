@@ -7,10 +7,7 @@ import com.seeyon.apps.nbd.po.DataLink;
 import com.seeyon.apps.nbd.po.Ftd;
 import com.seeyon.apps.nbd.po.OtherToA8ConfigEntity;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2019/1/16.
@@ -19,6 +16,16 @@ public class TimerTaskService {
 
     private TimerTaskService() {
 
+        DataLink link = ConfigService.getA8DefaultDataLink();
+      //  DataBaseHelper.getDataByTypeAndId(link,OtherToA8ConfigEntity.class);
+        String sql ="select * from other_to_a8_config_entity";
+        List<OtherToA8ConfigEntity> otaList = DataBaseHelper.executeObjectQueryBySQLAndLink(link,OtherToA8ConfigEntity.class,sql);
+        if(CommonUtils.isEmpty(otaList)){
+            return;
+        }
+        for(OtherToA8ConfigEntity ota:otaList){
+            this.schedule(ota);
+        }
     }
 
     public static TimerTaskService getInstance() {
@@ -28,15 +35,34 @@ public class TimerTaskService {
     }
 
     public void schedule(OtherToA8ConfigEntity entity) {
-        String period = entity.getPeriod();
-        Long p = CommonUtils.getLong(period);
-        if (p == null) {
+
+        if("api_receive".equals(entity.getExportType())){
+            return ;
+        }
+        if("OVER".equals(entity.getExtString8())){
             return;
         }
-        Timer timer = new Timer();
-        timer.schedule(new GoodTimerTask(entity), 2000, p * 1000L);
+        String period = entity.getPeriod();
+        if(CommonUtils.isEmpty(period)){
+            entity.setExtString8("OVER");
+            entity.saveOrUpdate();
+            Timer timer = new Timer();
+            timer.schedule(new GoodTimerTask(entity), 2000);
+            //只会执行一次
+        }else{
 
-        timerMap.put(entity.getId(), timer);
+            Long p = CommonUtils.getLong(period);
+            if (p == null) {
+                //非法的timer
+                return;
+            }
+            Timer timer = new Timer();
+            timer.schedule(new GoodTimerTask(entity), 2000, p * 1000L);
+
+            timerMap.put(entity.getId(), timer);
+        }
+
+
 
     }
 
@@ -64,6 +90,17 @@ public class TimerTaskService {
         public void run() {
             if (entity == null) {
                 return;
+            }
+            String exportType = entity.getExportType();
+            if("schedule".equals(exportType)){
+
+
+
+
+
+            }else{
+                //API获取
+
             }
             Long linkId = entity.getLinkId();
             DataLink a8Link = ConfigService.getA8DefaultDataLink();
