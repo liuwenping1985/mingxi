@@ -2,12 +2,15 @@ package com.seeyon.apps.nbd.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.constant.PageResourceConstant;
+import com.seeyon.apps.nbd.core.config.ConfigService;
+import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.impl.PluginServiceManagerImpl;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.ValidateResult;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.po.DataLink;
 import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
@@ -51,8 +54,8 @@ public class NbdController extends BaseController {
     private CustomizeManager customizeManager;
 
     public CustomizeManager getCustomizeManager() {
-        if(customizeManager == null){
-            customizeManager = (CustomizeManager)AppContext.getBean("customizeManager");
+        if (customizeManager == null) {
+            customizeManager = (CustomizeManager) AppContext.getBean("customizeManager");
         }
         return customizeManager;
     }
@@ -142,18 +145,18 @@ public class NbdController extends BaseController {
             try {
                 String logo = getAvatarImageUrl(orgManager.getMemberById(user.getId()));
                 mav.addObject("userLogoImage", logo);
-                mav.addObject("userId",user.getId());
+                mav.addObject("userId", user.getId());
             } catch (BusinessException e) {
                 e.printStackTrace();
                 mav.addObject("userLogoImage", "/seeyon/apps_res/nbd/images/logoUser.jpg");
             }
-            mav.addObject("pagePrivileges", PageResourceConstant.hasZRYQPrivilege(user)?"YES":"NO");
-            mav.addObject("pagePrivileges_huiyi", PageResourceConstant.hasHuiYiAllPrivilege(user)?"YES":"NO");
-            mav.addObject("pagePrivileges_richeng", PageResourceConstant.hasRiChenPrivilege(user)?"YES":"NO");
+            mav.addObject("pagePrivileges", PageResourceConstant.hasZRYQPrivilege(user) ? "YES" : "NO");
+            mav.addObject("pagePrivileges_huiyi", PageResourceConstant.hasHuiYiAllPrivilege(user) ? "YES" : "NO");
+            mav.addObject("pagePrivileges_richeng", PageResourceConstant.hasRiChenPrivilege(user) ? "YES" : "NO");
 
             //${userDepartment}
             //${userType}
-           // LoginControlImpl l;
+            // LoginControlImpl l;
         } else {
 //            try {
 //                response.sendRedirect("/seeyon/main.do?method=main");
@@ -165,10 +168,12 @@ public class NbdController extends BaseController {
         return mav;
 
     }
+
     public String getAvatarImageUrl(V3xOrgMember member) {
         String contextPath = SystemEnvironment.getContextPath();
         return getAvatarImageUrl(member, contextPath);
     }
+
     private String getAvatarImageUrl(V3xOrgMember member, String contextPath) {
         String imageSrc = contextPath + "/apps_res/v3xmain/images/personal/pic.gif";
         String isUseDefaultAvatar = "enable";
@@ -203,6 +208,7 @@ public class NbdController extends BaseController {
         }
         return imageSrc;
     }
+
     @NeedlessCheckLogin
     public ModelAndView getDataList(HttpServletRequest request, HttpServletResponse response) {
         CommonParameter p = CommonParameter.parseParameter(request);
@@ -386,7 +392,7 @@ public class NbdController extends BaseController {
             String jsonMapString = JSON.toJSONString(template);
             Map map = JSON.parseObject(jsonMapString, HashMap.class);
             map.put("id", String.valueOf(map.get("id")));
-            map.put("link","/seeyon/menhu.do?method=openLink&linkType=template&id="+template.getId()+"&templateType="+template.getType());
+            map.put("link", "/seeyon/menhu.do?method=openLink&linkType=template&id=" + template.getId() + "&templateType=" + template.getType());
             retList.add(map);
         }
 
@@ -395,17 +401,55 @@ public class NbdController extends BaseController {
 
         return null;
     }
+
+    @NeedlessCheckLogin
+    public ModelAndView getFieldListByTableAndLink(HttpServletRequest request, HttpServletResponse response) {
+
+        CommonParameter p = CommonParameter.parseParameter(request);
+        String linkId = p.$("linkId");
+        NbdResponseEntity entity = new NbdResponseEntity();
+
+        String a8Table = p.$("a8_table");
+        String otherTable = p.$("other_table");
+        if (CommonUtils.isEmpty(linkId) || CommonUtils.isEmpty(a8Table) || CommonUtils.isEmpty(otherTable)) {
+            entity.setResult(false);
+            entity.setMsg("不能为空");
+            UIUtils.responseJSON(entity, response);
+            return null;
+        }
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        DataLink otherLink = DataBaseHelper.getDataByTypeAndId(dl, DataLink.class, Long.parseLong(linkId));
+        if (otherLink == null) {
+            entity.setResult(false);
+            entity.setMsg("link 不能为空");
+            UIUtils.responseJSON(entity, response);
+            return null;
+
+        }
+        List<Map> a8Columns = DataBaseHelper.queryColumnsByTableAndLink(dl, a8Table);
+        List<Map> otherColumns = DataBaseHelper.queryColumnsByTableAndLink(otherLink, otherTable);
+        Map data = new HashMap();
+        data.put("a8",a8Columns);
+        data.put("other",otherColumns);
+        entity.setData(data);
+        entity.setResult(true);
+        UIUtils.responseJSON(entity, response);
+        return null;
+    }
+
     public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
-        User user =  AppContext.getCurrentUser();
+        User user = AppContext.getCurrentUser();
         Collection<PageResourceVo> voList = PageResourceConstant.getUserReportPrivileges(user);
         NbdResponseEntity<PageResourceVo> entity = new NbdResponseEntity<PageResourceVo>();
         entity.setResult(true);
         List list = new ArrayList();
         list.addAll(voList);
-        entity.setItems(list);;
-        UIUtils.responseJSON(entity,response);
+        entity.setItems(list);
+        ;
+        UIUtils.responseJSON(entity, response);
         return null;
     }
+
     private void preHandleRequest(HttpServletRequest request, HttpServletResponse response) {
 
         nbdService.setRequest(request);

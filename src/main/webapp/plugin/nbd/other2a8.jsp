@@ -180,7 +180,33 @@
                     </div>
                 </div>
 
+                <div v-if="extString2!='form'">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline" style="width:88%">
+                        <fieldset class="layui-elem-field">
+                            <legend>表字段映射</legend>
+                            <div class="layui-field-box">
+                                <table class="layui-table">
+                                    <thead>
+                                    <tr>
+                                        <th>a8字段</th>
+                                        <th>a8字段类型</th>
+                                        <th>是否忽略</th>
+                                        <th>转换方式</th>
+                                        <th>other字段</th>
+                                        <th>other字段类型</th>
 
+                                    </tr>
+                                    </thead>
+                                    <tbody id="other2a8_table_field_list_body">
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
             </form>
             <div class="layui-form-item">
                 <div class="layui-input-block">
