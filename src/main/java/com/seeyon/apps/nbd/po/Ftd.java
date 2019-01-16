@@ -3,6 +3,7 @@ package com.seeyon.apps.nbd.po;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.annotation.ClobText;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 
 /**
@@ -33,7 +34,27 @@ public class Ftd extends CommonPo {
         return formTableDefinition;
 
     }
+    public static NormalTableDefinition getNormalTableDefinition(Ftd ftd){
+        String data = ftd.getData();
+        if(CommonUtils.isEmpty(data)){
+            return null;
+        }
+
+        NormalTableDefinition tableDefinition = JSON.parseObject(data,NormalTableDefinition.class);
+
+
+        return tableDefinition;
+
+    }
     public void setFormTableDefinition(FormTableDefinition ftd){
+        if(ftd == null){
+            return ;
+        }
+        String ftdString = JSON.toJSONString(ftd);
+        this.setData(ftdString);
+
+    }
+    public void setNormalTableDefinition(NormalTableDefinition ftd){
         if(ftd == null){
             return ;
         }

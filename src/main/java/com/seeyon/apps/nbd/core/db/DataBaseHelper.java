@@ -26,7 +26,7 @@ import java.util.Date;
  * 1、自动生成建表语句
  * 2、自动生成update语句（智能化，有值更新和全量更新）
  * 3、自动生成insert语句
- * 4、简单的orm
+ * 4、简单的orm（用约定代替配置）
  * 5、各种数据库管理小工具
  * 6、完善的日志
  * 7、方便的适配外部数据库和内部数据库的数据通道
@@ -101,7 +101,7 @@ public final class DataBaseHelper {
 
     }
 
-    public static Integer executeUpdateBySQLAndLink(DataLink link, String sql, List<Field> fields, List vals) {
+    private static Integer executeUpdateBySQLAndLink(DataLink link, String sql, List<Field> fields, List vals) {
         Connection conn = null;
         PreparedStatement pst = null;
 
@@ -219,6 +219,14 @@ public final class DataBaseHelper {
 
     }
 
+    /**
+     * 简单的orm
+     * @param dl
+     * @param cls
+     * @param sql
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> executeObjectQueryBySQLAndLink(DataLink dl, Class<T> cls, String sql) {
         List<Map> retMapList = executeQueryBySQLAndLink(dl, sql);
         if (CommonUtils.isEmpty(retMapList)) {
@@ -560,6 +568,14 @@ public final class DataBaseHelper {
 
     }
 
+    /**
+     * 写的有点啰嗦
+     * @param dl
+     * @param insFields
+     * @param fieldNames
+     * @param dataList
+     * @return
+     */
     private static List<String> toUpdateSQLString(DataLink dl, List<Field> insFields, List<String> fieldNames, List dataList) {
         List<String> updateData = new ArrayList<String>();
         if (CommonUtils.isEmpty(insFields) || CommonUtils.isEmpty(dataList)) {

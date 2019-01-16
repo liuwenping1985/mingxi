@@ -8,6 +8,7 @@ import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
+import com.seeyon.apps.nbd.core.table.entity.TableField;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
@@ -180,6 +181,31 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
 
     }
+    private void filledTableField(TableField ff, CommonParameter cpa) {
+        String key = ff.getName();
+        String clsName = cpa.$(key + "_classname");
+
+
+        if (!CommonUtils.isEmpty(clsName)) {
+            ff.setClassname(clsName);
+        } else {
+            ff.setClassname("");
+        }
+        String mapping = cpa.$(key + "_mapping");
+        if (!CommonUtils.isEmpty(mapping)&&!"NONE_NONE".equals(mapping)) {
+            ff.setMapping(mapping);
+        } else {
+            ff.setMapping(key);
+        }
+        String export = cpa.$(key + "_export");
+        if (!CommonUtils.isEmpty(export)) {
+            ff.setExport(export);
+        } else {
+            ff.setExport("");
+        }
+
+
+    }
 
 
     public Ftd deleteFormTableDefinition(CommonParameter p) {
@@ -228,6 +254,28 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             ftdHolder.saveOrUpdate(dl);
             return ftdHolder;
         }
+        return null;
+    }
+
+    public Ftd saveNormalTableDefinition(CommonParameter p) {
+        String table = p.$("extString4");
+        if(CommonUtils.isEmpty(table)){
+            return null;
+        }
+
+
+        return null;
+    }
+
+    public Ftd deleteNormalTableDefinition(CommonParameter p) {
+        return deleteFormTableDefinition(p);
+    }
+
+    public Ftd getNormalTableDefinition(CommonParameter p) {
+        return getFormTableDefinition(p);
+    }
+
+    public Ftd updateNormalTableDefinition(CommonParameter p) {
         return null;
     }
 

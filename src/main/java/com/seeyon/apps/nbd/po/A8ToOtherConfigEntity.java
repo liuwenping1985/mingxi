@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.po;
 
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 
 /**
  * Created by liuwenping on 2018/11/4.
@@ -22,6 +23,8 @@ public class A8ToOtherConfigEntity extends CommonPo {
     private Long ftdId;
 
     private FormTableDefinition formTableDefinition;
+
+    private NormalTableDefinition normalTableDefinition;
 
     public Long getFtdId() {
         return ftdId;
@@ -75,8 +78,14 @@ public class A8ToOtherConfigEntity extends CommonPo {
     public FormTableDefinition getFtd() {
         return formTableDefinition;
     }
-
+    public NormalTableDefinition getTableFtd() {
+        return normalTableDefinition;
+    }
     public void setFormTableDefinition(FormTableDefinition formTableDefinition) {
         this.formTableDefinition = formTableDefinition;
     }
+    public void setNormalTableDefinition(NormalTableDefinition normalTableDefinition) {
+        this.normalTableDefinition = normalTableDefinition;
+    }
+
 }

@@ -12,12 +12,15 @@ import com.seeyon.apps.nbd.core.service.CustomExportProcess;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.NbdBpmnService;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
+import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
+import com.seeyon.apps.nbd.log.LogBuilder;
 import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.apps.ruian.controller.RuianController;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.constants.Constants;
@@ -58,6 +61,9 @@ public class NbdService {
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
     private CollaborationTemplateManager collaborationTemplateManager;
+
+    private  LogBuilder lb = new LogBuilder("MID-WAY");
+    private TimerTaskService timerTaskService = TimerTaskService.getInstance();
     private NbdBpmnService nbdBpmnService;
     private NbdBpmnService getNbdBpmnService() {
         if (nbdBpmnService == null) {
@@ -204,6 +210,18 @@ public class NbdService {
         return param;
     }
 
+    /**
+     * name:
+     exportType: schedule
+     linkId: 1266599510184380931
+     extString1: ctp_enum_item
+     period:
+     extString3: id
+     extString2: normal
+     extString4: a8_to_other
+     * @param p
+     * @return
+     */
     public NbdResponseEntity postAdd(CommonParameter p) {
         //System.out.println(p);
         NbdResponseEntity entity = preProcess(p);
@@ -226,8 +244,12 @@ public class NbdService {
                 a82Otherentity.setFtdId(ftd.getId());
             }
             if (NbdConstant.OTHER_TO_A8.equals(type)) {
-                Ftd ftd = mappingServiceManager.saveFormTableDefinition(p);
                 OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) cVo;
+                Ftd ftd = null;
+                if("form".equals(otherToA8.getExportType())){
+                   ftd = mappingServiceManager.saveFormTableDefinition(p);
+                }
+
                 if(ftd!=null){
                     otherToA8.setFtdId(ftd.getId());
                 }
@@ -372,10 +394,19 @@ public class NbdService {
 
             OtherToA8ConfigEntity otherToA8ConfigEntity = (OtherToA8ConfigEntity) obj;
             Long ftdId = otherToA8ConfigEntity.getFtdId();
-            Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
-            FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
-            otherToA8ConfigEntity.setFormTableDefinition(formDef);
+            if(ftdId!=null){
+                Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
+                if("form".equals(otherToA8ConfigEntity.getExportType())){
+                    FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
+                    otherToA8ConfigEntity.setFormTableDefinition(formDef);
+                }else{
+                   NormalTableDefinition ntd =  Ftd.getNormalTableDefinition(ftd);
+                    otherToA8ConfigEntity.setNormalTableDefinition(ntd);
+                }
+
+            }
             otherToA8ConfigEntity.setsLinkId(String.valueOf(otherToA8ConfigEntity.getLinkId()));
+
         }
         if (obj instanceof CommonPo) {
             CommonPo cp = (CommonPo) obj;
@@ -468,7 +499,6 @@ public class NbdService {
         NbdResponseEntity entity = new NbdResponseEntity();
         //String tablePrefix = ConfigService.getPropertyByName("local_db_prefix","");
         //  String dbType = ConfigService.getPropertyByName("local_db_type","0");
-
         String affairType = p.$("affairType");
         // DataLink dl = ConfigService.getA8DefaultDataLink();
         String sql = " select * from " + getTableName("FORM_DEFINITION") + " where ID = (select  CONTENT_TEMPLATE_ID from " + getTableName("CTP_CONTENT_ALL") + " where ID =(select BODY from " + getTableName("CTP_TEMPLATE") + " where TEMPLETE_NUMBER='" + affairType + "'))";
@@ -498,6 +528,7 @@ public class NbdService {
             entity.setMsg(e.getMessage());
             return entity;
         }
+
 
     }
 
@@ -579,8 +610,13 @@ public class NbdService {
                 //List<List<SimpleFormField>> retList = ftd.filledValue(dataMapList);
                 Long linkId = a8ToOtherConfigEntity.getLinkId();
                 DataLink link = DataBaseHelper.getDataByTypeAndId(ConfigService.getA8DefaultDataLink(), DataLink.class, linkId);
-                String tableName =a8ToOtherConfigEntity.getExportUrl();
-                if(CommonUtils.isEmpty(tableName)){
+               // String tableName =a8ToOtherConfigEntity.getExportUrl();
+                //mid table下看看是不是自定义
+                String isDefault = a8ToOtherConfigEntity.getExtString1();
+                if(CommonUtils.isEmpty(isDefault)){
+                    isDefault="default";
+                }
+                if("default".equals(isDefault)){
                     A8ToOther a8OutputVo = new A8ToOther();
                     a8OutputVo.setCreateTime(new Date());
                     a8OutputVo.setData(JSON.toJSONString(masterRecord));
@@ -592,6 +628,8 @@ public class NbdService {
                     System.out.println("to_be_saved:" + JSON.toJSONString(a8OutputVo));
                     DataBaseHelper.persistCommonVo(link, a8OutputVo);
                 }else{
+                    String tableName =a8ToOtherConfigEntity.getExtString2();
+
 
                     List<Map> dataMap = DataBaseHelper.queryColumnsByTableAndLink(link,tableName);
                     Map<String, String> columnsData = genDataMap(dataMap);
@@ -672,7 +710,7 @@ public class NbdService {
 
             try {
                 Map data = exportMasterData(formRecordId, a8ToOtherConfigEntity, true);
-                String exportUrl = a8ToOtherConfigEntity.getExportUrl();
+                String exportUrl = a8ToOtherConfigEntity.getExtString3();
                 if (!CommonUtils.isEmpty(exportUrl)) {
                     Class cls = Class.forName(exportUrl);
                     Object obj = cls.newInstance();

@@ -145,7 +145,8 @@ public class CommonParameter extends HashMap {
             if (contentType.contains(ContentType.APPLICATION_JSON.getMimeType())) {
                 if (!CommonUtils.isEmpty(stb.toString())) {
                     try {
-                        Map map = JSON.parseObject(stb.toString(), HashMap.class);
+                        String json = stb.toString().replaceAll("/b","");
+                        Map map = JSON.parseObject(json, HashMap.class);
                         if (map != null) {
                             parameter.putAll(map);
                         }

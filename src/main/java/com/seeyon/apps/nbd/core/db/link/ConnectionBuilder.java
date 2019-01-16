@@ -71,7 +71,9 @@ public class ConnectionBuilder {
         if (CommonUtils.isEmpty(url)) {
             return null;
         }
-
+        //add sens
+        //refresh
+        //sens
         Class.forName(dbClass);
         String user = link.getUserName();
         String password = link.getPassword();

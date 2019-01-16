@@ -436,7 +436,27 @@ public class NbdController extends BaseController {
         UIUtils.responseJSON(entity, response);
         return null;
     }
+    //getTableFieldListByLink
+    @NeedlessCheckLogin
+    public ModelAndView getTableFieldListByLink(HttpServletRequest request, HttpServletResponse response) {
 
+        CommonParameter p = CommonParameter.parseParameter(request);
+        NbdResponseEntity entity = new NbdResponseEntity();
+        String a8Table = p.$("tableName");
+        if (CommonUtils.isEmpty(a8Table)) {
+            entity.setResult(false);
+            entity.setMsg("不能为空");
+            UIUtils.responseJSON(entity, response);
+            return null;
+        }
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        List<Map> a8Columns = DataBaseHelper.queryColumnsByTableAndLink(dl, a8Table);
+        entity.setData("");
+        entity.setItems(a8Columns);
+        entity.setResult(true);
+        UIUtils.responseJSON(entity, response);
+        return null;
+    }
     public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
         Collection<PageResourceVo> voList = PageResourceConstant.getUserReportPrivileges(user);
