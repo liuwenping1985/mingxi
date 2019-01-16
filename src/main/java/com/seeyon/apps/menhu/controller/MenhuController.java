@@ -933,7 +933,7 @@ public class MenhuController extends BaseController {
         String link = affair.getAddition();
         try {
             UserToken token = LoginTokenManager.getInstance().createToken();
-            String host = "http://1.119.195.90/usLoginBySSO.jsp?token=" + token.getToken() + "&url=" + link;
+            String host = "http://1.119.195.90:8088/usLoginBySSO.jsp?token=" + token.getToken() + "&url=" + link;
 
 
             //usLoginBySSO.jsp?token=aaa&url=us-home
