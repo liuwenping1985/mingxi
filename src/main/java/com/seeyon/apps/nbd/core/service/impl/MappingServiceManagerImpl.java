@@ -8,6 +8,7 @@ import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
+import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.table.entity.TableField;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.XmlUtils;
@@ -94,11 +95,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         return tableName.toUpperCase();
 
     }
-
-    public Ftd saveFormTableDefinition(CommonParameter p) {
+    private Ftd mergeFormTableDefinition(Ftd ftdHandler,CommonParameter p){
         String affairType = p.$("affairType");
         if (CommonUtils.isEmpty(affairType)) {
-           // System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
+            // System.out.println("saveFormTableDefinition: affairType NOT PRESENTED");
             return null;
         }
         // String sql = " select * from form_definition where id = (select  CONTENT_TEMPLATE_ID from ctp_content_all where id =(select BODY from ctp_template where TEMPLETE_NUMBER='"+affairType+"'))";
@@ -121,8 +121,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
                 FormTable ft = ftd.getFormTable();
                 if (ft != null) {
                     filledTable(ft, p);
-                    Ftd ftdHandler = new Ftd();
-                    ftdHandler.setDefaultValueIfNull();
+                    if(ftdHandler==null){
+                         ftdHandler = new Ftd();
+                        ftdHandler.setDefaultValueIfNull();
+                    }
                     ftdHandler.setName(affairType);
                     ftdHandler.setData(JSON.toJSONString(ftd));
                     ftdHandler.saveOrUpdate(dl);
@@ -136,6 +138,10 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
         return null;
 
+    }
+    public Ftd saveFormTableDefinition(CommonParameter p) {
+
+        return mergeFormTableDefinition(null,p);
     }
 
     private void filledTable(FormTable ft, CommonParameter p) {
@@ -210,12 +216,12 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public Ftd deleteFormTableDefinition(CommonParameter p) {
 
-        String ftdId = String.valueOf(p.$("id"));
-        if (CommonUtils.isEmpty(ftdId)) {
+        Object ftdId = p.$("id");
+        if (ftdId==null||CommonUtils.isEmpty(""+ftdId)) {
             System.out.println("deleteFormTableDefinition: ID NOT PRESENTED");
             return null;
         }
-        Long fid = Long.parseLong(ftdId);
+        Long fid = Long.parseLong(""+ftdId);
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, fid);
         ftd.delete(dl);
@@ -244,17 +250,8 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         }
         DataLink dl = ConfigService.getA8DefaultDataLink();
         Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, Long.parseLong(id));
-        if (ftdHolder != null) {
-            FormTableDefinition ftd = Ftd.getFormTableDefinition(ftdHolder);
-            FormTable ft = ftd.getFormTable();
-            if (ft != null) {
-                filledTable(ft, p);
-            }
-            ftdHolder.setData(JSON.toJSONString(ftd));
-            ftdHolder.saveOrUpdate(dl);
-            return ftdHolder;
-        }
-        return null;
+
+        return mergeFormTableDefinition(ftdHolder,p);
     }
 
     public Ftd saveNormalTableDefinition(CommonParameter p) {
@@ -262,9 +259,31 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         if(CommonUtils.isEmpty(table)){
             return null;
         }
-
-
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        //List<Map> dataMapList = DataBaseHelper.queryColumnsByTableAndLink(dl,table);
+        NormalTableDefinition ntd = genNormalTableDefinition(p,table);
+        Ftd ftdHandler = new Ftd();
+        ftdHandler.setDefaultValueIfNull();
+        ftdHandler.setName(table);
+        ftdHandler.setData(JSON.toJSONString(ntd));
+        ftdHandler.saveOrUpdate(dl);
         return null;
+    }
+
+    private NormalTableDefinition genNormalTableDefinition(CommonParameter p,String tableName){
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        List<Map> dataMapList = DataBaseHelper.queryColumnsByTableAndLink(dl,tableName);
+        NormalTableDefinition ntd = new NormalTableDefinition();
+        ntd.setTableName(tableName);
+        List<TableField> tfList = new ArrayList<TableField>();
+        for(Map map:dataMapList){
+            TableField tf = new TableField();
+            tf.setName(map.get("column_name")+"");
+            filledTableField(tf,p);
+            tfList.add(tf);
+        }
+        ntd.setFieldList(tfList);
+        return ntd;
     }
 
     public Ftd deleteNormalTableDefinition(CommonParameter p) {
@@ -276,7 +295,21 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
     }
 
     public Ftd updateNormalTableDefinition(CommonParameter p) {
-        return null;
+        String id = String.valueOf(p.$("id"));
+        if (CommonUtils.isEmpty(id)) {
+            System.out.println("updateNormalTableDefinition: ID NOT PRESENTED");
+            return null;
+        }
+        String table = p.$("extString4");
+        if(CommonUtils.isEmpty(table)){
+            return null;
+        }
+        DataLink dl = ConfigService.getA8DefaultDataLink();
+        Ftd ftdHolder = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, Long.parseLong(id));
+        NormalTableDefinition ntd = genNormalTableDefinition(p,table);
+        ftdHolder.setData(JSON.toJSONString(ntd));
+        ftdHolder.saveOrUpdate();
+        return ftdHolder;
     }
 
     public static void main(String[] args) {

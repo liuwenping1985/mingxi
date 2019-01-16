@@ -230,7 +230,6 @@ public class NbdService {
         }
         String type = p.$("data_type");
         DataLink dataLink = ConfigService.getA8DefaultDataLink();
-        //handler.createNewDataBaseByNameIfNotExist(type);
         CommonPo cVo = transferService.transData(type, p);
         if (cVo == null) {
             entity.setResult(false);
@@ -247,11 +246,15 @@ public class NbdService {
                 OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) cVo;
                 Ftd ftd = null;
                 if("form".equals(otherToA8.getExportType())){
-                   ftd = mappingServiceManager.saveFormTableDefinition(p);
+                    ftd = mappingServiceManager.saveFormTableDefinition(p);
+                }else{
+                    ftd = mappingServiceManager.saveNormalTableDefinition(p);
                 }
 
                 if(ftd!=null){
                     otherToA8.setFtdId(ftd.getId());
+                }else{
+                    otherToA8.setFtdId(-1L);
                 }
 
             }
@@ -284,11 +287,21 @@ public class NbdService {
         vo2 = CommonUtils.copyProIfNotNullReturnSource(vo2, cVo);
 
         entity.setData(vo2);
-        if (NbdConstant.A8_TO_OTHER.equals(type) || NbdConstant.OTHER_TO_A8.equals(type)) {
+        if (NbdConstant.A8_TO_OTHER.equals(type)) {
             //CommonParameter ftdP = new CommonParameter();
             A8ToOtherConfigEntity a82Otherentity = (A8ToOtherConfigEntity) vo2;
             p.$("id", a82Otherentity.getFtdId());
             mappingServiceManager.updateFormTableDefinition(p);
+        }else if(NbdConstant.OTHER_TO_A8.equals(type)){
+
+            OtherToA8ConfigEntity otherToA8ConfigEntity = (OtherToA8ConfigEntity)vo2;
+            p.$("id", otherToA8ConfigEntity.getFtdId());
+            if("form".equals(otherToA8ConfigEntity.getExportType())){
+                mappingServiceManager.updateFormTableDefinition(p);
+            }else{
+                mappingServiceManager.updateNormalTableDefinition(p);
+            }
+
         }
         vo2.saveOrUpdate(dataLink);
         entity.setResult(true);
@@ -394,7 +407,7 @@ public class NbdService {
 
             OtherToA8ConfigEntity otherToA8ConfigEntity = (OtherToA8ConfigEntity) obj;
             Long ftdId = otherToA8ConfigEntity.getFtdId();
-            if(ftdId!=null){
+            if(ftdId!=null&&!ftdId.equals(-1L)){
                 Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
                 if("form".equals(otherToA8ConfigEntity.getExportType())){
                     FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
