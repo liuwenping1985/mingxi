@@ -2,18 +2,23 @@ package com.seeyon.apps.nbd.service;
 
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
+import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.nbd.log.LogBuilder;
 import com.seeyon.apps.nbd.po.DataLink;
 import com.seeyon.apps.nbd.po.Ftd;
 import com.seeyon.apps.nbd.po.OtherToA8ConfigEntity;
+import com.seeyon.apps.nbd.util.UIUtils;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by liuwenping on 2019/1/16.
  */
 public class TimerTaskService {
-
+    private static final LogBuilder lb = new LogBuilder("Other-to-a8");
     private TimerTaskService() {
 
         DataLink link = ConfigService.getA8DefaultDataLink();
@@ -24,6 +29,7 @@ public class TimerTaskService {
             return;
         }
         for(OtherToA8ConfigEntity ota:otaList){
+
             this.schedule(ota);
         }
     }
@@ -46,9 +52,10 @@ public class TimerTaskService {
         if(CommonUtils.isEmpty(period)){
             entity.setExtString8("OVER");
             entity.saveOrUpdate();
+            //只会执行一次
             Timer timer = new Timer();
             timer.schedule(new GoodTimerTask(entity), 2000);
-            //只会执行一次
+
         }else{
 
             Long p = CommonUtils.getLong(period);
@@ -91,31 +98,7 @@ public class TimerTaskService {
             if (entity == null) {
                 return;
             }
-            String exportType = entity.getExportType();
-            if("schedule".equals(exportType)){
-
-
-
-
-
-            }else{
-                //API获取
-
-            }
-            Long linkId = entity.getLinkId();
-            DataLink a8Link = ConfigService.getA8DefaultDataLink();
-            DataLink otherLink = DataBaseHelper.getDataByTypeAndId(a8Link, DataLink.class, linkId);
-            //extString1,4
-            String a8Table = entity.getExtString1();
-            String otherTable = entity.getExtString4();
-            String uniqueKey = entity.getExtString3();
-            Long ftdId = entity.getFtdId();
-            if (ftdId == null) {
-                //全匹配
-            } else {
-               // Ftd f;
-            }
-
+            DataImportService.getInstance().importFromOtherToA8(entity);
 
         }
     }

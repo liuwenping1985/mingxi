@@ -29,12 +29,19 @@ public class CommonUtils {
         }
         return false;
     }
+    public static boolean isNotEmpty(Collection collection) {
+
+        return !isEmpty(collection);
+    }
 
     public static boolean isEmpty(Map map) {
         if (map == null || map.isEmpty()) {
             return true;
         }
         return false;
+    }
+    public static boolean isNotEmpty(Map map) {
+        return !isEmpty(map);
     }
 
     public static boolean isEmpty(String str) {
@@ -43,12 +50,18 @@ public class CommonUtils {
         }
         return false;
     }
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
+    }
 
     public static boolean isEmpty(Object[] objs) {
         if (objs == null || objs.length == 0) {
             return true;
         }
         return false;
+    }
+    public static boolean isNotEmpty(Object[] objs) {
+        return isEmpty(objs);
     }
 
     public static Long paserLong(Object obj) {

@@ -112,7 +112,12 @@ public class NbdService {
         return loginControl;
     }
 
-        public NbdResponseEntity lanch(CommonParameter p){
+    /**
+     * 这里只发流程
+     * @param p
+     * @return
+     */
+    public NbdResponseEntity lanch(CommonParameter p){
             NbdResponseEntity entity = new NbdResponseEntity();
             entity.setResult(false);
             String affairType = p.$("affairType");
@@ -134,6 +139,11 @@ public class NbdService {
                 //从外部接受存入底表和表单,先写表单的
                for(OtherToA8ConfigEntity otace:otaceList){
                     //先判断是否是更新
+                   String storeType = otace.getExtString2();
+                   if("form".equals(storeType)){
+
+
+                   }
                    String update_key = otace.getPeriod();
                    String tableName = otace.getTableName();
                    String exportType = otace.getExportType();
@@ -246,7 +256,7 @@ public class NbdService {
             if (NbdConstant.OTHER_TO_A8.equals(type)) {
                 OtherToA8ConfigEntity otherToA8 = (OtherToA8ConfigEntity) cVo;
                 Ftd ftd = null;
-                if("form".equals(otherToA8.getExportType())){
+                if("form".equals(otherToA8.getExtString2())){
                     ftd = mappingServiceManager.saveFormTableDefinition(p);
                 }else{
                     ftd = mappingServiceManager.saveNormalTableDefinition(p);
@@ -300,7 +310,7 @@ public class NbdService {
             OtherToA8ConfigEntity otherToA8ConfigEntity = (OtherToA8ConfigEntity)vo2;
             TimerTaskService.getInstance().remove(otherToA8ConfigEntity);
             p.$("id", otherToA8ConfigEntity.getFtdId());
-            if("form".equals(otherToA8ConfigEntity.getExportType())){
+            if("form".equals(otherToA8ConfigEntity.getExtString2())){
                 mappingServiceManager.updateFormTableDefinition(p);
             }else{
                 mappingServiceManager.updateNormalTableDefinition(p);
@@ -415,7 +425,7 @@ public class NbdService {
             Long ftdId = otherToA8ConfigEntity.getFtdId();
             if(ftdId!=null&&!ftdId.equals(-1L)){
                 Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
-                if("form".equals(otherToA8ConfigEntity.getExportType())){
+                if("form".equals(otherToA8ConfigEntity.getExtString2())){
                     FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
                     otherToA8ConfigEntity.setFormTableDefinition(formDef);
                 }else{

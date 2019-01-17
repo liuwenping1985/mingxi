@@ -6,6 +6,7 @@ import com.seeyon.ctp.util.IOUtility;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -53,7 +54,48 @@ public class UIUtils {
 
         }
     }
+    public static Map httpGetInvoke(String url) throws IOException {
+        HttpClient httpClient = new DefaultHttpClient();
+        // 设置超时时间
+        httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 2000);
+        httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 2000);
+        HttpGet post = new HttpGet(url);
+        // 构造消息头
+        post.setHeader("Content-type", "application/json;charset=utf-8");
+        post.setHeader("Connection", "Close");
+        // 构建消息实体
 
+
+        //StringEntity f_entity = new StringEntity(JSON.toJSONString(param), Charset.forName("UTF-8"));
+
+        //UrlEncodedFormEntity f_entity = new UrlEncodedFormEntity(BrNameValuePair.toNameValuePairList(param), Charset.forName("UTF-8"));
+        //f_entity.setContentEncoding("UTF-8");
+        // 发送Json格式的数据请求
+        //f_entity.setContentType("application/json;charset=utf-8");
+        //post.setEntity(f_entity);
+        HttpResponse response = null;
+        try {
+            response = httpClient.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 检验返回码
+        int statusCode = response.getStatusLine().getStatusCode();
+        //System.out.println("statusCode:"+statusCode);
+        if(statusCode == HttpStatus.SC_OK){
+            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+            // System.out.println("content:"+str);
+            return  JSON.parseObject(str,HashMap.class);
+
+        }else {
+            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+            //System.out.println("content:"+str);
+            return  JSON.parseObject(str,HashMap.class);
+
+        }
+
+    }
     public static Map post(String url,Map param) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         // 设置超时时间

@@ -37,4 +37,5 @@ public class OtherToA8ConfigEntity extends A8ToOtherConfigEntity {
         this.tableName = tableName;
     }
 
+
 }

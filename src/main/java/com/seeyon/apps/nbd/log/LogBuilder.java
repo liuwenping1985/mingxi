@@ -1,17 +1,17 @@
 package com.seeyon.apps.nbd.log;
 
-import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.nbd.po.LogEntry;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by liuwenping on 2018/10/26.
  */
 public class LogBuilder {
-
+    private final Logger logger = Logger.getLogger("A8-DATA-TRANSFER");
     private String module;
     private boolean isPrint = true;
 
@@ -25,19 +25,26 @@ public class LogBuilder {
     }
 
     public LogBuilder log(String msg){
-        LogEntity entity = new LogEntity();
-        entity.setTime(new Date());
+        return log(msg,"",true,"DEBUG");
+    }
+    public LogBuilder error(String msg,String data,boolean isSuccess){
+        return log(msg,data,isSuccess,"ERROR");
+    }
+    public LogBuilder log(String msg,String data,boolean success,String level){
+        LogEntry entity = new LogEntry();
+        entity.setDefaultValueIfNull();
+        entity.setLevel(level);
         entity.setMsg(msg);
-        entity.setType(this.module);
+        entity.setData(data);
+        entity.setSuccess(success);
         thread.add(entity);
-        System.out.println(entity.toString());
         return this;
     }
 
     public void close(){
 
         if(!CommonUtils.isEmpty(thread.logList)){
-            List<LogEntity> entityList = new ArrayList<LogEntity>();
+            List<LogEntry> entityList = new ArrayList<LogEntry>();
 
             synchronized (thread.logList){
                 entityList.addAll(thread.logList);
@@ -52,16 +59,16 @@ public class LogBuilder {
 
     static class LogThread extends Thread{
         private boolean isRunning = true;
-        private List<LogEntity> logList = new ArrayList<LogEntity>();
+        private List<LogEntry> logList = new ArrayList<LogEntry>();
 
-        private void add(LogEntity entity){
+        private void add(LogEntry entity){
             logList.add(entity);
         }
 
         public void run(){
 
             while(isRunning){
-                List<LogEntity> entityList = new ArrayList<LogEntity>();
+                List<LogEntry> entityList = new ArrayList<LogEntry>();
 
                 synchronized (logList){
 
@@ -77,15 +84,15 @@ public class LogBuilder {
             }
         }
 
-        private void processLog(List<LogEntity> logList){
-            DataBaseHandler handler = DataBaseHandler.getInstance();
+        private void processLog(List<LogEntry> logList){
+           // DataBaseHandler handler = DataBaseHandler.getInstance();
             if(CommonUtils.isEmpty(logList)){
                 return;
             }
-            for(LogEntity entity:logList){
-                String key = CommonUtils.formatDate(entity.getTime());
-                handler.createNewDataBaseByNameIfNotExist(entity.getType());
-                handler.putData(entity.getType(),key,entity.toString());
+            for(LogEntry entity:logList){
+
+               // entity.saveOrUpdate();
+              //  logger.l
             }
 
         }

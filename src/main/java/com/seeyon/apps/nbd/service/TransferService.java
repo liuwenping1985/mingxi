@@ -5,6 +5,8 @@ import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.form.entity.FormField;
+import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.po.*;
@@ -64,7 +66,37 @@ public class TransferService {
 
         return Holder.ins;
     }
-
+    public void filledOtherToA8(OtherToA8ConfigEntity entity){
+        FormTableDefinition fftd = null;
+        NormalTableDefinition nftd = null;
+        String storeType = entity.getExtString2();
+        DataLink a8Link = ConfigService.getA8DefaultDataLink();
+        if ("form".equals(storeType)) {
+            fftd = entity.getFtd();
+            if (fftd == null) {
+                Long ftdId = entity.getFtdId();
+                if (ftdId != null && !ftdId.equals(-1)) {
+                    Ftd ftd = DataBaseHelper.getDataByTypeAndId(a8Link, Ftd.class, ftdId);
+                    if (ftd != null) {
+                        fftd = Ftd.getFormTableDefinition(ftd);
+                        entity.setFormTableDefinition(fftd);
+                    }
+                }
+            }
+        } else {
+            nftd = entity.getTableFtd();
+            if (nftd == null) {
+                Long ftdId = entity.getFtdId();
+                if (ftdId != null && !ftdId.equals(-1)) {
+                    Ftd ftd = DataBaseHelper.getDataByTypeAndId(a8Link, Ftd.class, ftdId);
+                    if (ftd != null) {
+                        nftd = Ftd.getNormalTableDefinition(ftd);
+                        entity.setNormalTableDefinition(nftd);
+                    }
+                }
+            }
+        }
+    }
     public Class getTransferClass(String dataType){
         if(CommonUtils.isEmpty(dataType)){
             return null;
@@ -116,11 +148,15 @@ public class TransferService {
      */
     public Object transForm2Other(FormField formField,Object val){
         final String st = formField.getClassname();
+         return transFormCommon(st,val);
+    }
+    public Object transFormCommon(String st,Object val){
+
         try {
             if (CommonUtils.isEmpty(st) || st.equals("normal")) {
                 return val;
             }
-            System.out.println("------+"+st+"+-----");
+            // System.out.println("------+"+st+"+-----");
             OrgManager orgManager = this.getOrgManager();
             Long id = CommonUtils.getLong(val);//得到id
 
@@ -154,7 +190,7 @@ public class TransferService {
                     }
                 }
             }
-            EnumManager enumManager=this.getEnumManager();
+            EnumManager enumManager = this.getEnumManager();
             if("enum_2_name".equals(st)||"enum_2_value".equals(st)){
                 //System.out.println("id:"+id);
                 CtpEnumItem enumItem=enumManager.getEnumItem(id);
@@ -178,11 +214,6 @@ public class TransferService {
         }
 
 //        EnumManager enumManager = (EnumManager) AppContext.getBean("enumManagerNew");
-        return val;
-
-    }
-    public Object transForm2A8(FormField formField,Object val){
-
         return val;
     }
     static class Holder{

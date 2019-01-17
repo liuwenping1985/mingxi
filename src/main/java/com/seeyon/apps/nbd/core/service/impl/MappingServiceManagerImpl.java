@@ -201,13 +201,13 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         if (!CommonUtils.isEmpty(mapping)&&!"NONE_NONE".equals(mapping)) {
             ff.setMapping(mapping);
         } else {
-            ff.setMapping(key);
+            ff.setMapping("");
         }
         String export = cpa.$(key + "_export");
         if (!CommonUtils.isEmpty(export)) {
             ff.setExport(export);
         } else {
-            ff.setExport("");
+            ff.setExport("0");
         }
 
 
@@ -288,7 +288,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         for(Map map:dataMapList){
             TableField tf = new TableField();
             tf.setName(map.get("column_name")+"");
-            tf.setType(map.get("column_type")+"");
+            tf.setType(map.get("type_name")+"");
             filledTableField(tf,p);
             tfList.add(tf);
         }
