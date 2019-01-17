@@ -193,7 +193,8 @@ public class TransferService {
             EnumManager enumManager = this.getEnumManager();
             if("enum_2_name".equals(st)||"enum_2_value".equals(st)){
                 //System.out.println("id:"+id);
-                CtpEnumItem enumItem=enumManager.getEnumItem(id);
+                //enumManager.getCacheEnumItem()
+                CtpEnumItem enumItem=enumManager.getCacheEnumItem(id);
                 //System.out.println("is null:"+enumItem==null);
                 if(enumItem!=null){
                     if("enum_2_name".equals(st)){
