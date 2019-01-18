@@ -20,10 +20,10 @@
             userName: "",
             "name": "",
             "affairType": "",
-            "exportType": "mid_table",
+            "exportType": "",
             "exportUrl": "",
             "triggerType": "",
-            "extString1": "default",
+            "extString1": "",
             "extString2": "",
             "extString3":"",
             "extString4":"",
@@ -115,10 +115,15 @@
                 "id": app.id
             }, function (data) {
                 app = lx.eutil.copyProperties(app,data.data);
+               // console.log(data.data);
+                //console.log(app);
                 $("#a82other_affair_type").val(app.affairType);
+                //renderForm();
                 $("#a82other_data_link").val(app.sLinkId);
+                //renderForm();
                 renderFormTable(data.data.ftd.formTable);
-                renderForm();
+                //renderForm();
+                setTimeout(renderForm,100);
             }, function () {
                 renderForm();
             });
@@ -243,12 +248,13 @@
             var form = layui.form;
             form.on('select', function(data,data2){
                var filter =  $(data.elem).attr("lay-filter");
+             //  console.log("select");
                app[filter]=data.value;
                 if(filter=="affairType"){
                     renderFieldMapping();
                 }
                 renderForm();
-                setTimeout(renderForm,4000);
+                setTimeout(renderForm,3000);
                // console.log(data2);
             });
         });

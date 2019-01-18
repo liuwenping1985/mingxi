@@ -152,6 +152,32 @@
         });
     }
     var Dao = {};
+    Dao.transStoreType=function(exportType){
+
+        if ("normal" == exportType) {
+            return "普通表";
+        }
+        if ("formmain" == exportType) {
+            return "底表";
+        }
+        if ("form" == exportType) {
+            return "表单";
+        }
+        return exportType;
+    }
+     Dao.transFetchExportType=function(exportType){
+        if ("schedule" == exportType) {
+            return "定时从数据库获取";
+        }
+        if ("api_receive" == exportType) {
+            return "外部调用A8接口传入";
+        }
+        if ("api_get" == exportType) {
+            return "A8调用外部接口获取";
+        }
+        return exportType;
+
+     }
      Dao.transExportType=function(exportType) {
         if ("mid_table" == exportType) {
             return "中间表";
@@ -191,6 +217,58 @@
     Dao.getCacheByKey=function(key){
 
         return cachedData[key];
+    }
+    Dao.getFieldListByTableAndLink=function(data_post,callBack,error_callback_){
+        var url = "/seeyon/nbd.do?method=getFieldListByTableAndLink";
+        var mock_url = "http://127.0.0.1:8080/seeyon/nbd/testConnection";
+        if (openDebug) {
+            url = mock_url;
+        }
+        $.ajax({
+            url: url,
+            async: true, //同步方式发送请求，true为异步发送
+            data: data_post,
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+
+                if (callBack) {
+                    callBack(data);
+                }
+            },
+            error: function (res) {
+                if (error_callback_) {
+                    error_callback_(res);
+                }
+            }
+        });
+
+    }
+    Dao.getTableFieldListByLink=function(data_post,callBack,error_callback_){
+        var url = "/seeyon/nbd.do?method=getTableFieldListByLink";
+        var mock_url = "http://127.0.0.1:8080/seeyon/nbd/testConnection";
+        if (openDebug) {
+            url = mock_url;
+        }
+        $.ajax({
+            url: url,
+            async: true, //同步方式发送请求，true为异步发送
+            data: data_post,
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+
+                if (callBack) {
+                    callBack(data);
+                }
+            },
+            error: function (res) {
+                if (error_callback_) {
+                    error_callback_(res);
+                }
+            }
+        });
+
     }
     Dao.getLinkName=function(val){
         if(val == null){

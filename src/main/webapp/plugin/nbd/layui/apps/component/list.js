@@ -14,11 +14,13 @@
         List.include({
             init:function (options) {
                 this.jq = $;
+                this.auto_refresh=false;
+                this.auto_refresh_period=10000;
                 this.data_prop=options.data_prop;
                 this.root = $("<div class='" + options.className + "'></div>");
                 this.options = options;
                 this.data_offset=options.data_offset;
-                if(!this.data_offset){                         //显示
+                if(!this.data_offset){
                     this.data_offset=0;
                 }
                 if(options.parent_id){
@@ -82,12 +84,25 @@
                         this.render(options.data,options.data?options.data.length:-1);
                     }
                 }
+                if(this.options.auto_refresh){
+                    var me = this;
+                    function refreshFunc(){
+                        me.refresh();
+                        setTimeout(refreshFunc,me.auto_refresh_period);
+                    }
+                    setTimeout(refreshFunc,me.auto_refresh_period);
+                }
+               
+
 
             },
-            refresh:function(url,outcallback){
+            refresh:function(url,handler,outcallback){
                 var me = this;
+                if(handler){
+                    me = handler;
+                }
                 if(!url){
-                    url = this.options.data_url;
+                    url = me.options.data_url;
                 }
                 if(!url){
                     return ;
@@ -114,59 +129,58 @@
             render:function(data,count__,isLazy){
                 var key = [];
                 if(typeof (data)=="string"){
-                    return ;                        //不是json的返回
-                }
-                if(data.length<0){                  //长度小于0返回
                     return ;
-                }                                        //  空链接，创建数组
+                }
+                if(data.length<0){
+                    return ;
+                }
                 if (!this.data_prop){
                     this.data_prop=[];
-                    for (var p in data[0]) {                //用p变量遍历data数据[0]
+                    for (var p in data[0]) {
                         this.data_prop.push({"name":p});
                     }
                 }
-                var htmls = [''];                              //定义个html数组往里写
+                var htmls = [''];
 
                 if(this.mode=="normal"){
                 
-                    for(var p=0;p<data.length;p++){                 //遍历data的长度，对每个数据进行处理
+                    for(var p=0;p<data.length;p++){
                        
                         if(p<this.data_offset){
-                            continue;                       //如果p小于data起始的位置，跳出循环进行下一次
+                            continue;
                         }
-                        var p_data = data[p];           //定义p_data变量，得到数据的值
+                        var p_data = data[p];
                         if(!this.link_prop){
-                             htmls.push("<div style="+this.style+" class='layui-row'>");//若link_prop的属性为空，写个div
+                             htmls.push("<div style="+this.style+" class='layui-row'>");
                         }else{
-                            var link_url= p_data[this.link_prop];               //不为空  url是lin_prop的值
+                            var link_url= p_data[this.link_prop];
                             if(link_url){
-                            if(link_url.indexOf("/seeyon")==-1&&link_url.indexOf('javascript')!=0){    //对url做处理
+                            if(link_url.indexOf("/seeyon")==-1&&link_url.indexOf('javascript')!=0){
                                 link_url="/seeyon"+link_url;
                             }
                             if(link_url.indexOf('javascript')==0){
-                                htmls.push("<div onclick="+link_url+" style="+this.style+" class='layui-row'>");        //是javascrit开头，例如我的收藏那块
-                            }else{      
+                                htmls.push("<div onclick="+link_url+" style="+this.style+" class='layui-row'>");
+                            }else{
                                 htmls.push("<div onclick='window.open(\""+link_url+"\")' style="+this.style+" class='layui-row'>");
                             }
                              
                             }else{
 
-                             htmls.push("<div style="+this.style+"  class='layui-row'>");     //url空的时候 就写一行
+                             htmls.push("<div style="+this.style+"  class='layui-row'>");
                             }
                         }
                        
 
                         if(this.max&&this.max>0){
-                            if((p-this.data_offset)+1>this.max){                    //要是能装的最大的数比p-data_offset，跳出循环
+                            if((p-this.data_offset)+1>this.max){
 
                                 break;
                             }
                         }
-                        for (var k = 0; k < this.data_prop.length;k++){                     //遍历 要显示的参数的数组
-                            var cell = this.data_prop[k];                                       
-
+                        for (var k = 0; k < this.data_prop.length;k++){
+                            var cell = this.data_prop[k];
                             if(!cell.size){
-                                cell.size=4;                                                            //没定义size默认是4
+                                cell.size=4;
                             }
                             if(cell&&cell.render){
                                 if(!isLazy){

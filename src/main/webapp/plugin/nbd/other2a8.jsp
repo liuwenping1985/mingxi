@@ -44,38 +44,30 @@
                     </div>
                     <div v-if="exportType=='api_receive'" class="layui-form-mid layui-word-aux">外部调用接口地址【POST】/seeyon/form/receive.do</div>
                 </div>
-
-                <div v-if="exportType=='schedule'" class="layui-form-item">
+                <div v-show="exportType=='api_receive'&&extString2!='form'" class="layui-form-item">
+                    <label class="layui-form-label">业务标识</label>
+                    <div class="layui-input-block" style="width:300px">
+                        <input type="text" v-model="extString5" name="extString5"  required lay-verify="required" placeholder="请输入表名（other端）"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div v-if="exportType=='api_receive'" class="layui-form-mid layui-word-aux">必填，字段为affairType</div>
+               
+                </div>
+                <div v-show="exportType=='schedule'" class="layui-form-item">
                     <label class="layui-form-label">Other连接</label>
                     <div class="layui-input-block" style="width:300px">
-                        <select v-model="sLinkId" id="other2a8_data_link" name="linkId" lay-filter="sLinkId" lay-verify="required">
+                        <select v-show="exportType=='schedule'" v-model="sLinkId" id="other2a8_data_link" name="linkId" lay-filter="sLinkId" lay-verify="required">
                                
                         </select>
                     </div>
                 </div>
+
                 <div v-if="exportType=='schedule'"  class="layui-form-item">
-                    <label class="layui-form-label">表名</label>
+                    <label class="layui-form-label">other表名</label>
                     <div class="layui-input-block" style="width:300px">
                         <input type="text" v-model="extString1" name="extString1"  required lay-verify="required" placeholder="请输入表名（other端）"
                                autocomplete="off" class="layui-input">
                     </div>
-                </div>
-                <div v-if="exportType=='schedule'"  class="layui-form-item">
-                    <label class="layui-form-label">获取周期</label>
-                    <div class="layui-input-block" style="width:300px">
-                        <input type="text" v-model="period" name="period"  required lay-verify="required" placeholder="请输入调用周期（秒）"
-                               autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">唯一主键</label>
-                    <div class="layui-input-block" style="width:300px">
-                        <input type="text" v-model="extString3" name="extString3"    placeholder="唯一主键"
-                               autocomplete="off" class="layui-input">
-                               <div  class="layui-form-mid layui-word-aux">不设置均为新增，否则会根据该主键进行更新</div>
-                    </div>
-                   
-             
                 </div>
                 <div v-if="exportType=='api_get'"  class="layui-form-item">
                     <label class="layui-form-label">调用地址</label>
@@ -84,12 +76,32 @@
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
-               
+                <div v-if="exportType=='schedule'||exportType=='api_get'"  class="layui-form-item">
+                    <label v-if="exportType=='schedule'" class="layui-form-label">获取周期</label>
+                    <label v-if="exportType=='api_get'" class="layui-form-label">调用周期</label>
+                    <div class="layui-input-block" style="width:300px">
+                        <input type="text" v-model="period" name="period"  required lay-verify="required" placeholder="请输入调用周期（秒）,不填只调用一次"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                
+                
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label">唯一主键</label>
+                    <div class="layui-input-block" style="width:300px">
+                        <input type="text" v-model="extString3" name="extString3"    placeholder="唯一主键"
+                               autocomplete="off" class="layui-input">
+                               <div  class="layui-form-mid layui-word-aux">不设置均为全量新增</div>
+                    </div>
+                   
+             
+                </div>
                
                 <div class="layui-form-item">
                     <label class="layui-form-label">A8存储类型</label>
                     <div class="layui-input-block" style="width:300px">
-                        <select lay-filter="extString2" name="extString2" lay-verify="required">
+                        <select lay-filter="extString2" v-model="extString2" name="extString2" lay-verify="required">
                             <option value="normal">普通表</option>
                             <option value="formmain">底表</option>
                             <option value="form">表单</option>
@@ -99,7 +111,7 @@
                         </select>
                     </div>
                 </div>
-                <div v-if="extString2 !='form'"  class="layui-form-item">
+                <div v-show="extString2 !='form'"  class="layui-form-item">
                     <label v-if="extString2 =='normal'" class="layui-form-label">普通表表名</label>
                     <label v-if="extString2 =='formmain'" class="layui-form-label">底表表名</label>
                     <div class="layui-input-inline" style="width:300px">
@@ -107,18 +119,21 @@
                                autocomplete="off" class="layui-input">
                               
                     </div>
-                    <button class="layui-btn layui-btn-sm" @click="fetchTableMapping">映射</button>
+                   
+                    <div  class="layui-form-mid layui-word-aux">不映射不处理</div>
+                    <a class="layui-btn layui-btn" @click="fetchTableMapping">映射</a>
+
                 </div>
-                <div v-if="extString2=='form'" class="layui-form-item">
+                <div v-show="extString2=='form'" class="layui-form-item">
                     <label class="layui-form-label">是否触发流程</label>
                     <div class="layui-input-block" style="width:300px">
-                        <select name="triggerProcess" lay-verify="required">
+                        <select name="triggerProcess" v-model="triggerProcess" lay-verify="required">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
                     </div>
                 </div>
-                <div v-if="extString2=='form'" class="layui-form-item">
+                <div v-show="extString2=='form'" class="layui-form-item">
                     <label class="layui-form-label">表单模板编号</label>
                     <div class="layui-input-inline">
                         <select id="other2a8_affair_type" name="affairType" lay-verify="required" lay-filter="affairType">
@@ -129,7 +144,7 @@
 
                     </div>
                 </div>
-                <div v-if="extString2=='form'" class="layui-form-item">
+                <div v-show="extString2=='form'" class="layui-form-item">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-inline" style="width:88%">
                         <fieldset class="layui-elem-field">
@@ -170,7 +185,7 @@
 
                                     </tr>
                                     </thead>
-                                    <tbody id="other2a8_field_list_body">
+                                    <tbody id="other2a8_field_list_body2">
 
                                     </tbody>
                                 </table>
@@ -180,7 +195,7 @@
                     </div>
                 </div>
 
-                <div v-if="extString2!='form'">
+                <div v-show="extString2!='form'">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-inline" style="width:88%">
                         <fieldset class="layui-elem-field">
@@ -189,12 +204,14 @@
                                 <table class="layui-table">
                                     <thead>
                                     <tr>
+                                       
                                         <th>a8字段</th>
                                         <th>a8字段类型</th>
-                                        <th>是否忽略</th>
+                                        <th>是否存储</th>
                                         <th>转换方式</th>
+                                     
                                         <th>other字段</th>
-                                        <th>other字段类型</th>
+                                       
 
                                     </tr>
                                     </thead>

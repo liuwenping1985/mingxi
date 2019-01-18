@@ -12,7 +12,7 @@
 
         var param = lx.eutil.getRequestParam();
         //alert(param.id);
-        var data_link = Dao.getCacheByKey("data_link");
+       // var data_link = Dao.getCacheByKey("data_link");
         /**
          * {"items":[{"affairType":"GYSDJB","createTime":1544070931000,"exportType":"mid_table","exportUrl":"","ftdId":-6591324436286910714,"id":2563283702975316259,"linkId":515598634434511623,"name":"yyy","sLinkId":"515598634434511623","sid":"2563283702975316259","status":0,"triggerType":"process_end","updateTime":1544070931000}],"msg":"","result":true}
          */
@@ -20,11 +20,11 @@
             userName: "",
             "name": "",
             "affairType": "",
-            "exportType": "schedule",
+            "exportType": "",
             "exportUrl": "",
             "triggerType": "",
             "extString1": "",
-            "extString2": "normal",
+            "extString2": "",
             "extString3": "",
             "extString4": "",
             "extString5": "",
@@ -93,10 +93,45 @@
                     });
                 },
                 fetchTableMapping:function(){
-
-
-
+                    renderForm();
+                    var me = this;
+                    var paramData={
+                        "linkId":me.sLinkId,
+                        "a8_table":me.extString4,
+                        "other_table":me.extString1
+                    };
                     
+                    if(this.exportType=="schedule"){
+                      
+                        Dao.getFieldListByTableAndLink(paramData,function(ret){
+                            if(ret.result){
+                                renderTableFieldMapping(ret.data.a8,ret.data.other);
+                            }else{
+                                layer.msg("连接，a8端表，other端表均不能为空");
+                            }
+                        },function(error){
+                            layer.msg("内部错误");
+                        });
+
+                    }else{
+                        paramData.tableName=me.extString4;
+                        Dao.getTableFieldListByLink(paramData,function(ret){
+                            if(ret.result){
+                                renderTableFieldMapping(ret.items,null);
+                            }else{
+                                layer.msg("a8端表均不能为空");
+                            }
+                        },function(error){
+                            layer.msg("内部错误");
+                        });
+
+
+
+                    }
+                   
+
+
+
                 },
                 updateSubmit: function () {
                     var dt= getFormSubmitData();
@@ -125,8 +160,15 @@
                 app = lx.eutil.copyProperties(app,data.data);
                 $("#other2a8_affair_type").val(app.affairType);
                 $("#other2a8_data_link").val(app.sLinkId);
-                renderFormTable(data.data.ftd.formTable);
-                renderForm();
+               
+               
+                if(app.extString2=="form"){
+                    renderFormTable(data.data.ftd.formTable);
+                }else{
+                    renderTableFieldMapping(data.data.tableFtd.fieldList);
+                }
+               
+                setTimeout(renderForm,100);
             }, function () {
                 renderForm();
             });
@@ -173,16 +215,26 @@
                 }
 
             }
-            // htmls.push("<option value='normal'>默认不转换</option>");
-            // htmls.push("<option value='id_2_org_code'>单位转编码</option>");
-            // htmls.push("<option value='id_2_org_name'>单位转名称</option>");
-            // htmls.push("<option value='id_2_dept_code'>部门转编码</option>");
-            // htmls.push("<option value='id_2_dept_name'>部门转名称</option>");
-            // htmls.push("<option value='id_2_person_code'>人员转编码</option>");
-            // htmls.push("<option value='id_2_person_name'>人员转名称</option>");
-            // htmls.push("<option value='enum_2_name'>枚举转名称</option>");
-            // htmls.push("<option value='enum_2_value'>枚举转枚举值</option>");
-            // htmls.push("<option value='file_2_downlaod'>附件转http下载</option>");
+            htmls.push("</select>");
+            return htmls.join("");
+        }
+        function genOtherField(fieldName,other, defaultval) {
+            var htmls = [];
+            htmls.push("<select name='" + fieldName + "_mapping' >");
+            htmls.push("<option value='NONE_NONE' >无</option>");
+            for (var p in other) {
+                var item = other[p];
+                var isSelected = false;
+                if (defaultval == item.column_name) {
+                    isSelected = true;
+                }
+                if (isSelected) {
+                    htmls.push("<option value='" + item.column_name + "' selected>" + item.column_name + "</option>");
+                } else {
+                    htmls.push("<option value='" + item.column_name + "'>" + item.column_name + "</option>");
+                }
+
+            }
             htmls.push("</select>");
             return htmls.join("");
         }
@@ -200,9 +252,44 @@
             htmls.push("</select>");
             return htmls.join("");
         }
+        /**
+         * @param {*} a8 
+         * @param {*} other 
+         */
+        function renderTableFieldMapping(a8,other){
+            $("#other2a8_table_field_list_body").html("");
+            var htmls = [];
+            $(a8).each(function (index, item) {
+                if(!item.column_name){
+                    item.column_name = item.name;
+                }
+                if(!item.type_name){
+                    item.type_name = item.type||"";
+                }
+                htmls.push("<tr>");
+                htmls.push("<td>" + item.column_name + "</td>");
+                htmls.push("<td>" + item.type_name + "</td>");
+                htmls.push("<td>" + genIsExport(item.column_name, item.export) + "</td>");
+                htmls.push("<td>" + genTransferSelect(item.column_name, item.classname) + "</td>");
+                if(!other){
+                    var mping=item.mapping;
+                    if(!mping){
+                        mping="";
+                    }
+                    htmls.push("<td><input name='" + item.column_name + "_mapping' value='" + mping + "' /></td>");
+                }else{
+                    htmls.push("<td>" + genOtherField(item.column_name,other, item.mapping) + "</td>");
+                }
+                
+                htmls.push("</tr>")
+            });
+            $("#other2a8_table_field_list_body").html(htmls.join(""));
+            renderForm();
 
+        }
         function renderFormTable(formTable) {
-            $("#other2a8_field_list_body").html("");
+            
+            $("#other2a8_field_list_body2").html("");
 
             var fieldList = formTable.formFieldList;
             var htmls = [];
@@ -234,7 +321,10 @@
                 });
 
             }
-            $("#other2a8_field_list_body").html(htmls.join(""));
+            //console.log("ttttt====》》》》"+htmls.join(""));
+           var leen = $("#other2a8_field_list_body").length;
+          // console.log("ttttt====》》》》"+leen);
+            $("#other2a8_field_list_body2").html(htmls.join(""));
             renderForm();
 
         }
@@ -256,7 +346,7 @@
                     renderFieldMapping();
                 }
                 renderForm();
-                setTimeout(renderForm,3000);
+                setTimeout(renderForm,500);
                // console.log(data2);
             });
         });

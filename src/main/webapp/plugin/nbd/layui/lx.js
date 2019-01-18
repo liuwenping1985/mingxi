@@ -17,6 +17,9 @@
     var eutil = {};
     Date.prototype.format = function(format)
     {
+        if(!format){
+            format="yyyy-MM-dd hh:mm:ss";
+        }
         var o = {
             "M+" : this.getMonth()+1, //month
             "d+" : this.getDate(),    //day
@@ -174,7 +177,7 @@
     window.layex = layex;
     window.lx = layex;
     layex.config({
-        base: 'layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
+        base: '/seeyon/apps_res/nbd/layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
     });
 
 }());

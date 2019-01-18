@@ -65,16 +65,13 @@ $(document).ready(function(){
                 legendName:"表单对接列表",
                 columns:[
                     {"name":"","width":"40"},
-                    {"name":"表单名称","width":"150"},
-                    {"name":"触发机制","width":"200"},
-                    {"name":"数据连接","width":"150"},
-                    {"name":"数据获取方式","width":"150"},
-                    {"name":"表单模板编号","width":"200"},
-                    {"name":"是否触发流程","width":""}
+                    {"name":"名称","width":"150"},
+                    {"name":"获取方式","width":"200"},
+                    {"name":"A8存储类型","width":"150"}
                 ],
-                keys:[{"name":"id"},{"name":"extString1"},{"name":"host"},{
-                    "name":"extString2"
-                },{"name":"dbType"},{"name":"user"},{"name":"dataBaseName"},{"name":"op"}]
+                keys:[{"name":"id"},{"name":"name"},{"name":"exportType",render:Dao.transFetchExportType},{
+                    "name":"extString2",render:Dao.transStoreType
+                }]
 
             },
             "log":{

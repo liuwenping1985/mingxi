@@ -53,17 +53,17 @@
 
                         </select>
                     </div>
-                    <div v-if="exportType=='http'" class="layui-input-inline" style="width:300px">
+                    <div v-show="exportType=='http'" class="layui-input-inline" style="width:300px">
                             <input v-model="exportUrl" style="width:300px" type="text" name="exportUrl" required lay-verify="required" placeholder="接口地址"
                                    autocomplete="off" class="layui-input">
                         </div>
-                        <div v-if="exportType=='custom'" class="layui-input-inline" style="width:300px">
+                        <div v-show="exportType=='custom'" class="layui-input-inline" style="width:300px">
                             <input v-model="extString3" style="width:300px" type="text" name="extString3" required lay-verify="required" placeholder="处理类"
                                    autocomplete="off" class="layui-input">
                         </div>
                     
                 </div>
-                <div v-if="exportType=='mid_table'" class="layui-form-item">
+                <div v-show="exportType=='mid_table'" class="layui-form-item">
                         <label class="layui-form-label">存储方式</label>
                         <div class="layui-input-inline" style="width:300px">
                             <select v-model="extString1" name="extString1" lay-filter="extString1" lay-verify="required">
@@ -74,7 +74,7 @@
                                     
                             </select>
                         </div>
-                        <div v-if="exportType=='mid_table'&&extString1=='custom'" class="layui-input-inline" style="width:300px">
+                        <div v-show="exportType=='mid_table'&&extString1=='custom'" class="layui-input-inline" style="width:300px">
                                 <input style="width:300px" type="text" v-model="extString2" name="extString2" required lay-verify="required" placeholder="自定义表名"
                                        autocomplete="off" class="layui-input">
                             </div>
@@ -159,8 +159,8 @@
             </form>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn"  v-if="mode=='create'" @click="createSubmit">立即提交</button>
-                    <button class="layui-btn"  v-if="mode=='update'" @click="updateSubmit">立即提交</button>
+                    <button class="layui-btn"  v-show="mode=='create'" @click="createSubmit">立即提交</button>
+                    <button class="layui-btn"  v-show="mode=='update'" @click="updateSubmit">立即提交</button>
                     <button class="layui-btn" @click="goBack">返回</button>
 
                 </div>
