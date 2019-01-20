@@ -823,9 +823,16 @@ public final class DataBaseHelper {
         DatabaseMetaData dm = null;
         ResultSet rs = null;
         try {
+
             conn = ConnectionBuilder.openConnection(link);//数据库连接
             dm = conn.getMetaData();
-            rs = dm.getColumns(null, null, table, null);
+            if("1".equals(link.getDbType())){
+                rs = dm.getColumns(null, null, table.toUpperCase(), null);
+
+            }else{
+                rs = dm.getColumns(null, null, table, null);
+
+            }
 
             List<Map> retList = resultSetToList(rs, true);
             List<Map> dataList = new ArrayList<Map>();
