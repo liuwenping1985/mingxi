@@ -65,7 +65,7 @@ public final class DataBaseHelper {
         PreparedStatement pst = null;
 
         try {
-            
+
             conn = ConnectionBuilder.openConnection(link);
             pst = conn.prepareStatement(sql);
             for (int i = 1; i <= vals.size(); i++) {
@@ -383,7 +383,7 @@ public final class DataBaseHelper {
         } catch (ClassNotFoundException e) {
             //e.printStackTrace();
         } catch (Exception e) {
-           // e.printStackTrace();
+            // e.printStackTrace();
         } finally {
 
             if (rs != null) {
@@ -498,16 +498,16 @@ public final class DataBaseHelper {
 
             } else {
 //                if ("1".equals(dl.getDbType())) {
-                    stb.append("INSERT INTO " + tbName);
-                    //List<String> sqlValueList = toInsertSQLString( dl,insFields, values,true);
-                   // createTableIfNotExist(tbName, dl);
-                    //String vals = join(sqlValueList, ",");
-                    String fils = join(fieldNames, ",");
-                    stb.append("(").append(fils).append(")");//fils+
-                    stb.append("VALUES");
-                    stb.append("(").append(join(genChars("?", fieldNames.size()), ",")).append(")");
-                    System.out.println(stb);
-                    executeUpdateBySQLAndLink(dl, stb.toString(), insFields, values);
+                stb.append("INSERT INTO " + tbName);
+                //List<String> sqlValueList = toInsertSQLString( dl,insFields, values,true);
+                // createTableIfNotExist(tbName, dl);
+                //String vals = join(sqlValueList, ",");
+                String fils = join(fieldNames, ",");
+                stb.append("(").append(fils).append(")");//fils+
+                stb.append("VALUES");
+                stb.append("(").append(join(genChars("?", fieldNames.size()), ",")).append(")");
+                System.out.println(stb);
+                executeUpdateBySQLAndLink(dl, stb.toString(), insFields, values);
 //                } else {
 //                    stb.append("INSERT INTO " + tbName);
 //                    List<String> sqlValueList = toInsertSQLString(dl, insFields, values, false);
@@ -825,7 +825,13 @@ public final class DataBaseHelper {
         try {
             conn = ConnectionBuilder.openConnection(link);//数据库连接
             dm = conn.getMetaData();
-            rs = dm.getColumns(null, null, table, null);
+            if("1".equals(link.getDbType())){
+                rs = dm.getColumns(null, null, table.toUpperCase(), null);
+
+            }else{
+                rs = dm.getColumns(null, null, table, null);
+
+            }
 
             List<Map> retList = resultSetToList(rs, true);
             List<Map> dataList = new ArrayList<Map>();
