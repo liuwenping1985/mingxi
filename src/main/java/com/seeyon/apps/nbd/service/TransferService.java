@@ -12,11 +12,14 @@ import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.po.*;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
+import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.DBAgent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +31,7 @@ public class TransferService {
 
     private OrgManager orgManager;
     private EnumManager enumManager;
+    private AttachmentManager attachmentManager;
     private Map<String,Class> clsHolder = new HashMap<String,Class>();
     public OrgManager getOrgManager() {
         if(orgManager==null){
@@ -40,6 +44,12 @@ public class TransferService {
             enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
         }
         return enumManager;
+    }
+    public AttachmentManager getAttachmentManager() {
+        if(attachmentManager==null){
+            attachmentManager = (AttachmentManager)AppContext.getBean("attachmentManager");
+        }
+        return attachmentManager;
     }
     private TransferService(){
         clsHolder.put(NbdConstant.DATA_LINK,DataLink.class);
@@ -208,6 +218,7 @@ public class TransferService {
             if("file_2_downlaod".equals(st)){
                 return "/seeyon/nbd.do?method=download&file_id="+val;
             }
+
 
 
         }catch(Exception e){

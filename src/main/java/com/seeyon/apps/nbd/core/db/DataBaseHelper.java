@@ -57,6 +57,30 @@ public final class DataBaseHelper {
 
     }
 
+    public static Integer executeByConnectionAndVals(Connection conn,String sql,List vals){
+        PreparedStatement pst = null;
+        try {
+
+
+            pst = conn.prepareStatement(sql);
+            for (int i = 1; i <= vals.size(); i++) {
+                pst.setObject(i, vals.get(i - 1));
+            }
+            return pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }finally {
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
 
 
     public static Integer executeUpdateByNativeSQLAndLink(DataLink link, String sql, List vals) throws Exception {

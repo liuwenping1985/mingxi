@@ -1,7 +1,9 @@
 package com.seeyon.apps.nbd.core.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
+import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
 import com.seeyon.apps.nbd.core.form.entity.FormField;
 import com.seeyon.apps.nbd.core.form.entity.FormTable;
 import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
@@ -11,10 +13,16 @@ import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.po.A8ToOtherConfigEntity;
 import com.seeyon.apps.nbd.service.NbdService;
+import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.po.filemanager.Attachment;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.ctp.util.UUIDLong;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -26,10 +34,20 @@ public class RuianExportProcessor implements CustomExportProcess {
 
     private NbdService nbdService = new NbdService();
 
+    private AttachmentManager attachmentManager = null;
+
+    private AttachmentManager getAttachmentManager() {
+        if (attachmentManager == null) {
+            attachmentManager = (AttachmentManager) AppContext.getBean("attachmentManager");
+        }
+        return attachmentManager;
+
+    }
+
     public void process(A8ToOtherConfigEntity entity, Map data) {
 
         System.out.println("hahahahahahhahahaha");
-        Integer indexCount =1;
+        Integer indexCount = 1;
 
         /**
          {formson_0192=[{field0053=null, field0010=222, field0054=null, field0033=www, field0034=wwww, field0012=台, field0078=null, field0058=null, field0037=null, field0059=null, field0015=7381342570116367323, field0016=111, field0038=null, field0073=null, field0052=5337726562289205631, field0074=null, field0028=5851978446896057667, count_field0013=12, field0007=2018-12-11 00:00:00.0, field0008=2018-12-11 00:00:00.0, field0020=2403214902934651590, field0065=null, field0021=6149007273124318565, field0022=6420576744594883243, field0044=-4377052000397996273, field0066=null, field0143=-8377145192776315705, field0045=3441550207905320327, field0067=null, field0046=222, field0003=www, field0004=12, field0048=22, field0027=222, field0049=-4377052000397996273, field0060=null, field0061=null, field0062=null, field0017=1222794058783999117, field0018=2222, field0019=-5220475304581052791}, {field0053=null, field0010=222, field0054=null, field0033=www2, field0034=wwww2, field0012=台, field0078=null, field0058=null, field0037=null, field0059=null, field0015=7381342570116367323, field0016=111, field0038=null, field0073=null, field0052=5337726562289205631, field0074=null, field0028=5851978446896057667, count_field0013=10, field0007=2018-12-11 00:00:00.0, field0008=2018-12-11 00:00:00.0, field0020=2403214902934651590, field0065=null, field0021=6149007273124318565, field0022=6420576744594883243, field0044=-4377052000397996273, field0066=null, field0143=-8377145192776315705, field0045=3441550207905320327, field0067=null, field0046=222, field0003=www2, field0004=12, field0048=22, field0027=222单点, field0049=-4377052000397996273, field0060=null, field0061=null, field0062=null, field0017=1222794058783999117, field0018=2222, field0019=-5220475304581052791}], ratifyflag=0, field0001=2403214902934651590, field0023=DJ20181211005, ratify_member_id=0, start_member_id=7239435747909386284, approve_member_id=7239435747909386284, finishedflag=1, field0029=7239435747909386284, state=1, approve_date=2018-12-11 18:48:34.734, ratify_date=null, start_date=2018-12-11 18:48:18.0}
@@ -48,6 +66,16 @@ public class RuianExportProcessor implements CustomExportProcess {
         System.out.println(data);
         FormTableDefinition ftd = entity.getFtd();
         FormTable ft = ftd.getFormTable();
+        //定义一个有附件的map用于记录是否有key
+        Map<String, String> attachemntMap = new HashMap<String, String>();
+        List<FormField> formFields = ft.getFormFieldList();
+        for (FormField ff : formFields) {
+            if ("attachment_2_attachment".equals(ff.getClassname())) {
+                attachemntMap.put(ff.getName(), ff.getClassname());
+            }
+        }
+
+
         List<FormTable> slaveTable = ft.getSlaveTableList();
         //执行sql的
         List<String> executeSQL = new ArrayList<String>();
@@ -56,6 +84,15 @@ public class RuianExportProcessor implements CustomExportProcess {
         //子表+主表的平铺数据
         Map<String, Map> dataSlaveMap = new HashMap<String, Map>();
         for (FormTable sFt : slaveTable) {
+            formFields = sFt.getFormFieldList();
+            for (FormField ff : formFields) {
+                if ("attachment_2_attachment".equals(ff.getClassname())) {
+                    if (CommonUtils.isNotEmpty(ff.getBarcode())) {
+                        attachemntMap.put(ff.getBarcode().toLowerCase(), ff.getName());
+                    }
+
+                }
+            }
             //从data中取出子表数据,然后删除掉
             Object obj = data.get(sFt.getName());
             data.remove(sFt.getName());
@@ -66,15 +103,15 @@ public class RuianExportProcessor implements CustomExportProcess {
                 retList.add((Map) obj);
             }
             //处理子表数据
-            int tag=1;
+            int tag = 1;
             for (Map sData : retList) {
-                Object objMap = dataSlaveMap.get(tag+"-"+String.valueOf(data.get("id")));
+                Object objMap = dataSlaveMap.get(tag + "-" + String.valueOf(data.get("id")));
                 Map childMap = null;
-                if(objMap==null){
-                     childMap = new HashMap();
-                    dataSlaveMap.put(tag+"-"+String.valueOf(data.get("id")),childMap);
-                }else{
-                    childMap=(Map)objMap;
+                if (objMap == null) {
+                    childMap = new HashMap();
+                    dataSlaveMap.put(tag + "-" + String.valueOf(data.get("id")), childMap);
+                } else {
+                    childMap = (Map) objMap;
                 }
 
                 //先复制一份主表数据
@@ -92,7 +129,7 @@ public class RuianExportProcessor implements CustomExportProcess {
             String indexOtherFieldName = "";
             String indexField = "";
             Integer count = 0;
-            String countFieldName="";
+            String countFieldName = "";
             for (Object key : sData.keySet()) {
                 if (String.valueOf(key).contains(ct)) {
                     try {
@@ -119,31 +156,31 @@ public class RuianExportProcessor implements CustomExportProcess {
             for (int i = 0; i < count; i++) {
                 Map insertMap = new HashMap();
                 Object fVal = sData.get(indexField);
-                if(fVal!=null){
-                    insertMap.put(indexOtherFieldName.toUpperCase(),fVal+"-"+indexCount++);
-                    insertMap.put(countFieldName.toUpperCase(),1);
+                if (fVal != null) {
+                    insertMap.put(indexOtherFieldName.toUpperCase(), fVal + "-" + indexCount++);
+                    insertMap.put(countFieldName.toUpperCase(), 1);
                 }
                 for (String colName : columnsData.keySet()) {
                     String lowerCaseCol = colName.toLowerCase();
                     String type = columnsData.get(colName);
                     Object obj = sData.get(lowerCaseCol);
                     if (obj != null) {
-                        if(type.toLowerCase().contains("timestamp")){
-                            try{
-                                if(obj instanceof Date){
-                                    insertMap.put(colName,new Timestamp(((Date)obj).getTime()));
-                                }else if(obj instanceof String){
-                                    Date dt = new Date((String)obj);
-                                    insertMap.put(colName,new Timestamp(dt.getTime()));
-                                }else{
-                                    insertMap.put(colName,new Timestamp(new Date().getTime()));
+                        if (type.toLowerCase().contains("timestamp")) {
+                            try {
+                                if (obj instanceof Date) {
+                                    insertMap.put(colName, new Timestamp(((Date) obj).getTime()));
+                                } else if (obj instanceof String) {
+                                    Date dt = new Date((String) obj);
+                                    insertMap.put(colName, new Timestamp(dt.getTime()));
+                                } else {
+                                    insertMap.put(colName, new Timestamp(new Date().getTime()));
                                 }
 
-                            }catch(Exception e){
+                            } catch (Exception e) {
 
                             }
-                        }else{
-                            insertMap.put(colName,obj);
+                        } else {
+                            insertMap.put(colName, obj);
                         }
 
                     }
@@ -157,29 +194,71 @@ public class RuianExportProcessor implements CustomExportProcess {
         }
 
         //System.out.println(insertDatas);
-
-        for(Map insertData:insertDatas){
+        Connection conn = null;
+        try {
+            conn = ConnectionBuilder.openConnection(ConfigService.getA8DefaultDataLink());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("attachemntMap:"+attachemntMap);
+        for (Map insertData : insertDatas) {
             List<String> keyList = new ArrayList<String>();
             List<Object> valueList = new ArrayList<Object>();
             List<String> wenhao = new ArrayList<String>();
-            for(Object key:insertData.keySet()){
+            Long recordId = UUIDLong.longUUID();
+            for (Object key : insertData.keySet()) {
                 keyList.add(String.valueOf(key));
-                if("id".equals(key.toString().toLowerCase())){
-                    valueList.add(UUIDLong.longUUID());
-                }else{
+                if ("id".equals(key.toString().toLowerCase())) {
+                    valueList.add(recordId);
+                } else {
                     valueList.add(insertData.get(key));
                 }
+                String val2 = attachemntMap.get((key+"").toLowerCase());
+
+                if (CommonUtils.isNotEmpty(val2)) {
+                    Object val = insertData.get(key);
+                    Long sid = CommonUtils.getLong(val);
+                    if (sid != null) {
+                        Map params = new HashMap();
+                        params.put("subReference", sid);
+                        List<Attachment> attList = DBAgent.find("from " + Attachment.class.getName() + " where subReference=:subReference", params);
+                        if(CommonUtils.isNotEmpty(attList)){
+                            Attachment att  = attList.get(0);
+                            String jsonString = JSON.toJSONString(att);
+                            Attachment att2 = JSON.parseObject(jsonString,Attachment.class);
+                            att2.setReference(recordId);
+                            att2.setId(UUIDLong.longUUID());
+                            DBAgent.save(att2);
+                            DBAgent.commit();
+                            System.out.println("att-saved::--->>>" + att2.getId());
+                        }
+                    }
+
+                }
+
 
                 wenhao.add("?");
             }
-            String sql = "INSERT INTO " + tb+" (" +DataBaseHelper.join(keyList,",")+") VALUES("+DataBaseHelper.join(wenhao,",")+")";
+            //转换相应的
+            String sql = "INSERT INTO " + tb + " (" + DataBaseHelper.join(keyList, ",") + ") VALUES(" + DataBaseHelper.join(wenhao, ",") + ")";
             try {
-               Integer count =  DataBaseHelper.executeUpdateByNativeSQLAndLink(ConfigService.getA8DefaultDataLink(),sql,valueList);
-              //  System.out.println(count);
+                if (conn != null) {
+                    Integer ccount = DataBaseHelper.executeByConnectionAndVals(conn, sql, valueList);
+                    System.out.println("saved::--->>>" + ccount);
+                }
+                // Integer count =  DataBaseHelper.executeUpdateByNativeSQLAndLink(ConfigService.getA8DefaultDataLink(),sql,valueList);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -194,7 +273,7 @@ public class RuianExportProcessor implements CustomExportProcess {
         return dataMap;
     }
 
-    public static void main(){
+    public static void main(String[] args) {
 
         System.out.println("  Test in action ");
     }
