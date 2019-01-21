@@ -896,7 +896,7 @@ function renderChildChart(anyChart , id,analysisType) {
 	  }else{
 	  	  if(Constants_report_id==TASKBURNDOWNSTATISTICS){
   	  		//任务燃尽图
-		 	title="${ctp:i18n('performanceReport.queryMain.task.content')}";
+		 	title="${ctp:i18n('performanceReport.queryMain.ztask.content')}";
 		  }else{
   	  	  	title = "${ctp:i18n('performanceReport.queryMain_js.throughQueryDialog.title')}";//绩效报表穿透查询列表
   	  	  }

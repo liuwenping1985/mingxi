@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class DataImportService {
     private static final LogBuilder lb = new LogBuilder("Other-to-a8");
-
+   // private final Log logger = Logger//getLogger(DataImportService.class);
     private DataImportService() {
 
     }
@@ -52,6 +52,7 @@ public class DataImportService {
         String otherTable = entity.getExtString1();
         String a8Table = entity.getExtString4();
         String mappingUniqueKey = getUniqueKeyMapping(entity);
+        System.out.println("mappingUniqueKey:"+mappingUniqueKey);
         Long linkId = entity.getLinkId();
         DataLink a8Link = ConfigService.getA8DefaultDataLink();
         List<Map> retList = new ArrayList<Map>();
@@ -125,6 +126,7 @@ public class DataImportService {
 
                     DataLink oLink = DataBaseHelper.getDataByTypeAndId(a8Link, DataLink.class, linkId);
                     if (oLink != null) {
+                        System.out.println(sql);
                         return DataBaseHelper.executeQueryBySQLAndLink(oLink, sql);
                     }
                 }
@@ -148,6 +150,7 @@ public class DataImportService {
             }
         }
         //把数据整回来了
+        System.out.println("data---size:"+retList);
         return retList;
     }
 
@@ -251,7 +254,8 @@ public class DataImportService {
             String sql = "INSERT INTO " + a8Table + " (" + DataBaseHelper.join(keyList, ",") + ") VALUES(" + DataBaseHelper.join(wenhao, ",") + ")";
             try {
                 Integer count = DataBaseHelper.executeUpdateByNativeSQLAndLink(ConfigService.getA8DefaultDataLink(), sql, valueList);
-                lb.log("saved"+count);
+                lb.log(count+":saved:"+sql);
+                System.out.println(sql);
             } catch (Exception e) {
                 lb.error("ERROR:"+e.getMessage(), JSON.toJSONString(insertData),false);
                 e.printStackTrace();

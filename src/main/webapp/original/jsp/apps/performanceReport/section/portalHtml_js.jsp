@@ -721,7 +721,7 @@
            	hh+=   "<option value='3'>${ctp:i18n('colCube.common.list.meeting')}</option>" ;
            }
            if(!checkSystemProperty()){
-            hh += "<option value='4'>${ctp:i18n('colCube.common.list.task')}</option>" ;
+            hh += "<option value='4'>${ctp:i18n('colCube.common.list.ztask')}</option>" ;
            }
           hh+="</select>" +
             "</div>" +
@@ -748,7 +748,7 @@
            	hh+=   "<option value='3'>${ctp:i18n('colCube.common.list.meeting')}</option>" ;
            }
            if(!checkSystemProperty()){
-            hh += "<option value='4'>${ctp:i18n('colCube.common.list.task')}</option>" ;
+            hh += "<option value='4'>${ctp:i18n('colCube.common.list.ztask')}</option>" ;
            }
           hh+="</select>" +
             "</div>" +

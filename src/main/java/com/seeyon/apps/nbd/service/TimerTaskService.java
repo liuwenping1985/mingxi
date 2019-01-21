@@ -98,7 +98,12 @@ public class TimerTaskService {
             if (entity == null) {
                 return;
             }
-            DataImportService.getInstance().importFromOtherToA8(entity);
+            try {
+                System.out.println("-------schedule------");
+                DataImportService.getInstance().importFromOtherToA8(entity);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 
         }
     }

@@ -559,7 +559,7 @@
 		<div id="tabs2_body" class="common_tabs_body   border_all">
 			<div id="tab1_div" class="margin_t_5">
 				<div class="margin_b_5">
-					<label for="text" id="source_txt">&nbsp;&nbsp;${ctp:i18n('plan.desc.viewreferinfo.planresource')}:<c:if test="${planBO.referType==1}">${ctp:i18n('plan.desc.viewreferinfo.task')}</c:if>
+					<label for="text" id="source_txt">&nbsp;&nbsp;${ctp:i18n('plan.desc.viewreferinfo.planresource')}:<c:if test="${planBO.referType==1}">${ctp:i18n('plan.desc.viewreferinfo.ztask')}</c:if>
 						<c:if test="${planBO.referType==0}">${ctp:i18n('plan.module.name')}</c:if>
 						<c:if test="${planBO.referType==2}">${ctp:i18n('plan.desc.viewreferinfo.meeting')}</c:if>
 						<c:if test="${planBO.referType==-1}">${ctp:i18n('plan.desc.viewreferinfo.nothing')}</c:if></label>
@@ -590,7 +590,7 @@
 	<!--
     <div class="stadic_layout font_size12" layout="sprit:false">
         <div class="font_size12 margin_t_5" style="height:100px">
-            <div class="margin_b_5"><label for="text">&nbsp;&nbsp;${ctp:i18n('plan.desc.viewreferinfo.planresource')}:<c:if test="${planBO.referType==1}">${ctp:i18n('plan.desc.viewreferinfo.task')}</c:if><c:if test="${planBO.referType==0}">${ctp:i18n('plan.module.name')}</c:if><c:if test="${planBO.referType==-1}">${ctp:i18n('plan.desc.viewreferinfo.nothing')}</c:if></label></div>
+            <div class="margin_b_5"><label for="text">&nbsp;&nbsp;${ctp:i18n('plan.desc.viewreferinfo.planresource')}:<c:if test="${planBO.referType==1}">${ctp:i18n('plan.desc.viewreferinfo.ztask')}</c:if><c:if test="${planBO.referType==0}">${ctp:i18n('plan.module.name')}</c:if><c:if test="${planBO.referType==-1}">${ctp:i18n('plan.desc.viewreferinfo.nothing')}</c:if></label></div>
             <table id="planDetail" class="font_size12 "></table>
         </div>
 		<div class="stadic_layout font_size12" layout="sprit:false">

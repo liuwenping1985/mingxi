@@ -142,7 +142,7 @@ function OK() {
   if(taskType=='dee'){
    	var taskNameDEE= $("#taskNameDEE").val();
    	if(taskNameDEE==""){
-     	$.alert("${ctp:i18n('form.event.task.null')}");
+     	$.alert("${ctp:i18n('form.event.ztask.null')}");
      	return 'false';
    	}
    	var taskId = $("#taskId").val();
@@ -155,7 +155,7 @@ function OK() {
     $.alert("${ctp:i18n('form.event.name.null')}");
     return 'false';
   }else if(taskType=='ext'&&taskName==""){
-    $.alert("${ctp:i18n('form.event.task.null')}");
+    $.alert("${ctp:i18n('form.event.ztask.null')}");
     return 'false';
   }else{
     if(editName.indexOf("&") > -1){
@@ -256,7 +256,7 @@ function OK() {
             </tr>
             <tr>
                 <th nowrap="nowrap">
-                    <label class="margin_r_10"><font color='red'>*</font>${ctp:i18n('form.operhigh.task.label')}：</label></th>
+                    <label class="margin_r_10"><font color='red'>*</font>${ctp:i18n('form.operhigh.ztask.label')}：</label></th>
                 <td>
                     <div>
                         <div id="divtext" style="display:none" class="common_txtbox_wrap">

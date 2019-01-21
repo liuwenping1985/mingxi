@@ -144,13 +144,13 @@ public class UIUtils {
 
       //  ClassPool pool = ClassPool.getDefault();
         UIUtils u = new UIUtils();
-        //byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
 
-        byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
+        //byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
        // pool.getClassLoader()
   //      PortalMenuManagerImpl impl;
         System.out.println("1");
-        String path = "/Users/liuwenping/Documents/wmm/LoginHelper.class";
+        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
         File f = new File(path);
         if(f.exists()){
             f.delete();

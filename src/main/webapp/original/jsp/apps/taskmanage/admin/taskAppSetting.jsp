@@ -35,7 +35,7 @@
 			<ul class="left">
 				<li class="current">
 					<a href="javascript:void(0)" tgt="taskAppSetting" onclick="changeTab('taskAppSetting');">
-						<span title="${ctp:i18n("taskmanage.modify.task.js") }${ctp:i18n("taskmanage.manager") }">${ctp:i18n("taskmanage.modify.task.js") }${ctp:i18n("taskmanage.manager") } </span>
+						<span title="${ctp:i18n("taskmanage.modify.ztask.js") }${ctp:i18n("taskmanage.manager") }">${ctp:i18n("taskmanage.modify.ztask.js") }${ctp:i18n("taskmanage.manager") } </span>
 					</a>
 				</li>
 				<li>

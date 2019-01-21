@@ -38,6 +38,7 @@ import com.seeyon.ctp.login.online.OnlineRecorder;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.tools.util.LightWeightEncoder;
 import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
@@ -315,6 +316,7 @@ public class NbdService {
             }else{
                 mappingServiceManager.updateNormalTableDefinition(p);
             }
+            otherToA8ConfigEntity.setExtString8("");
             TimerTaskService.getInstance().schedule(otherToA8ConfigEntity);
 
         }
@@ -414,10 +416,16 @@ public class NbdService {
         if (NbdConstant.A8_TO_OTHER.equals(type)) {
             A8ToOtherConfigEntity a8toOther = (A8ToOtherConfigEntity) obj;
             Long ftdId = a8toOther.getFtdId();
+
             Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
-            FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
-            a8toOther.setFormTableDefinition(formDef);
-            a8toOther.setsLinkId(String.valueOf(a8toOther.getLinkId()));
+            if(ftd==null){
+
+            }else{
+                FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
+                a8toOther.setFormTableDefinition(formDef);
+                a8toOther.setsLinkId(String.valueOf(a8toOther.getLinkId()));
+            }
+
         }
         if (NbdConstant.OTHER_TO_A8.equals(type)) {
 
@@ -425,13 +433,16 @@ public class NbdService {
             Long ftdId = otherToA8ConfigEntity.getFtdId();
             if(ftdId!=null&&!ftdId.equals(-1L)){
                 Ftd ftd = DataBaseHelper.getDataByTypeAndId(dl, Ftd.class, ftdId);
-                if("form".equals(otherToA8ConfigEntity.getExtString2())){
-                    FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
-                    otherToA8ConfigEntity.setFormTableDefinition(formDef);
-                }else{
-                   NormalTableDefinition ntd =  Ftd.getNormalTableDefinition(ftd);
-                    otherToA8ConfigEntity.setNormalTableDefinition(ntd);
+                if(ftd!=null){
+                    if("form".equals(otherToA8ConfigEntity.getExtString2())){
+                        FormTableDefinition formDef = Ftd.getFormTableDefinition(ftd);
+                        otherToA8ConfigEntity.setFormTableDefinition(formDef);
+                    }else{
+                        NormalTableDefinition ntd =  Ftd.getNormalTableDefinition(ftd);
+                        otherToA8ConfigEntity.setNormalTableDefinition(ntd);
+                    }
                 }
+
 
             }
             otherToA8ConfigEntity.setsLinkId(String.valueOf(otherToA8ConfigEntity.getLinkId()));
@@ -497,7 +508,7 @@ public class NbdService {
             boolean isOk = ConnectionBuilder.testConnection(dl);
             if (isOk) {
                 entity.setResult(true);
-                String sql = "select * from " + getTableName("CTP_TEMPLATE") + " where state=0 and is_delete=0";
+                String sql = "select * from " + getTableName("ctp_template") + " where state=0 and is_delete=0";
                 List<Map> items = DataBaseHelper.executeQueryBySQLAndLink(dl, sql);
                 entity.setItems(items);
                 entity.setMsg("connection is ok");
@@ -530,7 +541,7 @@ public class NbdService {
         //  String dbType = ConfigService.getPropertyByName("local_db_type","0");
         String affairType = p.$("affairType");
         // DataLink dl = ConfigService.getA8DefaultDataLink();
-        String sql = " select * from " + getTableName("FORM_DEFINITION") + " where ID = (select  CONTENT_TEMPLATE_ID from " + getTableName("CTP_CONTENT_ALL") + " where ID =(select BODY from " + getTableName("CTP_TEMPLATE") + " where TEMPLETE_NUMBER='" + affairType + "'))";
+        String sql = " select * from " + getTableName("form_definition") + " where ID = (select  CONTENT_TEMPLATE_ID from " + getTableName("CTP_CONTENT_ALL") + " where ID =(select BODY from " + getTableName("CTP_TEMPLATE") + " where TEMPLETE_NUMBER='" + affairType + "'))";
 
         List<Map> items = null;
         try {
@@ -986,19 +997,19 @@ public class NbdService {
         }
     }
     public static void main(String[] args) {
-        NbdService nbds = new NbdService();
-        CommonParameter p = new CommonParameter();
-        p.$("type", 123);
-        p.$("type2", "66we");
-        p.$("data_type", "3474646");
+//        NbdService nbds = new NbdService();
+//        CommonParameter p = new CommonParameter();
+//        p.$("type", 123);
+//        p.$("type2", "66we");
+//        p.$("data_type", "3474646");
         BigDecimal decimal = new BigDecimal(123l);
 
         //nbds.handler.createNewDataBaseByNameIfNotExist("test");
 
 
-//        String json = JSON.toJSONString(p);
+//      String json = JSON.toJSONString(p);
         // Test t = JSON.parseObject(json,Test.class);
         //Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
-        System.out.println(decimal.toPlainString());
+        System.out.println(LightWeightEncoder.decodeString("VzZZVlRGUw=="));
     }
 }

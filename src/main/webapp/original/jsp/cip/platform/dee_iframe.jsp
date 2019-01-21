@@ -49,7 +49,7 @@
 				<li><a hidefocus="true" href="javascript:void(0)"
 					tgt="tab3_iframe" id="tab3iframe"><span title="${ctp:i18n('cip.dee.tab.quatz')}">${ctp:i18n('cip.dee.tab.quatz')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
-					tgt="tab4_iframe" id="tab4iframe"><span title="${ctp:i18n('cip.intenet.plat.task')}">${ctp:i18n('cip.intenet.plat.task')}</span></a></li>
+					tgt="tab4_iframe" id="tab4iframe"><span title="${ctp:i18n('cip.intenet.plat.ztask')}">${ctp:i18n('cip.intenet.plat.ztask')}</span></a></li>
 				<li><a hidefocus="true" href="javascript:void(0)"
 					tgt="tab5_iframe" id="tab5iframe"><span title="${ctp:i18n('cip.dee.tab.tks')}">${ctp:i18n('cip.dee.tab.tks')}</span></a></li>	
 			</ul>

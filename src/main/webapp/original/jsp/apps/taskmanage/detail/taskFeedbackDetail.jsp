@@ -201,7 +201,7 @@ function setHeight(){
     	$(".rateProgress_box span",window.parent.document).removeClass();
     	$(".rateProgress_box span",window.parent.document).css({width:finish+"%"});
     	if(status ==1){
-    		$("#task-hasten-btn",window.parent.document).show();
+    		$("#ztask-hasten-btn",window.parent.document).show();
     		if(compareDate(nowDate,endDate)>0){
     			$("#plan_end_time",window.parent.document).attr("color","red");
     			$(".rateProgress_box span",window.parent.document).addClass("rateProgress_red");
@@ -209,7 +209,7 @@ function setHeight(){
     			$(".rateProgress_box span",window.parent.document).addClass("rateProgress_white");
     		}
     	}else if(status ==2){
-    		$("#task-hasten-btn",window.parent.document).show();
+    		$("#ztask-hasten-btn",window.parent.document).show();
     		if(compareDate(nowDate,endDate)>0){
     			$("#plan_end_time",window.parent.document).attr("color","red");
     			$(".rateProgress_box span",window.parent.document).addClass("rateProgress_red");
@@ -218,10 +218,10 @@ function setHeight(){
     		}
     	}else if(status ==4){
     		$(".rateProgress_box span",window.parent.document).addClass("rateProgress_green");
-    		$("#task-hasten-btn",window.parent.document).hide();
+    		$("#ztask-hasten-btn",window.parent.document).hide();
     	}else if(status ==5){
     		$(".rateProgress_box span",window.parent.document).addClass("rateProgress_gray");
-    		$("#task-hasten-btn",window.parent.document).hide();
+    		$("#ztask-hasten-btn",window.parent.document).hide();
     	}
 
         $("#task_feedback_iframe")[0].contentWindow.fnGetDialog(118);

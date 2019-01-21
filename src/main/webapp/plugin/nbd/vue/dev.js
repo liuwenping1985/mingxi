@@ -1850,13 +1850,13 @@
     // sequential events (e.g. #4521, #6690) or even between bubbling of the same
     // event (#6566). However, using (macro) tasks everywhere also has subtle problems
     // when state is changed right before repaint (e.g. #6813, out-in transitions).
-    // Here we use microtask by default, but expose a way to force (macro) task when
+    // Here we use microtask by default, but expose a way to force (macro) ztask when
     // needed (e.g. in event handlers attached by v-on).
     var microTimerFunc;
     var macroTimerFunc;
     var useMacroTask = false;
 
-    // Determine (macro) task defer implementation.
+    // Determine (macro) ztask defer implementation.
     // Technically setImmediate should be the ideal choice, but it's only available
     // in IE. The only polyfill that consistently queues the callback after all DOM
     // events triggered in the same loop is by using MessageChannel.
@@ -1903,7 +1903,7 @@
 
     /**
      * Wrap a function so that if any code inside triggers state change,
-     * the changes are queued using a (macro) task instead of a microtask.
+     * the changes are queued using a (macro) ztask instead of a microtask.
      */
     function withMacroTask (fn) {
         return fn._withTask || (fn._withTask = function () {

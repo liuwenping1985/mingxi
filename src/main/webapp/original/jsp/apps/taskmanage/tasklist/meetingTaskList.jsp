@@ -111,7 +111,7 @@
 			//刷新页面数据
 			$("#${viewType}_li").click();
 			//关闭任务详情页面
-			$(".meeting-task-content,.common_search").off("click").on("click", function(e) {
+			$(".meeting-ztask-content,.common_search").off("click").on("click", function(e) {
 				//不是列表条目 | dialog中
 				if ($(e.target).closest(".list_item").size() <= 0 && $(e.target).parents("div.projectTask_detailDialog").size() <= 0) {
 					try {

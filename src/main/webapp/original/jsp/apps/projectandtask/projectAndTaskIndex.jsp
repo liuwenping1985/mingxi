@@ -165,9 +165,9 @@ function changePageView(listType, typePage, init) {//listType:大分类，项目
     } else {//我的(我负责的，我参与的),告知我的，我分派的
     	$(".taskButtons").removeClass("display_none");
     	if (init) {
-	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=task&listType=" + listType + "&status=${status}";
+	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=ztask&listType=" + listType + "&status=${status}";
     	} else {
-	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=task&listType=" + listType;
+	    	url = _ctxPath + "/taskmanage/taskinfo.do?method=taskList&pageType=ztask&listType=" + listType;
     	}
     }
   }
