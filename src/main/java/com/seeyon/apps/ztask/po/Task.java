@@ -55,6 +55,10 @@ public class Task extends CommonPo{
 
 
     private String referenceId;
+    /**
+     * 督办人
+     */
+    private String supervisior;
 
 
 

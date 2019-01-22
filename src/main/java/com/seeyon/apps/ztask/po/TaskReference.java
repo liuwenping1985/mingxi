@@ -11,7 +11,9 @@ public class TaskReference extends CommonPo {
     private String referenceId;
 
     private String typeName;
-
+    /**
+     * 有督办的类型和附件
+     */
     private String type;
 
     private String referenceValue;
