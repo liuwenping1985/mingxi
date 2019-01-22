@@ -1,5 +1,7 @@
 package com.seeyon.apps.ztask.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.seeyon.apps.platform.po.CommonPo;
 
 /**
@@ -11,13 +13,11 @@ public class TaskReference extends CommonPo {
     private String referenceId;
 
     private String typeName;
-    /**
-     * 有督办的类型和附件
-     */
-    private String type;
+
 
     private String referenceValue;
 
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long referenceObject;
 
     public String getReferenceId() {
@@ -34,16 +34,6 @@ public class TaskReference extends CommonPo {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
-    }
-
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getReferenceValue() {

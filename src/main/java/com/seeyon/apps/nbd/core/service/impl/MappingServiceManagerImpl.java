@@ -1,6 +1,7 @@
 package com.seeyon.apps.nbd.core.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
@@ -33,10 +34,22 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     public FormTableDefinition parseFormTableMapping(Map data) {
 
-        Map tableList = (Map) data.get("TableList");
+        Object object = data.get("TableList");
+        Map tableList = null;
+        if(object instanceof List){
+            if (CommonUtils.isEmpty((List)object)) {
+                return null;
+            }
+            tableList = (Map)((List) object).get(0);
+        }else{
+            tableList = (Map) object;
+        }
+
+
         if (CommonUtils.isEmpty(tableList)) {
             return null;
         }
+
         FormTableDefinition definition = JSON.parseObject(JSON.toJSONString(tableList), FormTableDefinition.class);
         List<Map> tables = new ArrayList<Map>();
 
@@ -60,7 +73,17 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             String jString = JSON.toJSONString(table);
 
             FormTable ft = JSON.parseObject(jString, FormTable.class);
-            Map fieldList = (Map) table.get("FieldList");
+            Object fObject = table.get("FieldList");
+            Map fieldList = null;
+            if(fObject instanceof List){
+                List dataFieldList = (List)fObject;
+                if(CommonUtils.isNotEmpty(dataFieldList)){
+                    fieldList = (Map)dataFieldList.get(0);
+                }
+            }else{
+                fieldList = (Map)fObject;
+            }
+           // Map fieldList = (Map) table.get("FieldList");
             if (!CommonUtils.isEmpty(fieldList)) {
                 List<Map> fields = new ArrayList<Map>();
 

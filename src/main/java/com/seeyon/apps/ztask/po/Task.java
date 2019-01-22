@@ -1,5 +1,7 @@
 package com.seeyon.apps.ztask.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.seeyon.apps.nbd.annotation.ClobText;
 import com.seeyon.apps.platform.po.CommonPo;
 
@@ -18,10 +20,12 @@ public class Task extends CommonPo{
     private String content;
 
     //父任务id
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long parentTaskId;
 
 
     //根任务id
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long rootTaskId;
 
     //权重
@@ -31,12 +35,14 @@ public class Task extends CommonPo{
     private Integer progress;
 
     //单位所属id
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long accountId;
 
     //任务归属
     //任务所属人员
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long userId;
-
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long departmentId;
 
     private Date startDate;
@@ -48,9 +54,11 @@ public class Task extends CommonPo{
     private Integer subStatus;
 
     //创建人ID
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long createUserId;
 
-    //任务创建部门
+    //
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long createDepartmentId;
 
 
