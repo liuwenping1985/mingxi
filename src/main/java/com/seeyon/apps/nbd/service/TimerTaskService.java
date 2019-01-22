@@ -13,8 +13,10 @@ import com.seeyon.apps.nbd.util.UIUtils;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
+ * 按理说该用ScheduledExecutorService,这里用timer简化点吧
  * Created by liuwenping on 2019/1/16.
  */
 public class TimerTaskService {
@@ -22,7 +24,6 @@ public class TimerTaskService {
     private TimerTaskService() {
 
         DataLink link = ConfigService.getA8DefaultDataLink();
-      //  DataBaseHelper.getDataByTypeAndId(link,OtherToA8ConfigEntity.class);
         String sql ="select * from other_to_a8_config_entity";
         List<OtherToA8ConfigEntity> otaList = DataBaseHelper.executeObjectQueryBySQLAndLink(link,OtherToA8ConfigEntity.class,sql);
         if(CommonUtils.isEmpty(otaList)){

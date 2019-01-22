@@ -59,6 +59,9 @@ import java.util.*;
 public class NbdService {
 
     // private DataBaseHandler handler = DataBaseHandler.getInstance();
+    /**
+     *
+     */
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
     private CollaborationTemplateManager collaborationTemplateManager;
@@ -145,9 +148,9 @@ public class NbdService {
 
 
                    }
-                   String update_key = otace.getPeriod();
-                   String tableName = otace.getTableName();
-                   String exportType = otace.getExportType();
+//                   String update_key = otace.getPeriod();
+//                   String tableName = otace.getTableName();
+//                   String exportType = otace.getExportType();
                    
                     if("1".equals(otace.getTriggerProcess())){
                         //-- otace.getExtString1();
@@ -340,7 +343,6 @@ public class NbdService {
 
         CommonPo commonPo = (CommonPo) DataBaseHelper.getDataByTypeAndId(dataLink, cls, Long.parseLong(id));
 
-        //Object data = handler.removeDataByKey(type, id);
         if (commonPo != null) {
             entity.setData(commonPo);
             entity.setResult(true);
@@ -687,7 +689,7 @@ public class NbdService {
                                         Date dt = new Date((String)obj);
                                         insertMap.put(colName,new Timestamp(dt.getTime()));
                                     }else{
-                                        insertMap.put(colName,new Timestamp(new Date().getTime()));
+                                        insertMap.put(colName,new Timestamp(System.currentTimeMillis()));
                                     }
 
                                 }catch(Exception e){
@@ -1002,7 +1004,7 @@ public class NbdService {
 //        p.$("type", 123);
 //        p.$("type2", "66we");
 //        p.$("data_type", "3474646");
-        BigDecimal decimal = new BigDecimal(123l);
+        //BigDecimal decimal = new BigDecimal(123l);
 
         //nbds.handler.createNewDataBaseByNameIfNotExist("test");
 

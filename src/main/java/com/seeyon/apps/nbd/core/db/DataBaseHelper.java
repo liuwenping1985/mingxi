@@ -156,11 +156,11 @@ public final class DataBaseHelper {
                                 Date dt = new Date(String.valueOf(val));
                                 pst.setObject(i + 1, new Timestamp(dt.getTime()));
                             } catch (Exception e) {
-                                pst.setObject(i + 1, new Timestamp(new Date().getTime()));
+                                pst.setObject(i + 1, new Timestamp(System.currentTimeMillis()));
                             }
 
                         } else {
-                            pst.setObject(i + 1, new Timestamp(new Date().getTime()));
+                            pst.setObject(i + 1, new Timestamp(System.currentTimeMillis()));
                         }
 
 
@@ -579,7 +579,7 @@ public final class DataBaseHelper {
                     fieldNames.add(CommonUtils.camelToUnderline(fd.getName()));
                     values.add(val);
                     insFields.add(fd);
-                    if (fd.getName().equals("id")) {
+                    if ("id".equals(fd.getName())) {
                         id = val;
                     }
                 }

@@ -382,7 +382,7 @@ public class NbdController extends BaseController {
         int offset = Integer.parseInt(ofssetStr);
         if (user == null) {
 
-            templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347l);
+            templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347L);
         } else {
             templateList = nbdService.findConfigTemplates(category, offset, limit, user.getId(), user.getAccountId());
         }
