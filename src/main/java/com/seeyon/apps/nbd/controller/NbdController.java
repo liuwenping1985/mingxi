@@ -11,6 +11,8 @@ import com.seeyon.apps.nbd.core.util.ValidateResult;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.po.DataLink;
+import com.seeyon.apps.nbd.service.CustomRuianTask;
+import com.seeyon.apps.nbd.service.DataExportService;
 import com.seeyon.apps.nbd.service.NbdService;
 import com.seeyon.apps.nbd.service.ValidatorService;
 import com.seeyon.apps.nbd.util.UIUtils;
@@ -458,6 +460,24 @@ public class NbdController extends BaseController {
         UIUtils.responseJSON(entity, response);
         return null;
     }
+    @NeedlessCheckLogin
+    public ModelAndView syncChailv(HttpServletRequest request, HttpServletResponse response) {
+
+        Map data = new HashMap();
+        try {
+            DataExportService.getInstance().schedule(new CustomRuianTask());
+            data.put("result",true);
+        }catch(Exception e){
+            e.printStackTrace();
+            data.put("result",false);
+            data.put("msg",e.getMessage());
+
+        }
+        UIUtils.responseJSON(data, response);
+        return null;
+    }
+
+
     public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();
         Collection<PageResourceVo> voList = PageResourceConstant.getUserReportPrivileges(user);

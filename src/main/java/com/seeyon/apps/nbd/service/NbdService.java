@@ -20,7 +20,6 @@ import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.log.LogBuilder;
 import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.util.UIUtils;
-import com.seeyon.apps.ruian.controller.RuianController;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.constants.Constants;

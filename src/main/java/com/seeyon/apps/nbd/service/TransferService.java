@@ -22,6 +22,7 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -216,6 +217,17 @@ public class TransferService {
             }
 
             if("file_2_downlaod".equals(st)){
+                //this.getAttachmentManager().getBySubReference(val);
+                List<Attachment> attachemntList = this.getAttachmentManager().getByReference(id);
+                if(CommonUtils.isNotEmpty(attachemntList)){
+                    return "/seeyon/nbd.do?method=download&file_id="+attachemntList.get(0).getFileUrl();
+                }
+                List<Long> filesIdList =  this.getAttachmentManager().getBySubReference(id);
+                if(CommonUtils.isNotEmpty(filesIdList)){
+
+                    return "/seeyon/nbd.do?method=download&file_id="+filesIdList.get(0);
+
+                }
                 return "/seeyon/nbd.do?method=download&file_id="+val;
             }
 
