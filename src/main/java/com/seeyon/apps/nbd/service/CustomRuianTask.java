@@ -60,6 +60,7 @@ public class CustomRuianTask extends TimerTask {
     }
 
     public void run() {
+        //System的目的是不想去打开日志文件
         System.out.println("CustomRuianChailvTaskStart-IN-TEST");
         DataLink dataLink = this.getLink();
         String sql = "SELECT ID,applyuser, ApplyDate,(select BranchCode from ZDBranch where BranchInnerCode=D12BXSQ.BranchInnerCode) BranchCode,VerifyCostSum,BXLX FROM D12BXSQ WHERE PayCfm='Y' ";
@@ -143,7 +144,7 @@ public class CustomRuianTask extends TimerTask {
                     Integer count = DataBaseHelper.executeUpdateByNativeSQLAndLink(ConfigService.getA8DefaultDataLink(),insertFormmain,vals);
 
                     if(count==1){
-
+                        System.out.println("save formmain success:::"+count);
                     }else{
                         System.out.println("save formmain failed:::"+count);
                         continue;
@@ -187,11 +188,6 @@ public class CustomRuianTask extends TimerTask {
                     System.out.println("formson -update:"+count);
                 }
             }
-
-
-
-
-
             for(Map data:dataMapList){
                 A8ToOther a8ToOther = new A8ToOther();
                 a8ToOther.setIdIfNew();
@@ -206,12 +202,8 @@ public class CustomRuianTask extends TimerTask {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        if (CommonUtils.isNotEmpty(dataMapList)) {
-//
-//
-//        }
-        System.out.println("GAME_OVER");
 
+        System.out.println("GAME_OVER");
 
     }
 
