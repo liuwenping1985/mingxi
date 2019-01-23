@@ -476,7 +476,7 @@ public class NbdController extends BaseController {
         UIUtils.responseJSON(data, response);
         return null;
     }
-
+   
 
     public ModelAndView getReportResourceList(HttpServletRequest request, HttpServletResponse response) {
         User user = AppContext.getCurrentUser();

@@ -135,10 +135,11 @@ public class CustomRuianTask extends TimerTask {
                 Long formmainId = UUIDLong.longUUID();
                 if(CommonUtils.isEmpty(formmainDataList)){
                     //入库
-                    String insertFormmain="INSERT INTO formmain_1032(ID,STATE,field0002,field0003)VALUES(?,?,?,?)";
+                    String insertFormmain="INSERT INTO formmain_1032(ID,STATE,field0001,field0002,field0003)VALUES(?,?,?,?)";
                     List vals = new ArrayList();
                     vals.add(formmainId);
                     vals.add(1);
+                    vals.add("CL"+times[0]+times[1]);
                     vals.add(times[0]);
                     vals.add(times[1]);
                     Integer count = DataBaseHelper.executeUpdateByNativeSQLAndLink(ConfigService.getA8DefaultDataLink(),insertFormmain,vals);
