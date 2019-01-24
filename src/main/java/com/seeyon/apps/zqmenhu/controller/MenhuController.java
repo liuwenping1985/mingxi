@@ -747,6 +747,7 @@ public class MenhuController extends BaseController {
         User user = AppContext.getCurrentUser();
         CommonResultVo data = new CommonResultVo();
         Long userId = null;
+        System.out.println("TAG1");
         String subState = request.getParameter("subState");
         String appType = request.getParameter("appType");
         String count = request.getParameter("$count");
@@ -764,7 +765,7 @@ public class MenhuController extends BaseController {
             if (state == null) {
                 state = 3L;
             }
-            CtpAffair cd;
+
             sql.append(" and state=" + state);
             countSql.append(" and state=" + state);
             // sql.append("and state="+state);
@@ -807,17 +808,19 @@ public class MenhuController extends BaseController {
 
             info.setPage(offset / limit);
             info.setSize(limit);
-
+            System.out.println("TAG2");
             List<CtpAffair> ctpaffair = DBAgent.find(sql.toString(), null, info);
+            System.out.println("TAG3");
             ;
 
             if ("true".equals(count)) {
                 Integer count_ = DBAgent.count(countSql.toString());
                 data.setCount(count_);
             }
+            System.out.println("TAG4");
             //List<CtpAffair> paggingctpaffairs = Helper.paggingList(ctpaffair, p);
             data.setItems(wrapperCtpAffairList(ctpaffair));
-
+            System.out.println("TAG5");
             Helper.responseJSON(data, response);
             return null;
         } catch (Exception e) {
@@ -1070,7 +1073,7 @@ public class MenhuController extends BaseController {
 
             sql.append(stb.toString());
             sql.append(" order by top_order desc,createDate desc");
-            System.out.println(sql);
+            //System.out.println(sql);
             Integer offset = p.getOffset();
             if (offset == null) {
                 offset = 0;
