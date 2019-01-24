@@ -1604,7 +1604,7 @@ public class MenhuController extends BaseController {
     }
 
     public static void main(String[] args) {
-        //System.out.println(genCauseList("key1_ne_value1_and_key2_eq_value2_or_key3_lte_value3"));
+        System.out.println(genCauseList("key1_ne_value1_and_key2_eq_value2_or_key3_lte_value3"));
 
     }
 
