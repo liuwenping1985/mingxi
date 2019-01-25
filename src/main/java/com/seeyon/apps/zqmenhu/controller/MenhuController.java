@@ -31,6 +31,7 @@ import com.seeyon.ctp.common.po.content.CtpContentAll;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.security.MessageEncoder;
 import com.seeyon.ctp.common.taglibs.functions.Functions;
+import com.seeyon.ctp.form.service.FormDataController;
 import com.seeyon.ctp.login.online.OnlineManager;
 import com.seeyon.ctp.organization.bo.*;
 import com.seeyon.ctp.organization.manager.OrgManager;
@@ -1604,6 +1605,7 @@ public class MenhuController extends BaseController {
     }
 
     public static void main(String[] args) {
+        FormDataController d;
         System.out.println(genCauseList("key1_ne_value1_and_key2_eq_value2_or_key3_lte_value3"));
 
     }
