@@ -19,9 +19,9 @@ public class SHAUtil {
 	 * @param 待加密字符串
 	 * @return 返回40位SHA码
 	 */
-	 static String name ="个人签名测试";
-     static String OUTPUT_PATH= "temp\\output\\"+name+"_sign.pdf" ;
-     static String INPUT_PATH= "temp\\pdf\\"+name+".pdf" ;
+	 static String name ="11";
+     static String OUTPUT_PATH= "/Users/liuwenping/Documents/"+name+"_sign.pdf" ;
+     static String INPUT_PATH= "/Users/liuwenping/Documents/"+name+".pdf" ;
 	public static String shaEncode(String inStr) throws Exception {
 		MessageDigest sha = null;
 		try {

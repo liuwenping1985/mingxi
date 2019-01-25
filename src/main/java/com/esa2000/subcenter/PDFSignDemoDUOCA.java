@@ -5,6 +5,9 @@ import com.esa2000.PfxSignShell;
 import com.esa2000.pdfsign.server.ShellExtendForSubCerter;
 import com.esa2000.pdfsign.util.CommonUtil;
 import com.esa2000.pdfsign.util.ImageProcess;
+import org.apache.log4j.PropertyConfigurator;
+
+import java.io.InputStream;
 
 public class PDFSignDemoDUOCA {
 	
@@ -64,6 +67,8 @@ public class PDFSignDemoDUOCA {
 //			signShell.addSealText(sealTextBuffer.toString(), 100, 100, 1);
 // 			signShell.addSealText(time, 100, 200, 1);
 			//定位
+			InputStream is=null;
+			//PropertyConfigurator.configure(is);
 			signShell.addSeal(100, 200, 1);
 //			signShell.addImage(imgBytes, 300, 300, 100, 100, 1);
 			//签名
