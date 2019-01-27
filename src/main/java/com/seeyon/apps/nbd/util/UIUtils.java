@@ -17,6 +17,9 @@ import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +29,7 @@ import java.util.Map;
  */
 public class UIUtils {
 
-    public static void responseJSON(Object data, HttpServletResponse response)
-    {
+    public static void responseJSON(Object data, HttpServletResponse response) {
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Cache-Control",
                 "no-store, max-age=0, no-cache, must-revalidate");
@@ -35,34 +37,56 @@ public class UIUtils {
         response.setHeader("Pragma", "no-cache");
         PrintWriter out = null;
 
-        try
-        {
+        try {
             out = response.getWriter();
             out.write(JSON.toJSONString(data));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             try {
                 if (out != null) {
                     out.close();
                 }
-            }finally {
+            } finally {
 
             }
 
         }
     }
 
-    public static File fileDownloadByUrl(String url){
+    public static File fileDownloadByUrl(String wjurl) throws Exception {
+        try {
+            URL url = new URL(wjurl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //得到输入流
+            InputStream inputStream = conn.getInputStream();
+            byte[] fileData = readInputStream(inputStream);
+            if(fileData==null||fileData.length==0){
+                return null;
 
-
-
-
-
+            }
+            String path = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".tmp";
+            File file = new File(path);
+            file.createNewFile();
+            FileOutputStream out = new FileOutputStream(file);
+            out.write(fileData);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
+
+    public static byte[] readInputStream(InputStream inputStream) throws IOException {
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        while ((len = inputStream.read(buffer)) != -1) {
+            bos.write(buffer, 0, len);
+        }
+        bos.close();
+        return bos.toByteArray();
+    }
+
     public static Map httpGetInvoke(String url) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         // 设置超时时间
@@ -92,20 +116,21 @@ public class UIUtils {
         // 检验返回码
         int statusCode = response.getStatusLine().getStatusCode();
         //System.out.println("statusCode:"+statusCode);
-        if(statusCode == HttpStatus.SC_OK){
-            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+        if (statusCode == HttpStatus.SC_OK) {
+            String str = EntityUtils.toString(response.getEntity(), "UTF-8");
             // System.out.println("content:"+str);
-            return  JSON.parseObject(str,HashMap.class);
+            return JSON.parseObject(str, HashMap.class);
 
-        }else {
-            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+        } else {
+            String str = EntityUtils.toString(response.getEntity(), "UTF-8");
             //System.out.println("content:"+str);
-            return  JSON.parseObject(str,HashMap.class);
+            return JSON.parseObject(str, HashMap.class);
 
         }
 
     }
-    public static Map post(String url,Map param) throws IOException {
+
+    public static Map post(String url, Map param) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         // 设置超时时间
         httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 2000);
@@ -134,15 +159,15 @@ public class UIUtils {
         // 检验返回码
         int statusCode = response.getStatusLine().getStatusCode();
         //System.out.println("statusCode:"+statusCode);
-        if(statusCode == HttpStatus.SC_OK){
-            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+        if (statusCode == HttpStatus.SC_OK) {
+            String str = EntityUtils.toString(response.getEntity(), "UTF-8");
             // System.out.println("content:"+str);
-            return  JSON.parseObject(str,HashMap.class);
+            return JSON.parseObject(str, HashMap.class);
 
-        }else {
-            String str = EntityUtils.toString(response.getEntity(),"UTF-8");
+        } else {
+            String str = EntityUtils.toString(response.getEntity(), "UTF-8");
             //System.out.println("content:"+str);
-            return  JSON.parseObject(str,HashMap.class);
+            return JSON.parseObject(str, HashMap.class);
 
         }
 
@@ -150,28 +175,36 @@ public class UIUtils {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         //Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.product.ProductInfo");
+        //http://hzvendor.dnd8.com/SupplierUploads/702bf492-de68-48c2-80bb-be07ef60986b.pdf
+        //  ClassPool pool = ClassPool.getDefault();
+//        UIUtils u = new UIUtils();
+//        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+//
+//        //byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
+//        // pool.getClassLoader()
+//        //      PortalMenuManagerImpl impl;
+//        System.out.println("1");
+//        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+//        File f = new File(path);
+//        if (f.exists()) {
+//            f.delete();
+//            f.createNewFile();
+//
+//        } else {
+//            f.createNewFile();
+//        }
+//        FileOutputStream out = new FileOutputStream(f);
+//        out.write(bytes);
+//        out.flush();
+//        out.close();
 
-      //  ClassPool pool = ClassPool.getDefault();
-        UIUtils u = new UIUtils();
-        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
-
-        //byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
-       // pool.getClassLoader()
-  //      PortalMenuManagerImpl impl;
-        System.out.println("1");
-        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
-        File f = new File(path);
-        if(f.exists()){
-            f.delete();
-            f.createNewFile();
-
-        }else{
-            f.createNewFile();
+        String url = "http://hzvendor.dnd8.com/SupplierUploads/702bf492-de68-48c2-80bb-be07ef60986b.pdf";
+        try {
+            fileDownloadByUrl(url);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        FileOutputStream out = new FileOutputStream(f);
-        out.write(bytes);
-        out.flush();
-        out.close();
+
     }
 
     public byte[] loadClassData(String className) throws IOException {
@@ -179,12 +212,12 @@ public class UIUtils {
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(res);
         byte[] classData = IOUtility.toByteArray(is);
 
-            try {
-                byte[] datas = Base64.decodeBase64(classData);
-                classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
-            } catch (Throwable var6) {
-                return null;
-            }
+        try {
+            byte[] datas = Base64.decodeBase64(classData);
+            classData = RSMocnoyees.decode(RSMocnoyees.getPublicKey("65537", Base64Util.decode("Nzg4NDM2MTAxMzc1NzA0MDQ1Nzc3ODQ3MzM0OTg2NzgxNjEzNDM5Mzg5OTMyODA2ODcwNDQ0Nzk4NDIyODE2MTk0MTEzMzA2NDcyNjkzNTQzMDg4NjUyODc4NDA0NjUwMDEwMDAyNjI0ODQ4NjMxMzA3MjgzMTc4NzE1ODYzMjE1OTYzMDY3NDkwNTYzNDc1NTg0ODM0NzU1NzQ5MDI2NDkyMDk5NTUyMTIzNDAyOTA2NDIyMzgzMTQ1ODUzMjc3OTM4MDQxMDQ5MTU5NzczOTk0ODY3NzA5NzYwMjQzMDcwNTQzMjA3")), datas, 96);
+        } catch (Throwable var6) {
+            return null;
+        }
 
 
         return classData;

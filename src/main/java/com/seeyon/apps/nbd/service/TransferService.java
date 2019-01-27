@@ -14,6 +14,7 @@ import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
+import com.seeyon.ctp.common.filemanager.manager.NbdFileUtils;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
@@ -22,6 +23,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -233,6 +235,8 @@ public class TransferService {
             }
             if("file_sign".equals(st)){
 
+                File file = UIUtils.fileDownloadByUrl(String.valueOf(val));
+                //NbdFileUtils.uploadFiles()
 
 
             }
