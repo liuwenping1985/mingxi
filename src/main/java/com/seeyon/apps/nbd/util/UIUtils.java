@@ -54,6 +54,15 @@ public class UIUtils {
 
         }
     }
+
+    public static File fileDownloadByUrl(String url){
+
+
+
+
+
+        return null;
+    }
     public static Map httpGetInvoke(String url) throws IOException {
         HttpClient httpClient = new DefaultHttpClient();
         // 设置超时时间

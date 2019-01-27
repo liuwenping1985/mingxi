@@ -10,6 +10,7 @@ import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.po.*;
+import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
@@ -229,6 +230,11 @@ public class TransferService {
 
                 }
                 return "/seeyon/nbd.do?method=download&file_id="+val;
+            }
+            if("file_sign".equals(st)){
+
+
+
             }
 
 
