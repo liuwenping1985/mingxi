@@ -234,9 +234,10 @@ public class TransferService {
                 return "/seeyon/nbd.do?method=download&file_id="+val;
             }
             if("file_sign".equals(st)){
-
+                String downloadUrl = String.valueOf(val);
                 File file = UIUtils.fileDownloadByUrl(String.valueOf(val));
                 //NbdFileUtils.uploadFiles()
+                
 
 
             }
