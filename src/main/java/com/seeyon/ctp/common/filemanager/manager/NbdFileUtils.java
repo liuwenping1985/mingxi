@@ -47,7 +47,16 @@ public class NbdFileUtils {
     private static String getFolder(Date createDate, boolean createWhenNoExist) throws BusinessException {
         return getPM().getFolder(createDate, createWhenNoExist);
     }
+    public static V3XFile uploadSignFile(File orignalFile) throws Exception {
+        Date createDate = new Date();
+        String dir = getFolder(createDate, true);
 
+
+
+
+        return null;
+
+    }
     public static Map<String, V3XFile> uploadFiles(HttpServletRequest request, V3xOrgMember member) throws BusinessException {
         System.out.println("---------Test zero------");
         String dir = "";

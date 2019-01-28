@@ -17,9 +17,7 @@ import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +63,9 @@ public class UIUtils {
                 return null;
 
             }
+            FileNameMap fileNameMap = URLConnection.getFileNameMap();
+            //String contentType = fileNameMap.getContentTypeFor("E:\\static\\bg.jpg");
+
             String path = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".tmp";
             File file = new File(path);
             file.createNewFile();

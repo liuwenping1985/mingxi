@@ -12,31 +12,31 @@ import java.io.File;
  */
 public class PdfService {
 
-    private PdfService(){
+    private PdfService() {
 
 
     }
 
-    public static PdfService getInstance(){
+    public static PdfService getInstance() {
         return Holder.ins;
     }
 
-    private static class Holder{
+    private static class Holder {
 
         static PdfService ins = new PdfService();
 
     }
 
-    public File trasToPdf(String path){
+    public File trasToPdf(String path) {
 
 
         return null;
 
     }
+
     private static final int wdFormatPDF = 17;
-    public static void word2pdf(){
 
-
+    public static void word2pdf(String inputFile, String outputFile) {
         ActiveXComponent app = null;
         Dispatch doc = null;
         try {
@@ -46,9 +46,9 @@ public class PdfService {
             Dispatch docs = app.getProperty("Documents").toDispatch();
 
             //转换前的文件路径
-            String startFile = "D:\\222.docx";
+            String startFile = inputFile;
             //转换后的文件路劲
-            String overFile = "D:\\222.pdf";
+            String overFile = outputFile;
             doc = Dispatch.call(docs, "Open", startFile, false, true).toDispatch();
             //doc = Dispatch.call(docs, "Open", startFile).toDispatch();
             File tofile = new File(overFile);
@@ -67,7 +67,8 @@ public class PdfService {
         //结束后关闭进程
         ComThread.Release();
     }
-    public static void wordToPDF() {
+
+    public static void wordToPDF(String inputFile, String outputFile) {
 
         ActiveXComponent app = null;
         Dispatch doc = null;
@@ -77,9 +78,9 @@ public class PdfService {
             Dispatch docs = app.getProperty("Documents").toDispatch();
 
             //转换前的文件路径
-            String startFile = "D:\\222.docx";
+            String startFile = inputFile;
             //转换后的文件路劲
-            String overFile = "D:\\222.pdf";
+            String overFile = outputFile;
 
             doc = Dispatch.call(docs, "Open", startFile).toDispatch();
             File tofile = new File(overFile);
@@ -98,11 +99,11 @@ public class PdfService {
         ComThread.Release();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String startFile = "D:\\222.docx";
         //转换后的文件路劲
         String overFile = "D:\\222.pdf";
-        word2pdf();
+        word2pdf(startFile, overFile);
 
     }
 

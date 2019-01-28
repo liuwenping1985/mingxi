@@ -237,8 +237,10 @@ public class TransferService {
                 String downloadUrl = String.valueOf(val);
                 File file = UIUtils.fileDownloadByUrl(String.valueOf(val));
                 //NbdFileUtils.uploadFiles()
-                
+                A8ToOther a8ToOther = new A8ToOther();
+                if(file!=null){
 
+                }
 
             }
 
