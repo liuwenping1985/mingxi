@@ -251,10 +251,12 @@ public class TransferService {
                 String downloadUrl = String.valueOf(val);
                 String suffix = UIUtils.getFileSuffix(downloadUrl);
                 SignFileItem file = UIUtils.fileDownloadByUrl(String.valueOf(val));
-                
+
                 //SignFileItem fi = new SignFileItem(file.getName(),raf.,file);
                 A8ToOther a8ToOther = new A8ToOther();
                 if(file!=null){
+
+
 
                 }
 
