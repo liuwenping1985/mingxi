@@ -1,6 +1,9 @@
 package com.seeyon.apps.nbd.util;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.nbd.service.PdfService;
+import com.seeyon.ctp.common.filemanager.manager.SignFileItem;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
 import org.apache.http.HttpResponse;
@@ -17,7 +20,8 @@ import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,27 +56,55 @@ public class UIUtils {
         }
     }
 
-    public static File fileDownloadByUrl(String wjurl) throws Exception {
+    public static SignFileItem fileDownloadByUrl(String wjurl) throws Exception {
+        FileOutputStream out =null;
+        InputStream inputStream = null;
         try {
             URL url = new URL(wjurl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             //得到输入流
-            InputStream inputStream = conn.getInputStream();
+            inputStream = conn.getInputStream();
             byte[] fileData = readInputStream(inputStream);
             if(fileData==null||fileData.length==0){
                 return null;
 
             }
-            FileNameMap fileNameMap = URLConnection.getFileNameMap();
+           // FileNameMap fileNameMap = URLConnection.getFileNameMap();
             //String contentType = fileNameMap.getContentTypeFor("E:\\static\\bg.jpg");
-
-            String path = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".tmp";
+            String suffix = getFileSuffix(wjurl);
+            String path = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + "."+suffix;
             File file = new File(path);
             file.createNewFile();
-            FileOutputStream out = new FileOutputStream(file);
+            out = new FileOutputStream(file);
             out.write(fileData);
+            if(CommonUtils.isNotEmpty(suffix)){
+                suffix = suffix.toLowerCase();
+                if("doc".equals(suffix)||"docx".equals(suffix)){
+                    String outputFile = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".pdf";
+                    file =  PdfService.getInstance().word2pdf(path,outputFile);
+                }
+            }
+            SignFileItem sfi = new SignFileItem(file.getName(),fileData.length,file);
+
+            return sfi;
         }catch(Exception e){
             e.printStackTrace();
+        }finally {
+            try{
+                if(out !=null){
+                    out.flush();
+                    out.close();
+                }
+            }catch (Exception e){
+
+            }
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            }catch(Exception e){
+
+            }
         }
         return null;
     }
@@ -173,7 +205,18 @@ public class UIUtils {
         }
 
     }
+    public static String getFileSuffix(String url){
 
+        if(CommonUtils.isNotEmpty(url)){
+            int index = url.lastIndexOf(".");
+            if(index>-1){
+                return url.substring(index+1,url.length());
+            }
+        }
+
+        return null;
+
+    }
     public static void main(String[] args) throws InterruptedException, IOException {
         //Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.product.ProductInfo");
         //http://hzvendor.dnd8.com/SupplierUploads/702bf492-de68-48c2-80bb-be07ef60986b.pdf

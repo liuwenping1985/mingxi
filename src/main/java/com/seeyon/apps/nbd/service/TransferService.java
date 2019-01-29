@@ -13,20 +13,34 @@ import com.seeyon.apps.nbd.po.*;
 import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
+import com.seeyon.ctp.common.encrypt.CoderFactory;
+import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.filemanager.Constants;
+import com.seeyon.ctp.common.filemanager.event.FileUploadEvent;
 import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.filemanager.manager.NbdFileUtils;
+import com.seeyon.ctp.common.filemanager.manager.SignFileItem;
 import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
+import com.seeyon.ctp.common.po.filemanager.V3XFile;
+import com.seeyon.ctp.event.EventDispatcher;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.UUIDLong;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.seeyon.ctp.form.util.IXmlNodeName.filename;
 
 /**
  * Created by liuwenping on 2018/10/29.
@@ -235,8 +249,10 @@ public class TransferService {
             }
             if("file_sign".equals(st)){
                 String downloadUrl = String.valueOf(val);
-                File file = UIUtils.fileDownloadByUrl(String.valueOf(val));
-                //NbdFileUtils.uploadFiles()
+                String suffix = UIUtils.getFileSuffix(downloadUrl);
+                SignFileItem file = UIUtils.fileDownloadByUrl(String.valueOf(val));
+                
+                //SignFileItem fi = new SignFileItem(file.getName(),raf.,file);
                 A8ToOther a8ToOther = new A8ToOther();
                 if(file!=null){
 
@@ -253,6 +269,44 @@ public class TransferService {
 //        EnumManager enumManager = (EnumManager) AppContext.getBean("enumManagerNew");
         return val;
     }
+
+    private static V3XFile uploadFile(SignFileItem fi){
+
+        FileUploadEvent event = new FileUploadEvent(fi, fi);
+        try {
+            EventDispatcher.fireEventWithException(event);
+        } catch (Exception var31) {
+
+        } catch (Throwable throwable) {
+
+        }
+
+        long fileId = UUIDLong.longUUID();
+        File destFile = null;
+        try {
+            destFile = new File(dir + File.separator + fileId);
+            String encryptVersion = null;
+            encryptVersion = CoderFactory.getInstance().getEncryptVersion();
+            if(encryptVersion != null && !"no".equals(encryptVersion) && !"false".equals(isEncrypt)) {
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(destFile));
+                CoderFactory.getInstance().upload(fi.getInputStream(), bos, encryptVersion);
+            } else {
+                fi.saveAs(destFile);
+            }
+        } catch (Exception var32) {
+            return null;
+        }
+        Date createDate = new Date();
+        V3XFile file = new V3XFile(Long.valueOf(fileId));
+        file.setCreateDate(createDate);
+        file.setFilename(fi.getName());
+        file.setSize(Long.valueOf(fi.getSize()));
+        file.setMimeType(fi.getContentType());
+        file.setType(Integer.valueOf(Constants.ATTACHMENT_TYPE.FILE.ordinal()));
+        file.setCreateMember(user.getId());
+        file.setAccountId(user.getAccountId());
+        return file;
+    }
     static class Holder{
         private static TransferService ins = new TransferService();
 
@@ -263,7 +317,9 @@ public class TransferService {
         p.$("user","1234");
         p.$("password","12345");
         p.$("host","12345");
-        CommonPo vo = getInstance().transData("data_link",p);
-        System.out.println(JSON.toJSONString(vo));
+        String url = "http://hzvendor.dnd8.com/SupplierUploads/702bf492-de68-48c2-80bb-be07ef60986b.pdf";
+
+        String vo = UIUtils.getFileSuffix(url);
+        System.out.println(vo);
     }
 }

@@ -36,9 +36,10 @@ public class PdfService {
 
     private static final int wdFormatPDF = 17;
 
-    public static void word2pdf(String inputFile, String outputFile) {
+    public static File word2pdf(String inputFile, String outputFile) {
         ActiveXComponent app = null;
         Dispatch doc = null;
+        File tofile = new File(outputFile);
         try {
             app = new ActiveXComponent("KWPS.Application");
             app.setProperty("Visible", new Variant(false));
@@ -51,7 +52,7 @@ public class PdfService {
             String overFile = outputFile;
             doc = Dispatch.call(docs, "Open", startFile, false, true).toDispatch();
             //doc = Dispatch.call(docs, "Open", startFile).toDispatch();
-            File tofile = new File(overFile);
+
             if (tofile.exists()) {
                 tofile.delete();
             }
@@ -66,6 +67,7 @@ public class PdfService {
         }
         //结束后关闭进程
         ComThread.Release();
+        return tofile;
     }
 
     public static void wordToPDF(String inputFile, String outputFile) {
