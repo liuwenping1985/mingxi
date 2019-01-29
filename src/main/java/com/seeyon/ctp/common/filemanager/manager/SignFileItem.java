@@ -18,11 +18,11 @@ import java.util.List;
 public class SignFileItem implements FileItem {
     private static final Log log = CtpLogFactory.getLog(SignFileItem.class);
     private String name;
-    private int size;
+    private long size;
     private final File fileItem;
     private InputStream in = null;
     private List<String> messages = new ArrayList();
-    public SignFileItem(String name,int size,File file){
+    public SignFileItem(String name,long size,File file){
         this.name = name;
         this.size=size;
         this.fileItem = file;
@@ -91,5 +91,9 @@ public class SignFileItem implements FileItem {
             }
             fileOutputStream.close();
         }
+    }
+
+    public File getFileItem() {
+        return fileItem;
     }
 }

@@ -84,7 +84,8 @@ public class UIUtils {
                     file =  PdfService.getInstance().word2pdf(path,outputFile);
                 }
             }
-            SignFileItem sfi = new SignFileItem(file.getName(),fileData.length,file);
+            Long size = file.length();
+            SignFileItem sfi = new SignFileItem(file.getName(),size,file);
 
             return sfi;
         }catch(Exception e){

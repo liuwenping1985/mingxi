@@ -30,6 +30,7 @@ import com.seeyon.ctp.common.flag.SysFlag;
 import com.seeyon.ctp.common.i18n.LocaleContext;
 import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
+import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
 import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
 import com.seeyon.ctp.login.LoginControlImpl;
@@ -38,6 +39,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.tools.util.LightWeightEncoder;
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
@@ -56,6 +58,8 @@ import java.util.*;
  * Created by liuwenping on 2018/10/29.
  */
 public class NbdService {
+    //无节操
+    public static List<Attachment> attList = new ArrayList<Attachment>();
 
     // private DataBaseHandler handler = DataBaseHandler.getInstance();
     /**
@@ -180,6 +184,15 @@ public class NbdService {
                             params.put("senderLoginName",loginName);
                         }
                         Long summaryId = getNbdBpmnService().sendCollaboration(affairType,params);
+                        if(p.$("HAVING")!=null){
+                            if(!attList.isEmpty()){
+                                Attachment att = attList.get(0);
+                                att.setReference(summaryId);
+                                att.setIdIfNew();
+                                DBAgent.save(att);
+                                attList.clear();
+                            }
+                        }
                         entity.setResult(true);
                         entity.setData(summaryId);
                     }
@@ -201,7 +214,7 @@ public class NbdService {
         String name = meta.getName();
         if(!StringUtils.isEmpty(barCode)&&!StringUtils.isEmpty(name)){
 
-            dataMap.put(name,inputData.get(barCode));
+            dataMap.put(name,TransferService.getInstance().transFormCommon(meta.getClassname(),inputData.get(barCode)));
         }
     }
     private Map<String,Object> genCollData(CommonParameter inputData,FormTableDefinition ftd){
@@ -212,6 +225,10 @@ public class NbdService {
         if(!CollectionUtils.isEmpty(fields)){
             for(FormField meta:fields){
                 setData(meta,param,inputData);
+                if("file_sign".equals(meta.getClassname())){
+
+                    inputData.put("HAVING","yes");
+                }
             }
         }
         // System.out.println("parse--sub-entity");
