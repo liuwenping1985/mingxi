@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="cwTravelAllowance" namespace="com.seeyon.apps.kdXdtzXc.po.CwTravelAllowance">
+
+
+    <select id="getFuKuanDanMapList">
+        SELECT t.id as id, t.[账套编号] as ztbh, t.[账套名称] as ztmc, t.[采购类型] as cglx, t.[预算科目] as yskm,
+        t.[开业] as ky_id,
+        (select t1.showvalue from ctp_enum_item t1 where t1.id=t.[开业]) as ky,
+        t.[金额条件] as jetj_id,
+        t.[部门编码] as bumeng_code,
+        (select t1.showvalue from ctp_enum_item t1 where t1.id=t.[金额条件]) as jetj,
+        t.[使用科目] as sykm
+        FROM ${com.seeyon.apps.kdXdtzXc.po.FuKuanDanMap} t
+        WHERE t.[账套编号]='{ztbh}' and t.[采购类型]='{cglx}' and t.[预算科目]='{yskm}'
+    </select>
+
+
+    <select id="getEnumItem">
+        SELECT t.* FROM ctp_enum_item t WHERE t.ref_enumid=(SELECT t1.id FROM ctp_enum t1 WHERE t1.enumname=?) AND
+        t.showvalue=?
+    </select>
+
+</mappers>

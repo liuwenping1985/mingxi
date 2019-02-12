@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-1-4 10:33:03 by Hibernate Tools 3.2.5.Beta -->
+<hibernate-mapping>
+    <class name="com.seeyon.apps.kdXdtzXc.po.CaiwuJtdz" table="CAIWU_JTDZ">
+     			 
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        
+        <property name="journeyId" type="java.lang.String">
+            <column name="JOURNEY_ID" length="50"/>
+        </property>
+        
+         <property name="dept" type="java.lang.String">
+            <column name="DEPT" length="50"/>
+        </property>
+        
+         <property name="passengerName" type="java.lang.String">
+            <column name="PASSENGER_NAME" length="50"/>
+        </property>
+        
+         <property name="zw" type="java.lang.String">
+            <column name="ZW" length="50"/>
+        </property>
+        
+         <property name="takeoffTime" type="java.lang.String">
+            <column name="TAKEOFF_TIME" length="50"/>
+        </property>
+        
+         <property name="arrivalTime" type="java.lang.String">
+            <column name="ARRIVAL_TIME" length="50"/>
+        </property>
+        
+         <property name="dcityName" type="java.lang.String">
+            <column name="DCITY_NAME" length="100"/>
+        </property>
+        
+         <property name="acityName" type="java.lang.String">
+            <column name="ACITY_NAME" length="100"/>
+        </property>
+        
+         <property name="flight" type="java.lang.String">
+            <column name="FLIGHT" length="50"/>
+        </property>
+        
+         <property name="className" type="java.lang.String">
+            <column name="CLASS_NAME" length="20"/>
+        </property>
+        
+         <property name="amount" type="java.lang.String">
+            <column name="AMOUNT" length="20"/>
+        </property>
+        
+         <property name="feeType" type="java.lang.String">
+            <column name="FEE_TYPE" length="20"/>
+        </property>
+        
+         <property name="remark" type="java.lang.String">
+            <column name="REMARK" length="1000"/>
+        </property>
+        
+        <property name="ygxcQr" type="java.lang.String">
+            <column name="YGXC_QR" length="20"/>
+        </property>
+        
+        <property name="zfQr" type="java.lang.String">
+            <column name="ZF_QR" length="20"/>
+        </property>
+        
+        <property name="hgjx" type="java.lang.String">
+            <column name="HGJX" length="100"/>
+        </property>
+        <property name="sGhgjx" type="java.lang.String">
+            <column name="SGHGJX" length="100"/>
+        </property>
+        
+         <property name="createTime" type="java.lang.String">
+            <column name="CREATE_TIME" length="50"/>
+        </property>
+        
+         <property name="extAttr1" type="java.lang.String">
+            <column name="EXT_ATTR_1" length="100"/>
+        </property>
+        
+         <property name="extAttr2" type="java.lang.String">
+            <column name="EXT_ATTR_2" length="100"/>
+        </property>
+        
+         <property name="extAttr3" type="java.lang.String">
+            <column name="EXT_ATTR_3" length="100"/>
+        </property>
+        
+        
+        <property name="orderId" type="java.lang.String">
+            <column name="orderId" length="50"/>
+        </property>
+        <property name="recordId" type="java.lang.String">
+            <column name="recordId" length="50"/>
+        </property>
+        <property name="accCheckBatchNo" type="java.lang.String">
+            <column name="accCheckBatchNo" length="50"/>
+        </property>
+        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="cwDepartment" namespace="com.seeyon.apps.kdXdtzXc.po.CwDepartment">
+
+
+    <insert id="insertCwDepartment">
+        insert into ${com.seeyon.apps.kdXdtzXc.po.CwDepartment}
+        (id,state,finishedflag,ratifyflag,sort,[财务机构代码],[财务机构名称],[财务部门代码],[财务部门名称],[新增时间],[修改时间])
+        VALUES (?,1,0,0,0,?,?,?,?,SYSDATE,null)
+    </insert>
+
+    <update id="updateCwDepartment">
+        update  ${com.seeyon.apps.kdXdtzXc.po.CwDepartment} set
+        [财务机构代码]=?,[财务机构名称]=?,[财务部门代码]=?,[财务部门名称]=?,[修改时间]=SYSDATE
+        where id=?
+    </update>
+
+    <select id="getCwDepartment">
+        SELECT
+        t.id as id,
+        t.[财务机构代码] as cwjgdm,
+        t.[财务机构名称] as cwjgmc,
+        t.[财务部门代码] as cwbmdm,
+        t.[财务部门名称] as cwbmmc,
+        t.[OA机构ID] as oajg_id,
+        t.[OA机构代码] as oajgdm,
+        t.[OA机构名称] as oajgmc,
+        t.[OA部门ID] as oabm_id,
+        t.[OA部门代码] as oabmdm,
+        t.[OA部门名称] as oabmmc,
+        t.[新增时间] as insertTime,
+        t.[修改时间] as updateTime
+        FROM  ${com.seeyon.apps.kdXdtzXc.po.CwDepartment} t where t.[财务机构代码]=? and t.[财务部门代码]=?
+    </select>
+
+</mappers>

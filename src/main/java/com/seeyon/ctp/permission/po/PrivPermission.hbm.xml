@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.ctp.permission.po">
+    <!-- 注册数与并发数按照单位分配和控制 -->
+  <class
+    name="PrivPermission"
+    table="PRIV_PERMISSION"
+  >
+    <id
+      name="id"
+      type="long"
+      column="ID"
+    >
+      <generator class="assigned"/>
+    </id>
+
+        <!-- 控制方式，1：注册数，2：并发数 -->
+    <property
+      name="type"
+      column="TYPE"
+      type="integer"
+      not-null="false"
+      length="14"
+    />
+        <!-- 分配数量 -->
+    <property
+      name="distributionnum"
+      column="DISTRIBUTIONNUM"
+      type="long"
+      not-null="false"
+      length="22"
+    />
+        <!-- 所属单位 -->
+    <property
+      name="orgAccountId"
+      column="ORG_ACCOUNT_ID"
+      type="long"
+      not-null="false"
+      length="22"
+    />
+        <!-- 创建时间 -->
+    <property
+      name="createdate"
+      column="CREATEDATE"
+      type="timestamp"
+      not-null="false"
+      length="11"
+    />
+        <!-- 创建人员 -->
+    <property
+      name="createuserid"
+      column="CREATEUSERID"
+      type="long"
+      not-null="false"
+      length="22"
+    />
+        <!-- 更新时间 -->
+    <property
+      name="updatedate"
+      column="UPDATEDATE"
+      type="timestamp"
+      not-null="false"
+      length="11"
+    />
+        <!-- 更新人员 -->
+    <property
+      name="updateuserid"
+      column="UPDATEUSERID"
+      type="long"
+      not-null="false"
+      length="22"
+    />
+        <!-- 许可类型，1：A8/A6server，2：M1, 3:致信 -->
+    <property
+      name="lictype"
+      column="LICTYPE"
+      type="integer"
+      not-null="false"
+      length="14"
+    />
+
+
+  </class>
+</hibernate-mapping>

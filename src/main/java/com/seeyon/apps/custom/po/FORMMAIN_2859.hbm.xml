@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-3-2 14:24:26 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.seeyon.apps.custom.po.FORMMAIN_2859" table="FORMMAIN_2859"
+		dynamic-update="false" dynamic-insert="false" mutable="true">
+        <id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="assigned" />
+		</id>
+		<property name="state" type="java.lang.Integer">
+			<column name="state" />
+		</property>
+		<property name="start_member_id" type="java.lang.Long">
+			<column name="start_member_id" />
+		</property>
+		<property name="start_date" type="java.util.Date">
+			<column name="start_date" />
+		</property>
+		<property name="approve_member_id" type="java.lang.Long">
+			<column name="approve_member_id" />
+		</property>
+		<property name="approve_date" type="java.util.Date">
+			<column name="approve_date" />
+		</property>
+		<property name="finishedflag" type="java.lang.Integer">
+			<column name="finishedflag" />
+		</property>
+		<property name="ratifyflag" type="java.lang.Integer">
+			<column name="ratifyflag" />
+		</property>
+		<property name="ratify_member_id" type="java.lang.Long">
+			<column name="ratify_member_id" />
+		</property>
+		<property name="ratify_date" type="java.util.Date">
+			<column name="ratify_date" />
+		</property>
+		<property name="sort" type="java.lang.Integer">
+			<column name="sort" />
+		</property>
+		<property name="modify_member_id" type="java.lang.Long">
+			<column name="modify_member_id" />
+		</property>
+		<property name="modify_date" type="java.util.Date">
+			<column name="modify_date" />
+		</property>
+		
+		<property name="field0001" type="java.lang.String">
+			<column name="field0001" />
+		</property>
+		<property name="field0002" type="java.lang.String">
+			<column name="field0002" />
+		</property>
+    </class>
+</hibernate-mapping>

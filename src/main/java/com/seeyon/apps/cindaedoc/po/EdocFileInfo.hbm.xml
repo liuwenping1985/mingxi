@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.seeyon.apps.cindaedoc.po.EdocFileInfo" table="pro_edoc_file_info">
+		<id name="id" type="long" column="id">
+			<generator class="assigned" />
+		</id>
+		<property name="edocId" type="long" column="edocId" />
+		<property name="fileId" type="long" column="fileId" />
+	</class>
+</hibernate-mapping>

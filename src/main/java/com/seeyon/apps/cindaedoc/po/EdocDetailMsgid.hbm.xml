@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.seeyon.apps.cindaedoc.po.EdocDetailMsgid" table="pro_edoc_detail_msgid">
+		<id name="id" type="long" column="id">
+			<generator class="assigned" />
+		</id>
+		<property name="detailId" type="long" column="detailId" />
+		<property name="recordId" type="long" column="recordId" />
+		<property name="msgId" type="string" column="msgId" />
+	</class>
+</hibernate-mapping>

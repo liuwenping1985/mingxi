@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+<class 
+    name="com.seeyon.apps.czexchange.po.EdocReceiptLog" 
+    table="pro_edoc_receipt_log"
+    lazy="false"
+>
+    <id
+        name="id"
+        type="long"
+        column="id"
+        length="20"
+    >
+        <generator class="assigned" />
+    </id>
+
+	<property name="status" type="string" column="[status]" />
+	<property name="msgId" type="string" column="[msgId]" />
+	<property name="createDate" type="date" column="[create_date]" update="false"/>
+	<property name="tryTimes" type="int" column="[try_times]" length="4"/>
+	<property name="success" type="boolean" column="[success]" />
+</class>
+</hibernate-mapping>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="travelExpenseXinCheng" namespace="com.seeyon.apps.kdXdtzXc.po.TravelExpenseXinCheng">
+
+
+    <select id="getTravelExpenseXinCheng">
+    select
+
+        'CNY' as currency,
+         'OA' as SOURCE,
+        t4.[申请单编号] as APPL_ORDER_CODE,
+        (select tz.code from ORG_MEMBER tz where tz.id=t4.[申请人]) as APPL_USER_CODE,
+        t3.chu_cai_ren as EMPLOYEE_CODE,
+        (select tz.code from ORG_UNIT tz where tz.id=t4.[申请人所在机构]) as COM_CODE,
+        (select tz.code from ORG_UNIT tz where tz.id=t4.[申请人所在部门]) as DEPT_CODE,
+        t3.chu_cha_ren_jg as COST_CENTER,
+        t4.[项目编号] as PROJECT_CODE,
+        t3.chu_fa_time as DATE_FROM,
+        t3.jie_shu_time as DATE_TO,
+
+        t3.d_yb_chucai_days as d_yb_chucai_days,
+        t3.d_yb_buzhu_days as d_yb_buzhu_days,
+        t3.d_yb_feibuzhu_days as d_yb_feibuzhu_days,
+        t3.d_yb_total as d_yb_total,
+
+        t3.d_xg_chucai_days as d_xg_chucai_days,
+        t3.d_xg_buzhu_days as d_xg_buzhu_days,
+        t3.d_xg_feibuzhu_days as d_xg_feibuzhu_days,
+        t3.d_xg_total as d_xg_total,
+
+        t3.d_xz_chucai_days as d_xz_chucai_days,
+        t3.d_xz_buzhu_days as d_xz_buzhu_days,
+        t3.d_xz_feibuzhu_days as d_xz_feibuzhu_days,
+        t3.d_xz_total as d_xz_total,
+        t3.chu_chai_dd as  LEAVE_SITE,
+        DS_FLAG,
+        t3.id as   OA_KEY
+
+        from (
+        SELECT
+        t.id as d_id,
+        t.yb_chucai_days as d_yb_chucai_days,
+        t.yb_buzhu_days as d_yb_buzhu_days,
+        t.yb_feibuzhu_days as d_yb_feibuzhu_days,
+        (t.yb_chucai_days+t.yb_buzhu_days+t.yb_feibuzhu_days) as d_yb_total,
+
+        t.xg_chucai_days as d_xg_chucai_days,
+        t.xg_buzhu_days as d_xg_buzhu_days,
+        t.xg_feibuzhu_days as d_xg_feibuzhu_days,
+        (t.xg_chucai_days+t.xg_buzhu_days+t.xg_feibuzhu_days) as d_xg_total,
+
+        t.xz_chucai_days as d_xz_chucai_days,
+        t.xz_buzhu_days as d_xz_buzhu_days,
+        t.xz_feibuzhu_days as d_xz_feibuzhu_days,
+        (t.xz_chucai_days+t.xz_buzhu_days+t.xz_feibuzhu_days) as d_xz_total,
+
+
+        (select tz.code from ORG_MEMBER tz where tz.id=t1.[出差人2]) as chu_cai_ren,
+        t1.[实际出发日期] as chu_fa_time,
+        t1.[出差地点] as chu_chai_dd,
+        (select tz.code from ORG_UNIT tz where tz.id=t1.[出差人机构]) as chu_cha_ren_jg,
+        t1.formmain_id as formmain_id
+        from
+        xttz_xincheng_detail t left join ${com.seeyon.apps.kdXdtzXc.po.TravelExpenseXinCheng} t1 on t.formmain_id=t1.id ) t3
+    left join ${com.seeyon.apps.kdXdtzXc.po.TravelExpense} t4 on t3.formmain_id=t4.id
+         where  t4.[审批完成时间]>=t('${kaishiTime}','yyyy-MM-dd HH24:mm:ss') and  t4.[审批完成时间]&lt;= t('${jieshuTime}','yyyy-MM-dd HH24:mm:ss')
+
+    </select>
+
+</mappers>

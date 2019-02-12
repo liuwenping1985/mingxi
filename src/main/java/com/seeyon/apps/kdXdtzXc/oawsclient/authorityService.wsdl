@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://impl.services.v3x.seeyon.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ax28="http://flag.common.ctp.seeyon.com/xsd" xmlns:ax213="http://constants.common.ctp.seeyon.com/xsd" xmlns:ax210="http://locale.util.sun/xsd" xmlns:ax24="http://services.ctp.seeyon.com/xsd" xmlns:ax26="http://util.java/xsd" xmlns:ax25="http://domain.authenticate.common.ctp.seeyon.com/xsd" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ax21="http://services.v3x.seeyon.com/xsd" xmlns:axis2="www.seeyon.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="www.seeyon.com">
+    <wsdl:documentation>This is the test webservice for Spring/Axis2 Integration</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:ax212="http://util.java/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://locale.util.sun/xsd">
+            <xs:import namespace="http://util.java/xsd"/>
+            <xs:complexType name="BaseLocale">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="language" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="region" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="script" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="variant" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="LocaleExtensions">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="empty" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="iD" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="keys" nillable="true" type="ax26:Set"/>
+                    <xs:element minOccurs="0" name="unicodeLocaleAttributes" nillable="true" type="ax26:Set"/>
+                    <xs:element minOccurs="0" name="unicodeLocaleKeys" nillable="true" type="ax26:Set"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax214="http://constants.common.ctp.seeyon.com/xsd" xmlns:ax27="http://util.java/xsd" xmlns:ax29="http://flag.common.ctp.seeyon.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://domain.authenticate.common.ctp.seeyon.com/xsd">
+            <xs:import namespace="http://util.java/xsd"/>
+            <xs:import namespace="http://flag.common.ctp.seeyon.com/xsd"/>
+            <xs:import namespace="http://constants.common.ctp.seeyon.com/xsd"/>
+            <xs:complexType name="User">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="accessSystemMenu" nillable="true" type="ax26:Set"/>
+                    <xs:element minOccurs="0" name="accountId" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="admin" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="administrator" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="auditAdmin" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="browser" nillable="true" type="ax29:BrowserEnum"/>
+                    <xs:element minOccurs="0" name="canSendSMS" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="customizes" nillable="true" type="ax26:Map"/>
+                    <xs:element minOccurs="0" name="departmentId" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="etagRandom" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="externalType" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="fontSize" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="fromM1" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="groupAdmin" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="id" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="internal" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="levelId" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="locale" nillable="true" type="ax26:Locale"/>
+                    <xs:element minOccurs="0" name="loginAccount" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="loginAccountName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="loginAccountShortName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="loginLogId" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="loginName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="loginSign" type="xs:int"/>
+                    <xs:element minOccurs="0" name="loginState" nillable="true" type="ax25:User_login_state_enum"/>
+                    <xs:element minOccurs="0" name="loginTimestamp" type="xs:long"/>
+                    <xs:element minOccurs="0" name="mainFrame" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="platformAdmin" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="postId" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="remoteAddr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="resourceJsonStr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="securityKey" type="xs:long"/>
+                    <xs:element minOccurs="0" name="sessionId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="skin" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="superAdmin" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="systemAdmin" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="timeZone" nillable="true" type="ax26:TimeZone"/>
+                    <xs:element minOccurs="0" name="userAgentFrom" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="userAgentFromEnum" nillable="true" type="ax213:Constants_login_useragent_from"/>
+                    <xs:element minOccurs="0" name="userInfoJsonStr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="userSSOFrom" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="v5Member" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="User_login_state_enum">
+                <xs:complexContent>
+                    <xs:extension base="xs:Enum">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax216="http://services.ctp.seeyon.com/xsd" xmlns:ax23="http://services.v3x.seeyon.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://impl.services.v3x.seeyon.com">
+            <xs:import namespace="http://services.v3x.seeyon.com/xsd"/>
+            <xs:import namespace="http://services.ctp.seeyon.com/xsd"/>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ServiceException">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ServiceException" nillable="true" type="ax21:ServiceException"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="authenticate">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="authenticateResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:UserToken"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getUserToken">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="userName" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getUserTokenResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax24:UserToken"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema xmlns:ax211="http://locale.util.sun/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://util.java/xsd">
+            <xs:import namespace="http://locale.util.sun/xsd"/>
+            <xs:complexType name="Set">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="empty" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Map">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="empty" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Locale">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="availableLocales" nillable="true" type="ax26:Locale"/>
+                    <xs:element minOccurs="0" name="baseLocale" nillable="true" type="ax211:BaseLocale"/>
+                    <xs:element minOccurs="0" name="country" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="default" nillable="true" type="ax26:Locale"/>
+                    <xs:element minOccurs="0" name="displayCountry" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="displayLanguage" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="displayName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="displayScript" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="displayVariant" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="extensionKeys" nillable="true" type="ax26:Set"/>
+                    <xs:element minOccurs="0" name="iSO3Country" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="iSO3Language" nillable="true" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="iSOCountries" nillable="true" type="xs:string"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="iSOLanguages" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="language" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="localeExtensions" nillable="true" type="ax211:LocaleExtensions"/>
+                    <xs:element minOccurs="0" name="script" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="unicodeLocaleAttributes" nillable="true" type="ax26:Set"/>
+                    <xs:element minOccurs="0" name="unicodeLocaleKeys" nillable="true" type="ax26:Set"/>
+                    <xs:element minOccurs="0" name="variant" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="TimeZone">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="availableIDs" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="dSTSavings" type="xs:int"/>
+                    <xs:element minOccurs="0" name="default" nillable="true" type="ax26:TimeZone"/>
+                    <xs:element minOccurs="0" name="defaultRef" nillable="true" type="ax26:TimeZone"/>
+                    <xs:element minOccurs="0" name="displayName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="iD" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="rawOffset" type="xs:int"/>
+                    <xs:element minOccurs="0" name="systemGMTOffsetID" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://constants.common.ctp.seeyon.com/xsd">
+            <xs:complexType name="Constants_login_useragent_from">
+                <xs:complexContent>
+                    <xs:extension base="xs:Enum">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax215="http://domain.authenticate.common.ctp.seeyon.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.ctp.seeyon.com/xsd">
+            <xs:import namespace="http://domain.authenticate.common.ctp.seeyon.com/xsd"/>
+            <xs:complexType name="UserToken">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="bindingUser" nillable="true" type="ax25:User"/>
+                    <xs:element minOccurs="0" name="id" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="nullToken" nillable="true" type="ax24:UserToken"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://impl.services.v3x.seeyon.com" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.v3x.seeyon.com/xsd">
+            <xs:import namespace="http://impl.services.v3x.seeyon.com"/>
+            <xs:complexType name="ServiceException">
+                <xs:complexContent>
+                    <xs:extension base="ax22:Exception">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="errorNumber" type="xs:long"/>
+                            <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://flag.common.ctp.seeyon.com/xsd">
+            <xs:complexType name="BrowserEnum">
+                <xs:complexContent>
+                    <xs:extension base="xs:Enum">
+                        <xs:sequence/>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="authenticateRequest">
+        <wsdl:part name="parameters" element="ns:authenticate"/>
+    </wsdl:message>
+    <wsdl:message name="authenticateResponse">
+        <wsdl:part name="parameters" element="ns:authenticateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ServiceException">
+        <wsdl:part name="parameters" element="ns:ServiceException"/>
+    </wsdl:message>
+    <wsdl:message name="getUserTokenRequest">
+        <wsdl:part name="parameters" element="ns:getUserToken"/>
+    </wsdl:message>
+    <wsdl:message name="getUserTokenResponse">
+        <wsdl:part name="parameters" element="ns:getUserTokenResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="authorityServicePortType">
+        <wsdl:operation name="authenticate">
+            <wsdl:input message="axis2:authenticateRequest" wsaw:Action="urn:authenticate"/>
+            <wsdl:output message="axis2:authenticateResponse" wsaw:Action="urn:authenticateResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:authenticateServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="getUserToken">
+            <wsdl:input message="axis2:getUserTokenRequest" wsaw:Action="urn:getUserToken"/>
+            <wsdl:output message="axis2:getUserTokenResponse" wsaw:Action="urn:getUserTokenResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="authorityServiceSoap11Binding" type="axis2:authorityServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="authenticate">
+            <soap:operation soapAction="urn:authenticate" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getUserToken">
+            <soap:operation soapAction="urn:getUserToken" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="authorityServiceSoap12Binding" type="axis2:authorityServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="authenticate">
+            <soap12:operation soapAction="urn:authenticate" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getUserToken">
+            <soap12:operation soapAction="urn:getUserToken" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="authorityServiceHttpBinding" type="axis2:authorityServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="authenticate">
+            <http:operation location="authorityService/authenticate"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="authenticate"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="authenticate"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getUserToken">
+            <http:operation location="authorityService/getUserToken"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getUserToken"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getUserToken"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="authorityService">
+        <wsdl:port name="authorityServiceHttpSoap11Endpoint" binding="axis2:authorityServiceSoap11Binding">
+            <soap:address location="http://80.32.9.245:80/seeyon/services/authorityService.authorityServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="authorityServiceHttpSoap12Endpoint" binding="axis2:authorityServiceSoap12Binding">
+            <soap12:address location="http://80.32.9.245:80/seeyon/services/authorityService.authorityServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="authorityServiceHttpEndpoint" binding="axis2:authorityServiceHttpBinding">
+            <http:address location="http://80.32.9.245:80/seeyon/services/authorityService.authorityServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

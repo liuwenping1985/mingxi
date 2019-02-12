@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.kdXdtzXc.po">
+    <class name="TravelExpenseXinChengDetail" lazy="false" table="xttz_xincheng_detail">
+        <id name="id" type="long" column="id" length="20">
+            <generator class="assigned"/>
+        </id>
+        <property name="formmain_id" type="long" column="formmain_id" not-null="true" length="20"/>
+
+        <property name="ybChucaiDays" column="yb_chucai_days" type="java.lang.Integer"/>
+        <property name="ybBuzhuDays" column="yb_buzhu_days" type="java.lang.Integer"/>
+        <property name="ybFeiBuZhuDays" column="yb_feibuzhu_days" type="java.lang.Integer"/>
+        <property name="ybBeizhu" column="yb_beizhu" type="java.lang.String" length="500"/>
+
+        <property name="xgChucaiDays" column="xg_chucai_days" type="java.lang.Integer"/>
+        <property name="xgBuzhuDays" column="xg_buzhu_days" type="java.lang.Integer"/>
+        <property name="xgFeiBuZhuDays" column="xg_feibuzhu_days" type="java.lang.Integer"/>
+        <property name="xgBeizhu" column="xg_beizhu" type="java.lang.String" length="500"/>
+
+        <property name="xzChucaiDays" column="xz_chucai_days" type="java.lang.Integer"/>
+        <property name="xzBuzhuDays" column="xz_buzhu_days" type="java.lang.Integer"/>
+        <property name="xzFeiBuZhuDays" column="xz_feibuzhu_days" type="java.lang.Integer"/>
+        <property name="xzBeizhu" column="xz_beizhu" type="java.lang.String" length="500"/>
+
+
+    </class>
+</hibernate-mapping>

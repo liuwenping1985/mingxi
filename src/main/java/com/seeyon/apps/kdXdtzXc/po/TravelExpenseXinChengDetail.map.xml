@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="travelExpenseXinChengDetail" namespace="com.seeyon.apps.kdXdtzXc.po.TravelExpenseXinChengDetail">
+
+
+    <insert id="insertTravelExpenseXinCheng">
+        insert into ${com.seeyon.apps.kdXdtzXc.po.TravelExpenseXinCheng}
+        (state,finishedflag,ratifyflag,sort,id,[机构编码],[部门编码],[机构编码OA],[部门编码OA],[同步日期],[更新日期])
+        VALUES (1,0,0,0,?,?,?,?,?,SYSDATE,null)
+    </insert>
+
+    <update id="updateTravelExpenseXinCheng">
+        update  ${com.seeyon.apps.kdXdtzXc.po.TravelExpenseXinCheng} set
+        [机构编码]=?,[部门编码]=?,[机构编码OA]=?,[部门编码OA]=?,[更新日期]=SYSDATE
+        where id=?
+    </update>
+
+    <select id="getTravelExpenseXinCheng">
+        SELECT
+        t.id as id,
+        t.[机构编码] as jgbm,
+        t.[部门编码] as bmbm,
+        t.[机构编码OA] as jgbmoa,
+        t.[部门编码OA] as bmbmoa,
+        t.[同步日期] as insertTime,
+        t.[更新日期] as updateTime
+        FROM  ${com.seeyon.apps.kdXdtzXc.po.TravelExpenseXinCheng} t where t.[机构编码]=? and t.[部门编码]=?
+    </select>
+
+</mappers>

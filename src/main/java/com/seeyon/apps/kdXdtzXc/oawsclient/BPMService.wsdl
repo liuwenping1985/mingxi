@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://impl.flow.services.v3x.seeyon.com" xmlns:ax222="http://services.v3x.seeyon.com/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:axis2="www.seeyon.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="www.seeyon.com">
+    <wsdl:documentation>This is the test webservice for Spring/Axis2 Integration</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema xmlns:ax224="http://services.v3x.seeyon.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://impl.flow.services.v3x.seeyon.com">
+            <xs:import namespace="http://services.v3x.seeyon.com/xsd"/>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ServiceException">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ServiceException" nillable="true" type="ax222:ServiceException"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="launchFormCollaboration">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="senderLoginName" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="templateCode" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="subject" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="data" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="attachments" type="xs:long"/>
+                        <xs:element minOccurs="0" name="param" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="relateDoc" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="launchFormCollaborationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax222:ServiceResponse"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="launchHtmlCollaboration">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="senderLoginName" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="templateCode" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="subject" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="bodyContent" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="attachments" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="launchHtmlCollaborationResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax222:ServiceResponse"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="receiveThirdpartyForm">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="xmlData" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="receiveThirdpartyFormResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getTemplateDefinition">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="templateCode" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getTemplateDefinitionResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFlowState">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="flowId" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFlowStateResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFormCollIdsByDateTime">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="templateCode" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="beginDateTime" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="endDateTime" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFormCollIdsByDateTimeResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFormCollIdsByDateTimeRest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="templateCode" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="beginDateTime" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="endDateTime" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getFormCollIdsByDateTimeRestResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema xmlns:ax223="http://impl.flow.services.v3x.seeyon.com" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.v3x.seeyon.com/xsd">
+            <xs:import namespace="http://impl.flow.services.v3x.seeyon.com"/>
+            <xs:complexType name="ServiceException">
+                <xs:complexContent>
+                    <xs:extension base="ns:Exception">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="errorNumber" type="xs:long"/>
+                            <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ServiceResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="errorMessage" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="errorNumber" type="xs:long"/>
+                    <xs:element minOccurs="0" name="result" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="receiveThirdpartyFormRequest">
+        <wsdl:part name="parameters" element="ns:receiveThirdpartyForm"/>
+    </wsdl:message>
+    <wsdl:message name="receiveThirdpartyFormResponse">
+        <wsdl:part name="parameters" element="ns:receiveThirdpartyFormResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ServiceException">
+        <wsdl:part name="parameters" element="ns:ServiceException"/>
+    </wsdl:message>
+    <wsdl:message name="getFormCollIdsByDateTimeRestRequest">
+        <wsdl:part name="parameters" element="ns:getFormCollIdsByDateTimeRest"/>
+    </wsdl:message>
+    <wsdl:message name="getFormCollIdsByDateTimeRestResponse">
+        <wsdl:part name="parameters" element="ns:getFormCollIdsByDateTimeRestResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getFlowStateRequest">
+        <wsdl:part name="parameters" element="ns:getFlowState"/>
+    </wsdl:message>
+    <wsdl:message name="getFlowStateResponse">
+        <wsdl:part name="parameters" element="ns:getFlowStateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="launchFormCollaborationRequest">
+        <wsdl:part name="parameters" element="ns:launchFormCollaboration"/>
+    </wsdl:message>
+    <wsdl:message name="launchFormCollaborationResponse">
+        <wsdl:part name="parameters" element="ns:launchFormCollaborationResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getTemplateDefinitionRequest">
+        <wsdl:part name="parameters" element="ns:getTemplateDefinition"/>
+    </wsdl:message>
+    <wsdl:message name="getTemplateDefinitionResponse">
+        <wsdl:part name="parameters" element="ns:getTemplateDefinitionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getFormCollIdsByDateTimeRequest">
+        <wsdl:part name="parameters" element="ns:getFormCollIdsByDateTime"/>
+    </wsdl:message>
+    <wsdl:message name="getFormCollIdsByDateTimeResponse">
+        <wsdl:part name="parameters" element="ns:getFormCollIdsByDateTimeResponse"/>
+    </wsdl:message>
+    <wsdl:message name="launchHtmlCollaborationRequest">
+        <wsdl:part name="parameters" element="ns:launchHtmlCollaboration"/>
+    </wsdl:message>
+    <wsdl:message name="launchHtmlCollaborationResponse">
+        <wsdl:part name="parameters" element="ns:launchHtmlCollaborationResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BPMServicePortType">
+        <wsdl:operation name="receiveThirdpartyForm">
+            <wsdl:input message="axis2:receiveThirdpartyFormRequest" wsaw:Action="urn:receiveThirdpartyForm"/>
+            <wsdl:output message="axis2:receiveThirdpartyFormResponse" wsaw:Action="urn:receiveThirdpartyFormResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:receiveThirdpartyFormServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTimeRest">
+            <wsdl:input message="axis2:getFormCollIdsByDateTimeRestRequest" wsaw:Action="urn:getFormCollIdsByDateTimeRest"/>
+            <wsdl:output message="axis2:getFormCollIdsByDateTimeRestResponse" wsaw:Action="urn:getFormCollIdsByDateTimeRestResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:getFormCollIdsByDateTimeRestServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="getFlowState">
+            <wsdl:input message="axis2:getFlowStateRequest" wsaw:Action="urn:getFlowState"/>
+            <wsdl:output message="axis2:getFlowStateResponse" wsaw:Action="urn:getFlowStateResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:getFlowStateServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="launchFormCollaboration">
+            <wsdl:input message="axis2:launchFormCollaborationRequest" wsaw:Action="urn:launchFormCollaboration"/>
+            <wsdl:output message="axis2:launchFormCollaborationResponse" wsaw:Action="urn:launchFormCollaborationResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:launchFormCollaborationServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="getTemplateDefinition">
+            <wsdl:input message="axis2:getTemplateDefinitionRequest" wsaw:Action="urn:getTemplateDefinition"/>
+            <wsdl:output message="axis2:getTemplateDefinitionResponse" wsaw:Action="urn:getTemplateDefinitionResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:getTemplateDefinitionServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTime">
+            <wsdl:input message="axis2:getFormCollIdsByDateTimeRequest" wsaw:Action="urn:getFormCollIdsByDateTime"/>
+            <wsdl:output message="axis2:getFormCollIdsByDateTimeResponse" wsaw:Action="urn:getFormCollIdsByDateTimeResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:getFormCollIdsByDateTimeServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="launchHtmlCollaboration">
+            <wsdl:input message="axis2:launchHtmlCollaborationRequest" wsaw:Action="urn:launchHtmlCollaboration"/>
+            <wsdl:output message="axis2:launchHtmlCollaborationResponse" wsaw:Action="urn:launchHtmlCollaborationResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BPMServiceSoap11Binding" type="axis2:BPMServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="receiveThirdpartyForm">
+            <soap:operation soapAction="urn:receiveThirdpartyForm" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTimeRest">
+            <soap:operation soapAction="urn:getFormCollIdsByDateTimeRest" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFlowState">
+            <soap:operation soapAction="urn:getFlowState" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="launchFormCollaboration">
+            <soap:operation soapAction="urn:launchFormCollaboration" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getTemplateDefinition">
+            <soap:operation soapAction="urn:getTemplateDefinition" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTime">
+            <soap:operation soapAction="urn:getFormCollIdsByDateTime" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="launchHtmlCollaboration">
+            <soap:operation soapAction="urn:launchHtmlCollaboration" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BPMServiceSoap12Binding" type="axis2:BPMServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="receiveThirdpartyForm">
+            <soap12:operation soapAction="urn:receiveThirdpartyForm" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTimeRest">
+            <soap12:operation soapAction="urn:getFormCollIdsByDateTimeRest" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFlowState">
+            <soap12:operation soapAction="urn:getFlowState" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="launchFormCollaboration">
+            <soap12:operation soapAction="urn:launchFormCollaboration" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getTemplateDefinition">
+            <soap12:operation soapAction="urn:getTemplateDefinition" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTime">
+            <soap12:operation soapAction="urn:getFormCollIdsByDateTime" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="launchHtmlCollaboration">
+            <soap12:operation soapAction="urn:launchHtmlCollaboration" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BPMServiceHttpBinding" type="axis2:BPMServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="receiveThirdpartyForm">
+            <http:operation location="BPMService/receiveThirdpartyForm"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="receiveThirdpartyForm"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="receiveThirdpartyForm"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTimeRest">
+            <http:operation location="BPMService/getFormCollIdsByDateTimeRest"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getFormCollIdsByDateTimeRest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getFormCollIdsByDateTimeRest"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getFlowState">
+            <http:operation location="BPMService/getFlowState"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getFlowState"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getFlowState"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="launchFormCollaboration">
+            <http:operation location="BPMService/launchFormCollaboration"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="launchFormCollaboration"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="launchFormCollaboration"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getTemplateDefinition">
+            <http:operation location="BPMService/getTemplateDefinition"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getTemplateDefinition"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getTemplateDefinition"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getFormCollIdsByDateTime">
+            <http:operation location="BPMService/getFormCollIdsByDateTime"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getFormCollIdsByDateTime"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getFormCollIdsByDateTime"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="launchHtmlCollaboration">
+            <http:operation location="BPMService/launchHtmlCollaboration"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="launchHtmlCollaboration"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="launchHtmlCollaboration"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="BPMService">
+        <wsdl:port name="BPMServiceHttpSoap11Endpoint" binding="axis2:BPMServiceSoap11Binding">
+            <soap:address location="http://172.16.106.130:80/seeyon/services/BPMService.BPMServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="BPMServiceHttpSoap12Endpoint" binding="axis2:BPMServiceSoap12Binding">
+            <soap12:address location="http://172.16.106.130:80/seeyon/services/BPMService.BPMServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="BPMServiceHttpEndpoint" binding="axis2:BPMServiceHttpBinding">
+            <http:address location="http://172.16.106.130:80/seeyon/services/BPMService.BPMServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

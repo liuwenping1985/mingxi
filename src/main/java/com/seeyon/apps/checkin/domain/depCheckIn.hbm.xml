@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="com.seeyon.v3x.plugin.checkin.domain.depCheckIn"
+		table="depcheckin">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<!-- 姓名 -->
+		<property name="name" type="java.lang.String">
+			<column name="name" length="100" />
+		</property>
+		<!-- 异常次数 -->
+		<property name="bugNum" type="java.lang.String">
+			<column name="bugNum" length="100" />
+		</property>
+		<!-- 迟到早退次数 -->
+		<property name="lateNum" type="java.lang.String">
+			<column name="lateNum" length="100" />
+		</property>		
+		<!-- 病假 -->
+		<property name="sickNum" type="java.lang.String">
+			<column name="sickNum" length="100" />
+		</property>		
+		<!-- 事假 -->
+		<property name="absenceNum" type="java.lang.String">
+			<column name="absenceNum" length="100" />
+		</property>	
+		<!-- 年休假 -->
+		<property name="annualNum" type="java.lang.String">
+			<column name="annualNum" length="100" />
+		</property>	
+		<!-- 公假 -->
+		<property name="publicNum" type="java.lang.String">
+			<column name="publicNum" length="100" />
+		</property>		
+		<!-- 婚丧假 -->
+		<property name="funeralNum" type="java.lang.String">
+			<column name="funeralNum" length="100" />
+		</property>	
+		<!-- 探亲假 -->
+		<property name="travelNum" type="java.lang.String">
+			<column name="travelNum" length="100" />
+		</property>	
+		<!-- 产假 -->
+		<property name="maternityNum" type="java.lang.String">
+			<column name="maternityNum" length="100" />
+		</property>	
+		<!-- 部门 -->
+		<property name="department" type="java.lang.String">
+			<column name="department" length="100" />
+		</property>		
+		<!-- 是否完成流程填报 -->
+		<property name="isFinish" type="java.lang.String">
+			<column name="isFinish" length="100" />
+		</property>	
+	</class>
+</hibernate-mapping>

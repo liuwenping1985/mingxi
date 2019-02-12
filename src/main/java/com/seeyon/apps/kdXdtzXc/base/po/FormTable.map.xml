@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="formTable" namespace="com.seeyon.apps.ceiec.base.po.FormTable">
+
+    <select id="getFormRecordId">
+        SELECT form_recordid as form_recordid FROM col_summary WHERE id IN (SELECT object_id FROM ctp_affair WHERE ID = ?)
+    </select>
+
+    <!--得到form_appmain表id-->
+    <!--<select id="getFormAppId">-->
+    <!--select t.form_app_id from ctp_affair t WHERE t.ID =?-->
+    <!--</select>-->
+
+    <select id="getFormAppMainData">
+        SELECT t.id AS id, t.name as name,t.field_info AS field_info FROM form_definition t where t.id=?
+    </select>
+
+    <select id="getFormAppMainDataByAppName">
+        SELECT t.id as id, t.name as name,t.field_info as field_info FROM form_definition t where t.name=?
+    </select>
+
+
+    <select id="getFormAppId">
+        select form_appid from COL_SUMMARY t where t.id =?
+    </select>
+
+
+    <select id="getFlowIdByFormAppid">
+        select id from COL_SUMMARY t where t.form_appid =?
+    </select>
+
+
+    <select id="getFlowIdByFormRecordId">
+        select t.* from COL_SUMMARY t where t.FORM_RECORDID =?
+    </select>
+
+
+    <select id="getCtpTemplate">
+        select t.form_appid as form_appid from ctp_template t where t.id =?
+    </select>
+
+
+</mappers>

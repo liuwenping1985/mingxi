@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.seeyon.apps.czexchange.po.EdocSummaryAndDataRelation" table="pro_edoc_datarel" lazy="false">
+		<id name="id" type="long" column="id" length="20">
+			<generator class="assigned" />
+		</id>
+		<property name="edocId" type="long" column="[rel_edocId]" length="20" />
+		<property name="msgId" type="string" column="[rel_msgId]" length="255"/>
+		<property name="app" type="integer" column="[rel_app]" length="10"/>
+		<property name="accountId" type="long" column="[rel_accountId]" length="20"/>
+		<property name="status" type="integer" column="[rel_status]" length="10"/>	
+		<property name="thirdId" type="string" column="[rel_thirdId]" length="255"/>	
+	</class>
+</hibernate-mapping>

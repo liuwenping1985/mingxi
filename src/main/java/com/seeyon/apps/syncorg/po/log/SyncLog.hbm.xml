@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.seeyon.apps.syncorg.po.log.SyncLog" table="pro_syncorg_log"
+		lazy="true">
+		<id name="id" type="long" column="id" length="20">
+			<generator class="assigned" />
+		</id>
+		<property name="errorMessage" column="error_message" type="string" />
+		<property name="syncStatusEnum" column="sync_status_enum">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.seeyon.apps.syncorg.enums.SyncStatusEnum</param>
+				<param name="type">12</param>
+				<param name="key">key</param>
+			</type>
+		</property>
+		
+		<property name="ObjectTypeEnum" column="object_type_enum">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.seeyon.apps.syncorg.enums.ObjectTypeEnum</param>
+				<param name="type">12</param>
+				<param name="key">key</param>
+			</type>
+		</property>
+		
+		<property name="actionTypeEnum" column="action_type_enum">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.seeyon.apps.syncorg.enums.ActionTypeEnum</param>
+				<param name="type">12</param>
+				<param name="key">key</param>
+			</type>
+		</property>
+			
+		<property name="createTime" column="create_time" type="timestamp" />
+		<property name="updateTime" column="update_time" type="timestamp" />
+		
+		
+		<property name="modifyProperty" column="modify_property" type="string" />
+		<property name="xmlString" column="xml_string" type="text" />
+		
+		<property name="retryTimes" column="retry_times" type="int" />
+
+	</class>
+</hibernate-mapping>

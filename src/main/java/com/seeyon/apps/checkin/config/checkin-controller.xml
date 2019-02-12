@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="byName">
+	
+	<bean id="initcheckindao" class="com.seeyon.v3x.plugin.checkin.dao.InitCheckInDao">
+		<property name="sessionFactory"  ref="sessionFactory"/>
+	</bean>
+	<bean id="checkinmanager" class="com.seeyon.v3x.plugin.checkin.manager.InitCheckInManagerImpl">
+		<property name="checkdao"  ref="initcheckindao"/>
+	</bean>
+	<bean id="checkinController" class="com.seeyon.v3x.plugin.checkin.controller.CheckInController">
+		<property name="manger" ref="checkinmanager"/>
+	</bean>
+	
+	
+	<!--考勤设置  -->
+	<bean id="checkininstalldao" class="com.seeyon.v3x.plugin.checkin.dao.CheckInInstallDao">
+		<property name="sessionFactory"  ref="sessionFactory"/>
+	</bean>
+	<bean id="checkininstallmanager" class="com.seeyon.v3x.plugin.checkin.manager.CheckInInstallManagerImpl">
+		<property name="installdao"  ref="checkininstalldao"/>
+	</bean>
+	<bean id="checkininstallcontroller" class="com.seeyon.v3x.plugin.checkin.controller.CheckInInstallController">
+		<property name="checkInInstallManager" ref="checkininstallmanager"/>
+	</bean>
+	<!--  -->
+	<bean id="checktask" class="com.seeyon.v3x.plugin.checkin.aberrant.CheckTask">
+		<property name="checkininstallmanager" ref="checkininstallmanager"/>
+	</bean>
+	
+	 
+	<!--部门考勤  -->
+	<bean id="checkindepdao" class="com.seeyon.v3x.plugin.checkin.dao.depCheckInDao">
+		<property name="sessionFactory"  ref="sessionFactory"/>
+	</bean>
+	<bean id="checkindepmanager" class="com.seeyon.v3x.plugin.checkin.manager.depCheckInManagerImpl">
+		<property name="depDao"  ref="checkindepdao"/>
+	</bean>
+	<bean id="checkindepcontroller" class="com.seeyon.v3x.plugin.checkin.controller.depCheckInController">
+		<property name="manger" ref="checkindepmanager"/>
+	</bean>
+
+	<bean id="exportDao" class="com.seeyon.v3x.plugin.checkin.dao.FormDataExportDaoImpl">
+		<property name="sessionFactory"  ref="sessionFactory"/>
+	</bean>
+	<bean id="checkhand" class="com.seeyon.v3x.plugin.checkin.aberrant.CheckHandler">
+		<property name="exportDao"  ref="exportDao"/>
+		<property name="checkininstalldao"  ref="checkininstalldao"/>
+	</bean>
+	
+	<bean id="elinkservice" class="com.seeyon.v3x.plugin.checkin.services.impl.ElinkServiceImpl">
+		<property name="checkinmanager"  ref="checkinmanager"/>
+	</bean>
+
+</beans>

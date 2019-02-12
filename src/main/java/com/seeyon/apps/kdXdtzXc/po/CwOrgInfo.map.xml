@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="cwOrgInfo" namespace="com.seeyon.apps.kdXdtzXc.po.CwOrgInfo">
+
+    <insert id="insertCwOrgInfo">
+        insert into ${com.seeyon.apps.kdXdtzXc.po.CwOrgInfo}
+        (id,state,finishedflag,ratifyflag,sort,[财务机构代码],[财务机构名称],[新增时间],[修改时间])
+        VALUES (?,1,0,0,0,?,?,SYSDATE,null)
+    </insert>
+
+    <update id="updateCwOrgInfo">
+        update  ${com.seeyon.apps.kdXdtzXc.po.CwOrgInfo} set [财务机构代码]=?,[财务机构名称]=?,[修改时间]=SYSDATE where id=?
+    </update>
+
+    <select id="getCwOrgInfo">
+        SELECT
+        t.id as id,
+        t.[财务机构代码] as cwjgdm,
+        t.[财务机构名称] as cwjgmc,
+        t.[OA机构ID] as oajg_id,
+        t.[OA机构代码] as oajgdm,
+        t.[OA机构名称] as oajgmc,
+        t.[新增时间] as insertTime,
+        t.[修改时间] as updateTime
+        FROM  ${com.seeyon.apps.kdXdtzXc.po.CwOrgInfo} t where t.[财务机构代码]=?
+    </select>
+
+</mappers>

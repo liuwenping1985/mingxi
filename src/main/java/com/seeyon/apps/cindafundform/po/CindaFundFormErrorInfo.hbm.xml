@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-11-24 10:23:51 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="com.seeyon.apps.cindafundform.po">
+    <class name="CindaFundFormErrorInfo" table="CINDA_FUND_FORM_ERRORINFO" lazy="false">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="idnum" type="string">
+            <column name="IDNUM" />
+        </property>
+        <property name="xmlData" type="string">
+            <column name="XMLDATA" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="com.seeyon.v3x.plugin.checkin.domain.CheckInInstall"
+		table="checkininstall">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="native" />
+		</id>
+		<!-- 上午打卡开始时间 -->
+		<property name="amStartTime" type="java.lang.String">
+			<column name="amstarttime" length="30" />
+		</property>
+		<!-- 上午打卡结束时间 -->
+		<property name="amEndTime" type="java.lang.String">
+			<column name="amendtime" length="30" />
+		</property>
+		<!-- 下午打卡开始时间 -->
+		<property name="pmStartTime" type="java.lang.String">
+			<column name="pmstartsime" length="30" />
+		</property>
+		<!-- 下午打卡结束时间 -->
+		<property name="pmEndTime" type="java.lang.String">
+			<column name="pmendtime" length="30" />
+		</property>
+		<!-- 打卡网段开始 -->
+		<property name="scheckinIp" type="java.lang.String">
+			<column name="scheckinip" length="50" />
+		</property>
+		<!-- 打卡网段结束  -->
+		<property name="echeckinIp" type="java.lang.String">
+			<column name="echeckinip" length="50" />
+		</property>
+		<!-- 异常处理时间 -->
+		<property name="errorTime" type="java.lang.String">
+			<column name="errortime" length="30" />
+		</property>
+		<!-- 流程发起时间 -->
+		<property name="processStartTime" type="java.lang.String">
+			<column name="processStartTime" length="30" />
+		</property>
+		<!-- 流程审批时间 -->
+		<property name="approvalTime" type="java.lang.String">
+			<column name="approvalTime" length="30" />
+		</property>
+		<!-- 不打卡部门 -->
+		<property name="notCheckInDepartment" type="java.lang.String">
+			<column name="notCheckInDepartment" length="30" />
+		</property>		
+		<!-- 不打卡人 -->
+		<property name="notCheckInPerson" type="java.lang.String">
+			<column name="notcheckinperson" length="30" />
+		</property>
+	</class>
+</hibernate-mapping>

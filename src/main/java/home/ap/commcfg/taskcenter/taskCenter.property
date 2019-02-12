@@ -1,0 +1,3 @@
+taskCenter.orgPubServiceUrl = "http://c1-osmapp.cinda.ccb:8071/gempMgrWeb/axis/services/orgPubService"
+taskCenter.taskPubServiceUrl = "http://c1-osmapp.cinda.ccb:8071/gtaskctr/axis/services/taskPubService"
+taskCenter.userPubServiceUrl = "http://c1-osmapp.cinda.ccb:8071/gempMgrWeb/axis/services/userPubService"

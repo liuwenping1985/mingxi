@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-1-4 10:33:03 by Hibernate Tools 3.2.5.Beta -->
+<hibernate-mapping>
+    <class name="com.seeyon.apps.kdXdtzXc.po.XiechengZsdz" table="XIECHENG_ZSDZ">
+     			 
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        
+        <property name="xiechengFqdzxxZsId" type="java.lang.Long">
+            <column name="XIECHENG_FQDZXX_ZS_ID"/>
+        </property>
+        
+        <property name="journeyId" type="java.lang.String">
+            <column name="JOURNEY_ID" length="50"/>
+        </property>
+        
+         <property name="clientName" type="java.lang.String">
+            <column name="CLIENT_NAME" length="50"/>
+        </property>
+        
+         <property name="cityName" type="java.lang.String">
+            <column name="CITY_NAME" length="50"/>
+        </property>
+        
+         <property name="hotelName" type="java.lang.String">
+            <column name="HOTEL_NAME" length="100"/>
+        </property>
+        
+         <property name="hotelType" type="java.lang.String">
+            <column name="HOTEL_TYPE" length="30"/>
+        </property>
+        
+         <property name="roomName" type="java.lang.String">
+            <column name="ROOM_NAME" length="30"/>
+        </property>
+        
+         <property name="startTime" type="java.lang.String">
+            <column name="START_TIME" length="50"/>
+        </property>
+        
+         <property name="endTime" type="java.lang.String">
+            <column name="END_TIME" length="50"/>
+        </property>
+        
+         <property name="quantity" type="java.lang.String">
+            <column name="QUANTITY" length="20"/>
+        </property>
+        
+         <property name="price" type="java.lang.String">
+            <column name="PRICE" length="20"/>
+        </property>
+        
+         <property name="amount" type="java.lang.String">
+            <column name="AMOUNT" length="20"/>
+        </property>
+        
+         <property name="feeType" type="java.lang.String">
+            <column name="FEE_TYPE" length="20"/>
+        </property>
+        
+         <property name="remarks" type="java.lang.String">
+            <column name="REMARKS" length="1000"/>
+        </property>
+        
+         <property name="createTime" type="java.lang.String">
+            <column name="CREATE_TIME" length="50"/>
+        </property>
+        
+         <property name="extAttr1" type="java.lang.String">
+            <column name="EXT_ATTR_1" length="100"/>
+        </property>
+        
+          <property name="employeeID" type="java.lang.String">
+            <column name="EMPLOYEEID" length="100"/>
+        </property>
+        
+         <property name="extAttr3" type="java.lang.String">
+            <column name="EXT_ATTR_3" length="100"/>
+        </property>
+        
+        <property name="orderId" type="java.lang.String">
+            <column name="orderId" length="50"/>
+        </property>
+        
+        <property name="recordId" type="java.lang.String">
+            <column name="recordId" length="50"/>
+        </property>
+        
+        <property name="accCheckBatchNo" type="java.lang.String">
+            <column name="accCheckBatchNo" length="50"/>
+        </property>
+        
+        
+    </class>
+</hibernate-mapping>

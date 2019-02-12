@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.seeyon.apps.taskcenter.po.TaskGroups" table="pro_TaskGroups">
+        <id name="id" type="java.lang.Long">
+            <column name="Id" />
+            <generator class="assigned" />
+        </id>
+        <property name="groupCode" type="java.lang.String">
+            <column name="groupCode" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="name" />
+        </property>
+        <property name="app" type="java.lang.String">
+            <column name="app"/>
+        </property>
+        <property name="outSys" type="boolean">
+            <column name="outSys"/>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" />
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column name="updateTime"/>
+        </property>
+        <property name="createUser" type="java.lang.Long">
+            <column name="createUser" />
+        </property>
+        <property name="accountId" type="java.lang.Long">
+            <column name="accountId" />
+        </property>
+		<property name="remark" type="text">
+            <column name="remark" />
+        </property>
+    </class>
+</hibernate-mapping>

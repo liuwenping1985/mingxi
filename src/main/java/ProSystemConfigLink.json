@@ -1,0 +1,2034 @@
+[
+	{
+		"code": "990101",
+		
+		"extraMap": {
+		},
+		"id": 1,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gtransWeb/gtrans/init/upload.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "管理方初始化",
+		"new": false
+	},
+	{
+		"code": "990102",
+		
+		"extraMap": {
+		},
+		"id": 2,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gtransWeb/dicAction.do?otherIdp=1&portalUser=app_var_1_secret&operate=list",
+		"name": "数据字典维护",
+		"new": false
+	},
+	{
+		"code": "990103",
+		
+		"extraMap": {
+		},
+		"id": 3,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gtransWeb/glkjAction.do?otherIdp=1&portalUser=app_var_1_secret&operate=list",
+		"name": "口径维护",
+		"new": false
+	},
+	{
+		"code": "990104",
+		
+		"extraMap": {
+		},
+		"id": 4,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gtransWeb/logListAction.do?operate=list&otherIdp=1&portalUser=app_var_1_secret",
+		"name": "关联方日志查询",
+		"new": false
+	},
+	{
+		"code": "990105",
+		
+		"extraMap": {
+		},
+		"id": 5,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gtransWeb/gtrans/warn/warnList.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "关联方预警",
+		"new": false
+	},
+	{
+		"code": "990106",
+		
+		"extraMap": {
+		},
+		"id": 6,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gtransWeb/naturalListAction.do?operate=naturalStateList&otherIdp=1&portalUser=app_var_1_secret",
+		"name": "关联方状态维护",
+		"new": false
+	},
+	{
+		"code": "990201",
+		
+		"extraMap": {
+		},
+		"id": 7,
+		"level": 2,
+		"link": "/statistics/statistics/maintenance_list.jsp",
+		"name": "报表维护",
+		"new": false
+	},
+	{
+		"code": "990202",
+		
+		"extraMap": {
+		},
+		"id": 8,
+		"level": 2,
+		"link": "/reportimport/query.do",
+		"name": "监管报表检索",
+		"new": false
+	},
+	{
+		"code": "990203",
+		
+		"extraMap": {
+		},
+		"id": 9,
+		"level": 2,
+		"link": "/reportimport/import.do",
+		"name": "监管报表导入",
+		"new": false
+	},
+	{
+		"code": "990301",
+		
+		"extraMap": {
+		},
+		"id": 10,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/yjtj/yjtj.jsp",
+		"name": "意见统计",
+		"new": false
+	},
+	{
+		"code": "990302",
+		
+		"extraMap": {
+		},
+		"id": 11,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjfb/wjfb.jsp",
+		"name": "文件发布",
+		"new": false
+	},
+	{
+		"code": "990303",
+		
+		"extraMap": {
+		},
+		"id": 12,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjgs/wjgs.jsp",
+		"name": "文件公示",
+		"new": false
+	},
+	{
+		"code": "990304",
+		
+		"extraMap": {
+		},
+		"id": 13,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjgl/wjgl.jsp",
+		"name": "文件管理",
+		"new": false
+	},
+	{
+		"code": "990305",
+		
+		"extraMap": {
+		},
+		"id": 14,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wlwjgl/wlwjgl.jsp",
+		"name": "外来文件管理",
+		"new": false
+	},
+	{
+		"code": "990306",
+		
+		"extraMap": {
+		},
+		"id": 15,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjfz/wjfz.jsp",
+		"name": "文件废止",
+		"new": false
+	},
+	{
+		"code": "990307",
+		
+		"extraMap": {
+		},
+		"id": 16,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjkgl/wjkgl.jsp",
+		"name": "文件库管理",
+		"new": false
+	},
+	{
+		"code": "990308",
+		
+		"extraMap": {
+		},
+		"id": 17,
+		"level": 2,
+		"link": "/cmweb/faguikuList.do?manger=true",
+		"name": "政策法规库管理",
+		"new": false
+	},
+	{
+		"code": "990401",
+		
+		"extraMap": {
+		},
+		"id": 18,
+		"level": 2,
+		"link": "/cindaweb/portlet/nxtgl/xxzx/xxcx/xxcx.jsp",
+		"name": "消息查询",
+		"new": false
+	},
+	{
+		"code": "990402",
+		
+		"extraMap": {
+		},
+		"id": 19,
+		"level": 2,
+		"link": "/cindaweb/portlet/nxtgl/xxzx/stgl/xtgl.jsp",
+		"name": "系统管理",
+		"new": false
+	},
+	{
+		"code": "990403",
+		
+		"extraMap": {
+		},
+		"id": 20,
+		"level": 2,
+		"link": "/cindaweb/portlet/nxtgl/xxzx/gzpz/gzpj.jsp",
+		"name": "规则配置",
+		"new": false
+	},
+	{
+		"code": "990404",
+		
+		"extraMap": {
+		},
+		"id": 21,
+		"level": 2,
+		"link": "/cindaweb/portlet/nxtgl/xxzx/fscs/fscs.jsp",
+		"name": "发送测试",
+		"new": false
+	},
+	{
+		"code": "990405",
+		
+		"extraMap": {
+		},
+		"id": 22,
+		"level": 2,
+		"link": "/cindaweb/portlet/nxtgl/tzgl/tzdemo.jsp",
+		"name": "客户台帐管理",
+		"new": false
+	},
+	{
+		"code": "990501",
+		
+		"extraMap": {
+		},
+		"id": 23,
+		"level": 2,
+		"link": "/cindaportal/manager/document.jsp",
+		"name": "内容管理",
+		"new": false
+	},
+	{
+		"code": "990502",
+		
+		"extraMap": {
+		},
+		"id": 24,
+		"level": 2,
+		"link": "/cindaportal/manager/document!approveListFull.action",
+		"name": "内容审核",
+		"new": false
+	},
+	{
+		"code": "990503",
+		
+		"extraMap": {
+		},
+		"id": 25,
+		"level": 2,
+		"link": "/cindaportal/manager/document!waittechListFull.action",
+		"name": "技术排版",
+		"new": false
+	},
+	{
+		"code": "990504",
+		
+		"extraMap": {
+		},
+		"id": 26,
+		"level": 2,
+		"link": "/cindaportal/manager/channel.jsp",
+		"name": "栏目管理",
+		"new": false
+	},
+	{
+		"code": "990505",
+		
+		"extraMap": {
+		},
+		"id": 27,
+		"level": 2,
+		"link": "/cindaportal/manager/directory.jsp",
+		"name": "文件管理",
+		"new": false
+	},
+	{
+		"code": "990506",
+		
+		"extraMap": {
+		},
+		"id": 28,
+		"level": 2,
+		"link": "/cindaportal/manager/privilege.jsp",
+		"name": "权限管理",
+		"new": false
+	},
+	{
+		"code": "990507",
+		
+		"extraMap": {
+		},
+		"id": 29,
+		"level": 2,
+		"link": "/cindaportal/manager/document!findCatalogsForCreator.action",
+		"name": "工作量统计",
+		"new": false
+	},
+	{
+		"code": "990508",
+		
+		"extraMap": {
+		},
+		"id": 30,
+		"level": 2,
+		"link": "http://appsrv02.zc.cinda.ccb:8999/cindabbs/login.bbscs?useradmin=useradmin&portal=app_var_1_secret",
+		"name": "BBS后台管理",
+		"new": false
+	},
+	{
+		"code": "990509",
+		
+		"extraMap": {
+		},
+		"id": 31,
+		"level": 2,
+		"link": "/cindaportal/manager/recall.jsp",
+		"name": "评论管理",
+		"new": false
+	},
+	{
+		"code": "990510",
+		
+		"extraMap": {
+		},
+		"id": 32,
+		"level": 2,
+		"link": "http://portal.zc.cinda.ccb/satisfactionWeb/satisFactoryAction.do?method=statisAns",
+		"name": "满意度调查统计",
+		"new": false
+	},
+	{
+		"code": "990511",
+		
+		"extraMap": {
+		},
+		"id": 33,
+		"level": 2,
+		"link": "http://portal.zc.cinda.ccb/satisfactionWeb/satisFactoryAction.do?method=queryAns",
+		"name": "满意度统计查询",
+		"new": false
+	},
+	{
+		"code": "990512",
+		
+		"extraMap": {
+		},
+		"id": 34,
+		"level": 2,
+		"link": "http://portal.zc.cinda.ccb/satisfactionWeb/satisFactoryAction.do?method=listAnsScore",
+		"name": "满意度详细浏览",
+		"new": false
+	},
+	{
+		"code": "990513",
+		
+		"extraMap": {
+		},
+		"id": 35,
+		"level": 2,
+		"link": "http://portal.zc.cinda.ccb/satisfactionWeb/satis/ansConfig.jsp",
+		"name": "满意度问卷配置",
+		"new": false
+	},
+	{
+		"code": "990514",
+		
+		"extraMap": {
+		},
+		"id": 36,
+		"level": 2,
+		"link": "http://portal.zc.cinda.ccb/satisfactionWeb/culture/mon.jsp",
+		"name": "企业文化问卷监控",
+		"new": false
+	},
+	{
+		"code": "990515",
+		
+		"extraMap": {
+		},
+		"id": 37,
+		"level": 2,
+		"link": "http://portal.zc.cinda.ccb/satisfactionWeb/culture/ansConfig.jsp",
+		"name": "企业文化问卷配置",
+		"new": false
+	},
+	{
+		"code": "990601",
+		
+		"extraMap": {
+		},
+		"id": 38,
+		"level": 2,
+		"link": "/um/emailGroupAction.do?operate=list",
+		"name": "邮箱组管理",
+		"new": false
+	},
+	{
+		"code": "990602",
+		
+		"extraMap": {
+		},
+		"id": 39,
+		"level": 2,
+		"link": "/um/groupAction.do?operate=listGroup",
+		"name": "用户组管理",
+		"new": false
+	},
+	{
+		"code": "990603",
+		
+		"extraMap": {
+		},
+		"id": 40,
+		"level": 2,
+		"link": "/um/userManagermentAction.do?operate=manager&isStatistics=true",
+		"name": "权限统计",
+		"new": false
+	},
+	{
+		"code": "990604",
+		
+		"extraMap": {
+		},
+		"id": 41,
+		"level": 2,
+		"link": "/um/userManagermentAction.do?operate=queryOperatingRecord",
+		"name": "日志查询",
+		"new": false
+	},
+	{
+		"code": "990605",
+		
+		"extraMap": {
+		},
+		"id": 42,
+		"level": 2,
+		"link": "/um/userManagermentAction.do?operate=operatingRecordStatistics",
+		"name": "日志统计",
+		"new": false
+	},
+	{
+		"code": "990606",
+		
+		"extraMap": {
+		},
+		"id": 43,
+		"level": 2,
+		"link": "/um/userAction.do?operate=downloadCert",
+		"name": "证书下载",
+		"new": false
+	},
+	{
+		"code": "990607",
+		
+		"extraMap": {
+		},
+		"id": 44,
+		"level": 2,
+		"link": "/um/um/userManagerment/adSyner/start.jsp",
+		"name": "AD差异比较",
+		"new": false
+	},
+	{
+		"code": "990608",
+		
+		"extraMap": {
+		},
+		"id": 45,
+		"level": 2,
+		"link": "/um/um/userManagerment/framgz.jsp",
+		"name": "公章管理",
+		"new": false
+	},
+	{
+		"code": "990609",
+		
+		"extraMap": {
+		},
+		"id": 46,
+		"level": 2,
+		"link": "/um/um/help/helpFrame.jsp ",
+		"name": "在线帮助",
+		"new": false
+	},
+	{
+		"code": "990610",
+		
+		"extraMap": {
+		},
+		"id": 47,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/syn/config.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "数据同步配置",
+		"new": false
+	},
+	{
+		"code": "990611",
+		
+		"extraMap": {
+		},
+		"id": 48,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/gum/user/userFrame.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "用户管理",
+		"new": false
+	},
+	{
+		"code": "990612",
+		
+		"extraMap": {
+		},
+		"id": 49,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/gum/role/roleFrame.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "角色管理",
+		"new": false
+	},
+	{
+		"code": "990613",
+		
+		"extraMap": {
+		},
+		"id": 50,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/gum/authority/authorityFrame.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "资源管理",
+		"new": false
+	},
+	{
+		"code": "990614",
+		
+		"extraMap": {
+		},
+		"id": 51,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/gum/org/orgFrame.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "机构管理",
+		"new": false
+	},
+	{
+		"code": "990615",
+		
+		"extraMap": {
+		},
+		"id": 52,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/dicListAction.do?otherIdp=1&portalUser=app_var_1_secret&operate=query",
+		"name": "数据字典",
+		"new": false
+	},
+	{
+		"code": "990616",
+		
+		"extraMap": {
+		},
+		"id": 53,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/syn/mon.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "数据同步监控",
+		"new": false
+	},
+	{
+		"code": "990701",
+		
+		"extraMap": {
+		},
+		"id": 54,
+		"level": 2,
+		"link": "/assessment/gwzjcx.do",
+		"name": "岗位职级与用户组关系维护",
+		"new": false
+	},
+	{
+		"code": "990702",
+		
+		"extraMap": {
+		},
+		"id": 55,
+		"level": 2,
+		"link": "/assessment/yhzcx.do",
+		"name": "用户组维护",
+		"new": false
+	},
+	{
+		"code": "990703",
+		
+		"extraMap": {
+		},
+		"id": 56,
+		"level": 2,
+		"link": "/assessment/mblxcx.do",
+		"name": "考核类型维护",
+		"new": false
+	},
+	{
+		"code": "990704",
+		
+		"extraMap": {
+		},
+		"id": 57,
+		"level": 2,
+		"link": "/assessment/xmcx.do",
+		"name": "考核项目维护",
+		"new": false
+	},
+	{
+		"code": "990705",
+		
+		"extraMap": {
+		},
+		"id": 58,
+		"level": 2,
+		"link": "/assessment/pjjbQueryAction.do",
+		"name": "评价级别维护",
+		"new": false
+	},
+	{
+		"code": "990706",
+		
+		"extraMap": {
+		},
+		"id": 59,
+		"level": 2,
+		"link": "/assessment/mbcx.do",
+		"name": "考核模板维护",
+		"new": false
+	},
+	{
+		"code": "990707",
+		
+		"extraMap": {
+		},
+		"id": 60,
+		"level": 2,
+		"link": "/assessment/rwcx.do",
+		"name": "考核任务维护",
+		"new": false
+	},
+	{
+		"code": "990708",
+		
+		"extraMap": {
+		},
+		"id": 61,
+		"level": 2,
+		"link": "/assessment/assessment/AssessManage.jsp",
+		"name": "报表管理",
+		"new": false
+	},
+	{
+		"code": "990709",
+		
+		"extraMap": {
+		},
+		"id": 62,
+		"level": 2,
+		"link": "/assessment/pfrw.do",
+		"name": "考核任务",
+		"new": false
+	},
+	{
+		"code": "990710",
+		
+		"extraMap": {
+		},
+		"id": 63,
+		"level": 2,
+		"link": "/assessment/assessment/ExcelAssessmentScore.jsp",
+		"name": "个性考核项导入",
+		"new": false
+	},
+	{
+		"code": "990711",
+		
+		"extraMap": {
+		},
+		"id": 64,
+		"level": 2,
+		"link": "/assessment/assessContentQuery.do",
+		"name": "部门考核项查询",
+		"new": false
+	},
+	{
+		"code": "990712",
+		
+		"extraMap": {
+		},
+		"id": 65,
+		"level": 2,
+		"link": "/assessment/assessContentQuery.do?operation=employee",
+		"name": "员工考核项查询",
+		"new": false
+	},
+	{
+		"code": "990713",
+		
+		"extraMap": {
+		},
+		"id": 66,
+		"level": 2,
+		"link": "/assessment/bmyjblcx.do",
+		"name": "部门比率维护",
+		"new": false
+	},
+	{
+		"code": "990714",
+		
+		"extraMap": {
+		},
+		"id": 67,
+		"level": 2,
+		"link": "/assessment/gdcyr.do",
+		"name": "固定考核人维护",
+		"new": false
+	},
+	{
+		"code": "990715",
+		
+		"extraMap": {
+		},
+		"id": 68,
+		"level": 2,
+		"link": "/assessment/assessment/sync.jsp",
+		"name": "同步基础数据",
+		"new": false
+	},
+	{
+		"code": "990801",
+		
+		"extraMap": {
+		},
+		"id": 69,
+		"level": 2,
+		"link": "/um/hardWareDictionaryAction.do?operate=view",
+		"name": "设备字典",
+		"new": false
+	},
+	{
+		"code": "990802",
+		
+		"extraMap": {
+		},
+		"id": 70,
+		"level": 2,
+		"link": "/um/hardWareAction.do?operate=list&first=true",
+		"name": "设备维护",
+		"new": false
+	},
+	{
+		"code": "990803",
+		
+		"extraMap": {
+		},
+		"id": 71,
+		"level": 2,
+		"link": "/um/hardwareStatisticAction.do?operate=statistic",
+		"name": "设备统计",
+		"new": false
+	},
+	{
+		"code": "990804",
+		
+		"extraMap": {
+		},
+		"id": 72,
+		"level": 2,
+		"link": "/um/hardWareAction.do?operate=query&first=true",
+		"name": "设备查询",
+		"new": false
+	},
+	{
+		"code": "990805",
+		
+		"extraMap": {
+		},
+		"id": 73,
+		"level": 2,
+		"link": "/um/um/help/hardware/helpFrame.jsp",
+		"name": "在线帮助",
+		"new": false
+	},
+	{
+		"code": "990806",
+		
+		"extraMap": {
+		},
+		"id": 74,
+		"level": 2,
+		"link": "/um/hardWareAction.do?operate=hardWareDeployList",
+		"name": "设备权限",
+		"new": false
+	},
+	{
+		"code": "990807",
+		
+		"extraMap": {
+		},
+		"id": 75,
+		"level": 2,
+		"link": "/um/hardwareCheckAction.do?operate=listTask&first=true",
+		"name": "设备盘点",
+		"new": false
+	},
+	{
+		"code": "990901",
+		
+		"extraMap": {
+		},
+		"id": 76,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/userFrame.jsp",
+		"name": "个人信息",
+		"new": false
+	},
+	{
+		"code": "990902",
+		
+		"extraMap": {
+		},
+		"id": 77,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/managerInforTop0.jsp",
+		"name": "人员信息管理",
+		"new": false
+	},
+	{
+		"code": "990903",
+		
+		"extraMap": {
+		},
+		"id": 78,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/contractTop.jsp",
+		"name": "劳动合同管理",
+		"new": false
+	},
+	{
+		"code": "990904",
+		
+		"extraMap": {
+		},
+		"id": 79,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/attendance.jsp",
+		"name": "考勤管理",
+		"new": false
+	},
+	{
+		"code": "990905",
+		
+		"extraMap": {
+		},
+		"id": 80,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/managerInforTop3.jsp",
+		"name": "组织机构管理",
+		"new": false
+	},
+	{
+		"code": "990906",
+		
+		"extraMap": {
+		},
+		"id": 81,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/tjTop.jsp",
+		"name": "统计分析",
+		"new": false
+	},
+	{
+		"code": "990907",
+		
+		"extraMap": {
+		},
+		"id": 82,
+		"level": 2,
+		"link": "/hrWeb/hr/frame/systemTop.jsp",
+		"name": "系统管理",
+		"new": false
+	},
+	{
+		"code": "990908",
+		
+		"extraMap": {
+		},
+		"id": 83,
+		"level": 2,
+		"link": "http://portal10.zc.cinda.ccb/gumWeb/gum/org/orgFrame.jsp?otherIdp=1&portalUser=app_var_1_secret",
+		"name": "机构管理",
+		"new": false
+	},
+	{
+		"code": "990909",
+		
+		"extraMap": {
+		},
+		"id": 84,
+		"level": 2,
+		"link": "/hrWeb/hr/system/post/post.jsp",
+		"name": "岗位配置",
+		"new": false
+	},
+	{
+		"code": "990910",
+		
+		"extraMap": {
+		},
+		"id": 85,
+		"level": 2,
+		"link": "/hrWeb/humanDictionaryViewAction.do",
+		"name": "字典管理",
+		"new": false
+	},
+	{
+		"code": "991001",
+		
+		"extraMap": {
+		},
+		"id": 86,
+		"level": 2,
+		"link": "/cinda_backend/assetInfo/assetview.action",
+		"name": "资产信息管理",
+		"new": false
+	},
+	{
+		"code": "991002",
+		
+		"extraMap": {
+		},
+		"id": 87,
+		"level": 2,
+		"link": "/cinda_backend/bulletin/bulletin.action",
+		"name": "处置公告管理",
+		"new": false
+	},
+	{
+		"code": "991003",
+		
+		"extraMap": {
+		},
+		"id": 88,
+		"level": 2,
+		"link": "/cinda_backend/competitiveSale/trade.action",
+		"name": "竞争性出售",
+		"new": false
+	},
+	{
+		"code": "991004",
+		
+		"extraMap": {
+		},
+		"id": 89,
+		"level": 2,
+		"link": "/cinda_backend/assetAttachment/assetAttach.action",
+		"name": "资产文件管理",
+		"new": false
+	},
+	{
+		"code": "991005",
+		
+		"extraMap": {
+		},
+		"id": 90,
+		"level": 2,
+		"link": "/cinda_backend/dynamicInfo/dyinfo.action",
+		"name": "动态信息管理",
+		"new": false
+	},
+	{
+		"code": "991006",
+		
+		"extraMap": {
+		},
+		"id": 91,
+		"level": 2,
+		"link": "/cinda_backend/dic/index.html",
+		"name": "动态数据管理",
+		"new": false
+	},
+	{
+		"code": "991007",
+		
+		"extraMap": {
+		},
+		"id": 92,
+		"level": 2,
+		"link": "/cinda_backend/foreUser/customeruser.action",
+		"name": "前台数据管理",
+		"new": false
+	},
+	{
+		"code": "991008",
+		
+		"extraMap": {
+		},
+		"id": 93,
+		"level": 2,
+		"link": "/cinda_backend/backUser/right.action",
+		"name": "后台权限管理",
+		"new": false
+	},
+	{
+		"code": "991009",
+		
+		"extraMap": {
+		},
+		"id": 94,
+		"level": 2,
+		"link": "/cinda_backend/statistic/forelog.action",
+		"name": "统计信息",
+		"new": false
+	},
+	{
+		"code": "991010",
+		
+		"extraMap": {
+		},
+		"id": 95,
+		"level": 2,
+		"link": "/cindajob/portalLogin.action",
+		"name": "招聘管理",
+		"new": false
+	},
+	{
+		"code": "991101",
+		
+		"extraMap": {
+		},
+		"id": 96,
+		"level": 2,
+		"link": "/oaweb/oa/employee/leave/admin_query.jsp",
+		"name": "考勤管理",
+		"new": false
+	},
+	{
+		"code": "991102",
+		
+		"extraMap": {
+		},
+		"id": 97,
+		"level": 2,
+		"link": "/oaweb/voitureBorrowListAction.do?operate=voitureManageList&optsect=c4ca4238a0b923820dcc509a6f75849b69",
+		"name": "车辆使用管理",
+		"new": false
+	},
+	{
+		"code": "991103",
+		
+		"extraMap": {
+		},
+		"id": 98,
+		"level": 2,
+		"link": "/oaweb/materialAction.do?operate=materialManage&status=21&optsect=c4ca4238a0b923820dcc509a6f75849b69",
+		"name": "办公用品领用管理",
+		"new": false
+	},
+	{
+		"code": "991104",
+		
+		"extraMap": {
+		},
+		"id": 99,
+		"level": 2,
+		"link": "/oaweb/meetingRoomList.do",
+		"name": "会议室管理(废)",
+		"new": false
+	},
+	{
+		"code": "991105",
+		
+		"extraMap": {
+		},
+		"id": 100,
+		"level": 2,
+		"link": "/oaweb/applyDraftListAction.do?operate=listDraftApply",
+		"name": "其他日期办公",
+		"new": false
+	},
+	{
+		"code": "991106",
+		
+		"extraMap": {
+		},
+		"id": 101,
+		"level": 2,
+		"link": "/oaweb/tasklist.do?operate=receiveallfinishtasklist",
+		"name": "员工日程安排",
+		"new": false
+	},
+	{
+		"code": "991107",
+		
+		"extraMap": {
+		},
+		"id": 102,
+		"level": 2,
+		"link": "/oaweb/tasklist.do?operate=receiveallfinishtasklist",
+		"name": "日程安排查询",
+		"new": false
+	},
+	{
+		"code": "991108",
+		
+		"extraMap": {
+		},
+		"id": 103,
+		"level": 2,
+		"link": "/oaweb/grantListAction.do?operate=list",
+		"name": "日程安排字典",
+		"new": false
+	},
+	{
+		"code": "991109",
+		
+		"extraMap": {
+		},
+		"id": 104,
+		"level": 2,
+		"link": "/oaweb/oa/task/change.jsp",
+		"name": "日程安排时间设置",
+		"new": false
+	},
+	{
+		"code": "991110",
+		
+		"extraMap": {
+		},
+		"id": 105,
+		"level": 2,
+		"link": "/oaweb/oa/cinda_meeting/roomsManagerList.jsp",
+		"name": "会议室管理",
+		"new": false
+	},
+	{
+		"code": "991111",
+		
+		"extraMap": {
+		},
+		"id": 106,
+		"level": 2,
+		"link": "/oaweb/oa/metadata/metadataList.jsp",
+		"name": "会议室字典管理",
+		"new": false
+	},
+	{
+		"code": "999001",
+		
+		"extraMap": {
+		},
+		"id": 107,
+		"level": 2,
+		"link": "/caseweb/jsp/caselib/addCase.jsp",
+		"name": "上载案例",
+		"new": false
+	},
+	{
+		"code": "999002",
+		
+		"extraMap": {
+		},
+		"id": 108,
+		"level": 2,
+		"link": "/caseweb/jsp/caselib/managerFrame.jsp",
+		"name": "案例管理",
+		"new": false
+	},
+	{
+		"code": "999003",
+		
+		"extraMap": {
+		},
+		"id": 109,
+		"level": 2,
+		"link": "/caseweb/jsp/caselib/sortFrame.jsp",
+		"name": "案例分类管理",
+		"new": false
+	},
+	{
+		"code": "999004",
+		
+		"extraMap": {
+		},
+		"id": 110,
+		"level": 2,
+		"link": "/caseweb/jsp/caselib/link.jsp",
+		"name": "案例授权管理",
+		"new": false
+	},
+	{
+		"code": "991201",
+		
+		"extraMap": {
+		},
+		"id": 111,
+		"level": 2,
+		"link": "/taskctr/jsp/monitor/monitorList.jsp",
+		"name": "任务监控中心",
+		"new": false
+	},
+	{
+		"code": "991202",
+		
+		"extraMap": {
+		},
+		"id": 112,
+		"level": 2,
+		"link": "/taskctr/jsp/stat/superAdminStat.jsp",
+		"name": "任务分类统计（总部）",
+		"new": false
+	},
+	{
+		"code": "991203",
+		
+		"extraMap": {
+		},
+		"id": 113,
+		"level": 2,
+		"link": "/taskctr/jsp/stat/taskKindStat.jsp",
+		"name": "任务分类统计（分公司）",
+		"new": false
+	},
+	{
+		"code": "991204",
+		
+		"extraMap": {
+		},
+		"id": 114,
+		"level": 2,
+		"link": "/taskctr/jsp/stat/superAdminCountStat.jsp",
+		"name": "任务执行人统计（总部）",
+		"new": false
+	},
+	{
+		"code": "991205",
+		
+		"extraMap": {
+		},
+		"id": 115,
+		"level": 2,
+		"link": "/taskctr/jsp/stat/taskCountStat.jsp",
+		"name": "任务执行人统计（分公司）",
+		"new": false
+	},
+	{
+		"code": "991301",
+		
+		"extraMap": {
+		},
+		"id": 116,
+		"level": 2,
+		"link": "/rightimport/import.do",
+		"name": "数据权限导入",
+		"new": false
+	},
+	{
+		"code": "991302",
+		
+		"extraMap": {
+		},
+		"id": 117,
+		"level": 2,
+		"link": "/rightimport/query.do",
+		"name": "数据权限查询",
+		"new": false
+	},
+	{
+		"code": "991303",
+		
+		"extraMap": {
+		},
+		"id": 118,
+		"level": 2,
+		"link": "/rightimport/delete.do",
+		"name": "批量权限删除",
+		"new": false
+	},
+	{
+		"code": "991401",
+		
+		"extraMap": {
+		},
+		"id": 119,
+		"level": 2,
+		"link": "/archivegeWeb/archives/authorization/workgroupList.jsp?opt=1&type=6",
+		"name": "全域授权管理",
+		"new": false
+	},
+	{
+		"code": "991402",
+		
+		"extraMap": {
+		},
+		"id": 120,
+		"level": 2,
+		"link": "/archivegeWeb/archives/metadata/archiveMetadataList.jsp",
+		"name": "元数据维护",
+		"new": false
+	},
+	{
+		"code": "991403",
+		
+		"extraMap": {
+		},
+		"id": 121,
+		"level": 2,
+		"link": "/archivegeWeb/archives/authorization/workgroupList.jsp?type=6",
+		"name": "一般授权管理",
+		"new": false
+	},
+	{
+		"code": "991404",
+		
+		"extraMap": {
+		},
+		"id": 122,
+		"level": 2,
+		"link": "/archivegeWeb/archives/zcdossier/authorization/workgroupList.jsp?type=archives&opt=1",
+		"name": "资产案卷全域授权",
+		"new": false
+	},
+	{
+		"code": "991405",
+		
+		"extraMap": {
+		},
+		"id": 123,
+		"level": 2,
+		"link": "/archivegeWeb/archives/zcdossier/authorization/workgroupList.jsp?type=archives",
+		"name": "资产案卷授权",
+		"new": false
+	},
+	{
+		"code": "991406",
+		
+		"extraMap": {
+		},
+		"id": 124,
+		"level": 2,
+		"link": "/archivegeWeb/archives/zcdossier/authorization/workgroupList.jsp?type=22&opt=1",
+		"name": "业务案卷全域授权",
+		"new": false
+	},
+	{
+		"code": "991407",
+		
+		"extraMap": {
+		},
+		"id": 125,
+		"level": 2,
+		"link": "/archivegeWeb/archives/zcdossier/authorization/workgroupList.jsp?type=22",
+		"name": "业务案卷授权",
+		"new": false
+	},
+	{
+		"code": "991408",
+		
+		"extraMap": {
+		},
+		"id": 126,
+		"level": 2,
+		"link": "/archivegeWeb/archives/zcdossier/authorization/workgroupList.jsp?type=6&opt=1",
+		"name": "档案全域授权",
+		"new": false
+	},
+	{
+		"code": "991409",
+		
+		"extraMap": {
+		},
+		"id": 127,
+		"level": 2,
+		"link": "/archivegeWeb/archives/zcdossier/authorization/workgroupList.jsp?type=6",
+		"name": "档案授权",
+		"new": false
+	},
+	{
+		"code": "991501",
+		
+		"extraMap": {
+		},
+		"id": 128,
+		"level": 2,
+		"link": "http://portal11.zc.cinda.ccb/oastA/interface/login_hdy.jsp?otherIdp=1&portalUser=app_var_1_secret&urlpath=../sa/default.jsp",
+		"name": "公文系统配置",
+		"new": false
+	},
+	{
+		"code": "991601",
+		
+		"extraMap": {
+		},
+		"id": 129,
+		"level": 2,
+		"link": "http://pfsrv.zc.cinda.ccb:8080/InvestorInfoSys/index.jsp",
+		"name": "投资者管理系统",
+		"new": false
+	},
+	{
+		"code": "991701",
+		
+		"extraMap": {
+		},
+		"id": 130,
+		"level": 2,
+		"link": "http://bmcrpt.cinda.ccb:9080/loginremedy/CheckUserInfo?username=app_var_1_nos",
+		"name": "IT服务管理系统",
+		"new": false
+	},
+	{
+		"code": "991801",
+		
+		"extraMap": {
+		},
+		"id": 131,
+		"level": 2,
+		"link": "/cindaweb/portlet/wdgz/ssyj/cstz/Bulletin.jsp",
+		"name": "待办事宜",
+		"new": false
+	},
+	{
+		"code": "991802",
+		
+		"extraMap": {
+		},
+		"id": 132,
+		"level": 2,
+		"link": "/cindaweb/portlet/wdgz/ssyj/dazydj/dazydj.jsp",
+		"name": "档案摘要登记",
+		"new": false
+	},
+	{
+		"code": "991803",
+		
+		"extraMap": {
+		},
+		"id": 133,
+		"level": 2,
+		"link": "",
+		"name": "诉讼时效与法律期间录入",
+		"new": false,
+		"remark": "无链接地址"
+	},
+	{
+		"code": "991804",
+		
+		"extraMap": {
+		},
+		"id": 134,
+		"level": 2,
+		"link": "",
+		"name": "诉讼时效与法律期间查询",
+		"new": false,
+		"remark": "无链接地址"
+	},
+	{
+		"code": "991805",
+		
+		"extraMap": {
+		},
+		"id": 135,
+		"level": 2,
+		"link": "/cindaweb/portlet/wdgz/ssyj/bscadmin/bscadmin.jsp",
+		"name": "办事处系统管理",
+		"new": false
+	},
+	{
+		"code": "991806",
+		
+		"extraMap": {
+		},
+		"id": 136,
+		"level": 2,
+		"link": "/cindaweb/portlet/wdgz/ssyj/cstz/Bulletin.jsp",
+		"name": "催收通知及公告",
+		"new": false
+	},
+	{
+		"code": "991807",
+		
+		"extraMap": {
+		},
+		"id": 137,
+		"level": 2,
+		"link": "/cindaweb/portlet/wdgz/ssyj/sysadmin/cindaadmin.jsp",
+		"name": "系统管理",
+		"new": false
+	},
+	{
+		"code": "991901",
+		
+		"extraMap": {
+		},
+		"id": 138,
+		"level": 2,
+		"link": "/cindaweb/portlet/newCinda/newCindaXtgl/newCindaZcczeq/zcczeq/zcczeq.jsp",
+		"name": "资产处置二期系统",
+		"new": false
+	},
+	{
+		"code": "992001",
+		
+		"extraMap": {
+		},
+		"id": 139,
+		"level": 2,
+		"link": "/cmweb/jsp/template/query.jsp",
+		"name": "文档记录库",
+		"new": false
+	},
+	{
+		"code": "992101",
+		
+		"extraMap": {
+		},
+		"id": 140,
+		"level": 2,
+		"link": "",
+		"name": "统计工作站",
+		"new": false,
+		"remark": "无链接地址"
+	},
+	{
+		"code": "992201",
+		
+		"extraMap": {
+		},
+		"id": 141,
+		"level": 2,
+		"link": "/cindaweb/portlet/nwdgz/dagl/dagl.jsp",
+		"name": "档案管理",
+		"new": false
+	},
+	{
+		"code": "992301",
+		
+		"extraMap": {
+		},
+		"id": 142,
+		"level": 2,
+		"link": "/read/upload/list.jsp",
+		"name": "人行上报",
+		"new": false
+	},
+	{
+		"code": "992401",
+		
+		"extraMap": {
+		},
+		"id": 143,
+		"level": 2,
+		"link": "http://dailymanage.zc.cinda.ccb/XDWork",
+		"name": "尽职调查估值系统",
+		"new": false
+	},
+	{
+		"code": "992501",
+		
+		"extraMap": {
+		},
+		"id": 144,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7002/sysadmin",
+		"name": "外网系统管理",
+		"new": false
+	},
+	{
+		"code": "992502",
+		
+		"extraMap": {
+		},
+		"id": 145,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7002/cms",
+		"name": "外网信息管理",
+		"new": false
+	},
+	{
+		"code": "992503",
+		
+		"extraMap": {
+		},
+		"id": 146,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7003/cindajob/portalLogin.action",
+		"name": "招聘管理",
+		"new": false
+	},
+	{
+		"code": "992504",
+		
+		"extraMap": {
+		},
+		"id": 147,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7003/cinda_backend/assetInfo/assetview.action",
+		"name": "资产信息管理",
+		"new": false
+	},
+	{
+		"code": "992505",
+		
+		"extraMap": {
+		},
+		"id": 148,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7003/cinda_backend/bulletin/bulletin.action",
+		"name": "处置公告管理",
+		"new": false
+	},
+	{
+		"code": "992506",
+		
+		"extraMap": {
+		},
+		"id": 149,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7003/cinda_backend/assetAttachment/assetAttach.action",
+		"name": "资产文件管理",
+		"new": false
+	},
+	{
+		"code": "992507",
+		
+		"extraMap": {
+		},
+		"id": 150,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7003/cinda_backend/dic/index.html",
+		"name": "动态数据管理",
+		"new": false
+	},
+	{
+		"code": "992508",
+		
+		"extraMap": {
+		},
+		"id": 151,
+		"level": 2,
+		"link": "http://jtwebcms.cinda.ccb:7003/cinda_backend/backUser/right.action",
+		"name": "后台权限管理",
+		"new": false
+	},
+	{
+		"code": "992601",
+		
+		"extraMap": {
+		},
+		"id": 152,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/yjtj/yjtj.jsp",
+		"name": "意见统计",
+		"new": false
+	},
+	{
+		"code": "992602",
+		
+		"extraMap": {
+		},
+		"id": 153,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjfb/wjfb.jsp",
+		"name": "文件发布",
+		"new": false
+	},
+	{
+		"code": "992603",
+		
+		"extraMap": {
+		},
+		"id": 154,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjgs/wjgs.jsp",
+		"name": "文件公示",
+		"new": false
+	},
+	{
+		"code": "992604",
+		
+		"extraMap": {
+		},
+		"id": 155,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjgl/wjgl.jsp",
+		"name": "文件管理",
+		"new": false
+	},
+	{
+		"code": "992605",
+		
+		"extraMap": {
+		},
+		"id": 156,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wlwjgl/wlwjgl.jsp",
+		"name": "外来文件管理",
+		"new": false
+	},
+	{
+		"code": "992606",
+		
+		"extraMap": {
+		},
+		"id": 157,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjfz/wjfz.jsp",
+		"name": "文件废止",
+		"new": false
+	},
+	{
+		"code": "992607",
+		
+		"extraMap": {
+		},
+		"id": 158,
+		"level": 2,
+		"link": "/cindaweb/portlet/iso/wjkgl/wjkgl.jsp",
+		"name": "文件库管理",
+		"new": false
+	},
+	{
+		"code": "992608",
+		
+		"extraMap": {
+		},
+		"id": 159,
+		"level": 2,
+		"link": "http://gportal.zc.cinda.ccb/gisoWeb/faguikuList.do?manger=true&otherIdp=1&portalUser=app_var_1_secret",
+		"name": "政策法规库管理",
+		"new": false
+	},
+	{
+		"code": "9901",
+		
+		"extraMap": {
+		},
+		"id": 110101,
+		"level": 1,
+		"name": "关联交易管理",
+		"new": false
+	},
+	{
+		"code": "9902",
+		
+		"extraMap": {
+		},
+		"id": 770201,
+		"level": 1,
+		"name": "统计报表管理",
+		"new": false
+	},
+	{
+		"code": "9903",
+		
+		"extraMap": {
+		},
+		"id": 10100301,
+		"level": 1,
+		"name": "ISO管理",
+		"new": false
+	},
+	{
+		"code": "9904",
+		
+		"extraMap": {
+		},
+		"id": 18180401,
+		"level": 1,
+		"name": "消息中心管理",
+		"new": false
+	},
+	{
+		"code": "9905",
+		
+		"extraMap": {
+		},
+		"id": 23230501,
+		"level": 1,
+		"name": "内网管理",
+		"new": false
+	},
+	{
+		"code": "9906",
+		
+		"extraMap": {
+		},
+		"id": 38380601,
+		"level": 1,
+		"name": "用户管理",
+		"new": false
+	},
+	{
+		"code": "9907",
+		
+		"extraMap": {
+		},
+		"id": 54540701,
+		"level": 1,
+		"name": "人事考核",
+		"new": false
+	},
+	{
+		"code": "9908",
+		
+		"extraMap": {
+		},
+		"id": 69690801,
+		"level": 1,
+		"name": "设备管理",
+		"new": false
+	},
+	{
+		"code": "9909",
+		
+		"extraMap": {
+		},
+		"id": 76760901,
+		"level": 1,
+		"name": "人力资源",
+		"new": false
+	},
+	{
+		"code": "9910",
+		
+		"extraMap": {
+		},
+		"id": 86861001,
+		"level": 1,
+		"name": "外网管理",
+		"new": false
+	},
+	{
+		"code": "9911",
+		
+		"extraMap": {
+		},
+		"id": 96961101,
+		"level": 1,
+		"name": "日常办公",
+		"new": false
+	},
+	{
+		"code": "99",
+		
+		"extraMap": {
+		},
+		"id": 112323123,
+		"level": 0,
+		"name": "系统设置",
+		"new": false
+	},
+	{
+		"code": "9990",
+		
+		"extraMap": {
+		},
+		"id": 1071079001,
+		"level": 1,
+		"name": "案例库管理",
+		"new": false
+	},
+	{
+		"code": "9912",
+		
+		"extraMap": {
+		},
+		"id": 1111111201,
+		"level": 1,
+		"name": "任务中心",
+		"new": false
+	},
+	{
+		"code": "9913",
+		
+		"extraMap": {
+		},
+		"id": 1161161301,
+		"level": 1,
+		"name": "数据权限维护",
+		"new": false
+	},
+	{
+		"code": "9914",
+		
+		"extraMap": {
+		},
+		"id": 1191191401,
+		"level": 1,
+		"name": "一般性档案管理",
+		"new": false
+	},
+	{
+		"code": "9915",
+		
+		"extraMap": {
+		},
+		"id": 1281281501,
+		"level": 1,
+		"name": "公文流转",
+		"new": false
+	},
+	{
+		"code": "9916",
+		
+		"extraMap": {
+		},
+		"id": 1291291601,
+		"level": 1,
+		"name": "投资者管理系统",
+		"new": false
+	},
+	{
+		"code": "9917",
+		
+		"extraMap": {
+		},
+		"id": 1301301701,
+		"level": 1,
+		"name": "IT服务管理系统",
+		"new": false
+	},
+	{
+		"code": "9918",
+		
+		"extraMap": {
+		},
+		"id": 1311311801,
+		"level": 1,
+		"name": "诉讼预警管理",
+		"new": false
+	},
+	{
+		"code": "9919",
+		
+		"extraMap": {
+		},
+		"id": 1381381901,
+		"level": 1,
+		"name": "资产处置二期系统",
+		"new": false
+	},
+	{
+		"code": "9920",
+		
+		"extraMap": {
+		},
+		"id": 1391392001,
+		"level": 1,
+		"name": "文档记录库",
+		"new": false
+	},
+	{
+		"code": "9921",
+		
+		"extraMap": {
+		},
+		"id": 1401402101,
+		"level": 1,
+		"name": "统计工作站",
+		"new": false
+	},
+	{
+		"code": "9922",
+		
+		"extraMap": {
+		},
+		"id": 1411412201,
+		"level": 1,
+		"name": "档案维护",
+		"new": false
+	},
+	{
+		"code": "9923",
+		
+		"extraMap": {
+		},
+		"id": 1421422301,
+		"level": 1,
+		"name": "人行上报",
+		"new": false
+	},
+	{
+		"code": "9924",
+		
+		"extraMap": {
+		},
+		"id": 1431432401,
+		"level": 1,
+		"name": "尽职调查估值系统",
+		"new": false
+	},
+	{
+		"code": "9925",
+		
+		"extraMap": {
+		},
+		"id": 1441442501,
+		"level": 1,
+		"name": "集团外网管理",
+		"new": false
+	},
+	{
+		"code": "9926",
+		
+		"extraMap": {
+		},
+		"id": 1521522601,
+		"level": 1,
+		"name": "公司制度库管理",
+		"new": false
+	}
+]

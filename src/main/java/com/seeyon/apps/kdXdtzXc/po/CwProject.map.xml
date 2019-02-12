@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="cwProject" namespace="com.seeyon.apps.kdXdtzXc.po.CwProject">
+
+
+    <insert id="insertCwProject">
+        insert into ${com.seeyon.apps.kdXdtzXc.po.CwProject}
+        (state,finishedflag,ratifyflag,sort,id,[项目名称],[项目代码],[新增时间],[修改时间])
+        VALUES (1,0,0,0,?,?,?,SYSDATE,null)
+    </insert>
+
+    <update id="updateCwProject">
+        update  ${com.seeyon.apps.kdXdtzXc.po.CwProject} set [项目名称]=?,[项目代码]=?,[修改时间]=SYSDATE where id=?
+    </update>
+
+    <select id="getCwProject">
+        SELECT
+        t.id as id,
+        t.[项目名称] as xmmc,
+        t.[项目代码] as xmbm,
+        t.[新增时间] as insertTime,
+        t.[修改时间] as updateTime
+        FROM  ${com.seeyon.apps.kdXdtzXc.po.CwProject} t where t.[项目代码]=?
+    </select>
+
+
+</mappers>

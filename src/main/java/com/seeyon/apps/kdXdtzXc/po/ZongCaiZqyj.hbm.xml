@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.kdXdtzXc.po">
+    <class name="ZongCaiZqyj" lazy="false" table="zong_cai_zqyj">
+        <id name="id" type="long" column="id" length="20">
+            <generator class="assigned"/>
+        </id>
+        <property name="formmain_id" type="long" column="formmain_id" not-null="true" length="20"/>
+
+        <property name="zb" type="string" column="zb" length="20"/>
+        <property name="zb_gfgs" type="string" column="zb_gfgs" length="20"/>
+        <property name="zb_djs" type="string" column="zb_djs" length="20"/>
+        <property name="zb_gzgs" type="string" column="zb_gzgs" length="20"/>
+
+        <property name="gsfgld" type="string" column="gsfgld" length="20"/>
+        <property name="gsfgld_xgfgs" type="string" column="gsfgld_xgfgs" length="20"/>
+        <property name="gsfgld_xgzgs" type="string" column="gsfgld_xgzgs" length="20"/>
+        <property name="gsfgld_bsjdjs" type="string" column="gsfgld_bsjdjs" length="20"/>
+
+        <property name="qtgsld" type="string" column="qtgsld" length="20"/>
+        <property name="qtgsld_bsjfgs" type="string" column="qtgsld_bsjfgs" length="20"/>
+        <property name="qtgsld_bsjzgs" type="string" column="qtgsld_bsjzgs" length="20"/>
+
+        <property name="tsqk" type="string" column="tsqk" length="20"/>
+
+
+        <property name="insert_date" type="java.util.Date" column="insert_date"/>
+        <property name="update_date" type="java.util.Date" column="update_date"/>
+
+    </class>
+</hibernate-mapping>

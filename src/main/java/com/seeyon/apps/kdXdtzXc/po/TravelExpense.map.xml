@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappers id="travelExpense" namespace="com.seeyon.apps.kdXdtzXc.po.TravelExpense">
+
+
+    <select id="getTravelExpense">
+        SELECT
+        t.id as id,
+        t.[申请人] as sqr,
+        t.[申请人所在部门] as sqrbm,
+        t.[受益部门] as sybm,
+        t.[项目编号] as xmbh,
+        t.[申请单编号] as sqdbh
+        FROM ${com.seeyon.apps.kdXdtzXc.po.TravelExpense} t where t.id=?
+    </select>
+
+
+
+
+</mappers>

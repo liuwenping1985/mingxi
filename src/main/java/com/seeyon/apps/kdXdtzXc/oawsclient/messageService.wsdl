@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://impl.message.services.v3x.seeyon.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ax220="http://services.ctp.seeyon.com/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:axis2="www.seeyon.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ax217="http://services.v3x.seeyon.com/xsd" targetNamespace="www.seeyon.com">
+    <wsdl:documentation>This is the test webservice for Spring/Axis2 Integration</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.ctp.seeyon.com/xsd">
+            <xs:complexType name="ServiceResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="errorMessage" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="errorNumber" type="xs:long"/>
+                    <xs:element minOccurs="0" name="result" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax218="http://impl.message.services.v3x.seeyon.com" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.v3x.seeyon.com/xsd">
+            <xs:import namespace="http://impl.message.services.v3x.seeyon.com"/>
+            <xs:complexType name="ServiceException">
+                <xs:complexContent>
+                    <xs:extension base="ax218:Exception">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="errorNumber" type="xs:long"/>
+                            <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax221="http://services.ctp.seeyon.com/xsd" xmlns:ax219="http://services.v3x.seeyon.com/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://impl.message.services.v3x.seeyon.com">
+            <xs:import namespace="http://services.v3x.seeyon.com/xsd"/>
+            <xs:import namespace="http://services.ctp.seeyon.com/xsd"/>
+            <xs:complexType name="Exception">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ServiceException">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ServiceException" nillable="true" type="ax217:ServiceException"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="sendMessageByLoginName">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="loginNames" nillable="true" type="xs:string"/>
+                        <xs:element minOccurs="0" name="content" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="url" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="sendMessageByLoginNameResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax220:ServiceResponse"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="sendMessageByUserId">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="userIds" type="xs:long"/>
+                        <xs:element minOccurs="0" name="content" nillable="true" type="xs:string"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="url" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="sendMessageByUserIdResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax220:ServiceResponse"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="sendMessageByLoginNameRequest">
+        <wsdl:part name="parameters" element="ns:sendMessageByLoginName"/>
+    </wsdl:message>
+    <wsdl:message name="sendMessageByLoginNameResponse">
+        <wsdl:part name="parameters" element="ns:sendMessageByLoginNameResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ServiceException">
+        <wsdl:part name="parameters" element="ns:ServiceException"/>
+    </wsdl:message>
+    <wsdl:message name="sendMessageByUserIdRequest">
+        <wsdl:part name="parameters" element="ns:sendMessageByUserId"/>
+    </wsdl:message>
+    <wsdl:message name="sendMessageByUserIdResponse">
+        <wsdl:part name="parameters" element="ns:sendMessageByUserIdResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="messageServicePortType">
+        <wsdl:operation name="sendMessageByLoginName">
+            <wsdl:input message="axis2:sendMessageByLoginNameRequest" wsaw:Action="urn:sendMessageByLoginName"/>
+            <wsdl:output message="axis2:sendMessageByLoginNameResponse" wsaw:Action="urn:sendMessageByLoginNameResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:sendMessageByLoginNameServiceException"/>
+        </wsdl:operation>
+        <wsdl:operation name="sendMessageByUserId">
+            <wsdl:input message="axis2:sendMessageByUserIdRequest" wsaw:Action="urn:sendMessageByUserId"/>
+            <wsdl:output message="axis2:sendMessageByUserIdResponse" wsaw:Action="urn:sendMessageByUserIdResponse"/>
+            <wsdl:fault message="axis2:ServiceException" name="ServiceException" wsaw:Action="urn:sendMessageByUserIdServiceException"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="messageServiceSoap11Binding" type="axis2:messageServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="sendMessageByLoginName">
+            <soap:operation soapAction="urn:sendMessageByLoginName" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="sendMessageByUserId">
+            <soap:operation soapAction="urn:sendMessageByUserId" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="messageServiceSoap12Binding" type="axis2:messageServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="sendMessageByLoginName">
+            <soap12:operation soapAction="urn:sendMessageByLoginName" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="sendMessageByUserId">
+            <soap12:operation soapAction="urn:sendMessageByUserId" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ServiceException">
+                <soap12:fault use="literal" name="ServiceException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="messageServiceHttpBinding" type="axis2:messageServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="sendMessageByLoginName">
+            <http:operation location="messageService/sendMessageByLoginName"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="sendMessageByLoginName"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="sendMessageByLoginName"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="sendMessageByUserId">
+            <http:operation location="messageService/sendMessageByUserId"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="sendMessageByUserId"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="sendMessageByUserId"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="messageService">
+        <wsdl:port name="messageServiceHttpSoap11Endpoint" binding="axis2:messageServiceSoap11Binding">
+            <soap:address location="http://172.16.106.130:80/seeyon/services/messageService.messageServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="messageServiceHttpSoap12Endpoint" binding="axis2:messageServiceSoap12Binding">
+            <soap12:address location="http://172.16.106.130:80/seeyon/services/messageService.messageServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="messageServiceHttpEndpoint" binding="axis2:messageServiceHttpBinding">
+            <http:address location="http://172.16.106.130:80/seeyon/services/messageService.messageServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

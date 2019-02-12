@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.seeyon.apps.appoint.po.AppoinEdocPushInfo" table="pro_Appoin_Edoc_PushInfo">
+    	<id name="id" type="long" column="id" length="20">
+        <generator class="assigned" />
+    	</id>
+    	<property name="summaryId" column="summary_id" type="long" length="20"/>
+    	<property name="affairId" column="affair_id" type="long" length="20"/>
+    	<property name="title" column="title" type="string" length="255"/>
+        <property name="infoId"  type="java.lang.String">
+            <column name="info_id" length="255" />
+        </property>
+        <property name="templateNumber" type="java.lang.String">
+            <column name="template_number" length="255" />
+        </property>
+        <property name="infoStr" type="text">
+            <column name="info_str" />
+        </property>
+        <property name="infoName" type="java.lang.String">
+            <column name="info_name" length="255" />
+        </property>
+        <property name="remark" type="java.lang.String">
+            <column name="remark" length="255" />
+        </property>
+        <property name="createDate" type="java.util.Date">
+            <column name="create_date"  length="19" />
+        </property>
+        <property name="finishDate" type="java.util.Date">
+            <column name="finish_date"  length="19" />
+        </property>
+        <property name="successflag" type="boolean">
+            <column name="success_flag" />
+        </property>
+        <property name="ds_sequence" column="ds_sequence" type="string" length="255"/>
+        <property name="apifun" column="apifun" type="string" length="255"/>
+        <property name="maxRetries" column="max_retries" type="integer"/>
+    </class>
+</hibernate-mapping>

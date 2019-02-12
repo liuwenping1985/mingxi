@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.kdXdtzXc.po">
+    <class name="ZongCaiShyy" lazy="false" table="zong_cai_shyy">
+        <id name="id" type="long" column="id" length="20">
+            <generator class="assigned"/>
+        </id>
+        <property name="formmain_id" type="long" column="formmain_id" not-null="true" length="20"/>
+        <property name="gszd" type="string" column="gszd" length="20"/>
+        <property name="jygl" type="string" column="jygl" length="20"/>
+        <property name="qt" type="string" column="qt" length="20"/>
+        <property name="insert_date" type="java.util.Date" column="insert_date" />
+        <property name="update_date" type="java.util.Date" column="update_date" />
+
+    </class>
+</hibernate-mapping>

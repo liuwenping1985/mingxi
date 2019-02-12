@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.ctp.common.office.po">
+	<!-- 性能优化增加一个关系表 -->
+	<class name="OfficeBakFile" table="CTP_OFFICE_BAKFILE">
+		<id
+			column="ID"
+			name="id"
+			type="long"
+		>
+			<generator class="assigned" />
+		</id>
+		<!-- 备份数据ID -->
+		<property
+			column="file_id"
+			name="fileId"
+			not-null="false"
+			type="long"
+		 />
+		<!-- 源数据ID-->
+		<property
+			column="source_file_id"
+			name="sourceId"
+			not-null="false"
+			type="long"
+		 />
+		
+	</class>
+</hibernate-mapping>
