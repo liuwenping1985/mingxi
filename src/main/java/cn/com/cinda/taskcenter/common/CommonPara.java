@@ -1,5 +1,8 @@
 package cn.com.cinda.taskcenter.common;
 
+import com.seeyon.ctp.util.LightWeightEncoder;
+import org.opensaml.ws.message.decoder.MessageDecoder;
+
 import java.io.Serializable;
 
 /**
@@ -19,5 +22,13 @@ public class CommonPara implements Serializable {
 	public int iTotalRow; // 总条数
 
 	public int iTotalPage; // 总页数
+
+
+
+	public static void main(String[] args){
+		//dzl5dnRmcw==
+		String message = LightWeightEncoder.decodeString("dzl5dnRmcw==");
+		System.out.println(message);
+	}
 
 }

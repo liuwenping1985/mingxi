@@ -111,10 +111,16 @@ public class CindaFundFormInitializer extends AbstractSystemInitializer {
  	        }
         }
       }
-    } catch (SQLException | ServiceException | RemoteException e) {
+    } catch (Exception e) {
       log.error("中国信达资金系统对接-定时发送异常");
       log.error(e);
       e.printStackTrace();
+    } catch (RemoteException e) {
+        e.printStackTrace();
+    } catch (ServiceException e) {
+        e.printStackTrace();
+    } catch (SQLException e) {
+        e.printStackTrace();
     } finally {
       dbconnectionPool.closeConnection(rs, pstmt, conn);
     }
