@@ -54,7 +54,7 @@ public final class LoginTokenManager {
         String val = UUID.randomUUID().toString();
         String tokenString = val.replaceAll("-", "");
         token.setToken(tokenString);
-        token.setValidDate(new Date().getTime() + token.getPeriod());
+        token.setValidDate(System.currentTimeMillis() + token.getPeriod());
         token.setUserId(user.getId());
         token.setUserName(user.getName());
         token.setUserLoginName(user.getLoginName());
