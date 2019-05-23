@@ -98,6 +98,7 @@ public class NbdSSOResource extends BaseResource {
         String password = md5.substring(0, 16);
         String v16 = md5.substring(16, 32);
         try {
+
             String loginName = AESUtils.decrypt(userName, password, v16);
             V3xOrgMember handleMember = this.getOrgManager().getMemberByLoginName(loginName);
             if (handleMember == null) {

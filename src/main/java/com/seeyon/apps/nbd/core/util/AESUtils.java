@@ -80,11 +80,12 @@ public class AESUtils{
         System.out.println(md5.length());
         String password = md5.substring(0, 16);
         //向量
+
         String v16 = md5.substring(16, 32);
-        String userName = "002";
-        //encrypt(userName,password,v16);
-        String ppp = encrypt(userName,password,v16);
-        System.out.println(ppp);
+        String userId="10990293";
+        String tokenSource = userId+":"+System.currentTimeMillis();
+        String token = encrypt(tokenSource,password,v16);
+        System.out.println(token);
         //System.out.println(decrypt(ppp,password,v16));
     }
 }
