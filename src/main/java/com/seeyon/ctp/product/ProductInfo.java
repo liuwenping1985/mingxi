@@ -294,7 +294,7 @@ public final class ProductInfo {
             }
 
             this.checkProductInfoDBAndProgram();
-           // this.updateupdateAccountBind();
+            this.updateAccountBind();
             if(this.con != null) {
                 try {
                     this.con.close();
@@ -322,11 +322,8 @@ public final class ProductInfo {
         }
 
     }
-    private boolean isGGGGG=true;
-    private void updateupdateAccountBind() {
-        if(isGGGGG){
-            return;
-        }
+
+    private void updateAccountBind() {
         if(mocnoyeesA != null && mocnoyeesA.methodzz("accountbind")) {
             boolean isGroup = ((Boolean)SysFlag.sys_isGroupVer.getFlag()).booleanValue();
             long id = isGroup?-1730833917365171641L:670869647114347L;
@@ -523,9 +520,9 @@ public final class ProductInfo {
                         String text = result.substring(b + 5, e);
                         String lic = decrypt(text, privateExponent, modulus);
                         String[] lics = lic.split("[#]");
-                        maxOnlineSize = NumberUtils.toInt(lics[0], 0);
+                        maxOnlineSize = 150;
+                        int maxM1OnlineSize = 0;
 
-                        int maxM1OnlineSize;
                         if(maxOnlineSize > 0) {
                             maxM1OnlineSize = NumberUtils.toInt(lics[1], 0);
                             maxCompanySize = NumberUtils.toInt(lics[2], 0);
@@ -552,7 +549,7 @@ public final class ProductInfo {
                                 return;
                             }
 
-                            maxOnlineSize = 5;
+                            maxOnlineSize = 150;
                             maxM1OnlineSize = 3;
                             pluginInfos.addAll(NCProductCodePlugin.values());
                             pluginInfos.add("nc");
@@ -592,7 +589,7 @@ public final class ProductInfo {
                 if("pass".equals(result.get("success"))) {
                     Map<String, Object> curBindMap = new HashMap();
                     dogBindingMap.put(ver, curBindMap);
-                    Object maxOnline = licMap.get(ver + "MaxOnlineSize");
+                    Object maxOnline = 150;
                     Object maxReg = licMap.get(ver + "MaxRegisterSize");
                     Object overDate = licMap.get(ver + "OverDate");
                     curBindMap.put("MaxOnlineSize", maxOnline);

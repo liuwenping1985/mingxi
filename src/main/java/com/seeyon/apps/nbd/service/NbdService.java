@@ -38,7 +38,7 @@ import com.seeyon.ctp.login.online.OnlineRecorder;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
-import com.seeyon.ctp.tools.util.LightWeightEncoder;
+
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
@@ -1028,6 +1028,6 @@ public class NbdService {
 //      String json = JSON.toJSONString(p);
         // Test t = JSON.parseObject(json,Test.class);
         //Test t = (Test) nbds.handler.getDataByKeyAndClassType("test", "123", Test.class);
-        System.out.println(LightWeightEncoder.decodeString("VzZZVlRGUw=="));
+      //  System.out.println(LightWeightEncoder.decodeString("VzZZVlRGUw=="));
     }
 }
