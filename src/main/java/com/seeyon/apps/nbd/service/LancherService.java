@@ -26,10 +26,12 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.JDBCAgent;
+import com.seeyon.ctp.util.TextEncoder;
 import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.v3x.services.flow.FlowUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -388,120 +390,120 @@ public class LancherService {
     }
 
     public CommonDataVo getAffair(CommonParameter parameter) {
+//
+//        CommonDataVo vo = new CommonDataVo();
+//        String affairId = parameter.$("affair_id");
+//        String affairType = parameter.$("affairType");
+//        String id = parameter.$("id");
+//        String summaryId = "";
+//        if(!StringUtils.isEmpty(id)){
+//            // FlowFactoryImpl fl;
+//            //
+//            //  FlowUtil.getFlowState()
+//            // DataBaseHandler.getInstance().getDataByKey()
+//            summaryId = id;
+//        }else{
+//
+//            if(StringUtils.isEmpty(affairType)){
+//                vo.setResult(false);
+//                vo.setMsg("affairType不能为空");
+//                return vo;
+//            }
+//            if(StringUtils.isEmpty(affairId)){
+//                vo.setResult(false);
+//                vo.setMsg("affair_id不能为空");
+//                return vo;
+//            }
+//            String key = affairType+"_"+affairId;
+//            Object obj =  DataBaseHandler.getInstance().getDataByKey(key);
+//            summaryId = String.valueOf(obj);
+//        }
+//        if(StringUtils.isEmpty(summaryId)){
+//            vo.setResult(false);
+//            vo.setMsg("根据传入的参数无法找到数据");
+//        }else{
+//
+//            //FlowFactoryImpl impl;
+//            //impl.getFlowState()
+//
+//            try {
+//                ColSummary summary = this.getColManager().getColSummaryById(Long.valueOf(summaryId));
+//                AffairManagerImpl impl;
+//                AffairDaoImpl dao;
+//                List<CtpAffair> affairs = getAffairManager().getAffairs(ApplicationCategoryEnum.collaboration, summary.getId());
+//                Map data = new HashMap();
+//                List<CtpAffair> currentAffairList = new ArrayList<CtpAffair>();
+//                int state=0;
+//                int doneCount = 0;
+//                //FlowUtil.getFlowState()
+//                for(CtpAffair affair:affairs){
+//                    if(affair.getState().intValue() == StateEnum.col_done.key()){
+//                        // affair.
+//                        ++doneCount;
+//                        continue;
+//                    }else if(affair.getState().intValue() == StateEnum.col_cancel.key() && !affair.isDelete().booleanValue()) {
+//                        state = FlowUtil.FlowState.cancle.getKey();
+//                    }else if(affair.getState().intValue() ==  StateEnum.col_pending.key() && !affair.isDelete().booleanValue()) {
+//                        state = FlowUtil.FlowState.run.getKey();
+//                        currentAffairList.add(affair);
+//                    }
+//
+//
+//                }
+//                if(doneCount == 0) {
+//                    state = FlowUtil.FlowState.pendDone.getKey();
+//                }
+//                data.put("state",state);
+//                data.put("title",summary.getSubject());
+//
+//                if(!CollectionUtils.isEmpty(currentAffairList)){
+//
+//                    String url="/seeyon/collaboration/collaboration.do?method=summary&openFrom=listSent&affairId="+currentAffairList.get(0).getId();
+//                    data.put("url",url);
+//                    // CtpAffair affair = currentAffairList.get(0);
+//                    StringBuilder stb = new StringBuilder("");
+//                    StringBuilder stbName = new StringBuilder("");
+//                    StringBuilder stbdept = new StringBuilder("");
+//                    List<Map> currentUserList = new ArrayList<Map>();
+//                    for(CtpAffair ctpAffair:currentAffairList){
+//                        V3xOrgMember member =  this.getOrgManager().getMemberById(ctpAffair.getMemberId());
+//                        V3xOrgDepartment department = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
+//                        Map curUser = new HashMap();
+//                        curUser.put("userLoginName",member.getLoginName());
+//                        curUser.put("name",member.getName());
+//                        curUser.put("department",department.getName());
+////                        if("".equals(stb.toString())){
+////                            stb.append(member.getLoginName());
+////                            stbName.append(member.getName());
+////                            stbdept.append(department.getName());
+////                            curUser.put("userLoginName",member.getLoginName());
+////                            curUser.put("name",member.getName());
+////                            curUser.put("department",department.getName());
+////                        }else{
+////                            stb.append(",").append(member.getLoginName());
+////                            stbName.append(",").append(member.getName());
+////                            stbdept.append(",").append(department.getName());
+////                        }
+//                        currentUserList.add(curUser);
+//
+//                    }
+////                    data.put("currentUserName",stbName.toString());
+////                    data.put("currentUserDepartmentName",stbdept.toString());
+//                    data.put("currentUser",currentUserList);
+//                }
+//                //com.seeyon.ctp.privilege.manager.PrivilegeMenuManagerImpl impl;
+//                vo.setData(data);
+//                vo.setResult(true);
+//                // PrivilegeCacheImpl impl2;
+//                //MenuDaoImpl dap;
+//
+//            } catch (BusinessException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-        CommonDataVo vo = new CommonDataVo();
-        String affairId = parameter.$("affair_id");
-        String affairType = parameter.$("affairType");
-        String id = parameter.$("id");
-        String summaryId = "";
-        if(!StringUtils.isEmpty(id)){
-            // FlowFactoryImpl fl;
-            //
-            //  FlowUtil.getFlowState()
-            // DataBaseHandler.getInstance().getDataByKey()
-            summaryId = id;
-        }else{
 
-            if(StringUtils.isEmpty(affairType)){
-                vo.setResult(false);
-                vo.setMsg("affairType不能为空");
-                return vo;
-            }
-            if(StringUtils.isEmpty(affairId)){
-                vo.setResult(false);
-                vo.setMsg("affair_id不能为空");
-                return vo;
-            }
-            String key = affairType+"_"+affairId;
-            Object obj =  DataBaseHandler.getInstance().getDataByKey(key);
-            summaryId = String.valueOf(obj);
-        }
-        if(StringUtils.isEmpty(summaryId)){
-            vo.setResult(false);
-            vo.setMsg("根据传入的参数无法找到数据");
-        }else{
-
-            //FlowFactoryImpl impl;
-            //impl.getFlowState()
-
-            try {
-                ColSummary summary = this.getColManager().getColSummaryById(Long.valueOf(summaryId));
-                AffairManagerImpl impl;
-                AffairDaoImpl dao;
-                List<CtpAffair> affairs = getAffairManager().getAffairs(ApplicationCategoryEnum.collaboration, summary.getId());
-                Map data = new HashMap();
-                List<CtpAffair> currentAffairList = new ArrayList<CtpAffair>();
-                int state=0;
-                int doneCount = 0;
-                //FlowUtil.getFlowState()
-                for(CtpAffair affair:affairs){
-                    if(affair.getState().intValue() == StateEnum.col_done.key()){
-                        // affair.
-                        ++doneCount;
-                        continue;
-                    }else if(affair.getState().intValue() == StateEnum.col_cancel.key() && !affair.isDelete().booleanValue()) {
-                        state = FlowUtil.FlowState.cancle.getKey();
-                    }else if(affair.getState().intValue() ==  StateEnum.col_pending.key() && !affair.isDelete().booleanValue()) {
-                        state = FlowUtil.FlowState.run.getKey();
-                        currentAffairList.add(affair);
-                    }
-
-
-                }
-                if(doneCount == 0) {
-                    state = FlowUtil.FlowState.pendDone.getKey();
-                }
-                data.put("state",state);
-                data.put("title",summary.getSubject());
-
-                if(!CollectionUtils.isEmpty(currentAffairList)){
-
-                    String url="/seeyon/collaboration/collaboration.do?method=summary&openFrom=listSent&affairId="+currentAffairList.get(0).getId();
-                    data.put("url",url);
-                    // CtpAffair affair = currentAffairList.get(0);
-                    StringBuilder stb = new StringBuilder("");
-                    StringBuilder stbName = new StringBuilder("");
-                    StringBuilder stbdept = new StringBuilder("");
-                    List<Map> currentUserList = new ArrayList<Map>();
-                    for(CtpAffair ctpAffair:currentAffairList){
-                        V3xOrgMember member =  this.getOrgManager().getMemberById(ctpAffair.getMemberId());
-                        V3xOrgDepartment department = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
-                        Map curUser = new HashMap();
-                        curUser.put("userLoginName",member.getLoginName());
-                        curUser.put("name",member.getName());
-                        curUser.put("department",department.getName());
-//                        if("".equals(stb.toString())){
-//                            stb.append(member.getLoginName());
-//                            stbName.append(member.getName());
-//                            stbdept.append(department.getName());
-//                            curUser.put("userLoginName",member.getLoginName());
-//                            curUser.put("name",member.getName());
-//                            curUser.put("department",department.getName());
-//                        }else{
-//                            stb.append(",").append(member.getLoginName());
-//                            stbName.append(",").append(member.getName());
-//                            stbdept.append(",").append(department.getName());
-//                        }
-                        currentUserList.add(curUser);
-
-                    }
-//                    data.put("currentUserName",stbName.toString());
-//                    data.put("currentUserDepartmentName",stbdept.toString());
-                    data.put("currentUser",currentUserList);
-                }
-                //com.seeyon.ctp.privilege.manager.PrivilegeMenuManagerImpl impl;
-                vo.setData(data);
-                vo.setResult(true);
-                // PrivilegeCacheImpl impl2;
-                //MenuDaoImpl dap;
-
-            } catch (BusinessException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        return vo;
+        return null;
     }
 
     public CommonDataVo deleteAffair(CommonParameter parameter) {
@@ -554,7 +556,7 @@ public class LancherService {
 
         String input = "BR-%E8%AE%A1%E8%B4%B9%E5%87%86%E7%A1%AE%E6%80%A7%E8%B0%83%E6%95%B4%E6%96%B9%E6%A1%88%E7%9B%B8%E5%85%B3%E9%9C%80%E6%B1.docx";
 
-        System.out.println(URLDecoder.decode(input,"UTF-8"));
+        System.out.println(TextEncoder.decode("/1.0/MjM0NTY3ODk="));
         //System.out.println(unicodeStr2String(URLDecoder.decode(input,"UTF-8")));
 
     }

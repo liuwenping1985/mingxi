@@ -1,9 +1,9 @@
 package com.seeyon.ctp.common.filemanager.manager;
 
 import com.seeyon.ctp.common.filemanager.event.FileItem;
-import com.seeyon.ctp.common.log.CtpLogFactory;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by liuwenping on 2019/1/28.
  */
 public class SignFileItem implements FileItem {
-    private static final Log log = CtpLogFactory.getLog(SignFileItem.class);
+    private static final Log log = LogFactory.getLog(SignFileItem.class);
     private String name;
     private long size;
     private final File fileItem;

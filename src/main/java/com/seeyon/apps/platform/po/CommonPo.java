@@ -1,8 +1,5 @@
 package com.seeyon.apps.platform.po;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
-
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -14,7 +11,6 @@ public class CommonPo {
     private String name;
 
     @Id
-    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long id;
 
     private String type;
@@ -28,9 +24,7 @@ public class CommonPo {
     /**
      * 扩展字段群
      */
-    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long extLong1;
-    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long extLong2;
     private String extString1;
     private String extString2;

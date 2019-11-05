@@ -35,11 +35,11 @@ public class DataBaseHandler {
         this.mode = mode;
 
         StringBuilder stb = initDataBase(DEFAULT_DB);
-        if(!StringUtils.isEmpty(stb.toString())){
+        if(!org.apache.commons.lang.StringUtils.isEmpty(stb.toString())){
             dbMap = JSON.parseObject(stb.toString(),HashMap.class);
         }
         stb = initDataBase(EXT_DB);
-        if(!StringUtils.isEmpty(stb.toString())){
+        if(!org.apache.commons.lang.StringUtils.isEmpty(stb.toString())){
             extDbMap = JSON.parseObject(stb.toString(),HashMap.class);
         }
         if(!extDbMap.isEmpty()){

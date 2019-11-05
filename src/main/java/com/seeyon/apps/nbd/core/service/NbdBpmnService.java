@@ -31,7 +31,7 @@ import com.seeyon.v3x.services.form.FormUtils;
 import com.seeyon.v3x.services.form.bean.DefinitionExport;
 import com.seeyon.v3x.services.form.bean.FormExport;
 import com.seeyon.v3x.services.form.bean.SubordinateFormExport;
-import com.seeyon.v3x.services.util.SaveFormToXml;
+//import com.seeyon.v3x.services.util.SaveFormToXml;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -633,8 +633,8 @@ public class NbdBpmnService {
         StringWriter writer = new StringWriter();
 
         try {
-            SaveFormToXml.getInstance().saveXMLToStream(writer, export);
-        } catch (IOException var4) {
+            //SaveFormToXml.getInstance().saveXMLToStream(writer, export);
+        } catch (Exception var4) {
             var4.printStackTrace();
         }
 

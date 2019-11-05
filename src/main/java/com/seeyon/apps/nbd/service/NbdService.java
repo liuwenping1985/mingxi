@@ -1,6 +1,8 @@
 package com.seeyon.apps.nbd.service;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.collaboration.manager.ColManager;
+import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
@@ -32,7 +34,7 @@ import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.common.po.template.CtpTemplate;
-import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
+//import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.login.online.OnlineRecorder;
 import com.seeyon.ctp.organization.bo.V3xOrgAccount;
@@ -44,7 +46,7 @@ import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +69,7 @@ public class NbdService {
      */
     private MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
     private TransferService transferService = TransferService.getInstance();
-    private CollaborationTemplateManager collaborationTemplateManager;
+  //  private CollaborationTemplateManager collaborationTemplateManager;
 
     private  LogBuilder lb = new LogBuilder("MID-WAY");
     private TimerTaskService timerTaskService = TimerTaskService.getInstance();
@@ -79,12 +81,12 @@ public class NbdService {
         return nbdBpmnService;
     }
 
-    private CollaborationTemplateManager getCollaborationTemplateManager() {
-        if (collaborationTemplateManager == null) {
-            collaborationTemplateManager = (CollaborationTemplateManager) AppContext.getBean("collaborationTemplateManager");
-        }
-        return collaborationTemplateManager;
-    }
+//    private CollaborationTemplateManager getCollaborationTemplateManager() {
+//        if (collaborationTemplateManager == null) {
+//            collaborationTemplateManager = (CollaborationTemplateManager) AppContext.getBean("collaborationTemplateManager");
+//        }
+//        return collaborationTemplateManager;
+//    }
 
     private LoginControlImpl loginControl;
 
@@ -656,10 +658,13 @@ public class NbdService {
 
     }
 
-    public void transA8Output(CtpAffair affair, A8ToOtherConfigEntity a8ToOtherConfigEntity) {
+    public void transA8Output(CtpAffair affair, A8ToOtherConfigEntity a8ToOtherConfigEntity) throws BusinessException {
 
         String expType = a8ToOtherConfigEntity.getExportType();
-        Long formRecordId = affair.getFormRecordid();
+        Long summaryId = affair.getObjectId();
+        ColManager manager = (ColManager)AppContext.getBean("colManager");
+        ColSummary summary = manager.getSummaryById(summaryId);
+        Long formRecordId = summary.getFormRecordid();
         Map masterRecord = null;
         if ("mid_table".equals(expType)) {
             try {
@@ -882,7 +887,7 @@ public class NbdService {
         AppContext.putSessionContext(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
         session.setAttribute("com.seeyon.current_user", user);
         AppContext.putThreadContext("SESSION_CONTEXT_USERINFO_KEY", user);
-        OnlineRecorder.moveToOffline(user.getLoginName(), user.getLoginSign(), Constants.LoginOfflineOperation.loginAnotherone);
+        OnlineRecorder.moveToOffline(user.getLoginName(),Constants.LoginOfflineOperation.loginAnotherone);
         this.getLoginControl().getOnlineManager().updateOnlineState(user);
         this.getLoginControl().createLog(user);
         this.getLoginControl().getTopFrame(user, request);
@@ -963,44 +968,44 @@ public class NbdService {
             }
         }
     }
-    public List<CtpTemplate> findConfigTemplates(String category,int offset, int limit,Long userId,Long accountId) {
-        List<CtpTemplate> templateList = new ArrayList();
-
-        if(limit <= 0) {
-            return (List)templateList;
-        } else {
-            FlipInfo flipInfo = new FlipInfo();
-            flipInfo.setPage(1);
-            flipInfo.setSize(limit+offset);
-
-            flipInfo.setNeedTotal(false);
-            Map<String, Object> params = new HashMap();
-            if(userId!=null){
-
-                params.put("userId", userId);
-                params.put("accountId", accountId);
-            }else{
-                User user = AppContext.getCurrentUser();
-                params.put("userId", user.getId());
-                params.put("accountId", user.getLoginAccount());
-            }
-
-            params.put("category", category);
-
-            try {
-                templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
-                if(templateList.size()<offset){
-                    return new ArrayList<CtpTemplate>();
-                }else{
-                    return templateList.subList(offset,offset+limit);
-                }
-            } catch (BusinessException var8) {
-
-            }
-
-            return (List)templateList;
-        }
-    }
+//    public List<CtpTemplate> findConfigTemplates(String category,int offset, int limit,Long userId,Long accountId) {
+//        List<CtpTemplate> templateList = new ArrayList();
+//
+//        if(limit <= 0) {
+//            return (List)templateList;
+//        } else {
+//            FlipInfo flipInfo = new FlipInfo();
+//            flipInfo.setPage(1);
+//            flipInfo.setSize(limit+offset);
+//
+//            flipInfo.setNeedTotal(false);
+//            Map<String, Object> params = new HashMap();
+//            if(userId!=null){
+//
+//                params.put("userId", userId);
+//                params.put("accountId", accountId);
+//            }else{
+//                User user = AppContext.getCurrentUser();
+//                params.put("userId", user.getId());
+//                params.put("accountId", user.getLoginAccount());
+//            }
+//
+//            params.put("category", category);
+//
+//            try {
+//                templateList = this.getCollaborationTemplateManager().getMyConfigCollTemplate(flipInfo, params);
+//                if(templateList.size()<offset){
+//                    return new ArrayList<CtpTemplate>();
+//                }else{
+//                    return templateList.subList(offset,offset+limit);
+//                }
+//            } catch (BusinessException var8) {
+//
+//            }
+//
+//            return (List)templateList;
+//        }
+//    }
 
     public void login(Long userId){
 

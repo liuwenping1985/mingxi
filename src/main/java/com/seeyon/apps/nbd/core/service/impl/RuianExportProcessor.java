@@ -229,7 +229,7 @@ public class RuianExportProcessor implements CustomExportProcess {
                             att2.setReference(recordId);
                             att2.setId(UUIDLong.longUUID());
                             DBAgent.save(att2);
-                            DBAgent.commit();
+                            //DBAgent.commit();
                             System.out.println("att-saved::--->>>" + att2.getId());
                         }
                     }
@@ -279,7 +279,7 @@ public class RuianExportProcessor implements CustomExportProcess {
     }
 
     public void process(String code, CtpAffair affair) {
-        Long formRecordId = affair.getFormRecordid();
+        Long formRecordId = null;//affair.getFormRecordid();
         CommonParameter cp = new CommonParameter();
         cp.$("affairType", code);
         NbdResponseEntity<FormTableDefinition> entity = nbdService.getFormByTemplateNumber(cp);

@@ -243,7 +243,7 @@ public class TransferService {
                 if (CommonUtils.isNotEmpty(attachemntList)) {
                     return "/seeyon/nbd.do?method=download&file_id=" + attachemntList.get(0).getFileUrl();
                 }
-                List<Long> filesIdList = this.getAttachmentManager().getBySubReference(id);
+                List<Long> filesIdList = null;//this.getAttachmentManager().getBySubReference(id);
                 if (CommonUtils.isNotEmpty(filesIdList)) {
 
                     return "/seeyon/nbd.do?method=download&file_id=" + filesIdList.get(0);

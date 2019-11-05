@@ -21,7 +21,7 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.SystemEnvironment;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
-import com.seeyon.ctp.common.customize.manager.CustomizeManager;
+
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.filemanager.manager.FileManager;
 import com.seeyon.ctp.common.po.filemanager.V3XFile;
@@ -54,18 +54,18 @@ public class NbdController extends BaseController {
     private FileManager fileManager;
     private NbdService nbdService;
 
-    private CustomizeManager customizeManager;
-
-    public CustomizeManager getCustomizeManager() {
-        if (customizeManager == null) {
-            customizeManager = (CustomizeManager) AppContext.getBean("customizeManager");
-        }
-        return customizeManager;
-    }
-
-    public void setCustomizeManager(CustomizeManager customizeManager) {
-        this.customizeManager = customizeManager;
-    }
+//    private CustomizeManager customizeManager;
+//
+//    public CustomizeManager getCustomizeManager() {
+//        if (customizeManager == null) {
+//            customizeManager = (CustomizeManager) AppContext.getBean("customizeManager");
+//        }
+//        return customizeManager;
+//    }
+//
+//    public void setCustomizeManager(CustomizeManager customizeManager) {
+//        this.customizeManager = customizeManager;
+//    }
 
     public NbdService getNbdService() {
         return nbdService;
@@ -193,17 +193,17 @@ public class NbdController extends BaseController {
                     return imageSrc;
                 }
             }
-            String fileName = getCustomizeManager().getCustomizeValue(member.getId(), "avatar");
-            if (fileName != null && !Strings.equals("pic.gif", fileName)) {
-                fileName = fileName.replaceAll(" on", " son");
-                if (fileName.startsWith("fileId")) {
-                    imageSrc = contextPath + "/fileUpload.do?method=showRTE&" + fileName + "&type=image";
-                } else {
-                    imageSrc = contextPath + "/apps_res/v3xmain/images/personal/" + fileName;
-                }
-            } else if (Strings.equals("enable", isUseDefaultAvatar)) {
-
-            }
+//            String fileName = getCustomizeManager().getCustomizeValue(member.getId(), "avatar");
+//            if (fileName != null && !Strings.equals("pic.gif", fileName)) {
+//                fileName = fileName.replaceAll(" on", " son");
+//                if (fileName.startsWith("fileId")) {
+//                    imageSrc = contextPath + "/fileUpload.do?method=showRTE&" + fileName + "&type=image";
+//                } else {
+//                    imageSrc = contextPath + "/apps_res/v3xmain/images/personal/" + fileName;
+//                }
+//            } else if (Strings.equals("enable", isUseDefaultAvatar)) {
+//
+//            }
             //GovDocController
 
         } catch (Exception var8) {
@@ -382,12 +382,12 @@ public class NbdController extends BaseController {
         }
         int limit = Integer.parseInt(limitStr);
         int offset = Integer.parseInt(ofssetStr);
-        if (user == null) {
-
-            templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347L);
-        } else {
-            templateList = nbdService.findConfigTemplates(category, offset, limit, user.getId(), user.getAccountId());
-        }
+//        if (user == null) {
+//
+//            templateList = nbdService.findConfigTemplates(category, offset, limit, 8180340772611837618L, 670869647114347L);
+//        } else {
+//            templateList = nbdService.findConfigTemplates(category, offset, limit, user.getId(), user.getAccountId());
+//        }
         NbdResponseEntity<CtpTemplate> entity = new NbdResponseEntity<CtpTemplate>();
         entity.setResult(true);
         List<Map> retList = new ArrayList<Map>();

@@ -1,7 +1,5 @@
 package com.seeyon.apps.ztask.po;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.seeyon.apps.platform.po.CommonPo;
 
 /**
@@ -17,7 +15,7 @@ public class TaskReference extends CommonPo {
 
     private String referenceValue;
 
-    @JSONField(serializeUsing = ToStringSerializer.class)
+
     private Long referenceObject;
 
     public String getReferenceId() {

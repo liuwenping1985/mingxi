@@ -121,7 +121,11 @@ public class ProcessEventHandler {
                     //这里需要在查询一次把表单定义查出来
                     p.$("id",String.valueOf(other.getId()));
                     other = (A8ToOtherConfigEntity)nbdService.getDataById(p).getData();
-                    nbdService.transA8Output(affair,other);
+                    try {
+                        nbdService.transA8Output(affair,other);
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -144,7 +148,7 @@ public class ProcessEventHandler {
         if(CommonUtils.isEmpty(code)){
             return;
         }
-        CtpAffair affair = event.getAffair();
+        CtpAffair affair = null;//event.getAffair();
         processA82Other("process_start",code,affair);
         // processDoneEvent(summaryId,"回退",FlowUtil.FlowState.back.getKey());
 

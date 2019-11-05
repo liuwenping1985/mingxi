@@ -399,40 +399,40 @@ public class MenhuController extends BaseController {
         return null;
     }
     //
-
-    public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletResponse response) {
-
-        CommonResultVo data = new CommonResultVo();
-        try {
-            CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
-            DocResourceDao docResourceDao = (DocResourceDao) AppContext.getBean("docResourceDao");
-            User user = AppContext.getCurrentUser();
-            String userName = user.getName();
-            //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
-            DocLibPO docLibPo = getDocLibManager().getPersonalLibOfUser(user.getId());
-            Map<String, Object> params = new HashMap<String, Object>();
-            // params.put("userName", userName);
-            params.put("docLibId", String.valueOf(docLibPo.getId()));
-
-            List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
-            List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
-            data.setItems(transToDocVo(pagingFavor));
-            Helper.responseJSON(data, response);
-            //  System.out.println("params："+params);
-            //System.out.println("list："+poList);
-            return null;
-        } catch (Exception e) {
-            data.setResult(false);
-            data.setMsg("EXCEPTION:" + e.getMessage());
-            e.printStackTrace();
-        } catch (Error e) {
-            data.setResult(false);
-            data.setMsg("ERROR:" + e.getMessage());
-            e.printStackTrace();
-        }
-        Helper.responseJSON(data, response);
-        return null;
-    }
+//
+//    public ModelAndView getFavorCollection(HttpServletRequest request, HttpServletResponse response) {
+//
+//        CommonResultVo data = new CommonResultVo();
+//        try {
+//            CommonTypeParameter p = Helper.parseCommonTypeParameter(request);
+//            DocResourceDao docResourceDao = (DocResourceDao) AppContext.getBean("docResourceDao");
+//            User user = AppContext.getCurrentUser();
+//            String userName = user.getName();
+//            //DocLibManager docLibManager = (DocLibManager)AppContext.getBean("docLibManager");
+//            DocLibPO docLibPo = getDocLibManager().getPersonalLibOfUser(user.getId());
+//            Map<String, Object> params = new HashMap<String, Object>();
+//            // params.put("userName", userName);
+//            params.put("docLibId", String.valueOf(docLibPo.getId()));
+//
+//            //List<DocResourcePO> poList = docResourceDao.findFavoriteByCondition(params);
+//            //List<DocResourcePO> pagingFavor = Helper.paggingList(poList, p);
+//            data.setItems(transToDocVo(pagingFavor));
+//            Helper.responseJSON(data, response);
+//            //  System.out.println("params："+params);
+//            //System.out.println("list："+poList);
+//            return null;
+//        } catch (Exception e) {
+//            data.setResult(false);
+//            data.setMsg("EXCEPTION:" + e.getMessage());
+//            e.printStackTrace();
+//        } catch (Error e) {
+//            data.setResult(false);
+//            data.setMsg("ERROR:" + e.getMessage());
+//            e.printStackTrace();
+//        }
+//        Helper.responseJSON(data, response);
+//        return null;
+//    }
 
     public ModelAndView getNewsByAccountAndDepartment(HttpServletRequest request, HttpServletResponse response) throws Exception {
         this.preResponse(response);
