@@ -1,7 +1,7 @@
 package com.seeyon.apps.nbd.po;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.ctp.common.po.BasePO;
 
 import java.util.HashMap;

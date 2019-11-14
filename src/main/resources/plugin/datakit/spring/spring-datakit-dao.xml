@@ -43,7 +43,7 @@
 	<!--</bean>-->
 
 	<!--<tx:annotation-driven transaction-manager="transactionManager_second"  proxy-target-class="true"/>-->
-	<!--<bean id="UserDAO" class="com.cn.hightech.entity.gx.UserDAO">-->
+	<!--<bean id="UserDAO" class="com.cn.hightformtity.gx.UserDAO">-->
 		<!--<property name="secondFactory">-->
 			<!--<ref bean="sessionFactory_second" />-->
 		<!--</property>-->

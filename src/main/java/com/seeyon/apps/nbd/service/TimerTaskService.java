@@ -2,18 +2,12 @@ package com.seeyon.apps.nbd.service;
 
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
-import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.log.LogBuilder;
 import com.seeyon.apps.nbd.po.DataLink;
-import com.seeyon.apps.nbd.po.Ftd;
 import com.seeyon.apps.nbd.po.OtherToA8ConfigEntity;
-import com.seeyon.apps.nbd.util.UIUtils;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * 按理说该用ScheduledExecutorService,这里用timer简化点吧

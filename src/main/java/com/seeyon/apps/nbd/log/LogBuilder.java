@@ -1,6 +1,6 @@
 package com.seeyon.apps.nbd.log;
 
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.po.LogEntry;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class LogBuilder {
             }
             for(LogEntry entity:logList){
 
-               // entity.saveOrUpdate();
+               // form.saveOrUpdate();
               //  logger.l
             }
 

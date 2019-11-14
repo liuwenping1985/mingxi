@@ -1,0 +1,130 @@
+<TableList name="确认单" code="DB_AFFIRM">
+    <Table id="1910859596157239987" name="formmain_0035" display="formmain_0035" tabletype="master" onwertable="" onwerfield="">
+        <FieldList>
+            <Field id="350947790934593027" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname=""/>
+            <Field id="2280669061781014615" name="state" display="审核状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="-2167529066561190048" name="start_member_id" display="发起人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="-434650757764005307" name="start_date" display="发起时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="-840537958186072074" name="approve_member_id" display="审核人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="6298500935178276665" name="approve_date" display="审核时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="8628026838734949868" name="finishedflag" display="流程状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="6508767275422401967" name="ratifyflag" display="核定状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="-7899886542676275695" name="ratify_member_id" display="核定人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="-8695130417816975907" name="ratify_date" display="核定时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+
+
+            <Field id="3457200804941742265" name="field0001" display="任务ID" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6992470287168454853" name="field0002" display="任务来源" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="991339401486157325" name="field0003" display="任务分级" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2983353442915039146" name="field0004" display="标题" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4726646791141896905" name="field0005" display="办理要求" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1583687831570237709" name="field0006" display="任务附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-477574957687290629" name="field0007" display="办理时限" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8627490699097556789" name="field0008" display="督办周期" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2148555937269892062" name="field0009" display="督办周期补充" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8740483603425441335" name="field0010" display="责任领导" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2073986767513763375" name="field0011" display="可查看领导" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="578775549709140817" name="field0012" display="督办人员" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7011506578722110486" name="field0013" display="承办部门名称" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2304405935667920352" name="field0014" display="权重" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7258990617485001126" name="field0015" display="配合0" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="209399153088809928" name="field0016" display="配合部门0" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7629053503322147672" name="field0017" display="权重0" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4353959169160794097" name="field0018" display="配合1" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4364349481880208262" name="field0019" display="配合部门1" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-5615985478320306785" name="field0020" display="权重1" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6513151186546278468" name="field0021" display="配合2" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-3531568381259333029" name="field0022" display="配合部门2" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4410247670696332346" name="field0023" display="权重2" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="360720785033218399" name="field0024" display="配合3" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-9182244318845710847" name="field0025" display="配合部门3" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7393107067268872834" name="field0026" display="权重3" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="5644292890116178396" name="field0027" display="配合4" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2446990507186171915" name="field0028" display="配合部门4" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="322619288267148890" name="field0029" display="权重4" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="5530068249980194006" name="field0030" display="配合5" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4746134431609211127" name="field0031" display="配合部门5" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8743021785722474194" name="field0032" display="权重5" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7447100965177308667" name="field0033" display="配合6" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8362999554664648652" name="field0034" display="配合部门6" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8103277248170013488" name="field0035" display="权重6" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8830275109414061387" name="field0036" display="配合7" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6740798414800993200" name="field0037" display="配合部门7" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2597917023537218474" name="field0038" display="权重7" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8718957427992054908" name="field0039" display="配合8" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8688272620511542965" name="field0040" display="配合部门8" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4745538687772608126" name="field0041" display="权重8" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2199289284785816036" name="field0042" display="配合9" fieldtype="VARCHAR" fieldlength="5,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2182770883039741171" name="field0043" display="配合部门9" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4870253528502454234" name="field0044" display="权重9" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6054981030144555006" name="field0045" display="任务签收0" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6168667795814462471" name="field0046" display="部门0" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4685170015154294531" name="field0047" display="签字0" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6420013713959007893" name="field0048" display="日期0" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="419465430742548588" name="field0049" display="任务签收1" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3689272880404055464" name="field0050" display="部门1" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8451178682487948584" name="field0051" display="签字1" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1791859713086934864" name="field0052" display="日期1" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7778748180813400526" name="field0053" display="任务签收" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2010142491389676451" name="field0054" display="承办-部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7824714183277693864" name="field0055" display="承办-签字" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2551347975570738927" name="field0056" display="承办-日期" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7319361232784831657" name="field0057" display="任务签收2" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-1402999644619780686" name="field0058" display="部门2" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-3252678606093987871" name="field0059" display="签字2" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7052597322858644683" name="field0060" display="日期2" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6828449750785869025" name="field0061" display="任务签收3" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7502052775937523871" name="field0062" display="部门3" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8144702405466895416" name="field0063" display="签字3" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2928113313923054211" name="field0064" display="日期3" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6910491944347615192" name="field0065" display="任务签收4" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6455133226973151751" name="field0066" display="部门4" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8014170437287430080" name="field0067" display="签字4" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4995967448456803992" name="field0068" display="日期4" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2424306690182959018" name="field0069" display="任务签收5" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4171089535259068478" name="field0070" display="部门5" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6733178965882287337" name="field0071" display="签字5" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6623199609202557170" name="field0072" display="日期5" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4964557589536916937" name="field0073" display="任务签收6" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7305582036702769378" name="field0074" display="部门6" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="5513011971111145025" name="field0075" display="签字6" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="5128423456702746588" name="field0076" display="日期6" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6718692066046656753" name="field0077" display="任务签收7" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6056850410376903948" name="field0078" display="部门7" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-6854277031051442827" name="field0079" display="签字7" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8285642224191911981" name="field0080" display="日期7" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7021618464811402547" name="field0081" display="任务签收8" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3534810430722951247" name="field0082" display="部门8" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4021640768081186584" name="field0083" display="签字8" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4611864722128616454" name="field0084" display="日期8" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4535742865061428410" name="field0085" display="任务签收9" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="187374704414113916" name="field0086" display="部门9" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4564885626385448733" name="field0087" display="签字9" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1382801405925673465" name="field0088" display="日期9" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4016908606066832110" name="field0089" display="是否修改配合部门" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-2044886367608550190" name="field0094" display="配合部门负责人0" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7681659091251805945" name="field0095" display="配合部门负责人1" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="421945907383977004" name="field0096" display="配合部门负责人2" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1239565801436692971" name="field0097" display="配合部门负责人7" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8105955558898878179" name="field0098" display="配合部门负责人8" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2518424848125084244" name="field0099" display="配合部门负责人9" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3694665500784480175" name="field0100" display="承办部门负责人" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7051916183168305562" name="field0101" display="配合部门负责人3" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2682291312938666209" name="field0102" display="配合部门负责人4" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="802547168070093362" name="field0103" display="配合部门负责人5" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1835231569701586851" name="field0104" display="配合部门负责人6" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList>
+        </IndexList>
+    </Table>
+    <Table id="4955216851127320695" name="formson_0036" display="group2" tabletype="slave" onwertable="formmain_0035" onwerfield="formmain_id">
+        <FieldList>
+            <Field id="-7962823553241952607" name="field0090" display="序号" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7083104781674891308" name="field0091" display="节点任务" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="707473523653562139" name="field0092" display="要求完成时间" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2660497689718244954" name="field0093" display="备注" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList>
+        </IndexList>
+    </Table>
+</TableList>

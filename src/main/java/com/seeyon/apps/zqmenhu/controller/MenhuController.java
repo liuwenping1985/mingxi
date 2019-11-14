@@ -1,7 +1,6 @@
 package com.seeyon.apps.zqmenhu.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.doc.dao.DocResourceDao;
 import com.seeyon.apps.doc.manager.DocAclNewManager;
 import com.seeyon.apps.doc.manager.DocHierarchyManager;
 import com.seeyon.apps.doc.manager.DocLibManager;
@@ -11,7 +10,7 @@ import com.seeyon.apps.doc.po.DocResourcePO;
 import com.seeyon.apps.doc.util.Constants;
 import com.seeyon.apps.doc.util.DocMVCUtils;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.zqmenhu.po.BulDataItem;
 import com.seeyon.apps.zqmenhu.po.NewsDataItem;
 import com.seeyon.apps.zqmenhu.service.MenhuService;

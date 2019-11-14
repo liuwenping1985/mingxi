@@ -2,9 +2,9 @@ package com.seeyon.apps.nbd.po;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.annotation.ClobText;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 
 /**
  * Created by liuwenping on 2018/12/3.

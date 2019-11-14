@@ -1,8 +1,6 @@
-package com.seeyon.apps.nbd.util;
+package com.seeyon.apps.duban.util;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
-import com.seeyon.apps.nbd.service.PdfService;
 import com.seeyon.ctp.common.filemanager.manager.SignFileItem;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
@@ -77,13 +75,13 @@ public class UIUtils {
             file.createNewFile();
             out = new FileOutputStream(file);
             out.write(fileData);
-            if(CommonUtils.isNotEmpty(suffix)){
-                suffix = suffix.toLowerCase();
-                if("doc".equals(suffix)||"docx".equals(suffix)){
-                    String outputFile = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".pdf";
-                    file =  PdfService.getInstance().word2pdf(path,outputFile);
-                }
-            }
+//            if(CommonUtils.isNotEmpty(suffix)){
+//                suffix = suffix.toLowerCase();
+////                if("doc".equals(suffix)||"docx".equals(suffix)){
+////                    String outputFile = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".pdf";
+////                    file =  PdfService.getInstance().word2pdf(path,outputFile);
+////                }
+//            }
             Long size = file.length();
             SignFileItem sfi = new SignFileItem(file.getName(),size,file);
 
@@ -222,26 +220,26 @@ public class UIUtils {
         //Class c1 = MclclzUtil.ioiekc("com.seeyon.ctp.product.ProductInfo");
         //http://hzvendor.dnd8.com/SupplierUploads/702bf492-de68-48c2-80bb-be07ef60986b.pdf
         //  ClassPool pool = ClassPool.getDefault();
-        UIUtils u = new UIUtils();
-        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
-
-        //byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
-        // pool.getClassLoader()
-        //      PortalMenuManagerImpl impl;
-        System.out.println("1");
-        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
-        File f = new File(path);
-        if (f.exists()) {
-            f.delete();
-            f.createNewFile();
-
-        } else {
-            f.createNewFile();
-        }
-        FileOutputStream out = new FileOutputStream(f);
-        out.write(bytes);
-        out.flush();
-        out.close();
+//        UIUtils u = new UIUtils();
+//        byte[] bytes = u.loadClassData("com.seeyon.ctp.product.ProductInfo");
+//
+//        //byte[] bytes = u.loadClassData("com.seeyon.ctp.login.LoginHelper");
+//        // pool.getClassLoader()
+//        //      PortalMenuManagerImpl impl;
+//        System.out.println("1");
+//        String path = "/Users/liuwenping/Documents/wmm/ProductInfo.class";
+//        File f = new File(path);
+//        if (f.exists()) {
+//            f.delete();
+//            f.createNewFile();
+//
+//        } else {
+//            f.createNewFile();
+//        }
+//        FileOutputStream out = new FileOutputStream(f);
+//        out.write(bytes);
+//        out.flush();
+//        out.close();
 
 //        String url = "http://hzvendor.dnd8.com/SupplierUploads/702bf492-de68-48c2-80bb-be07ef60986b.pdf";
 //        try {

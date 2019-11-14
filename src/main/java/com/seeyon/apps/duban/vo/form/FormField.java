@@ -1,4 +1,4 @@
-package com.seeyon.apps.nbd.core.form.entity;
+package com.seeyon.apps.duban.vo.form;
 
 /**
  * 简化form的那一坨大便一样的逻辑

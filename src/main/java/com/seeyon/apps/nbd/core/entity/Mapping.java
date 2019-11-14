@@ -1,7 +1,7 @@
 package com.seeyon.apps.nbd.core.entity;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.core.util.XmlUtils;
+import com.seeyon.apps.duban.util.XmlUtils;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Mapping {
                 if(mappingInner == null){
                     return;
                 }
-                Map entityMap = (Map)mappingInner.get("entity");
+                Map entityMap = (Map)mappingInner.get("form");
                 gen(entityMap,entity);
 
                 // Map
@@ -95,7 +95,7 @@ public class Mapping {
     private OriginalField toOriginalField(Map data){
         OriginalField of = JSON.parseObject(JSON.toJSONString(data),OriginalField.class);
 
-        Map childEntityMap = (Map)data.get("entity");
+        Map childEntityMap = (Map)data.get("form");
         if(childEntityMap!=null){
             Entity childEntity = new Entity();
             of.setEntity(childEntity);

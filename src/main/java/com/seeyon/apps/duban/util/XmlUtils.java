@@ -1,11 +1,7 @@
-package com.seeyon.apps.nbd.core.util;
+package com.seeyon.apps.duban.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
-import com.seeyon.apps.nbd.core.service.MappingServiceManager;
-import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -16,61 +12,78 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuwenping on 2018/8/21.
  */
 public class XmlUtils {
 
-    public static String xml2jsonString(String file) throws  IOException {
+    public static String xml2jsonString(String file) throws IOException {
         InputStream in = new FileInputStream(file);
-        String xml = IOUtils.toString(in,"utf-8");
-        return xmlString2jsonString(xml);
+        try {
+
+            String xml = IOUtils.toString(in, "utf-8");
+            return xmlString2jsonString(xml);
+        } catch (IOException e) {
+            throw new IOException(e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
-    public static String xml2jsonString(InputStream ins) throws  IOException {
+    public static String xml2jsonString(InputStream ins) throws IOException {
 
-        String xml = IOUtils.toString(ins,"utf-8");
+        String xml = IOUtils.toString(ins, "utf-8");
         return xmlString2jsonString(xml);
         // JSONObject xmlJSONObj = JSON.parseObject(xml);
-      //  ProductInfo info;
+        //  ProductInfo info;
 
     }
 
     public static String xml2jsonString(File f) throws IOException {
         FileInputStream ins = new FileInputStream(f);
-        String xml = IOUtils.toString(ins,"UTF-8");
+        String xml = IOUtils.toString(ins, "UTF-8");
         //System.out.println(f.getPath());
         try {
             String xmlJSONObj = xmlString2jsonString(xml);
             return xmlJSONObj;
-        }catch(Exception e){
-            String jsonPath = f.getPath().split("mapping.xml")[0]+"json";
-            String jsonString = IOUtils.toString(new FileInputStream(jsonPath),"UTF-8");
+        } catch (Exception e) {
+            String jsonPath = f.getPath().split("mapping.xml")[0] + "json";
+            String jsonString = IOUtils.toString(new FileInputStream(jsonPath), "UTF-8");
             //System.out.println(CommonUtils.unicodeEncoding(jsonString));
             return jsonString;
+        } finally {
+            try {
+                ins.close();
+            } catch (Exception e) {
+
+            }
         }
     }
-    public static String xmlString2jsonString(String xml) throws  IOException {
+
+    public static String xmlString2jsonString(String xml) throws IOException {
 
         try {
 
-           // JSONObject xmlJSONObj = XML.toJSONObject(xml);
-            if(!xml.startsWith("<xml>")){
-                xml = "<xml>"+xml+"</xml>";
+            // JSONObject xmlJSONObj = XML.toJSONObject(xml);
+            if (!xml.startsWith("<xml>")) {
+                xml = "<xml>" + xml + "</xml>";
             }
-            Document document =  DocumentHelper.parseText(xml);
-            JSONObject xmlJSONObj=  elementToJSONObject(document.getRootElement());
+            Document document = DocumentHelper.parseText(xml);
+            JSONObject xmlJSONObj = elementToJSONObject(document.getRootElement());
             return xmlJSONObj.toString();
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         return null;
     }
+
     public static JSONObject elementToJSONObject(Element node) {
         JSONObject result = new JSONObject();
         // 当前节点的名称、文本内容和属性
@@ -93,21 +106,7 @@ public class XmlUtils {
         }
         return result;
     }
-    private static MappingServiceManager mappingServiceManager = new MappingServiceManagerImpl();
-    public static void main(String[] args){
-        try {
-            String xml2 = xml2jsonString("/Users/liuwenping/Documents/wmm/1.xml");
-            System.out.println(xml2);
-            Map data = JSON.parseObject(xml2, HashMap.class);
-            FormTableDefinition ftd = mappingServiceManager.parseFormTableMapping(data);
-           // System.out.println(JSON.toJSONString(ftd));
-            System.out.println(JSON.toJSONString(ftd.getFormTable().getSlaveTableList()));
-            //JSONObject.stringToValue("");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-    }
 
 }
 

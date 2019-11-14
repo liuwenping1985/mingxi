@@ -2,7 +2,7 @@ package com.seeyon.apps.nbd.core.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.service.CustomExportProcess;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.po.A8ToOtherConfigEntity;
 import com.seeyon.apps.nbd.po.LogEntry;
 import com.seeyon.apps.nbd.po.ZrzxUserSchedule;
@@ -11,7 +11,6 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,7 +33,7 @@ public class ZrzxLeaderOutExportProcessor implements CustomExportProcess {
      洪少贤
      陈向东";
      * {"personName":"张耀东","reason":"开会","组2":[{}],"tbsj":10,"endDate":1545926400000,"填报时间":1545062400000,"location":"北京","id":6607379359658714246,"startDate":1545062400000}
-     * @param entity
+     * @param form
      * @param data
      */
     public static TreeMap<String,Integer> S_LEADER = new TreeMap<String, Integer>();

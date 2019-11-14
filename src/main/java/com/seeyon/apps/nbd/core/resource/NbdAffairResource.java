@@ -102,8 +102,8 @@ package com.seeyon.apps.nbd.core.resource;//package com.seeyon.apps.nbd.core.res
 //            System.out.println("NO FILE INPUT DATA STREAM");
 //        }
 //        parameter.setAttachmentList(list);
-//        NbdResponseEntity entity = handler.receive(parameter, request, response);
-//        return responseJson(entity);
+//        NbdResponseEntity form = handler.receive(parameter, request, response);
+//        return responseJson(form);
 //
 //    }
 //
@@ -116,14 +116,14 @@ package com.seeyon.apps.nbd.core.resource;//package com.seeyon.apps.nbd.core.res
 //
 //        //AppContext.getCurrentUser();
 //        CommonParameter parameter = CommonParameter.parseParameter(request);
-//        NbdResponseEntity entity = handler.find(parameter, request, response);
-//        return responseJson(entity);
+//        NbdResponseEntity form = handler.find(parameter, request, response);
+//        return responseJson(form);
 //
 //
 //    }
 //
-//    private Response responseJson(Object entity) {
-//        return Response.status(200).entity(entity).type("application/json").build();
+//    private Response responseJson(Object form) {
+//        return Response.status(200).form(form).type("application/json").build();
 //
 //    }
 //

@@ -1,8 +1,7 @@
 package com.seeyon.apps.nbd.core.db.link;
 
-import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.driver.DriverConstant;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.po.DataLink;
 
 import java.sql.Connection;

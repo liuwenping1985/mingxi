@@ -1,6 +1,6 @@
 package com.seeyon.apps.nbd.core.service;
 
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.po.Ftd;
 

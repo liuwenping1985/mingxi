@@ -1,10 +1,10 @@
 package com.seeyon.apps.nbd.controller;
 
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.service.NbdService;
-import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.springframework.web.servlet.ModelAndView;

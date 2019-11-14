@@ -1,9 +1,11 @@
-package com.seeyon.apps.nbd.core.util;
+package com.seeyon.apps.duban.util;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
+import com.seeyon.ctp.common.po.ctpenumnew.CtpEnumItem;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.TextEncoder;
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,12 +25,21 @@ public class CommonUtils {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
+    public static void processCrossOriginResponse(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
+        response.setHeader("Access-Control-Max-Age", "3628800");
+    }
+
     public static boolean isEmpty(Collection collection) {
         if (collection == null || collection.isEmpty()) {
             return true;
         }
         return false;
     }
+
     public static boolean isNotEmpty(Collection collection) {
 
         return !isEmpty(collection);
@@ -40,6 +51,7 @@ public class CommonUtils {
         }
         return false;
     }
+
     public static boolean isNotEmpty(Map map) {
         return !isEmpty(map);
     }
@@ -50,6 +62,7 @@ public class CommonUtils {
         }
         return false;
     }
+
     public static boolean isNotEmpty(String str) {
         return !isEmpty(str);
     }
@@ -60,6 +73,7 @@ public class CommonUtils {
         }
         return false;
     }
+
     public static boolean isNotEmpty(Object[] objs) {
         return isEmpty(objs);
     }
@@ -98,10 +112,10 @@ public class CommonUtils {
 
     public static Date parseDate(String dateStr) {
         try {
-            if(CommonUtils.isEmpty(dateStr)){
+            if (CommonUtils.isEmpty(dateStr)) {
                 return null;
             }
-            if(dateStr.trim().length()=="yyyy-MM-dd".length()){
+            if (dateStr.trim().length() == "yyyy-MM-dd".length()) {
                 return sdf2.parse(dateStr);
             }
             Date dt = sdf.parse(dateStr);
@@ -176,44 +190,41 @@ public class CommonUtils {
 
     }
 
-//    private static EnumManager enumManager;
-//
-//    private static EnumManager getEnumManager(){
-//        if(enumManager==null){
-//            enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
-//        }
-//        return enumManager;
-//
-//    }
-//    private static OrgManager orgManager;
-//    private static OrgManager getOrgManager(){
-//        if(orgManager==null){
-//            orgManager = (OrgManager)AppContext.getBean("orgManager");
-//        }
-//        return orgManager;
-//
-//    }
+    private static EnumManager enumManager;
 
-    public static Object getEnumShowValue(Object obj){
+    private static EnumManager getEnumManager() {
+        if (enumManager == null) {
+            enumManager = (EnumManager) AppContext.getBean("enumManagerNew");
+            if (enumManager == null) {
+                enumManager = (EnumManager) AppContext.getBean("enumManager");
+            }
+        }
+        return enumManager;
+
+    }
+
+
+    public static Object getEnumShowValue(Object obj) {
 
         Long id = getLong(obj);
-        if(id == null){
+        if (id == null) {
             return obj;
         }
         try {
-//            CtpEnumItem item = getEnumManager().getEnumItem(id);
-//            if (item != null) {
-//                return item.getShowvalue();
-//            }
-        }catch(Exception e){
+            CtpEnumItem item = getEnumManager().getCtpEnumItem(id);
+            if (item != null) {
+                return item.getShowvalue();
+            }
+        } catch (Exception e) {
 
         }
         return obj;
     }
-    public static Object getOrgValueByDeptIdAndType(Object obj,int type){
+
+    public static Object getOrgValueByDeptIdAndType(Object obj, int type) {
 
         Long id = getLong(obj);
-        if(id == null){
+        if (id == null) {
             return obj;
         }
         try {
@@ -242,12 +253,13 @@ public class CommonUtils {
 //            }
 
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         return obj;
     }
-    public static  Map<String, String> genTableDataMapByColumns(List<Map> columnDataList) {
+
+    public static Map<String, String> genTableDataMapByColumns(List<Map> columnDataList) {
         Map<String, String> dataMap = new HashMap<String, String>();
         for (Map col : columnDataList) {
             dataMap.put("" + col.get("column_name"), "" + col.get("type_name"));
@@ -255,87 +267,86 @@ public class CommonUtils {
         return dataMap;
     }
 
-    public static OrgManager getOrgManager(){
+    public static OrgManager getOrgManager() {
 
 
-        return (OrgManager)AppContext.getBean("orgManager");
+        return (OrgManager) AppContext.getBean("orgManager");
     }
 
-    public static <T> T  copyProIfNotNullReturnSource(T source,T dest){
+    public static <T> T copyProIfNotNullReturnSource(T source, T dest) {
 
         String sourceStr = JSON.toJSONString(source);
-        Map sourceMap = JSON.parseObject(sourceStr,HashMap.class);
+        Map sourceMap = JSON.parseObject(sourceStr, HashMap.class);
         String descStr = JSON.toJSONString(dest);
-        Map destMap = JSON.parseObject(descStr,HashMap.class);
-        for(Object key:destMap.keySet()){
+        Map destMap = JSON.parseObject(descStr, HashMap.class);
+        for (Object key : destMap.keySet()) {
             Object dt = destMap.get(key);
-            if(dt!=null){
-                sourceMap.put(key,dt);
+            if (dt != null) {
+                sourceMap.put(key, dt);
             }
         }
-        return (T) JSON.parseObject(JSON.toJSONString(sourceMap),source.getClass());
+        return (T) JSON.parseObject(JSON.toJSONString(sourceMap), source.getClass());
 
     }
-    public static void processCrossOriginResponse(HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
-        response.setHeader("Access-Control-Max-Age", "3628800");
-    }
-    public static String getGetMethodName(Field fd){
+
+
+
+    public static String getGetMethodName(Field fd) {
         String preFix = "get";
-        if(fd.getType()==Boolean.class){
+        if (fd.getType() == Boolean.class) {
 
             preFix = "is";
 
         }
         String fdName = fd.getName();
-        String sName =preFix+ fdName.substring(0,1).toUpperCase()+fdName.substring(1);
+        String sName = preFix + fdName.substring(0, 1).toUpperCase() + fdName.substring(1);
 
         return sName;
 
     }
-    public static final char UNDERLINE='_';
-    public static String camelToUnderline(String param){
-        if (param==null||"".equals(param.trim())){
+
+    public static final char UNDERLINE = '_';
+
+    public static String camelToUnderline(String param) {
+        if (param == null || "".equals(param.trim())) {
             return "";
         }
-        int len=param.length();
-        StringBuilder sb=new StringBuilder(len);
+        int len = param.length();
+        StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            char c=param.charAt(i);
-            if (Character.isUpperCase(c)&&i>0){
+            char c = param.charAt(i);
+            if (Character.isUpperCase(c) && i > 0) {
                 sb.append(UNDERLINE);
                 sb.append(Character.toLowerCase(c));
-            }else{
+            } else {
                 sb.append(c);
             }
         }
         return sb.toString().toLowerCase();
     }
-    public static String underlineToCamel(String param){
-        if (param==null||"".equals(param.trim())){
+
+    public static String underlineToCamel(String param) {
+        if (param == null || "".equals(param.trim())) {
             return "";
         }
-        int len=param.length();
-        StringBuilder sb=new StringBuilder(len);
+        int len = param.length();
+        StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            char c=param.charAt(i);
-            if (c==UNDERLINE){
-                if (++i<len){
+            char c = param.charAt(i);
+            if (c == UNDERLINE) {
+                if (++i < len) {
                     sb.append(Character.toUpperCase(param.charAt(i)));
                 }
-            }else{
+            } else {
                 sb.append(c);
             }
         }
         return sb.toString();
     }
-    public static void main(String[] args) {
-        String k = "show_me_the_money";
-        System.out.println(underlineToCamel(k));
 
+    public static void main(String[] args) {
+        String k = "/1.0/R21idGlaZmJzMzEyMSI=";
+        System.out.println(TextEncoder.decode(k));
 
 
     }

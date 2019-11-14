@@ -331,25 +331,25 @@ public class LancherService {
                 setData(meta,param,inputData);
             }
         }
-        // System.out.println("parse--sub-entity");
+        // System.out.println("parse--sub-form");
         List<OriginalField> ofList = entity.getOriginalFields();
 
         if(!CollectionUtils.isEmpty(ofList)){
-            //   System.out.println("parse--sub2-entity");
+            //   System.out.println("parse--sub2-form");
             for(OriginalField meta:ofList){
                 Entity subEntity =  meta.getEntity();
 
                 if(subEntity!=null){
-                    //System.out.println("parse--sub3-entity");
+                    //System.out.println("parse--sub3-form");
                     if(!StringUtils.isEmpty(subEntity.getParse())){
-                        //System.out.println("parse--sub4-entity");
+                        //System.out.println("parse--sub4-form");
                         String parse = subEntity.getParse();
-                        //System.out.println("parse--sub5-entity:"+parse);
+                        //System.out.println("parse--sub5-form:"+parse);
                         try {
                             Class cls = Class.forName(parse);
                             Object instance = cls.newInstance();
                             if(instance instanceof SubEntityFieldParser){
-                                //System.out.println("parse--sub6-entity");
+                                //System.out.println("parse--sub6-form");
                                 SubEntityFieldParser parser = (SubEntityFieldParser)instance;
                                 //System.out.println("----coming----");
                                 parser.parse(inputParameter,param,inputData,subEntity);
@@ -522,6 +522,7 @@ public class LancherService {
         return null;
     }
 
+
     public ServiceAffairs getServiceAffairs(String affairType){
         if(StringUtils.isEmpty(affairType)){
             return null;
@@ -555,8 +556,8 @@ public class LancherService {
     public static void main(String[] args) throws UnsupportedEncodingException {
 
         String input = "BR-%E8%AE%A1%E8%B4%B9%E5%87%86%E7%A1%AE%E6%80%A7%E8%B0%83%E6%95%B4%E6%96%B9%E6%A1%88%E7%9B%B8%E5%85%B3%E9%9C%80%E6%B1.docx";
-
-        System.out.println(TextEncoder.decode("/1.0/MjM0NTY3ODk="));
+    //ALTER USER 'root'@'localhost' IDENTIFIED BY 'xadXAD@2019';
+        System.out.println(TextEncoder.encode("xadXAD@2019"));
         //System.out.println(unicodeStr2String(URLDecoder.decode(input,"UTF-8")));
 
     }

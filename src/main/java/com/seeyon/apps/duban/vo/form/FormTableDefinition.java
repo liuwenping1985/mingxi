@@ -1,7 +1,7 @@
-package com.seeyon.apps.nbd.core.form.entity;
+package com.seeyon.apps.duban.vo.form;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.service.TransferService;
 
 import java.util.ArrayList;
@@ -10,30 +10,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 简化form的那一坨大便一样的逻辑
+ * 简化form的映射和取数逻辑
  * Created by liuwenping on 2018/9/7.
  */
 public class FormTableDefinition {
-    private String affairType;
+    private String name;
     private boolean is_push;
-    private String modes;
+    private String code;
     private FormTable formTable;
 
 
-    public String getAffairType() {
-        return affairType;
+    public String getName() {
+        return name;
     }
 
-    public void setAffairType(String affairType) {
-        this.affairType = affairType;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getModes() {
-        return modes;
+    public String getCode() {
+        return code;
     }
 
-    public void setModes(String modes) {
-        this.modes = modes;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public boolean isIs_push() {
@@ -77,6 +77,13 @@ public class FormTableDefinition {
         }
         return stb.toString();
     }
+
+    /**
+     *
+     * @param ft
+     * @param values
+     * @return
+     */
     public List<List<SimpleFormField>> filledValue(FormTable ft,List<Map> values) {
         TransferService tfs = TransferService.getInstance();
         List<FormField> formFields = ft.getFormFieldList();
@@ -105,6 +112,14 @@ public class FormTableDefinition {
         return dataList;
 
     }
+
+    /**
+     *
+     * @param ft
+     * @param values
+     * @param usingDisplay
+     * @return
+     */
     public List<Map> filled2ValueMap(FormTable ft,List<Map> values,boolean usingDisplay) {
         TransferService tfs = TransferService.getInstance();
         List<FormField> formFields = ft.getFormFieldList();

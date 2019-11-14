@@ -1,0 +1,1 @@
+<iframe src="/seeyon/collaboration/pending.do?method=transPendingMain&amp;fragmentId=-2060486149910409557&amp;ordinal=0&amp;width=4&amp;sectionId=70497057257337315" sectionid="70497057257337315" name="IframeSectionTemplete" frameborder="0" height="100%" width="100%" scrolling="no" marginheight="0" marginwidth="0" class="anychartbg" allowtransparency="true"></iframe>

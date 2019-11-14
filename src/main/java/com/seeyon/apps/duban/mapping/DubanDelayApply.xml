@@ -1,0 +1,47 @@
+<TableList name="督办延期审批单" code="DB_DELAY_APPLY" >
+    <Table id="-3178918807676631765" name="formmain_0021" display="formmain_0021" tabletype="master" onwertable="" onwerfield="">
+        <FieldList>
+            <Field id="-6887942654377573062" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname=""/>
+            <Field id="-1130872982794059039" name="state" display="审核状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="1544704099192949583" name="start_member_id" display="发起人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="8120428276097764486" name="start_date" display="发起时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="-5084039099642461582" name="approve_member_id" display="审核人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="-5688651220478636154" name="approve_date" display="审核时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+            <Field id="-6676032976844537302" name="finishedflag" display="流程状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="2095575296584010944" name="ratifyflag" display="核定状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
+            <Field id="-1722950976697448160" name="ratify_member_id" display="核定人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
+            <Field id="4175623748032218671" name="ratify_date" display="核定时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
+
+
+            <Field id="-6560291825785027161" name="field0001" display="任务ID" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-426163257086488826" name="field0002" display="任务来源" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8314944485660445197" name="field0003" display="任务分级" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="8084120070438996909" name="field0004" display="标题" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3816803968191054195" name="field0005" display="办理要求" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8688502022860945562" name="field0006" display="任务附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8507414164697693561" name="field0007" display="办理时限" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-3857066624330544157" name="field0008" display="督办周期" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="435726892558273860" name="field0009" display="督办周期补充" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3534437433829838568" name="field0010" display="责任领导" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="4210324755466571407" name="field0012" display="督办员" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7476486947633279335" name="field0013" display="延期申请事由" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="1023157842838376173" name="field0014" display="延期后办结日期" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="3244525625990006741" name="field0015" display="领导意见" fieldtype="LONGTEXT" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="2512684917311227215" name="field0016" display="申请人" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-7151157784220447371" name="field0017" display="申请日期" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8345135097206583514" name="field0011" display="权重" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList>
+        </IndexList>
+    </Table>
+    <Table id="4343682444740674251" name="formson_0022" display="group2" tabletype="slave" onwertable="formmain_0021" onwerfield="formmain_id">
+        <FieldList>
+            <Field id="8332538126724711096" name="field0018" display="序号" fieldtype="DECIMAL" fieldlength="20,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-8561754364944758228" name="field0019" display="节点任务" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="7190150041230724628" name="field0020" display="要求完成时间" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="-4375385033449389900" name="field0021" display="备注" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+        </FieldList>
+        <IndexList>
+        </IndexList>
+    </Table>
+</TableList>

@@ -3,7 +3,7 @@ package com.seeyon.apps.nbd.po;
 import com.seeyon.apps.nbd.annotation.DBIgnore;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.ctp.util.UUIDLong;
 
 import java.util.Date;

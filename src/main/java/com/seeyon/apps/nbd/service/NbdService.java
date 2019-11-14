@@ -7,21 +7,21 @@ import com.seeyon.apps.nbd.constant.NbdConstant;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
-import com.seeyon.apps.nbd.core.form.entity.FormField;
-import com.seeyon.apps.nbd.core.form.entity.FormTable;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormField;
+import com.seeyon.apps.duban.vo.form.FormTable;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.CustomExportProcess;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.NbdBpmnService;
 import com.seeyon.apps.nbd.core.service.impl.MappingServiceManagerImpl;
 import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
-import com.seeyon.apps.nbd.core.util.XmlUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
+import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.log.LogBuilder;
 import com.seeyon.apps.nbd.po.*;
-import com.seeyon.apps.nbd.util.UIUtils;
+import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.constants.Constants;
@@ -33,7 +33,6 @@ import com.seeyon.ctp.common.i18n.LocaleContext;
 import com.seeyon.ctp.common.i18n.ResourceUtil;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
-import com.seeyon.ctp.common.po.template.CtpTemplate;
 //import com.seeyon.ctp.common.template.manager.CollaborationTemplateManager;
 import com.seeyon.ctp.login.LoginControlImpl;
 import com.seeyon.ctp.login.online.OnlineRecorder;
@@ -42,7 +41,6 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 
 import com.seeyon.ctp.util.DBAgent;
-import com.seeyon.ctp.util.FlipInfo;
 import com.seeyon.ctp.util.Strings;
 import com.seeyon.ctp.util.UUIDLong;
 import org.springframework.util.CollectionUtils;
@@ -205,7 +203,7 @@ public class NbdService {
                 entity.setMsg("发起流程失败:"+e.getMessage());
                 entity.setResult(false);
             }
-           // entity.setMsg("发起流程失败");
+           // form.setMsg("发起流程失败");
             entity.setData(p);
             return entity;
 
@@ -233,11 +231,11 @@ public class NbdService {
                 }
             }
         }
-        // System.out.println("parse--sub-entity");
+        // System.out.println("parse--sub-form");
         List<FormTable> slaveFtList = entity.getSlaveTableList();
 
         if(!CollectionUtils.isEmpty(slaveFtList)){
-            //   System.out.println("parse--sub2-entity");
+            //   System.out.println("parse--sub2-form");
         }
         System.out.println(param);
         return param;

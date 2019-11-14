@@ -1,14 +1,12 @@
 package com.seeyon.apps.duban.po;
 
-import com.seeyon.ctp.common.po.BasePO;
-
 import java.util.Date;
 
 /**
  * 督办任务主类
  * Created by liuwenping on 2019/11/5.
  */
-public class DubanTask extends BasePO {
+public class DubanTask extends FormMappingPO {
 
     private String uuid;
 
@@ -30,7 +28,26 @@ public class DubanTask extends BasePO {
 
     private Long createUserId;
 
+    private String taskDescription;
 
+    private String attListString;
+
+
+    public String getAttListString() {
+        return attListString;
+    }
+
+    public void setAttListString(String attListString) {
+        this.attListString = attListString;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
+    }
 
     public Long getCreateUserId() {
         return createUserId;

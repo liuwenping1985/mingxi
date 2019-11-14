@@ -1,7 +1,7 @@
 package com.seeyon.apps.nbd.core.vo;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.constants.ApplicationCategoryEnum;
 import com.seeyon.ctp.common.exceptions.BusinessException;
@@ -15,7 +15,6 @@ import com.seeyon.ctp.form.service.FormManager;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.UUIDLong;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.http.entity.ContentType;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**

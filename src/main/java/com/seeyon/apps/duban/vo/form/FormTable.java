@@ -1,6 +1,6 @@
-package com.seeyon.apps.nbd.core.form.entity;
+package com.seeyon.apps.duban.vo.form;
 
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,21 @@ public class FormTable {
 
     private Long id;
     private String name;
+    private String code;
     private String display;
     private String tabletype;
     private String onwertable;
     private String onwerfield;
     private List<FormTable> slaveTableList = new ArrayList<FormTable>();
     private List<FormField> formFieldList = new ArrayList<FormField>();
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public Long getId() {
         return id;

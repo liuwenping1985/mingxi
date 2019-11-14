@@ -2,12 +2,12 @@ package com.seeyon.apps.nbd.core.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.CoreHook;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.service.PluginServiceManager;
 import com.seeyon.apps.nbd.core.service.ServicePlugin;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
-import com.seeyon.apps.nbd.core.util.XmlUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
+import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.nbd.plugin.PluginDefinition;
 import com.seeyon.apps.nbd.util.StringUtils;
 import org.json.JSONException;
@@ -171,7 +171,7 @@ public class PluginServiceManagerImpl implements PluginServiceManager {
                                 continue;
                             }
                             for(FormTableDefinition ftd:ftdList){
-                                if(affType.equals(ftd.getAffairType())){
+                                if(affType.equals(ftd.getName())){
                                     sp.addFormTableDefinition(ftd);
                                 }
                             }

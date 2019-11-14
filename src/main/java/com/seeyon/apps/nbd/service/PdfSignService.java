@@ -4,7 +4,7 @@
 //import com.esa2000.pdfsign.server.ShellExtendForSubCerter;
 //import com.esa2000.pdfsign.util.ImageProcess;
 //import com.seeyon.apps.nbd.core.config.ConfigService;
-//import com.seeyon.apps.nbd.core.util.CommonUtils;
+//import com.seeyon.apps.duban.util.CommonUtils;
 //
 ///**
 // * Created by liuwenping on 2019/1/28.

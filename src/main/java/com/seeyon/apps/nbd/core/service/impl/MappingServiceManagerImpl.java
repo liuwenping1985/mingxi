@@ -1,18 +1,16 @@
 package com.seeyon.apps.nbd.core.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.seeyon.apps.nbd.core.config.ConfigService;
-import com.seeyon.apps.nbd.core.db.DataBaseHandler;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
-import com.seeyon.apps.nbd.core.form.entity.FormField;
-import com.seeyon.apps.nbd.core.form.entity.FormTable;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormField;
+import com.seeyon.apps.duban.vo.form.FormTable;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.MappingServiceManager;
 import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 import com.seeyon.apps.nbd.core.table.entity.TableField;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
-import com.seeyon.apps.nbd.core.util.XmlUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
+import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.po.DataLink;
 import com.seeyon.apps.nbd.po.Ftd;
@@ -32,87 +30,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
 
     //private DataBaseHandler handler = DataBaseHandler.getInstance();
 
-    public FormTableDefinition parseFormTableMapping(Map data) {
 
-        Object object = data.get("TableList");
-        Map tableList = null;
-        if(object instanceof List){
-            if (CommonUtils.isEmpty((List)object)) {
-                return null;
-            }
-            tableList = (Map)((List) object).get(0);
-        }else{
-            tableList = (Map) object;
-        }
-
-
-        if (CommonUtils.isEmpty(tableList)) {
-            return null;
-        }
-
-        FormTableDefinition definition = JSON.parseObject(JSON.toJSONString(tableList), FormTableDefinition.class);
-        List<Map> tables = new ArrayList<Map>();
-
-        Object obj = tableList.get("Table");
-        if (obj instanceof List) {
-            tables = (List<Map>) obj;
-        } else {
-            if (obj instanceof Map) {
-                tables.add((Map) obj);
-            }
-        }
-
-        if (CommonUtils.isEmpty(tables)) {
-            return null;
-        }
-
-        //Map<String,>
-        //分别解析各个table，然后组装关联关系
-        List<FormTable> slaveTableList = new ArrayList<FormTable>();
-        for (Map table : tables) {
-            String jString = JSON.toJSONString(table);
-
-            FormTable ft = JSON.parseObject(jString, FormTable.class);
-            Object fObject = table.get("FieldList");
-            Map fieldList = null;
-            if(fObject instanceof List){
-                List dataFieldList = (List)fObject;
-                if(CommonUtils.isNotEmpty(dataFieldList)){
-                    fieldList = (Map)dataFieldList.get(0);
-                }
-            }else{
-                fieldList = (Map)fObject;
-            }
-           // Map fieldList = (Map) table.get("FieldList");
-            if (!CommonUtils.isEmpty(fieldList)) {
-                List<Map> fields = new ArrayList<Map>();
-
-                Object oj = fieldList.get("Field");
-                if (oj instanceof List) {
-                    fields.addAll((List) oj);
-                } else {
-                    if (oj instanceof Map) {
-                        fields.add((Map) oj);
-                    }
-                }
-
-                if (!CommonUtils.isEmpty(fields)) {
-                    for (Map field : fields) {
-                        String fdJson = JSON.toJSONString(field);
-                        FormField ff = JSON.parseObject(fdJson, FormField.class);
-                        ft.addFieldList(ff);
-                    }
-                }
-            }
-            if ("slave".equals(ft.getTabletype())) {
-                slaveTableList.add(ft);
-            } else {
-                ft.setSlaveTableList(slaveTableList);
-                definition.setFormTable(ft);
-            }
-        }
-        return definition;
-    }
 
     private String getTableName(String tableName) {
         return tableName.toUpperCase();
@@ -140,7 +58,7 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
             Map data = JSON.parseObject(jsonString, HashMap.class);
             FormTableDefinition ftd = parseFormTableMapping(data);
             if (ftd != null) {
-                ftd.setAffairType(affairType);
+                ftd.setName(affairType);
                 FormTable ft = ftd.getFormTable();
                 if (ft != null) {
                     filledTable(ft, p);
@@ -162,6 +80,11 @@ public class MappingServiceManagerImpl implements MappingServiceManager {
         return null;
 
     }
+
+    public FormTableDefinition parseFormTableMapping(Map data) {
+        return null;
+    }
+
     public Ftd saveFormTableDefinition(CommonParameter p) {
 
         return mergeFormTableDefinition(null,p);

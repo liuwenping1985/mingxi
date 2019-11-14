@@ -1,4 +1,4 @@
-package com.seeyon.apps.nbd.core.form.entity;
+package com.seeyon.apps.duban.vo.form;
 
 /**
  * Created by liuwenping on 2018/9/9.

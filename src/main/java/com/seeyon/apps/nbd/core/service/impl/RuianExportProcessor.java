@@ -4,11 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.nbd.core.config.ConfigService;
 import com.seeyon.apps.nbd.core.db.DataBaseHelper;
 import com.seeyon.apps.nbd.core.db.link.ConnectionBuilder;
-import com.seeyon.apps.nbd.core.form.entity.FormField;
-import com.seeyon.apps.nbd.core.form.entity.FormTable;
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormField;
+import com.seeyon.apps.duban.vo.form.FormTable;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.service.CustomExportProcess;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;
 import com.seeyon.apps.nbd.core.vo.NbdResponseEntity;
 import com.seeyon.apps.nbd.po.A8ToOtherConfigEntity;
@@ -18,11 +18,9 @@ import com.seeyon.ctp.common.filemanager.manager.AttachmentManager;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.common.po.filemanager.Attachment;
 import com.seeyon.ctp.util.DBAgent;
-import com.seeyon.ctp.util.JDBCAgent;
 import com.seeyon.ctp.util.UUIDLong;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 

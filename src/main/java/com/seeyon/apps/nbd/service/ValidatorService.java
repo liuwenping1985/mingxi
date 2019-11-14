@@ -1,7 +1,7 @@
 package com.seeyon.apps.nbd.service;
 
 import com.seeyon.apps.nbd.constant.NbdConstant;
-import com.seeyon.apps.nbd.core.util.CommonUtils;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.nbd.core.util.DataValidator;
 import com.seeyon.apps.nbd.core.util.ValidateResult;
 import com.seeyon.apps.nbd.core.vo.CommonParameter;

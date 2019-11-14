@@ -1,6 +1,6 @@
 package com.seeyon.apps.nbd.po;
 
-import com.seeyon.apps.nbd.core.form.entity.FormTableDefinition;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.nbd.core.table.entity.NormalTableDefinition;
 
 /**

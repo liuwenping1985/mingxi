@@ -76,22 +76,22 @@ package com.seeyon.apps.nbd.core.resource;//package com.seeyon.apps.nbd.core.res
 //    @RestInterfaceAnnotation
 //    public Response sso() throws ServiceException {
 //
-//        NbdResponseEntity entity = new NbdResponseEntity();
+//        NbdResponseEntity form = new NbdResponseEntity();
 //        String app_key = request.getParameter("app_key");
 //        String userName = request.getParameter("userLoginName");
 //
 //        if(StringUtils.isEmpty(userName)){
-//            entity.setMsg("用户名没有提供");
-//            return this.ok(entity);
+//            form.setMsg("用户名没有提供");
+//            return this.ok(form);
 //        }
 //        if(StringUtils.isEmpty(app_key)){
-//            entity.setMsg("APP_KEY没有提供");
-//            return this.ok(entity);
+//            form.setMsg("APP_KEY没有提供");
+//            return this.ok(form);
 //        }
 //        if(!ConfigService.APP_KEY.equals(app_key)){
 //
-//            entity.setMsg("APP_KEY错误");
-//            return this.ok(entity);
+//            form.setMsg("APP_KEY错误");
+//            return this.ok(form);
 //        }
 //        String md5 = MD5Util.MD5(PRIVATE_KEY);
 //        String password = md5.substring(0, 16);
@@ -100,26 +100,26 @@ package com.seeyon.apps.nbd.core.resource;//package com.seeyon.apps.nbd.core.res
 //            String loginName = AESUtils.decrypt(userName,password,v16);
 //            V3xOrgMember handleMember = this.getOrgManager().getMemberByLoginName(loginName);
 //            if(handleMember == null){
-//                entity.setMsg("用户名错误,找不到用户");
-//                return this.ok(entity);
+//                form.setMsg("用户名错误,找不到用户");
+//                return this.ok(form);
 //            }
 //            User user = login(handleMember);
 //            if(user == null){
-//                entity.setResult(false);
-//                entity.setMsg("不合法的用户");
+//                form.setResult(false);
+//                form.setMsg("不合法的用户");
 //            }else{
-//                entity.setResult(true);
-//                entity.setMsg("success");
+//                form.setResult(true);
+//                form.setMsg("success");
 //            }
 //
 //
-//            entity.setData(JSON.parseObject(JSON.toJSONString(user),HashMap.class));
+//            form.setData(JSON.parseObject(JSON.toJSONString(user),HashMap.class));
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//            entity.setMsg("解密错误");
-//            return this.ok(entity);
+//            form.setMsg("解密错误");
+//            return this.ok(form);
 //        }
-//        return Response.status(200).entity(entity).type("application/json").build();
+//        return Response.status(200).form(form).type("application/json").build();
 //
 //
 //    }
