@@ -1,5 +1,6 @@
 package com.seeyon.apps.duban.po;
 
+import com.seeyon.apps.duban.annotaion.ClobText;
 import com.seeyon.ctp.common.po.BasePO;
 
 /**
@@ -11,6 +12,7 @@ public class FormMappingPO extends BasePO {
 
     private String tableName;
 
+    @ClobText(value="8192")
     private String mapping;
 
 

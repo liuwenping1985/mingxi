@@ -1,1 +1,12 @@
-cls:com.seeyon.apps.duban.po.DubanTaskUserFeedback
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"><hibernate-mapping package="com.seeyon.apps.duban.po">
+<class name="DubanTaskUserFeedback" table="duban_task_user_feedback"><property  not-null="false"  name="taskId" column="task_id" type="long" />
+<property  not-null="false"  length="512"  name="opinion" column="opinion" type="string" />
+<property  not-null="false"  name="createDate" column="create_date" type="date" />
+<property  not-null="false"  name="userId" column="user_id" type="long" />
+<id  name="id" column="id" type="long" length="11"  />
+
+</class>
+</hibernate-mapping>

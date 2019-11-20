@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by liuwenping on 2019/11/7.
  */
-public class MappingHook {
+public class MappingCodeConstant {
     public static String DUBAN_TASK="DB_TASK";
     public static String DUBAN_TASK_FEEDBACK="DB_FEEDBACK";
     public static String DUBAN_TASK_AFFIRM="DB_AFFIRM";

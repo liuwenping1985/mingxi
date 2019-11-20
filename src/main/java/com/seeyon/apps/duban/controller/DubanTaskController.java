@@ -1,5 +1,6 @@
 package com.seeyon.apps.duban.controller;
 
+import com.seeyon.apps.duban.mapping.MappingService;
 import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
@@ -38,7 +39,7 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
-    public ModelAndView listDashBordHome(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView dashBord(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView modelAndView = new ModelAndView("apps/duban/dashbord");
         return modelAndView;
@@ -72,6 +73,21 @@ public class DubanTaskController extends BaseController {
         Object rst = ConfigFileService.reload();
 
         UIUtils.responseJSON(rst, response);
+
+        return null;
+    }
+    /**
+     * 重载配置
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    public ModelAndView reloadMapping(HttpServletRequest request, HttpServletResponse response) {
+
+        MappingService.getInstance().reloadMapping();
+
+        UIUtils.responseJSON("OK", response);
 
         return null;
     }

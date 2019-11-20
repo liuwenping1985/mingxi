@@ -1,7 +1,6 @@
-package com.seeyon.apps.duban.service;
+package com.seeyon.apps.duban.mapping;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.duban.mapping.MappingHook;
 import com.seeyon.apps.duban.util.FileContentUtil;
 import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.duban.vo.form.FormField;
@@ -21,40 +20,95 @@ import java.util.*;
  */
 public class MappingService {
 
-    public void readMapping(){
 
+    private static MappingService mappingService = new MappingService();
 
-    }
-
-
-    private List<File> getMappingFiles(){
-
-       String path =  MappingHook.class.getResource("").getPath();
-
-       File f  = new File(path);
-
-       return Arrays.asList(f.listFiles(new FilenameFilter(){
-
-           public boolean accept(File dir, String name) {
-
-               if(name.toLowerCase().indexOf("xml")>0){
-                   return true;
-               }
-               return false;
-           }
-       }));
+    public static MappingService getInstance() {
+        return mappingService;
 
     }
 
+    private Map<String, FormTableDefinition> ftdMap = new HashMap<String, FormTableDefinition>();
 
-    public List<String> getMappingContents(){
+    public void reloadMapping() {
+        ftdMap.clear();
+
+    }
+
+    public FormTableDefinition getFormTableDefinitionDByCode(String code) {
+        return getFormTableDefinitionDByCode(code, true);
+    }
+
+    public FormTableDefinition getFormTableDefinitionDByCode(String code, boolean fromCache) {
+        FormTableDefinition ftd = null;
+        if (fromCache) {
+            ftd = ftdMap.get(code);
+        }
+        if (ftd == null) {
+            String fileName = MappingCodeConstant.FILE_MAPPING.get(code);
+            if (!StringUtils.isEmpty(fileName)) {
+
+                File file = getMappingFile(fileName);
+                try {
+                    String fileContent = FileContentUtil.readFileContent(file);
+                    if (StringUtils.isEmpty(fileContent)) {
+                        throw new Exception("读取文件内容为空");
+                    }
+                    String jsonString = XmlUtils.xmlString2jsonString(fileContent);
+                    Map dataMap = JSON.parseObject(jsonString, HashMap.class);
+                    ftd = parseFormTableMapping(dataMap);
+                    if (ftd != null) {
+                        return ftd;
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("读取文件错误:" + code, e);
+                }
+            }
+        } else {
+            return ftd;
+        }
+        throw new RuntimeException("不支持的编码code:" + code);
+
+    }
+
+    private File getMappingFile(String fileName) {
+
+        String path = MappingCodeConstant.class.getResource(fileName).getPath();
+
+        File f = new File(path);
+
+        return f;
+    }
+
+    private List<File> getMappingFiles() {
+
+        String path = MappingCodeConstant.class.getResource("").getPath();
+
+        File f = new File(path);
+
+        return Arrays.asList(f.listFiles(new FilenameFilter() {
+
+            public boolean accept(File dir, String name) {
+
+                if (name.toLowerCase().indexOf("xml") > 0) {
+                    return true;
+                }
+                return false;
+            }
+        }));
+
+    }
+
+    //以下均为测试是否好使
+
+    public List<String> getMappingContents() {
 
         List<File> files = getMappingFiles();
         List<String> contentCodes = new ArrayList<String>();
-        for(File file:files){
+        for (File file : files) {
             try {
-                String fileContent =  FileContentUtil.readFileContent(file);
-                if(StringUtils.isEmpty(fileContent)){
+                String fileContent = FileContentUtil.readFileContent(file);
+                if (StringUtils.isEmpty(fileContent)) {
                     continue;
                 }
                 contentCodes.add(fileContent);
@@ -65,16 +119,17 @@ public class MappingService {
         }
         return contentCodes;
     }
-    private  FormTableDefinition parseFormTableMapping(Map data) {
+
+    private FormTableDefinition parseFormTableMapping(Map data) {
 
         Object object = data.get("TableList");
         Map tableList = null;
-        if(object instanceof List){
-            if (CommonUtils.isEmpty((List)object)) {
+        if (object instanceof List) {
+            if (CommonUtils.isEmpty((List) object)) {
                 return null;
             }
-            tableList = (Map)((List) object).get(0);
-        }else{
+            tableList = (Map) ((List) object).get(0);
+        } else {
             tableList = (Map) object;
         }
 
@@ -108,13 +163,13 @@ public class MappingService {
             FormTable ft = JSON.parseObject(jString, FormTable.class);
             Object fObject = table.get("FieldList");
             Map fieldList = null;
-            if(fObject instanceof List){
-                List dataFieldList = (List)fObject;
-                if(CommonUtils.isNotEmpty(dataFieldList)){
-                    fieldList = (Map)dataFieldList.get(0);
+            if (fObject instanceof List) {
+                List dataFieldList = (List) fObject;
+                if (CommonUtils.isNotEmpty(dataFieldList)) {
+                    fieldList = (Map) dataFieldList.get(0);
                 }
-            }else{
-                fieldList = (Map)fObject;
+            } else {
+                fieldList = (Map) fObject;
             }
             // Map fieldList = (Map) table.get("FieldList");
             if (!CommonUtils.isEmpty(fieldList)) {
@@ -146,14 +201,15 @@ public class MappingService {
         }
         return definition;
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         MappingService service = new MappingService();
 
         List<String> list = service.getMappingContents();
-        for(String c:list){
+        for (String c : list) {
             try {
                 String jsonString = XmlUtils.xmlString2jsonString(c);
-                Map dataMap = JSON.parseObject(jsonString,HashMap.class);
+                Map dataMap = JSON.parseObject(jsonString, HashMap.class);
                 FormTableDefinition ftd = service.parseFormTableMapping(dataMap);
                 System.out.println(ftd.getName());
                 System.out.println(ftd.getCode());
@@ -163,9 +219,6 @@ public class MappingService {
             }
         }
     }
-
-
-
 
 
 }

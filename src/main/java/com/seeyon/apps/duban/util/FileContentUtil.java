@@ -1,6 +1,6 @@
 package com.seeyon.apps.duban.util;
 
-import com.seeyon.apps.duban.mapping.MappingHook;
+import com.seeyon.apps.duban.mapping.MappingCodeConstant;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.io.File;
@@ -87,7 +87,7 @@ public final class FileContentUtil {
     //TEST CASE
     public static void main(String[] args) {
 
-        String path = (MappingHook.class.getResource("DubanTask.xml").getPath());
+        String path = (MappingCodeConstant.class.getResource("DubanTask.xml").getPath());
         try {
             System.out.println(readFileContent(path));
         } catch (Exception e) {
