@@ -8,9 +8,9 @@ import java.util.Date;
  * 用户任务反馈
  * Created by liuwenping on 2019/11/5.
  */
-public class DubanTaskUserFeedback extends BasePO {
+public class DubanTaskUserFeedback extends FormMappingPO {
 
-    private Long taskId;
+    private String taskId;
 
     private String opinion;
 
@@ -18,11 +18,11 @@ public class DubanTaskUserFeedback extends BasePO {
 
     private Long userId;
 
-    public Long getTaskId() {
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Long taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 

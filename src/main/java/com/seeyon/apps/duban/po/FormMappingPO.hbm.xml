@@ -5,7 +5,7 @@
 <class name="FormMappingPO" table="form_mapping_p_o"><property  not-null="false"  name="formRecordId" column="form_record_id" type="long" />
 <property  not-null="false"  length="512"  name="tableName" column="table_name" type="string" />
 <property  not-null="false"  length="8192"  name="mapping" column="mapping" type="string" />
-<id  name="id" column="id" type="long" length="11" />
+<id  name="id" column="id" type="long" />
 
 </class>
 </hibernate-mapping>

@@ -2,7 +2,7 @@ package com.seeyon.apps.duban.vo.form;
 
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.duban.util.CommonUtils;
-import com.seeyon.apps.nbd.service.TransferService;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,91 +78,6 @@ public class FormTableDefinition {
         return stb.toString();
     }
 
-    /**
-     *
-     * @param ft
-     * @param values
-     * @return
-     */
-    public List<List<SimpleFormField>> filledValue(FormTable ft,List<Map> values) {
-        TransferService tfs = TransferService.getInstance();
-        List<FormField> formFields = ft.getFormFieldList();
-        List<List<SimpleFormField>> dataList = new ArrayList<List<SimpleFormField>>();
-        if (CommonUtils.isEmpty(formFields)) {
-            return dataList;
-        }
-        if (CommonUtils.isEmpty(values)) {
-            return dataList;
-        }
-        for (Map objs : values) {
-            if (CommonUtils.isEmpty(objs)) {
-                continue;
-            }
-            List<SimpleFormField> sffList = new ArrayList<SimpleFormField>();
-            for(FormField ff:formFields){
-                SimpleFormField sff= new SimpleFormField();
-                sff.setDisplay(ff.getDisplay());
-                sff.setName(ff.getName());
-                sff.setValue(tfs.transForm2Other(ff,objs.get(ff.getName())));
-                sffList.add(sff);
-            }
-
-            dataList.add(sffList);
-        }
-        return dataList;
-
-    }
-
-    /**
-     *
-     * @param ft
-     * @param values
-     * @param usingDisplay
-     * @return
-     */
-    public List<Map> filled2ValueMap(FormTable ft,List<Map> values,boolean usingDisplay) {
-        TransferService tfs = TransferService.getInstance();
-        List<FormField> formFields = ft.getFormFieldList();
-        System.out.println("formFields:"+ JSON.toJSONString(formFields));
-        System.out.println("values:"+ JSON.toJSONString(values));
-
-        List<Map> dataList = new ArrayList<Map>();
-        if (CommonUtils.isEmpty(formFields)) {
-            return dataList;
-        }
-        if (CommonUtils.isEmpty(values)) {
-            return dataList;
-        }
-        for (Map objs : values) {
-            if (CommonUtils.isEmpty(objs)) {
-                continue;
-            }
-            Map data = new HashMap();
-            for(FormField ff:formFields){
-                if(!"1".equals(ff.getExport())){
-                    continue;
-                }
-                String fExportName = ff.getBarcode();
-                if(CommonUtils.isEmpty(fExportName)){
-                    if(!usingDisplay){
-                        fExportName = ff.getName();
-                    }else{
-                        fExportName = ff.getDisplay();
-                    }
-
-                }
-                data.put(fExportName,tfs.transForm2Other(ff,objs.get(ff.getName())));
-            }
-
-            dataList.add(data);
-        }
-        return dataList;
-
-    }
-    public List<List<SimpleFormField>> filledValue(List<Map> values) {
-
-        return filledValue(this.getFormTable(),values);
-    }
 
 
     public String genSelectSQLById(FormTable ft,Object recordId) {

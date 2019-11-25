@@ -174,7 +174,7 @@
     window.layex = layex;
     window.lx = layex;
     layex.config({
-        base: 'layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
+        base: '../../app_res/duban/verdor/layui/apps/component/' //你存放新模块的目录，注意，不是layui的模块目录
     });
 
 }());

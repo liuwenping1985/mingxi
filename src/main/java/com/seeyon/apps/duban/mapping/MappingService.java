@@ -1,12 +1,14 @@
 package com.seeyon.apps.duban.mapping;
 
 import com.alibaba.fastjson.JSON;
+import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.util.FileContentUtil;
 import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.duban.vo.form.FormField;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.util.CommonUtils;
+import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -211,9 +213,10 @@ public class MappingService {
                 String jsonString = XmlUtils.xmlString2jsonString(c);
                 Map dataMap = JSON.parseObject(jsonString, HashMap.class);
                 FormTableDefinition ftd = service.parseFormTableMapping(dataMap);
-                System.out.println(ftd.getName());
-                System.out.println(ftd.getCode());
-                System.out.println(ftd.getFormTable().getName());
+                Map data = new HashMap();
+                data.put("id",1234567);
+                DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class,data,ftd);
+                System.out.println(task.getUuid());
             } catch (IOException e) {
                 e.printStackTrace();
             }

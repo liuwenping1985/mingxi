@@ -8,7 +8,9 @@ import java.util.Date;
  */
 public class DubanTaskAffirm extends FormMappingPO{
 
-    private Long taskId;
+    private String uuid;
+
+    private String taskId;
 
     private Date createDate;
 
@@ -17,6 +19,14 @@ public class DubanTaskAffirm extends FormMappingPO{
     private String deptName;
 
     private String deptId;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getDeptName() {
         return deptName;
@@ -34,11 +44,11 @@ public class DubanTaskAffirm extends FormMappingPO{
         this.deptId = deptId;
     }
 
-    public Long getTaskId() {
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Long taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 

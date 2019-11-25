@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"><hibernate-mapping package="com.seeyon.apps.duban.po">
 <class name="FormFieldMapping" table="form_field_mapping"><property  not-null="false"  length="512"  name="uuid" column="uuid" type="string" />
 <property  not-null="false"  length="512"  name="fieldInfo" column="field_info" type="string" />
-<id  name="id" column="id" type="long" length="11" />
+<id  name="id" column="id" type="long" />
 
 </class>
 </hibernate-mapping>

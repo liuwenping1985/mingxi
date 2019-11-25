@@ -1,8 +1,13 @@
 package com.seeyon.apps.duban.vo.form;
 
+import com.seeyon.apps.duban.util.CommonUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.util.CollectionUtils;
+
+
 /**
- * 简化form的那一坨大便一样的逻辑
- * Created by liuwenping on 2018/9/7.
+ * 简化form的那的逻辑
+ * Created by liuwenping on 2019/11/7.
  */
 public class FormField {
 
@@ -54,7 +59,18 @@ public class FormField {
         this.parser = parser;
     }
 
+    public Object getShowValue(){
+        String ex = this.getExport();
+        if(!StringUtils.isEmpty(ex)){
+            if("enum".equals(ex)){
+                return CommonUtils.getEnumShowValue(value);
+            }
+        }
+        return this.value;
+
+    }
     public Object getValue() {
+
         return value;
     }
 

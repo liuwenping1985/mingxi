@@ -1,7 +1,6 @@
 package com.seeyon.apps.duban.util;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.ctp.common.filemanager.manager.SignFileItem;
 import com.seeyon.ctp.util.Base64;
 import com.seeyon.ctp.util.IOUtility;
 import org.apache.http.HttpResponse;
@@ -17,9 +16,10 @@ import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,59 +54,59 @@ public class UIUtils {
         }
     }
 
-    public static SignFileItem fileDownloadByUrl(String wjurl) throws Exception {
-        FileOutputStream out =null;
-        InputStream inputStream = null;
-        try {
-            URL url = new URL(wjurl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //得到输入流
-            inputStream = conn.getInputStream();
-            byte[] fileData = readInputStream(inputStream);
-            if(fileData==null||fileData.length==0){
-                return null;
-
-            }
-           // FileNameMap fileNameMap = URLConnection.getFileNameMap();
-            //String contentType = fileNameMap.getContentTypeFor("E:\\static\\bg.jpg");
-            String suffix = getFileSuffix(wjurl);
-            String path = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + "."+suffix;
-            File file = new File(path);
-            file.createNewFile();
-            out = new FileOutputStream(file);
-            out.write(fileData);
-//            if(CommonUtils.isNotEmpty(suffix)){
-//                suffix = suffix.toLowerCase();
-////                if("doc".equals(suffix)||"docx".equals(suffix)){
-////                    String outputFile = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".pdf";
-////                    file =  PdfService.getInstance().word2pdf(path,outputFile);
-////                }
+//    public static SignFileItem fileDownloadByUrl(String wjurl) throws Exception {
+//        FileOutputStream out =null;
+//        InputStream inputStream = null;
+//        try {
+//            URL url = new URL(wjurl);
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            //得到输入流
+//            inputStream = conn.getInputStream();
+//            byte[] fileData = readInputStream(inputStream);
+//            if(fileData==null||fileData.length==0){
+//                return null;
+//
 //            }
-            Long size = file.length();
-            SignFileItem sfi = new SignFileItem(file.getName(),size,file);
-
-            return sfi;
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
-            try{
-                if(out !=null){
-                    out.flush();
-                    out.close();
-                }
-            }catch (Exception e){
-
-            }
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            }catch(Exception e){
-
-            }
-        }
-        return null;
-    }
+//           // FileNameMap fileNameMap = URLConnection.getFileNameMap();
+//            //String contentType = fileNameMap.getContentTypeFor("E:\\static\\bg.jpg");
+//            String suffix = getFileSuffix(wjurl);
+//            String path = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + "."+suffix;
+//            File file = new File(path);
+//            file.createNewFile();
+//            out = new FileOutputStream(file);
+//            out.write(fileData);
+////            if(CommonUtils.isNotEmpty(suffix)){
+////                suffix = suffix.toLowerCase();
+//////                if("doc".equals(suffix)||"docx".equals(suffix)){
+//////                    String outputFile = UIUtils.class.getResource("").getPath() + "/" + System.currentTimeMillis() + ".pdf";
+//////                    file =  PdfService.getInstance().word2pdf(path,outputFile);
+//////                }
+////            }
+//            Long size = file.length();
+//            SignFileItem sfi = new SignFileItem(file.getName(),size,file);
+//
+//            return sfi;
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }finally {
+//            try{
+//                if(out !=null){
+//                    out.flush();
+//                    out.close();
+//                }
+//            }catch (Exception e){
+//
+//            }
+//            try {
+//                if (inputStream != null) {
+//                    inputStream.close();
+//                }
+//            }catch(Exception e){
+//
+//            }
+//        }
+//        return null;
+//    }
 
     public static byte[] readInputStream(InputStream inputStream) throws IOException {
         byte[] buffer = new byte[1024];

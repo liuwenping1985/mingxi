@@ -3,6 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"><hibernate-mapping package="com.seeyon.apps.duban.po">
 <class name="DubanTask" table="duban_task"><property  not-null="false"  length="512"  name="uuid" column="uuid" type="string" />
+<property  not-null="false"  length="512"  name="taskId" column="task_id" type="string" />
 <property  not-null="false"  length="512"  name="name" column="name" type="string" />
 <property  not-null="false"  length="512"  name="pid" column="pid" type="string" />
 <property  not-null="false"  length="512"  name="taskSource" column="task_source" type="string" />
@@ -16,7 +17,7 @@
 <property  not-null="false"  name="formRecordId" column="form_record_id" type="long" />
 <property  not-null="false"  length="512"  name="tableName" column="table_name" type="string" />
 <property  not-null="false"  length="8192"  name="mapping" column="mapping" type="string" />
-<id  name="id" column="id" type="long" length="11" />
+<id  name="id" column="id" type="long" />
 
 </class>
 </hibernate-mapping>

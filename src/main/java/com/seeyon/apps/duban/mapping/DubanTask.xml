@@ -1,7 +1,7 @@
 <TableList name="工作督办单" code="DB_TASK">
     <Table id="-7622193254226967153" name="formmain_0029" display="formmain_0029" tabletype="master" onwertable="" onwerfield="">
         <FieldList>
-            <Field id="3643937578265954384" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" classname=""/>
+            <Field id="3643937578265954384" name="id" display="id" fieldtype="long" fieldlength="20" is_null="true" is_primary="true" export="plain" barcode="uuid" classname=""/>
             <Field id="-3025947448419005963" name="state" display="审核状态" fieldtype="int" fieldlength="10" is_null="true" is_primary="false" classname=""/>
             <Field id="-75218598403160960" name="start_member_id" display="发起人" fieldtype="long" fieldlength="20" is_null="true" is_primary="false" classname=""/>
             <Field id="4809684269355254882" name="start_date" display="发起时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
@@ -13,10 +13,10 @@
             <Field id="7657184674539192448" name="ratify_date" display="核定时间" fieldtype="DATETIME" fieldlength="" is_null="true" is_primary="false" classname=""/>
 
 
-            <Field id="6652151285298777723" name="field0001" display="任务ID" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="3886452356577314766" name="field0002" display="任务来源" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="-2790000758418093737" name="field0003" display="任务分级" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
-            <Field id="481470673950297092" name="field0004" display="标题" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
+            <Field id="6652151285298777723" name="field0001" display="任务ID" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" export="plain" barcode="taskId" classname=""/>
+            <Field id="3886452356577314766" name="field0002" display="任务来源" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" export="enum" barcode="taskSource" classname=""/>
+            <Field id="-2790000758418093737" name="field0003" display="任务分级" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" export="enum" barcode="taskLevel" classname=""/>
+            <Field id="481470673950297092" name="field0004" display="标题" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" export="plain" barcode="name" classname=""/>
             <Field id="-4940222633777541568" name="field0005" display="办理要求" fieldtype="VARCHAR" fieldlength="4000,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-5961946701832239775" name="field0006" display="任务附件" fieldtype="VARCHAR" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>
             <Field id="-9151842385023840791" name="field0007" display="办理时限" fieldtype="TIMESTAMP" fieldlength="255,0" is_null="false" is_primary="false" classname=""/>

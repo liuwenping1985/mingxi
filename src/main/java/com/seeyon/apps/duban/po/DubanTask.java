@@ -10,7 +10,7 @@ public class DubanTask extends FormMappingPO {
 
     private String uuid;
 
-    private String sId;
+    private String taskId;
 
     private String name;
 
@@ -76,17 +76,14 @@ public class DubanTask extends FormMappingPO {
 
     public void setId(Long id) {
         this.id = id;
-        if(id!=null){
-            setsId(String.valueOf(id));
-        }
     }
 
-    public String getsId() {
-        return sId;
+    public String getTaskId() {
+        return taskId;
     }
 
-    public void setsId(String sId) {
-        this.sId = sId;
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 
     public String getTaskStatus() {

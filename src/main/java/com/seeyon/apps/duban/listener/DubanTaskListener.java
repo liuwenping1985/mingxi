@@ -5,9 +5,11 @@ import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
 import com.seeyon.apps.duban.mapping.MappingService;
+import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.service.CommonServiceTrigger;
 import com.seeyon.apps.duban.util.DataBaseUtils;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
+import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
@@ -54,6 +56,9 @@ public class DubanTaskListener {
                     Long id = colSummary.getFormRecordid();
                     String sql = ftd.genQueryById(id);
                     Map data = DataBaseUtils.querySingleDataBySQL(sql);
+                    DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class,data,ftd);
+                    task.setNewId();
+                    DBAgent.save(task);
                     //查出了表单的数据
                 }
 
