@@ -25,13 +25,7 @@ public class CommonUtils {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static void processCrossOriginResponse(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
-        response.setHeader("Access-Control-Max-Age", "3628800");
-    }
+
 
     public static boolean isEmpty(Collection collection) {
         if (collection == null || collection.isEmpty()) {

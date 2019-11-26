@@ -1,3 +1,4 @@
+<NODE>
 <TableList name="督办延期审批单" code="DB_DELAY_APPLY" >
     <Table id="-3178918807676631765" name="formmain_0021" display="formmain_0021" tabletype="master" onwertable="" onwerfield="">
         <FieldList>
@@ -45,3 +46,4 @@
         </IndexList>
     </Table>
 </TableList>
+</NODE>

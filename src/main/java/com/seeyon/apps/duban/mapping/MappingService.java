@@ -57,6 +57,7 @@ public class MappingService {
                         throw new Exception("读取文件内容为空");
                     }
                     String jsonString = XmlUtils.xmlString2jsonString(fileContent);
+
                     Map dataMap = JSON.parseObject(jsonString, HashMap.class);
                     ftd = parseFormTableMapping(dataMap);
                     if (ftd != null) {
@@ -75,9 +76,9 @@ public class MappingService {
 
     private File getMappingFile(String fileName) {
 
-        String path = MappingCodeConstant.class.getResource(fileName).getPath();
-
-        File f = new File(path);
+        String path = MappingCodeConstant.class.getResource("").getPath();
+        System.out.println(path + fileName);
+        File f = new File(path + fileName);
 
         return f;
     }
@@ -125,6 +126,12 @@ public class MappingService {
     private FormTableDefinition parseFormTableMapping(Map data) {
 
         Object object = data.get("TableList");
+        if (object == null) {
+            Object child = data.get("NODE");
+            if (child != null && child instanceof Map) {
+                object = ((Map) child).get("TableList");
+            }
+        }
         Map tableList = null;
         if (object instanceof List) {
             if (CommonUtils.isEmpty((List) object)) {
@@ -207,20 +214,8 @@ public class MappingService {
     public static void main(String[] args) {
         MappingService service = new MappingService();
 
-        List<String> list = service.getMappingContents();
-        for (String c : list) {
-            try {
-                String jsonString = XmlUtils.xmlString2jsonString(c);
-                Map dataMap = JSON.parseObject(jsonString, HashMap.class);
-                FormTableDefinition ftd = service.parseFormTableMapping(dataMap);
-                Map data = new HashMap();
-                data.put("id",1234567);
-                DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class,data,ftd);
-                System.out.println(task.getUuid());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK_AFFIRM);
+        System.out.println(ftd.getFormTable().getName());
     }
 
 

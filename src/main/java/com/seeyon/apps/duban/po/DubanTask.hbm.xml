@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"><hibernate-mapping package="com.seeyon.apps.duban.po">
-<class name="DubanTask" table="duban_task"><property  not-null="false"  length="512"  name="uuid" column="uuid" type="string" />
-<property  not-null="false"  length="512"  name="taskId" column="task_id" type="string" />
-<property  not-null="false"  length="512"  name="name" column="name" type="string" />
-<property  not-null="false"  length="512"  name="pid" column="pid" type="string" />
-<property  not-null="false"  length="512"  name="taskSource" column="task_source" type="string" />
-<property  not-null="false"  length="512"  name="taskLevel" column="task_level" type="string" />
-<property  not-null="false"  length="512"  name="taskStatus" column="task_status" type="string" />
-<property  not-null="false"  name="startDate" column="start_date" type="date" />
-<property  not-null="false"  name="endDate" column="end_date" type="date" />
-<property  not-null="false"  name="createUserId" column="create_user_id" type="long" />
-<property  not-null="false"  length="512"  name="taskDescription" column="task_description" type="string" />
-<property  not-null="false"  length="512"  name="attListString" column="att_list_string" type="string" />
-<property  not-null="false"  name="formRecordId" column="form_record_id" type="long" />
-<property  not-null="false"  length="512"  name="tableName" column="table_name" type="string" />
-<property  not-null="false"  length="8192"  name="mapping" column="mapping" type="string" />
-<id  name="id" column="id" type="long" />
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.seeyon.apps.duban.po">
 
-</class>
+
+    <class name="DubanTask" table="duban_task">
+        <id name="id" column="id" type="long" length="20">
+            <generator class="assigned"/>
+        </id>
+
+        <property not-null="false" length="512" name="uuid" column="uuid" type="string"/>
+        <property not-null="false" length="512" name="taskId" column="task_id" type="string"/>
+        <property not-null="false" length="512" name="name" column="name" type="string"/>
+        <property not-null="false" length="512" name="pid" column="pid" type="string"/>
+        <property not-null="false" length="512" name="taskSource" column="task_source" type="string"/>
+        <property not-null="false" length="512" name="taskLevel" column="task_level" type="string"/>
+        <property not-null="false" length="512" name="taskStatus" column="task_status" type="string"/>
+        <property not-null="false" name="startDate" column="start_date" type="date"/>
+        <property not-null="false" name="endDate" column="end_date" type="date"/>
+        <property not-null="false" name="createUserId" column="create_user_id" type="long"/>
+        <property not-null="false" length="512" name="taskDescription" column="task_description" type="string"/>
+        <property not-null="false" length="512" name="attListString" column="att_list_string" type="string"/>
+        <property not-null="false" name="formRecordId" column="form_record_id" type="long"/>
+        <property not-null="false" length="512" name="tableName" column="table_name" type="string"/>
+        <property not-null="false" length="8192" name="mapping" column="mapping" type="string"/>
+
+
+    </class>
 </hibernate-mapping>

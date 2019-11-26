@@ -7,6 +7,8 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.json.JSONException;
+import org.json.XML;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +51,7 @@ public class XmlUtils {
     public static String xml2jsonString(File f) throws IOException {
         FileInputStream ins = new FileInputStream(f);
         String xml = IOUtils.toString(ins, "UTF-8");
-        //System.out.println(f.getPath());
+
         try {
             String xmlJSONObj = xmlString2jsonString(xml);
             return xmlJSONObj;
@@ -71,15 +73,22 @@ public class XmlUtils {
 
         try {
 
-            // JSONObject xmlJSONObj = XML.toJSONObject(xml);
+
             if (!xml.startsWith("<xml>")) {
-                xml = "<xml>" + xml + "</xml>";
+                xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" + xml;
             }
+
             Document document = DocumentHelper.parseText(xml);
             JSONObject xmlJSONObj = elementToJSONObject(document.getRootElement());
             return xmlJSONObj.toString();
         } catch (Exception e) {
-
+            e.printStackTrace();
+            try {
+                org.json.JSONObject xmlJSONObj2 = XML.toJSONObject(xml);
+                return xmlJSONObj2.toString();
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
         }
         return null;
     }

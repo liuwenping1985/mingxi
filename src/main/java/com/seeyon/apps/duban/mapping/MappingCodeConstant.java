@@ -16,7 +16,7 @@ public class MappingCodeConstant {
     public static Map<String,String> FILE_MAPPING = new HashMap<String,String>();
     static{
 
-        FILE_MAPPING.put(DUBAN_TASK,"DubanTASK.xml");
+        FILE_MAPPING.put(DUBAN_TASK,"DubanTask.xml");
         FILE_MAPPING.put(DUBAN_TASK_FEEDBACK,"DubanFeedback.xml");
         FILE_MAPPING.put(DUBAN_TASK_AFFIRM,"DubanAffirm.xml");
         FILE_MAPPING.put(DUBAN_TASK_DELAY_APPLY,"DubanDelayApply.xml");

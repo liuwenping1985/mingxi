@@ -3,6 +3,8 @@ package com.seeyon.apps.duban.wrapper;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.vo.form.FormField;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
+import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
@@ -34,16 +36,36 @@ public final class DataTransferStrategy {
                             if ("enum".equals(export)) {
                                 val = CommonUtils.getEnumShowValue(val);
                             }
-                            if (f.getType() == Long.class) {
-                                f.setLong(obj, CommonUtils.getLong(obj));
-                            } else if (f.getType() == String.class) {
-                                if(val ==null){
-                                    f.set(obj,"");
-                                }else{
-                                    f.set(obj,String.valueOf(val));
+                            if ("member".equals(export)) {
+                                Long mid = CommonUtils.getLong(val);
+                                if (mid != null) {
+                                    V3xOrgMember member = CommonUtils.getOrgManager().getMemberById(mid);
+                                    if (member != null) {
+                                        val = member.getName();
+                                    }
                                 }
 
-                            } else{
+                            }
+                            if ("department".equals(export)) {
+                                Long mid = CommonUtils.getLong(val);
+                                if (mid != null) {
+                                    V3xOrgDepartment dept = CommonUtils.getOrgManager().getDepartmentById(mid);
+                                    if (dept != null) {
+                                        val = dept.getName();
+                                    }
+                                }
+
+                            }
+                            if (f.getType() == Long.class) {
+                                f.setLong(obj, CommonUtils.getLong(val));
+                            } else if (f.getType() == String.class) {
+                                if (val == null) {
+                                    f.set(obj, "");
+                                } else {
+                                    f.set(obj, String.valueOf(val));
+                                }
+
+                            } else {
                                 f.set(obj, val);
                             }
                         }
@@ -71,11 +93,11 @@ public final class DataTransferStrategy {
             e.printStackTrace();
         }
         if (f == null) {
-             cls = cls.getSuperclass();
-            while(cls!=null){
+            cls = cls.getSuperclass();
+            while (cls != null) {
                 try {
                     f = cls.getDeclaredField(fieldName);
-                    if(f!=null){
+                    if (f != null) {
                         break;
                     }
                 } catch (NoSuchFieldException e) {

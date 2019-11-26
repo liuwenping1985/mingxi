@@ -27,11 +27,64 @@ public class DubanTask extends FormMappingPO {
     private Date endDate;
 
     private Long createUserId;
+    private String period;
+    private String process;
+    private String mainLeader;
+    private String viewLeaderName;
+    private String supervisor;
+    private String deptName;
 
     private String taskDescription;
 
     private String attListString;
 
+    public String getViewLeaderName() {
+        return viewLeaderName;
+    }
+
+    public void setViewLeaderName(String viewLeaderName) {
+        this.viewLeaderName = viewLeaderName;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public String getProcess() {
+        return process;
+    }
+
+    public void setProcess(String process) {
+        this.process = process;
+    }
+
+    public String getMainLeader() {
+        return mainLeader;
+    }
+
+    public void setMainLeader(String mainLeader) {
+        this.mainLeader = mainLeader;
+    }
+
+    public String getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(String supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
 
     public String getAttListString() {
         return attListString;

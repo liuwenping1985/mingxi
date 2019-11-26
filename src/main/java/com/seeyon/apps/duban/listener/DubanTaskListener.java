@@ -47,9 +47,10 @@ public class DubanTaskListener {
     @ListenEvent(event = CollaborationFinishEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onFinish(CollaborationFinishEvent event) {
         Long summaryId = event.getSummaryId();
+        System.out.println();
         if (CommonServiceTrigger.needProcess(summaryId)) {
             //往台账表插入数据
-            FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+            FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK_AFFIRM);
             try {
                 ColSummary colSummary = this.getColManager().getSummaryById(summaryId);
                 if (colSummary == null) {

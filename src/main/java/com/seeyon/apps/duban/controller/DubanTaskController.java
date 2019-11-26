@@ -1,14 +1,18 @@
 package com.seeyon.apps.duban.controller;
 
 import com.seeyon.apps.duban.mapping.MappingService;
+import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.service.ConfigFileService;
+import com.seeyon.apps.duban.service.DubanMainService;
 import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.ctp.common.controller.BaseController;
+import com.seeyon.v3x.util.annotation.NeedlessCheckLogin;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 督办任务控制器
@@ -17,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DubanTaskController extends BaseController {
 
     private static final Logger LOGGER = Logger.getLogger(DubanTaskController.class);
+    DubanMainService dubanMainService = DubanMainService.getInstance();
 
     /**
      * 列出进展页面
@@ -42,7 +47,26 @@ public class DubanTaskController extends BaseController {
     public ModelAndView dashBord(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView modelAndView = new ModelAndView("apps/duban/dashbord");
+
+
         return modelAndView;
+
+
+    }
+    /**
+     * 获取督办任务
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @NeedlessCheckLogin
+    public ModelAndView getDubanTask(HttpServletRequest request, HttpServletResponse response) {
+
+        List<DubanTask> taskList = dubanMainService.getDubanTask();
+        UIUtils.responseJSON(taskList,response);
+
+        return null;
 
 
     }
