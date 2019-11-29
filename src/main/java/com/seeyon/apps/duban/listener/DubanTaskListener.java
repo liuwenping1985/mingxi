@@ -4,7 +4,8 @@ import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
-import com.seeyon.apps.duban.mapping.MappingService;
+import com.seeyon.apps.duban.service.ConfigFileService;
+import com.seeyon.apps.duban.service.MappingService;
 import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.service.CommonServiceTrigger;
 import com.seeyon.apps.duban.util.DataBaseUtils;
@@ -12,14 +13,11 @@ import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
-import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.event.EventTriggerMode;
 import com.seeyon.ctp.util.DBAgent;
-import com.seeyon.ctp.util.UUIDLong;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,25 +45,34 @@ public class DubanTaskListener {
     @ListenEvent(event = CollaborationFinishEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onFinish(CollaborationFinishEvent event) {
         Long summaryId = event.getSummaryId();
-        System.out.println();
+
         if (CommonServiceTrigger.needProcess(summaryId)) {
             //往台账表插入数据
-            FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK_AFFIRM);
+            ColSummary colSummary = null;
             try {
-                ColSummary colSummary = this.getColManager().getSummaryById(summaryId);
-                if (colSummary == null) {
-                    Long id = colSummary.getFormRecordid();
-                    String sql = ftd.genQueryById(id);
-                    Map data = DataBaseUtils.querySingleDataBySQL(sql);
-                    DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class,data,ftd);
-                    task.setNewId();
-                    DBAgent.save(task);
-                    //查出了表单的数据
-                }
+                colSummary = getColManager().getSummaryById(summaryId);
+                Long templateId = colSummary.getTempleteId();
+                String val = ConfigFileService.getPropertyByName("ctp.template." + templateId);
+                System.out.println("I AM IN IN IN:" + val);
+                if ("DB_FEEDBACK".equals(val)) {
 
+
+                } else if ("DB_DONE_APPLY".equals(val)) {
+
+
+
+                } else if ("DB_DELAY_APPLY".equals(val)) {
+
+
+
+                }
             } catch (BusinessException e) {
                 e.printStackTrace();
             }
+
+
+        } else {
+            System.out.println("I AM out out out:" + summaryId);
         }
 
     }

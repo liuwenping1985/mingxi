@@ -1,19 +1,17 @@
-package com.seeyon.apps.duban.mapping;
+package com.seeyon.apps.duban.service;
 
 import com.alibaba.fastjson.JSON;
-import com.seeyon.apps.duban.po.DubanTask;
+import com.seeyon.apps.duban.mapping.MappingCodeConstant;
 import com.seeyon.apps.duban.util.FileContentUtil;
 import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.duban.vo.form.FormField;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.util.CommonUtils;
-import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -56,11 +54,10 @@ public class MappingService {
                     if (StringUtils.isEmpty(fileContent)) {
                         throw new Exception("读取文件内容为空");
                     }
-                    String jsonString = XmlUtils.xmlString2jsonString(fileContent);
-
-                    Map dataMap = JSON.parseObject(jsonString, HashMap.class);
+                    Map dataMap = JSON.parseObject(fileContent, HashMap.class);
                     ftd = parseFormTableMapping(dataMap);
                     if (ftd != null) {
+                        ftdMap.put(code,ftd);
                         return ftd;
                     }
                 } catch (Exception e) {
@@ -93,7 +90,7 @@ public class MappingService {
 
             public boolean accept(File dir, String name) {
 
-                if (name.toLowerCase().indexOf("xml") > 0) {
+                if (name.toLowerCase().indexOf("json") > 0) {
                     return true;
                 }
                 return false;
@@ -214,8 +211,10 @@ public class MappingService {
     public static void main(String[] args) {
         MappingService service = new MappingService();
 
-        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK_AFFIRM);
-        System.out.println(ftd.getFormTable().getName());
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+
+        System.out.println(ftd.getFormTable().getSlaveTableList().get(0).getName());
+
     }
 
 

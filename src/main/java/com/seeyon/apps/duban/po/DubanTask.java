@@ -1,42 +1,127 @@
 package com.seeyon.apps.duban.po;
 
+import com.seeyon.ctp.common.po.BasePO;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * 督办任务主类
  * Created by liuwenping on 2019/11/5.
  */
-public class DubanTask extends FormMappingPO {
+public class DubanTask extends BasePO {
 
+    /**
+     * 底表中的id
+     */
     private String uuid;
-
+    /**
+     * 任务id
+     */
     private String taskId;
-
+    /**
+     * 标题
+     */
     private String name;
-
+    /**
+     * 上级任务id
+     */
     private String pid;
-
+    /**
+     * 任务来源
+     */
     private String taskSource;
-
+    /**
+     * 任务级别
+     */
     private String taskLevel;
-
+    /**
+     * 任务状态
+     */
     private String taskStatus;
-
+    /**
+     * 开始时间
+     */
     private Date startDate;
-
+    /**
+     * 办理时限
+     */
     private Date endDate;
 
-    private Long createUserId;
+    /**
+     * 办结时间
+     */
+    private Date finishDate;
+
+    /**
+     * 领导意见
+     */
+    private String leaderOpinion;
+
+    private String createUserId;
+    /**
+     * 督办周期
+     */
     private String period;
+
+    /**
+     * 办理要求
+     */
+    private String requirement;
+    /**
+     * 进度
+     */
     private String process;
+
+    /**
+     * 责任领导
+     */
     private String mainLeader;
+    /**
+     * 可查看领导
+     */
     private String viewLeaderName;
+    /**
+     * 督办员
+     */
     private String supervisor;
-    private String deptName;
 
+
+    /**
+     * 承办（主办）部门名称
+     */
+    private String mainDeptName;
+
+    /**
+     * 承办部门权重
+     */
+    private String mainWeight;
+    /**
+     * 承办部任务状态
+     */
+    private String mainTaskStatus;
+
+    /**
+     * 承办部门进度
+     */
+    private String mainProcess;
+
+    /**
+     * 承办部门完成时间
+     */
+    private Date mainTaskFinishDate;
+    /**
+     * 任务描述
+     */
     private String taskDescription;
-
+    /**
+     * 附件列表
+     */
     private String attListString;
+    /**
+     * 配合部门任务
+     */
+    private List<SlaveDubanTask> slaveDubanTaskList;
 
     public String getViewLeaderName() {
         return viewLeaderName;
@@ -78,13 +163,6 @@ public class DubanTask extends FormMappingPO {
         this.supervisor = supervisor;
     }
 
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
 
     public String getAttListString() {
         return attListString;
@@ -102,14 +180,13 @@ public class DubanTask extends FormMappingPO {
         this.taskDescription = taskDescription;
     }
 
-    public Long getCreateUserId() {
+    public String getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(Long createUserId) {
+    public void setCreateUserId(String createUserId) {
         this.createUserId = createUserId;
     }
-
 
     public Date getStartDate() {
         return startDate;
@@ -117,6 +194,14 @@ public class DubanTask extends FormMappingPO {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+    }
+
+    public List<SlaveDubanTask> getSlaveDubanTaskList() {
+        return slaveDubanTaskList;
+    }
+
+    public void setSlaveDubanTaskList(List<SlaveDubanTask> slaveDubanTaskList) {
+        this.slaveDubanTaskList = slaveDubanTaskList;
     }
 
     public Date getEndDate() {
@@ -188,5 +273,67 @@ public class DubanTask extends FormMappingPO {
         this.pid = pid;
     }
 
+    public String getRequirement() {
+        return requirement;
+    }
 
+    public void setRequirement(String requirement) {
+        this.requirement = requirement;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    public String getLeaderOpinion() {
+        return leaderOpinion;
+    }
+
+    public void setLeaderOpinion(String leaderOpinion) {
+        this.leaderOpinion = leaderOpinion;
+    }
+
+    public String getMainDeptName() {
+        return mainDeptName;
+    }
+
+    public void setMainDeptName(String mainDeptName) {
+        this.mainDeptName = mainDeptName;
+    }
+
+    public String getMainWeight() {
+        return mainWeight;
+    }
+
+    public void setMainWeight(String mainWeight) {
+        this.mainWeight = mainWeight;
+    }
+
+    public String getMainTaskStatus() {
+        return mainTaskStatus;
+    }
+
+    public void setMainTaskStatus(String mainTaskStatus) {
+        this.mainTaskStatus = mainTaskStatus;
+    }
+
+    public String getMainProcess() {
+        return mainProcess;
+    }
+
+    public void setMainProcess(String mainProcess) {
+        this.mainProcess = mainProcess;
+    }
+
+    public Date getMainTaskFinishDate() {
+        return mainTaskFinishDate;
+    }
+
+    public void setMainTaskFinishDate(Date mainTaskFinishDate) {
+        this.mainTaskFinishDate = mainTaskFinishDate;
+    }
 }

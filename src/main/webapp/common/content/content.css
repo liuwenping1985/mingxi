@@ -1,0 +1,77 @@
+	.browse_class span {
+		color: blue;
+	}
+	.xdTableHeader TD {
+		min-height: 10px;
+	}
+	.radio_com {
+		margin-right: 0px;
+	}
+	.xdTextBox {
+		BORDER-BOTTOM: #dcdcdc 1pt solid;
+		min-height: 12px;
+		TEXT-ALIGN: left;
+		BORDER-LEFT: #dcdcdc 1pt solid;
+		BACKGROUND-COLOR: window;
+		DISPLAY: inline-block;
+		WHITE-SPACE: nowrap;
+		COLOR: windowtext;
+		OVERFLOW: hidden;
+		BORDER-TOP: #dcdcdc 1pt solid;
+		BORDER-RIGHT: #dcdcdc 1pt solid;
+	}
+	.xdRichTextBox {
+		font-size: 12px;
+		BORDER-BOTTOM: #dcdcdc 1pt solid;
+		TEXT-ALIGN: left;
+		BORDER-LEFT: #dcdcdc 1pt solid;
+		BACKGROUND-COLOR: window;
+		FONT-STYLE: normal;
+		min-height: 12px;
+		display: inline-block;
+		WORD-WRAP: break-word;
+		COLOR: windowtext;
+		BORDER-TOP: #dcdcdc 1pt solid;
+		BORDER-RIGHT: #dcdcdc 1pt solid;
+		TEXT-DECORATION: none;
+	}
+	
+	span.xdRichTextBox{
+		VERTICAL-ALIGN: bottom !important;
+	}
+	span.design_class{
+		vertical-align: bottom;
+	}
+	span.edit_class{
+		vertical-align: bottom;
+	}
+	.mainbodyDiv div,.mainbodyDiv input,.mainbodyDiv textarea,.mainbodyDiv p,.mainbodyDiv th,.mainbodyDiv td,.mainbodyDiv ul,.mainbodyDiv li{
+		font-family: inherit;
+		layout-grid-mode : none;
+	}
+	span.biggerThanMax{
+		background-color:yellow;
+	}
+	.insert_pic_16{
+		margin-top:2px;
+	}
+	/*表单浏览权限单元格背景颜色设置为#F8F8F8  start*/
+	span.browse_class>span{
+		BACKGROUND-COLOR: #F8F8F8;
+		min-height:14px;
+		overflow-y:hidden;
+		white-space:pre-wrap;
+	}
+	span.browse_class>label{
+		BACKGROUND-COLOR: #F8F8F8;
+	}
+	span.browse_class>input{
+		BACKGROUND-COLOR: #F8F8F8;
+	}
+	span.browse_class>div.left{
+		BACKGROUND-COLOR: #F8F8F8;
+	}
+	span.browse_class>div.right{
+		BACKGROUND-COLOR: #F8F8F8;
+	}
+	/*表单浏览权限单元格背景颜色设置为#F8F8F8  end*/

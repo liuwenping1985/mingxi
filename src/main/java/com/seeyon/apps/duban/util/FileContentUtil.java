@@ -17,13 +17,16 @@ public final class FileContentUtil {
 
         //File file = new File();
         FileInputStream ins = new FileInputStream(file);
-        byte[] buffer = new byte[4096];
+
+        byte[] buffer = new byte[4096*10];
+
         int len = -1;
+
         StringBuilder stb = new StringBuilder();
         try {
             while ((len = ins.read(buffer)) > 0) {
-                if (len == 4096) {
-                    stb.append(new String(buffer, "utf-8"));
+                if (len == 4096*10) {
+                    stb.append(new String(buffer, "UTF-8"));
                 } else {
                     stb.append(new String(ArrayUtils.subarray(buffer, 0, len)));
                 }

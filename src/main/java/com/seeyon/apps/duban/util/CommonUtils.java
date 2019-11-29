@@ -338,6 +338,24 @@ public class CommonUtils {
         return sb.toString();
     }
 
+
+    public static String join(List<String> objs,String token){
+        if(isEmpty(objs)){
+            return "";
+        }
+        StringBuilder stb = new StringBuilder();
+        int index=0;
+        for(String obj:objs){
+            if(index==0){
+                stb.append(obj);
+            }else{
+                stb.append(token).append(obj);
+            }
+            index++;
+
+        }
+        return stb.toString();
+    }
     public static void main(String[] args) {
         String k = "/1.0/R21idGlaZmJzMzEyMSI=";
         System.out.println(TextEncoder.decode(k));

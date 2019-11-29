@@ -1,0 +1,382 @@
+{
+  "TableList": [
+    {
+      "Table": [
+        {
+          "FieldList": [
+            {
+              "Field": [
+                {
+                  "classname": "",
+                  "display": "id",
+                  "fieldlength": "20",
+                  "fieldtype": "long",
+                  "id": "1851720333424673061",
+                  "is_null": "true",
+                  "is_primary": "true",
+                  "name": "id"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "10",
+                  "fieldtype": "int",
+                  "id": "-5060106121885103969",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "state"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "20",
+                  "fieldtype": "long",
+                  "id": "-2521460760884523749",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "start_member_id"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "",
+                  "fieldtype": "DATETIME",
+                  "id": "2284298445315001019",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "start_date"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "20",
+                  "fieldtype": "long",
+                  "id": "-6985845219157521474",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "approve_member_id"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "",
+                  "fieldtype": "DATETIME",
+                  "id": "9091175285668661227",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "approve_date"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "10",
+                  "fieldtype": "int",
+                  "id": "-8801070609731862094",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "finishedflag"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "10",
+                  "fieldtype": "int",
+                  "id": "2637573828582328710",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "ratifyflag"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "20",
+                  "fieldtype": "long",
+                  "id": "-6972412687522509539",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "ratify_member_id"
+                },
+                {
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "",
+                  "fieldtype": "DATETIME",
+                  "id": "2787006899051251555",
+                  "is_null": "true",
+                  "is_primary": "false",
+                  "name": "ratify_date"
+                },
+                {
+                  "export":"plain",
+                  "barcode":"field0001",
+                  "classname": "",
+                  "display": "",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "5479141484875499388",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0002"
+                },
+                {
+                  "classname": "",
+                  "display": "任务来源",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "4716701594930466540",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0003"
+                },
+                {
+                  "classname": "",
+                  "display": "任务分级",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "6068339337607333405",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0004"
+                },
+                {
+                  "classname": "",
+                  "display": "标题",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "6067078568363640656",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0005"
+                },
+                {
+                  "classname": "",
+                  "display": "办理要求",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "5999366037928693006",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0006"
+                },
+                {
+                  "classname": "",
+                  "display": "任务附件",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "8850999688703854807",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0007"
+                },
+                {
+                  "classname": "",
+                  "display": "办理时限",
+                  "fieldlength": "255,0",
+                  "fieldtype": "TIMESTAMP",
+                  "id": "-2848739088027007490",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0008"
+                },
+                {
+                  "classname": "",
+                  "display": "督办周期",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "2473538289671424505",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0009"
+                },
+                {
+                  "classname": "",
+                  "display": "督办周期补充",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "-5803083144017985044",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0010"
+                },
+                {
+                  "classname": "",
+                  "display": "责任领导",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "7872166115798895630",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0011"
+                },
+                {
+                  "classname": "",
+                  "display": "督办员",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "-7608918241102838230",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0013"
+                },
+                {
+                  "classname": "",
+                  "display": "完成率",
+                  "fieldlength": "20,0",
+                  "fieldtype": "DECIMAL",
+                  "id": "-4309202922925110913",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0014"
+                },
+                {
+                  "classname": "",
+                  "display": "汇报内容",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "-6045270961425726387",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0015"
+                },
+                {
+                  "classname": "",
+                  "display": "汇报人",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "5230030545537615829",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0016"
+                },
+                {
+                  "classname": "",
+                  "display": "汇报日期",
+                  "fieldlength": "255,0",
+                  "fieldtype": "TIMESTAMP",
+                  "id": "484557050152373272",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0017"
+                },
+                {
+                  "classname": "",
+                  "display": "申请事由",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "109655695240414572",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0018"
+                },
+                {
+                  "classname": "",
+                  "display": "办结日期",
+                  "fieldlength": "255,0",
+                  "fieldtype": "TIMESTAMP",
+                  "id": "-859521818270940527",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0019"
+                },
+                {
+                  "classname": "",
+                  "display": "领导意见",
+                  "fieldlength": "255,0",
+                  "fieldtype": "LONGTEXT",
+                  "id": "8607193627566294639",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0020"
+                },
+                {
+                  "classname": "",
+                  "display": "申请办结",
+                  "fieldlength": "5,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "1358001321477489738",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0001"
+                },
+                {
+                  "classname": "",
+                  "display": "权重",
+                  "fieldlength": "20,0",
+                  "fieldtype": "DECIMAL",
+                  "id": "3268203037208496872",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0012"
+                }
+              ]
+            }
+          ],
+          "IndexList": "",
+          "display": "formmain_0019",
+          "id": "5554112918501740061",
+          "name": "formmain_0019",
+          "onwerfield": "",
+          "onwertable": "",
+          "tabletype": "master"
+        },
+        {
+          "FieldList": [
+            {
+              "Field": [
+                {
+                  "classname": "",
+                  "display": "序号",
+                  "fieldlength": "20,0",
+                  "fieldtype": "DECIMAL",
+                  "id": "7448624023205006182",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0021"
+                },
+                {
+                  "classname": "",
+                  "display": "节点任务",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "-1269489251419992562",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0022"
+                },
+                {
+                  "classname": "",
+                  "display": "要求完成时间",
+                  "fieldlength": "255,0",
+                  "fieldtype": "TIMESTAMP",
+                  "id": "-7057446201676509248",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0023"
+                },
+                {
+                  "classname": "",
+                  "display": "备注",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "-7780298532008345133",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0024"
+                }
+              ]
+            }
+          ],
+          "IndexList": "",
+          "display": "group2",
+          "id": "-7219191875736418184",
+          "name": "formson_0020",
+          "onwerfield": "formmain_id",
+          "onwertable": "formmain_0019",
+          "tabletype": "slave"
+        }
+      ],
+      "code": "DB_FEEDBACK",
+      "name": "huibao"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean parent="pluginMainMenu">
+        <!--主菜单ID，唯一的数字串 -->
+        <property name="id" value="1234567"/>
+        <!--主菜单名称 -->
+        <property name="name" value="督办台账"/>
+        <!--菜单图标 -->
+        <property name="icon" value="seeyonreport.png"/>
+        <!-- 菜单顺序 -->
+        <property name="sortId" value="6"/>
+        <!--菜单访问权限的验证类-->
+        <property name="menuCheck">
+            <bean class="com.seeyon.apps.duban.acc.Menu4Checker"/>
+        </property>
+        <!--二级菜单-->
+        <property name="children">
+            <list>
+                <!--批示查看配置  -->
+                <bean class="com.seeyon.ctp.plugin.PluginMenu">
+                    <!--二级菜单ID，唯一的数字串 -->
+                    <property name="id" value="74564333"/>
+                    <!--二级菜单名称 -->
+                    <property name="name" value="督办台账"/>
+                    <!--菜单打开方式 mainfrm:工作区；newWindow:新窗口-->
+                    <property name="target" value="mainfrm"/>
+                    <!--菜单图标 -->
+                    <property name="icon" value="reportshowindex.png"/>
+                    <!--菜单地址，出于安全方面考虑此url必须是协同内部界面，如果想跳转请在内部界面实现跳转 -->
+                    <property name="url" value="/duban.do?method=goPage&amp;page=dbdashbord&amp;mode=duban"/>
+                    <!--菜单访问权限的验证类 -->
+                    <property name="menuCheck">
+                        <bean class="com.seeyon.apps.duban.acc.Menu4Checker"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

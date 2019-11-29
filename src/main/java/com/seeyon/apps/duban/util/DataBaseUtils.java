@@ -30,6 +30,7 @@ public class DataBaseUtils {
         JDBCAgent agent = new JDBCAgent();
         List<Map> dataList = new ArrayList<Map>();
         try{
+            System.out.println(sql);
             agent.execute(sql);
             return agent.resultSetToList();
 
