@@ -163,10 +163,7 @@ public class DubanMainService {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "!=100 or "+MappingCodeConstant.FIELD_DUBAN_WANCHENGLV+" is null) and"+
-        " (field0047 =" + memberId + " or field0051 =" + memberId + " or field0055 =" + memberId
-                + " or field0059 =" + memberId + " or field0063 =" + memberId + " or field0067 =" + memberId
-                + " or field0071 =" + memberId + " or field0075 =" + memberId + " or field0079 =" + memberId
-                + " or field0083 =" + memberId + " or field0087 =" + memberId + ")";
+        " (field0019="+memberId+")";
         return translateDubanTask(sql, ftd);
 
     }
@@ -182,10 +179,7 @@ public class DubanMainService {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "=100 and"+
-                " (field0047 =" + memberId + " or field0051 =" + memberId + " or field0055 =" + memberId
-                + " or field0059 =" + memberId + " or field0063 =" + memberId + " or field0067 =" + memberId
-                + " or field0071 =" + memberId + " or field0075 =" + memberId + " or field0079 =" + memberId
-                + " or field0083 =" + memberId + " or field0087 =" + memberId + ")";
+                " (field0019="+memberId+")";
         return translateDubanTask(sql, ftd);
 
     }
@@ -200,11 +194,7 @@ public class DubanMainService {
 
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
-        String sql = "select * from " + ftd.getFormTable().getName() + " where " +
-                " field0047 =" + memberId + " or field0051 =" + memberId + " or field0055 =" + memberId
-                + " or field0059 =" + memberId + " or field0063 =" + memberId + " or field0067 =" + memberId
-                + " or field0071 =" + memberId + " or field0075 =" + memberId + " or field0079 =" + memberId
-                + " or field0083 =" + memberId + " or field0087 =" + memberId;
+        String sql = "select * from " + ftd.getFormTable().getName() + " where field0019="+memberId;
         return translateDubanTask(sql, ftd);
 
     }
@@ -225,7 +215,14 @@ public class DubanMainService {
         return retList;
     }
 
+    public Map getOringinalDubanData(String taskId){
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
+        String sql="select * from "+ftd.getFormTable().getName()+" where field0001='"+taskId+"'";
+
+        return DataBaseUtils.querySingleDataBySQL(sql);
+
+    }
 
 
     public List<DubanTask> getAllDubanTask() {

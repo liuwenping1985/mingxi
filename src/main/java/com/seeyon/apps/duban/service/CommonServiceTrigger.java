@@ -25,8 +25,10 @@ public class CommonServiceTrigger {
 
     public static boolean needProcess(Long summaryId) {
         try {
+
             ColSummary colSummary = getColManager().getSummaryById(summaryId);
             Long templateId = colSummary.getTempleteId();
+            System.out.println("======"+templateId+"=======");
             String ids = ConfigFileService.getPropertyByName("ctp.template.ids");
             return ids.contains(String.valueOf(templateId));
 

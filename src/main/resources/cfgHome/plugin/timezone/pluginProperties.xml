@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ctpConfig>
-	<timezone>
-		<set>
-			<enable mark="{option,0,1} {VE}" desc="是否开启时区：0--不开启，1---开启">0</enable>
-		</set>
-	</timezone>
-</ctpConfig>

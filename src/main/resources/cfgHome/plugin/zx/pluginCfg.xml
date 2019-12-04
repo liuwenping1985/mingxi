@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>zx</id>
-	<name>致信融云版</name>
-	<category>19872</category>
-	<initializer>com.seeyon.apps.zx.ZxPluginInitializer</initializer>
-</plugin>

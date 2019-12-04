@@ -1,5 +1,6 @@
 package com.seeyon.apps.duban.util;
 
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.JDBCAgent;
 
 import java.util.ArrayList;
@@ -12,7 +13,19 @@ import java.util.Map;
 public class DataBaseUtils {
 
 
+    public static void executeUpdate(String sql){
+        JDBCAgent agent = new JDBCAgent();
 
+        try{
+            System.out.println(sql);
+            agent.execute(sql);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            agent.close();
+        }
+
+    }
 
     public static Map querySingleDataBySQL(String sql){
 
@@ -28,6 +41,7 @@ public class DataBaseUtils {
 
     public static List<Map> queryDataListBySQL(String sql){
         JDBCAgent agent = new JDBCAgent();
+
         List<Map> dataList = new ArrayList<Map>();
         try{
             System.out.println(sql);

@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>orgsync</id>
-	<name>SAP组织架构同步插件</name>
-	<category>1009</category>
-	<initializer>com.seeyon.apps.orgsync.OrgSyncPluginDefintion</initializer>
-</plugin>

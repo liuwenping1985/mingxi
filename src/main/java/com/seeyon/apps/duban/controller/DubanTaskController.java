@@ -10,8 +10,11 @@ import com.seeyon.apps.duban.util.DataBaseUtils;
 import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.apps.duban.vo.CommonJSONResult;
 import com.seeyon.apps.duban.vo.DubanBaseInfo;
+import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
+import com.seeyon.apps.ncdeploy.db.DataBase;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
@@ -22,10 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * 督办任务控制器
@@ -149,6 +150,40 @@ public class DubanTaskController extends BaseController {
     }
 
     /**
+     * 添加领导意见
+     * @param request
+     * @param response
+     * @return
+     */
+    public ModelAndView addLeaderOpinion(HttpServletRequest request, HttpServletResponse response){
+
+        String taskId = request.getParameter("taskId");
+
+        String opinion = request.getParameter("opinion");
+        User user = AppContext.getCurrentUser();
+        if(CommonUtils.isEmpty(opinion)){
+            opinion = "";
+        }
+        String sql="select id,field0016 from formmain_0029 where field0001='"+taskId+"'";
+
+        Map data = DataBaseUtils.querySingleDataBySQL(sql);
+        Object val = data.get("field0016");
+        StringBuilder stb = new StringBuilder();
+        if(val==null){
+            stb.append("");
+        }else{
+            stb.append(String.valueOf(val));
+        }
+        String dateStr = CommonUtils.formatDateSimple(new Date());
+        stb.append("\n"+dateStr+" "+user.getName()+":【"+opinion+"】");
+
+        sql="update formmain_0029 set field0016='"+stb.toString()+"' where id = "+data.get("id");
+        DataBaseUtils.executeUpdate(sql);
+
+        return null;
+    }
+
+    /**
      * 获取督办任务
      *
      * @param request
@@ -183,6 +218,40 @@ public class DubanTaskController extends BaseController {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql="select * from "+ftd.getFormTable().getName()+" where id="+sid;
         Map data = DataBaseUtils.querySingleDataBySQL(sql);
+        List<FormTable> tables = ftd.getFormTable().getSlaveTableList();
+        if(!CommonUtils.isEmpty(tables)){
+            FormTable formTable = tables.get(0);
+            String sql2 = "select * from "+formTable.getName()+" where formmain_id="+sid;
+            List<Map> dataList = DataBaseUtils.queryDataListBySQL(sql2);
+            data.put(formTable.getName(),dataList);
+        }
+        Object field0006 = data.get("field0006");
+        if(field0006!=null&&!CommonUtils.isEmpty(""+field0006)){
+
+            String sql3="select * from ctp_attachment where SUB_REFERENCE in("+field0006+")";
+            List<Map> attList = DataBaseUtils.queryDataListBySQL(sql3);
+            List<Map> retList = new ArrayList<Map>();
+            for(Map data_:attList){
+                Map<String,Object> data2 =(Map<String,Object>)data_;
+                Map ret = new HashMap();
+                for(Map.Entry<String,Object> entry:data2.entrySet()){
+                        Object val = entry.getValue();
+                        String key = entry.getKey();
+                        if(val instanceof Long){
+                            ret.put(key,String.valueOf(val));
+                        }else if(val instanceof BigDecimal){
+                            ret.put(key,((BigDecimal)val).toPlainString());
+                        }else{
+                            ret.put(key,val);
+                        }
+                    retList.add(ret);
+
+                }
+
+            }
+            data.put("field0006",retList);
+        }
+
 
         UIUtils.responseJSON(data,response);
 

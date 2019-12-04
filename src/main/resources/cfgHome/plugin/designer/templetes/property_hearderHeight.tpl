@@ -1,1 +1,0 @@
-{$headheight}<input type="text" id="headerLogoHeight" name="headerLogoHeight"  {$allowHotSpotCustomizeDisabled} class="margin_l_5 hand" onblur="changePageLayoutHeight();">

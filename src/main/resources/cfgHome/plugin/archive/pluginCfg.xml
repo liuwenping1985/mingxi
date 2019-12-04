@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>archive</id>
-	<name>东方飞扬档案管理集成插件</name>
-	<category>19877</category>
-	<initializer>com.seeyon.apps.archive.appsinitializer.ArchiveDocInitializer</initializer>
-</plugin>

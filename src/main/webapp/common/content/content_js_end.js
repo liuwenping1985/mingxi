@@ -299,8 +299,8 @@ $(document).ready(function(){
                 $("#field0005").change();
                 $("#field0006").val(data["field0005"]);
                 $("#field0006").change();
-                $("#field0007").val(data["field0006"]);
-                $("#field0007").change();
+                // $("#field0007").val(data["field0006"]);
+                // $("#field0007").change();
                 var dt = new Date(data["field0007"]);
                 $("#field0008").val(dt.format("yyyy-MM-dd"));
                 $("#field0008").change();
@@ -328,9 +328,10 @@ $(document).ready(function(){
                 });
 
                 //领导意见
-                $("#field0020").val(data["field0093"])
-                $("#field0020").text(data["field0093"]);
+                $("#field0020").val(data["field0016"])
+                $("#field0020").text(data["field0016"]);
                 $("#field0020").change();
+
 
             }else{
                 var key="";
@@ -353,6 +354,8 @@ $(document).ready(function(){
                                 $("#field0012_txt").val(ret.name);
                                 $("#field0012_txt").change();
                             });
+                        }else if("field0006"==key){
+
                         }else{
                             $("#"+key).val(data[key]);
                             $("#"+key).change();
@@ -361,10 +364,68 @@ $(document).ready(function(){
                     }
                 }
                 //领导意见
-                $("#field0015").val(data["field0093"])
-                $("#field0015").text(data["field0093"]);
+                $("#field0015").val(data["field0016"])
+                $("#field0015").text(data["field0016"]);
                 $("#field0015").change();
 
+
+
+            }
+            /**
+             * 处理子表
+             *
+             */
+            var slaves = data['formson_0030'];
+            $("#field0020").click();
+            $("#field0022").click();
+            $("#img").show();
+            if(slaves&&slaves.length>0){
+                var addEmpty = $("#addEmptyImg");
+
+                var index=0;
+                for(var p=(slaves.length-1);p>=0;p--){
+
+                    var objs_ = slaves[p];
+                    if(p>0){
+                        addEmpty.click();
+                    }
+                    if("7672869598940252106" == templateId){
+
+                       var trs = $("tr[path='my:group1/my:group2']");
+                       var item = trs[index];
+                           $(item).find("#field0022").val(objs_["field0139"]);
+                           var dt = new Date(objs_["field0140"]);
+                           $(item).find("#field0023").val(dt.format("yyyy-MM-dd"));
+                           $(item).find("#field0023").change();
+                           $(item).find("#field0024").val(objs_["field0141"]);
+
+
+                    }else{
+                        var trs = $("tr[path='my:group1/my:group2']");
+                        var item = trs[index];
+                        if("5568002767950727683"==templateId){
+                            $(item).find("#field0019").val(objs_["field0139"]);
+                            var dt = new Date(objs_["field0140"]);
+                            $(item).find("#field0020").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0020").change();
+                            $(item).find("#field0021").val(objs_["field0141"]);
+
+
+                        }else{
+                            $(item).find("#field0020").val(objs_["field0139"]);
+                            var dt = new Date(objs_["field0140"]);
+                            $(item).find("#field0021").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0021").change();
+                            $(item).find("#field0022").val(objs_["field0141"]);
+                        }
+
+
+
+                    }
+                    index++;
+
+
+                }
             }
 
         });

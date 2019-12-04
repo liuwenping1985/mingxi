@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-  	<bean name="/category/category.do" class="com.seeyon.apps.category.controller.CategoryController"></bean>
-	<bean name="/element/element.do" class="com.seeyon.apps.element.controller.ElementController"></bean>
-	<bean name="/govform/govform.do" class="com.seeyon.apps.form.controller.FormController"></bean>
-  	<bean name="/govTemplate/govTemplate.do" class="com.seeyon.apps.template.controller.GovTemplateController"></bean>
-</beans>

@@ -128,7 +128,14 @@ public class CommonUtils {
         }
         return null;
     }
-
+    public static String formatDateSimple(Date date) {
+        try {
+            return sdf2.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static int getYear(String dtStr) {
 
         return getYear(parseDate(dtStr));

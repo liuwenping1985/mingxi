@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-	<bean id="pageLayoutManager" class="com.seeyon.ctp.portal.designer.manager.PageLayoutManagerImpl" />
-	<bean id="pageLayoutTempManager" class="com.seeyon.ctp.portal.designer.manager.PageLayoutTempManagerImpl" />
-	<bean id="portalDesignerManager" class="com.seeyon.ctp.portal.designer.manager.PortalDesignerManagerImpl" />
-	<bean id="ctpDesignerSystemInitializer" class="com.seeyon.ctp.portal.CtpDesignerSystemInitializer" />
-</beans>

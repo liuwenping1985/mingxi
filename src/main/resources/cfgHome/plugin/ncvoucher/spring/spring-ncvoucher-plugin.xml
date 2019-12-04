@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
-    <bean id="ncVoucherDefinition" class="com.seeyon.apps.ncvoucher.NCVoucherDefinition" init-method="init"></bean>
-    <bean id="nc63VoucherDefinition" class="com.seeyon.apps.ncvoucher.NC63VoucherDefinition" init-method="init"></bean>
-</beans>

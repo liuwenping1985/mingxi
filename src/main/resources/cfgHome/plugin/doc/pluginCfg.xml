@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>doc</id>
-	<name>知识社区</name>
-	<!-- 临时定义类别编号，以后可以修改 -->
-	<category>19999</category>
-</plugin>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plugin>
-	<id>pdf</id>
-	<!-- 虚拟插件，为兼容v3x:hasPlugin('pdf') 判断 -->
-	<name>PDF插件</name>
-	<category>50200</category>
-</plugin>

@@ -1,3 +1,0 @@
-{if $isGroupAdmin=="true"}
-<table border="0" cellspacing="0" cellpadding="0"><tr><td><label class="hand" for="notShowShortName"><span class="left_radio_com"><input class="radio_com" {$groupNameDisplayChecked} onclick="page_c001_g001_p003_onclick(this,'isNotShowGroup')" ondblclick="page_c001_g001_p003_onclick(this,'isNotShowGroup')" id="notShowShortName" type="checkbox"/></span>{$fontnotshow}{$groupLabelName}</label></td></tr><tr><td class="padding_l_20 padding_t_10 padding_b_10"><input title="{$groupShortName}" class="right_input_com input_readonly" value="{$groupShortName}" disabled="disabled" /></td></tr></table>
-{/if}

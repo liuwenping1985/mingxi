@@ -365,7 +365,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@1@deptName",
+                  "classname": "plain@1@deptName",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -389,7 +389,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@1@leader",
+                  "classname": "plain@1@leader",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -449,7 +449,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@2@deptName",
+                  "classname": "plain@2@deptName",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -473,7 +473,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@2@leader",
+                  "classname": "plain@2@leader",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -533,7 +533,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@3@deptName",
+                  "classname": "plain@3@deptName",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -557,7 +557,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@3@leader",
+                  "classname": "plain@3@leader",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -617,7 +617,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@4@deptName",
+                  "classname": "plain@4@deptName",
                   "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -641,7 +641,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@4@leader",
+                  "classname": "plain@4@leader",
                   "display": "3",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -701,7 +701,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@5@deptName",
+                  "classname": "plain@5@deptName",
                   "display": "4",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -725,7 +725,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@5@leader",
+                  "classname": "plain@5@leader",
                   "display": "4",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -785,7 +785,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@6@deptName",
+                  "classname": "plain@6@deptName",
                   "display": "5",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -809,7 +809,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@6@leader",
+                  "classname": "plain@6@leader",
                   "display": "5",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -869,7 +869,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@7@deptName",
+                  "classname": "plain@7@deptName",
                   "display": "6",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -893,7 +893,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@7@leader",
+                  "classname": "plain@7@leader",
                   "display": "6",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -953,7 +953,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@8@deptName",
+                  "classname": "plain@8@deptName",
                   "display": "7",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -977,7 +977,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@8@leader",
+                  "classname": "plain@8@leader",
                   "display": "7",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -1037,7 +1037,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@9@deptName",
+                  "classname": "plain@9@deptName",
                   "display": "8",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -1061,7 +1061,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@9@leader",
+                  "classname": "plain@9@leader",
                   "display": "8",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -1121,7 +1121,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "department@10@deptName",
+                  "classname": "plain@10@deptName",
                   "display": "9",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -1145,7 +1145,7 @@
                 {
                   "barcode": "slaveDubanTaskList@com.seeyon.apps.duban.po.SlaveDubanTask",
                   "export": "multi_list",
-                  "classname": "member@10@leader",
+                  "classname": "plain@10@leader",
                   "display": "9",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
@@ -1676,9 +1676,9 @@
             }
           ],
           "IndexList": "",
-          "display": "formmain_0029",
+          "display": "formmain_5522",
           "id": "-7622193254226967153",
-          "name": "formmain_0029",
+          "name": "formmain_5522",
           "onwerfield": "",
           "onwertable": "",
           "tabletype": "master"
@@ -1733,9 +1733,9 @@
           "IndexList": "",
           "display": "group2",
           "id": "-851379743966150314",
-          "name": "formson_0030",
+          "name": "formson5523",
           "onwerfield": "formmain_id",
-          "onwertable": "formmain_0029",
+          "onwertable": "formmain_5522",
           "tabletype": "slave"
         }
       ],

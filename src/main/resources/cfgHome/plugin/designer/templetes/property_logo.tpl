@@ -1,2 +1,0 @@
-<label class="margin_t_5 hand display_block" for="notShowLogo">
-<input class="radio_com" id="notShowLogo" onclick="page_c001_p002_onclick(this,'isNotShowLogo')" ondblclick="page_c001_p002_onclick(this,'isNotShowLogo')" type="checkbox" {$logoDisplayChecked} {$allowHotSpotCustomizeDisabled} />{$fontnotshow}Logo</label>
