@@ -1,5 +1,6 @@
 package com.seeyon.apps.duban.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
@@ -18,6 +19,7 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.po.affair.CtpAffair;
 import com.seeyon.ctp.event.EventTriggerMode;
+import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManager;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
@@ -25,6 +27,7 @@ import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -119,9 +122,9 @@ public class DubanTaskListener {
                     String cont = (String) data.get("field0015");
                     if (CommonUtils.isEmpty(cont)) {
                         cont = "";
-                    }else{
+                    } else {
                         V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
-                        String cont_= ("\n【"+dept.getName()+"】"+member.getName()+":"+cont+" "+CommonUtils.formatDateSimple(colSummary.getStartDate()));
+                        String cont_ = ("\n【" + dept.getName() + "】" + member.getName() + ":" + cont + " " + CommonUtils.formatDateSimple(colSummary.getStartDate()));
                         cont = cont_;
                     }
 
@@ -157,16 +160,18 @@ public class DubanTaskListener {
                         //field0023-field0092
                         //每个7个字段
                         List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+                        System.out.println("xie---ban---:" + JSON.toJSONString(slaveDubanTaskList));
                         if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
                             String no = "";
                             for (SlaveDubanTask stask : slaveDubanTaskList) {
-                                if (stask.getDeptName() != null && stask.getDeptName().equals(deptId)) {
+                                if (stask.getDeptName() != null && stask.getDeptName().equals(String.valueOf(deptId))) {
                                     //找到承办部门了
                                     no = stask.getNo();
                                     break;
                                 }
 
                             }
+
                             if (!CommonUtils.isEmpty(no)) {
                                 Integer index = Integer.parseInt(no);
                                 String processField = "field00" + (28 + 7 * (index - 1));
@@ -186,11 +191,11 @@ public class DubanTaskListener {
                     //todo 计算总的进度（根据权重算）还没写
 
 
-                    String updatesql = "update " + ftd.getFormTable().getName() + " set field0093='" + memo + "'" + andSetSQL + " where id=" + dibiao.get("id");
-
-
-                    DataBaseUtils.executeUpdate(updatesql);
-
+                    String updateSQL = "update " + ftd.getFormTable().getName() + " set field0093='" + memo + "'" + andSetSQL + " where id=" + dibiao.get("id");
+                    System.out.println(updateSQL);
+                    DataBaseUtils.executeUpdate(updateSQL);
+                    String fid = String.valueOf(data.get("id"));
+                    freshData(fid);
 
                 } else if ("DB_DONE_APPLY".equals(val)) {
 
@@ -218,10 +223,11 @@ public class DubanTaskListener {
                         //field0023-field0092
                         //每个7个字段
                         List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+                        System.out.println("xie---ban---:" + JSON.toJSONString(slaveDubanTaskList));
                         if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
                             String no = "";
                             for (SlaveDubanTask stask : slaveDubanTaskList) {
-                                if (stask.getDeptName() != null && stask.getDeptName().equals(deptId)) {
+                                if (stask.getDeptName() != null && stask.getDeptName().equals(("" + deptId))) {
                                     //找到承办部门了
                                     no = stask.getNo();
                                     break;
@@ -243,10 +249,11 @@ public class DubanTaskListener {
                     }
 
 
-                    String updateSQL = "update " + ftd.getFormTable().getName() + " set finishedflag=1"+andSetSQL+" where field0001='" + taskId + "'";
-
+                    String updateSQL = "update " + ftd.getFormTable().getName() + " set finishedflag=1" + andSetSQL + " where field0001='" + taskId + "'";
+                    System.out.println(updateSQL);
                     DataBaseUtils.executeUpdate(updateSQL);
-
+                    String fid = String.valueOf(data.get("id"));
+                    freshData(fid);
 
                 } else if ("DB_DELAY_APPLY".equals(val)) {
                     //field0001 任务id
@@ -259,7 +266,10 @@ public class DubanTaskListener {
                     Date date = (Date) data.get("field0014");
                     if (date != null) {
                         String updateSQL = "update " + ftd.getFormTable().getName() + " set field0007='" + CommonUtils.formatDate(date) + "' where field0001='" + taskId + "'";
+                        System.out.println(updateSQL);
                         DataBaseUtils.executeUpdate(updateSQL);
+                        String fid = String.valueOf(data.get("id"));
+                        freshData(fid);
                     } else {
                         System.out.println("延期个冒险:" + data);
                     }
@@ -275,6 +285,30 @@ public class DubanTaskListener {
             System.out.println("I AM out out out:" + summaryId);
         }
 
+    }
+
+
+    private void freshData(String rcdId) {
+
+        String fid = ConfigFileService.getPropertyByName("ctp.duban.form_template_id");
+
+        String sql = "select content_template_id from ctp_content_all where MODULE_ID=" + rcdId;
+
+        Map data = DataBaseUtils.querySingleDataBySQL(sql);
+
+        String ctid = (String) data.get("content_template_id");
+
+        FormDataManager formDataManager = (FormDataManager) AppContext.getBean("formDataManager");
+        if (formDataManager != null) {
+            try {
+                List<String> ids = new ArrayList<String>();
+                ids.add(rcdId);
+                formDataManager.saveBatchRefresh(ids,ctid,"37",fid);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     }
 
     /**
@@ -368,6 +402,12 @@ public class DubanTaskListener {
 //
 //        }
 
+    }
+
+    public static void main(String[] args) {
+        Long id = 1L;
+        String ids = "1";
+        System.out.println(id.equals(ids));
     }
 
 }

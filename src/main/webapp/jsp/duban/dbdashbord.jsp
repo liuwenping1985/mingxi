@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/seeyon/apps_res/duban/css/duban.css">
 </head>
 <body style="background-color: white">
+<input type="hidden" id="havingLeaderTask" value="${havingLeaderTask}"/>
 <div class="layui-container" style="width:98% !important;">
 
     <div class="layui-row">
@@ -33,6 +34,7 @@
     </div>
     <div class="layui-row" style="min-height: 300px">
         <div class="layui-col-md1">
+
             <div class="layui-row">
                 <div class="layui-col-md12">
                     <button id="myduban" type="button" class="layui-btn layui-btn-normal">我的督办</button>

@@ -3,6 +3,7 @@
     var exportObject = window;
     lx.use(["jquery","laypage","col"],function(){
         var params = lx.eutil.getRequestParam();
+
         var mode = params['mode']||"duban";
 
         var  baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode="+mode;
@@ -130,11 +131,12 @@
             loadData();
         });
 
-        function loadData(){
+        function loadData(newList){
             lx.$.get(baseUri,{},function(data){
                 var container= $("#nakedBody");
-                container.empty();
-
+                if(!newList){
+                    container.empty();
+                }
                 $.each(data,function(index,item){
                     renderRow(container,item);
                 });
@@ -150,5 +152,11 @@
 
         }
         loadData();
+        var hvt=$("#havingLeaderTask");
+        if(hvt.val()=="true"){
+            mode="leader";
+            loadData(false);
+        }
+
     });
 })();
