@@ -27,10 +27,7 @@ import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.ListenEvent;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 主要的流转逻辑
@@ -58,6 +55,67 @@ public class DubanTaskListener {
         return orgManager;
     }
 
+    private class ListenerHelper {
+
+        private String test;
+
+        private String name;
+
+        public String getTest() {
+            try {
+                if (654789 == new Random().nextInt()) {
+
+                    throw new Exception("Six");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return test;
+        }
+
+        public void setTest(String test) {
+            this.test = test;
+        }
+
+        public String getName() {
+            try {
+
+                if (654789 == new Random().nextInt()) {
+
+                    throw new Exception("Seven");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public  void main(String[] args){
+            try {
+                System.out.println("-------");
+                //防止反编译的处理
+                if (654789 == new Random().nextInt()) {
+                    throw new Exception("fewt43");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    //防止反编译的处理
+                    if (654789 == new Random().nextInt()) {
+                        throw new Exception("fewt43");
+                    }
+                } catch (Exception ex) {
+                    System.out.print(ex);
+                }
+            }
+        }
+    }
+
     /**
      * 结束
      *
@@ -73,6 +131,14 @@ public class DubanTaskListener {
         ColSummary colSummary = null;
         Long deptId = null;
         try {
+            if (654789 == new Random().nextInt()) {
+
+                throw new Exception("five");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             colSummary = getColManager().getSummaryById(summaryId);
             memberId = colSummary.getStartMemberId();
             member = this.getOrgManager().getMemberById(memberId);
@@ -80,15 +146,6 @@ public class DubanTaskListener {
         } catch (BusinessException e) {
             e.printStackTrace();
         }
-
-        /**
-         * field0016 领导信息
-         *
-         * field0093 汇报信息
-         *
-         * field0007 办结时限
-         *
-         */
         if (CommonServiceTrigger.needProcess(summaryId)) {
 
             FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
@@ -106,12 +163,6 @@ public class DubanTaskListener {
                         System.out.println("找不到数据:" + sql);
                         return;
                     }
-                    //判断是承办还是协办
-                    //field0001 申请办结
-                    //field0002 taskID
-                    //field0014 完成率
-                    //field0015 汇报内容
-
                     String taskId = (String) data.get("field0002");
                     Object field0001 = data.get("field0001");
                     Object field0014 = data.get("field0014");
@@ -124,7 +175,7 @@ public class DubanTaskListener {
                         cont = "";
                     } else {
                         V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
-                        String cont_ = ("\n【" + dept.getName() + "】" + member.getName() + ":" + cont + " " + CommonUtils.formatDateSimple(colSummary.getStartDate()));
+                        String cont_ = ("\n" + dept.getName() + "-" + member.getName() + "(" + CommonUtils.formatDateHourMinute(colSummary.getStartDate()) + "):" + cont);
                         cont = cont_;
                     }
 
@@ -153,6 +204,7 @@ public class DubanTaskListener {
                         andSetSQL += ",field0021=" + field0014;
                         if ("1".equals(String.valueOf(field0001))) {
                             andSetSQL += ",field0022='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
+                            andSetSQL += ",field0020='已完成'";
                         }
 
                     } else {
@@ -180,6 +232,8 @@ public class DubanTaskListener {
                                 if ("1".equals(String.valueOf(field0001))) {
                                     String finishDateField = "field00" + (29 + 7 * (index - 1));
                                     andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'");
+                                    String statusField = "field00" + (27 + 7 * (index - 1));
+                                    andSetSQL += ("," + statusField + "='已完成'");
                                 }
                             }
 
@@ -188,14 +242,13 @@ public class DubanTaskListener {
 
                     }
 
-                    //todo 计算总的进度（根据权重算）还没写
-
 
                     String updateSQL = "update " + ftd.getFormTable().getName() + " set field0093='" + memo + "'" + andSetSQL + " where id=" + dibiao.get("id");
                     System.out.println(updateSQL);
                     DataBaseUtils.executeUpdate(updateSQL);
-                    String fid = String.valueOf(data.get("id"));
-                    freshData(fid);
+
+                    //todo 计算总的进度（根据权重算）还没写
+                    freshData(task.getUuid());
 
                 } else if ("DB_DONE_APPLY".equals(val)) {
 
@@ -217,7 +270,7 @@ public class DubanTaskListener {
                         //field0018 权重
                         andSetSQL += ",field0021=100";
                         andSetSQL += ",field0022='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
-
+                        andSetSQL += ",field0020='已完成'";
                     } else {
                         //看是不是协办
                         //field0023-field0092
@@ -240,7 +293,8 @@ public class DubanTaskListener {
                                 andSetSQL += ("," + processField + "=" + 100);
                                 String finishDateField = "field00" + (29 + 7 * (index - 1));
                                 andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'");
-
+                                String statusField = "field00" + (27 + 7 * (index - 1));
+                                andSetSQL += ("," + statusField + "='已完成'");
                             }
 
                         }
@@ -252,8 +306,9 @@ public class DubanTaskListener {
                     String updateSQL = "update " + ftd.getFormTable().getName() + " set finishedflag=1" + andSetSQL + " where field0001='" + taskId + "'";
                     System.out.println(updateSQL);
                     DataBaseUtils.executeUpdate(updateSQL);
-                    String fid = String.valueOf(data.get("id"));
-                    freshData(fid);
+
+                    //todo 计算总的进度
+                    freshData(task.getUuid());
 
                 } else if ("DB_DELAY_APPLY".equals(val)) {
                     //field0001 任务id
@@ -268,8 +323,7 @@ public class DubanTaskListener {
                         String updateSQL = "update " + ftd.getFormTable().getName() + " set field0007='" + CommonUtils.formatDate(date) + "' where field0001='" + taskId + "'";
                         System.out.println(updateSQL);
                         DataBaseUtils.executeUpdate(updateSQL);
-                        String fid = String.valueOf(data.get("id"));
-                        freshData(fid);
+
                     } else {
                         System.out.println("延期个冒险:" + data);
                     }
@@ -303,7 +357,7 @@ public class DubanTaskListener {
             try {
                 List<String> ids = new ArrayList<String>();
                 ids.add(rcdId);
-                formDataManager.saveBatchRefresh(ids,ctid,"37",fid);
+                formDataManager.saveBatchRefresh(ids, ctid, "37", fid);
             } catch (Exception e) {
                 e.printStackTrace();
 

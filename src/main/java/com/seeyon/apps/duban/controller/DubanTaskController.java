@@ -1,6 +1,7 @@
 package com.seeyon.apps.duban.controller;
 
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
+import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.service.MappingService;
 import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.service.ConfigFileService;
@@ -12,11 +13,14 @@ import com.seeyon.apps.duban.vo.CommonJSONResult;
 import com.seeyon.apps.duban.vo.DubanBaseInfo;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
+import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
+import com.seeyon.apps.duban.wrapper.DataWrapper;
 import com.seeyon.apps.ncdeploy.db.DataBase;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.v3x.util.annotation.NeedlessCheckLogin;
@@ -60,6 +64,24 @@ public class DubanTaskController extends BaseController {
         return modelAndView;
     }
 
+
+    public ModelAndView getPreProcessProperties(HttpServletRequest request, HttpServletResponse response){
+
+        User user = AppContext.getCurrentUser();
+        List<DubanTask> taskList = dubanMainService.getAllLeaderDubanTaskList(user.getId());
+        String havingLeaderTask = String.valueOf(!CommonUtils.isEmpty(taskList));
+        Map data = new HashMap();
+        List<DubanTask> supervisorTaskList =dubanMainService.getAllDubanTaskSupervisor(user.getId());
+        Map templateProperties = ConfigFileService.getTemplateProperties();
+        data.put("templateProperties",templateProperties);
+        data.put("havingLeaderTask",havingLeaderTask);
+        data.put("havingSupervisorTask",String.valueOf(!CommonUtils.isEmpty(supervisorTaskList)));
+        data.put("leaderTaskList",taskList);
+        data.put("supervisorTaskList",supervisorTaskList);
+        UIUtils.responseJSON(data, response);
+        return null;
+    }
+
     /**
      * 台账
      *
@@ -70,15 +92,6 @@ public class DubanTaskController extends BaseController {
     public ModelAndView dashBord(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView modelAndView = new ModelAndView("apps/duban/dashbord");
-        User user = AppContext.getCurrentUser();
-        List<DubanTask> taskList = dubanMainService.getAllLeaderDubanTaskList(user.getId());
-
-        String havingLeaderTask = String.valueOf(!CommonUtils.isEmpty(taskList));
-
-        modelAndView.addObject("havingLeaderTask",havingLeaderTask);
-
-
-
         return modelAndView;
 
 
@@ -201,8 +214,13 @@ public class DubanTaskController extends BaseController {
             } else {
                 stb.append(String.valueOf(val));
             }
-            String dateStr = CommonUtils.formatDateSimple(new Date());
-            stb.append("\n" + dateStr + " 【" + user.getName() + "】:" + opinion + "");
+            V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(user.getDepartmentId());
+            String deptName="";
+            if(dept!=null){
+                deptName = dept.getName();
+            }
+            String dateStr = CommonUtils.formatDateHourMinute(new Date());
+            stb.append("\n" +deptName+"-"+ user.getName() + "("+dateStr +"):" + opinion + "");
 
             sql = "update " + tbName + " set field0016='" + stb.toString() + "' where id = " + data.get("id");
             cjr.setData(data);
@@ -252,6 +270,7 @@ public class DubanTaskController extends BaseController {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where id=" + sid;
         Map data = DataBaseUtils.querySingleDataBySQL(sql);
+        DubanTask dubanTask = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, data, ftd);
         List<FormTable> tables = ftd.getFormTable().getSlaveTableList();
         if (!CommonUtils.isEmpty(tables)) {
             FormTable formTable = tables.get(0);
@@ -285,6 +304,37 @@ public class DubanTaskController extends BaseController {
             }
             data.put("field0006", retList);
         }
+        //找到是承办还是协办
+        String linkToType = request.getParameter("linkToType");
+        if (CommonUtils.isEmpty(linkToType)) {
+            linkToType = "cengban";
+        }
+        data.put("mode_type",linkToType);
+        if ("cengban".equals(linkToType)) {
+            data.put("cengban_process",dubanTask.getMainProcess());
+        } else if ("xieban".equals(linkToType)) {
+            List<SlaveDubanTask> slaveDubanTaskList = dubanTask.getSlaveDubanTaskList();
+            if(!CommonUtils.isEmpty(slaveDubanTaskList)){
+                String curDeptId = String.valueOf(AppContext.getCurrentUser().getDepartmentId());
+                for(SlaveDubanTask sTask:slaveDubanTaskList){
+                    String deptId = sTask.getDeptName();
+                    if(curDeptId.equals(deptId)){
+                        String no = sTask.getNo();
+                        Integer index = Integer.parseInt(no);
+                        String processField = "field00" + (28 + 7 * (index - 1));
+                        data.put("xieban_process",sTask.getProcess());
+                        data.put("xieban_field",processField);
+                    }
+                }
+            }else{
+                data.put("xieban_field","");
+            }
+
+        }
+
+
+
+        data.put("template_id_info_map",ConfigFileService.getTemplateProperties());
 
 
         UIUtils.responseJSON(data, response);
@@ -296,7 +346,7 @@ public class DubanTaskController extends BaseController {
 
     public ModelAndView showDbps(HttpServletRequest request, HttpServletResponse response) {
         String sid = request.getParameter("sid");
-        String url = ConfigFileService.getPropertyByName("ctp.duban.duban_detail_all_url")+sid+"&from_duban=1";
+        String url = ConfigFileService.getPropertyByName("ctp.duban.duban_detail_all_url") + sid + "&from_duban=1";
         try {
             response.sendRedirect(url);
         } catch (IOException e) {
@@ -318,6 +368,25 @@ public class DubanTaskController extends BaseController {
 
             Map data = new HashMap();
             data.put("name", member.getName());
+
+            UIUtils.responseJSON(data, response);
+
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ModelAndView getDepartmentName(HttpServletRequest request, HttpServletResponse response) {
+
+        String sid = request.getParameter("sid");
+
+        try {
+            V3xOrgDepartment department = CommonUtils.getOrgManager().getDepartmentById(CommonUtils.getLong(sid));
+
+            Map data = new HashMap();
+            data.put("name", department.getName());
 
             UIUtils.responseJSON(data, response);
 
@@ -372,6 +441,10 @@ public class DubanTaskController extends BaseController {
         UIUtils.responseJSON("OK", response);
 
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("compiled!!");
     }
 
 }

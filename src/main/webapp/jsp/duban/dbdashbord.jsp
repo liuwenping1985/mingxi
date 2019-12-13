@@ -8,36 +8,81 @@
     <script type="text/javascript" src="/seeyon/apps_res/duban/verdor/layui/layui.js"></script>
     <link rel="stylesheet" href="/seeyon/apps_res/duban/css/duban.css">
 </head>
+<style>
+
+
+    .td_no_padding {
+        padding: 3px 3px;
+    }
+</style>
 <body style="background-color: white">
-<input type="hidden" id="havingLeaderTask" value="${havingLeaderTask}"/>
+
 <div class="layui-container" style="width:98% !important;">
 
-    <div class="layui-row">
-        <div class="layui-col-md6">
-            <h1 class="site-h1">工作任务台账</h1>
-        </div>
-        <div class="layui-col-md6">
-            <div class="layui-row site-h1">
-                <div class="layui-col-md3">
-                    <button type="button" class="layui-btn layui-btn-normal">已完成任务</button>
-                </div>
-                <div class="layui-col-md3">
-                    <button type="button" class="layui-btn layui-btn-normal">全部任务</button>
-                </div>
-                <div class="layui-col-md6">
-                    <button type="button" class="layui-btn layui-btn-normal">查询搜索</button>
-                </div>
+    <div class="layui-tab" lay-filter="mainTab">
+        <ul class="layui-tab-title">
+            <li id="leader" style="display:none" lay-id="leader">领导督办</li>
+            <li id="duban" style="display:none" lay-id="duban" class="layui-this">我的督办</li>
+            <li lay-id="cengban">我的承办</li>
+            <li lay-id="xieban">我的协办</li>
+            <div style="height:30px;width:500px;float:right;">
+                <div class="layui-row">
 
+                    <div class="layui-col-md5">
+                        <form>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">查询</label>
+                            <div class="layui-input-block">
+                                <select name="query_field" id="query_field" lay-filter="aihao">
+                                    <option value=""></option>
+                                    <option value="name">标题</option>
+
+                                    <option value="taskId">任务编号</option>
+                                    <option value="mainLeader">责任领导</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="layui-form-item ">
+                            <input type="text" name="query_field_value" class="layui-input" id="query_field_value" placeholder=""
+                                   autocomplete="off">
+                        </div>
+
+                    </div>
+                    <div class="layui-col-md4">
+                        <div class=" layui-form-item ">
+                            <button type="button" class="layui-btn" onclick="dbcx_click()" id="query_btn_ok">确定</button>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
+        </ul>
+        <div class="layui-tab-content">
+            <div id="leader_content" class="layui-tab-item"></div>
+            <div id="duban_content" class="layui-tab-item layui-show"></div>
+            <div id="cengban_content" class="layui-tab-item"></div>
+            <div id="xieban_content" class="layui-tab-item"></div>
+
         </div>
     </div>
-    <div class="layui-row" style="min-height: 300px">
+
+    <div id="mainContent" class="layui-row" style="min-height: 300px;display:none">
         <div class="layui-col-md1">
-
             <div class="layui-row">
                 <div class="layui-col-md12">
-                    <button id="myduban" type="button" class="layui-btn layui-btn-normal">我的督办</button>
+                    <div style="height:54px;width:1px"></div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <button id="running_task_list" type="button" style="width:92px"
+                            class="layui-btn layui-btn-normal task_list_btn">进行中
+                    </button>
                 </div>
             </div>
             <div class="layui-row">
@@ -48,7 +93,9 @@
             <div class="layui-row">
 
                 <div class="layui-col-md12">
-                    <button id="mycengban" type="button" class="layui-btn layui-btn-normal">我的承办</button>
+                    <button id="done_task_list" style="width:92px" type="button"
+                            class="layui-btn layui-btn-primary task_list_btn">已完成
+                    </button>
                 </div>
             </div>
             <div class="layui-row">
@@ -58,11 +105,47 @@
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12">
-                    <button id="myxieban" type="button" class="layui-btn layui-btn-normal">我的协办</button>
+                    <button id="all_task_list" type="button" class="layui-btn layui-btn-primary task_list_btn">全部任务
+                    </button>
                 </div>
             </div>
+            <div class="layui-row">
+                <div class="layui-col-md12" style="height:30px">
+
+                </div>
+            </div>
+            <%--<div class="layui-row">--%>
+            <%--<div class="layui-col-md12">--%>
+            <%--<button id="query" type="button" style="width:92px" class="layui-btn layui-btn-warm">查询</button>--%>
+            <%--</div>--%>
+            <%--</div>--%>
         </div>
-        <div class="layui-col-md11">
+        <div id="normal_table" class="layui-col-md11">
+            <table class="layui-table">
+
+                <thead>
+                <tr>
+                    <th>状态</th>
+                    <th>任务名称</th>
+                    <th>任务来源</th>
+                    <th>级别</th>
+                    <th>办理时限</th>
+                    <th>周期</th>
+                    <th>进度</th>
+                    <th>责任领导</th>
+                    <th>承办部门</th>
+                    <th>最新汇报</th>
+                    <th>负责人</th>
+                    <th>操作</th>
+
+                </tr>
+                </thead>
+                <tbody id="nakedBody">
+
+                </tbody>
+            </table>
+        </div>
+        <div id="supervisor_table" class="layui-col-md11" style="display:none">
             <table class="layui-table">
 
                 <thead>
@@ -78,17 +161,17 @@
                     <th>承办部门</th>
                     <th>权重</th>
                     <th>负责人</th>
+                    <th>最新进展</th>
                     <th>操作</th>
 
                 </tr>
                 </thead>
-                <tbody id="nakedBody">
+                <tbody id="nakedBodyMore">
 
                 </tbody>
             </table>
         </div>
     </div>
-
     <div class="layui-row">
         <div class="layui-col-md6">
             <div style="height:1px;width:1px"></div>
@@ -98,9 +181,14 @@
             <div id="paging" style="float:right"></div>
         </div>
     </div>
+
+
 </div>
+
 <script src="/seeyon/apps_res/duban/verdor/layui/lx.js"></script>
-<script type="text/javascript" src="/seeyon/apps_res/duban/js/duban.js"></script>
+<script type="text/javascript" src="/seeyon/apps_res/duban/js/DubanDao.js"></script>
+<script type="text/javascript" src="/seeyon/apps_res/duban/js/taskDetail.js"></script>
+
 
 </body>
 </html>

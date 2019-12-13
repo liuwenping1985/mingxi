@@ -14,7 +14,8 @@ public class MappingCodeConstant {
 
 
     public static String FIELD_DUBAN_RENYUAN="field0012";
-    public static String FIELD_DUBAN_WANCHENGLV="field0013";
+    public static String FIELD_DUBAN_WANCHENGLV="field0021";
+    public static String FIELD_DUBAN_WANCHENGLV_SUPERVISOR="field0013";
     public static Map<String,String> FILE_MAPPING = new HashMap<String,String>();
     static{
 

@@ -4561,6 +4561,9 @@ function checkRepeatData(_data,_dataArray,_index){
 	return _result;
 }
 function setBGColor(_mainBodyDiv){
+	if(!_mainBodyDiv){
+		return;
+	}
 	_mainBodyDiv.find("div[id^='attachmentArea'],div[id^='attachment2Area']").each(function(){
 	var jqField = $(this).parent("span");
 	if(jqField.hasClass("editableSpan")){

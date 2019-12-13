@@ -23,6 +23,7 @@ import java.util.*;
  */
 public class CommonUtils {
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
 
@@ -131,6 +132,14 @@ public class CommonUtils {
     public static String formatDateSimple(Date date) {
         try {
             return sdf2.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String formatDateHourMinute(Date date) {
+        try {
+            return sdf1.format(date);
         } catch (Exception e) {
             e.printStackTrace();
         }

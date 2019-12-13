@@ -2,29 +2,12 @@
 (function(){
     var exportObject = window;
     lx.use(["jquery","laypage","col"],function(){
-        var $ = lx.$;
         var params = lx.eutil.getRequestParam();
 
         var mode = params['mode']||"duban";
 
         var  baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode="+mode;
 
-        var templateMap={
-            "DB_DONE_APPLY":"",
-            "DB_DELAY_APPLY":"",
-            "DB_FEEDBACK":""
-        };
-        $.get("/seeyon/duban.do?method=getPreProcessProperties",function(ret){
-
-            if(ret!=null&&ret.templateProperties){
-                templateMap =  ret.templateProperties;
-            }
-            if(ret!=null&&ret.havingLeaderTask){
-               $("#havingLeaderTask").val(ret.havingLeaderTask);
-            }
-
-
-        });
         exportObject.dbps_click=function(id){
 
             window.open("/seeyon/duban.do?method=showDbps&sid="+id+"&linkToType="+mode);
@@ -36,13 +19,13 @@
 
         };
         exportObject.dbhb_click=function(id){
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId="+templateMap["DB_FEEDBACK"]+"&data_id="+id+"&linkToType="+mode);
+            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=401681311018863784&data_id="+id+"&linkToType="+mode);
         };
         exportObject.dbbj_click=function(id){
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId="+templateMap["DB_DONE_APPLY"]+"&data_id="+id+"&linkToType="+mode);
+            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=3567084323371171881&data_id="+id+"&linkToType="+mode);
         };
         exportObject.dbyq_click=function(id){
-            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId="+templateMap["DB_DELAY_APPLY"]+"&data_id="+id+"&linkToType="+mode);
+            window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=2612221832994047529&data_id="+id+"&linkToType="+mode);
         };
         exportObject.dbfj_click=function(id){
             window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId=3567084323371171881&data_id="+id+"&linkToType="+mode);
@@ -131,7 +114,7 @@
             container.append(htmls.join(""));
 
         }
-
+        var $ = lx.$;
         $("#myduban").click(function(){
             mode="duban";
             baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode=duban";

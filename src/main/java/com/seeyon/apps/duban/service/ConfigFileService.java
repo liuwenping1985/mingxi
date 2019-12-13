@@ -2,6 +2,8 @@ package com.seeyon.apps.duban.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -19,6 +21,28 @@ public class ConfigFileService {
     public static String getPropertyByName(String key){
 
         return properties.getProperty(key,"");
+
+    }
+    public static Map getTemplateProperties(){
+/**
+ * ctp.template.-7849725267052772823=DB_DONE_APPLY
+
+ ctp.template.5568002767950727683=DB_DELAY_APPLY
+
+ ctp.template.7672869598940252106=DB_FEEDBACK
+ */
+        Map data = new HashMap();
+        for(Map.Entry entry : properties.entrySet()){
+            String key = String.valueOf(entry.getKey());
+            String value = String.valueOf(entry.getValue());
+            if(key.startsWith("ctp.template")){
+                if(value.equals("DB_DONE_APPLY")||value.equals("DB_DELAY_APPLY")||value.equals("DB_FEEDBACK")){
+                    data.put(value,key.split("\\.")[2]);
+                }
+            }
+
+        }
+        return data;
 
     }
     private static void init(){
@@ -53,7 +77,8 @@ public class ConfigFileService {
         for(String arg:idArray){
             System.out.println(ConfigFileService.getPropertyByName("ctp.template."+arg));
         }
-
+        Map data = ConfigFileService.getTemplateProperties();
+        System.out.println(data);
 
     }
 
