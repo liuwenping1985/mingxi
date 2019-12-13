@@ -15,6 +15,12 @@ public class DubanTask extends BasePO {
      * 底表中的id
      */
     private String uuid;
+
+    /**
+     * 是否超期
+     */
+    private String taskLight;
+
     /**
      * 任务id
      */
@@ -122,6 +128,14 @@ public class DubanTask extends BasePO {
      * 配合部门任务
      */
     private List<SlaveDubanTask> slaveDubanTaskList;
+
+    public String getTaskLight() {
+        return taskLight;
+    }
+
+    public void setTaskLight(String taskLight) {
+        this.taskLight = taskLight;
+    }
 
     public String getViewLeaderName() {
         return viewLeaderName;

@@ -3,13 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>工作督办单</title>
-    <link rel="stylesheet" href="../../app_res/duban/verdor/layui/css/layui.css">
-    <script type="text/javascript" src="../../app_res/duban/verdor/layui/layui.js"></script>
-    <link rel="stylesheet" href="../../app_res/duban/css/duban.css">
+    <link rel="stylesheet" href="../../apps_res/duban/verdor/layui/css/layui.css">
+    <script type="text/javascript" src="../../apps_res/duban/verdor/layui/layui.js"></script>
+    <link rel="stylesheet" href="../../apps_res/duban/css/duban.css">
 </head>
 <body>
 <div class="layui-container" style="width:98% !important;">
+    <div class="layui-tab" lay-filter="mainTab">
+        <ul class="layui-tab-title">
+            <li id="leader" style="display:none" lay-id="leader">领导督办</li>
+            <li id="duban" style="display:none" lay-id="duban" class="layui-this">我的督办</li>
+            <li lay-id="cengban">我的承办</li>
+            <li lay-id="xieban">我的协办</li>
+            <div style="height:30px;width:500px;float:right;">
+                <div class="layui-row">
 
+                    <div class="layui-col-md5">
+
+                        <div>
+                            <label class="layui-form-label">查询</label>
+                            <div>
+                                <select style="width:120px;height:30px" name="query_field" id="query_field" >
+                                    <option value=""></option>
+                                    <option value="name">标题</option>
+
+                                    <option value="taskId">任务编号</option>
+                                    <option value="mainLeader">责任领导</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-col-md3">
+
+                        <input type="text" style="width:120px;height:30px" name="query_field_value"  id="query_field_value" placeholder="">
+
+
+                    </div>
+                    <div class="layui-col-md4">
+                        <div class=" layui-form-item ">
+                            <button type="button" class="layui-btn" onclick="dbcx_click()" id="query_btn_ok">查询</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </ul>
+        <div class="layui-tab-content">
+            <div id="leader_content" class="layui-tab-item"></div>
+            <div id="duban_content" class="layui-tab-item layui-show"></div>
+            <div id="cengban_content" class="layui-tab-item"></div>
+            <div id="xieban_content" class="layui-tab-item"></div>
+
+        </div>
+    </div>
     <div class="layui-row">
         <div class="layui-col-md12">
             <center>
@@ -234,8 +283,8 @@
 
 
 </div>
-<script src="../../app_res/duban/verdor//layui/lx.js"></script>
-<script type="text/javascript" src="../../app_res/duban/js/duban.js"></script>
+<script src="../../apps_res/duban/verdor//layui/lx.js"></script>
+<script type="text/javascript" src="../../apps_res/duban/js/duban.js"></script>
 
 </body>
 </html>

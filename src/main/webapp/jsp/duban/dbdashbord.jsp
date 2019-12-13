@@ -28,33 +28,28 @@
             <div style="height:30px;width:500px;float:right;">
                 <div class="layui-row">
 
-                    <div class="layui-col-md5">
-                        <form>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">查询</label>
-                            <div class="layui-input-block">
-                                <select name="query_field" id="query_field" lay-filter="aihao">
-                                    <option value=""></option>
-                                    <option value="name">标题</option>
+                    <div class="layui-col-md3">
 
+
+                                <select style="font-size:15px;width:120px;height:30px" name="query_field" id="query_field" >
+
+                                    <option value="name" selected>标题</option>
                                     <option value="taskId">任务编号</option>
                                     <option value="mainLeader">责任领导</option>
 
                                 </select>
-                            </div>
-                        </div>
-                        </form>
-                    </div>
-                    <div class="layui-col-md3">
-                        <div class="layui-form-item ">
-                            <input type="text" name="query_field_value" class="layui-input" id="query_field_value" placeholder=""
-                                   autocomplete="off">
-                        </div>
+
 
                     </div>
                     <div class="layui-col-md4">
+
+                        <input type="text" style="font-size:15px;height:30px" name="query_field_value"  id="query_field_value" />
+
+
+                    </div>
+                    <div class="layui-col-md5">
                         <div class=" layui-form-item ">
-                            <button type="button" class="layui-btn" onclick="dbcx_click()" id="query_btn_ok">确定</button>
+                            <button type="button" style="height:33px" class="layui-btn" onclick="dbcx_click()" id="query_btn_ok">查询</button>
                         </div>
 
                     </div>

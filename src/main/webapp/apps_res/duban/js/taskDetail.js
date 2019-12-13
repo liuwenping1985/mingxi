@@ -7,6 +7,7 @@
         var D = DB_DAO;
         var laypage = layui.laypage;
         var form = lx.form;
+        form.render();
         var templateMap = {
             "DB_DONE_APPLY": "",
             "DB_DELAY_APPLY": "",
@@ -191,7 +192,7 @@
                 item.mainWeight="--";
             }
             htmls.push("<tr>");
-            htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: green" class="layui-icon layui-icon-flag"></i></td>');
+            htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: '+item.taskLight+'" class="layui-icon layui-icon-flag"></i></td>');
             htmls.push("<td style='cursor:pointer' onclick=\"db_detail_click('"+item.uuid+"')\" class='td_no_padding'>"+item.name+"</td>");
             htmls.push("<td class='td_no_padding'>"+item.taskSource+"</td>");
             htmls.push("<td class='td_no_padding'>"+item.taskLevel+"</td>");

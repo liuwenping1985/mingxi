@@ -47,12 +47,12 @@ public final class DataTransferStrategy {
                                         continue;
                                     }
                                     String[] classTokens = ff.getClassname().split("@");
-                                    if(classTokens==null||classTokens.length<3){
+                                    if (classTokens == null || classTokens.length < 3) {
                                         continue;
                                     }
-                                    Map<String,Object> multiData = multiListContainer.get(barCodes[0]);
+                                    Map<String, Object> multiData = multiListContainer.get(barCodes[0]);
                                     if (multiData == null) {
-                                        multiData = new HashMap<String,Object>();
+                                        multiData = new HashMap<String, Object>();
                                         multiListContainer.put(barCodes[0], multiData);
                                     }
                                     Object val_ = data.get(ff.getName());
@@ -60,20 +60,20 @@ public final class DataTransferStrategy {
                                     String barCode_ = classTokens[2];
 
                                     String index_ = classTokens[1];
-                                    if("no".equals(barCode_)){
+                                    if ("no".equals(barCode_)) {
                                         val_ = index_;
                                     }
                                     String clsName = barCodes[1];
                                     Class cls_ = Class.forName(clsName);
-                                    Object obj_ =  multiData.get(index_);
-                                    if(obj_==null){
+                                    Object obj_ = multiData.get(index_);
+                                    if (obj_ == null) {
                                         obj_ = cls_.newInstance();
-                                        multiData.put(index_,obj_);
+                                        multiData.put(index_, obj_);
                                     }
                                     Field f = getClassField(cls_, barCode_);
                                     if (f != null) {
                                         f.setAccessible(true);
-                                        filledObject(f,obj_,export_,val_);
+                                        filledObject(f, obj_, export_, val_);
                                     }
 
                                 } catch (Exception e) {
@@ -86,7 +86,7 @@ public final class DataTransferStrategy {
 
                             continue;
 
-                        }else{
+                        } else {
 
 
                             //一般逻辑
@@ -95,26 +95,25 @@ public final class DataTransferStrategy {
                                 f.setAccessible(true);
                                 String export = ff.getExport();
                                 Object val = data.get(ff.getName());
-                                filledObject(f,obj,export,val);
+                                filledObject(f, obj, export, val);
                             }
                         }
 
                     }
                 }
-                if(!CommonUtils.isEmpty(multiListContainer)){
+                if (!CommonUtils.isEmpty(multiListContainer)) {
 
                     Set<String> keys = multiListContainer.keySet();
-                    for(String key:keys){
+                    for (String key : keys) {
                         Map data_ = multiListContainer.get(key);
-                        if(!CommonUtils.isEmpty(data_)){
+                        if (!CommonUtils.isEmpty(data_)) {
                             Field f = getClassField(cls, key);
                             Collection datas = data_.values();
                             f.setAccessible(true);
                             List list = new ArrayList();
                             list.addAll(datas);
-                            f.set(obj,list);
+                            f.set(obj, list);
                         }
-
 
 
                     }
@@ -123,6 +122,8 @@ public final class DataTransferStrategy {
                 }
 
             }
+
+
             return obj;
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,7 +133,7 @@ public final class DataTransferStrategy {
     }
 
 
-    private static void filledObject(Field f,Object obj,String export,Object val){
+    private static void filledObject(Field f, Object obj, String export, Object val) {
         try {
             if ("enum".equals(export)) {
                 val = CommonUtils.getEnumShowValue(val);
@@ -145,7 +146,7 @@ public final class DataTransferStrategy {
                         if (member != null) {
                             val = member.getName();
                         }
-                    }catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -166,7 +167,7 @@ public final class DataTransferStrategy {
                             if (member != null) {
                                 memberList.add(member.getName());
                             }
-                        }catch(Exception e){
+                        } catch (Exception e) {
 
                         }
                     }
@@ -183,7 +184,7 @@ public final class DataTransferStrategy {
                         if (dept != null) {
                             val = dept.getName();
                         }
-                    }catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -198,10 +199,14 @@ public final class DataTransferStrategy {
                     f.set(obj, String.valueOf(val));
                 }
 
-            } else {
+            } else if(f.getType()==Date.class){
+                String val_ = String.valueOf(val);
+                Date dt = CommonUtils.parseDate(val_);
+                f.set(obj, dt);
+            }else{
                 f.set(obj, val);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -237,7 +242,7 @@ public final class DataTransferStrategy {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String data = "{\n" +
                 "            \"ID\": \"6006856691204055558\",\n" +
                 "            \"state\": \"1\",\n" +
@@ -392,13 +397,13 @@ public final class DataTransferStrategy {
                 "            \"field0142\": \"-1804267680213545464\"\n" +
                 "        }";
 
-        Map data2  =JSON.parseObject(data,HashMap.class);
-        data2.put("start_date",new Date());
-        data2.put("field0022",new Date());
-        data2.put("field0015",new Date());
-        data2.put("field0007",new Date());
+        Map data2 = JSON.parseObject(data, HashMap.class);
+        data2.put("start_date", new Date());
+        data2.put("field0022", new Date());
+        data2.put("field0015", new Date());
+        data2.put("field0007", new Date());
 
-        DubanTask task =  DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class,data2, MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK));
+        DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, data2, MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK));
         System.out.println(JSON.toJSONString(task));
     }
 }

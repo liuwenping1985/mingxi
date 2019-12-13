@@ -12,8 +12,10 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +60,78 @@ public class DubanMainService {
     public List<DubanTask> getRunningDubanTaskSupervisor(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
-        return translateDubanTask(sql, ftd);
+
+
+        List<DubanTask> taskList =  translateDubanTask(sql, ftd);
+        if(!CollectionUtils.isEmpty(taskList)){
+            for(DubanTask task:taskList){
+                setTaskLight(task,memberId,"DB");
+            }
+        }
+
+        return taskList;
+
+
+    }
+
+    public void setTaskLight(DubanTask task,Long memberId,String mode){
+
+        float offset = 0.25f;
+        Date ed = task.getEndDate();
+        Date st = task.getStartDate();
+        long all  = ed.getTime()-st.getTime();
+        long now = ed.getTime()-System.currentTimeMillis();
+
+        String light="normal";
+        String p = "0";
+
+        if("CB".equals(mode)){
+          p =  task.getMainProcess();
+        }
+        if("XB".equals(mode)){
+
+            List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+            if(!CollectionUtils.isEmpty(slaveDubanTaskList)){
+                for(SlaveDubanTask sdt:slaveDubanTaskList){
+                   if(memberId!=null&&String.valueOf(memberId).equals(sdt.getLeader())){
+                        p = sdt.getProcess();
+                        break;
+                   }
+                }
+            }
+
+        }
+        if("DB".equals(mode)){
+             p = task.getProcess();
+        }
+        try {
+            float k = Float.parseFloat(p) / 100f;
+            float m = (1f*now)/(all*1f);
+            if(m<0){
+                light="red";
+            }else if(k>=m){
+                //证明提前了
+                if(k>(m*1.25f)){
+                    light="blue";
+                }else{
+                    light="green";
+                }
+            }else if(k<m){
+
+                if(k*1.25f>m){
+                    light="orange";
+                }else{
+                    light="red";
+                }
+
+
+            }
+
+
+        }catch(Exception e){
+
+        }
+        task.setTaskLight(light);
 
     }
 
@@ -98,7 +171,14 @@ public class DubanMainService {
     public List<DubanTask> getRuuningLeaderDubanTaskList(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and  (field0010=" + memberId + " or field0011 like '%" + memberId + "%')";
-        return translateDubanTask(sql, ftd);
+        List<DubanTask> taskList =  translateDubanTask(sql, ftd);
+        if(!CollectionUtils.isEmpty(taskList)){
+            for(DubanTask task:taskList){
+                setTaskLight(task,memberId,"DB");
+            }
+        }
+
+        return taskList;
     }
 
     /**
@@ -141,6 +221,14 @@ public class DubanMainService {
 
 
         List<DubanTask> dubanTaskList = translateDubanTask(sql, ftd);
+
+        if(!CollectionUtils.isEmpty(dubanTaskList)){
+            for(DubanTask task:dubanTaskList){
+                setTaskLight(task,memberId,"XB");
+            }
+        }
+
+
         try {
             List<DubanTask> retList = new ArrayList<DubanTask>();
             V3xOrgMember member = this.getOrgManager().getMemberById(memberId);
@@ -232,7 +320,14 @@ public class DubanMainService {
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + " is null) and" +
                 " (field0019=" + memberId + ")";
-        return translateDubanTask(sql, ftd);
+        List<DubanTask> taskList =  translateDubanTask(sql, ftd);
+        if(!CollectionUtils.isEmpty(taskList)){
+            for(DubanTask task:taskList){
+                setTaskLight(task,memberId,"CB");
+            }
+        }
+
+        return taskList;
 
     }
 
