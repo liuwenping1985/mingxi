@@ -15,7 +15,7 @@ public class DataBaseUtils {
 
     public static void executeUpdate(String sql){
 
-        JDBCAgent agent = new JDBCAgent();
+        JDBCAgent agent = new JDBCAgent(true);
         try{
 
             System.out.println(sql);
@@ -42,7 +42,7 @@ public class DataBaseUtils {
 
 
     public static List<Map> queryDataListBySQL(String sql){
-        JDBCAgent agent = new JDBCAgent();
+        JDBCAgent agent = new JDBCAgent(true);
 
         List<Map> dataList = new ArrayList<Map>();
         try{

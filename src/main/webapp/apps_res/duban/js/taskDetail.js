@@ -30,21 +30,7 @@
 
         var cur_query_layer_index="";
         var cur_query_layer_content="";
-        // $("#query").click(function(){
-        //     var kkkk = $("#form_home").html();
-        //     $("#form_home").html("");
-        //     cur_query_layer_content=kkkk;
-        //     cur_query_layer_index = layer.open({
-        //         type: 1,
-        //         skin: 'layui-layer-rim', //加上边框
-        //         area: ['420px', '240px'], //宽高
-        //         content: kkkk,
-        //         end:function(){
-        //             $("#form_home").html(cur_query_layer_content);
-        //         }
-        //     });
-        //
-        // });
+
 
         $.get("/seeyon/duban.do?method=getPreProcessProperties", function (ret) {
 
@@ -112,7 +98,43 @@
         };
         exportObject.db_detail_click=function(id){
             window.open("/seeyon/duban.do?method=showDbps&sid="+id+"&linkToType="+data_mode);
-        }
+        };
+        exportObject.l_op_o_click=function(){
+            var leader_op = $("#leader_op").val()||$("#leader_op").html();
+            $.post("/seeyon/duban.do?method=addLeaderOpinion",{
+                "taskId":cur_l_op_id,
+                "opinion":leader_op
+            },function(data){
+
+                console.log(data);
+                $("#form_home").html(cur_query_layer_content);
+                layer.close(cur_query_layer_index)
+            })
+
+        };
+        exportObject.l_op_c_click=function(){
+            $("#form_home").html(cur_query_layer_content);
+            layer.close(cur_query_layer_index)
+
+        };
+        var cur_l_op_id="";
+        exportObject.dbps2_click=function(id){
+            cur_l_op_id = id;
+            var kkkk=$("#form_home").html();
+            $("#form_home").html("");
+            cur_query_layer_content=kkkk;
+            cur_query_layer_index = layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '240px'], //宽高
+                content: kkkk,
+                end:function(){
+                    $("#form_home").html(cur_query_layer_content);
+                }
+            });
+
+
+        };
 
         //左边按钮点击
         $(".task_list_btn").click(function () {
@@ -216,7 +238,7 @@
             htmls.push("<td class='td_no_padding' style='width:120px'>"+t_s_a_v+"</td>");
             htmls.push("<td class='td_no_padding'>"+item.supervisor+"</td>");
             if("leader"==mode){
-                htmls.push('<td class="td_no_padding"><div class="layui-row layui-col-space10"> <div class="layui-col-md12"> <button  onclick="dbps_click(\''+item.uuid+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">督办批示</button> </div> </td>');
+                htmls.push('<td class="td_no_padding"><div class="layui-row layui-col-space10"> <div class="layui-col-md6"> <button  onclick="dbps_click(\''+item.uuid+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">查看</button> </div> <div class="layui-col-md6"> <button  onclick="dbps2_click(\''+item.taskId+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">督办批示</button> </div> </td>');
             }else if("duban"==mode){
 
                 htmls.push('<td class="td_no_padding"><div class="layui-row layui-col-space10"> <div class="layui-col-md12"> <button  onclick="db_click(\''+item.uuid+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">查看</button> </div> </td>');

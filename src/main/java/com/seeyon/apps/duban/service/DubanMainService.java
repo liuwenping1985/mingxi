@@ -13,6 +13,7 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import org.springframework.util.CollectionUtils;
+import www.seeyon.com.utils.MD5Util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,10 @@ public class DubanMainService {
     private static DubanMainService dubanMainService = new DubanMainService();
 
     public static DubanMainService getInstance() {
-
+//        String license  = ConfigFileService.getPropertyByName("ctp.duban.xad.license");
+//        if(MD5Util.MD5("hhsd").equals(license)){
+//            return null;
+//        }
         return dubanMainService;
 
     }
@@ -61,7 +65,6 @@ public class DubanMainService {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
 
-
         List<DubanTask> taskList =  translateDubanTask(sql, ftd);
         if(!CollectionUtils.isEmpty(taskList)){
             for(DubanTask task:taskList){
@@ -76,54 +79,91 @@ public class DubanMainService {
 
     public void setTaskLight(DubanTask task,Long memberId,String mode){
 
-        float offset = 0.25f;
         Date ed = task.getEndDate();
         Date st = task.getStartDate();
         long all  = ed.getTime()-st.getTime();
-        long now = ed.getTime()-System.currentTimeMillis();
-
+        long now = System.currentTimeMillis();
+        //周，半年度，双周，季度，月
+        String zhouqi = task.getPeriod();
+        Double section = 0D;
+        if("周".equals(zhouqi)){
+            section=7*24*3600*1000D;
+        }else if ("双周".equals(zhouqi)){
+            section=2*7*24*3600*1000D;
+        }else if ("月".equals(zhouqi)){
+            section=30*24*3600*1000D;
+        }else if ("季度".equals(zhouqi)){
+            section=4*30*24*3600*1000D;
+        }else if ("半年度".equals(zhouqi)){
+            section=6*30*24*3600*1000D;
+        }else{
+            section=6*30*24*3600*1000D;
+        }
         String light="normal";
         String p = "0";
 
         if("CB".equals(mode)){
-          p =  task.getMainProcess();
+            p =  task.getMainProcess();
         }
         if("XB".equals(mode)){
 
             List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
             if(!CollectionUtils.isEmpty(slaveDubanTaskList)){
                 for(SlaveDubanTask sdt:slaveDubanTaskList){
-                   if(memberId!=null&&String.valueOf(memberId).equals(sdt.getLeader())){
+                    if(memberId!=null&&String.valueOf(memberId).equals(sdt.getLeader())){
                         p = sdt.getProcess();
                         break;
-                   }
+                    }
                 }
             }
 
         }
         if("DB".equals(mode)){
-             p = task.getProcess();
+            p = task.getProcess();
         }
+
+        long used = now-st.getTime();//经过了多长时间
+
+        double jigezhouqi = all/(section*1f);//有多少个周期
+
+        double processPerSection = 100f/jigezhouqi;
+        if(processPerSection>100f){
+            processPerSection = 99f;//不能为100 不然超期判断不了
+        }
+
+        double nowShouldBeProcess = processPerSection*(used/(section*1f));
+        if(p==null||CommonUtils.isEmpty(p)){
+            p="0";
+
+        }
+        Double nowProcess = Double.parseDouble(p) ;
+        if(nowProcess.intValue()==0){
+            nowProcess = processPerSection;
+        }
+
         try {
-            float k = Float.parseFloat(p) / 100f;
-            float m = (1f*now)/(all*1f);
-            if(m<0){
-                light="red";
-            }else if(k>=m){
-                //证明提前了
-                if(k>(m*1.25f)){
+            if(nowProcess>=nowShouldBeProcess){
+                if(nowProcess>1.25*nowShouldBeProcess){
                     light="blue";
                 }else{
-                    light="green";
+                    light = "green";
                 }
-            }else if(k<m){
+            }else {
 
-                if(k*1.25f>m){
+                if(nowProcess*1.25>nowShouldBeProcess){
                     light="orange";
                 }else{
                     light="red";
                 }
-
+            }
+            //fix 一些特殊值
+            if(now>ed.getTime()){
+                light="red";
+            }
+            if("blue".equals(light)){
+                if("0".equals(p)){
+                    light="green";
+                }
 
             }
 
@@ -397,10 +437,11 @@ public class DubanMainService {
 
     }
 
+    public static void main(String[] args){
 
-    public static void main(String[] argfs) {
-        System.out.println("TEST");
+
     }
+
 
 
 }

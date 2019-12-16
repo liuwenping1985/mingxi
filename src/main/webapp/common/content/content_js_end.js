@@ -330,27 +330,33 @@ $(document).ready(function () {
                 $("#field0009").change();
                 $("#field0010").val(data["field0009"]);
                 $("#field0010").change();
-                $("#field0011").val("Member|" + data["field0010"]);
-                $("#field0011").change();
-                $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0010"], function (ret) {
+                if(data["field0010"]){
+                    $("#field0011").val("Member|" + data["field0010"]);
+                    $("#field0011").change();
+                    $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0010"], function (ret) {
 
-                    $("#field0011_txt").val(ret.name);
-                    $("#field0013_txt").change();
+                        $("#field0011_txt").val(ret.name);
+                        $("#field0011_txt").change();
 
-                });
+                    });
+                }
+
 
                 $("#field0012").val(data["field0011"]);
                 $("#field0012").change();
-                $("#field0013").val(data["field0012"]);
-                $("#field0013").change();
-                $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0012"], function (ret) {
+                if(data["field0012"]){
+                    $("#field0013").val("Member|" +data["field0012"]);
+                    $("#field0013").change();
+                    $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0012"], function (ret) {
 
-                    $("#field0013_txt").val(ret.name);
-                    $("#field0013_txt").change();
-                });
+                        $("#field0013_txt").val(ret.name);
+                        $("#field0013_txt").change();
+                    });
+                }
+
                 //25cbbumen,27 fuzheren,26 shangci wanchenglv
                 var cbbm = "field0017";
-                var fzr = "field0010";
+                var fzr = "field0019";
                 $("#field0025").val(data[cbbm]);
                 $("#field0025").change();
                 $.get("/seeyon/duban.do?method=getDepartmentName&sid=" + data[cbbm], function (ret) {
@@ -395,17 +401,27 @@ $(document).ready(function () {
                             $("#" + key).val(dt.format("yyyy-MM-dd"));
                             $("#" + key).change();
                         } else if ("field0010" == key) {
-                            $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0010"], function (ret) {
+                            if(data[key]){
+                                $("#" + key).val(data[key]);
+                                $("#" + key).change();
+                                $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0010"], function (ret) {
 
-                                $("#field0010_txt").val(ret.name);
-                                $("#field0010_txt").change();
-                            });
+                                    $("#field0010_txt").val(ret.name);
+                                    $("#field0010_txt").change();
+                                });
+                            }
+
                         } else if ("field0012" == key) {
-                            $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0012"], function (ret) {
+                            if(data[key]){
+                                $("#" + key).val(data[key]);
+                                $("#" + key).change();
+                                $.get("/seeyon/duban.do?method=getMemberName&sid=" + data["field0012"], function (ret) {
 
-                                $("#field0012_txt").val(ret.name);
-                                $("#field0012_txt").change();
-                            });
+                                    $("#field0012_txt").val(ret.name);
+                                    $("#field0012_txt").change();
+                                });
+                            }
+
                         } else if ("field0006" == key) {
 
                         } else {
@@ -423,6 +439,7 @@ $(document).ready(function () {
                 if(idmap["DB_DELAY_APPLY"] == templateId){
                     $("#field0022").val(data[cbbm]);
                     $("#field0022").change();
+
                     $.get("/seeyon/duban.do?method=getDepartmentName&sid=" + data[cbbm], function (ret) {
 
                         $("#field0022_txt").val(ret.name);
@@ -438,7 +455,7 @@ $(document).ready(function () {
                     });
                 }
 
-                var fzr = "field0010";
+                var fzr = "field0019";
                 if(idmap["DB_DELAY_APPLY"] == templateId){
                     $("#field0023").val(data[fzr]);
                     $("#field0023").change();
@@ -540,7 +557,7 @@ $(document).ready(function () {
     }else{
 
         var r_id = params["rightId"];
-        if("-7358326681974652894.634760108374510857|-5695649081455064417.-678199947012652287|4691278459417608212.4729432398069056994|-8589896943821304179.6079481201566305033|1772868952482005122.7434405613586957248|-8025070505852907711.8822098668542315262|-2099901832207187109.906517871566734426|4569029994082815411.6556388215328424719|-6194359099302984515.-4571615919362650815|-1840510641429921571.-958050165871522989|4905125698409613191.5494109670702924843|8654405196159535160.3862491316711538842|-6030440839836187926.-7160389505585493498"==r_id){
+        if("-7358326681974652894.634760108374510857"==r_id){
             var start_f=24;
 
             var increase_=7;

@@ -350,7 +350,7 @@ public class DubanTaskListener {
 
         Map data = DataBaseUtils.querySingleDataBySQL(sql);
 
-        String ctid = (String) data.get("content_template_id");
+        String ctid = String.valueOf(data.get("content_template_id"));
 
         FormDataManager formDataManager = (FormDataManager) AppContext.getBean("formDataManager");
         if (formDataManager != null) {

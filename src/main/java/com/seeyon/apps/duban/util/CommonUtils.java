@@ -107,7 +107,7 @@ public class CommonUtils {
 
     public static Date parseDate(String dateStr) {
         try {
-            if (CommonUtils.isEmpty(dateStr)) {
+            if (CommonUtils.isEmpty(dateStr)||"null".equals(dateStr)) {
                 return null;
             }
             if (dateStr.trim().length() == "yyyy-MM-dd".length()) {
@@ -116,7 +116,7 @@ public class CommonUtils {
             Date dt = sdf.parse(dateStr);
             return dt;
         } catch (ParseException e) {
-            e.printStackTrace();
+
         }
         return null;
     }
