@@ -12,6 +12,7 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.oainterface.organizationmgr.mgr.OcupationMgr;
 import org.springframework.util.CollectionUtils;
 import www.seeyon.com.utils.MD5Util;
 
@@ -183,7 +184,7 @@ public class DubanMainService {
      */
     public List<DubanTask> getFinishedDubanTaskSupervisor(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-        String sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "=100 and " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "=" + memberId;
+        String sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "=100 and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
         return translateDubanTask(sql, ftd);
 
     }
@@ -438,7 +439,11 @@ public class DubanMainService {
     }
 
     public static void main(String[] args){
+        String k = "123456";
 
+        ClassLoader classloader = OcupationMgr.class.getClassLoader();
+
+        System.out.println();
 
     }
 
