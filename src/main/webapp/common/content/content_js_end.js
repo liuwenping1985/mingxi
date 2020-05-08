@@ -36,8 +36,7 @@ $(function () {
 function fnClearContentPadding() {
     if ((typeof window.parent.bIsClearContentPadding != "undefined" && window.parent.bIsClearContentPadding == true) || (typeof bIsClearContentPadding != "undefined" && bIsClearContentPadding == true)) {
         $(".content_text").css("padding", "0");
-    }
-    ;
+    };
 }
 
 //新建页面调用，调整高度

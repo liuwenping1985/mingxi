@@ -62,7 +62,7 @@
             }
         });
         var filtering={};
-        exportObject.dbcx_click=function(){
+        exportObject.dbcx_click = function(){
             var q_f = $("#query_field").val();
             var q_f_v = $("#query_field_value").val();
             // $("#form_home").html(cur_query_layer_content);
@@ -74,23 +74,23 @@
             loadPageData(data_mode,curState);
 
         };
-        exportObject.dbps_click=function(id){
+        exportObject.dbps_click = function(id){
 
             window.open("/seeyon/duban.do?method=showDbps&sid="+id+"&linkToType="+data_mode);
 
         };
-        exportObject.db_click=function(id){
+        exportObject.db_click = function(id){
 
             window.open("/seeyon/duban.do?method=showDbps&sid="+id+"&linkToType="+data_mode);
 
         };
-        exportObject.dbhb_click=function(id){
+        exportObject.dbhb_click = function(id){
             window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId="+templateMap["DB_FEEDBACK"]+"&data_id="+id+"&linkToType="+data_mode);
         };
-        exportObject.dbbj_click=function(id){
+        exportObject.dbbj_click = function(id){
             window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId="+templateMap["DB_DONE_APPLY"]+"&data_id="+id+"&linkToType="+data_mode);
         };
-        exportObject.dbyq_click=function(id){
+        exportObject.dbyq_click = function(id){
             window.open("/seeyon/collaboration/collaboration.do?method=newColl&templateId="+templateMap["DB_DELAY_APPLY"]+"&data_id="+id+"&linkToType="+data_mode);
         };
         exportObject.dbfj_click=function(id){
@@ -106,7 +106,7 @@
                 "opinion":leader_op
             },function(data){
 
-                console.log(data);
+                // console.log(data);
                 $("#form_home").html(cur_query_layer_content);
                 layer.close(cur_query_layer_index)
             })
@@ -120,7 +120,7 @@
         var cur_l_op_id="";
         exportObject.dbps2_click=function(id){
             cur_l_op_id = id;
-            var kkkk=$("#form_home").html();
+            var kkkk = $("#form_home").html();
             $("#form_home").html("");
             cur_query_layer_content=kkkk;
             cur_query_layer_index = layer.open({
@@ -149,12 +149,15 @@
             target.addClass("layui-btn-normal");
             var state = target.attr("id");
             if (state == "running_task_list") {
+
                 curState = "RUNNING";
             }
             if (state == "done_task_list") {
+
                 curState = "DONE";
             }
             if (state == "all_task_list") {
+
                 curState = "ALL";
             }
             loadPageData(data_mode,curState);
@@ -236,7 +239,9 @@
             }
 
             htmls.push("<td class='td_no_padding' style='width:120px'>"+t_s_a_v+"</td>");
+
             htmls.push("<td class='td_no_padding'>"+item.supervisor+"</td>");
+
             if("leader"==mode){
                 htmls.push('<td class="td_no_padding"><div class="layui-row layui-col-space10"> <div class="layui-col-md6"> <button  onclick="dbps_click(\''+item.uuid+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">查看</button> </div> <div class="layui-col-md6"> <button  onclick="dbps2_click(\''+item.taskId+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">督办批示</button> </div> </td>');
             }else if("duban"==mode){
@@ -257,7 +262,6 @@
                 htmls.push('<div class="layui-col-md4"><button  onclick="dbyq_click(\''+item.uuid+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-danger dbps">延期申请</button></div>');
                 // htmls.push('<div class="layui-col-md3"><button  onclick="dbfj_click(\''+item.uuid+'\')" type="button" value="'+item.uuid+'" class="layui-btn layui-btn-xs  layui-btn-warm dbps">任务分解</button></div>');
                 htmls.push('</div> </td>');
-
             }else{
                 htmls.push("<td class='td_no_padding'></td>");
             }
