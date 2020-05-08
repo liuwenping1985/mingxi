@@ -422,6 +422,7 @@ public class DubanMainService {
     }
 
     public Map getOringinalDubanData(String taskId) {
+
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where field0001='" + taskId + "'";
@@ -432,8 +433,11 @@ public class DubanMainService {
 
 
     public List<DubanTask> getAllDubanTask() {
+
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+
         String sql = "select * from " + ftd.getFormTable().getName();
+
         return translateDubanTask(sql, ftd);
 
     }

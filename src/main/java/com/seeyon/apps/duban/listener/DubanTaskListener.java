@@ -154,7 +154,7 @@ public class DubanTaskListener {
                 Long templateId = colSummary.getTempleteId();
                 String val = ConfigFileService.getPropertyByName("ctp.template." + templateId);
                 System.out.println("I AM IN IN IN:" + val);
-                if ("DB_FEEDBACK".equals(val)) {
+                if ("DB_FEEDBACK".equals(val)||"DB_FEEDBACK_AUTO".equals(val)) {
                     String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_FEEDBACK");
                     String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
                     //本次信息
