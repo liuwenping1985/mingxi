@@ -129,6 +129,37 @@ public class DubanTask extends BasePO {
      */
     private List<SlaveDubanTask> slaveDubanTaskList;
 
+
+    private Integer zgScore;
+
+    private Integer kgScore;
+
+    private Integer totoalScore;
+
+    public Integer getZgScore() {
+        return zgScore;
+    }
+
+    public void setZgScore(Integer zgScore) {
+        this.zgScore = zgScore;
+    }
+
+    public Integer getKgScore() {
+        return kgScore;
+    }
+
+    public void setKgScore(Integer kgScore) {
+        this.kgScore = kgScore;
+    }
+
+    public Integer getTotoalScore() {
+        return totoalScore;
+    }
+
+    public void setTotoalScore(Integer tScore) {
+        this.totoalScore = tScore;
+    }
+
     public String getTaskLight() {
         return taskLight;
     }
@@ -149,7 +180,7 @@ public class DubanTask extends BasePO {
         return period;
     }
 
-    public void setPeriod(String period) {
+    public void setPeriod(String period)  {
         this.period = period;
     }
 

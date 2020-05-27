@@ -1676,9 +1676,9 @@
             }
           ],
           "IndexList": "",
-          "display": "formmain_0029",
+          "display": "formmain_5522",
           "id": "-7622193254226967153",
-          "name": "formmain_0029",
+          "name": "formmain_5522",
           "onwerfield": "",
           "onwertable": "",
           "tabletype": "master"
@@ -1733,9 +1733,9 @@
           "IndexList": "",
           "display": "group2",
           "id": "-851379743966150314",
-          "name": "formson_0030",
+          "name": "formson5523",
           "onwerfield": "formmain_id",
-          "onwertable": "formmain_0029",
+          "onwertable": "formmain_5522",
           "tabletype": "slave"
         }
       ],

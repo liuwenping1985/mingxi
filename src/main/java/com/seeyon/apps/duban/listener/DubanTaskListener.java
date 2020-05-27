@@ -5,6 +5,7 @@ import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
+import com.seeyon.apps.duban.po.DubanConfigItem;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.apps.duban.service.DubanMainService;
@@ -94,7 +95,7 @@ public class DubanTaskListener {
             this.name = name;
         }
 
-        public  void main(String[] args){
+        public void main(String[] args) {
             try {
                 System.out.println("-------");
                 //防止反编译的处理
@@ -154,7 +155,7 @@ public class DubanTaskListener {
                 Long templateId = colSummary.getTempleteId();
                 String val = ConfigFileService.getPropertyByName("ctp.template." + templateId);
                 System.out.println("I AM IN IN IN:" + val);
-                if ("DB_FEEDBACK".equals(val)||"DB_FEEDBACK_AUTO".equals(val)) {
+                if ("DB_FEEDBACK".equals(val) || "DB_FEEDBACK_AUTO".equals(val)) {
                     String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_FEEDBACK");
                     String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
                     //本次信息
@@ -439,6 +440,13 @@ public class DubanTaskListener {
 //        }
     }
 
+    private static String FEED_BACK_ZHU_GUAN_SCORE = ConfigFileService.getPropertyByName("ctp.duban.feedback.ZHU_GUAN_SCORE");
+    private static String FEED_BACK_KE_GUAN_SCORE = ConfigFileService.getPropertyByName("ctp.duban.feedback.KE_GUAN_SCORE");
+    private static String FEED_BACK_TOTAL_SCORE = ConfigFileService.getPropertyByName("ctp.duban.feedback.TOTAL_SCORE");
+
+    private static String FEED_BACK_SOURCE_FIELD = ConfigFileService.getPropertyByName("ctp.duban.feedback.TASK_SOURCE");
+    private static String FEED_BACK_LEVEL_FIELD = ConfigFileService.getPropertyByName("ctp.duban.feedback.TASK_LEVEL");
+
     /**
      * 处理
      *
@@ -455,6 +463,70 @@ public class DubanTaskListener {
 //            LOGGER.info("need process onProcess");
 //
 //        }
+        Long summaryId = event.getSummaryId();
+
+        if (CommonServiceTrigger.needProcess(summaryId)) {
+            try {
+                CtpAffair affair = event.getAffair();
+                FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+                ColSummary colSummary = getColManager().getSummaryById(summaryId);
+                Long templateId = colSummary.getTempleteId();
+                String val = ConfigFileService.getPropertyByName("ctp.template." + templateId);
+                if ("DB_FEEDBACK".equals(val) || "DB_FEEDBACK_AUTO".equals(val)) {
+
+                    String tableName = ConfigFileService.getPropertyByName("ctp.table." + val);
+                    String sql = "select * from " + tableName + " where id=" + colSummary.getFormRecordid();
+                    Map data = DataBaseUtils.querySingleDataBySQL(sql);
+                    if (CommonUtils.isEmpty(data)) {
+                        LOGGER.error("找不到数据:" + sql);
+                        return;
+                    }
+                    List<DubanConfigItem> configDataList = DBAgent.find("from " + DubanConfigItem.class.getSimpleName() + " where state=1");
+                    Map<String, DubanConfigItem> configMap = new HashMap<String, DubanConfigItem>();
+                    for (DubanConfigItem item : configDataList) {
+                        configMap.put(String.valueOf(item.getEnumId()),item);
+
+                    }
+
+                    String taskId = (String) data.get("field0002");
+                    Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
+                    Object sourceFieldValue = dibiao.get(FEED_BACK_SOURCE_FIELD);
+                    if (CommonUtils.getLong(sourceFieldValue) != null) {
+                        Object levelFieldValue = dibiao.get(FEED_BACK_LEVEL_FIELD);
+                        if (CommonUtils.getLong(levelFieldValue) != null) {
+                            DubanConfigItem sourceItem =  configMap.get(String.valueOf(sourceFieldValue));
+                            DubanConfigItem levelItem =  configMap.get(String.valueOf(levelFieldValue));
+
+
+
+
+                        } else {
+                            LOGGER.error("-------找不到枚举------:" + dibiao);
+                            return;
+                        }
+
+                    } else {
+                        LOGGER.error("-------找不到枚举------:" + dibiao);
+                        return;
+
+                    }
+                    DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
+
+
+                }
+            } catch (BusinessException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
+    private boolean isCengban(Long memberId, Long affairId) {
+
+
+        return true;
 
     }
 

@@ -11,7 +11,7 @@
                   "display": "id",
                   "fieldlength": "20",
                   "fieldtype": "long",
-                  "id": "-6887942654377573062",
+                  "id": "-4643886548593719790",
                   "is_null": "true",
                   "is_primary": "true",
                   "name": "id"
@@ -21,7 +21,7 @@
                   "display": "审核状态",
                   "fieldlength": "10",
                   "fieldtype": "int",
-                  "id": "-1130872982794059039",
+                  "id": "-1111014615946542537",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "state"
@@ -31,7 +31,7 @@
                   "display": "发起人",
                   "fieldlength": "20",
                   "fieldtype": "long",
-                  "id": "1544704099192949583",
+                  "id": "-1415677515398953761",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "start_member_id"
@@ -41,7 +41,7 @@
                   "display": "发起时间",
                   "fieldlength": "",
                   "fieldtype": "DATETIME",
-                  "id": "8120428276097764486",
+                  "id": "-2970664284402790422",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "start_date"
@@ -51,7 +51,7 @@
                   "display": "审核人",
                   "fieldlength": "20",
                   "fieldtype": "long",
-                  "id": "-5084039099642461582",
+                  "id": "-5403392012380715058",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "approve_member_id"
@@ -61,7 +61,7 @@
                   "display": "审核时间",
                   "fieldlength": "",
                   "fieldtype": "DATETIME",
-                  "id": "-5688651220478636154",
+                  "id": "-5950461096055452881",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "approve_date"
@@ -71,7 +71,7 @@
                   "display": "流程状态",
                   "fieldlength": "10",
                   "fieldtype": "int",
-                  "id": "-6676032976844537302",
+                  "id": "-572174543067134786",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "finishedflag"
@@ -81,7 +81,7 @@
                   "display": "核定状态",
                   "fieldlength": "10",
                   "fieldtype": "int",
-                  "id": "2095575296584010944",
+                  "id": "8608473985558335137",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "ratifyflag"
@@ -91,7 +91,7 @@
                   "display": "核定人",
                   "fieldlength": "20",
                   "fieldtype": "long",
-                  "id": "-1722950976697448160",
+                  "id": "-1639180955484471098",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "ratify_member_id"
@@ -101,7 +101,7 @@
                   "display": "核定时间",
                   "fieldlength": "",
                   "fieldtype": "DATETIME",
-                  "id": "4175623748032218671",
+                  "id": "3515848856835473854",
                   "is_null": "true",
                   "is_primary": "false",
                   "name": "ratify_date"
@@ -111,7 +111,7 @@
                   "display": "任务ID",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "-6560291825785027161",
+                  "id": "-7331800426286464024",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0001"
@@ -121,7 +121,7 @@
                   "display": "任务来源",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "-426163257086488826",
+                  "id": "-3559587454865095574",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0002"
@@ -131,7 +131,7 @@
                   "display": "任务分级",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "8314944485660445197",
+                  "id": "8455583687053102655",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0003"
@@ -139,9 +139,9 @@
                 {
                   "classname": "",
                   "display": "标题",
-                  "fieldlength": "4000,0",
+                  "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "8084120070438996909",
+                  "id": "4657075956682539643",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0004"
@@ -151,7 +151,7 @@
                   "display": "办理要求",
                   "fieldlength": "4000,0",
                   "fieldtype": "VARCHAR",
-                  "id": "3816803968191054195",
+                  "id": "-2190687738089946401",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0005"
@@ -161,7 +161,7 @@
                   "display": "任务附件",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "-8688502022860945562",
+                  "id": "8617244485635754415",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0006"
@@ -171,7 +171,7 @@
                   "display": "办理时限",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
-                  "id": "-8507414164697693561",
+                  "id": "-3582421448355066091",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0007"
@@ -181,7 +181,7 @@
                   "display": "督办周期",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "-3857066624330544157",
+                  "id": "4931358024954430412",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0008"
@@ -191,7 +191,7 @@
                   "display": "督办周期补充",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "435726892558273860",
+                  "id": "9049048931023471250",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0009"
@@ -201,7 +201,7 @@
                   "display": "责任领导",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "3534437433829838568",
+                  "id": "-8026214936636406354",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0010"
@@ -211,27 +211,27 @@
                   "display": "督办员",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "4210324755466571407",
+                  "id": "4970871791832613533",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0012"
                 },
                 {
                   "classname": "",
-                  "display": "延期申请事由",
+                  "display": "办结申请事由",
                   "fieldlength": "4000,0",
                   "fieldtype": "VARCHAR",
-                  "id": "-7476486947633279335",
+                  "id": "-3301984032587038030",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0013"
                 },
                 {
                   "classname": "",
-                  "display": "延期后办结日期",
+                  "display": "实际办结日期",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
-                  "id": "1023157842838376173",
+                  "id": "2369836424171307247",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0014"
@@ -241,7 +241,7 @@
                   "display": "领导意见",
                   "fieldlength": "255,0",
                   "fieldtype": "LONGTEXT",
-                  "id": "3244525625990006741",
+                  "id": "7148527437483754881",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0015"
@@ -251,7 +251,7 @@
                   "display": "申请人",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
-                  "id": "2512684917311227215",
+                  "id": "6844550008445748951",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0016"
@@ -261,17 +261,27 @@
                   "display": "申请日期",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
-                  "id": "-7151157784220447371",
+                  "id": "-2332032853445882505",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0017"
                 },
                 {
                   "classname": "",
-                  "display": "权重",
+                  "display": "完成率",
                   "fieldlength": "20,0",
                   "fieldtype": "DECIMAL",
-                  "id": "-8345135097206583514",
+                  "id": "-1308573217478983324",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0018"
+                },
+                {
+                  "classname": "",
+                  "display": "权重",
+                  "fieldlength": "255,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "7352888916840302133",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0011"
@@ -280,9 +290,9 @@
             }
           ],
           "IndexList": "",
-          "display": "formmain_0021",
-          "id": "-3178918807676631765",
-          "name": "formmain_0021",
+          "display": "formmain_0017",
+          "id": "-2290970122719967358",
+          "name": "formmain_0017",
           "onwerfield": "",
           "onwertable": "",
           "tabletype": "master"
@@ -296,55 +306,56 @@
                   "display": "序号",
                   "fieldlength": "20,0",
                   "fieldtype": "DECIMAL",
-                  "id": "8332538126724711096",
-                  "is_null": "false",
-                  "is_primary": "false",
-                  "name": "field0018"
-                },
-                {
-                  "classname": "",
-                  "display": "节点任务",
-                  "fieldlength": "4000,0",
-                  "fieldtype": "VARCHAR",
-                  "id": "-8561754364944758228",
+                  "id": "9207654404385096996",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0019"
                 },
                 {
                   "classname": "",
-                  "display": "要求完成时间",
-                  "fieldlength": "255,0",
-                  "fieldtype": "TIMESTAMP",
-                  "id": "7190150041230724628",
+                  "display": "节点任务",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "244664528215952675",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0020"
                 },
                 {
                   "classname": "",
-                  "display": "备注",
-                  "fieldlength": "4000,0",
-                  "fieldtype": "VARCHAR",
-                  "id": "-4375385033449389900",
+                  "display": "要求完成时间",
+                  "fieldlength": "255,0",
+                  "fieldtype": "TIMESTAMP",
+                  "id": "3187565514523036768",
                   "is_null": "false",
                   "is_primary": "false",
                   "name": "field0021"
+                },
+                {
+                  "classname": "",
+                  "display": "备注",
+                  "fieldlength": "4000,0",
+                  "fieldtype": "VARCHAR",
+                  "id": "8710010486295576595",
+                  "is_null": "false",
+                  "is_primary": "false",
+                  "name": "field0022"
                 }
               ]
             }
           ],
           "IndexList": "",
           "display": "group2",
-          "id": "4343682444740674251",
-          "name": "formson_0022",
+          "id": "-831365739982469932",
+          "name": "formson_0018",
           "onwerfield": "formmain_id",
-          "onwertable": "formmain_0021",
+          
+          "onwertable": "formmain_0017",
           "tabletype": "slave"
         }
       ],
-      "code": "DB_DELAY_APPLY",
-      "name": "督办延期审批单"
+      "code": "DB_DONE_APPLY",
+      "name": "督办结项单"
     }
   ]
 }

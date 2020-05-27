@@ -1,19 +1,25 @@
 package com.seeyon.apps.duban.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
-import com.seeyon.apps.duban.po.DubanTask;
+import com.seeyon.apps.duban.po.DubanConfigItem;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
+import com.seeyon.apps.duban.service.CommonServiceTrigger;
+import com.seeyon.apps.duban.service.MappingService;
+import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.apps.duban.service.DubanMainService;
-import com.seeyon.apps.duban.service.MappingService;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
+import com.seeyon.apps.duban.util.SendMessageUtils;
 import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.apps.duban.vo.CommonJSONResult;
 import com.seeyon.apps.duban.vo.DubanBaseInfo;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
+import com.seeyon.apps.duban.wrapper.DataWrapper;
+import com.seeyon.apps.ncdeploy.db.DataBase;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
@@ -21,6 +27,8 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.v3x.util.annotation.NeedlessCheckLogin;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -61,20 +69,148 @@ public class DubanTaskController extends BaseController {
         return modelAndView;
     }
 
+     public ModelAndView saveDubanConfigItems(HttpServletRequest request, HttpServletResponse response){
+        try {
+            Map<String, String[]> params = request.getParameterMap();
+            Map<String, String> dataMap = new HashMap<String, String>();
+            for(Map.Entry<String,String[]> entry:params.entrySet()){
+                dataMap.put(entry.getKey(),entry.getValue()!=null?entry.getValue()[0]:"");
+            }
 
-    public ModelAndView getPreProcessProperties(HttpServletRequest request, HttpServletResponse response){
+            if (dataMap == null) {
+
+                UIUtils.responseJSON("ERROR", response);
+                return null;
+            }
+            List<DubanConfigItem> dataList = DBAgent.find("from " + DubanConfigItem.class.getSimpleName() + " where state=1");
+            Map<String, DubanConfigItem> itemMap = new HashMap<String, DubanConfigItem>();
+            for (DubanConfigItem item : dataList) {
+                if ("cb_xishu".equals(item.getName())) {
+                    itemMap.put("cb_xishu", item);
+                    continue;
+                }
+                if ("xb_xishu".equals(item.getName())) {
+                    itemMap.put("xb_xishu", item);
+                    continue;
+                }
+                itemMap.put(String.valueOf(item.getEnumId()), item);
+            }
+
+            for (Map.Entry<String, String> entry : dataMap.entrySet()) {
+
+                String value = entry.getValue();
+                String key = entry.getKey();
+                DubanConfigItem item = itemMap.get(key);
+                if (item == null) {
+
+                    Long enumId = CommonUtils.getLong(key);
+                    if (enumId == null) {
+                        continue;
+                    }
+                    item = new DubanConfigItem();
+                    item.setIdIfNew();
+                    item.setEnumId(enumId);
+                    item.setState(1);
+                }
+                item.setItemValue(value);
+                DBAgent.saveOrUpdate(item);
+
+            }
+
+
+            UIUtils.responseJSON(dataMap, response);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+         UIUtils.responseJSON("exception exception", response);
+        return null;
+
+     }
+
+    /**
+     * 列出设置分数数据
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    public ModelAndView getDubanConfigItemDataList(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+            String sourceEnumId = ConfigFileService.getPropertyByName("ctp.group.task_source.enum");
+            String levelEnumId = ConfigFileService.getPropertyByName("ctp.group.task_level.enum");
+
+            String sql = "select * from ctp_enum_item where REF_ENUMID=" + sourceEnumId + " or REF_ENUMID=" + levelEnumId;
+
+            List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
+
+            List<DubanConfigItem> dataList = DBAgent.find("from " + DubanConfigItem.class.getSimpleName() + " where state=1");
+            //Map<String, DubanConfigItem> dataListMapping = new HashMap<String, DubanConfigItem>();
+
+//        for(DubanConfigItem item:dataList){
+//            dataListMapping.put(String.valueOf(item.getEnumId()),item);
+//        }
+            Map<String, Map> seeyonEnumMap = new HashMap<String, Map>();
+            for (Map data : dataMapList) {
+                data.put("sid", String.valueOf(data.get("id")));
+                if(sourceEnumId.equals(String.valueOf(data.get("ref_enumid")))){
+
+                    data.put("enum_group","task_source");
+                }
+                if(levelEnumId.equals(String.valueOf(data.get("ref_enumid")))){
+
+                    data.put("enum_group","task_level");
+                }
+                seeyonEnumMap.put(String.valueOf(data.get("id")), data);
+            }
+            for (DubanConfigItem item : dataList) {
+                String itemName = item.getName();
+                if ("xb_xishu".equals(itemName) || "cb_xishu".equals(itemName)) {
+                    String jsonString = JSON.toJSONString(item);
+                    Map jsonMap = JSON.parseObject(jsonString, HashMap.class);
+                    jsonMap.put("sid", String.valueOf(item.getId()));
+                    jsonMap.put("showvalue", itemName);
+                    jsonMap.put("set_value", item.getItemValue());
+                    seeyonEnumMap.put(itemName, jsonMap);
+                    continue;
+                }
+                Long enumId = item.getEnumId();
+                if (enumId != null) {
+                    String key = String.valueOf(enumId);
+                    Map data = seeyonEnumMap.get(key);
+                    if (data != null && !data.isEmpty()) {
+                        data.put("set_value", item.getItemValue());
+                    }
+
+                }
+
+            }
+            List<Map> retList = new ArrayList<Map>();
+            retList.addAll(seeyonEnumMap.values());
+            CommonJSONResult ret = new CommonJSONResult();
+            ret.setItems(retList);
+            UIUtils.responseJSON(ret, response);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UIUtils.responseJSON("ERROR", response);
+        return null;
+    }
+
+    public ModelAndView getPreProcessProperties(HttpServletRequest request, HttpServletResponse response) {
 
         User user = AppContext.getCurrentUser();
         List<DubanTask> taskList = dubanMainService.getAllLeaderDubanTaskList(user.getId());
         String havingLeaderTask = String.valueOf(!CommonUtils.isEmpty(taskList));
         Map data = new HashMap();
-        List<DubanTask> supervisorTaskList =dubanMainService.getAllDubanTaskSupervisor(user.getId());
+        List<DubanTask> supervisorTaskList = dubanMainService.getAllDubanTaskSupervisor(user.getId());
         Map templateProperties = ConfigFileService.getTemplateProperties();
-        data.put("templateProperties",templateProperties);
-        data.put("havingLeaderTask",havingLeaderTask);
-        data.put("havingSupervisorTask",String.valueOf(!CommonUtils.isEmpty(supervisorTaskList)));
-        data.put("leaderTaskList",taskList);
-        data.put("supervisorTaskList",supervisorTaskList);
+        data.put("templateProperties", templateProperties);
+        data.put("havingLeaderTask", havingLeaderTask);
+        data.put("havingSupervisorTask", String.valueOf(!CommonUtils.isEmpty(supervisorTaskList)));
+        data.put("leaderTaskList", taskList);
+        data.put("supervisorTaskList", supervisorTaskList);
         UIUtils.responseJSON(data, response);
         return null;
     }
@@ -201,7 +337,9 @@ public class DubanTaskController extends BaseController {
                 opinion = "";
             }
             String tbName = ftd.getFormTable().getName();
-            String sql = "select id,field0016 from " + tbName + " where field0001='" + taskId + "'";
+            String sql = "select id,field0016," +
+                    "field0012,field0019,field0026,field0033,field0040,field0047,field0054,field0061,field0068,field0075,field0082,field0089 from "
+                    + tbName + " where field0001='" + taskId + "'";
 
             Map data = DataBaseUtils.querySingleDataBySQL(sql);
             Object val = data.get("field0016");
@@ -212,16 +350,28 @@ public class DubanTaskController extends BaseController {
                 stb.append(String.valueOf(val));
             }
             V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(user.getDepartmentId());
-            String deptName="";
-            if(dept!=null){
+            String deptName = "";
+            if (dept != null) {
                 deptName = dept.getName();
             }
             String dateStr = CommonUtils.formatDateHourMinute(new Date());
-            stb.append("\n" +deptName+"-"+ user.getName() + "("+dateStr +"):" + opinion + "");
+            stb.append("\n\n" + deptName + "-" + user.getName() + "(" + dateStr + "):" + opinion.trim() + "");
 
             sql = "update " + tbName + " set field0016='" + stb.toString() + "' where id = " + data.get("id");
             cjr.setData(data);
             DataBaseUtils.executeUpdate(sql);
+
+            List<Long> ids = new ArrayList();
+            ids.add(Long.valueOf(data.get("field0019").toString()));
+
+            //0026 配合责任人0，,12督办员，19，主办负责人
+            for (int i = 26; i < 100; i = i + 7) {
+                if (data.get("field00" + i) != null) {
+                    ids.add(Long.valueOf(data.get("field00" + i).toString()));
+                }
+            }
+
+            SendMessageUtils.sendMessage(user.getId(), ids, deptName + "-" + user.getName() + "(" + dateStr + "):" + opinion.trim(), "");
         } catch (Exception e) {
             e.printStackTrace();
             cjr.setStatus("0");
@@ -230,6 +380,10 @@ public class DubanTaskController extends BaseController {
         }
         UIUtils.responseJSON(cjr, response);
         return null;
+    }
+
+    private void sendMessage() {
+
     }
 
     /**
@@ -306,32 +460,31 @@ public class DubanTaskController extends BaseController {
         if (CommonUtils.isEmpty(linkToType)) {
             linkToType = "cengban";
         }
-        data.put("mode_type",linkToType);
+        data.put("mode_type", linkToType);
         if ("cengban".equals(linkToType)) {
-            data.put("cengban_process",dubanTask.getMainProcess());
+            data.put("cengban_process", dubanTask.getMainProcess());
         } else if ("xieban".equals(linkToType)) {
             List<SlaveDubanTask> slaveDubanTaskList = dubanTask.getSlaveDubanTaskList();
-            if(!CommonUtils.isEmpty(slaveDubanTaskList)){
+            if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
                 String curDeptId = String.valueOf(AppContext.getCurrentUser().getDepartmentId());
-                for(SlaveDubanTask sTask:slaveDubanTaskList){
+                for (SlaveDubanTask sTask : slaveDubanTaskList) {
                     String deptId = sTask.getDeptName();
-                    if(curDeptId.equals(deptId)){
+                    if (curDeptId.equals(deptId)) {
                         String no = sTask.getNo();
                         Integer index = Integer.parseInt(no);
                         String processField = "field00" + (28 + 7 * (index - 1));
-                        data.put("xieban_process",sTask.getProcess());
-                        data.put("xieban_field",processField);
+                        data.put("xieban_process", sTask.getProcess());
+                        data.put("xieban_field", processField);
                     }
                 }
-            }else{
-                data.put("xieban_field","");
+            } else {
+                data.put("xieban_field", "");
             }
 
         }
 
 
-
-        data.put("template_id_info_map",ConfigFileService.getTemplateProperties());
+        data.put("template_id_info_map", ConfigFileService.getTemplateProperties());
 
 
         UIUtils.responseJSON(data, response);

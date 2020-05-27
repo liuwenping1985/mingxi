@@ -3,6 +3,7 @@ package com.seeyon.apps.duban.service;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 
 /**
@@ -11,6 +12,19 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 public class CommonServiceTrigger {
 
     private static ColManager colManager;
+    private static EnumManager enumManager;
+
+    public static EnumManager getEnumManager(){
+
+        if(enumManager==null){
+
+            enumManager = (EnumManager)AppContext.getBean("enumManagerNew");
+        }
+
+        return enumManager;
+
+
+    }
 
     public static ColManager getColManager() {
 
@@ -22,6 +36,8 @@ public class CommonServiceTrigger {
 
 
     }
+
+    //private static
 
     public static boolean needProcess(Long summaryId) {
         try {
@@ -38,6 +54,11 @@ public class CommonServiceTrigger {
         }
 
         return false;
+
+    }
+    public static void main(String[] args){
+
+
 
     }
 }

@@ -1,5 +1,6 @@
 package com.seeyon.apps.duban.util;
 
+import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.JDBCAgent;
 
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ public class DataBaseUtils {
 
 
     public static void executeUpdate(String sql){
-
         JDBCAgent agent = new JDBCAgent(true);
         try{
 

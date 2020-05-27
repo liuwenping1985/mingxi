@@ -176,6 +176,16 @@
             D.getDataByModeAndState(_mode, _state, function (data) {
                 var mode=_mode;
                 var container= $("#nakedBody");
+                if(mode=="duban"){
+                    $("#normal_table").hide();
+                    $("#supervisor_table").show();
+                    container= $("#nakedBodyMore");
+                }else{
+                    $("#supervisor_table").hide();
+                    $("#normal_table").show();
+                    container= $("#nakedBody");
+                }
+
 
                 container.empty();
 
@@ -226,6 +236,9 @@
             htmls.push("<td class='td_no_padding'>"+item.process+"%</td>");
             htmls.push("<td class='td_no_padding'>"+item.mainLeader+"</td>");
             htmls.push("<td class='td_no_padding'>"+item.mainDeptName+"</td>");
+            if(mode=="duban"){
+                htmls.push("<td>"+(item.score?item.score:"0")+"</td>");
+            }
             //最新进展
             var t_s = item["taskDescription"];
             var t_s_a_v="";

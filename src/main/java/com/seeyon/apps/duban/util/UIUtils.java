@@ -12,10 +12,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
-import org.bouncycastle.jce.provider.JDKMessageDigest;
 import www.seeyon.com.mocnoyees.RSMocnoyees;
 import www.seeyon.com.utils.Base64Util;
-import www.seeyon.com.utils.MD5Util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
@@ -256,8 +254,6 @@ public class UIUtils {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        String sysKey="hhsd";
-        System.out.println(MD5Util.MD5(sysKey));
 
     }
 

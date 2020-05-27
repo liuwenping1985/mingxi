@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.duban.po">
+	<class
+		name="DubanScoreRecord"
+		table="duban_score_record"
+		lazy="false"
+	>
+		<id
+			name="id"
+			type="java.lang.Long"
+			column="id"
+			length="20"
+		>
+			<generator class="assigned"/>
+		</id>
+
+		<property
+			name="taskId"
+			column="task_id"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="score"
+			column="score"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+
+		<property
+			name="kgScore"
+			column="kg_score"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+				name="zgScore"
+				column="zg_score"
+				type="string"
+				not-null="false"
+				length="255"
+		/>
+		<property
+			name="memberId"
+			column="member_id"
+			type="long"
+			not-null="false"
+			length="20"
+		/>
+		<property
+			name="affairId"
+			column="affair_id"
+			type="long"
+			not-null="false"
+			length="20"
+		/>
+		<property
+			name="extVal"
+			column="ext_val"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+
+	</class>	
+</hibernate-mapping>

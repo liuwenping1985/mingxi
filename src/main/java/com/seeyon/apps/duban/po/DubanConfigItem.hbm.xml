@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.seeyon.apps.duban.po">
+	<class
+		name="DubanConfigItem"
+		table="duban_task_config"
+		lazy="false"
+	>
+		<id
+			name="id"
+			type="java.lang.Long"
+			column="id"
+			length="20"
+		>
+			<generator class="assigned"/>
+		</id>
+
+		<property
+			name="name"
+			column="name"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="enumId"
+			column="enum_id"
+			type="long"
+			not-null="false"
+			length="20"
+		/>
+
+		<property
+			name="itemValue"
+			column="item_value"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="accountId"
+			column="account_id"
+			type="long"
+			not-null="false"
+			length="20"
+		/>
+		<property
+			name="state"
+			column="state"
+			type="int"
+			not-null="false"
+		/>
+		<property
+			name="extValue1"
+			column="ext_value_1"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+		<property
+			name="extValue2"
+			column="ext_value_2"
+			type="string"
+			not-null="false"
+			length="255"
+		/>
+
+	</class>	
+</hibernate-mapping>

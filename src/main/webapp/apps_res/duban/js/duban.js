@@ -100,6 +100,7 @@
             htmls.push("<td>"+item.process+"%</td>");
             htmls.push("<td>"+item.mainLeader+"</td>");
             htmls.push("<td>"+item.mainDeptName+"</td>");
+
             htmls.push("<td>"+item.mainWeight+"%</td>");
             htmls.push("<td>"+item.supervisor+"</td>");
             if("leader"==mode){
@@ -134,16 +135,19 @@
 
         $("#myduban").click(function(){
             mode="duban";
+            $("#supervisor_score").show();
             baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode=duban";
             loadData();
         });
         $("#mycengban").click(function(){
             mode="cengban";
+            $("#supervisor_score").hide();
             baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode=cengban";
             loadData();
         });
         $("#myxieban").click(function(){
             mode="xieban";
+            $("#supervisor_score").hide();
             baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode=xieban";
             loadData();
         });
