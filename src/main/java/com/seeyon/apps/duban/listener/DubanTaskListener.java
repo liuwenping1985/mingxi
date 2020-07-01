@@ -97,7 +97,7 @@ public class DubanTaskListener {
 
         public void main(String[] args) {
             try {
-                System.out.println("-------");
+                System.out.println("---ACK_TO_LUBO----");
                 //防止反编译的处理
                 if (654789 == new Random().nextInt()) {
                     throw new Exception("fewt43");
