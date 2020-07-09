@@ -373,6 +373,8 @@ public class DubanTaskListener {
      */
     @ListenEvent(event = CollaborationStartEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onStart(CollaborationStartEvent event) {
+        //todo 触发任务分数计算
+        System.out.println("触发任务分数计算:");
 //        Long summaryId = event.getSummaryId();
 //
 //        if(CommonServiceTrigger.needProcess(summaryId)){

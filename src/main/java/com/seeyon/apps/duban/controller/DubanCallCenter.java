@@ -18,8 +18,7 @@ import java.util.Locale;
 public class DubanCallCenter {
 
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 //        String str = "Mon Dec 30 09:00:00 CST 2019";
 //        Date date = parse(str, "EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 ////        String str2=format(now, "EEE MMM dd HH:mm:ss zzz yyyy", Locale.CHINA);
@@ -34,30 +33,33 @@ public class DubanCallCenter {
     }
 
     public static Date parse(String str, String pattern, Locale locale) {
-    if(str == null || pattern == null) {
-     return null;
-     }
-    try {
-     return new SimpleDateFormat(pattern, locale).parse(str);
-    } catch (ParseException e) {
-    e.printStackTrace();
+        if (str == null || pattern == null) {
+            return null;
+        }
+        try {
+            return new SimpleDateFormat(pattern, locale).parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-     return null;
-    }
-//
-     public static String format(Date date, String pattern, Locale locale) {
-    if(date == null || pattern == null) {
-     return null;
-    }
-     return new SimpleDateFormat(pattern, locale).format(date);
-     }
 
+    //
+    public static String format(Date date, String pattern, Locale locale) {
+        if (date == null || pattern == null) {
+            return null;
+        }
+        return new SimpleDateFormat(pattern, locale).format(date);
+    }
+
+
+    //
     //FormTriggerBean
     //FormDataManagerImpl
     //FormTriggerUtil
-  //FormTriggerManagerImpl
+    //FormTriggerManagerImpl
     //FormTriggerFlowDesign
-   // FormTriggerFlowDesign
-   // FormTriggerEventListener
-   // MessageManagerImpl
+    //FormTriggerFlowDesign
+    //FormTriggerEventListener
+    //MessageManagerImpl
 }
