@@ -1739,7 +1739,7 @@
           "tabletype": "slave"
         }
       ],
-      "code": "DB_TASK",
+      "code": "DB_TASK_MAIN",
       "name": "DUBAN_DIBIAO"
     }
   ]

@@ -1,11 +1,13 @@
 package com.seeyon.apps.duban.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
 import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
+import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
@@ -13,12 +15,9 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import org.springframework.util.CollectionUtils;
-import www.seeyon.com.utils.MD5Util;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2019/11/25.
@@ -65,10 +64,10 @@ public class DubanMainService {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
 
-        List<DubanTask> taskList =  translateDubanTask(sql, ftd);
-        if(!CollectionUtils.isEmpty(taskList)){
-            for(DubanTask task:taskList){
-                setTaskLight(task,memberId,"DB");
+        List<DubanTask> taskList = translateDubanTask(sql, ftd);
+        if (!CollectionUtils.isEmpty(taskList)) {
+            for (DubanTask task : taskList) {
+                setTaskLight(task, memberId, "DB");
             }
         }
 
@@ -77,40 +76,40 @@ public class DubanMainService {
 
     }
 
-    public void setTaskLight(DubanTask task,Long memberId,String mode){
+    public void setTaskLight(DubanTask task, Long memberId, String mode) {
 
         Date ed = task.getEndDate();
         Date st = task.getStartDate();
-        long all  = ed.getTime()-st.getTime();
+        long all = ed.getTime() - st.getTime();
         long now = System.currentTimeMillis();
         //周，半年度，双周，季度，月
         String zhouqi = task.getPeriod();
         Double section = 0D;
-        if("周".equals(zhouqi)){
-            section=7*24*3600*1000D;
-        }else if ("双周".equals(zhouqi)){
-            section=2*7*24*3600*1000D;
-        }else if ("月".equals(zhouqi)){
-            section=30*24*3600*1000D;
-        }else if ("季度".equals(zhouqi)){
-            section=4*30*24*3600*1000D;
-        }else if ("半年度".equals(zhouqi)){
-            section=6*30*24*3600*1000D;
-        }else{
-            section=6*30*24*3600*1000D;
+        if ("周".equals(zhouqi)) {
+            section = 7 * 24 * 3600 * 1000D;
+        } else if ("双周".equals(zhouqi)) {
+            section = 2 * 7 * 24 * 3600 * 1000D;
+        } else if ("月".equals(zhouqi)) {
+            section = 30 * 24 * 3600 * 1000D;
+        } else if ("季度".equals(zhouqi)) {
+            section = 4 * 30 * 24 * 3600 * 1000D;
+        } else if ("半年度".equals(zhouqi)) {
+            section = 6 * 30 * 24 * 3600 * 1000D;
+        } else {
+            section = 6 * 30 * 24 * 3600 * 1000D;
         }
-        String light="normal";
+        String light = "normal";
         String p = "0";
 
-        if("CB".equals(mode)){
-            p =  task.getMainProcess();
+        if ("CB".equals(mode)) {
+            p = task.getMainProcess();
         }
-        if("XB".equals(mode)){
+        if ("XB".equals(mode)) {
 
             List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
-            if(!CollectionUtils.isEmpty(slaveDubanTaskList)){
-                for(SlaveDubanTask sdt:slaveDubanTaskList){
-                    if(memberId!=null&&String.valueOf(memberId).equals(sdt.getLeader())){
+            if (!CollectionUtils.isEmpty(slaveDubanTaskList)) {
+                for (SlaveDubanTask sdt : slaveDubanTaskList) {
+                    if (memberId != null && String.valueOf(memberId).equals(sdt.getLeader())) {
                         p = sdt.getProcess();
                         break;
                     }
@@ -118,57 +117,57 @@ public class DubanMainService {
             }
 
         }
-        if("DB".equals(mode)){
+        if ("DB".equals(mode)) {
             p = task.getProcess();
         }
 
-        long used = now-st.getTime();//经过了多长时间
+        long used = now - st.getTime();//经过了多长时间
 
-        double jigezhouqi = all/(section*1f);//有多少个周期
+        double jigezhouqi = all / (section * 1f);//有多少个周期
 
-        double processPerSection = 100f/jigezhouqi;
-        if(processPerSection>100f){
+        double processPerSection = 100f / jigezhouqi;
+        if (processPerSection > 100f) {
             processPerSection = 99f;//不能为100 不然超期判断不了
         }
 
-        double nowShouldBeProcess = processPerSection*(used/(section*1f));
-        if(p==null||CommonUtils.isEmpty(p)){
-            p="0";
+        double nowShouldBeProcess = processPerSection * (used / (section * 1f));
+        if (p == null || CommonUtils.isEmpty(p)) {
+            p = "0";
 
         }
-        Double nowProcess = Double.parseDouble(p) ;
-        if(nowProcess.intValue()==0){
+        Double nowProcess = Double.parseDouble(p);
+        if (nowProcess.intValue() == 0) {
             nowProcess = processPerSection;
         }
 
         try {
-            if(nowProcess>=nowShouldBeProcess){
-                if(nowProcess>1.25*nowShouldBeProcess){
-                    light="blue";
-                }else{
+            if (nowProcess >= nowShouldBeProcess) {
+                if (nowProcess > 1.25 * nowShouldBeProcess) {
+                    light = "blue";
+                } else {
                     light = "green";
                 }
-            }else {
+            } else {
 
-                if(nowProcess*1.25>nowShouldBeProcess){
-                    light="orange";
-                }else{
-                    light="red";
+                if (nowProcess * 1.25 > nowShouldBeProcess) {
+                    light = "orange";
+                } else {
+                    light = "red";
                 }
             }
             //fix 一些特殊值
-            if(now>ed.getTime()){
-                light="red";
+            if (now > ed.getTime()) {
+                light = "red";
             }
-            if("blue".equals(light)){
-                if("0".equals(p)){
-                    light="green";
+            if ("blue".equals(light)) {
+                if ("0".equals(p)) {
+                    light = "green";
                 }
 
             }
 
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
         task.setTaskLight(light);
@@ -211,10 +210,10 @@ public class DubanMainService {
     public List<DubanTask> getRuuningLeaderDubanTaskList(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and  (field0010=" + memberId + " or field0011 like '%" + memberId + "%')";
-        List<DubanTask> taskList =  translateDubanTask(sql, ftd);
-        if(!CollectionUtils.isEmpty(taskList)){
-            for(DubanTask task:taskList){
-                setTaskLight(task,memberId,"DB");
+        List<DubanTask> taskList = translateDubanTask(sql, ftd);
+        if (!CollectionUtils.isEmpty(taskList)) {
+            for (DubanTask task : taskList) {
+                setTaskLight(task, memberId, "DB");
             }
         }
 
@@ -262,9 +261,9 @@ public class DubanMainService {
 
         List<DubanTask> dubanTaskList = translateDubanTask(sql, ftd);
 
-        if(!CollectionUtils.isEmpty(dubanTaskList)){
-            for(DubanTask task:dubanTaskList){
-                setTaskLight(task,memberId,"XB");
+        if (!CollectionUtils.isEmpty(dubanTaskList)) {
+            for (DubanTask task : dubanTaskList) {
+                setTaskLight(task, memberId, "XB");
             }
         }
 
@@ -360,10 +359,10 @@ public class DubanMainService {
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + " is null) and" +
                 " (field0019=" + memberId + ")";
-        List<DubanTask> taskList =  translateDubanTask(sql, ftd);
-        if(!CollectionUtils.isEmpty(taskList)){
-            for(DubanTask task:taskList){
-                setTaskLight(task,memberId,"CB");
+        List<DubanTask> taskList = translateDubanTask(sql, ftd);
+        if (!CollectionUtils.isEmpty(taskList)) {
+            for (DubanTask task : taskList) {
+                setTaskLight(task, memberId, "CB");
             }
         }
 
@@ -437,11 +436,52 @@ public class DubanMainService {
 
     }
 
-    public static void main(String[] args){
+    public String getFormTemplateCode(Long templateId){
+        String sql = "select templete_number from ctp_template where id = "+templateId;
+        Map map = DataBaseUtils.querySingleDataBySQL(sql);
+        if(!CollectionUtils.isEmpty(map)){
 
+          Object tn =  map.get("templete_number");
+          if(tn!=null){
+              return (String)tn;
+          }
+        }
+        return "";
+    }
+
+    public FormTableDefinition getFormTableDefinitionByCode(String templateCode) {
+
+        String sql = "select field_info from form_definition where id = (select content_template_id from ctp_content_all where id =(select body from ctp_template where templete_number='" + templateCode + "'))";
+
+        Map map = DataBaseUtils.querySingleDataBySQL(sql);
+        if (!CollectionUtils.isEmpty(map)) {
+
+            Object xmlObject = map.get("field_info");
+            if (xmlObject != null) {
+
+                try {
+
+                    String jsonString = XmlUtils.xmlString2jsonString("" + xmlObject);
+
+                    Map data = JSONObject.parseObject(jsonString, HashMap.class);
+
+                    return MappingService.getInstance().parseFormTableMapping(data);
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
 
     }
 
+    public static void main(String[] args) {
+
+
+    }
 
 
 }

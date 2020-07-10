@@ -120,7 +120,7 @@ public class MappingService {
         return contentCodes;
     }
 
-    private FormTableDefinition parseFormTableMapping(Map data) {
+    public FormTableDefinition parseFormTableMapping(Map data) {
 
         Object object = data.get("TableList");
         if (object == null) {

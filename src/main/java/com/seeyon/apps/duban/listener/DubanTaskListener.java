@@ -37,7 +37,7 @@ import java.util.*;
 public class DubanTaskListener {
 
     private static final Logger LOGGER = Logger.getLogger(DubanTaskListener.class);
-
+    private DubanMainService mainService = DubanMainService.getInstance();
     private ColManager colManager;
 
     private OrgManager orgManager;
@@ -154,7 +154,6 @@ public class DubanTaskListener {
 
                 Long templateId = colSummary.getTempleteId();
                 String val = ConfigFileService.getPropertyByName("ctp.template." + templateId);
-                System.out.println("I AM IN IN IN:" + val);
                 if ("DB_FEEDBACK".equals(val) || "DB_FEEDBACK_AUTO".equals(val)) {
                     String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_FEEDBACK");
                     String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();

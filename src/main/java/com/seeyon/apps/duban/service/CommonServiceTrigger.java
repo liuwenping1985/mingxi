@@ -5,6 +5,7 @@ import com.seeyon.apps.collaboration.po.ColSummary;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.ctpenumnew.manager.EnumManager;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by liuwenping on 2019/11/7.
@@ -13,7 +14,7 @@ public class CommonServiceTrigger {
 
     private static ColManager colManager;
     private static EnumManager enumManager;
-
+    private static  DubanMainService mainService = DubanMainService.getInstance();
     public static EnumManager getEnumManager(){
 
         if(enumManager==null){
@@ -44,9 +45,13 @@ public class CommonServiceTrigger {
 
             ColSummary colSummary = getColManager().getSummaryById(summaryId);
             Long templateId = colSummary.getTempleteId();
-            System.out.println("======"+templateId+"=======");
-            String ids = ConfigFileService.getPropertyByName("ctp.template.ids");
-            return ids.contains(String.valueOf(templateId));
+            String code =  mainService.getFormTemplateCode(templateId);
+            if(!StringUtils.isEmpty(code)){
+                if(code.startsWith("DB")){
+                    return true;
+                }
+            }
+
 
 
         } catch (BusinessException e) {
