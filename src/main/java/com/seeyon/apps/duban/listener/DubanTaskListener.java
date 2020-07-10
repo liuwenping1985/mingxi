@@ -148,15 +148,16 @@ public class DubanTaskListener {
             e.printStackTrace();
         }
         if (CommonServiceTrigger.needProcess(summaryId)) {
-
+            //主表的结构
             FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
             try {
 
                 Long templateId = colSummary.getTempleteId();
-                String val = ConfigFileService.getPropertyByName("ctp.template." + templateId);
+
+                String val =  mainService.getFormTemplateCode(templateId);
                 if ("DB_FEEDBACK".equals(val) || "DB_FEEDBACK_AUTO".equals(val)) {
-                    String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_FEEDBACK");
-                    String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
+                    FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(val);
+                    String sql = "select * from " + tableFtd.getFormTable().getName() + " where id = " + colSummary.getFormRecordid();
                     //本次信息
                     Map data = DataBaseUtils.querySingleDataBySQL(sql);
                     if (CommonUtils.isEmpty(data)) {

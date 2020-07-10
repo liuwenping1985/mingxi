@@ -1,14 +1,5 @@
 package com.seeyon.apps.duban.controller;
 
-import com.seeyon.ctp.form.bean.FormTriggerBean;
-import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManagerImpl;
-import com.seeyon.ctp.form.modules.trigger.FormTriggerEventListener;
-import com.seeyon.ctp.form.modules.trigger.FormTriggerManagerImpl;
-import com.seeyon.ctp.form.modules.trigger.action.FormTriggerFlowDesign;
-import com.seeyon.ctp.form.util.FormTriggerUtil;
-import com.seeyon.v3x.online.controller.MessageController;
-import com.seeyon.v3x.online.manager.MessageManagerImpl;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
