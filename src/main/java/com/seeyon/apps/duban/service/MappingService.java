@@ -22,6 +22,7 @@ public class MappingService {
 
 
     private static MappingService mappingService = new MappingService();
+    private static FormTableDefinition MAIN_FTD = null;
 
     public static MappingService getInstance() {
         return mappingService;
@@ -34,6 +35,17 @@ public class MappingService {
         ftdMap.clear();
 
     }
+
+
+    public FormTableDefinition getCachedMainFtd() {
+        if (MAIN_FTD == null) {
+            MAIN_FTD = getFormTableDefinitionDByCode("DB_TASK_MAIN");
+        }
+        return MAIN_FTD;
+
+
+    }
+
 
     public FormTableDefinition getFormTableDefinitionDByCode(String code) {
         return getFormTableDefinitionDByCode(code, true);
@@ -57,10 +69,11 @@ public class MappingService {
                     Map dataMap = JSON.parseObject(fileContent, HashMap.class);
                     ftd = parseFormTableMapping(dataMap);
                     if (ftd != null) {
-                        ftdMap.put(code,ftd);
+                        ftdMap.put(code, ftd);
                         return ftd;
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     throw new RuntimeException("读取文件错误:" + code, e);
                 }
             }
@@ -211,7 +224,7 @@ public class MappingService {
     public static void main(String[] args) {
         MappingService service = new MappingService();
 
-        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK_FEEDBACK_AUTO);
 
         System.out.println(ftd.getFormTable().getSlaveTableList().get(0).getName());
 

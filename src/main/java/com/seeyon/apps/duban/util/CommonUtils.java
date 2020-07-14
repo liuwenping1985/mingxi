@@ -104,6 +104,60 @@ public class CommonUtils {
         }
 
     }
+    public static Double getDouble(Object obj){
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof Double) {
+            return (Double) obj;
+        }
+        if (obj instanceof BigDecimal) {
+            return ((BigDecimal) obj).doubleValue();
+        }
+        Double val = null;
+        try {
+            val = Double.parseDouble(String.valueOf(obj));
+        } finally {
+            return val;
+        }
+
+    }
+    public static Float getFloat(Object obj){
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof Float) {
+            return (Float) obj;
+        }
+        if (obj instanceof BigDecimal) {
+            return ((BigDecimal) obj).floatValue();
+        }
+        Float val = null;
+        try {
+            val = Float.parseFloat(String.valueOf(obj));
+        } finally {
+            return val;
+        }
+
+    }
+    public static Integer getInteger(Object obj){
+        if (obj == null) {
+            return null;
+        }
+        if (obj instanceof Integer) {
+            return (Integer) obj;
+        }
+        if (obj instanceof BigDecimal) {
+            return ((BigDecimal) obj).intValue();
+        }
+        Integer val = null;
+        try {
+            val = Integer.parseInt(String.valueOf(obj));
+        } finally {
+            return val;
+        }
+
+    }
 
     public static Date parseDate(String dateStr) {
         try {

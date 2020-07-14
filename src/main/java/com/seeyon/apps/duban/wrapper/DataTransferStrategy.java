@@ -217,6 +217,7 @@ public final class DataTransferStrategy {
         Field f = null;
         try {
             f = cls.getDeclaredField(fieldName);
+            f.setAccessible(true);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }

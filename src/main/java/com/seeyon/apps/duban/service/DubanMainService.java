@@ -53,6 +53,11 @@ public class DubanMainService {
         return orgManager;
     }
 
+    public FormTableDefinition getMainFtdFromTable() {
+
+        return MappingService.getInstance().getCachedMainFtd();
+    }
+
     /**
      * 我的督办(进行中)---督办人员filed0012
      * 进行中的
@@ -436,45 +441,53 @@ public class DubanMainService {
 
     }
 
-    public String getFormTemplateCode(Long templateId){
-        String sql = "select templete_number from ctp_template where id = "+templateId;
-        Map map = DataBaseUtils.querySingleDataBySQL(sql);
-        if(!CollectionUtils.isEmpty(map)){
-
-          Object tn =  map.get("templete_number");
-          if(tn!=null){
-              return (String)tn;
-          }
-        }
-        return "";
-    }
-
-    public FormTableDefinition getFormTableDefinitionByCode(String templateCode) {
-
-        String sql = "select field_info from form_definition where id = (select content_template_id from ctp_content_all where id =(select body from ctp_template where templete_number='" + templateCode + "'))";
-
+    public String getFormTemplateCode(Long templateId) {
+        String sql = "select templete_number from ctp_template where id = " + templateId;
         Map map = DataBaseUtils.querySingleDataBySQL(sql);
         if (!CollectionUtils.isEmpty(map)) {
 
-            Object xmlObject = map.get("field_info");
-            if (xmlObject != null) {
-
-                try {
-
-                    String jsonString = XmlUtils.xmlString2jsonString("" + xmlObject);
-
-                    Map data = JSONObject.parseObject(jsonString, HashMap.class);
-
-                    return MappingService.getInstance().parseFormTableMapping(data);
-
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
+            Object tn = map.get("templete_number");
+            if (tn != null) {
+                return (String) tn;
             }
         }
+        return "";
+    }
+    private boolean isLogging = true;
+    private void log(Object obj){
+        if(isLogging){
+            System.out.println(obj);
+        }
 
-        return null;
+    }
+    public FormTableDefinition getFormTableDefinitionByCode(String templateCode) {
+
+//        String sql = "select field_info from form_definition where id = (select content_template_id from ctp_content_all where id =(select body from ctp_template where templete_number='" + templateCode + "'))";
+//
+//        Map map = DataBaseUtils.querySingleDataBySQL(sql);
+//        log("map.size:"+sql);
+//        log(map.get("field_info"));
+//        if (!CollectionUtils.isEmpty(map)) {
+//
+//            Object xmlObject = map.get("field_info");
+//            if (xmlObject != null) {
+//
+//                try {
+//
+//                    String jsonString = XmlUtils.xmlString2jsonString("" + xmlObject);
+//
+//                    Map data = JSONObject.parseObject(jsonString, HashMap.class);
+//
+//                    return MappingService.getInstance().parseFormTableMapping(data);
+//
+//                } catch (IOException e) {
+//
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+        return MappingService.getInstance().getFormTableDefinitionDByCode(templateCode);
+
 
     }
 

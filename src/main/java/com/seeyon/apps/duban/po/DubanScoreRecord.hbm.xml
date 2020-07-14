@@ -34,14 +34,14 @@
 		/>
 
 		<property
-			name="kgScore"
+			name="keGuanScore"
 			column="kg_score"
 			type="string"
 			not-null="false"
 			length="255"
 		/>
 		<property
-				name="zgScore"
+				name="zhuGuanScore"
 				column="zg_score"
 				type="string"
 				not-null="false"
@@ -55,11 +55,18 @@
 			length="20"
 		/>
 		<property
-			name="affairId"
-			column="affair_id"
+			name="summaryId"
+			column="summary_id"
 			type="long"
 			not-null="false"
 			length="20"
+		/>
+		<property
+				name="departmentId"
+				column="department_id"
+				type="long"
+				not-null="false"
+				length="20"
 		/>
 		<property
 			name="extVal"
@@ -67,6 +74,13 @@
 			type="string"
 			not-null="false"
 			length="255"
+		/>
+		<property
+				name="weight"
+				column="weight"
+				type="string"
+				not-null="false"
+				length="255"
 		/>
 
 	</class>	

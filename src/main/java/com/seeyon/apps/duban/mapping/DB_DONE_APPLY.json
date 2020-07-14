@@ -18,7 +18,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "审核状态",
+                  "display": "",
                   "fieldlength": "10",
                   "fieldtype": "int",
                   "id": "-1111014615946542537",
@@ -28,7 +28,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "发起人",
+                  "display": "",
                   "fieldlength": "20",
                   "fieldtype": "long",
                   "id": "-1415677515398953761",
@@ -38,7 +38,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "发起时间",
+                  "display": "",
                   "fieldlength": "",
                   "fieldtype": "DATETIME",
                   "id": "-2970664284402790422",
@@ -48,7 +48,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "审核人",
+                  "display": "",
                   "fieldlength": "20",
                   "fieldtype": "long",
                   "id": "-5403392012380715058",
@@ -58,7 +58,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "审核时间",
+                  "display": "",
                   "fieldlength": "",
                   "fieldtype": "DATETIME",
                   "id": "-5950461096055452881",
@@ -68,7 +68,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "流程状态",
+                  "display": "",
                   "fieldlength": "10",
                   "fieldtype": "int",
                   "id": "-572174543067134786",
@@ -78,7 +78,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "核定状态",
+                  "display": "",
                   "fieldlength": "10",
                   "fieldtype": "int",
                   "id": "8608473985558335137",
@@ -88,7 +88,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "核定人",
+                  "display": "",
                   "fieldlength": "20",
                   "fieldtype": "long",
                   "id": "-1639180955484471098",
@@ -98,7 +98,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "核定时间",
+                  "display": "",
                   "fieldlength": "",
                   "fieldtype": "DATETIME",
                   "id": "3515848856835473854",
@@ -108,7 +108,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "任务ID",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "-7331800426286464024",
@@ -118,7 +118,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "任务来源",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "-3559587454865095574",
@@ -128,7 +128,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "任务分级",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "8455583687053102655",
@@ -138,7 +138,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "标题",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "4657075956682539643",
@@ -148,7 +148,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "办理要求",
+                  "display": "",
                   "fieldlength": "4000,0",
                   "fieldtype": "VARCHAR",
                   "id": "-2190687738089946401",
@@ -158,7 +158,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "任务附件",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "8617244485635754415",
@@ -168,7 +168,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "办理时限",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
                   "id": "-3582421448355066091",
@@ -178,7 +178,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "督办周期",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "4931358024954430412",
@@ -188,7 +188,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "督办周期补充",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "9049048931023471250",
@@ -198,7 +198,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "责任领导",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "-8026214936636406354",
@@ -208,7 +208,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "督办员",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "4970871791832613533",
@@ -218,7 +218,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "办结申请事由",
+                  "display": "",
                   "fieldlength": "4000,0",
                   "fieldtype": "VARCHAR",
                   "id": "-3301984032587038030",
@@ -228,7 +228,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "实际办结日期",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
                   "id": "2369836424171307247",
@@ -238,7 +238,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "领导意见",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "LONGTEXT",
                   "id": "7148527437483754881",
@@ -248,7 +248,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "申请人",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "6844550008445748951",
@@ -258,7 +258,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "申请日期",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
                   "id": "-2332032853445882505",
@@ -268,7 +268,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "完成率",
+                  "display": "",
                   "fieldlength": "20,0",
                   "fieldtype": "DECIMAL",
                   "id": "-1308573217478983324",
@@ -278,7 +278,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "权重",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "VARCHAR",
                   "id": "7352888916840302133",
@@ -303,7 +303,7 @@
               "Field": [
                 {
                   "classname": "",
-                  "display": "序号",
+                  "display": "",
                   "fieldlength": "20,0",
                   "fieldtype": "DECIMAL",
                   "id": "9207654404385096996",
@@ -313,7 +313,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "节点任务",
+                  "display": "",
                   "fieldlength": "4000,0",
                   "fieldtype": "VARCHAR",
                   "id": "244664528215952675",
@@ -323,7 +323,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "要求完成时间",
+                  "display": "",
                   "fieldlength": "255,0",
                   "fieldtype": "TIMESTAMP",
                   "id": "3187565514523036768",
@@ -333,7 +333,7 @@
                 },
                 {
                   "classname": "",
-                  "display": "备注",
+                  "display": "",
                   "fieldlength": "4000,0",
                   "fieldtype": "VARCHAR",
                   "id": "8710010486295576595",
@@ -354,7 +354,7 @@
         }
       ],
       "code": "DB_DONE_APPLY",
-      "name": "督办结项单"
+      "name": "over"
     }
   ]
 }

@@ -375,7 +375,7 @@
           "tabletype": "slave"
         }
       ],
-      "code": "DB_FEEDBACK",
+      "code": "DB_FEEDBACK_AUTO",
       "name": "huibao"
     }
   ]

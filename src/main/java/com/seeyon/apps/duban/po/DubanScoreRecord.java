@@ -11,22 +11,42 @@ public class DubanScoreRecord extends BasePO {
 
     private String score;
 
-    private String kgScore;
+    private String keGuanScore;
 
-    private String zgScore;
+    private String zhuGuanScore;
 
     private Long memberId;
 
-    private Long affairId;
+    private Long departmentId;
+
+    private Long summaryId;
+
+    private String weight;
 
     private String extVal;
 
-    public Long getAffairId() {
-        return affairId;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setAffairId(Long affairId) {
-        this.affairId = affairId;
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public Long getSummaryId() {
+        return summaryId;
+    }
+
+    public void setSummaryId(Long summaryId) {
+        this.summaryId = summaryId;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getExtVal() {
@@ -53,20 +73,20 @@ public class DubanScoreRecord extends BasePO {
         this.score = score;
     }
 
-    public String getKgScore() {
-        return kgScore;
+    public String getKeGuanScore() {
+        return keGuanScore;
     }
 
-    public void setKgScore(String kgScore) {
-        this.kgScore = kgScore;
+    public void setKeGuanScore(String keGuanScore) {
+        this.keGuanScore = keGuanScore;
     }
 
-    public String getZgScore() {
-        return zgScore;
+    public String getZhuGuanScore() {
+        return zhuGuanScore;
     }
 
-    public void setZgScore(String zgScore) {
-        this.zgScore = zgScore;
+    public void setZhuGuanScore(String zhuGuanScore) {
+        this.zhuGuanScore = zhuGuanScore;
     }
 
     public Long getMemberId() {

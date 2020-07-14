@@ -10,6 +10,7 @@ public class MappingCodeConstant {
 
     public static String DUBAN_TASK = "DB_TASK";
     public static String DUBAN_TASK_FEEDBACK = "DB_FEEDBACK";
+    public static String DUBAN_TASK_FEEDBACK_AUTO = "DB_FEEDBACK_AUTO";
     public static String DUBAN_TASK_DELAY_APPLY = "DB_DELAY_APPLY";
     public static String DUBAN_DONE_APPLY = "DB_DONE_APPLY";
 
@@ -29,6 +30,7 @@ public class MappingCodeConstant {
         FILE_MAPPING.put(DUBAN_TASK_FEEDBACK,"DB_FEEDBACK.json");
         FILE_MAPPING.put(DUBAN_TASK_DELAY_APPLY,"DB_DELAY_APPLY.json");
         FILE_MAPPING.put(DUBAN_DONE_APPLY,"DB_DONE_APPLY.json");
+        FILE_MAPPING.put(DUBAN_TASK_FEEDBACK_AUTO,"DB_FEEDBACK_AUTO.json");
 
 
     }
