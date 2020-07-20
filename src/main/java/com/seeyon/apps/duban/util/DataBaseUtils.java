@@ -21,9 +21,11 @@ public class DataBaseUtils {
             System.out.println(sql);
 
             agent.execute(sql);
+
         }catch(Exception e){
             e.printStackTrace();
         }finally {
+
             agent.close();
         }
 

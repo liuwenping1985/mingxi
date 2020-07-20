@@ -22,8 +22,10 @@ import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManager;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.product.util.MessageEncoder;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.ListenEvent;
+import com.seeyon.v3x.dbpool.util.PwdEncoder;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.support.CTPHibernateDaoSupport;
 import org.springframework.util.CollectionUtils;
@@ -400,56 +402,71 @@ public class DubanTaskListener {
     @ListenEvent(event = CollaborationStartEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onStart(CollaborationStartEvent event) {
 
-        boolean isMock = false;
-        if (!isMock) {
-            return;
-        }
+//        boolean isMock = false;
+//        if (!isMock) {
+//            return;
+//        }
         System.out.println("触发任务分数计算:");
         Long summaryId = event.getSummaryId();
         if (CommonServiceTrigger.needProcess(summaryId)) {
             ColSummary colSummary = null;
+           //getAffair().getSenderId();
+            V3xOrgMember member = null;
             try {
+                Long memberId = getColManager().getAffairById(event.getAffairId()).getSenderId();
+                member = getOrgManager().getMemberById(memberId);
+            if (member == null) {
+                LOGGER.error("can not find user!error-code：3478");
+                return;
+            }
+
                 colSummary = getColManager().getSummaryById(summaryId);
             } catch (BusinessException e) {
                 e.printStackTrace();
                 return;
             }
             String val = mainService.getFormTemplateCode(colSummary.getTempleteId());
-            if ("DB_TASK_MAIN".equals(val)) {
+            if("DB_FEEDBACK_AUTO".equals(val)){
 
-                List<DubanConfigItem> itemList = DBAgent.find("from DubanConfigItem where 1=1");
-                /**
-                 * ctp.duban.feedback.TASK_SOURCE=field0003
-                 ctp.duban.feedback.TASK_LEVEL=field0004
-                 */
-                FormTableDefinition tableFtd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-                if (tableFtd == null) {
-                    System.out.println("找不到表：" + val);
-                    return;
-                }
-                String tableName = tableFtd.getFormTable().getName();
-                String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
-                Map data = DataBaseUtils.querySingleDataBySQL(sql);
-                String taskId = (String) data.get("field0001");
-                String enumSource = String.valueOf(data.get("field0002"));
-                DubanConfigItem sourceConfig = DataSetService.getInstance().getDubanConfigItem(enumSource);
-                String sourceValue = null;
-                if (sourceConfig != null) {
-                    sourceValue = sourceConfig.getItemValue();
-                } else {
-                    sourceValue = "100";
-                }
-                String enumLevel = String.valueOf(data.get("field0003"));
-                DubanConfigItem enumLevelConfig = DataSetService.getInstance().getDubanConfigItem(enumSource);
-                String levelValue = null;
-                if (enumLevelConfig != null) {
-                    levelValue = enumLevelConfig.getItemValue();
-                } else {
-                    levelValue = "0.9";
-                }
+                caculateScoreWhenStartOrProcess( val,colSummary, member);
 
 
             }
+//            if ("DB_TASK_MAIN".equals(val)) {
+//
+//                List<DubanConfigItem> itemList = DBAgent.find("from DubanConfigItem where 1=1");
+//                /**
+//                 * ctp.duban.feedback.TASK_SOURCE=field0003
+//                 ctp.duban.feedback.TASK_LEVEL=field0004
+//                 */
+//                FormTableDefinition tableFtd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+//                if (tableFtd == null) {
+//                    System.out.println("找不到表：" + val);
+//                    return;
+//                }
+//                String tableName = tableFtd.getFormTable().getName();
+//                String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
+//                Map data = DataBaseUtils.querySingleDataBySQL(sql);
+//                String taskId = (String) data.get("field0001");
+//                String enumSource = String.valueOf(data.get("field0002"));
+//                DubanConfigItem sourceConfig = DataSetService.getInstance().getDubanConfigItem(enumSource);
+//                String sourceValue = null;
+//                if (sourceConfig != null) {
+//                    sourceValue = sourceConfig.getItemValue();
+//                } else {
+//                    sourceValue = "100";
+//                }
+//                String enumLevel = String.valueOf(data.get("field0003"));
+//                DubanConfigItem enumLevelConfig = DataSetService.getInstance().getDubanConfigItem(enumSource);
+//                String levelValue = null;
+//                if (enumLevelConfig != null) {
+//                    levelValue = enumLevelConfig.getItemValue();
+//                } else {
+//                    levelValue = "0.9";
+//                }
+//
+//
+//            }
 
         }
 
@@ -545,76 +562,7 @@ public class DubanTaskListener {
             }
             String templateCode = mainService.getFormTemplateCode(colSummary.getTempleteId());
             log("templateCode:" + summaryId);
-            if ("DB_FEEDBACK".equals(templateCode) || "DB_FEEDBACK_AUTO".equals(templateCode)) {
-
-                try {
-
-                    FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);
-
-                    if (tableFtd == null) {
-
-                        System.out.println("can not found table[[[!.!]]]:" + templateCode);
-                        return;
-                    }
-                    String sql = "select * from " + tableFtd.getFormTable().getName() + " where id = " + colSummary.getFormRecordid();
-                    //本次信息
-                    Map data = DataBaseUtils.querySingleDataBySQL(sql);
-                    if (CommonUtils.isEmpty(data)) {
-                        ///root/Seeyon/A8/ApacheJetspeed/webapps/seeyon/WEB-INF/classes
-                        System.out.println("not data :" + sql);
-                        return;
-                    }
-                    String taskId = (String) data.get("field0002");
-
-                    //主表的相关信息
-                    FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-                    Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
-                    DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
-                    //end of 主表信息
-
-                    //打分记录 startup
-                    List<DubanScoreRecord> retList = DBAgent.find("from DubanScoreRecord where summaryId=" + summaryId);
-                    DubanScoreRecord record = new DubanScoreRecord();
-                    if (!CollectionUtils.isEmpty(retList)) {
-                        record = retList.get(0);
-                    } else {
-                        record.setIdIfNew();
-                        record.setMemberId(member.getId());
-                        record.setTaskId(taskId);
-                        record.setSummaryId(colSummary.getId());
-                        record.setDepartmentId(member.getOrgDepartmentId());
-                        if (isCengban(member, dibiao)) {
-                            record.setWeight(task.getMainWeight());
-                        } else {
-                            SlaveDubanTask sdt = getSlaveTaskByTaskAndMember(task, member);
-                            record.setWeight(sdt.getWeight());
-                        }
-                        DBAgent.save(record);
-
-                    }
-                    //end of 打分记录
-                    //主要逻辑
-                    //1、看下任务量的分数有没有被算出来
-                    Double renwuliang = CommonUtils.getDouble(data.get("field0030"));
-                    if (renwuliang == null || renwuliang.intValue() <= 0) {
-                        //计算
-                        Double rwScore = calculateSocre(dibiao, task, member);
-                        record.setKeGuanScore(decimalFormat.format(rwScore));
-                        updateStringFieldByTableAndId("field0030", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
-                    }
-
-                    Double dafen = CommonUtils.getDouble(data.get("field0028"));
-                    if (dafen != null) {
-                        record.setZhuGuanScore(decimalFormat.format(dafen));
-                    } else {
-                        record.setZhuGuanScore("0");
-                    }
-                    DBAgent.update(record);
-                    currentHibernateDaoSupport().getHibernateTpl().flush();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            caculateScoreWhenStartOrProcess( templateCode,colSummary, member);
             //完成后
             if ("DB_DONE_APPLY".equals(templateCode)) {
                 FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);
@@ -672,6 +620,84 @@ public class DubanTaskListener {
 
             }
         }
+    }
+
+    private void caculateScoreWhenStartOrProcess(String templateCode,ColSummary colSummary,V3xOrgMember member){
+
+        if ("DB_FEEDBACK".equals(templateCode) || "DB_FEEDBACK_AUTO".equals(templateCode)) {
+
+            try {
+
+                FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);
+
+                if (tableFtd == null) {
+
+                    System.out.println("can not found table[[[!.!]]]:" + templateCode);
+                    return;
+                }
+                String sql = "select * from " + tableFtd.getFormTable().getName() + " where id = " + colSummary.getFormRecordid();
+                //本次信息
+                Map data = DataBaseUtils.querySingleDataBySQL(sql);
+                if (CommonUtils.isEmpty(data)) {
+                    ///root/Seeyon/A8/ApacheJetspeed/webapps/seeyon/WEB-INF/classes
+                    System.out.println("not data :" + sql);
+                    return;
+                }
+                String taskId = (String) data.get("field0002");
+
+                //主表的相关信息
+                FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+                Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
+                DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
+                //end of 主表信息
+
+                //打分记录 startup
+                List<DubanScoreRecord> retList = DBAgent.find("from DubanScoreRecord where summaryId=" + colSummary.getId());
+                DubanScoreRecord record = new DubanScoreRecord();
+                if (!CollectionUtils.isEmpty(retList)) {
+                    record = retList.get(0);
+                } else {
+                    record.setIdIfNew();
+                    record.setMemberId(member.getId());
+                    record.setTaskId(taskId);
+                    record.setSummaryId(colSummary.getId());
+                    record.setDepartmentId(member.getOrgDepartmentId());
+                    if (isCengban(member, dibiao)) {
+                        record.setWeight(task.getMainWeight());
+                    } else {
+                        SlaveDubanTask sdt = getSlaveTaskByTaskAndMember(task, member);
+                        record.setWeight(sdt.getWeight());
+                    }
+                    DBAgent.save(record);
+
+                }
+                //end of 打分记录
+                //主要逻辑
+                //1、看下任务量的分数有没有被算出来
+                Double renwuliang = CommonUtils.getDouble(data.get("field0030"));
+                if (renwuliang == null || renwuliang.intValue() <= 0) {
+                    //计算
+                    Double rwScore = calculateSocre(dibiao, task, member);
+                    record.setKeGuanScore(decimalFormat.format(rwScore));
+                    updateStringFieldByTableAndId("field0030", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
+                }
+
+                Double dafen = CommonUtils.getDouble(data.get("field0028"));
+                if (dafen != null) {
+                    record.setZhuGuanScore(decimalFormat.format(dafen));
+                } else {
+                    record.setZhuGuanScore("0");
+                }
+                DBAgent.update(record);
+                currentHibernateDaoSupport().getHibernateTpl().flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
     }
 
     private static CTPHibernateDaoSupport currentHibernateDaoSupport() {
@@ -804,8 +830,9 @@ public class DubanTaskListener {
 
     public static void main(String[] args) {
         Long id = 1L;
-        String ids = "1";
-        System.out.println(id.equals(ids));
+        String ids = "/1.0/eWJlWUJFQTMxMjo=";
+
+        System.out.println(PwdEncoder.decode(ids));
     }
 
 }
