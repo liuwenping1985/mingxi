@@ -74,7 +74,29 @@ public class ConnectionBuilder {
         String user = link.getUser();
         String password = link.getPassword();
         Connection conn = DriverManager.getConnection(url, user, password);
+
         return conn;
+
+
+    }
+
+
+    public static void main(String [] args){
+        String url = "jdbc:oracle:thin:@127.0.0.1:1521:v8xuser";
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection conn = DriverManager.getConnection(url, "root", "root");
+
+            if(conn!=null){
+                System.out.println("ok");
+            }else{
+                System.out.println("can not open!!!");
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }
