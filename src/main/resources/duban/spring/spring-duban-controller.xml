@@ -3,6 +3,9 @@
 
 <beans default-autowire="byName">
 
+	<bean name="dubanScoreManager" class="com.seeyon.apps.duban.service.impl.DubanScoreManagerImpl">
+
+	</bean>
 
 	<bean name="DubanTaskEventListener" class="com.seeyon.apps.duban.listener.DubanTaskListener">
 
