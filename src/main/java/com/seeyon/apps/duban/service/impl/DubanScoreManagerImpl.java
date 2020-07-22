@@ -326,8 +326,8 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             System.out.println("not data :" + sql);
             return;
         }
-        String taskId = (String) data.get("field0002");
-        //field0001 taskId
+        String taskId = (String) data.get("field0001");
+        //field0001 taskId0000000000000000000000000000000000000
         //这里也计算一下分数
         //field0028 任务量
         //field0026 汇报

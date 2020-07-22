@@ -254,7 +254,11 @@ public class DubanTaskListener {
             getDubanScoreManager().caculateScoreWhenStartOrProcess(templateCode, colSummary, member);
             //完成后
             if ("DB_DONE_APPLY".equals(templateCode)) {
-
+                try {
+                    getDubanScoreManager().onDoneApplyProcess(templateCode, colSummary, member);
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                }
 
             }
         }
