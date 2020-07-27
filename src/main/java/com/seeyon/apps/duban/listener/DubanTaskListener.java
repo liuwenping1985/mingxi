@@ -3,10 +3,11 @@ package com.seeyon.apps.duban.listener;
 import com.seeyon.apps.collaboration.event.*;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.collaboration.po.ColSummary;
-import com.seeyon.apps.duban.mapping.MappingCodeConstant;
-import com.seeyon.apps.duban.service.*;
+import com.seeyon.apps.duban.service.CommonServiceTrigger;
+import com.seeyon.apps.duban.service.ConfigFileService;
+import com.seeyon.apps.duban.service.DubanMainService;
+import com.seeyon.apps.duban.service.DubanScoreManager;
 import com.seeyon.apps.duban.util.DataBaseUtils;
-import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.exceptions.InfrastructureException;
@@ -15,12 +16,13 @@ import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManager;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
-import com.seeyon.v3x.dbpool.util.PwdEncoder;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.support.CTPHibernateDaoSupport;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 主要的流转逻辑
@@ -278,7 +280,7 @@ public class DubanTaskListener {
         Long id = 1L;
         String ids = "/1.0/eWJlWUJFQTMxMjo=";
 
-        System.out.println(PwdEncoder.decode(ids));
+       // System.out.println(PwdEncoder.decode(ids));
     }
 
 }

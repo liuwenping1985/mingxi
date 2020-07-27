@@ -60,17 +60,16 @@ public class DubanTaskController extends BaseController {
      */
     public ModelAndView listProcessHome(HttpServletRequest request, HttpServletResponse response) {
 
-
         ModelAndView modelAndView = new ModelAndView("apps/duban/processMainPage");
         return modelAndView;
     }
 
-     public ModelAndView saveDubanConfigItems(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView saveDubanConfigItems(HttpServletRequest request, HttpServletResponse response) {
         try {
             Map<String, String[]> params = request.getParameterMap();
             Map<String, String> dataMap = new HashMap<String, String>();
-            for(Map.Entry<String,String[]> entry:params.entrySet()){
-                dataMap.put(entry.getKey(),entry.getValue()!=null?entry.getValue()[0]:"");
+            for (Map.Entry<String, String[]> entry : params.entrySet()) {
+                dataMap.put(entry.getKey(), entry.getValue() != null ? entry.getValue()[0] : "");
             }
 
             if (dataMap == null) {
@@ -115,13 +114,13 @@ public class DubanTaskController extends BaseController {
 
 
             UIUtils.responseJSON(dataMap, response);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-         UIUtils.responseJSON("exception exception", response);
+        UIUtils.responseJSON("exception exception", response);
         return null;
 
-     }
+    }
 
     /**
      * 列出设置分数数据
@@ -149,13 +148,13 @@ public class DubanTaskController extends BaseController {
             Map<String, Map> seeyonEnumMap = new HashMap<String, Map>();
             for (Map data : dataMapList) {
                 data.put("sid", String.valueOf(data.get("id")));
-                if(sourceEnumId.equals(String.valueOf(data.get("ref_enumid")))){
+                if (sourceEnumId.equals(String.valueOf(data.get("ref_enumid")))) {
 
-                    data.put("enum_group","task_source");
+                    data.put("enum_group", "task_source");
                 }
-                if(levelEnumId.equals(String.valueOf(data.get("ref_enumid")))){
+                if (levelEnumId.equals(String.valueOf(data.get("ref_enumid")))) {
 
-                    data.put("enum_group","task_level");
+                    data.put("enum_group", "task_level");
                 }
                 seeyonEnumMap.put(String.valueOf(data.get("id")), data);
             }
