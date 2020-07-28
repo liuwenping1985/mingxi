@@ -408,9 +408,31 @@ public class CommonUtils {
         return sb.toString();
     }
 
-
-    public static String join(List<String> objs,String token){
+    public static String joinExtend(Collection objs,String token){
         if(isEmpty(objs)){
+            return "";
+        }
+        StringBuilder stb = new StringBuilder();
+        int index=0;
+        for(Object obj:objs){
+            if(index==0){
+                stb.append(obj.toString());
+            }else{
+                stb.append(token).append(obj.toString());
+            }
+            index++;
+
+        }
+        return stb.toString();
+    }
+    public static String join(List<String> objs,String token){
+        return joinExtend(objs,token);
+    }
+    public static String joinSet(Set objs,String token){
+        return joinExtend(objs,token);
+    }
+    public static String joinArray(String[] objs,String token){
+        if(objs==null||objs.length==0){
             return "";
         }
         StringBuilder stb = new StringBuilder();
@@ -428,7 +450,8 @@ public class CommonUtils {
     }
     public static void main(String[] args) {
         String k = "/1.0/R21idGlaZmJzMzEyMSI=";
-        System.out.println(TextEncoder.decode(k));
+        Long k2 = 1l;
+        System.out.println(k2.toString());
 
 
     }

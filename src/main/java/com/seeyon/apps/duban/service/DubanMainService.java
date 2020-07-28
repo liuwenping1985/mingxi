@@ -81,6 +81,17 @@ public class DubanMainService {
 
     }
 
+    public List<DubanTask> getStatDubanList(String taskIds){
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+        String[]ids = taskIds.split(",");
+        String inString="'"+CommonUtils.joinArray(ids,"','")+"'";
+        String sql = "select * from " + ftd.getFormTable().getName() + " where field0001 in("+inString+")";
+        List<DubanTask> taskList = translateDubanTask(sql, ftd);
+        return taskList;
+
+
+    }
+
     public void setTaskLight(DubanTask task, Long memberId, String mode) {
 
         Date ed = task.getEndDate();

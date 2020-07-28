@@ -2,6 +2,8 @@ package com.seeyon.apps.duban.po;
 
 import com.seeyon.ctp.common.po.BasePO;
 
+import java.util.Date;
+
 /**
  * Created by liuwenping on 2020/5/26.
  */
@@ -24,6 +26,16 @@ public class DubanScoreRecord extends BasePO {
     private String weight;
 
     private String extVal;
+
+    private Date createDate;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
     public String getWeight() {
         return weight;

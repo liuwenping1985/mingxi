@@ -97,6 +97,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             record.setTaskId(taskId);
                             record.setSummaryId(colSummary.getId());
                             record.setDepartmentId(member.getOrgDepartmentId());
+                            record.setCreateDate(new Date());
                             if (isCengban(member, dibiao)) {
                                 record.setWeight(task.getMainWeight());
                             } else {
@@ -140,9 +141,6 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
     public void onFeedBackFinish(final String templateCode, final ColSummary colSummary,final V3xOrgMember member) throws BusinessException {
         executorPoolService.schedule(new Runnable() {
-
-
-
             public void run() {
                 FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
                 FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);

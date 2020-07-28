@@ -3,6 +3,7 @@ package com.seeyon.apps.duban.controller;
 import com.alibaba.fastjson.JSON;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
 import com.seeyon.apps.duban.po.DubanConfigItem;
+import com.seeyon.apps.duban.po.DubanScoreRecord;
 import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.service.ConfigFileService;
@@ -14,6 +15,7 @@ import com.seeyon.apps.duban.util.SendMessageUtils;
 import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.apps.duban.vo.CommonJSONResult;
 import com.seeyon.apps.duban.vo.DubanBaseInfo;
+import com.seeyon.apps.duban.vo.DubanStatData;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
@@ -26,6 +28,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import org.apache.log4j.Logger;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -587,9 +590,114 @@ public class DubanTaskController extends BaseController {
 
         return null;
     }
+    public ModelAndView getStatDataDetail(HttpServletRequest request, HttpServletResponse response){
+        CommonJSONResult data = new CommonJSONResult();
+        String ids = request.getParameter("taskIds");
+        List<DubanTask> taskList = dubanMainService.getStatDubanList(ids);
+        data.setItems(taskList);
+        data.setCode("200");
+        UIUtils.responseJSON(data, response);
+        return null;
 
-    public static void main(String[] args) {
-        System.out.println("compiled!!");
     }
 
+    public ModelAndView getStatData(HttpServletRequest request, HttpServletResponse response) {
+
+        CommonJSONResult data = new CommonJSONResult();
+        String startDate = request.getParameter("start_date");
+        Date start = null, end = null;
+        if (startDate != null) {
+            start = CommonUtils.parseDate(startDate);
+        }
+        String endDate = request.getParameter("end_date");
+        if (endDate != null) {
+            end = CommonUtils.parseDate(endDate);
+        }
+        StringBuilder sql = new StringBuilder("from DubanScoreRecord where 1=1 ");
+        Map params = new HashMap();
+        if (start != null) {
+            sql.append("and createDate>:createDate");
+            params.put("createDate", start);
+        }
+        if (end != null) {
+            sql.append("and createDate>:endDate");
+            params.put("endDate", end);
+        }
+
+
+        List<DubanScoreRecord> dsrList = DBAgent.find(sql.toString(), params);
+        //
+        List<DubanStatData> dataList = new ArrayList<DubanStatData>();
+        Map<Long, List<DubanScoreRecord>> deptDubanScoreRecordMap = new HashMap<Long, List<DubanScoreRecord>>();
+        if (!CommonUtils.isEmpty(dsrList)) {
+
+            for (DubanScoreRecord record : dsrList) {
+                Long deptId = record.getDepartmentId();
+                List<DubanScoreRecord> rList = deptDubanScoreRecordMap.get(deptId);
+                if (rList == null) {
+                    rList = new ArrayList<DubanScoreRecord>();
+                    deptDubanScoreRecordMap.put(deptId, rList);
+                }
+                rList.add(record);
+            }
+            String dateParams = JSON.toJSONString(params);
+            for(Map.Entry<Long,List<DubanScoreRecord>> entry:deptDubanScoreRecordMap.entrySet()){
+                Long deptId = entry.getKey();
+                List<DubanScoreRecord> recordList = entry.getValue();
+                Map<String,List<DubanScoreRecord>> taskMaps = new HashMap<String, List<DubanScoreRecord>>();
+                for(DubanScoreRecord record:recordList){
+                    List<DubanScoreRecord> taskList = taskMaps.get(record.getTaskId());
+                    if(taskList==null){
+                        taskList = new ArrayList<DubanScoreRecord>();
+                        taskMaps.put(record.getTaskId(),taskList);
+                    }
+                    taskList.add(record);
+                }
+                try {
+                    V3xOrgDepartment department =  getOrgManager().getDepartmentById(deptId);
+                    //计算分数
+                    Set summaryIdSet = new HashSet();
+                    Double score =0d;
+                    for(Map.Entry<String,List<DubanScoreRecord>> taskScoreRecordS:taskMaps.entrySet()){
+                       for(DubanScoreRecord record:taskScoreRecordS.getValue()){
+                           String ke = record.getKeGuanScore();
+                           String zhu = record.getZhuGuanScore();
+                           if(!CommonUtils.isEmpty(ke)){
+                               score+=Double.parseDouble(ke);
+                           }
+                           if(!CommonUtils.isEmpty(zhu)){
+                               score+=Double.parseDouble(zhu);
+                           }
+
+
+                       }
+                    }
+                    DubanStatData statData = new DubanStatData();
+                    statData.setDateParams(dateParams);
+                    statData.setTaskScore(String.valueOf(score));
+                    statData.setDeptId(String.valueOf(deptId));
+                    statData.setDeptName(department.getName());
+                    statData.setTaskCount(""+taskMaps.size());
+                    statData.setTaskParams(CommonUtils.joinSet(taskMaps.keySet(),","));
+                    statData.setSummaryParams(CommonUtils.joinSet(summaryIdSet,","));
+                    dataList.add(statData);
+                } catch (Exception e) {
+                    data.setCode("500");
+                    data.setMsg(e.getMessage());
+                    e.printStackTrace();
+                    UIUtils.responseJSON(data, response);
+                    return null;
+                }
+
+            }
+
+
+
+        }
+        data.setItems(dataList);
+        data.setCode("200");
+        UIUtils.responseJSON(data, response);
+        return null;
+
+    }
 }

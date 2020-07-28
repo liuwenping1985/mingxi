@@ -76,6 +76,12 @@
 			length="255"
 		/>
 		<property
+				name="createDate"
+				column="create_date"
+				type="date"
+				not-null="false"
+		/>
+		<property
 				name="weight"
 				column="weight"
 				type="string"
