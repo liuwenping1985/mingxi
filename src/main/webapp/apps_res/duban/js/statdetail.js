@@ -14,7 +14,10 @@
             }
             return theRequest;
         }
+        window.onclick_td=function(){
 
+
+        }
         function renderTable(data){
             var htmls = [];
             $(data).each(function(index,item){

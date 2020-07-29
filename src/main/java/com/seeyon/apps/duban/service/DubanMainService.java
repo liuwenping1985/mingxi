@@ -3,6 +3,7 @@ package com.seeyon.apps.duban.service;
 import com.alibaba.fastjson.JSONObject;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
+import com.seeyon.apps.duban.po.DubanScoreRecord;
 import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.util.CommonUtils;
@@ -14,6 +15,7 @@ import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
+import com.seeyon.ctp.util.DBAgent;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
@@ -70,22 +72,23 @@ public class DubanMainService {
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
 
         List<DubanTask> taskList = translateDubanTask(sql, ftd);
-        if (!CollectionUtils.isEmpty(taskList)) {
-            for (DubanTask task : taskList) {
-                setTaskLight(task, memberId, "DB");
-            }
-        }
+//        if (!CollectionUtils.isEmpty(taskList)) {
+//            for (DubanTask task : taskList) {
+//
+//                setTaskLight(task, memberId, "DB");
+//            }
+//        }
 
         return taskList;
 
 
     }
 
-    public List<DubanTask> getStatDubanList(String taskIds){
+    public List<DubanTask> getStatDubanList(String taskIds) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-        String[]ids = taskIds.split(",");
-        String inString="'"+CommonUtils.joinArray(ids,"','")+"'";
-        String sql = "select * from " + ftd.getFormTable().getName() + " where field0001 in("+inString+")";
+        String[] ids = taskIds.split(",");
+        String inString = "'" + CommonUtils.joinArray(ids, "','") + "'";
+        String sql = "select * from " + ftd.getFormTable().getName() + " where field0001 in(" + inString + ")";
         List<DubanTask> taskList = translateDubanTask(sql, ftd);
         return taskList;
 
@@ -227,11 +230,11 @@ public class DubanMainService {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and  (field0010=" + memberId + " or field0011 like '%" + memberId + "%')";
         List<DubanTask> taskList = translateDubanTask(sql, ftd);
-        if (!CollectionUtils.isEmpty(taskList)) {
-            for (DubanTask task : taskList) {
-                setTaskLight(task, memberId, "DB");
-            }
-        }
+//        if (!CollectionUtils.isEmpty(taskList)) {
+//            for (DubanTask task : taskList) {
+//                setTaskLight(task, memberId, "DB");
+//            }
+//        }
 
         return taskList;
     }
@@ -277,11 +280,11 @@ public class DubanMainService {
 
         List<DubanTask> dubanTaskList = translateDubanTask(sql, ftd);
 
-        if (!CollectionUtils.isEmpty(dubanTaskList)) {
-            for (DubanTask task : dubanTaskList) {
-                setTaskLight(task, memberId, "XB");
-            }
-        }
+//        if (!CollectionUtils.isEmpty(dubanTaskList)) {
+//            for (DubanTask task : dubanTaskList) {
+//                setTaskLight(task, memberId, "XB");
+//            }
+//        }
 
 
         try {
@@ -376,11 +379,11 @@ public class DubanMainService {
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + " is null) and" +
                 " (field0019=" + memberId + ")";
         List<DubanTask> taskList = translateDubanTask(sql, ftd);
-        if (!CollectionUtils.isEmpty(taskList)) {
-            for (DubanTask task : taskList) {
-                setTaskLight(task, memberId, "CB");
-            }
-        }
+//        if (!CollectionUtils.isEmpty(taskList)) {
+//            for (DubanTask task : taskList) {
+//                setTaskLight(task, memberId, "CB");
+//            }
+//        }
 
         return taskList;
 
@@ -425,13 +428,70 @@ public class DubanMainService {
         if (CommonUtils.isEmpty(dataList)) {
             return retList;
         }
+        Map<String, Object> taskIdAndChengbanId = new HashMap<String, Object>();
         for (Map data : dataList) {
             DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, data, ftd);
             if (task != null) {
-
+                //设置状态
+                taskIdAndChengbanId.put(task.getTaskId(), data.get("field0017"));
+                Double dbKgScore = CommonUtils.getDouble(data.get("field0146"));
+                if (dbKgScore != null) {
+                    task.setKgScore(dbKgScore.intValue());
+                }
+                Double huibaoScore = CommonUtils.getDouble(data.get("field0144"));
+                if (huibaoScore != null) {
+                    task.setZgScore(huibaoScore.intValue());
+                }
+                Double wanchengScore = CommonUtils.getDouble(data.get("field0147"));
+                if (wanchengScore != null) {
+                    task.setTotoalScore(wanchengScore.intValue());
+                }
                 retList.add(task);
             }
         }
+        String sql2 = " from DubanScoreRecord where taskId in ('" + CommonUtils.joinSet(taskIdAndChengbanId.keySet(), "','") + "')";
+
+        List<DubanScoreRecord> recordList = DBAgent.find(sql2);
+        Map<String, DubanScoreRecord> recordMap = new HashMap<String, DubanScoreRecord>();
+        for (DubanScoreRecord record : recordList) {
+
+            Long deptId = CommonUtils.getLong(taskIdAndChengbanId.get(record.getTaskId()));
+            if (deptId == null) {
+                continue;
+            }
+            Long recordDeptId = record.getDepartmentId();
+            if (recordDeptId != null && recordDeptId.equals(deptId)) {
+
+                DubanScoreRecord oldRecord = recordMap.get(record.getTaskId());
+                if (oldRecord != null) {
+                    Date oldDate = oldRecord.getCreateDate();
+                    Date newDate = record.getCreateDate();
+                    if (oldDate != null && newDate != null) {
+                        if (oldDate.getTime() < newDate.getTime()) {
+                            recordMap.put(record.getTaskId(), record);
+                        }
+
+                    }
+                } else {
+                    recordMap.put(record.getTaskId(), record);
+                }
+            }
+        }
+        for (DubanTask task : retList) {
+
+            DubanScoreRecord record = recordMap.get(task.getTaskId());
+            if(record!=null){
+                Long enumId = CommonUtils.getLong(record.getExtVal());
+                if(enumId!=null){
+                   Object showValue =  CommonUtils.getEnumShowValue(enumId);
+                   if(showValue!=null){
+                       task.setTaskLight(String.valueOf(showValue));
+                   }
+                }
+
+            }
+        }
+
         return retList;
     }
 
@@ -464,13 +524,16 @@ public class DubanMainService {
         }
         return "";
     }
+
     private boolean isLogging = true;
-    private void log(Object obj){
-        if(isLogging){
+
+    private void log(Object obj) {
+        if (isLogging) {
             System.out.println(obj);
         }
 
     }
+
     public FormTableDefinition getFormTableDefinitionByCode(String templateCode) {
 
 //        String sql = "select field_info from form_definition where id = (select content_template_id from ctp_content_all where id =(select body from ctp_template where templete_number='" + templateCode + "'))";

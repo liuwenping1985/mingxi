@@ -199,11 +199,14 @@ public final class DataTransferStrategy {
                     f.set(obj, String.valueOf(val));
                 }
 
-            } else if(f.getType()==Date.class){
-                String val_ = String.valueOf(val);
-                Date dt = CommonUtils.parseDate(val_);
-                f.set(obj, dt);
-            }else{
+            } else if (f.getType() == Date.class) {
+                if (val != null) {
+                    String val_ = String.valueOf(val);
+                    Date dt = CommonUtils.parseDate(val_);
+                    f.set(obj, dt);
+                }
+
+            } else {
                 f.set(obj, val);
             }
         } catch (Exception e) {

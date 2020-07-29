@@ -169,8 +169,8 @@ public class CommonUtils {
             }
             Date dt = sdf.parse(dateStr);
             return dt;
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
         return null;
     }

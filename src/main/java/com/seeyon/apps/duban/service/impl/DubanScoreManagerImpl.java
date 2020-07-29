@@ -204,7 +204,6 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     if ("1".equals(String.valueOf(field0001))) {
                         andSetSQL += ",field0022='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
                         andSetSQL += ",field0020='已完成'";
-                        calculateDone(taskId);
                     }
 
                 } else {
@@ -244,12 +243,14 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                 String updateSQL = "update " + ftd.getFormTable().getName() + " set field0093='" + memo + "'" + andSetSQL + " where id=" + dibiao.get("id");
                 System.out.println(updateSQL);
+                calculateDone(taskId);
                 DataBaseUtils.executeUpdate(updateSQL);
             }
         },6,TimeUnit.SECONDS);
 
 
     }
+
 
     public void onDoneApplyFinish(final String templateCode,final ColSummary colSummary,final V3xOrgMember member) throws BusinessException {
 
@@ -447,7 +448,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 //        Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
 //        DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
-        Double rw = 0d, hb = 0d, wc = 0d;
+        Double rw = 0d, hb = 0d, wc = 0d,total=0d;
         Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
         for (DubanScoreRecord dsr : dsrList) {
 
@@ -484,8 +485,10 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             hb+=(hbs/size);
             wc+=(wcs/size);
 
+
         }
-        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw==0?0:decimalFormat.format(rw))+ ",field0144=" + (hb==0?0:decimalFormat.format(hb)) + ",field0147=" + (wc==0?0:decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
+        total=(rw+hb+wc);
+        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw==0?0:decimalFormat.format(rw))+ ",field0144=" + (hb==0?0:decimalFormat.format(hb)) + ",field0145="+(total==0?0:decimalFormat.format(total)) +",field0147=" + (wc==0?0:decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
         DataBaseUtils.executeUpdate(sql2);
 
     }
@@ -520,6 +523,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         DataBaseUtils.executeUpdate(sql);
 
     }
+
 
     private void updateFeedBackAllSocre(String field0028, String field0030, String tableName, Long recordId) {
         String sql = "update " + tableName + " set field0028=" + field0028 + ",field0030=" + field0030 + " where id = " + recordId;
