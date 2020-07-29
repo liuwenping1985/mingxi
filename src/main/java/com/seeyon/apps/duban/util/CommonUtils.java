@@ -179,7 +179,7 @@ public class CommonUtils {
         try {
             return sdf.format(date);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return null;
     }
@@ -187,7 +187,7 @@ public class CommonUtils {
         try {
             return sdf2.format(date);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return null;
     }

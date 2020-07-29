@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class DubanScoreManagerImpl implements DubanScoreManager {
+public class DubanScoreManagerImplBakup implements DubanScoreManager {
 
     private DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
@@ -110,15 +110,15 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         //end of 打分记录
                         //主要逻辑
                         //1、看下任务量的分数有没有被算出来
-                        Double renwuliang = CommonUtils.getDouble(data.get("field0028"));
+                        Double renwuliang = CommonUtils.getDouble(data.get("field0030"));
                         if (renwuliang == null || renwuliang.intValue() <= 0) {
                             //计算
                             Double rwScore = calculateSocre(dibiao, task, member);
                             record.setKeGuanScore(decimalFormat.format(rwScore));
-                            updateStringFieldByTableAndId("field0028", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
+                            updateStringFieldByTableAndId("field0030", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
                         }
 
-                        Double dafen = CommonUtils.getDouble(data.get("field0030"));
+                        Double dafen = CommonUtils.getDouble(data.get("field0028"));
                         if (dafen != null) {
                             record.setZhuGuanScore(decimalFormat.format(dafen));
                         } else {
