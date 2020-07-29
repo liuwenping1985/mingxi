@@ -168,7 +168,7 @@ public class DubanTaskListener {
                 return;
             }
             String val = mainService.getFormTemplateCode(colSummary.getTempleteId());
-            if ("DB_FEEDBACK_AUTO".equals(val)) {
+            if ("DB_FEEDBACK".equals(val)||"DB_FEEDBACK_AUTO".equals(val)) {
 
                 getDubanScoreManager().caculateScoreWhenStartOrProcess(val, colSummary, member);
 

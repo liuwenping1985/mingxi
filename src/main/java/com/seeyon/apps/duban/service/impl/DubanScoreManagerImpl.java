@@ -37,7 +37,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
     private OrgManager orgManager;
 
-    private  ScheduledExecutorService executorPoolService = Executors.newScheduledThreadPool(3);
+    private ScheduledExecutorService executorPoolService = Executors.newScheduledThreadPool(3);
 
 
     public ColManager getColManager() {
@@ -54,7 +54,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         return orgManager;
     }
 
-    public void caculateScoreWhenStartOrProcess(final String templateCode,final ColSummary colSummary,final V3xOrgMember member){
+    public void caculateScoreWhenStartOrProcess(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) {
         executorPoolService.schedule(new Runnable() {
             public void run() {
 
@@ -132,14 +132,12 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     }
                 }
             }
-        },6, TimeUnit.SECONDS);
-
-
+        }, 6, TimeUnit.SECONDS);
 
 
     }
 
-    public void onFeedBackFinish(final String templateCode, final ColSummary colSummary,final V3xOrgMember member) throws BusinessException {
+    public void onFeedBackFinish(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
         executorPoolService.schedule(new Runnable() {
             public void run() {
                 FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
@@ -245,14 +243,68 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 System.out.println(updateSQL);
                 calculateDone(taskId);
                 DataBaseUtils.executeUpdate(updateSQL);
+                caculateAllProcess(taskId);
             }
-        },6,TimeUnit.SECONDS);
+        }, 6, TimeUnit.SECONDS);
 
 
     }
 
+    private void caculateAllProcess(final String taskId) {
+        executorPoolService.schedule(new Runnable() {
+            public void run() {
+                FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+                Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
 
-    public void onDoneApplyFinish(final String templateCode,final ColSummary colSummary,final V3xOrgMember member) throws BusinessException {
+                DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
+
+                Double p = 0d;
+                String mainWeight = task.getMainWeight();
+                Double weight = CommonUtils.getDouble(mainWeight);
+                if (weight == null) {
+                    return;
+                } else {
+                    weight = weight / 100f;
+                }
+                String mainProcess = task.getMainProcess();
+                Double process = CommonUtils.getDouble(mainProcess);
+                if (process == null) {
+                    process = 0d;
+                }
+                p += (weight * process);
+                List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+                if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
+                    for (SlaveDubanTask dubanTask : slaveDubanTaskList) {
+                        String subweight = dubanTask.getWeight();
+                        Double subW = CommonUtils.getDouble(subweight);
+                        if (subW == null) {
+                            continue;
+                        } else {
+                            subW = (subW / 100f);
+                        }
+
+                        String subProcess = dubanTask.getProcess();
+                        Double subP = CommonUtils.getDouble(subProcess);
+                        if(subP==null){
+                            subP = 0D;
+                        }
+                        p+=(subW*subP);
+                    }
+
+                }
+
+
+                String sql = "update " + ftd.getFormTable().getName() + " set field0013=" + p.intValue()+" where field0001='"+taskId+"'";
+
+                DataBaseUtils.executeUpdate(sql);
+
+
+            }
+        }, 3, TimeUnit.SECONDS);
+
+    }
+
+    public void onDoneApplyFinish(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
 
         executorPoolService.schedule(new Runnable() {
             public void run() {
@@ -314,42 +366,42 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
 
             }
-        },6,TimeUnit.SECONDS);
+        }, 6, TimeUnit.SECONDS);
 
 
     }
 
-        public void onDelayApplyFinish(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
+    public void onDelayApplyFinish(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
 
-            executorPoolService.schedule(new Runnable() {
+        executorPoolService.schedule(new Runnable() {
 
-                public void run() {
-                    FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-                    String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_DELAY_APPLY");
-                    FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);
-                    if (tableFtd != null) {
-                        tableName = tableFtd.getFormTable().getName();
-                    }
-                    String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
-                    Map data = DataBaseUtils.querySingleDataBySQL(sql);
-                    //field0014
-                    String taskId = (String) data.get("field0001");
-                    Date date = (Date) data.get("field0014");
-                    if (date != null) {
-                        String updateSQL = "update " + ftd.getFormTable().getName() + " set field0007='" + CommonUtils.formatDate(date) + "' where field0001='" + taskId + "'";
-                        System.out.println(updateSQL);
-                        DataBaseUtils.executeUpdate(updateSQL);
-
-                    } else {
-                        System.out.println("延期个冒险:" + data);
-                    }
+            public void run() {
+                FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+                String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_DELAY_APPLY");
+                FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);
+                if (tableFtd != null) {
+                    tableName = tableFtd.getFormTable().getName();
                 }
-            },6,TimeUnit.SECONDS);
+                String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
+                Map data = DataBaseUtils.querySingleDataBySQL(sql);
+                //field0014
+                String taskId = (String) data.get("field0001");
+                Date date = (Date) data.get("field0014");
+                if (date != null) {
+                    String updateSQL = "update " + ftd.getFormTable().getName() + " set field0007='" + CommonUtils.formatDate(date) + "' where field0001='" + taskId + "'";
+                    System.out.println(updateSQL);
+                    DataBaseUtils.executeUpdate(updateSQL);
 
-        }
+                } else {
+                    System.out.println("延期个冒险:" + data);
+                }
+            }
+        }, 6, TimeUnit.SECONDS);
 
-    public void onDoneApplyProcess(final String templateCode,final ColSummary colSummary,final V3xOrgMember member) throws BusinessException {
-        executorPoolService.schedule(new Runnable(){
+    }
+
+    public void onDoneApplyProcess(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
+        executorPoolService.schedule(new Runnable() {
 
             public void run() {
                 FormTableDefinition tableFtd = mainService.getFormTableDefinitionByCode(templateCode);
@@ -405,7 +457,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     DataBaseUtils.executeUpdate(uSql);
                 }
             }
-        },6,TimeUnit.SECONDS);
+        }, 6, TimeUnit.SECONDS);
 
     }
 
@@ -448,7 +500,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 //        Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
 //        DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
-        Double rw = 0d, hb = 0d, wc = 0d,total=0d;
+        Double rw = 0d, hb = 0d, wc = 0d, total = 0d;
         Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
         for (DubanScoreRecord dsr : dsrList) {
 
@@ -460,35 +512,35 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             dsrs.add(dsr);
 
         }
-        for(Map.Entry<Long,List<DubanScoreRecord>>entry:deptDsr.entrySet()){
+        for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDsr.entrySet()) {
 
 
             List<DubanScoreRecord> eList = entry.getValue();
 
-            double size = 1d*eList.size();
-            double rws=0d,hbs=0d,wcs=0d;
-            for(DubanScoreRecord dsr:eList){
+            double size = 1d * eList.size();
+            double rws = 0d, hbs = 0d, wcs = 0d;
+            for (DubanScoreRecord dsr : eList) {
                 Double wcf = CommonUtils.getDouble(dsr.getScore());
                 Double rwf = CommonUtils.getDouble(dsr.getKeGuanScore());
                 Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
-                if(wcf!=null){
-                    wcs+=wcf;
+                if (wcf != null) {
+                    wcs += wcf;
                 }
-                if(rwf!=null){
-                    rws+=rwf;
+                if (rwf != null) {
+                    rws += rwf;
                 }
-                if(hbf!=null){
-                    hbs+=hbf;
+                if (hbf != null) {
+                    hbs += hbf;
                 }
             }
-            rw+=(rws/size);
-            hb+=(hbs/size);
-            wc+=(wcs/size);
+            rw += (rws / size);
+            hb += (hbs / size);
+            wc += (wcs / size);
 
 
         }
-        total=(rw+hb+wc);
-        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw==0?0:decimalFormat.format(rw))+ ",field0144=" + (hb==0?0:decimalFormat.format(hb)) + ",field0145="+(total==0?0:decimalFormat.format(total)) +",field0147=" + (wc==0?0:decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
+        total = (rw + hb + wc);
+        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0145=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0147=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
         DataBaseUtils.executeUpdate(sql2);
 
     }
@@ -531,9 +583,6 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         DataBaseUtils.executeUpdate(sql);
 
     }
-
-
-
 
 
 }
