@@ -583,6 +583,11 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         DataBaseUtils.executeUpdate(sql);
 
     }
+    public static void main(String[] args){
+
+
+
+    }
 
 
 }
