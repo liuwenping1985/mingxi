@@ -172,7 +172,8 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     } catch (BusinessException e) {
                         e.printStackTrace();
                     }
-                    String cont_ = ("\n" + dept.getName() + "-" + member.getName() + "(" + CommonUtils.formatDateHourMinute(colSummary.getStartDate()) + "):" + cont);
+                    String cont_ = "\n" + dept.getName() + "-" + member.getName() + "(" + CommonUtils.formatDateHourMinute(colSummary.getStartDate()) + "):" + cont;
+
                     cont = cont_;
                 }
 
@@ -188,6 +189,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     memo = cont;
                 } else {
                     memo = memo + "\n" + cont;
+                    memo = sortByTime(memo);
                 }
 
                 //先看是不是承办
@@ -250,6 +252,38 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
     }
 
+    private static String sortByTime(String count) {
+        if(CommonUtils.isEmpty(count)){
+            return "";
+        }
+        String[] vals = count.split("\n");
+        List<String> list = new ArrayList<String>();
+        for (String line : vals) {
+
+            if (CommonUtils.isEmpty(line) || CommonUtils.isEmpty(line.trim())) {
+                continue;
+            }
+            list.add(line);
+        }
+        Collections.sort(list, new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                try{
+                    String time1 =  o1.split("\\(")[1].split("\\)")[0];
+                    String time2 =  o2.split("\\(")[1].split("\\)")[0];
+                    return time2.compareTo(time1);
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                return o2.compareTo(o1);
+
+
+            }
+        });
+
+        return CommonUtils.join(list,"\n");
+    }
+
     private void caculateAllProcess(final String taskId) {
         executorPoolService.schedule(new Runnable() {
             public void run() {
@@ -285,16 +319,16 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                         String subProcess = dubanTask.getProcess();
                         Double subP = CommonUtils.getDouble(subProcess);
-                        if(subP==null){
+                        if (subP == null) {
                             subP = 0D;
                         }
-                        p+=(subW*subP);
+                        p += (subW * subP);
                     }
 
                 }
 
 
-                String sql = "update " + ftd.getFormTable().getName() + " set field0013=" + p.intValue()+" where field0001='"+taskId+"'";
+                String sql = "update " + ftd.getFormTable().getName() + " set field0013=" + p.intValue() + " where field0001='" + taskId + "'";
 
                 DataBaseUtils.executeUpdate(sql);
 
@@ -583,8 +617,13 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         DataBaseUtils.executeUpdate(sql);
 
     }
-    public static void main(String[] args){
 
+    public static void main(String[] args) {
+        String lkey = "博远售后服务-表单管理员(2020-07-31 16:30):第一次汇报\n" +
+                "博远售后服务-表单管理员(2020-07-31 16:34):第三次汇报\n" +
+                "博远售后服务-表单管理员(2020-07-31 16:31):第二次汇报";
+
+        System.out.println(sortByTime(lkey));
 
 
     }

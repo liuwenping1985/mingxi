@@ -14,8 +14,9 @@
             }
             return theRequest;
         }
-        window.onclick_td=function(){
+        window.onclick_td=function(sid){
 
+            window.open("/seeyon/duban.do?method=showDbps&sid="+sid+"&linkToType=duban");
 
         }
         function renderTable(data){
@@ -29,7 +30,19 @@
                 if(item.mainWeight==""){
                     item.mainWeight="--";
                 }
-                htmls.push("<tr>");
+                if("正常推进"==item.taskLight){
+                    item.taskLight = "green";
+                }else if("低风险"==item.taskLight){
+                    item.taskLight = "blue";
+                }else if("有风险但可控"==item.taskLight){
+                    item.taskLight = "yellow";
+                }else if("风险不可控，不能按期完成"==item.taskLight){
+                    item.taskLight = "red";
+                }else{
+                    item.taskLight = "red";
+                }
+
+                htmls.push("<tr style='cursor:pointer' onclick='onclick_td(\""+item.uuid+"\")'>");
                 htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: '+item.taskLight+'" class="layui-icon layui-icon-flag"></i></td>');
                 htmls.push("<td class='td_no_padding'>"+item.name+"</td>");
                 htmls.push("<td class='td_no_padding'>"+item.taskSource+"</td>");

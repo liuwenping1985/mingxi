@@ -171,7 +171,7 @@
     <div class="layui-row">
         <div class="layui-col-md6">
             <div style="color:#666;font-size:14px">
-                红色旗帜表示超期，蓝色表示提前，黄色表示即将超期，红色表示严重超期,绿色表示正常，灰色表示已完成
+
             </div>
         </div>
 

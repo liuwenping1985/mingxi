@@ -1,6 +1,5 @@
 package com.seeyon.apps.duban.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.seeyon.apps.collaboration.manager.ColManager;
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
 import com.seeyon.apps.duban.po.DubanScoreRecord;
@@ -8,7 +7,6 @@ import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
-import com.seeyon.apps.duban.util.XmlUtils;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
@@ -18,7 +16,6 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import org.springframework.util.CollectionUtils;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -95,7 +92,7 @@ public class DubanMainService {
 
     }
 
-    public void setTaskLight(DubanTask task, Long memberId, String mode) {
+    public void setTaskLight2(DubanTask task, Long memberId, String mode) {
 
         Date ed = task.getEndDate();
         Date st = task.getStartDate();
@@ -567,7 +564,7 @@ public class DubanMainService {
 
     public static void main(String[] args) {
 
-
+        System.out.println("111");
     }
 
 
