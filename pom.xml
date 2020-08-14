@@ -9,22 +9,54 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet.version>3.0.1</servlet.version>
         <lombok.version>1.18.12</lombok.version>
         <poi.version>4.1.2</poi.version>
-        <springboot.parent.version>2.4.0-M1</springboot.parent.version>
+        <springboot.main.version>2.4.0-M1</springboot.main.version>
         <lombok.version>1.18.8</lombok.version>
         <druid.version>1.1.19</druid.version>
         <fastjson.version>1.2.59</fastjson.version>
         <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <spring.data.releasetrain.version>Moore-SR6</spring.data.releasetrain.version>
     </properties>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.0-M1</version>
-        <relativePath/>
-    </parent>
-    
+    <!--<parent>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+    <!--<version>2.4.0-M1</version>-->
+    <!--<relativePath/>-->
+    <!--</parent>-->
+    <licenses>
+        <license/>
+    </licenses>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Override SLF4J provided by Spring Boot -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- Override Spring Data release train provided by Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-releasetrain</artifactId>
+                <version>${spring.data.releasetrain.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.main.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!--移除Tomcat依赖-->
         <dependency>
@@ -42,6 +74,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -90,33 +135,16 @@
 
 
     </dependencies>
+
     <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.properties</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
                     <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
                     <include>**/*.yml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.properties</include>
+                    <include>**/*.factories</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
@@ -133,22 +161,61 @@
                     <include>**/*.config</include>
                     <include>**/*.data</include>
                     <include>**/*.yml</include>
+                    <include>**/*.doc</include>
+                    <include>**/*.docx</include>
                 </includes>
             </resource>
         </resources>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <!-- 设置webapp目录为Web目录 -->
+                    <webappDirectory>src/main/webapp</webappDirectory>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.main.version}</version>
+                <configuration>
+                    <addResources>true</addResources>
+                    <jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=12208
+                    </jvmArguments>
+                    <systemPropertyVariables>
+                        <version>v1.0.0</version>
+                        <license>lic202012314xadcoltd</license>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+
+
+
         </plugins>
     </build>
     <repositories>
@@ -159,7 +226,9 @@
         <repository>
             <id>spring-snapshots</id>
             <url>https://repo.spring.io/snapshot</url>
-            <snapshots><enabled>true</enabled></snapshots>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
 
     </repositories>

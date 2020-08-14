@@ -26,8 +26,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(
-        basePackages= { "com.xad.weboffice" })
+@EnableJpaRepositories(basePackages={"com.xad.weboffice"})
 public class JpaPersistenceConfig {
 
     private static final Logger log = LoggerFactory.getLogger(JpaPersistenceConfig.class);
@@ -54,7 +53,7 @@ public class JpaPersistenceConfig {
         return builder
                 .dataSource(primaryDataSource)
                 .properties(getVendorProperties(primaryDataSource))
-                .packages("com.kd.rainbow")
+                .packages("com.xad.weboffice")
                 .persistenceUnit("primaryPersistenceUnit")
                 .build();
     }

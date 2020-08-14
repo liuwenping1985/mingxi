@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 @Configuration
 @PropertySource("classpath:${spring.profiles.active}/datasource.properties")
 @ConfigurationProperties(prefix = "datasource")
+@Order(0)
 public class DataSourceConfig {
 
 
@@ -56,7 +58,7 @@ public class DataSourceConfig {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
         servletRegistrationBean.setServlet(new StatViewServlet());
         servletRegistrationBean.addUrlMappings("/druid/*");
-        Map<String, String> initParameters = new HashMap<>();
+        Map<String, String> initParameters = new HashMap<String,String>();
         initParameters.put("loginUsername", userName);
         initParameters.put("loginPassword", password);
         // 禁用HTML页面上的“Reset All”功能
