@@ -195,7 +195,7 @@ public class CommonUtils {
         try {
             return sdf1.format(date);
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return null;
     }

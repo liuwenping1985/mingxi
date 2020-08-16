@@ -439,7 +439,7 @@ public class DubanMainService {
                 if (huibaoScore != null) {
                     task.setZgScore(huibaoScore.intValue());
                 }
-                Double wanchengScore = CommonUtils.getDouble(data.get("field0147"));
+                Double wanchengScore = CommonUtils.getDouble(data.get("field0145"));
                 if (wanchengScore != null) {
                     task.setTotoalScore(wanchengScore.intValue());
                 }
@@ -447,7 +447,7 @@ public class DubanMainService {
             }
         }
         String sql2 = " from DubanScoreRecord where taskId in ('" + CommonUtils.joinSet(taskIdAndChengbanId.keySet(), "','") + "')";
-
+        System.out.println(sql2);
         List<DubanScoreRecord> recordList = DBAgent.find(sql2);
         Map<String, DubanScoreRecord> recordMap = new HashMap<String, DubanScoreRecord>();
         for (DubanScoreRecord record : recordList) {

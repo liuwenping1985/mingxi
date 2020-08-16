@@ -78,7 +78,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             return;
                         }
                         String taskId = (String) data.get("field0002");
-                        Object taskStatus = data.get("field0031");
+                        Object taskStatus = data.get("field0029");
 
                         //主表的相关信息
                         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
@@ -110,15 +110,15 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         //end of 打分记录
                         //主要逻辑
                         //1、看下任务量的分数有没有被算出来
-                        Double renwuliang = CommonUtils.getDouble(data.get("field0028"));
+                        Double renwuliang = CommonUtils.getDouble(data.get("field0030"));
                         if (renwuliang == null || renwuliang.intValue() <= 0) {
                             //计算
                             Double rwScore = calculateSocre(dibiao, task, member);
                             record.setKeGuanScore(decimalFormat.format(rwScore));
-                            updateStringFieldByTableAndId("field0028", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
+                            updateStringFieldByTableAndId("field0030", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
                         }
 
-                        Double dafen = CommonUtils.getDouble(data.get("field0030"));
+                        Double dafen = CommonUtils.getDouble(data.get("field0028"));
                         if (dafen != null) {
                             record.setZhuGuanScore(decimalFormat.format(dafen));
                         } else {
@@ -574,7 +574,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
         }
         total = (rw + hb + wc);
-        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0145=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0147=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
+        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0143=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0145=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
         DataBaseUtils.executeUpdate(sql2);
 
     }
