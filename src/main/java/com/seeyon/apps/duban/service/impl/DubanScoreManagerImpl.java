@@ -281,7 +281,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             }
         });
 
-        return CommonUtils.join(list,"\n");
+        return CommonUtils.join(list,"\n\n\n");
     }
 
     private void caculateAllProcess(final String taskId) {

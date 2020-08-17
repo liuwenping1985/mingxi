@@ -11,6 +11,7 @@ import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.organization.bo.MemberRole;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
@@ -57,6 +58,65 @@ public class DubanMainService {
         return MappingService.getInstance().getCachedMainFtd();
     }
 
+    private boolean isDeptManager(Long memberId) {
+
+        try {
+            List<MemberRole> roles = this.getOrgManager().getMemberRoles(memberId, AppContext.currentAccountId());
+            for (MemberRole role : roles) {
+                if ("DepManager".equals(role.getRole().getCode())) {
+
+                    return true;
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    private List<String> getAllMembersIdStringListBySeedMemberId(Long memberId) {
+        try {
+            V3xOrgMember member = this.getOrgManager().getMemberById(memberId);
+
+            List<V3xOrgMember> members = this.getOrgManager().getMembersByDepartment(member.getOrgDepartmentId(), false);
+            if (members != null && members.size() > 0) {
+                List<String> ids = new ArrayList<String>();
+                for (V3xOrgMember member1 : members) {
+
+                    ids.add(String.valueOf(member1.getId()));
+
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private String getInCauseByJoinDot(List<String> membersList) {
+        StringBuilder stb = new StringBuilder();
+        int tag = 0;
+        stb.append("(");
+        for (String member : membersList) {
+            if (tag == 0) {
+
+                stb.append(member);
+                tag++;
+            } else {
+                stb.append(",").append(member);
+            }
+        }
+        stb.append(")");
+        return stb.toString();
+
+    }
+
+
     /**
      * 我的督办(进行中)---督办人员filed0012
      * 进行中的
@@ -66,8 +126,17 @@ public class DubanMainService {
      */
     public List<DubanTask> getRunningDubanTaskSupervisor(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-        String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
 
+        String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
+//        if (isDeptManager(memberId)) {
+//
+//            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+//            if (ids != null && ids.size() > 0) {
+//                String inCause = getInCauseByJoinDot(ids);
+//                sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "in" + inCause;
+//            }
+//
+//        }
         List<DubanTask> taskList = translateDubanTask(sql, ftd);
 //        if (!CollectionUtils.isEmpty(taskList)) {
 //            for (DubanTask task : taskList) {
@@ -199,6 +268,16 @@ public class DubanMainService {
     public List<DubanTask> getFinishedDubanTaskSupervisor(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "=100 and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
+
+//        if (isDeptManager(memberId)) {
+//
+//            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+//            if (ids != null && ids.size() > 0) {
+//                String inCause = getInCauseByJoinDot(ids);
+//                sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "=100 and " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "in " + inCause;
+//            }
+//
+//        }
         return translateDubanTask(sql, ftd);
 
     }
@@ -212,6 +291,7 @@ public class DubanMainService {
     public List<DubanTask> getAllDubanTaskSupervisor(Long memberId) {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
         String sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_RENYUAN + "=" + memberId;
+
         return translateDubanTask(sql, ftd);
 
     }
@@ -274,7 +354,19 @@ public class DubanMainService {
                 + " or field0068 =" + memberId + " or field0075 =" + memberId + " or field0082 =" + memberId
                 + " or field0089 =" + memberId + ")";
 
+        if (isDeptManager(memberId)) {
 
+            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+            if (ids != null && ids.size() > 0) {
+                String inCause = getInCauseByJoinDot(ids);
+                 sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null) and" +
+                        " (field0026 in" + inCause + " or field0033 in" + inCause + " or field0040 in" + inCause
+                        + " or field0047 in" + inCause + " or field0054 in" + inCause + " or field0061 in" + inCause
+                        + " or field0068 in" + inCause + " or field0075 in" + inCause + " or field0082 in" + inCause
+                        + " or field0089 in" + inCause + ")";
+            }
+
+        }
         List<DubanTask> dubanTaskList = translateDubanTask(sql, ftd);
 
 //        if (!CollectionUtils.isEmpty(dubanTaskList)) {
@@ -357,7 +449,19 @@ public class DubanMainService {
                 + " or field0047 =" + memberId + " or field0054 =" + memberId + " or field0061 =" + memberId
                 + " or field0068 =" + memberId + " or field0075 =" + memberId + " or field0082 =" + memberId
                 + " or field0089 =" + memberId + ")";
+        if (isDeptManager(memberId)) {
 
+            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+            if (ids != null && ids.size() > 0) {
+                String inCause = getInCauseByJoinDot(ids);
+                sql = "select * from " + ftd.getFormTable().getName() + " where" +
+                        " (field0026 in" + inCause + " or field0033 in" + inCause + " or field0040 in" + inCause
+                        + " or field0047 in" + inCause + " or field0054 in" + inCause + " or field0061 in" + inCause
+                        + " or field0068 in" + inCause + " or field0075 in" + inCause + " or field0082 in" + inCause
+                        + " or field0089 in" + inCause + ")";
+            }
+
+        }
 
         return translateDubanTask(sql, ftd);
     }
@@ -375,6 +479,16 @@ public class DubanMainService {
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + " is null) and" +
                 " (field0019=" + memberId + ")";
+        if (isDeptManager(memberId)) {
+
+            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+            if (ids != null && ids.size() > 0) {
+                String inCause = getInCauseByJoinDot(ids);
+                sql = "select * from " + ftd.getFormTable().getName() + " where (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + " is null) and" +
+                        " (field0019 in" + inCause + ")";
+            }
+
+        }
         List<DubanTask> taskList = translateDubanTask(sql, ftd);
 //        if (!CollectionUtils.isEmpty(taskList)) {
 //            for (DubanTask task : taskList) {
@@ -399,6 +513,16 @@ public class DubanMainService {
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "=100 and" +
                 " (field0019=" + memberId + ")";
+        if (isDeptManager(memberId)) {
+
+            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+            if (ids != null && ids.size() > 0) {
+                String inCause = getInCauseByJoinDot(ids);
+                sql = "select * from " + ftd.getFormTable().getName() + " where " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV + "=100 and" +
+                        " (field0019 in" + inCause + ")";
+            }
+
+        }
         return translateDubanTask(sql, ftd);
 
     }
@@ -415,6 +539,15 @@ public class DubanMainService {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where field0019=" + memberId;
+        if (isDeptManager(memberId)) {
+
+            List<String> ids = getAllMembersIdStringListBySeedMemberId(memberId);
+            if (ids != null && ids.size() > 0) {
+                String inCause = getInCauseByJoinDot(ids);
+                sql = "select * from " + ftd.getFormTable().getName() + " where field0019 in" + inCause;
+            }
+
+        }
         return translateDubanTask(sql, ftd);
 
     }
@@ -477,13 +610,13 @@ public class DubanMainService {
         for (DubanTask task : retList) {
 
             DubanScoreRecord record = recordMap.get(task.getTaskId());
-            if(record!=null){
+            if (record != null) {
                 Long enumId = CommonUtils.getLong(record.getExtVal());
-                if(enumId!=null){
-                   Object showValue =  CommonUtils.getEnumShowValue(enumId);
-                   if(showValue!=null){
-                       task.setTaskLight(String.valueOf(showValue));
-                   }
+                if (enumId != null) {
+                    Object showValue = CommonUtils.getEnumShowValue(enumId);
+                    if (showValue != null) {
+                        task.setTaskLight(String.valueOf(showValue));
+                    }
                 }
 
             }
