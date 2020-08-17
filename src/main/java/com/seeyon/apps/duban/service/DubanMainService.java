@@ -98,8 +98,10 @@ public class DubanMainService {
                     ids.add(String.valueOf(member1.getId()));
 
                 }
+                return ids;
 
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
