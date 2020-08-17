@@ -632,6 +632,9 @@ public class DubanTaskController extends BaseController {
         if (!CommonUtils.isEmpty(dsrList)) {
 
             for (DubanScoreRecord record : dsrList) {
+                if("-999".equals(record.getZhuGuanScore())){
+                    continue;
+                }
                 Long deptId = record.getDepartmentId();
                 List<DubanScoreRecord> rList = deptDubanScoreRecordMap.get(deptId);
                 if (rList == null) {

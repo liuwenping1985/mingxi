@@ -125,6 +125,11 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             record.setZhuGuanScore("0");
                         }
                         record.setExtVal(String.valueOf(taskStatus));
+                        if("DB_FEEDBACK".equals(templateCode)){
+
+                            record.setZhuGuanScore("-999");
+
+                        }
                         DBAgent.update(record);
 
                     } catch (Exception e) {
@@ -467,7 +472,9 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         double kg = 0;
                         double zg = 0;
                         for (DubanScoreRecord dsr : dsrList) {
-
+                            if("-999".equals(dsr.getZhuGuanScore())){
+                                continue;
+                            }
                             Double ss = CommonUtils.getDouble(dsr.getKeGuanScore());
                             if (ss != null) {
                                 kg += ss;
@@ -537,7 +544,9 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         Double rw = 0d, hb = 0d, wc = 0d, total = 0d;
         Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
         for (DubanScoreRecord dsr : dsrList) {
-
+            if("-999".equals(dsr.getZhuGuanScore())){
+                continue;
+            }
             List<DubanScoreRecord> dsrs = deptDsr.get(dsr.getDepartmentId());
             if (dsrs == null) {
                 dsrs = new ArrayList<DubanScoreRecord>();
@@ -554,6 +563,9 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             double size = 1d * eList.size();
             double rws = 0d, hbs = 0d, wcs = 0d;
             for (DubanScoreRecord dsr : eList) {
+                if("-999".equals(dsr.getZhuGuanScore())){
+                    continue;
+                }
                 Double wcf = CommonUtils.getDouble(dsr.getScore());
                 Double rwf = CommonUtils.getDouble(dsr.getKeGuanScore());
                 Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());

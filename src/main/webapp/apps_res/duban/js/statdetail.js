@@ -43,7 +43,7 @@
                 }
 
                 htmls.push("<tr style='cursor:pointer' onclick='onclick_td(\""+item.uuid+"\")'>");
-                htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: '+item.taskLight+'" class="layui-icon layui-icon-flag"></i></td>');
+                htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: '+item.taskLight+'" class="layui-icon layui-icon-circle-dot"></i></td>');
                 htmls.push("<td class='td_no_padding'>"+item.name+"</td>");
                 htmls.push("<td class='td_no_padding'>"+item.taskSource+"</td>");
                 htmls.push("<td class='td_no_padding'>"+item.taskLevel+"</td>");
