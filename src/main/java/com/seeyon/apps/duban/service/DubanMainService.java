@@ -59,12 +59,12 @@ public class DubanMainService {
     }
 
     private boolean isDeptManager(Long memberId) {
-
+            System.out.println("判断memberId是不是领导--start:"+memberId);
         try {
             List<MemberRole> roles = this.getOrgManager().getMemberRoles(memberId, AppContext.currentAccountId());
             for (MemberRole role : roles) {
                 if ("DepManager".equals(role.getRole().getCode())) {
-
+                    System.out.println("判断memberId是不是领导--result:YES");
                     return true;
                 }
 
@@ -72,16 +72,25 @@ public class DubanMainService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        System.out.println("判断memberId是不是领导--result:NO");
         return false;
 
     }
 
     private List<String> getAllMembersIdStringListBySeedMemberId(Long memberId) {
         try {
-            V3xOrgMember member = this.getOrgManager().getMemberById(memberId);
 
-            List<V3xOrgMember> members = this.getOrgManager().getMembersByDepartment(member.getOrgDepartmentId(), false);
+            V3xOrgMember member = this.getOrgManager().getMemberById(memberId);
+            System.out.println("通过部门去找人start:"+member.getName());
+            List<V3xOrgMember> accountsMemberList = this.getOrgManager().getAllMembers(member.getOrgAccountId());
+            List<V3xOrgMember> members = new ArrayList<V3xOrgMember>();
+            for(V3xOrgMember memberTemp:accountsMemberList){
+                if(String.valueOf(memberTemp.getOrgDepartmentId()).equals(String.valueOf(member.getOrgDepartmentId()))){
+                    members.add(memberTemp);
+
+                }
+            }
+            System.out.println("通过部门去找人end-->size:"+members.size());
             if (members != null && members.size() > 0) {
                 List<String> ids = new ArrayList<String>();
                 for (V3xOrgMember member1 : members) {
