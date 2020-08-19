@@ -56,8 +56,10 @@
         <thead>
         <tr>
             <th>部门</th>
-            <th>任务数量</th>
-            <th>任务总分</th>
+            <th>任务量</th>
+            <th>相关任务数(A类任务数)</th>
+            <th>完成任务数(完成百分比)</th>
+            <th>任务最终得分</th>
         </tr>
         </thead>
         <tbody id="dataBody">

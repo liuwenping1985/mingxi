@@ -119,7 +119,7 @@ public class DubanMainService {
                 stb.append(member);
                 tag++;
             } else {
-                stb.append(",").append(member);
+                stb.append(",").append("'"+member+"'");
             }
         }
         stb.append(")");

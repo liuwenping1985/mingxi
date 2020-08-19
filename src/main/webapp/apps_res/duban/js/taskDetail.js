@@ -244,7 +244,7 @@
                 item.taskLight = "red";
             }
             htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: ' + item.taskLight + '" class="layui-icon layui-icon-circle-dot"></i></td>');
-            htmls.push("<td style='cursor:pointer' onclick=\"db_detail_click('" + item.uuid + "')\" class='td_no_padding'>" + item.name + "</td>");
+            htmls.push("<td style='cursor:pointer;width:140px' onclick=\"db_detail_click('" + item.uuid + "')\" class='td_no_padding'>" + item.name + "</td>");
             htmls.push("<td class='td_no_padding'>" + item.taskSource + "</td>");
             htmls.push("<td class='td_no_padding'>" + item.taskLevel + "</td>");
             htmls.push("<td class='td_no_padding'>" + new Date(item.endDate).format("yyyy-MM-dd hh:mm") + "</td>");
@@ -268,7 +268,11 @@
 
             }
 
-            htmls.push("<td class='td_no_padding' style='width:120px'>" + t_s_a_v + "</td>");
+            if(t_s_a_v&&t_s_a_v.length>100){
+                t_s_a_v =  t_s_a_v.substr(0,96)+"...";
+
+            }
+            htmls.push("<td class='td_no_padding' style='width:140px;max-height:200px'>" + t_s_a_v + "</td>");
 
             htmls.push("<td class='td_no_padding'>" + item.supervisor + "</td>");
 

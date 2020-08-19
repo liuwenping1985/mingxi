@@ -30,7 +30,9 @@
             $(data).each(function(index,item){
                 htmls.push("<tr onclick='onRecordClick(\""+item.taskParams+"\",\""+item.deptId+"\")' style='cursor:pointer'>");
                 htmls.push("<td><a>"+item.deptName+"</a></td>");
-                htmls.push("<td><a>"+item.taskCount+"</a></td>");
+                htmls.push("<td><a>"+item.renwuliang+"</a></td>");
+                htmls.push("<td><a>"+item.taskCount+"("+item.taskATypeCount+")"+"</a></td>");
+                htmls.push("<td><a>"+item.wancheng+"("+((parseFloat(item.wancheng)*100)/parseFloat(item.taskCount)).toFixed(2)+"%)"+"</a></td>");
                 htmls.push("<td><a>"+item.taskScore+"</a></td>");
                 htmls.push("</tr>");
             })

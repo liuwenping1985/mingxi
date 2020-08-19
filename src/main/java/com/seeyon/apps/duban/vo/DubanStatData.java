@@ -5,12 +5,38 @@ public class DubanStatData {
 
     private String deptName;
     private String deptId;
-
+    private String taskATypeCount;
+    private String wancheng;
+    private String renwuliang;
     private String taskCount;
     private String taskScore;
     private String dateParams;
     private String taskParams;
     private String summaryParams;
+
+    public String getRenwuliang() {
+        return renwuliang;
+    }
+
+    public void setRenwuliang(String renwuliang) {
+        this.renwuliang = renwuliang;
+    }
+
+    public String getTaskATypeCount() {
+        return taskATypeCount;
+    }
+
+    public void setTaskATypeCount(String taskATypeCount) {
+        this.taskATypeCount = taskATypeCount;
+    }
+
+    public String getWancheng() {
+        return wancheng;
+    }
+
+    public void setWancheng(String wancheng) {
+        this.wancheng = wancheng;
+    }
 
     public String getDeptId() {
         return deptId;

@@ -29,6 +29,7 @@ import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -644,6 +645,7 @@ public class DubanTaskController extends BaseController {
                 rList.add(record);
             }
             String dateParams = JSON.toJSONString(params);
+            String sqlTask = "select * from ";
             for(Map.Entry<Long,List<DubanScoreRecord>> entry:deptDubanScoreRecordMap.entrySet()){
                 Long deptId = entry.getKey();
                 List<DubanScoreRecord> recordList = entry.getValue();
@@ -661,12 +663,15 @@ public class DubanTaskController extends BaseController {
                     //计算分数
                     Set summaryIdSet = new HashSet();
                     Double score =0d;
+                    Double keScore = 0d;
                     for(Map.Entry<String,List<DubanScoreRecord>> taskScoreRecordS:taskMaps.entrySet()){
                        for(DubanScoreRecord record:taskScoreRecordS.getValue()){
                            String ke = record.getKeGuanScore();
+
                            String zhu = record.getZhuGuanScore();
                            if(!CommonUtils.isEmpty(ke)){
                                score+=Double.parseDouble(ke);
+                               keScore+=Double.parseDouble(ke);
                            }
                            if(!CommonUtils.isEmpty(zhu)){
                                score+=Double.parseDouble(zhu);
@@ -681,8 +686,12 @@ public class DubanTaskController extends BaseController {
                     statData.setDeptId(String.valueOf(deptId));
                     statData.setDeptName(department.getName());
                     statData.setTaskCount(""+taskMaps.size());
+                    statData.setRenwuliang(String.valueOf(keScore));
                     statData.setTaskParams(CommonUtils.joinSet(taskMaps.keySet(),","));
+
                     statData.setSummaryParams(CommonUtils.joinSet(summaryIdSet,","));
+                    statData.setTaskATypeCount("0");
+                    statData.setWancheng("0%");
                     dataList.add(statData);
                 } catch (Exception e) {
                     data.setCode("500");
@@ -693,11 +702,49 @@ public class DubanTaskController extends BaseController {
                 }
 
             }
-
-
-
         }
         data.setItems(dataList);
+        List<String>taskIdParams = new ArrayList<String>();
+        for(DubanStatData statData:dataList){
+            taskIdParams.add(statData.getTaskParams());
+        }
+        List<DubanTask> taskList = dubanMainService.getStatDubanList(CommonUtils.join(taskIdParams,","));
+        //
+        if(!CollectionUtils.isEmpty(taskList)){
+            //String levelA = ConfigFileService.getPropertyByName("ctp.group.task_level.A.enum");
+            Map<String,String> taskAMap = new HashMap<String, String>();
+            Map<String,String> finishMap = new HashMap<String, String>();
+            for(DubanTask task:taskList){
+                if("A".equals(task.getTaskLevel())){
+                    taskAMap.put(task.getTaskId(),"1");
+                }
+                if("100".equals(task.getMainProcess())){
+                    finishMap.put(task.getTaskId(),"1");
+                }
+            }
+            for(DubanStatData statData:dataList){
+                String taskIds = statData.getTaskParams();
+                int a = 0;
+                int f = 0;
+                if(taskIds!=null&&!"".equals(taskIds)){
+                    String[] ids = taskIds.split(",");
+                    for(String tid:ids){
+                        if(taskAMap.containsKey(tid)){
+                            a++;
+                        }
+                        if(finishMap.containsKey(tid)){
+                            f++;
+                        }
+                    }
+                }
+                statData.setTaskATypeCount(String.valueOf(a));
+
+                statData.setWancheng(String.valueOf(f));
+
+            }
+
+        }
+
         data.setCode("200");
         UIUtils.responseJSON(data, response);
         return null;

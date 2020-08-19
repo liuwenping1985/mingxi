@@ -10,8 +10,10 @@
 </head>
 <style>
 
-
     .td_no_padding {
+        text-overflow: ellipsis;
+        white-space: nowrap;/*不让文本换行*/
+        overflow: hidden;
         padding: 3px 3px;
     }
 </style>
