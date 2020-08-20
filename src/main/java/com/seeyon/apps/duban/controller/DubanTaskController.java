@@ -647,6 +647,7 @@ public class DubanTaskController extends BaseController {
             String dateParams = JSON.toJSONString(params);
             String sqlTask = "select * from ";
             for(Map.Entry<Long,List<DubanScoreRecord>> entry:deptDubanScoreRecordMap.entrySet()){
+                //部门维度
                 Long deptId = entry.getKey();
                 List<DubanScoreRecord> recordList = entry.getValue();
                 Map<String,List<DubanScoreRecord>> taskMaps = new HashMap<String, List<DubanScoreRecord>>();
@@ -664,21 +665,42 @@ public class DubanTaskController extends BaseController {
                     Set summaryIdSet = new HashSet();
                     Double score =0d;
                     Double keScore = 0d;
+
                     for(Map.Entry<String,List<DubanScoreRecord>> taskScoreRecordS:taskMaps.entrySet()){
+                        Double zhuguanScore=0d;
+                        Double wanchengScore = 0d;
+                        Double keguanScore = 0d;
+                        int keSize=0;
+                        int zhuSize=0;
+                        int wanchengSize=0;
                        for(DubanScoreRecord record:taskScoreRecordS.getValue()){
                            String ke = record.getKeGuanScore();
 
                            String zhu = record.getZhuGuanScore();
                            if(!CommonUtils.isEmpty(ke)){
-                               score+=Double.parseDouble(ke);
-                               keScore+=Double.parseDouble(ke);
+                               keguanScore+=Double.parseDouble(ke);
+                               keSize++;
                            }
                            if(!CommonUtils.isEmpty(zhu)){
-                               score+=Double.parseDouble(zhu);
+                               zhuguanScore+=Double.parseDouble(zhu);
+                               zhuSize++;
                            }
-
-
+                           String wan = record.getScore();
+                           if(!CommonUtils.isEmpty(wan)){
+                               wanchengScore+=Double.parseDouble(wan);
+                               wanchengSize++;
+                           }
                        }
+                       if(keSize>0){
+                           keScore+=(keguanScore/keSize);
+                       }
+                       if(zhuSize>0){
+                           zhuguanScore=zhuguanScore/zhuSize;
+                       }
+                       if(wanchengSize>0){
+                           wanchengScore = wanchengScore/wanchengSize;
+                       }
+                        score+=((keguanScore/keSize)*(zhuguanScore/100d)*(wanchengScore/100d));
                     }
                     DubanStatData statData = new DubanStatData();
                     statData.setDateParams(dateParams);
@@ -686,6 +708,7 @@ public class DubanTaskController extends BaseController {
                     statData.setDeptId(String.valueOf(deptId));
                     statData.setDeptName(department.getName());
                     statData.setTaskCount(""+taskMaps.size());
+                    //一个taskId一个然后累加
                     statData.setRenwuliang(String.valueOf(keScore));
                     statData.setTaskParams(CommonUtils.joinSet(taskMaps.keySet(),","));
 
