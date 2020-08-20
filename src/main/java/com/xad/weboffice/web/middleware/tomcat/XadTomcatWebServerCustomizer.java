@@ -1,4 +1,4 @@
-package com.xad.weboffice.web.tomcat;
+package com.xad.weboffice.web.middleware.tomcat;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;

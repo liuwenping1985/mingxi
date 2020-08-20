@@ -1,4 +1,4 @@
-package com.xad.weboffice.web.jetty;
+package com.xad.weboffice.web.middleware.jetty;
 
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;

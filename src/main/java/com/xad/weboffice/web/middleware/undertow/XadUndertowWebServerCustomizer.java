@@ -1,4 +1,4 @@
-package com.xad.weboffice.web.undertow;
+package com.xad.weboffice.web.middleware.undertow;
 
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
