@@ -22,7 +22,9 @@ public class ApplicationStarter {
     private static ConfigurableApplicationContext applicationContext;
     public static void main(String[] args) {
         applicationContext =   new SpringApplicationBuilder().sources(ApplicationStarter.class).run(args);
-//         applicationContext =  SpringApplication.run(ApplicationStarter.class, args);
+        // applicationContext =  SpringApplication.run(ApplicationStarter.class, args);
+
+
     }
 
     public static ApplicationContext getApplicationContext(){
