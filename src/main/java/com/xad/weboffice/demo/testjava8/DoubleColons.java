@@ -20,6 +20,7 @@ public class DoubleColons {
     static void nonono() {
         System.out.println("nonono");
     }
+
     @FunctionalInterface
     interface GenDataStructer<M extends Collection> {
 
