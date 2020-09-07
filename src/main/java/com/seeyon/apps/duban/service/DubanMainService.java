@@ -116,7 +116,7 @@ public class DubanMainService {
         for (String member : membersList) {
             if (tag == 0) {
 
-                stb.append(member);
+                stb.append("'"+member+"'");
                 tag++;
             } else {
                 stb.append(",").append("'"+member+"'");
