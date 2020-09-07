@@ -10,7 +10,15 @@
 </head>
 <style>
 
-
+    @font-face {
+        font-family: 'iconfont';
+        src: url('/seeyon/apps_res/duban/verdor/layui/fonts/iconfont.woff') format("woff"),
+        url('/seeyon/apps_res/duban/verdor/layui/fonts/iconfont.ttf') format("truetype"),
+        url('/seeyon/apps_res/duban/verdor/layui/fonts/iconfont.svg') format("svg"),
+        url('/seeyon/apps_res/duban/verdor/layui/fonts/iconfont.eot?#iefix') format("embedded-opentype");
+        font-weight: normal;
+        font-style: normal;
+    }
     .td_no_padding {
         text-overflow: ellipsis;
         white-space: nowrap;/*不让文本换行*/
