@@ -78,28 +78,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
-        manager.setDataSource(dataSource);
-        if(!manager.userExists("user")){
-            manager.createUser(User.withDefaultPasswordEncoder().username("user").password("user").roles("USER").build());
-
-        }
-        if(!manager.userExists("lwp")){
-            manager.createUser(User.withDefaultPasswordEncoder().username("lwp").password("lwp").roles("USER","ADMIN").build());
-
-        }
-        if(!manager.userExists(du)){
-            manager.createUser(User.withDefaultPasswordEncoder().username(du).password(dp).roles("ADMIN").build());
-        }
-        if(!manager.userExists("su-admin")){
-            manager.createUser(User.withDefaultPasswordEncoder().username("su-admin").password("123456").roles("ADMIN","USER","SUPER_POWER").build());
-        }
-        return manager;
-    }
+//
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
+//        manager.setDataSource(dataSource);
+//        if(!manager.userExists("user")){
+//            manager.createUser(User.withDefaultPasswordEncoder().username("user").password("user").roles("USER").build());
+//
+//        }
+//        if(!manager.userExists("lwp")){
+//            manager.createUser(User.withDefaultPasswordEncoder().username("lwp").password("lwp").roles("USER","ADMIN").build());
+//
+//        }
+//        if(!manager.userExists(du)){
+//            manager.createUser(User.withDefaultPasswordEncoder().username(du).password(dp).roles("ADMIN").build());
+//        }
+//        if(!manager.userExists("su-admin")){
+//            manager.createUser(User.withDefaultPasswordEncoder().username("su-admin").password("123456").roles("ADMIN","USER","SUPER_POWER").build());
+//        }
+//        return manager;
+//    }
 //
 //    /**
 //     * 授权的判定

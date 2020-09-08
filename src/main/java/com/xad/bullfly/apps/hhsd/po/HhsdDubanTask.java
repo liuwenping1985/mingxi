@@ -21,9 +21,10 @@ public class HhsdDubanTask extends BaseDomain<Long> implements ManagedObject {
     private String taskId;
     @Column(name="task_source")
     private Long taskSource;
-    @Column(name="task_id")
+    @Column(name="task_type")
     private Long taskType;
     private String name;
+    @Column(name="descrption")
     private String desc;
     @Column(name="task_attachment")
     private String taskAttachment;

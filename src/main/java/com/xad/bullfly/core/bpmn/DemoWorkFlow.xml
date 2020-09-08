@@ -7,12 +7,18 @@
         <sequence rule="NEXT"></sequence>
         <sequence-node  name="督办员发起者填东西" type="COMMON" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
         <sequence rule="NEXT"></sequence>
-        <sequence-node  name="督办员领导审批" type="APPROVAL" member-rule="RULE_LEADER,SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
-        <sequence rule="CACULATE"></sequence>
+        <sequence-node  name="督办员领导审批" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        <sequence rule="NEXT"></sequence>
+        <sequence-node  name="承办部门签收" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        <sequence rule="NEXT"></sequence>
+        <sequence-node  name="协办部门签收" type="APPROVAL" member-rule="SET" member-mode="multi"  injection="NONE" output="" ></sequence-node>
+        <sequence rule="NEXT"></sequence>
+        <sequence-node  name="督办员完成" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        <sequence rule="NEXT"></sequence>
+        <sequence-node type="END" member-rule="END" member-mode="single"  injection="NONE" output="" ></sequence-node>
+
     </flow-sequences>
-
-
-
+        
         <dataset>
 
         </dataset>

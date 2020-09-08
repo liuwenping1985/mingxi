@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @Author liuwenping
  */
 @SpringBootApplication
-@EnableAutoConfiguration
 @ComponentScan(basePackages={"com.xad.bullfly"})
 @EnableJpaRepositories(basePackages={"com.xad.bullfly"})
 @EntityScan(basePackages="com.xad.bullfly")

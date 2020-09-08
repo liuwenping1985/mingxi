@@ -20,7 +20,7 @@
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.30</slf4j.version>
         <jackson-databind.version>2.11.1</jackson-databind.version>
-        <activiti.version>7.1.0.M5</activiti.version>
+<!--        <activiti.version>7.1.0.M5</activiti.version>-->
         <spring.data.releasetrain.version>Moore-SR6</spring.data.releasetrain.version>
     </properties>
     <!--<parent>-->
@@ -115,23 +115,23 @@
         </dependency>
 
         <!-- activiti -->
-        <dependency>
-            <groupId>org.activiti.dependencies</groupId>
-            <artifactId>activiti-dependencies</artifactId>
-            <version>${activiti.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
-        <!-- Activiti生成流程图 -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-image-generator</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.activiti.dependencies</groupId>-->
+<!--            <artifactId>activiti-dependencies</artifactId>-->
+<!--            <version>${activiti.version}</version>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.activiti</groupId>-->
+<!--            <artifactId>activiti-spring-boot-starter</artifactId>-->
+<!--            <version>${activiti.version}</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; Activiti生成流程图 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.activiti</groupId>-->
+<!--            <artifactId>activiti-image-generator</artifactId>-->
+<!--            <version>${activiti.version}</version>-->
+<!--        </dependency>-->
 
         <!--  ali support -->
         <dependency>
@@ -207,7 +207,7 @@
                 </includes>
             </resource>
         </resources>
-        <sourceDirectory>src/main/java</sourceDirectory>
+        <sourceDirectory>src/main/java/</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -260,6 +260,11 @@
         </plugins>
     </build>
     <repositories>
+
+        <repository>
+            <id>aliyun</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
         <repository>
             <id>spring-milestones</id>
             <url>https://repo.spring.io/milestone</url>
@@ -288,6 +293,11 @@
 
     </repositories>
     <pluginRepositories>
+
+        <pluginRepository>
+            <id>aliyun</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </pluginRepository>
         <pluginRepository>
             <id>spring-milestones</id>
             <url>https://repo.spring.io/milestone</url>
@@ -296,6 +306,12 @@
             <id>spring-snapshots</id>
             <url>https://repo.spring.io/snapshot</url>
         </pluginRepository>
-
+        <pluginRepository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
     </pluginRepositories>
 </project>

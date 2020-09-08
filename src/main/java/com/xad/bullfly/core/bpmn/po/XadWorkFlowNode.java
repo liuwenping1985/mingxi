@@ -43,7 +43,7 @@ public class XadWorkFlowNode extends BaseDomain<Long> implements ManagedObject<L
     @Column(name = "work_flow_id")
     private Long workFlowId;
 
-    @Column(name = "node_id")
+    @Column(name = "node_type")
     private EnumWorkFlowNodeType nodeType;
 
     @Column(name = "bind_object")
