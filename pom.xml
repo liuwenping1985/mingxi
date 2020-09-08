@@ -20,6 +20,7 @@
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.30</slf4j.version>
         <jackson-databind.version>2.11.1</jackson-databind.version>
+        <activiti.version>7.1.0.M5</activiti.version>
         <spring.data.releasetrain.version>Moore-SR6</spring.data.releasetrain.version>
     </properties>
     <!--<parent>-->
@@ -113,6 +114,24 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- activiti -->
+        <dependency>
+            <groupId>org.activiti.dependencies</groupId>
+            <artifactId>activiti-dependencies</artifactId>
+            <version>${activiti.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
+        <!-- Activiti生成流程图 -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-image-generator</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
 
         <!--  ali support -->
         <dependency>
@@ -146,6 +165,7 @@
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -164,6 +184,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
                     <include>**/*.html</include>
+                    <include>**/*.json</include>
                     <include>**/*.factories</include>
                 </includes>
                 <filtering>false</filtering>
@@ -210,7 +231,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.4.0-M1</version>
+                <version>${springboot.main.version}</version>
                 <configuration>
                     <addResources>true</addResources>
                     <jvmArguments>
@@ -218,7 +239,7 @@
                     </jvmArguments>
                     <systemPropertyVariables>
                         <version>v1.0.0</version>
-                        <license>lic202012314xadcoltd</license>
+                        <license>xad license 1.0</license>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -246,6 +267,20 @@
         <repository>
             <id>spring-snapshots</id>
             <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>repo2</id>
+            <url>http://repo2.maven.org/maven2</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
