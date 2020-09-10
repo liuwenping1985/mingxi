@@ -1,9 +1,8 @@
 package com.xad.bullfly.apps.hhsd.po;
 
-import com.xad.bullfly.core.common.base.domain.BaseDomain;
+import com.xad.bullfly.core.common.base.domain.BaseTenantDomain;
 import com.xad.bullfly.core.common.base.domain.mo.ManagedObject;
 import lombok.Data;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,7 +15,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "hhsd_duban_task")
-public class HhsdDubanTask extends BaseDomain<Long> implements ManagedObject {
+public class HhsdDubanTask extends BaseTenantDomain<Long> implements ManagedObject {
     @Column(name="task_id")
     private String taskId;
     @Column(name="task_source")

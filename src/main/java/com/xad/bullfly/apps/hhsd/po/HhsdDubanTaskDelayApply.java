@@ -1,9 +1,8 @@
 package com.xad.bullfly.apps.hhsd.po;
 
-import com.xad.bullfly.core.common.base.domain.BaseDomain;
+import com.xad.bullfly.core.common.base.domain.BaseTenantDomain;
 import com.xad.bullfly.core.common.base.domain.mo.ManagedObject;
 import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
@@ -14,7 +13,8 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name="hhsd_duban_task_delay_apply")
-public class HhsdDubanTaskDelayApply extends BaseDomain<Long> implements ManagedObject {
+public class HhsdDubanTaskDelayApply extends BaseTenantDomain<Long> implements ManagedObject {
+
     private Long taskId;
     private Long memberId;
     private String memberName;

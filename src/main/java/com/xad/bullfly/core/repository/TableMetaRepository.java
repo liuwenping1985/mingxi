@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.sql.DataSourceDefinition;
+
 /**
  * Created by liuwenping on 2019/8/27.
  */
+
 @Repository
 public interface TableMetaRepository extends BaseRepository<TableMeta,Long> {
     /**

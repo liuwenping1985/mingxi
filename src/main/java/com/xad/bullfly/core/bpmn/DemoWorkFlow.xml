@@ -1,47 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xad-bpmn>
-    <process name="流程demo" id="processOne">
+    <process name="流程demo" id="processOne" version="0.1">
     <flow-sequences>
         <!-- injection 表示是否给reference值，START表示开始 流程创建的时候处于这个状态-->
-        <sequence-node  type="START" mode="system_node" member-rule="NONE" injection="NONE"></sequence-node>
-        <sequence rule="NEXT"></sequence>
-        <sequence-node  name="督办员发起者填东西" type="COMMON" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
-        <sequence rule="NEXT"></sequence>
-        <sequence-node  name="督办员领导审批" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
-        <sequence rule="NEXT"></sequence>
-        <sequence-node  name="承办部门签收" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
-        <sequence rule="NEXT"></sequence>
-        <sequence-node  name="协办部门签收" type="APPROVAL" member-rule="SET" member-mode="multi"  injection="NONE" output="" ></sequence-node>
-        <sequence rule="NEXT"></sequence>
-        <sequence-node  name="督办员完成" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
-        <sequence rule="NEXT"></sequence>
-        <sequence-node type="END" member-rule="END" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        <sequence id="seq1" type="EVENT" link="NEXT-seq2">
+            <sequence-node  type="START" mode="system_node" member-rule="NONE" injection="NONE"></sequence-node>
+        </sequence>
+        <sequence id="seq2" link="NEXT-seq3">
+            <sequence-node  name="督办员发起者填东西" type="COMMON" member-rule="RULE-LOGIN-USER" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        </sequence>
+        <sequence id="seq3" link="NEXT-seq4">
+            <sequence-node  name="督办员领导审批" type="APPROVAL" member-rule="RULE_LEADER" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        </sequence>
+        <sequence id="seq4" link="NEXT-seq9">
+            <sequence-node  name="承办部门签收" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        </sequence>
+        <sequence id="seq9" type="NODE_GENERATOR" link="NEXT-seq6">
+            <sequence-node  name="协办部门签收节点生成" type="NODE_TEMPLATE_PARALLEL" member-rule="SET" member-mode="multi"  injection="NONE" output="" >
+                <node-template name="协办部门签收" link="NEXT-seq6" user-candidate=""></node-template>
+            </sequence-node>
+        </sequence>
+        <sequence id="seq6" type="GATE_WAY" link="NEXT-seq7">
+            <sequence-node  name="协办部门签收完成等待网关" type="NODE_TEMPLATE_PARALLEL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        </sequence>
+        <sequence id="seq7" link="NEXT-seq8">
+            <sequence-node  name="督办员完成" type="APPROVAL" member-rule="SET" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        </sequence>
+        <sequence id="seq8" type="EVENT" link="END">
+            <sequence-node type="END" member-rule="END" member-mode="single"  injection="NONE" output="" ></sequence-node>
+        </sequence>
 
     </flow-sequences>
-        
-        <dataset>
 
-        </dataset>
-    <rules>
+    <xad-flow-rules>
         <rule name="NONE">
 
         </rule>
-        <rule name="SET">
-
+        <rule name="RULE-LOGIN-USER">
+            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(bindObject)</executor>
+        </rule>
+        <rule name="RULE_STARTER">
+            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(bindObject)</executor>
         </rule>
         <rule name="RULE_LEADER">
-            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(execution,user)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(bindObject)</executor>
         </rule>
         <rule name="RULE_SUPERVISOR">
-            <executor type="java">@xadWorkFlowRuleProvider.getSupervisor(execution,user)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getSupervisor(bindObject)</executor>
         </rule>
         <rule name="RULE_USER_LIST">
-            <executor type="java">@xadWorkFlowRuleProvider.getUserList(execution,user)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getUserList(bindObject)</executor>
         </rule>
         <rule name="RULE_BINDDATA">
-            <executor type="java">@xadWorkFlowRuleProvider.getDubanTask(execution,user)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getDubanTask(bindObject)</executor>
         </rule>
-    </rules>
+    </xad-flow-rules>
 
     </process>
 </xad-bpmn>

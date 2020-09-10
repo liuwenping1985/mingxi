@@ -1,4 +1,4 @@
-package com.xad.bullfly.core.bpmn;
+package com.xad.bullfly.core.bpmn.vo;
 
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlowDataView;
 import com.xad.bullfly.core.bpmn.po.XadWorkFlowNode;
@@ -17,19 +17,18 @@ public class XadWorkFlowContext<T> {
     /**
      * 当前节点
      */
-    private XadWorkFlowNode currentNode;
+    private XadWorkFlowSequence currentSequence;
 
     /**
      * 数据视图
      */
     private XadWorkFlowDataView dataView;
-
-    private List<XadWorkFlowNode> currentFlowNodeList;
-    private XadWorkFlowNode currentFlowNode;
-    private List<XadWorkFlowNode> historyNodeList;
-    private XadWorkFlowNode prevFlowNode;
-    private boolean onSingleNode;
-    private boolean onGatewayNode;
+    private List<XadWorkFlowSequence> currentFlowSequenceList;
+    private List<XadWorkFlowSequence> historySequenceList;
+    private List<XadWorkFlowSequence> templateSequenceList;
+    private XadWorkFlowSequence prevFlowSequence;
+    private boolean onSingleSequence;
+    private boolean onGatewaySequence;
 
 
 }

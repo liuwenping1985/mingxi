@@ -67,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().
 //                accessDecisionManager(accessDecisionManager()).anyRequest().authenticated();
      //   http.logout().permitAll();
+        http.authorizeRequests().anyRequest().permitAll();
 
     }
 

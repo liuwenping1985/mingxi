@@ -5,6 +5,7 @@ import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -48,9 +50,20 @@ public class DataSourceConfig {
     @Primary
     @Bean(name="primary_data_source")
     @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource druidDataSource() {
+    public DataSource primaryDruidDataSource() {
         return new DruidDataSource();
     }
+    /**
+     * 第二个数据源现在用durid数据源
+     * @return
+     */
+    @Bean(name="huawei_cloud_datasource")
+    @ConfigurationProperties(prefix="hw.cloud.spring.datasource")
+    public DataSource hwCloudDruidDataSource() {
+        return new DruidDataSource();
+    }
+
+
 
     @Bean
     public ServletRegistrationBean druidServlet() {
@@ -79,6 +92,16 @@ public class DataSourceConfig {
 
     }
 
+    @Bean(name = "primaryJdbcTemplate")
+    public JdbcTemplate primaryJdbcTemplate(
+            @Qualifier("primary_data_source") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 
+    @Bean(name = "secondaryJdbcTemplate")
+    public JdbcTemplate secondaryJdbcTemplate(
+            @Qualifier("huawei_cloud_datasource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 
 }

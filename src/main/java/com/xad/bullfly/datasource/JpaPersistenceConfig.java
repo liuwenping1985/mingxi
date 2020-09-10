@@ -38,6 +38,10 @@ public class JpaPersistenceConfig {
     @Autowired
     private JpaProperties jpaProperties;
 
+    @Autowired
+    @Qualifier("primary_data_source")
+    private DataSource hwCloudDataSource;
+
     @Primary
     @Bean(name = "entityManager")
     public EntityManager entityManager(EntityManagerFactoryBuilder builder) {

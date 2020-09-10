@@ -2,6 +2,7 @@ package com.xad.bullfly.core.bpmn;
 
 import com.xad.bullfly.core.bpmn.po.XadWorkFlowNode;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlow;
+import com.xad.bullfly.core.bpmn.vo.XadWorkFlowCondition;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlowTemplate;
 
 /**
@@ -11,25 +12,25 @@ import com.xad.bullfly.core.bpmn.vo.XadWorkFlowTemplate;
 public interface XadWorkFlowEngine {
 
 
-    XadWorkFlow buildNewWorkFlowByTemplate(XadWorkFlowTemplate template);
+    XadWorkFlow buildNewWorkFlowByTemplate(XadWorkFlowTemplate template,Object bindObject);
 
     String getVersion(XadWorkFlow flow);
 
     /**
      * 正常流转
      */
-    void process(XadWorkFlow flow);
+    void process(XadWorkFlow flow) throws XadBpmnException;
 
     /**
      * 开启流转，不开启 节点会一直处在START NODE 上
      * @param flow
      */
-    void start(XadWorkFlow flow);
+    void start(XadWorkFlow flow) throws XadBpmnException;
 
     /**
-     * 挂起直到。。。。为false
+     *
      */
-    void lockUntil(XadWorkFlowCondition condition);
+    void unlockWhen(XadWorkFlowCondition condition);
 
     /**
      * 当。。。为true出现后挂起
@@ -44,7 +45,7 @@ public interface XadWorkFlowEngine {
 
     XadWorkFlow joinWorkFlow(XadWorkFlow flowOne, XadWorkFlow flowTwo);
 
-    XadWorkFlow loadXadWorkFlow(Long workFlowId);
+    XadWorkFlow loadXadWorkFlow(String workFlowMoId);
 
     XadWorkFlowNode genNextNode(XadWorkFlowNode current);
 

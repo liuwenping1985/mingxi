@@ -20,7 +20,7 @@
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.30</slf4j.version>
         <jackson-databind.version>2.11.1</jackson-databind.version>
-<!--        <activiti.version>7.1.0.M5</activiti.version>-->
+        <!--        <activiti.version>7.1.0.M5</activiti.version>-->
         <spring.data.releasetrain.version>Moore-SR6</spring.data.releasetrain.version>
     </properties>
     <!--<parent>-->
@@ -60,21 +60,21 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!--移除Tomcat依赖-->
+        <!--如果要用undertow作为容器需要移除Tomcat依赖，这里2选一就可以-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-                <!--</exclusion>-->
+            <!--<exclusion>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--</exclusion>-->
             <!--</exclusions>-->
         </dependency>
         <!--引入undertow-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-undertow</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-undertow</artifactId>-->
         <!--</dependency>-->
 
 
@@ -92,11 +92,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!-- start of 数据库驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+        </dependency>
+        <!-- end of 数据库驱动-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -114,25 +119,25 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- activiti -->
-<!--        <dependency>-->
-<!--            <groupId>org.activiti.dependencies</groupId>-->
-<!--            <artifactId>activiti-dependencies</artifactId>-->
-<!--            <version>${activiti.version}</version>-->
-<!--            <type>pom</type>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.activiti</groupId>-->
-<!--            <artifactId>activiti-spring-boot-starter</artifactId>-->
-<!--            <version>${activiti.version}</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; Activiti生成流程图 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.activiti</groupId>-->
-<!--            <artifactId>activiti-image-generator</artifactId>-->
-<!--            <version>${activiti.version}</version>-->
-<!--        </dependency>-->
-
+        <!-- start of activiti 启动 -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.activiti.dependencies</groupId>-->
+        <!--            <artifactId>activiti-dependencies</artifactId>-->
+        <!--            <version>${activiti.version}</version>-->
+        <!--            <type>pom</type>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.activiti</groupId>-->
+        <!--            <artifactId>activiti-spring-boot-starter</artifactId>-->
+        <!--            <version>${activiti.version}</version>-->
+        <!--        </dependency>-->
+        <!--        &lt;!&ndash; Activiti生成流程图 &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.activiti</groupId>-->
+        <!--            <artifactId>activiti-image-generator</artifactId>-->
+        <!--            <version>${activiti.version}</version>-->
+        <!--        </dependency>-->
+        <!-- end of activiti  -->
         <!--  ali support -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -171,12 +176,25 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind.version}</version>
         </dependency>
-
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--&lt;!&ndash; 表示依赖不会传递，之后依赖该module的项目如需继续使用，则需要再次引入 &ndash;&gt;-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
 
     </dependencies>
 
     <build>
         <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+                <targetPath>META-INF/resources</targetPath>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -241,20 +259,39 @@
                         <version>v1.0.0</version>
                         <license>xad license 1.0</license>
                     </systemPropertyVariables>
+
+                    <mainClass>com.xad.bullfly.ApplicationStarter</mainClass>
+                    <includeSystemScope>true</includeSystemScope><!--外部进行打包-->
+
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!---->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
+
                     <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
+
+                        <addMavenDescriptor>true</addMavenDescriptor>
+                        <!--<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>-->
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!-- 此处为程序主入口-->
+                            <mainClass>com.xad.bullfly.ApplicationStarter</mainClass>
+                        </manifest>
                     </archive>
                 </configuration>
             </plugin>
-
 
 
         </plugins>
