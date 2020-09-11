@@ -1,5 +1,6 @@
 package com.xad.bullfly;
 
+import com.xad.bullfly.organization.vo.UserVo;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -18,12 +19,23 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages={"com.xad.bullfly"})
 @EntityScan(basePackages="com.xad.bullfly")
 public class ApplicationStarter {
+
     private static ConfigurableApplicationContext applicationContext;
+
     public static void main(String[] args) {
         applicationContext =   new SpringApplicationBuilder().sources(ApplicationStarter.class).run(args);
     }
 
     public static ApplicationContext getApplicationContext(){
         return applicationContext;
+    }
+
+    private static ThreadLocal<UserVo> loginInfos = new ThreadLocal<>();
+
+    public static void setCurrentUser(UserVo vo){
+        loginInfos.set(vo);
+    }
+    public static UserVo getCurrentUser(){
+       return  loginInfos.get();
     }
 }

@@ -35,6 +35,12 @@ public class WebJsonResponse {
         result.setMsg(msg);
         return result;
     }
+    public static WebJsonResponse success(String msg){
+        WebJsonResponse result = new WebJsonResponse();
+        result.setSuccess(true);
+        result.setMsg(msg);
+        return result;
+    }
     public static WebJsonResponse failWithData(String msg, Object data){
         WebJsonResponse result = new WebJsonResponse();
         result.setSuccess(false);

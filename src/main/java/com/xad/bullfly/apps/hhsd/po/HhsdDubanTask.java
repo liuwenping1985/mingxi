@@ -62,6 +62,16 @@ public class HhsdDubanTask extends BaseTenantDomain<Long> implements ManagedObje
     private Long primaryDeptId;
     @Column(name="primary_dept_name")
     private String primaryDeptName;
+    @Column(name="primary_dept_weight")
+    private String primaryDeptWeight;
+    @Column(name="primary_dept_leader_id")
+    private Long primaryDeptLeaderId;
+    @Column(name="primary_dept_leader_name")
+    private String primaryDeptLeaderName;
+    @Column(name="primary_process")
+    private String primaryProcess;
+    @Column(name="primary_finish_date")
+    private String primaryFinishDate;
     @Column(name="secondary_dept_ids")
     private String secondaryDeptIds;
     @Column(name="secondary_dept_names")

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xad-bpmn>
-    <process name="流程demo" id="processOne" version="0.1">
+    <process name="流程demo" id="DUBAN_TASK" version="0.1">
     <flow-sequences>
         <!-- injection 表示是否给reference值，START表示开始 流程创建的时候处于这个状态-->
         <sequence id="seq1" type="EVENT" link="NEXT-seq2">
@@ -37,13 +37,13 @@
 
         </rule>
         <rule name="RULE-LOGIN-USER">
-            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(bindObject)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getUserFromLogin(context)</executor>
         </rule>
         <rule name="RULE_STARTER">
-            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(bindObject)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(context)</executor>
         </rule>
         <rule name="RULE_LEADER">
-            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(bindObject)</executor>
+            <executor type="java">@xadWorkFlowRuleProvider.getUserLeader(context)</executor>
         </rule>
         <rule name="RULE_SUPERVISOR">
             <executor type="java">@xadWorkFlowRuleProvider.getSupervisor(bindObject)</executor>

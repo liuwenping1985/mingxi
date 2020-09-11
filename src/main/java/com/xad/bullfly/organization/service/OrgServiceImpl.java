@@ -57,9 +57,6 @@ public class OrgServiceImpl extends AbstractMicroService implements OrgService {
             UserVo vo = JSON.parseObject(JSON.toJSONString(domain),UserVo.class);
             userVoList.add(vo);
         }
-
         return userVoList;
-
-
     }
 }

@@ -76,6 +76,7 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
             XadWorkFlowSequenceNode node = nextSeq.getNode();
             String injection = node.getInjection();
 
+
         }else if("EVENT".equals(nextSeqType)||"COMMON".equals(nextSeqType)){
 
         }else if("APPROVAL".equals(nextSeqType)){

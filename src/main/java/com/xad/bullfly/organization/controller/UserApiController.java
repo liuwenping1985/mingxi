@@ -1,14 +1,19 @@
 package com.xad.bullfly.organization.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.xad.bullfly.core.service.OrgService;
 import com.xad.bullfly.organization.vo.UserVo;
 import com.xad.bullfly.web.common.vo.WebJsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -23,32 +28,25 @@ public class UserApiController {
     @Autowired
     private OrgService orgService;
 
-
-    @RequestMapping(value = "/say",method = RequestMethod.GET)
-    public String say() throws Exception {
-        return "Say Hi-Say Hi[GET]";
-
-    }
-
-    @RequestMapping(value = "/say",method = RequestMethod.POST)
+    @RequestMapping(value = "/say", method = RequestMethod.POST)
     public String say2(@RequestBody Map data) throws Exception {
-        return "Say Hi-Say Hi[POST]"+data;
+        return "Say Hi-Say Hi[POST]" + data;
 
     }
 
-    @RequestMapping(value = "/say",method = RequestMethod.PUT)
+    @RequestMapping(value = "/say", method = RequestMethod.PUT)
     public String say3(@RequestBody Map data) throws Exception {
-        return "Say Hi-Say Hi[PUT]"+data;
+        return "Say Hi-Say Hi[PUT]" + data;
 
     }
 
-    @RequestMapping(value = "/say",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/say", method = RequestMethod.DELETE)
     public String say4() throws Exception {
         return "Say Hi-Say Hi[DELETE]";
 
     }
 
-    @RequestMapping(value = "/say",method = RequestMethod.PATCH)
+    @RequestMapping(value = "/say", method = RequestMethod.PATCH)
     public String say5() throws Exception {
         return "Say Hi-Say Hi[PATCH]";
 
@@ -68,9 +66,6 @@ public class UserApiController {
         return WebJsonResponse.successWithItems(voList);
 
     }
-
-
-
 
 
 }
