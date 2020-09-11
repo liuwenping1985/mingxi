@@ -2,11 +2,14 @@ package com.xad.bullfly.core.bpmn.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.xad.bullfly.core.bpmn.XadBpmnException;
+import com.xad.bullfly.core.bpmn.XadWorkFlowEventPublisher;
 import com.xad.bullfly.core.bpmn.constant.EnumWorkFlowNodeType;
 import com.xad.bullfly.core.bpmn.constant.EnumWorkFlowStatus;
+import com.xad.bullfly.core.bpmn.constant.XadEventType;
 import com.xad.bullfly.core.bpmn.vo.*;
 import com.xad.bullfly.core.bpmn.XadWorkFlowEngine;
 import com.xad.bullfly.core.bpmn.po.XadWorkFlowNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ import java.util.UUID;
 @Component("xadWorkFlowEngine")
 public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
 
+    @Autowired
+    private XadWorkFlowEventPublisher xadWorkFlowEventPublisher;
 
     @Override
     public XadWorkFlow buildNewWorkFlowByTemplate(XadWorkFlowTemplate template, Object bindObject) {
@@ -58,6 +63,7 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
 
         XadWorkFlowSequence seq = flow.getWorkFlowContext().getCurrentSequence();
         String link = seq.getLink();
+        //TODO:这里需要扩展，现在都是往下走
         if (link.startsWith("NEXT-")) {
             toNext(flow);
         }
@@ -77,9 +83,10 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
             String injection = node.getInjection();
 
 
-        }else if("EVENT".equals(nextSeqType)||"COMMON".equals(nextSeqType)){
+        } else if ("EVENT".equals(nextSeqType) || "COMMON".equals(nextSeqType)) {
 
-        }else if("APPROVAL".equals(nextSeqType)){
+
+        } else if ("APPROVAL".equals(nextSeqType)) {
 
         }
 
@@ -101,7 +108,8 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
     public void start(XadWorkFlow flow) throws XadBpmnException {
         if (!EnumWorkFlowStatus.START.equals(flow.getStatus())) {
             throw new XadBpmnException("流程状态不处于开始状态");
-
+        } else {
+            xadWorkFlowEventPublisher.receiveEvent(XadEventType.START, flow);
         }
         process(flow);
 
