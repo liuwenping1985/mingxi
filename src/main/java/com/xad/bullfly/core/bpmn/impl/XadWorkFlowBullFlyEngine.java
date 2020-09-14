@@ -1,16 +1,17 @@
 package com.xad.bullfly.core.bpmn.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.xad.bullfly.core.bpmn.XadBpmnException;
-import com.xad.bullfly.core.bpmn.XadWorkFlowEventPublisher;
+import com.xad.bullfly.core.bpmn.*;
 import com.xad.bullfly.core.bpmn.constant.EnumWorkFlowNodeType;
 import com.xad.bullfly.core.bpmn.constant.EnumWorkFlowStatus;
 import com.xad.bullfly.core.bpmn.constant.XadEventType;
 import com.xad.bullfly.core.bpmn.vo.*;
-import com.xad.bullfly.core.bpmn.XadWorkFlowEngine;
 import com.xad.bullfly.core.bpmn.po.XadWorkFlowNode;
+import com.xad.bullfly.core.common.AppContextUtil;
+import com.xad.bullfly.organization.domain.UserDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,14 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
     @Autowired
     private XadWorkFlowEventPublisher xadWorkFlowEventPublisher;
 
+    @Autowired
+    private XadWorkFlowRuleProvider xadWorkFlowRuleProvider;
+
     @Override
     public XadWorkFlow buildNewWorkFlowByTemplate(XadWorkFlowTemplate template, Object bindObject) {
 
         XadWorkFlow workFlow = new XadWorkFlow();
-        workFlow.setTemplateContent(JSON.toJSONString(template));
+        // workFlow.setTemplateContent(JSON.toJSONString(template));
         XadWorkFlowContext context = new XadWorkFlowContext();
         context.setBindObject(bindObject);
         workFlow.setWorkFlowContext(context);
@@ -40,6 +44,7 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
         workFlow.setDataVersion(template.getVersion());
         workFlow.setStatus(EnumWorkFlowStatus.START);
         context.setTemplateSequenceList(sequenceList);
+        context.setTemplate(template);
         for (XadWorkFlowSequence sq : sequenceList) {
             if (EnumWorkFlowNodeType.START.name().equalsIgnoreCase(sq.getType())) {
                 context.setCurrentSequence(sq);
@@ -77,16 +82,39 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
         List<XadWorkFlowSequence> templateSeqs = flow.getWorkFlowContext().getTemplateSequenceList();
         String next = currentSequence.getLink();
         XadWorkFlowSequence nextSeq = getNextSequence(next, templateSeqs);
+        XadWorkFlowSequenceNode nextNode = nextSeq.getNode();
         String nextSeqType = nextSeq.getType();
         if ("NODE_TEMPLATE_PARALLEL".equals(nextSeqType)) {
             XadWorkFlowSequenceNode node = nextSeq.getNode();
             String injection = node.getInjection();
 
 
-        } else if ("EVENT".equals(nextSeqType) || "COMMON".equals(nextSeqType)) {
+        } else if ("EVENT".equals(nextSeqType) || "COMMON".equals(nextSeqType) || "APPROVAL".equals(nextSeqType)) {
+            String memberRule = nextNode.getMemberRule();
+            XadWorkFlowRule rule = flow.getWorkFlowContext().getTemplate().getRulesMap().get(memberRule);
+            String memberMode = nextNode.getMemberMode();
+            if (rule != null) {
+                XadWorkFlowMemberProvider memberProvider = null;
+                if (StringUtils.isEmpty(rule.getRef())) {
+                    memberProvider = xadWorkFlowRuleProvider;
+                } else {
+                    memberProvider = AppContextUtil.getBean(rule.getRef());
+                }
+                if ("multi".equals(memberMode)) {
 
+                } else {
+                    UserDomain member = memberProvider.getSingleUser(rule.getName(), flow, nextSeq);
+                    if (member == null) {
+                        throw new XadBpmnException("节点找不到用户:" + JSON.toJSONString(nextSeq));
+                    }
+                    xadWorkFlowEventPublisher.receiveEvent(XadEventType.PROCESS, currentSequence.getNode());
+                    nextNode.setMemberId(String.valueOf(member.getId()));
+                    flow.getWorkFlowContext().setCurrentSequence(nextSeq);
+                    flow.getWorkFlowContext().getHistorySequenceList().add(currentSequence);
+                }
 
-        } else if ("APPROVAL".equals(nextSeqType)) {
+            }
+
 
         }
 
@@ -109,7 +137,7 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
         if (!EnumWorkFlowStatus.START.equals(flow.getStatus())) {
             throw new XadBpmnException("流程状态不处于开始状态");
         } else {
-            xadWorkFlowEventPublisher.receiveEvent(XadEventType.START, flow);
+            xadWorkFlowEventPublisher.receiveEvent(XadEventType.START, flow.getWorkFlowContext().getCurrentSequence().getNode());
         }
         process(flow);
 

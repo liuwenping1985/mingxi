@@ -3,6 +3,7 @@ package com.xad.bullfly.core.bpmn;
 import com.alibaba.fastjson.JSON;
 import com.xad.bullfly.core.bpmn.constant.EnumWorkFlowNodeType;
 import com.xad.bullfly.core.bpmn.constant.XadBPMNXMLElements;
+import com.xad.bullfly.core.bpmn.vo.XadWorkFlowRule;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlowSequence;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlowSequenceNode;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlowTemplate;
@@ -11,12 +12,11 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by liuwenping on 2020/9/8.
@@ -43,12 +43,55 @@ public final class XadBpmnUtil {
                 throw new XadBpmnException("不是合法的bpmn文件");
             }
             parseProcessAttribute(root, template);
-            parseFlowSequences(root,template);
+            parseFlowSequences(root, template);
+            parseRules(root, template);
         } catch (DocumentException e) {
             e.printStackTrace();
         }
         return template;
 
+    }
+
+    private static void parseRules(Element root, XadWorkFlowTemplate template) {
+        Element ruleRoot = getSingleSpecificElementByName("xad-flow-rules", root);
+        if (ruleRoot != null) {
+
+            List<Element> ruleList = getSpecificElementsByName(XadBPMNXMLElements.RULE, ruleRoot);
+            if (!CollectionUtils.isEmpty(ruleList)) {
+                Map<String, XadWorkFlowRule> ruleMap = template.getRulesMap();
+                if (ruleMap == null) {
+                    ruleMap = new HashMap<>();
+                    template.setRulesMap(ruleMap);
+                }
+                for (Element ele : ruleList) {
+                    XadWorkFlowRule rule = new XadWorkFlowRule();
+                    Attribute attributeName = ele.attribute("name");
+                    if (attributeName != null) {
+                        if (StringUtils.isEmpty(attributeName.getValue())) {
+                            continue;
+                        }
+                        rule.setName(attributeName.getValue());
+                        ruleMap.put(rule.getName(), rule);
+                    } else {
+                        continue;
+                    }
+                    Attribute attributeRef = ele.attribute("ref");
+                    if (attributeRef != null) {
+                        //xadWorkFlowRuleProvider
+                        if (StringUtils.isEmpty(attributeRef.getValue())) {
+                            rule.setRef("xadWorkFlowRuleProvider");
+                        } else {
+                            rule.setRef(attributeRef.getValue());
+                        }
+
+                    } else {
+                        rule.setRef("xadWorkFlowRuleProvider");
+                    }
+                }
+
+            }
+
+        }
     }
 
     private static void parseFlowSequences(Element root, XadWorkFlowTemplate template) {
@@ -182,30 +225,27 @@ public final class XadBpmnUtil {
     }
 
     public static Element fetchSingleElementNode(String nodeName, Element element) {
-        if (element == null) {
+        if (element == null || StringUtils.isEmpty(nodeName)) {
             return null;
         }
-
         Iterator<Element> iterator = element.elementIterator();
         while (iterator.hasNext()) {
-            Element now = iterator.next();
-            if (nodeName.equalsIgnoreCase(now.getName())) {
-                return now;
+            Element elementItem = iterator.next();
+            if (nodeName.equalsIgnoreCase(elementItem.getName())) {
+                return elementItem;
             } else {
-                Element child = fetchSingleElementNode(nodeName, now);
+                Element child = fetchSingleElementNode(nodeName, elementItem);
                 if (child != null) {
                     return child;
                 }
             }
         }
         return null;
-
-
     }
 
     public static void main(String[] args) {
 
-        File file = new File(XadBpmnUtil.class.getResource("DemoWorkFlow.xml").getPath());
+        File file = new File(XadBpmnUtil.class.getResource("DubanTaskWorkFlow.xml").getPath());
 
         try {
             XadWorkFlowTemplate xadWorkFlowTemplate = parseXadWorkFlowTemplateByFile(file);

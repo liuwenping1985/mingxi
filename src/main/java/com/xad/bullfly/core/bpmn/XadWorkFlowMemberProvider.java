@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface XadWorkFlowMemberProvider {
 
-    List<UserDomain> getMultiUsers(XadWorkFlow flow,XadWorkFlowSequence sequence);
-    UserDomain getSingleUser(XadWorkFlow flow,XadWorkFlowSequence sequence);
+    List<UserDomain> getMultiUsers(String ruleName,XadWorkFlow flow,XadWorkFlowSequence sequence);
+
+    UserDomain getSingleUser(String ruleName,XadWorkFlow flow,XadWorkFlowSequence sequence);
+
 }

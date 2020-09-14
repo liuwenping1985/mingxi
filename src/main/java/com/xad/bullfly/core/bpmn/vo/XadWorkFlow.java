@@ -28,7 +28,7 @@ public class XadWorkFlow<T> implements ManagedObject<String>{
      */
 
     private XadWorkFlowContext<T> workFlowContext;
-    private String templateContent;
+
     private String moId;
     private String moReference;
 

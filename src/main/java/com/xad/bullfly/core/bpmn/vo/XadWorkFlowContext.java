@@ -23,6 +23,7 @@ public class XadWorkFlowContext<T> {
      * 数据视图
      */
     private XadWorkFlowDataView dataView;
+    private XadWorkFlowTemplate template;
     private List<XadWorkFlowSequence> currentFlowSequenceList;
     private List<XadWorkFlowSequence> historySequenceList;
     private List<XadWorkFlowSequence> templateSequenceList;

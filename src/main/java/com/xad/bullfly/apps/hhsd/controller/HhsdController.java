@@ -47,7 +47,6 @@ public class HhsdController {
     public WebJsonResponse startDubanTask(@PathVariable("user_id") String userId) throws Exception {
         //xadXAD@2019
         //-1046765851205939806
-
         return hhsdMainService.startDubantask(userId);
 
     }

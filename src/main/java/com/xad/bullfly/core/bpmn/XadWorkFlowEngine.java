@@ -6,6 +6,7 @@ import com.xad.bullfly.core.bpmn.vo.XadWorkFlowCondition;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlowTemplate;
 
 /**
+ * 流程引擎接口
  * Created by liuwenping on 2020/9/8.
  */
 
@@ -29,6 +30,7 @@ public interface XadWorkFlowEngine {
 
     /**
      *
+     * unlockWhen
      */
     void unlockWhen(XadWorkFlowCondition condition);
 
@@ -37,16 +39,45 @@ public interface XadWorkFlowEngine {
      */
     void lockWhen(XadWorkFlowCondition condition);
 
+    /**
+     *
+     * @param flow
+     * @param deleteTrail
+     */
     void backToPrevNode(XadWorkFlow flow,boolean deleteTrail);
 
+    /**
+     *
+     * @param flow
+     */
     void addNewNode(XadWorkFlow flow);
 
+    /**
+     *
+     * @param flow
+     */
     void jumpNextNode(XadWorkFlow flow);
 
+    /**
+     *
+     * @param flowOne
+     * @param flowTwo
+     * @return
+     */
     XadWorkFlow joinWorkFlow(XadWorkFlow flowOne, XadWorkFlow flowTwo);
 
+    /**
+     *
+     * @param workFlowMoId
+     * @return
+     */
     XadWorkFlow loadXadWorkFlow(String workFlowMoId);
 
+    /**
+     *
+     * @param current
+     * @return
+     */
     XadWorkFlowNode genNextNode(XadWorkFlowNode current);
 
 }

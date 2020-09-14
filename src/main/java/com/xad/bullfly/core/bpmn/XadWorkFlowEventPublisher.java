@@ -2,6 +2,7 @@ package com.xad.bullfly.core.bpmn;
 
 import com.xad.bullfly.core.bpmn.constant.XadEventType;
 import com.xad.bullfly.core.bpmn.vo.XadWorkFlow;
+import com.xad.bullfly.core.bpmn.vo.XadWorkFlowSequenceNode;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,25 +28,25 @@ public class XadWorkFlowEventPublisher {
         listeners.remove(listener);
     }
 
-    public void receiveEvent(XadEventType type, XadWorkFlow flow) {
-        if(listeners.size()==0){
-            return ;
+    public void receiveEvent(XadEventType type, XadWorkFlowSequenceNode node) {
+        if (listeners.size() == 0) {
+            return;
         }
         switch (type) {
             case START: {
-                listeners.stream().forEach((listener)-> cachedThreadPool.execute(()->listener.onStart(flow)));
+                listeners.stream().forEach((listener) -> cachedThreadPool.execute(() -> listener.onStart(node)));
                 break;
             }
-            case FINISH:{
-                listeners.stream().forEach((listener)-> cachedThreadPool.execute(()->listener.onFinish(flow)));
+            case FINISH: {
+                listeners.stream().forEach((listener) -> cachedThreadPool.execute(() -> listener.onFinish(node)));
                 break;
             }
-            case PROCESS:{
-                listeners.stream().forEach((listener)-> cachedThreadPool.execute(()->listener.onProcess(flow)));
+            case PROCESS: {
+                listeners.stream().forEach((listener) -> cachedThreadPool.execute(() -> listener.onProcess(node)));
                 break;
             }
-            case BACK:{
-                listeners.stream().forEach((listener)-> cachedThreadPool.execute(()->listener.onBack(flow)));
+            case BACK: {
+                listeners.stream().forEach((listener) -> cachedThreadPool.execute(() -> listener.onBack(node)));
                 break;
             }
             default:

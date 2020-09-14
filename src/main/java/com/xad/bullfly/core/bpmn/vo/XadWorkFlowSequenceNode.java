@@ -17,4 +17,5 @@ public class XadWorkFlowSequenceNode {
     private String id;
     private String flowId;
     private Object bindObject;
+    private String memberId;
 }

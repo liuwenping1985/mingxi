@@ -5,10 +5,11 @@ package com.xad.bullfly.core.bpmn.constant;
  */
 public interface XadBPMNXMLElements {
 
-    final String XAD_BPMN = "xad-bpmn";
-    final String PROCESS = "process";
-    final String FLOW_SEQUENCES = "flow-sequences";
-    final String SEQUENCE = "sequence";
-    final String SEQUENCE_NODE = "sequence-node";
+    String XAD_BPMN = "xad-bpmn";
+    String PROCESS = "process";
+    String FLOW_SEQUENCES = "flow-sequences";
+    String SEQUENCE = "sequence";
+    String SEQUENCE_NODE = "sequence-node";
+    String RULE = "rule";
 
 }
