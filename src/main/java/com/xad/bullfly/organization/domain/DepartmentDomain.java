@@ -2,7 +2,6 @@ package com.xad.bullfly.organization.domain;
 
 import com.xad.bullfly.core.common.base.domain.BaseManagedObjectDomain;
 import lombok.Data;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;

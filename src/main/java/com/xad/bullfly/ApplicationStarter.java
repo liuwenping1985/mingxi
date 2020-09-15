@@ -1,7 +1,6 @@
 package com.xad.bullfly;
 
 import com.xad.bullfly.organization.vo.UserVo;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -23,7 +22,7 @@ public class ApplicationStarter {
     private static ConfigurableApplicationContext applicationContext;
 
     public static void main(String[] args) {
-        applicationContext =   new SpringApplicationBuilder().sources(ApplicationStarter.class).run(args);
+        applicationContext = new SpringApplicationBuilder().sources(ApplicationStarter.class).run(args);
     }
 
     public static ApplicationContext getApplicationContext(){
@@ -36,6 +35,6 @@ public class ApplicationStarter {
         loginInfos.set(vo);
     }
     public static UserVo getCurrentUser(){
-       return  loginInfos.get();
+       return loginInfos.get();
     }
 }

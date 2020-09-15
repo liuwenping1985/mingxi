@@ -66,18 +66,48 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
     @Override
     public void process(XadWorkFlow flow) throws XadBpmnException {
 
-        XadWorkFlowSequence seq = flow.getWorkFlowContext().getCurrentSequence();
-        String link = seq.getLink();
-        //TODO:这里需要扩展，现在都是往下走
-        if (link.startsWith("NEXT-")) {
-            toNext(flow);
+        EnumWorkFlowStatus currentStatus = flow.getStatus();
+
+        synchronized (flow) {
+            if (EnumWorkFlowStatus.LOCKING == flow.getStatus()) {
+                if (!StringUtils.isEmpty(flow.getDataVersion())) {
+                    if (System.currentTimeMillis() - Long.parseLong(flow.getDataVersion()) < 5000) {
+                        throw new XadBpmnException("流程正在流转中，不能采取其他动作，请稍后再试");
+                    }
+                }
+            }
+            flow.setStatus(EnumWorkFlowStatus.LOCKING);
+            flow.setDataVersion(String.valueOf(System.currentTimeMillis()));
         }
+
+        try {
+            XadWorkFlowSequence seq = flow.getWorkFlowContext().getCurrentSequence();
+            String link = seq.getLink();
+            //TODO:这里需要扩展，现在都是往下走
+            if (link.startsWith("NEXT-")) {
+                toNext(flow);
+            }
+            seq = flow.getWorkFlowContext().getCurrentSequence();
+            if("EVENT".equals(seq.getType())){
+                if("END".equals(seq.getNode().getType())){
+                    flow.setStatus(EnumWorkFlowStatus.END);
+                }
+            }else{
+                flow.setStatus(EnumWorkFlowStatus.RUNNING);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+
 
     }
 
     private void toNext(XadWorkFlow flow) throws XadBpmnException {
 
         XadWorkFlowSequence currentSequence = flow.getWorkFlowContext().getCurrentSequence();
+
         //寻找下一个节点
         List<XadWorkFlowSequence> templateSeqs = flow.getWorkFlowContext().getTemplateSequenceList();
         String next = currentSequence.getLink();
