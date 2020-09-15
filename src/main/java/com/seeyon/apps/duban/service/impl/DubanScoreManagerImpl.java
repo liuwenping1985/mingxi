@@ -137,7 +137,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     }
                 }
             }
-        }, 6, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);
 
 
     }
@@ -252,7 +252,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 DataBaseUtils.executeUpdate(updateSQL);
                 caculateAllProcess(taskId);
             }
-        }, 6, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);
 
 
     }
@@ -339,7 +339,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
 
             }
-        }, 3, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);
 
     }
 
@@ -405,7 +405,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
 
             }
-        }, 6, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);
 
 
     }
@@ -435,7 +435,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     System.out.println("延期个冒险:" + data);
                 }
             }
-        }, 6, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);
 
     }
 
@@ -498,7 +498,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     DataBaseUtils.executeUpdate(uSql);
                 }
             }
-        }, 6, TimeUnit.SECONDS);
+        }, 1, TimeUnit.SECONDS);
 
     }
 

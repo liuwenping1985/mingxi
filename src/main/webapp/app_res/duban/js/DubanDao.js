@@ -10,6 +10,11 @@
                 }
             });
         }
+        var debug_mock =true;
+        var mock_urls={
+            duban:"duban.json",
+            normal:"leader.json"
+        }
 
         DB_DAO.getLeaderTaskList = function (state, callback) {
             var baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode=leader";
@@ -17,6 +22,9 @@
                 baseUri = "/seeyon/duban.do?method=getFinishedDubanTaskList&mode=leader";
             } else if (state == "ALL") {
                 baseUri = "/seeyon/duban.do?method=getAllDubanTaskList&mode=leader";
+            }
+            if(debug_mock){
+                baseUri = mock_urls.normal;
             }
             fetchData(baseUri, callback);
         };
@@ -27,6 +35,9 @@
             } else if (state == "ALL") {
                 baseUri = "/seeyon/duban.do?method=getAllDubanTaskList&mode=duban";
             }
+            if(debug_mock){
+                baseUri = mock_urls.duban;
+            }
             fetchData(baseUri, callback);
         };
         DB_DAO.getCengbanbanTaskList = function (state, callback) {
@@ -36,6 +47,9 @@
             } else if (state == "ALL") {
                 baseUri = "/seeyon/duban.do?method=getAllDubanTaskList&mode=cengban";
             }
+            if(debug_mock){
+                baseUri = mock_urls.duban;
+            }
             fetchData(baseUri, callback);
         };
         DB_DAO.getXiebanTaskList = function (state, callback) {
@@ -44,6 +58,9 @@
                 baseUri = "/seeyon/duban.do?method=getFinishedDubanTaskList&mode=xieban";
             } else if (state == "ALL") {
                 baseUri = "/seeyon/duban.do?method=getAllDubanTaskList&mode=xieban";
+            }
+            if(debug_mock){
+                baseUri = mock_urls.duban;
             }
             fetchData(baseUri, callback);
         };
