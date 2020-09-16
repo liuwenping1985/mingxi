@@ -1,0 +1,50 @@
+html, body{
+    width: 100%;
+    height: 100%;
+}
+.xad_container{
+    margin: 15px 10px 10px 10px;
+    width:100%;
+    height:100%;
+}
+.xad_top_btn_group{
+
+    padding:15px 0px 0px 15px;
+}
+.layui-input-block{
+    min-height: 36px;
+    margin-left:0px;
+}
+.layui-form-item {
+    margin-bottom: 0px;
+    clear: both;
+    zoom: 1;
+}
+.xad-form-textarea{
+    min-height:90px;
+    width:100%;
+}
+.xad-title{
+    font-weight: bold !important;
+    font-size:14px !important;
+    text-align:center !important;
+    vertical-align:middle !important;
+}
+.xad-form-label{
+    font-weight: bold !important;
+    font-size:14px !important;
+}
+.xad-date{
+
+}
+.xad-search-input{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width:200px !important;
+    display: inline-block !important;
+    line-height:26px;
+    color: #666666 !important;
+    text-align: left !important;
+    position:relative;
+    right:0px;
+}
