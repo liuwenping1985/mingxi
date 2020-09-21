@@ -8,10 +8,103 @@
     <link rel="stylesheet" href="../../app_res/duban/css/xad.css">
 </head>
 <body>
+<div id="searchArea" style="display:none">
+    <div>
+        <form class="layui-form">
+            <div class="layui-form-item layui-inline layui-form-item-original">
+                <div class="layui-inline">
+                    <label class="layui-form-label">查询条件</label>
+                    <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                            <option value=""></option>
+                            <option value="0">写作</option>
+                            <option value="1" selected="">阅读</option>
+                            <option value="2">游戏</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline layui-form-item-original">
+                <div class="layui-inline">
+                    <input placeholder="请输入查询内容" class="layui-input" type="text" />
+                </div>
+            </div>
+            <div id="condition_two" style="display:none">
+            <div class="layui-form-item layui-form-item-original">
+                <label class="layui-form-label">关联条件</label>
+                <div class="layui-input-inline">
+                    <select name="interest" lay-filter="aihao">
+                        <option value="0">或者(OR)</option>
+                        <option value="1" selected="">并且(AND)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-inline">
+                <div class="layui-inline">
+                    <label class="layui-form-label">查询条件</label>
+                    <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                            <option value=""></option>
+                            <option value="0">写作</option>
+                            <option value="1" selected="">阅读</option>
+                            <option value="2">游戏</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <div class="layui-inline">
+                    <input placeholder="请输入查询内容" class="layui-input" type="text" />
+                </div>
+            </div>
+            </div>
+            <div id="condition_three" style="display:none">
+                <div class="layui-form-item layui-form-item-original">
+                    <label class="layui-form-label">关联条件</label>
+                    <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                            <option value="0">或者(OR)</option>
+                            <option value="1" selected="">并且(AND)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">查询条件</label>
+                        <div class="layui-input-inline">
+                            <select name="interest" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0">写作</option>
+                                <option value="1" selected="">阅读</option>
+                                <option value="2">游戏</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-inline">
+                    <div class="layui-inline">
+                        <input placeholder="请输入查询内容"  lay-verify="required" class="layui-input" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block layui-input-block-original">
+                    <p>最多能有3个条件</p>
+                    <button type="button" data-index="1" class="layui-btn layui-btn-sm">新增条件</button>
+                    <button type="button" class="layui-btn layui-btn-sm">查询</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
 <div class="xad_container">
-    <button type="button" class="layui-btn"><i class="layui-icon"></i>督办立项项</button>
-    <button type="button" class="layui-btn"><i class="layui-icon"></i>高级督办查询</button>
-    <button type="button" class="layui-btn"><i class="layui-icon"></i>督办事项统计</button>
+    <button type="button" class="layui-btn"><i class="layui-icon"></i>督办立项</button>
+
+    <button type="button" class="layui-btn"><i class="layui-icon"></i>督办统计</button>
     <fieldset class="layui-elem-field site-demo-button" style="margin-top: 15px;padding:10px;height:100%">
         <legend>督办台账</legend>
         <div class="layui-row" style="height:100%">
@@ -30,7 +123,7 @@
                             <iframe style="width:100%;height:100%" frameborder="0" src="cengban.html"></iframe>
                         </div>
                         <div class="layui-tab-item" style="height:100%">
-                            <iframe style="width:100%;height:100%" frameborder="0" src="xieban.html"></iframe>
+                            <iframe style="width:100%;height:100%" frameborder="0" src="test.html"></iframe>
                         </div>
                     </div>
                 </div>
@@ -39,9 +132,11 @@
 
     </fieldset>
 
+
 </div>
 <script src="../../app_res/duban/verdor//layui/lx.js"></script>
 <script type="text/javascript" src="../../app_res/duban/js/dash.js"></script>
 
 </body>
+
 </html>

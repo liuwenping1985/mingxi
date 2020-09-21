@@ -15,6 +15,13 @@ html, body{
     min-height: 36px;
     margin-left:0px;
 }
+.layui-input-block-original{
+    margin-left: 110px !important;
+    min-height: 36px !important;
+}
+.layui-form-item-original{
+    margin-bottom: 15px !important;
+}
 .layui-form-item {
     margin-bottom: 0px;
     clear: both;
