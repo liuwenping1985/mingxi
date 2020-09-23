@@ -66,7 +66,7 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
     @Override
     public void process(XadWorkFlow flow) throws XadBpmnException {
 
-        EnumWorkFlowStatus currentStatus = flow.getStatus();
+        //EnumWorkFlowStatus currentStatus = flow.getStatus();
 
         synchronized (flow) {
             if (EnumWorkFlowStatus.LOCKING == flow.getStatus()) {
@@ -92,6 +92,7 @@ public class XadWorkFlowBullFlyEngine implements XadWorkFlowEngine {
                 if("END".equals(seq.getNode().getType())){
                     flow.setStatus(EnumWorkFlowStatus.END);
                 }
+
             }else{
                 flow.setStatus(EnumWorkFlowStatus.RUNNING);
             }
