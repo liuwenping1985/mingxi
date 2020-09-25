@@ -1,56 +1,187 @@
 ;(function(){
-    layui.use(["jquery","element","table"],function(){
-        var $ = layui.$,ele = layui.element,table=layui.table;
+    lx.use(["jquery","element","table"],function(){
+        var $ = lx.$,ele = lx.element,table=lx.table;
+        var params = lx.eutil.getRequestParam();
+        var mock = true;
 
-        table.render({
+        var mode = params['mode']||"duban";
+
+        var baseUri = window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING")
+        var image_base_uri ="/seeyon/apps_res/duban/verdor/layui/images/";
+        if(mock){
+
+            image_base_uri="../../app_res/duban/verdor/layui/images/";
+        }
+        function getCurrentLimiting(){
+            var limiting = $(".layui-laypage-limits > select").val();
+            if(!limiting){
+                limiting = 10;
+            }
+            limiting = parseInt(limiting);
+            return limiting;
+        }
+        function paseData_(res){
+
+            var limiting = $(".layui-laypage-limits > select").val();
+
+            if(!limiting){
+                limiting = 10;
+            }
+
+            limiting = parseInt(limiting);
+            var pp = $(".layui-laypage-curr").children("em");
+            var page =1;
+            pp.each(function(index,item){
+                if($(item).html()){
+                    page =  $(item).html();
+                }
+            });
+            var count = res.length;
+            var start = (page-1)*limiting;
+            var end = start+limiting;
+
+            if(end>count){
+                end = count;
+            }
+            return {
+                "code": "0", //解析接口状态
+                "msg": "", //解析提示文本
+                "count": res.length, //解析数据长度
+                "data": res.slice(start,end) //解析数据列表
+            };
+            // return res;
+        }
+
+        var duban_table = table.render({
             elem: '#test'
-            ,url:'demo1.json'
-            ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-            ,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                ,layEvent: 'LAYTABLE_TIPS'
-                ,icon: 'layui-icon-tips'
-            }]
-            ,title: '用户数据表'
+            ,url:baseUri
+            ,toolbar: '#toolbarDemo'
+            ,text: {
+                none: '暂无相关数据'
+            },
+            limit:10,
+            parseData: paseData_
+            ,done: function(res, curr, count){
+
+            }
+            ,defaultToolbar: [ {
+                title: 'tips'
+                ,layEvent: 'searchAll'
+                ,icon: 'layui-icon-search'
+            },'filter', 'exports', 'print']
+            ,title: '督办事项'
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-                ,{field:'username', title:'用户名', width:120, edit: 'text'}
-                ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
-                    return '<em>'+ res.email +'</em>'
+                {field:'taskLight', title:'状态', width:60, fixed: 'left', templet: function(item){
+                    if ("正常推进" == item.taskLight) {
+                        item.taskLight = image_base_uri+"green.jpeg";
+                    } else if ("低风险" == item.taskLight) {
+                        item.taskLight = image_base_uri+"blue.png";
+                    } else if ("有风险但可控" == item.taskLight) {
+                        item.taskLight = image_base_uri+"orange.png";
+                    } else if ("风险不可控，不能按期完成" == item.taskLight) {
+                        item.taskLight =image_base_uri+ "red.jpeg";
+                    } else {
+                        item.taskLight = image_base_uri+"red.jpeg";
+                    }
+                    return '<img width="24px" height="24px" src="' + item.taskLight + '">';
                 }}
-                ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
-                ,{field:'city', title:'城市', width:100}
-                ,{field:'sign', title:'签名'}
-                ,{field:'experience', title:'积分', width:80, sort: true}
-                ,{field:'ip', title:'IP', width:120}
-                ,{field:'logins', title:'登入次数', width:100, sort: true}
-                ,{field:'joinTime', title:'加入时间', width:120}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                ,{field:'name', title:'任务名称', width:200, fixed: 'left'}
+                ,{field:'taskSource', title:'任务来源', width:103, sort: true}
+                ,{field:'taskLevel', title:'任务级别', width:103, sort: true}
+                ,{field:'endDate', title:'办理时限', width:110, sort: true,templet:function(item){
+                    return new Date(item.endDate).format("yyyy-MM-dd");
+                }}
+                ,{field:'period', title:'周期', sort: true,width:80}
+                ,{field:'process', title:'进度',width:80,sort: true,templet:function(item){
+                    return item.process+"%";
+                }}
+                ,{field:'mainLeader', title:'责任领导', width:80, sort: true}
+                ,{field:'mainDeptName', title:'承办部门', width:103}
+                ,{field:'score', title:'分数', width:80, sort: true,templet:function(item){
+                    var score = item.kgScore + item.zgScore + item.totoalScore;
+                    return (isNaN(score) ? 0 : score);
+                }}
+                ,{field:'taskDescription', title:'最新汇报',templet:function(item){
+                    var t_s = item["taskDescription"];
+                    var t_s_a_v = "";
+                    try {
+                        var str2 = t_s.replace(/\r\n/g, "$ojbk$");
+                        str2 = str2.replace(/\n/g, "$ojbk$");
+                        var t_s_a = str2.split("$ojbk$");
+                        t_s_a_v = t_s_a[0];
+                        return t_s_a_v;
+                    } catch (e) {
+
+                    }
+                    return t_s;
+                }}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ]]
             ,page: true
         });
+        function changeBtnStyle(eventName){
 
+
+            $(".xad_filter_btn").each(function(index,item){
+                $(item).removeClass("layui-btn-normal");
+            });
+
+            // $(".xad_filter_btn").removeClass("layui-btn-normal");
+            //
+            // console.log($("button[lay-event="+eventName+"]"));
+
+            $("button[lay-event="+eventName+"]").addClass("layui-btn-normal");
+        }
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
-            var checkStatus = table.checkStatus(obj.config.id);
+
             switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                case 'getRunningTask':
+
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getRunningTask");
+                        }
+                    });
+
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
+                case 'getApprovingTask':
+                    //console.log(obj);
+                    changeBtnStyle("getApprovingTask");
+
                     break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                case 'getFinishedTask':
+                    changeBtnStyle("getFinishedTask");
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"DONE"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getFinishedTask");
+                        }
+                    })
+                    break;
+                case 'getAllTask':
+                    changeBtnStyle("getAllTask");
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"ALL"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getAllTask");
+                        }
+                    })
+                    break;
+                case 'searchAll':
+                    window.parent.Base.openSearch({name:"duban"});
                     break;
 
-                //自定义头工具栏右侧图标 - 提示
-                case 'LAYTABLE_TIPS':
-                    layer.alert('这是工具栏右侧自定义的一个图标按钮');
-                    break;
             };
         });
 

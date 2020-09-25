@@ -6,14 +6,53 @@
 
         var mode = params['mode']||"duban";
 
-        var baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode="+mode;
+        var baseUri = window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING")
         var image_base_uri ="/seeyon/apps_res/duban/verdor/layui/images/";
         if(mock){
-            baseUri = "leader.json";
+
             image_base_uri="../../app_res/duban/verdor/layui/images/";
         }
+        function getCurrentLimiting(){
+            var limiting = $(".layui-laypage-limits > select").val();
+            if(!limiting){
+                limiting = 10;
+            }
+            limiting = parseInt(limiting);
+            return limiting;
+        }
+        function paseData_(res){
 
-        table.render({
+            var limiting = $(".layui-laypage-limits > select").val();
+
+            if(!limiting){
+                limiting = 10;
+            }
+
+            limiting = parseInt(limiting);
+            var pp = $(".layui-laypage-curr").children("em");
+            var page =1;
+            pp.each(function(index,item){
+                if($(item).html()){
+                    page =  $(item).html();
+                }
+            });
+            var count = res.length;
+            var start = (page-1)*limiting;
+            var end = start+limiting;
+
+            if(end>count){
+                end = count;
+            }
+            return {
+                "code": "0", //解析接口状态
+                "msg": "", //解析提示文本
+                "count": res.length, //解析数据长度
+                "data": res.slice(start,end) //解析数据列表
+            };
+            // return res;
+        }
+
+       var duban_table = table.render({
             elem: '#test'
             ,url:baseUri
             ,toolbar: '#toolbarDemo'
@@ -21,34 +60,7 @@
                 none: '暂无相关数据'
             },
             limit:10,
-            parseData: function(res){
-               var limiting = $(".layui-laypage-limits > select").val();
-               if(!limiting){
-                   limiting = 10;
-               }
-               limiting = parseInt(limiting);
-               var pp = $(".layui-laypage-curr").children("em");
-               var page =1;
-               pp.each(function(index,item){
-                   if($(item).html()){
-                       page =  $(item).html();
-                   }
-               });
-                var count = res.length;
-                var start = (page-1)*limiting;
-                var end = start+limiting;
-
-                if(end>count){
-                    end = count;
-                }
-                return {
-                    "code": "0", //解析接口状态
-                    "msg": "", //解析提示文本
-                    "count": res.length, //解析数据长度
-                    "data": res.slice(start,end) //解析数据列表
-                };
-               // return res;
-            }
+            parseData: paseData_
             ,done: function(res, curr, count){
 
             }
@@ -107,21 +119,64 @@
             ]]
             ,page: true
         });
+        function changeBtnStyle(eventName){
 
+
+            $(".xad_filter_btn").each(function(index,item){
+                $(item).removeClass("layui-btn-normal");
+            });
+
+            // $(".xad_filter_btn").removeClass("layui-btn-normal");
+            //
+            // console.log($("button[lay-event="+eventName+"]"));
+
+            $("button[lay-event="+eventName+"]").addClass("layui-btn-normal");
+        }
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
-            var checkStatus = table.checkStatus(obj.config.id);
+
             switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                case 'getRunningTask':
+
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getRunningTask");
+                        }
+                    });
+
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
+                case 'getApprovingTask':
+                    //console.log(obj);
+                    changeBtnStyle("getApprovingTask");
+
                     break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                case 'getFinishedTask':
+                    changeBtnStyle("getFinishedTask");
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"DONE"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getFinishedTask");
+                        }
+                    })
+                    break;
+                case 'getAllTask':
+                    changeBtnStyle("getAllTask");
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"ALL"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getAllTask");
+                        }
+                    })
                     break;
                 case 'searchAll':
                     window.parent.Base.openSearch({name:"duban"});

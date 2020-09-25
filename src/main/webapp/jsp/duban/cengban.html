@@ -13,9 +13,10 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">全部</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">进行中</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">已完成</button>
+        <button class="layui-btn layui-btn-sm xad_filter_btn layui-btn-normal" lay-event="getRunningTask" lay-data="duban">进行中</button>
+        <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getFinishedTask" lay-data="duban">已完成</button>
+        <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getAllTask" lay-data="duban" >全部事项</button>
+        <button class="layui-btn layui-btn-sm" lay-event="searchAll"><i class="layui-icon">&#xe615;</i>查询</button>
         <button class="layui-btn layui-btn-sm" lay-event="isAll">超期事项</button>
     </div>
 </script>
@@ -29,6 +30,7 @@
     <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
 </script>
 <script src="../../app_res/duban/verdor//layui/lx.js"></script>
+<script type="text/javascript" src="../../app_res/duban/js/DubanDao.js"></script>
 <script type="text/javascript" src="../../app_res/duban/js/cengban.js"></script>
 
 </body>

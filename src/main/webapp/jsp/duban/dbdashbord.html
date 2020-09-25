@@ -8,12 +8,46 @@
     <link rel="stylesheet" href="../../app_res/duban/css/xad.css">
 </head>
 <body>
+<div id="leaderOpinionArea" style="display:none">
+    <div>
+        <input id="leader_first_name" type="hidden" value="苗" />
+        <form class="layui-form">
+
+            <div class="layui-form-item layui-inline">
+                <div class="layui-inline">
+                    <div class="xad_leader_title">
+                        <table class="layui-table">
+                            <tr><td width="80px">标题</td><td><span title="" id="leader_op_name" style="width:210px" class="xad_table_span_text"></span></td><td width="80px">任务来源</td><td><span style="width:120px" id="leader_op_task_source"></span></td></tr>
+                            <tr><td>任务级别</td><td><span id="leader_op_task_level"></span></td><td>办理时限</td><td><span id="leader_op_deadline"></span></td></tr>
+                            <tr><td>承办部门</td><td><span id="leader_op_main_dept"></span></td><td>当前进度</td><td><span class="xad_table_span_text" id="leader_op_process"></span></td></tr>
+
+                        </table>
+                    </div>
+
+                    <textarea id="xad_leader_op_input" class="xad_leader_op" placeholder="请批示" class="layui-input"  ></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div>
+                    <center>
+                    <button type="button" data-index="1" class="layui-btn">提交</button>
+                    <button type="button" id="leader_op_cancel_btn" class="layui-btn layui-btn-danger">取消</button>
+                    </center>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
 <div id="searchArea" style="display:none">
     <div>
         <form class="layui-form">
             <div class="layui-form-item layui-inline layui-form-item-original">
                 <div class="layui-inline">
-                    <label class="layui-form-label">查询条件</label>
+                    <label class="layui-form-label">查询字段</label>
                     <div class="layui-input-inline">
                         <select name="interest" lay-filter="aihao">
                             <option value=""></option>
@@ -26,7 +60,7 @@
             </div>
             <div class="layui-form-item layui-inline layui-form-item-original">
                 <div class="layui-inline">
-                    <input placeholder="请输入查询内容" class="layui-input" type="text" />
+                    <input placeholder="请输入查询关键字" class="layui-input" type="text" />
                 </div>
             </div>
             <div id="condition_two" style="display:none">
@@ -111,19 +145,24 @@
             <div class="layui-col-md12" style="height:100%">
                 <div class="layui-tab layui-tab-brief" style="height:100%" lay-filter="docDemoTabBrief">
                     <ul class="layui-tab-title">
+                        <li>领导督办</li>
                         <li class="layui-this">督办事项</li>
                         <li>我的承办</li>
+
                         <li>我的协办</li>
                     </ul>
                     <div class="layui-tab-content" style="padding:0px;height:100%">
+                        <div class="layui-tab-item" style="height:100%">
+                            <iframe style="width:100%;height:100%" frameborder="0" src="leader.html?mode=leader"></iframe>
+                        </div>
                         <div class="layui-tab-item layui-show" style="height:100%">
-                            <iframe style="width:100%;height:100%" frameborder="0" src="duban.html"></iframe>
+                            <iframe style="width:100%;height:100%" frameborder="0" src="duban.html?mode=duban"></iframe>
                         </div>
                         <div class="layui-tab-item" style="height:100%">
-                            <iframe style="width:100%;height:100%" frameborder="0" src="cengban.html"></iframe>
+                            <iframe style="width:100%;height:100%" frameborder="0" src="cengban.html?mode=cengban"></iframe>
                         </div>
                         <div class="layui-tab-item" style="height:100%">
-                            <iframe style="width:100%;height:100%" frameborder="0" src="test.html"></iframe>
+                            <iframe style="width:100%;height:100%" frameborder="0" src="xieban.html?mode=xieban"></iframe>
                         </div>
                     </div>
                 </div>
@@ -135,6 +174,7 @@
 
 </div>
 <script src="../../app_res/duban/verdor//layui/lx.js"></script>
+
 <script type="text/javascript" src="../../app_res/duban/js/dash.js"></script>
 
 </body>

@@ -187,14 +187,10 @@
 
         //监听行工具事件
         table.on('tool(test)', function(obj){
-            var data = obj.data;
             //console.log(obj)
-            if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    layer.close(index);
-                });
-            } else if(obj.event === 'edit'){
+            if(obj.event === 'pishi'){
+                window.parent.Base.openLeaderOpinion(obj.data);
+            } else if(obj.event === 'view'){
                 layer.prompt({
                     formType: 2
                     ,value: data.email

@@ -55,3 +55,23 @@ html, body{
     position:relative;
     right:0px;
 }
+.xad_filter_btn{
+
+}
+.xad_leader_op{
+    width:600px;
+    margin:15px;
+    padding:5px;
+    display:inline-block;
+    height:280px;
+}
+.xad_leader_title{
+
+    margin:5px 15px 5px 15px;
+}
+.xad_table_span_text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display:inline-block;
+}

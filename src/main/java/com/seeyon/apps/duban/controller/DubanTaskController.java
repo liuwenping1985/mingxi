@@ -27,6 +27,7 @@ import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
+import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
 import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -54,7 +55,22 @@ public class DubanTaskController extends BaseController {
         }
         return orgManager;
     }
+    private User getCurrentOrMockUser() {
+        User user = AppContext.getCurrentUser();
+        if (user == null) {
+            //4539057419316513978
+            user = new User();
+            user.setId(4539057419316513978L);
+            user.setDepartmentId(-2509449334167942440L);
+            user.setAccountId(-8876840092684173183L);
+            user.setName("苗江涛");
+            user.setLoginName("miaojt");
+            user.setLoginAccount(user.getAccountId());
+            user.setLoginTimestamp(System.currentTimeMillis());
+        }
+        return user;
 
+    }
     /**
      * 列出进展页面
      *
@@ -133,6 +149,7 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
+    @NeedlessCheckLogin
     public ModelAndView getDubanConfigItemDataList(HttpServletRequest request, HttpServletResponse response) {
 
         try {
@@ -197,9 +214,12 @@ public class DubanTaskController extends BaseController {
         return null;
     }
 
+
+
+    @NeedlessCheckLogin
     public ModelAndView getPreProcessProperties(HttpServletRequest request, HttpServletResponse response) {
 
-        User user = AppContext.getCurrentUser();
+        User user = getCurrentOrMockUser();
         List<DubanTask> taskList = dubanMainService.getAllLeaderDubanTaskList(user.getId());
         String havingLeaderTask = String.valueOf(!CommonUtils.isEmpty(taskList));
         Map data = new HashMap();
@@ -229,12 +249,14 @@ public class DubanTaskController extends BaseController {
 
     }
 
+    @NeedlessCheckLogin
     public ModelAndView getRunningDubanTaskList(HttpServletRequest request, HttpServletResponse response) {
         CommonJSONResult ret = new CommonJSONResult();
 
         try {
             DubanBaseInfo dubanBaseInfo = new DubanBaseInfo();
-            Long memberId = AppContext.currentUserId();
+            User user = getCurrentOrMockUser();
+            Long memberId = user.getId();
             dubanBaseInfo.setLeaderList(dubanMainService.getRuuningLeaderDubanTaskList(memberId));
             dubanBaseInfo.setXiebanTaskList(dubanMainService.getRuuningColLeaderDubanTaskList(memberId));
             dubanBaseInfo.setCengbanTaskList(dubanMainService.getRunningMainDubanTask(memberId));
@@ -262,20 +284,22 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
-
+    @NeedlessCheckLogin
     public ModelAndView getAllDubanTaskList(HttpServletRequest request, HttpServletResponse response) {
         String mode = request.getParameter("mode");
         List<DubanTask> taskList = new ArrayList<DubanTask>();
+        User user = getCurrentOrMockUser();
+        Long memberId = user.getId();
         if (CommonUtils.isEmpty(mode)) {
             taskList = dubanMainService.getAllDubanTask();
         } else if ("leader".equals(mode)) {
-            taskList = dubanMainService.getAllLeaderDubanTaskList(AppContext.currentUserId());
+            taskList = dubanMainService.getAllLeaderDubanTaskList(memberId);
         } else if ("duban".equals(mode)) {
-            taskList = dubanMainService.getAllDubanTaskSupervisor(AppContext.currentUserId());
+            taskList = dubanMainService.getAllDubanTaskSupervisor(memberId);
         } else if ("xieban".equals(mode)) {
-            taskList = dubanMainService.getAllColLeaderDubanTaskList(AppContext.currentUserId());
+            taskList = dubanMainService.getAllColLeaderDubanTaskList(memberId);
         } else if ("cengban".equals(mode)) {
-            taskList = dubanMainService.getAllMainDubanTask(AppContext.currentUserId());
+            taskList = dubanMainService.getAllMainDubanTask(memberId);
         }
         UIUtils.responseJSON(taskList, response);
 
@@ -291,20 +315,22 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
-
+    @NeedlessCheckLogin
     public ModelAndView getFinishedDubanTaskList(HttpServletRequest request, HttpServletResponse response) {
         String mode = request.getParameter("mode");
         List<DubanTask> taskList = new ArrayList<DubanTask>();
+        User user = getCurrentOrMockUser();
+        Long memberId = user.getId();
         if (CommonUtils.isEmpty(mode)) {
             taskList = dubanMainService.getAllDubanTask();
         } else if ("leader".equals(mode)) {
-            taskList = dubanMainService.getFinishedLeaderDubanTaskList(AppContext.currentUserId());
+            taskList = dubanMainService.getFinishedLeaderDubanTaskList(memberId);
         } else if ("duban".equals(mode)) {
-            taskList = dubanMainService.getFinishedDubanTaskSupervisor(AppContext.currentUserId());
+            taskList = dubanMainService.getFinishedDubanTaskSupervisor(memberId);
         } else if ("xieban".equals(mode)) {
-            taskList = dubanMainService.getFinishedColLeaderDubanTaskList(AppContext.currentUserId());
+            taskList = dubanMainService.getFinishedColLeaderDubanTaskList(memberId);
         } else if ("cengban".equals(mode)) {
-            taskList = dubanMainService.getFinishedMainDubanTask(AppContext.currentUserId());
+            taskList = dubanMainService.getFinishedMainDubanTask(memberId);
         }
         UIUtils.responseJSON(taskList, response);
 
@@ -320,6 +346,7 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
+    @NeedlessCheckLogin
     public ModelAndView addLeaderOpinion(HttpServletRequest request, HttpServletResponse response) {
 
         String taskId = request.getParameter("taskId");
@@ -331,7 +358,7 @@ public class DubanTaskController extends BaseController {
 
 
             FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-            User user = AppContext.getCurrentUser();
+            User user = getCurrentOrMockUser();
             if (CommonUtils.isEmpty(opinion)) {
                 opinion = "";
             }
@@ -392,20 +419,22 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
-
+    @NeedlessCheckLogin
     public ModelAndView getRunningDubanTask(HttpServletRequest request, HttpServletResponse response) {
         String mode = request.getParameter("mode");
         List<DubanTask> taskList = new ArrayList<DubanTask>();
+        User user = getCurrentOrMockUser();
+        Long mId = user.getId();
         if (CommonUtils.isEmpty(mode)) {
             taskList = dubanMainService.getAllDubanTask();
         } else if ("leader".equals(mode)) {
-            taskList = dubanMainService.getRuuningLeaderDubanTaskList(AppContext.currentUserId());
+            taskList = dubanMainService.getRuuningLeaderDubanTaskList(mId);
         } else if ("duban".equals(mode)) {
-            taskList = dubanMainService.getRunningDubanTaskSupervisor(AppContext.currentUserId());
+            taskList = dubanMainService.getRunningDubanTaskSupervisor(mId);
         } else if ("xieban".equals(mode)) {
-            taskList = dubanMainService.getRuuningColLeaderDubanTaskList(AppContext.currentUserId());
+            taskList = dubanMainService.getRuuningColLeaderDubanTaskList(mId);
         } else if ("cengban".equals(mode)) {
-            taskList = dubanMainService.getRunningMainDubanTask(AppContext.currentUserId());
+            taskList = dubanMainService.getRunningMainDubanTask(mId);
         }
         UIUtils.responseJSON(taskList, response);
 
@@ -414,6 +443,7 @@ public class DubanTaskController extends BaseController {
 
     }
 
+    @NeedlessCheckLogin
     public ModelAndView getDataDetail(HttpServletRequest request, HttpServletResponse response) {
 
         String sid = request.getParameter("sid");
@@ -465,7 +495,7 @@ public class DubanTaskController extends BaseController {
         } else if ("xieban".equals(linkToType)) {
             List<SlaveDubanTask> slaveDubanTaskList = dubanTask.getSlaveDubanTaskList();
             if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
-                String curDeptId = String.valueOf(AppContext.getCurrentUser().getDepartmentId());
+                String curDeptId = String.valueOf(getCurrentOrMockUser().getDepartmentId());
                 for (SlaveDubanTask sTask : slaveDubanTaskList) {
                     String deptId = sTask.getDeptName();
                     if (curDeptId.equals(deptId)) {
@@ -493,6 +523,7 @@ public class DubanTaskController extends BaseController {
 
     }
 
+    @NeedlessCheckLogin
     public ModelAndView showDbps(HttpServletRequest request, HttpServletResponse response) {
         String sid = request.getParameter("sid");
         String url = ConfigFileService.getPropertyByName("ctp.duban.duban_detail_all_url") + sid + "&from_duban=1";
@@ -507,7 +538,7 @@ public class DubanTaskController extends BaseController {
 
     }
 
-
+    @NeedlessCheckLogin
     public ModelAndView getMemberName(HttpServletRequest request, HttpServletResponse response) {
 
         String sid = request.getParameter("sid");
@@ -527,6 +558,7 @@ public class DubanTaskController extends BaseController {
         return null;
     }
 
+    @NeedlessCheckLogin
     public ModelAndView getDepartmentName(HttpServletRequest request, HttpServletResponse response) {
 
         String sid = request.getParameter("sid");
@@ -553,6 +585,7 @@ public class DubanTaskController extends BaseController {
      * @param response
      * @return
      */
+    @NeedlessCheckLogin
     public ModelAndView goPage(HttpServletRequest request, HttpServletResponse response) {
 
         String page = request.getParameter("page");
@@ -591,7 +624,9 @@ public class DubanTaskController extends BaseController {
 
         return null;
     }
-    public ModelAndView getStatDataDetail(HttpServletRequest request, HttpServletResponse response){
+
+    @NeedlessCheckLogin
+    public ModelAndView getStatDataDetail(HttpServletRequest request, HttpServletResponse response) {
         CommonJSONResult data = new CommonJSONResult();
         String ids = request.getParameter("taskIds");
         List<DubanTask> taskList = dubanMainService.getStatDubanList(ids);
@@ -602,6 +637,7 @@ public class DubanTaskController extends BaseController {
 
     }
 
+    @NeedlessCheckLogin
     public ModelAndView getStatData(HttpServletRequest request, HttpServletResponse response) {
 
         CommonJSONResult data = new CommonJSONResult();
@@ -633,7 +669,7 @@ public class DubanTaskController extends BaseController {
         if (!CommonUtils.isEmpty(dsrList)) {
 
             for (DubanScoreRecord record : dsrList) {
-                if("-999".equals(record.getZhuGuanScore())){
+                if ("-999".equals(record.getZhuGuanScore())) {
                     continue;
                 }
                 Long deptId = record.getDepartmentId();
@@ -646,73 +682,73 @@ public class DubanTaskController extends BaseController {
             }
             String dateParams = JSON.toJSONString(params);
             String sqlTask = "select * from ";
-            for(Map.Entry<Long,List<DubanScoreRecord>> entry:deptDubanScoreRecordMap.entrySet()){
+            for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDubanScoreRecordMap.entrySet()) {
                 //部门维度
                 Long deptId = entry.getKey();
                 List<DubanScoreRecord> recordList = entry.getValue();
-                Map<String,List<DubanScoreRecord>> taskMaps = new HashMap<String, List<DubanScoreRecord>>();
-                for(DubanScoreRecord record:recordList){
+                Map<String, List<DubanScoreRecord>> taskMaps = new HashMap<String, List<DubanScoreRecord>>();
+                for (DubanScoreRecord record : recordList) {
                     List<DubanScoreRecord> taskList = taskMaps.get(record.getTaskId());
-                    if(taskList==null){
+                    if (taskList == null) {
                         taskList = new ArrayList<DubanScoreRecord>();
-                        taskMaps.put(record.getTaskId(),taskList);
+                        taskMaps.put(record.getTaskId(), taskList);
                     }
                     taskList.add(record);
                 }
                 try {
-                    V3xOrgDepartment department =  getOrgManager().getDepartmentById(deptId);
+                    V3xOrgDepartment department = getOrgManager().getDepartmentById(deptId);
                     //计算分数
                     Set summaryIdSet = new HashSet();
-                    Double score =0d;
+                    Double score = 0d;
                     Double keScore = 0d;
 
-                    for(Map.Entry<String,List<DubanScoreRecord>> taskScoreRecordS:taskMaps.entrySet()){
-                        Double zhuguanScore=0d;
+                    for (Map.Entry<String, List<DubanScoreRecord>> taskScoreRecordS : taskMaps.entrySet()) {
+                        Double zhuguanScore = 0d;
                         Double wanchengScore = 0d;
                         Double keguanScore = 0d;
-                        int keSize=0;
-                        int zhuSize=0;
-                        int wanchengSize=0;
-                       for(DubanScoreRecord record:taskScoreRecordS.getValue()){
-                           String ke = record.getKeGuanScore();
+                        int keSize = 0;
+                        int zhuSize = 0;
+                        int wanchengSize = 0;
+                        for (DubanScoreRecord record : taskScoreRecordS.getValue()) {
+                            String ke = record.getKeGuanScore();
 
-                           String zhu = record.getZhuGuanScore();
-                           if(!CommonUtils.isEmpty(ke)){
-                               keguanScore+=Double.parseDouble(ke);
-                               keSize++;
-                           }
-                           if(!CommonUtils.isEmpty(zhu)){
-                               zhuguanScore+=Double.parseDouble(zhu);
-                               zhuSize++;
-                           }
-                           String wan = record.getScore();
-                           if(!CommonUtils.isEmpty(wan)){
-                               wanchengScore+=Double.parseDouble(wan);
-                               wanchengSize++;
-                           }
-                       }
-                       if(keSize>0){
-                           keScore+=(keguanScore/keSize);
-                       }
-                       if(zhuSize>0){
-                           zhuguanScore=zhuguanScore/zhuSize;
-                       }
-                       if(wanchengSize>0){
-                           wanchengScore = wanchengScore/wanchengSize;
-                       }
-                        score+=((keguanScore/keSize)*(zhuguanScore/100d)*(wanchengScore/100d));
+                            String zhu = record.getZhuGuanScore();
+                            if (!CommonUtils.isEmpty(ke)) {
+                                keguanScore += Double.parseDouble(ke);
+                                keSize++;
+                            }
+                            if (!CommonUtils.isEmpty(zhu)) {
+                                zhuguanScore += Double.parseDouble(zhu);
+                                zhuSize++;
+                            }
+                            String wan = record.getScore();
+                            if (!CommonUtils.isEmpty(wan)) {
+                                wanchengScore += Double.parseDouble(wan);
+                                wanchengSize++;
+                            }
+                        }
+                        if (keSize > 0) {
+                            keScore += (keguanScore / keSize);
+                        }
+                        if (zhuSize > 0) {
+                            zhuguanScore = zhuguanScore / zhuSize;
+                        }
+                        if (wanchengSize > 0) {
+                            wanchengScore = wanchengScore / wanchengSize;
+                        }
+                        score += ((keguanScore / keSize) * (zhuguanScore / 100d) * (wanchengScore / 100d));
                     }
                     DubanStatData statData = new DubanStatData();
                     statData.setDateParams(dateParams);
                     statData.setTaskScore(String.valueOf(score));
                     statData.setDeptId(String.valueOf(deptId));
                     statData.setDeptName(department.getName());
-                    statData.setTaskCount(""+taskMaps.size());
+                    statData.setTaskCount("" + taskMaps.size());
                     //一个taskId一个然后累加
                     statData.setRenwuliang(String.valueOf(keScore));
-                    statData.setTaskParams(CommonUtils.joinSet(taskMaps.keySet(),","));
+                    statData.setTaskParams(CommonUtils.joinSet(taskMaps.keySet(), ","));
 
-                    statData.setSummaryParams(CommonUtils.joinSet(summaryIdSet,","));
+                    statData.setSummaryParams(CommonUtils.joinSet(summaryIdSet, ","));
                     statData.setTaskATypeCount("0");
                     statData.setWancheng("0%");
                     dataList.add(statData);
@@ -727,35 +763,35 @@ public class DubanTaskController extends BaseController {
             }
         }
         data.setItems(dataList);
-        List<String>taskIdParams = new ArrayList<String>();
-        for(DubanStatData statData:dataList){
+        List<String> taskIdParams = new ArrayList<String>();
+        for (DubanStatData statData : dataList) {
             taskIdParams.add(statData.getTaskParams());
         }
-        List<DubanTask> taskList = dubanMainService.getStatDubanList(CommonUtils.join(taskIdParams,","));
+        List<DubanTask> taskList = dubanMainService.getStatDubanList(CommonUtils.join(taskIdParams, ","));
         //
-        if(!CollectionUtils.isEmpty(taskList)){
+        if (!CollectionUtils.isEmpty(taskList)) {
             //String levelA = ConfigFileService.getPropertyByName("ctp.group.task_level.A.enum");
-            Map<String,String> taskAMap = new HashMap<String, String>();
-            Map<String,String> finishMap = new HashMap<String, String>();
-            for(DubanTask task:taskList){
-                if("A".equals(task.getTaskLevel())){
-                    taskAMap.put(task.getTaskId(),"1");
+            Map<String, String> taskAMap = new HashMap<String, String>();
+            Map<String, String> finishMap = new HashMap<String, String>();
+            for (DubanTask task : taskList) {
+                if ("A".equals(task.getTaskLevel())) {
+                    taskAMap.put(task.getTaskId(), "1");
                 }
-                if("100".equals(task.getMainProcess())){
-                    finishMap.put(task.getTaskId(),"1");
+                if ("100".equals(task.getMainProcess())) {
+                    finishMap.put(task.getTaskId(), "1");
                 }
             }
-            for(DubanStatData statData:dataList){
+            for (DubanStatData statData : dataList) {
                 String taskIds = statData.getTaskParams();
                 int a = 0;
                 int f = 0;
-                if(taskIds!=null&&!"".equals(taskIds)){
+                if (taskIds != null && !"".equals(taskIds)) {
                     String[] ids = taskIds.split(",");
-                    for(String tid:ids){
-                        if(taskAMap.containsKey(tid)){
+                    for (String tid : ids) {
+                        if (taskAMap.containsKey(tid)) {
                             a++;
                         }
-                        if(finishMap.containsKey(tid)){
+                        if (finishMap.containsKey(tid)) {
                             f++;
                         }
                     }
