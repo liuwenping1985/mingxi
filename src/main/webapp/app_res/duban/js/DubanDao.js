@@ -24,6 +24,9 @@
             duban: "duban.json",
             normal: "leader.json"
         }
+        DB_DAO.getUrlPrefix=function(){
+            return prefix_uri;
+        }
         DB_DAO.getUrlByStateAndMode = function (mode, state) {
             var baseUri = "/seeyon/duban.do?method=getRunningDubanTask&mode=";
             if (state == "DONE") {
@@ -36,7 +39,7 @@
             return baseUri;
 
         }
-        DB_DAO.addLeaderOpinion = function (param, callback) {
+        DB_DAO.addLeaderOpinion = function (param, callback,errorCallback) {
             var baseUri = "/seeyon/duban.do?method=addLeaderOpinion";
             baseUri = prefix_uri + baseUri
             $.post(baseUri, param, function (data) {
@@ -44,7 +47,7 @@
                     callback(data);
                 }
 
-            })
+            });
         }
 
 

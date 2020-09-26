@@ -75,3 +75,6 @@ html, body{
     white-space: nowrap;
     display:inline-block;
 }
+.layui-table-tips-main{
+    background-color: #e2e2e2 !important;
+}

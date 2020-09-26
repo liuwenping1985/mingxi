@@ -109,6 +109,13 @@
                         str2 = str2.replace(/\n/g, "$ojbk$");
                         var t_s_a = str2.split("$ojbk$");
                         t_s_a_v = t_s_a[0];
+                        var tag_=0;
+                        while((!t_s_a_v||t_s_a_v=="")&&(tag_<t_s_a.length)){
+                            t_s_a_v = t_s_a[(++tag_)];
+                        }
+                        if(!t_s_a_v){
+                            t_s_a_v="";
+                        }
                         return t_s_a_v;
                     } catch (e) {
 
@@ -191,15 +198,9 @@
             if(obj.event === 'pishi'){
                 window.parent.Base.openLeaderOpinion(obj.data);
             } else if(obj.event === 'view'){
-                layer.prompt({
-                    formType: 2
-                    ,value: data.email
-                }, function(value, index){
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
-                });
+
+                window.parent.Base.openView(obj.data.uuid,mode);
+
             }
         });
 

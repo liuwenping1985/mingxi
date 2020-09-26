@@ -109,6 +109,13 @@
                         str2 = str2.replace(/\n/g, "$ojbk$");
                         var t_s_a = str2.split("$ojbk$");
                         t_s_a_v = t_s_a[0];
+                        var tag_=0;
+                        while((!t_s_a_v||t_s_a_v=="")&&(tag_<t_s_a.length)){
+                            t_s_a_v = t_s_a[(++tag_)];
+                        }
+                        if(!t_s_a_v){
+                            t_s_a_v="";
+                        }
                         return t_s_a_v;
                     } catch (e) {
 
@@ -187,23 +194,10 @@
 
         //监听行工具事件
         table.on('tool(test)', function(obj){
-            var data = obj.data;
-            //console.log(obj)
-            if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    layer.close(index);
-                });
-            } else if(obj.event === 'edit'){
-                layer.prompt({
-                    formType: 2
-                    ,value: data.email
-                }, function(value, index){
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
-                });
+            var evt = obj.event;
+            var func = window.parent.Base[evt];
+            if(func){
+                func(obj.data.uuid,mode);
             }
         });
 
