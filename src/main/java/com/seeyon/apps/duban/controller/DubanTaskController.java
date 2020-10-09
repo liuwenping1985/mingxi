@@ -55,6 +55,7 @@ public class DubanTaskController extends BaseController {
         }
         return orgManager;
     }
+
     private User getCurrentOrMockUser() {
         User user = AppContext.getCurrentUser();
         if (user == null) {
@@ -71,6 +72,7 @@ public class DubanTaskController extends BaseController {
         return user;
 
     }
+
     /**
      * 列出进展页面
      *
@@ -213,7 +215,6 @@ public class DubanTaskController extends BaseController {
         UIUtils.responseJSON("ERROR", response);
         return null;
     }
-
 
 
     @NeedlessCheckLogin
@@ -809,4 +810,73 @@ public class DubanTaskController extends BaseController {
         return null;
 
     }
+
+
+    @NeedlessCheckLogin
+    public ModelAndView getApprovingTaskList(HttpServletRequest request, HttpServletResponse response) {
+        User user = getCurrentOrMockUser();
+        String tableName = ConfigFileService.getPropertyByName("duban.task.approving.table.name");
+        String templateNo = ConfigFileService.getPropertyByName("duban.task.approving.table.code");
+        String sql = "SELECT id,form_recordid FROM col_summary WHERE templete_id = (select id from ctp_template where templete_number = '" + templateNo + "') and state=0";
+
+        try {
+
+            List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
+
+            Map<String, String> idMaps = new HashMap<String, String>();
+
+            for (Map data : dataMapList) {
+                idMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
+            }
+
+            String affairSQL = "select * from ctp_affair where state=3 and sender_id=" + user.getId() + "  and object_id in(select id from col_summary where templete_id = (select id from ctp_template where templete_number ='" + templateNo + "'))";
+
+            String sqlFormmain = "select * from " + tableName + " where id in(select form_recordid from col_summary  where templete_id = (select id from ctp_template where templete_number ='" + templateNo + "') and state=0 )";
+
+            String sql2 = "";
+
+            CommonJSONResult commonJSONResult = new CommonJSONResult();
+
+            commonJSONResult.setStatus("0");
+
+            commonJSONResult.setMsg("success");
+
+            commonJSONResult.setItems(new ArrayList(0));
+
+
+
+            UIUtils.responseJSON(commonJSONResult, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView dataStat(HttpServletRequest request, HttpServletResponse response) {
+
+            CommonJSONResult commonJSONResult = new CommonJSONResult();
+            //0 成功 1失败
+            commonJSONResult.setStatus("0");
+            //成功无所谓，失败的话填失败的简单信息
+            commonJSONResult.setMsg("success");
+
+            //如果返回的结果是列表就是返回list 里边装对象
+            commonJSONResult.setItems(new ArrayList(0));
+            //如果单个数据就setData，setItems和setData 一般情况下只设置一个
+
+            Map data = new HashMap();
+            data.put("high","10");
+            data.put("low","20");
+            commonJSONResult.setData(data);
+
+            UIUtils.responseJSON(commonJSONResult, response);
+
+
+        return null;
+    }
+
 }
