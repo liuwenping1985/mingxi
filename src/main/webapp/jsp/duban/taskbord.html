@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../app_res/duban/css/xad.css">
+    <link rel="stylesheet" href="../../app_res/duban/vendor/layui/css/layui.css">
+    <script type="text/javascript" src="../../app_res/duban/vendor/layui/layui.js"></script>
+    <script type="text/javascript" src="../../app_res/duban/vendor/echarts/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    // 指定图表的配置项和数据
+    echarts.init(document.getElementById('main')).setOption({
+        series: {
+            type: 'pie',
+            data: [
+                {name: 'A', value: 1212},
+                {name: 'B', value: 2323},
+                {name: 'C', value: 1919}
+            ]
+        }
+    });
+
+</script>
+<script src="../../app_res/duban/vendor//layui/lx.js"></script>
+<script type="text/javascript" src="../../app_res/duban/js/DubanDao.js"></script>
+<script type="text/javascript" src="../../app_res/duban/js/taskbord.js"></script>
+
+</body>
+
+
+</html>

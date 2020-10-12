@@ -19,10 +19,14 @@ import com.seeyon.apps.duban.vo.DubanStatData;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
+import com.seeyon.apps.form.manager.impl.FormManagerImpl;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.form.bean.FormDataBean;
+import com.seeyon.ctp.form.modules.engin.base.formData.FormDataDAOImpl;
+import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManagerImpl;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
@@ -818,62 +822,67 @@ public class DubanTaskController extends BaseController {
         String tableName = ConfigFileService.getPropertyByName("duban.task.approving.table.name");
         String templateNo = ConfigFileService.getPropertyByName("duban.task.approving.table.code");
         String sql = "SELECT id,form_recordid FROM col_summary WHERE templete_id = (select id from ctp_template where templete_number = '" + templateNo + "') and state=0";
-
+        CommonJSONResult commonJSONResult = new CommonJSONResult();
         try {
-
-            List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
-
-            Map<String, String> idMaps = new HashMap<String, String>();
-
-            for (Map data : dataMapList) {
-                idMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
-            }
-
-            String affairSQL = "select * from ctp_affair where state=3 and sender_id=" + user.getId() + "  and object_id in(select id from col_summary where templete_id = (select id from ctp_template where templete_number ='" + templateNo + "'))";
-
-            String sqlFormmain = "select * from " + tableName + " where id in(select form_recordid from col_summary  where templete_id = (select id from ctp_template where templete_number ='" + templateNo + "') and state=0 )";
-
-            String sql2 = "";
-
-            CommonJSONResult commonJSONResult = new CommonJSONResult();
-
             commonJSONResult.setStatus("0");
+            List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
+            if (!CollectionUtils.isEmpty(dataMapList)) {
+                Map<String, String> idMaps = new HashMap<String, String>();
+                for (Map data : dataMapList) {
+                    idMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
+                }
+                String affairSql = "select member_id,object_id  from ctp_affair where state=3 and object_id in ("+CommonUtils.joinSet(idMaps.keySet(),",")+")";
+                String formmainSql = "select * from " + tableName + " where id in ("+CommonUtils.joinExtend(idMaps.values(),",")+")";
+                List<Map> affairDataList = DataBaseUtils.queryDataListBySQL(affairSql);
+                if(!CommonUtils.isEmpty(affairDataList)){
+                    List<Map> formaminList = DataBaseUtils.queryDataListBySQL(formmainSql);
+                    if(!CommonUtils.isEmpty(formaminList)){
+//                        List<DubanTas>
+//                        DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class)
 
-            commonJSONResult.setMsg("success");
 
-            commonJSONResult.setItems(new ArrayList(0));
+                    }else{
+                        LOGGER.info("找不到数据:"+formmainSql);
+                    }
 
+                }else{
+                    LOGGER.info("找不到数据:"+affairSql);
+                }
 
-
-            UIUtils.responseJSON(commonJSONResult, response);
-
+            } else {
+                commonJSONResult.setItems(new ArrayList(0));
+            }
         } catch (Exception e) {
+            commonJSONResult.setStatus("1");
+            commonJSONResult.setMsg(e.getMessage());
             e.printStackTrace();
+            LOGGER.error(e);
+
         }
 
-
+        UIUtils.responseJSON(commonJSONResult, response);
         return null;
     }
 
     @NeedlessCheckLogin
     public ModelAndView dataStat(HttpServletRequest request, HttpServletResponse response) {
 
-            CommonJSONResult commonJSONResult = new CommonJSONResult();
-            //0 成功 1失败
-            commonJSONResult.setStatus("0");
-            //成功无所谓，失败的话填失败的简单信息
-            commonJSONResult.setMsg("success");
+        CommonJSONResult commonJSONResult = new CommonJSONResult();
+        //0 成功 1失败
+        commonJSONResult.setStatus("0");
+        //成功无所谓，失败的话填失败的简单信息
+        commonJSONResult.setMsg("success");
 
-            //如果返回的结果是列表就是返回list 里边装对象
-            commonJSONResult.setItems(new ArrayList(0));
-            //如果单个数据就setData，setItems和setData 一般情况下只设置一个
+        //如果返回的结果是列表就是返回list 里边装对象
+        commonJSONResult.setItems(new ArrayList(0));
+        //如果单个数据就setData，setItems和setData 一般情况下只设置一个
 
-            Map data = new HashMap();
-            data.put("high","10");
-            data.put("low","20");
-            commonJSONResult.setData(data);
+        Map data = new HashMap();
+        data.put("high", "10");
+        data.put("low", "20");
+        commonJSONResult.setData(data);
 
-            UIUtils.responseJSON(commonJSONResult, response);
+        UIUtils.responseJSON(commonJSONResult, response);
 
 
         return null;

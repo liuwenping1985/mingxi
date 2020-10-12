@@ -563,7 +563,7 @@ public class DubanMainService {
 
     }
 
-    private List<DubanTask> translateDubanTask(String sql, FormTableDefinition ftd) {
+    public List<DubanTask> translateDubanTask(String sql, FormTableDefinition ftd) {
         List<DubanTask> retList = new ArrayList<DubanTask>();
         List<Map> dataList = DataBaseUtils.queryDataListBySQL(sql);
         if (CommonUtils.isEmpty(dataList)) {
