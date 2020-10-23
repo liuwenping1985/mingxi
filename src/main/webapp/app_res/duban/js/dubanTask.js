@@ -173,8 +173,8 @@
                 ,{field:'mainLeader', title:'责任领导', width:80, sort: true}
                 ,{field:'mainDeptName', title:'承办部门', width:103}
                 ,{field:'score', title:'分数', width:80, sort: true,templet:function(item){
-                    var score = item.kgScore + item.zgScore + item.totoalScore;
-                    return (isNaN(score) ? 0 : score);
+                    //var score = item.kgScore + item.zgScore + item.totoalScore;
+                    return (isNaN(item.kgScore) ? 0 : item.kgScore);
                 }}
                 ,{field:'taskDescription', title:'最新汇报',templet:function(item){
                     var t_s = item["taskDescription"];
@@ -239,6 +239,16 @@
                     //console.log(obj);
                     changeBtnStyle("getApprovingTask");
 
+                    duban_table.reload({
+                        url:window.DB_DAO.getUrlByStateAndMode(mode,"APPROVING"),
+                        parseData: paseData_,
+                        limit:getCurrentLimiting(),
+                        page:true,
+                        done: function(res, curr, count){
+                            changeBtnStyle("getApprovingTask");
+                            currentState="getApprovingTask";
+                        }
+                    })
                     break;
                 case 'getFinishedTask':
                     changeBtnStyle("getFinishedTask");

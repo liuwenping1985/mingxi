@@ -39,9 +39,10 @@
 
         });
         var openParam = {};
+        var search_index=null;
         p_util.openSearch = function (param) {
             openParam = param;
-            var index = layer.open({
+            search_index = layer.open({
                 type: 1,
                 shade: [0.1, '#000'],
                 title: "查询条件设置", //不显示标题
@@ -161,6 +162,7 @@
                 if (iWindow&&iWindow.fireQuery) {
                     iWindow.fireQuery(openParam,formData);
                 }
+                layer.close(search_index);
             }
 
 

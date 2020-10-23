@@ -172,10 +172,6 @@
                 }}
                 ,{field:'mainLeader', title:'责任领导', width:80, sort: true}
                 ,{field:'mainDeptName', title:'承办部门', width:103}
-                ,{field:'score', title:'分数', width:80, sort: true,templet:function(item){
-                    var score = item.kgScore + item.zgScore + item.totoalScore;
-                    return (isNaN(score) ? 0 : score);
-                }}
                 ,{field:'taskDescription', title:'最新汇报',templet:function(item){
                     var t_s = item["taskDescription"];
                     var t_s_a_v = "";

@@ -15,6 +15,7 @@ import com.seeyon.apps.duban.util.DataBaseUtils;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
+import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
@@ -53,6 +54,35 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             orgManager = (OrgManager) AppContext.getBean("orgManager");
         }
         return orgManager;
+    }
+
+    public DubanTask getKeGuanScoreByCurrentUser(String taskId) {
+        //主表的相关信息
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+
+        String sql = "select * from " + ftd.getFormTable().getName() + " where field0001='" + taskId + "'";
+
+        List<DubanTask> taskList = mainService.translateDubanTask(sql,ftd);
+        if(CollectionUtils.isEmpty(taskList)){
+            return null;
+        }
+        DubanTask dubanTask = taskList.get(0);
+        if(dubanTask.getKgScore()==null||0==dubanTask.getKgScore()){
+            Map dibiao = mainService.getOringinalDubanData(taskId);
+            User user = AppContext.getCurrentUser();
+            try {
+                V3xOrgMember member = this.getOrgManager().getMemberById(user.getId());
+                Double score = calculateSocre(dibiao,dubanTask,member);
+                dubanTask.setKgScore(score.intValue());
+            } catch (BusinessException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        //calculateSocre
+
+        return dubanTask;
     }
 
     public void caculateScoreWhenStartOrProcess(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) {

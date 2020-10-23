@@ -36,7 +36,8 @@ $(function () {
 function fnClearContentPadding() {
     if ((typeof window.parent.bIsClearContentPadding != "undefined" && window.parent.bIsClearContentPadding == true) || (typeof bIsClearContentPadding != "undefined" && bIsClearContentPadding == true)) {
         $(".content_text").css("padding", "0");
-    };
+    }
+    ;
 }
 
 //新建页面调用，调整高度
@@ -312,14 +313,28 @@ $(document).ready(function () {
             if (idmap["DB_FEEDBACK"] == templateId) {
                 $("#field0002").val(data["field0001"]);
                 $("#field0002").change();
+                $("#field0002").css("color","blue");
+                $("#field0002").attr("readonly","true");
+      
                 $("#field0003").val(data["field0002"]);
                 $("#field0003").change();
+                $("#field0003").css("color","blue");
+                $("#field0003").attr("readonly","");
+
                 $("#field0004").val(data["field0003"]);
                 $("#field0004").change();
+                $("#field0004").css("color","blue");
+                $("#field0004").attr("readonly","");
+
                 $("#field0005").val(data["field0004"]);
                 $("#field0005").change();
+                $("#field0005").css("color","blue");
+                $("#field0005").attr("readonly","");
+
                 $("#field0006").val(data["field0005"]);
                 $("#field0006").change();
+                $("#field0006").css("color","blue");
+                $("#field0006").attr("readonly","");
                 // $("#field0007").val(data["field0006"]);
                 // $("#field0007").change();
                 var dt = new Date(data["field0007"]);
@@ -336,6 +351,8 @@ $(document).ready(function () {
 
                         $("#field0011_txt").val(ret.name);
                         $("#field0011_txt").change();
+                        $("#field0011_txt").css("color","blue");
+                        $("#field0011_txt").attr("readonly","");
 
                     });
                 }
@@ -387,6 +404,9 @@ $(document).ready(function () {
                 $("#field0020").val(data["field0016"])
                 $("#field0020").text(data["field0016"]);
                 $("#field0020").change();
+                $("#field0020").css("color","blue");
+                $("#field0020").attr("readonly","");
+
 
 
             } else {
@@ -480,7 +500,7 @@ $(document).ready(function () {
              * 处理子表
              *
              */
-            var slaves = data['formson_0030'];
+            var slaves = data['formson_0124'];
             $("#field0020").click();
             $("#field0022").click();
 
@@ -499,32 +519,60 @@ $(document).ready(function () {
                     }
                     if (idmap["DB_FEEDBACK"] == templateId) {
 
+
                         var trs = $("tr[path='my:group1/my:group2']");
                         var item = trs[index];
-                        $(item).find("#field0022").val(objs_["field0139"]);
+                        $(item).find("#field0022").val(objs_["field0144"]);
+                        $(item).find("#field0022").css("color","blue");
+                        $(item).find("#field0022").attr("readonly","true");
 
-                        $(item).find("#field0023").val(dt.format("yyyy-MM-dd"));
-
-                        $(item).find("#field0024").val(objs_["field0141"]);
-
+                        if(objs_["field0145"]!=null && objs_["field0145"]!="" && objs_["field0145"]!='undefined')
+                        {
+                            var dt = new Date(objs_["field0145"]);
+                            $(item).find("#field0023").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0023").css("color","blue");
+                            $(item).find("#field0023").attr("readonly","true");     
+                        }
+						
+                        $(item).find("#field0024").val(objs_["field0146"]);
+                        $(item).find("#field0024").css("color","blue");
+                        $(item).find("#field0024").attr("readonly","true");
 
                     } else {
                         var trs = $("tr[path='my:group1/my:group2']");
                         var item = trs[index];
                         if (idmap["DB_DELAY_APPLY"] == templateId) {
-                            $(item).find("#field0019").val(objs_["field0139"]);
-                            var dt = new Date(objs_["field0140"]);
-                            $(item).find("#field0020").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0019").val(objs_["field0144"]);
+                            $(item).find("#field0019").css("color","blue");
+                            $(item).find("#field0019").attr("readonly","true");
 
-                            $(item).find("#field0021").val(objs_["field0141"]);
+                            if(objs_["field0145"]!=null && objs_["field0145"]!="" && objs_["field0145"]!='undefined')
+                            {
+                                var dt = new Date(objs_["field0145"]);
+                                $(item).find("#field0020").val(dt.format("yyyy-MM-dd"));
+                                $(item).find("#field0020").css("color","blue");
+                                $(item).find("#field0020").attr("readonly","true");
+                            }
 
-
+                            $(item).find("#field0021").val(objs_["field0146"]);
+                            $(item).find("#field0021").css("color","blue");
+                            $(item).find("#field0021").attr("readonly","true");
                         } else {
-                            $(item).find("#field0020").val(objs_["field0139"]);
-                            var dt = new Date(objs_["field0140"]);
-                            $(item).find("#field0021").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0020").val(objs_["field0144"]);
+                            $(item).find("#field0020").css("color","blue");
+                            $(item).find("#field0020").attr("readonly","true");
 
-                            $(item).find("#field0022").val(objs_["field0141"]);
+                            if(objs_["field0145"]!=null && objs_["field0145"]!="" && objs_["field0145"]!='undefined')
+                            {
+                                var dt = new Date(objs_["field0145"]);
+                                $(item).find("#field0021").val(dt.format("yyyy-MM-dd"));
+                                $(item).find("#field0021").css("color","blue");
+                                $(item).find("#field0021").attr("readonly","true");
+                            }
+
+                            $(item).find("#field0022").val(objs_["field0146"]);
+                            $(item).find("#field0022").css("color","blue");
+                            $(item).find("#field0022").attr("readonly","true");
                         }
 
 

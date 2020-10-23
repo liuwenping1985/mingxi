@@ -8,6 +8,7 @@ import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.apps.duban.service.DubanMainService;
+import com.seeyon.apps.duban.service.DubanScoreManager;
 import com.seeyon.apps.duban.service.MappingService;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
@@ -50,6 +51,14 @@ public class DubanTaskController extends BaseController {
     private static final Logger LOGGER = Logger.getLogger(DubanTaskController.class);
     private DubanMainService dubanMainService = DubanMainService.getInstance();
     private OrgManager orgManager;
+    private DubanScoreManager dubanScoreManager;
+
+    public DubanScoreManager getDubanScoreManager() {
+        if (dubanScoreManager == null) {
+            dubanScoreManager = (DubanScoreManager) AppContext.getBean("dubanScoreManager");
+        }
+        return dubanScoreManager;
+    }
 
     public OrgManager getOrgManager() {
         if (orgManager == null) {
@@ -304,7 +313,7 @@ public class DubanTaskController extends BaseController {
         } else if ("cengban".equals(mode)) {
             taskList = dubanMainService.getAllMainDubanTask(memberId);
         }
-        UIUtils.responseJSON(taskList, response);
+        UIUtils.responseJSON(doApprovingFilter(taskList), response);
 
         return null;
 
@@ -439,7 +448,9 @@ public class DubanTaskController extends BaseController {
         } else if ("cengban".equals(mode)) {
             taskList = dubanMainService.getRunningMainDubanTask(mId);
         }
-        UIUtils.responseJSON(taskList, response);
+
+
+        UIUtils.responseJSON(doApprovingFilter(taskList), response);
 
         return null;
 
@@ -637,6 +648,37 @@ public class DubanTaskController extends BaseController {
         data.setCode("200");
         UIUtils.responseJSON(data, response);
         return null;
+
+    }
+
+    private List<DubanTask> doApprovingFilter(List<DubanTask> dubanTaskList) {
+        if (CollectionUtils.isEmpty(dubanTaskList)) {
+            return dubanTaskList;
+        }
+        try {
+            List<DubanTask> filterDubanTask = getApprovingItemList();
+            if (!CollectionUtils.isEmpty(filterDubanTask)) {
+                Set<String> approvingTaskSet = new HashSet<String>();
+                for (DubanTask task : filterDubanTask) {
+                    approvingTaskSet.add(task.getTaskId());
+                }
+                Iterator<DubanTask> it = dubanTaskList.iterator();
+                while (it.hasNext()) {
+                    DubanTask dt = it.next();
+                    if (approvingTaskSet.contains(dt.getTaskId())) {
+                        it.remove();
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return dubanTaskList;
+
 
     }
 
@@ -851,9 +893,7 @@ public class DubanTaskController extends BaseController {
 
                 }
                 statData.setTaskATypeCount(String.valueOf(a));
-
                 statData.setWancheng(String.valueOf(f));
-
             }
 
         }
@@ -864,71 +904,69 @@ public class DubanTaskController extends BaseController {
 
     }
 
+    private List<DubanTask> getApprovingItemList() {
 
-    @NeedlessCheckLogin
-    public ModelAndView getApprovingTaskList(HttpServletRequest request, HttpServletResponse response) {
-        User user = getCurrentOrMockUser();
         String tableName = ConfigFileService.getPropertyByName("duban.task.approving.table.name");
         String templateNo = ConfigFileService.getPropertyByName("duban.task.approving.table.code");
         String sql = "SELECT id,form_recordid FROM col_summary WHERE templete_id = (select id from ctp_template where templete_number = '" + templateNo + "') and state=0";
-        CommonJSONResult commonJSONResult = new CommonJSONResult();
-        try {
-            commonJSONResult.setStatus("0");
-            List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
-            if (!CollectionUtils.isEmpty(dataMapList)) {
-                // Map<String, String> idMaps = new HashMap<String, String>();
-                Map<String, String> keyMaps = new HashMap<String, String>();
-                for (Map data : dataMapList) {
-                    // idMaps.put(String.valueOf(data.get("form_recordid")), String.valueOf(data.get("id")));
-                    keyMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
-                }
-                String affairSql = "select member_id,object_id from ctp_affair where state=3 and object_id in (" + CommonUtils.joinExtend(keyMaps.keySet(), ",") + ")";
-                List<Map> affairDataList = DataBaseUtils.queryDataListBySQL(affairSql);
-                if (!CommonUtils.isEmpty(affairDataList)) {
-                    Map<String, String> approvingAffairsMap = new HashMap<String, String>();
-
-                    for (Map affairData : affairDataList) {
-
-                        approvingAffairsMap.put(String.valueOf(affairData.get("object_id")), String.valueOf(affairData.get("member_id")));
-                    }
-                    Map<String, String> recordIdMap = new HashMap<String, String>();
-                    for (String key : approvingAffairsMap.keySet()) {
-                        String val = keyMaps.get(key);
-                        if (!StringUtil.isEmpty(val)) {
-                            recordIdMap.put(key, keyMaps.get(key));
-                        }
-                    }
-                    if (!CollectionUtils.isEmpty(recordIdMap)) {
-                        String formmainSql = "select * from " + tableName + " where id in (" + CommonUtils.joinExtend(recordIdMap.values(), ",") + ")";
-                        // List<Map> dataList = DataBaseUtils.queryDataListBySQL(formmainSql);
-                        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-                        List<DubanTask> taskList = dubanMainService.translateDubanTask(formmainSql, ftd);
-                        if (!CollectionUtils.isEmpty(taskList)) {
-                            for (DubanTask task : taskList) {
-                                task.setProcess("0");
-                                task.setMainDeptName("");
-                            }
-                        }
-                        UIUtils.responseJSON(taskList, response);
-                    } else {
-                        LOGGER.info("没有数据:" + affairSql);
-                    }
-
-                } else {
-                    LOGGER.info("找不到数据:" + affairSql);
-                }
-            } else {
-                commonJSONResult.setItems(new ArrayList(0));
+        List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
+        if (!CollectionUtils.isEmpty(dataMapList)) {
+            Map<String, String> keyMaps = new HashMap<String, String>();
+            for (Map data : dataMapList) {
+                // idMaps.put(String.valueOf(data.get("form_recordid")), String.valueOf(data.get("id")));
+                keyMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
             }
-        } catch (Exception e) {
-            commonJSONResult.setStatus("1");
-            commonJSONResult.setMsg(e.getMessage());
-            e.printStackTrace();
-            LOGGER.error(e);
+            String affairSql = "select member_id,object_id from ctp_affair where state=3 and object_id in (" + CommonUtils.joinExtend(keyMaps.keySet(), ",") + ")";
+            List<Map> affairDataList = DataBaseUtils.queryDataListBySQL(affairSql);
+            if (!CommonUtils.isEmpty(affairDataList)) {
+                Map<String, String> approvingAffairsMap = new HashMap<String, String>();
 
+                for (Map affairData : affairDataList) {
+
+                    approvingAffairsMap.put(String.valueOf(affairData.get("object_id")), String.valueOf(affairData.get("member_id")));
+                }
+                Map<String, String> recordIdMap = new HashMap<String, String>();
+                for (String key : approvingAffairsMap.keySet()) {
+                    String val = keyMaps.get(key);
+                    if (!StringUtil.isEmpty(val)) {
+                        recordIdMap.put(key, keyMaps.get(key));
+                    }
+                }
+                if (!CollectionUtils.isEmpty(recordIdMap)) {
+                    String formmainSql = "select * from " + tableName + " where id in (" + CommonUtils.joinExtend(recordIdMap.values(), ",") + ")";
+                    // List<Map> dataList = DataBaseUtils.queryDataListBySQL(formmainSql);
+                    FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+                    List<DubanTask> taskList = dubanMainService.translateDubanTask(formmainSql, ftd);
+                    if (!CollectionUtils.isEmpty(taskList)) {
+                        for (DubanTask task : taskList) {
+                            task.setProcess("0");
+                            task.setMainDeptName("");
+                        }
+                    }
+                    return taskList;
+                } else {
+                    LOGGER.info("没有数据:" + affairSql);
+                }
+
+            } else {
+                LOGGER.info("找不到数据:" + affairSql);
+            }
+
+        } else {
+            return new ArrayList<DubanTask>(0);
+        }
+        return new ArrayList<DubanTask>(0);
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView getApprovingTaskList(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            UIUtils.responseJSON(getApprovingItemList(), response);
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
 
-        UIUtils.responseJSON(new ArrayList(), response);
         return null;
     }
 
@@ -970,7 +1008,7 @@ public class DubanTaskController extends BaseController {
         }
         //field0013
         List<DubanTask> taskList = dubanMainService.translateDubanTask(sql, ftd);
-        UIUtils.responseJSON(taskList, response);
+        UIUtils.responseJSON(doApprovingFilter(taskList), response);
         //field0147
         return null;
     }
@@ -1001,6 +1039,29 @@ public class DubanTaskController extends BaseController {
         }
 
         //  UIUtils.responseJSON(taskList, response);
+        //field0147
+        return null;
+    }
+
+    @NeedlessCheckLogin
+    public ModelAndView getSimpleDataDubanTask(HttpServletRequest request, HttpServletResponse response) {
+
+        String taskId = request.getParameter("taskId");
+        CommonJSONResult ret = new CommonJSONResult();
+        try {
+            DubanTask task = getDubanScoreManager().getKeGuanScoreByCurrentUser(taskId);
+            if (task == null) {
+                ret.setStatus("0");
+            } else {
+                ret.setStatus("1");
+                ret.setData(task);
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        UIUtils.responseJSON(ret, response);
         //field0147
         return null;
     }
