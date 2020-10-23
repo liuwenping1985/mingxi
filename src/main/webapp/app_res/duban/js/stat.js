@@ -26,7 +26,7 @@
         }
         function renderTable(data){
             var htmls = [];
-
+            $("#dataBody").html("");
             $(data).each(function(index,item){
                 htmls.push("<tr onclick='onRecordClick(\""+item.taskParams+"\",\""+item.deptId+"\")' style='cursor:pointer'>");
                 htmls.push("<td><a>"+item.deptName+"</a></td>");

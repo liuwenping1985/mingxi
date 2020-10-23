@@ -43,32 +43,36 @@
 
 
 </div>
-<div id="searchArea" style="display:none">
+<div id="searchArea" style="padding-top:15px;display:none">
     <div>
-        <form class="layui-form">
+        <form class="layui-form" id="form_query_form" lay-filter="form_query_form">
             <div class="layui-form-item layui-inline layui-form-item-original">
                 <div class="layui-inline">
                     <label class="layui-form-label">查询字段</label>
                     <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
-                            <option value=""></option>
-                            <option value="0">写作</option>
-                            <option value="1" selected="">阅读</option>
-                            <option value="2">游戏</option>
+                        <select name="condition_1" lay-filter="condition_1">
+
+                            <option value="name" selected="">任务名称</option>
+                            <option value="taskSource">任务来源</option>
+                            <option value="taskLevel" >任务级别</option>
+                            <option value="period">周期</option>
+                            <option value="mainProcess">进度</option>
+                            <option value="mainLeader">责任领导</option>
+                            <option value="mainDeptName">承办部门</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item layui-inline layui-form-item-original">
                 <div class="layui-inline">
-                    <input placeholder="请输入查询关键字" class="layui-input" type="text" />
+                    <input style="width:300px" placeholder="请输入查询关键字" name="condition_1_input" class="layui-input" type="text" />
                 </div>
             </div>
-            <div id="condition_two" style="display:none">
+            <div id="condition_panel_2" style="display:none">
             <div class="layui-form-item layui-form-item-original">
                 <label class="layui-form-label">关联条件</label>
                 <div class="layui-input-inline">
-                    <select name="interest" lay-filter="aihao">
+                    <select name="condition_join_1" lay-filter="condition_join_1">
                         <option value="0">或者(OR)</option>
                         <option value="1" selected="">并且(AND)</option>
                     </select>
@@ -79,26 +83,29 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">查询条件</label>
                     <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
-                            <option value=""></option>
-                            <option value="0">写作</option>
-                            <option value="1" selected="">阅读</option>
-                            <option value="2">游戏</option>
+                        <select name="condition_2" lay-filter="condition_2">
+                            <option value="name" >任务名称</option>
+                            <option value="taskSource" selected="">任务来源</option>
+                            <option value="taskLevel"  >任务级别</option>
+                            <option value="period">周期</option>
+                            <option value="mainProcess">进度</option>
+                            <option value="mainLeader">责任领导</option>
+                            <option value="mainDeptName">承办部门</option>
                         </select>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item layui-inline">
                 <div class="layui-inline">
-                    <input placeholder="请输入查询内容" class="layui-input" type="text" />
+                    <input style="width:300px" placeholder="请输入查询内容,不输入值不生效" class="layui-input" name="condition_2_input" type="text" />
                 </div>
             </div>
             </div>
-            <div id="condition_three" style="display:none">
+            <div id="condition_panel_3" style="margin-top:15px;display:none">
                 <div class="layui-form-item layui-form-item-original">
                     <label class="layui-form-label">关联条件</label>
                     <div class="layui-input-inline">
-                        <select name="interest" lay-filter="aihao">
+                        <select name="condition_join_2" lay-filter="condition_join_2">
                             <option value="0">或者(OR)</option>
                             <option value="1" selected="">并且(AND)</option>
                         </select>
@@ -108,26 +115,30 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">查询条件</label>
                         <div class="layui-input-inline">
-                            <select name="interest" lay-filter="aihao">
-                                <option value=""></option>
-                                <option value="0">写作</option>
-                                <option value="1" selected="">阅读</option>
-                                <option value="2">游戏</option>
+                            <select name="condition_3" lay-filter="condition_3">
+                                <option value="name" >任务名称</option>
+                                <option value="taskSource"  >任务来源</option>
+                                <option value="taskLevel"  selected="">任务级别</option>
+
+                                <option value="period">周期</option>
+                                <option value="mainProcess">进度</option>
+                                <option value="mainLeader">责任领导</option>
+                                <option value="mainDeptName">承办部门</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item layui-inline">
                     <div class="layui-inline">
-                        <input placeholder="请输入查询内容"  lay-verify="required" class="layui-input" type="text" />
+                        <input style="width:300px" placeholder="请输入查询内容,不输入值不生效"  name="condition_3_input" lay-verify="required" class="layui-input" type="text" />
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block layui-input-block-original">
                     <p>最多能有3个条件</p>
-                    <button type="button" data-index="1" class="layui-btn layui-btn-sm">新增条件</button>
-                    <button type="button" class="layui-btn layui-btn-sm">查询</button>
+                    <button type="button" id="add_condition" data-index="1" class="layui-btn layui-btn-sm">新增条件</button>
+                    <button type="button" id="search_fire_btn" class="layui-btn layui-btn-normal layui-btn-sm">查询</button>
                 </div>
             </div>
 
@@ -137,9 +148,9 @@
 
 </div>
 <div class="xad_container">
-    <button type="button" class="layui-btn"><i class="layui-icon"></i>督办立项</button>
+    <button type="button" onclick="window.open('/seeyon/form/formData.do?method=newUnFlowFormData&_isModalDialog=true&contentAllId=0&isNew=true&formTemplateId=-7318607877652200777&formId=1483769518542572937&moduleType=37&viewId=3540500392450935036&rightId=-2795613803648693781')" class="layui-btn"><i class="layui-icon"></i>督办立项</button>
 
-    <button type="button" class="layui-btn"><i class="layui-icon"></i>督办统计</button>
+    <button type="button" id="stat_entrance" class="layui-btn"><i class="layui-icon"></i>督办统计</button>
     <fieldset class="layui-elem-field site-demo-button" style="margin-top: 15px;padding:10px;height:100%">
         <legend>督办台账</legend>
         <div class="layui-row" style="height:100%">
@@ -148,6 +159,7 @@
                     <ul class="layui-tab-title">
                         <li id="leader_content_li">领导督办</li>
                         <li id="supervisor_content_li">督办事项</li>
+                        <li id="watcher_content_li">我的观察</li>
                         <li class="layui-this">我的承办</li>
 
                         <li>我的协办</li>
@@ -158,6 +170,9 @@
                         </div>
                         <div id="supervisor_content"  class="layui-tab-item" style="height:100%">
                             <iframe style="width:100%;height:100%" frameborder="0" src="duban.html?mode=duban"></iframe>
+                        </div>
+                        <div   class="layui-tab-item" style="height:100%">
+                            <iframe style="width:100%;height:100%" frameborder="0" src="watcher.html?mode=watcher"></iframe>
                         </div>
                         <div class="layui-tab-item layui-show" style="height:100%">
                             <iframe style="width:100%;height:100%" frameborder="0" src="cengban.html?mode=cengban"></iframe>

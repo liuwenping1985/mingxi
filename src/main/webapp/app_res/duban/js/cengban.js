@@ -2,15 +2,27 @@
     lx.use(["jquery","element","table"],function(){
         var $ = lx.$,ele = lx.element,table=lx.table;
         var params = lx.eutil.getRequestParam();
-        var mock = true;
+        var mock = lx.eutil.isMock();
 
         var mode = params['mode']||"duban";
 
-        var baseUri = window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING")
+        var baseUri = window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING");
+        //头工具栏事件
+        var currentState="getRunningTask";
+        var currentParams=null;
         var image_base_uri ="/seeyon/apps_res/duban/verdor/layui/images/";
         if(mock){
 
-            image_base_uri="../../app_res/duban/verdor/layui/images/";
+            image_base_uri="../../app_res/duban/vendor/layui/images/";
+        }
+         window.fireQuery=function(stateParam,queryParams){
+            var obj = {
+                event:stateParam.state
+            };
+
+            fireInTheLand(obj,queryParams);
+            // alert("chengban");
+
         }
         function getCurrentLimiting(){
             var limiting = $(".layui-laypage-limits > select").val();
@@ -20,12 +32,81 @@
             limiting = parseInt(limiting);
             return limiting;
         }
+        function filterByKeyAndValue(res,key,val,old){
+            var addType="new";
+            var newAry=[];
+            if(old){
+                addType="setAdd";
+                newAry = old;
+            }else{
+                newAry=[];
+            }
+            $(res).each(function(index,item){
+                var isadd=false;
+                var itemVal = item[key];
+                if(itemVal&&(""+itemVal).indexOf(val)>=0){
+                    isadd = true;
+                }
+                if(isadd){
+                    if("setAdd"==addType){
+                        var isDuplicated = false;
+                        $(newAry).each(function(i,it){
+                            if(it.taskId==item.taskId){
+                                isDuplicated = true;
+                            }
+                        });
+                        if(!isDuplicated){
+                            newAry.push(item);
+                        }
+                    }else{
+                        newAry.push(item);
+                    }
+                }
+
+            });
+            return newAry;
+        }
+        function filterData(res){
+            var start_res = [];
+            $(res).each(function(index,item){
+                start_res.push(item);
+            });
+            if(currentParams["condition_1_input"]!=""){
+                start_res =  filterByKeyAndValue(start_res,currentParams["condition_1"],currentParams["condition_1_input"],null);
+            }
+            if(currentParams["condition_2_input"]!=""){
+                //condition_join_1
+                if(currentParams["condition_join_1"]=="1"){
+                    start_res = filterByKeyAndValue(start_res,currentParams["condition_2"],currentParams["condition_2_input"],null);
+                }else{
+                    console.log(start_res);
+                    start_res = filterByKeyAndValue(res,currentParams["condition_2"],currentParams["condition_2_input"],start_res);
+                    console.log(start_res);
+                }
+
+            }
+            if(currentParams["condition_3_input"]!=""){
+                if(currentParams["condition_join_2"]=="1"){
+                    start_res = filterByKeyAndValue(start_res,currentParams["condition_3"],currentParams["condition_3_input"],null);
+                }else{
+                    start_res = filterByKeyAndValue(res,currentParams["condition_3"],currentParams["condition_3_input"],start_res);
+                }
+            }
+            res = start_res;
+            return res;
+        }
         function paseData_(res){
 
             var limiting = $(".layui-laypage-limits > select").val();
 
             if(!limiting){
                 limiting = 10;
+            }
+
+            if(currentParams){
+
+                res = filterData(res);
+
             }
 
             limiting = parseInt(limiting);
@@ -64,11 +145,7 @@
             ,done: function(res, curr, count){
 
             }
-            ,defaultToolbar: [ {
-                title: 'tips'
-                ,layEvent: 'searchAll'
-                ,icon: 'layui-icon-search'
-            },'filter', 'exports', 'print']
+            ,defaultToolbar: ['filter', 'exports', 'print']
             ,title: '督办事项'
             ,cols: [[
                 {field:'taskLight', title:'状态', width:60, fixed: 'left', templet: function(item){
@@ -78,11 +155,12 @@
                         item.taskLight = image_base_uri+"blue.png";
                     } else if ("有风险但可控" == item.taskLight) {
                         item.taskLight = image_base_uri+"orange.png";
-                    } else if ("风险不可控，不能按期完成" == item.taskLight) {
+                    } else if ("风险不可控,不能按期完成" == item.taskLight) {
                         item.taskLight =image_base_uri+ "red.jpeg";
                     } else {
-                        item.taskLight = image_base_uri+"red.jpeg";
+                        item.taskLight = image_base_uri+"green.jpeg";
                     }
+
                     return '<img width="24px" height="24px" src="' + item.taskLight + '">';
                 }}
                 ,{field:'name', title:'任务名称', width:200, fixed: 'left'}
@@ -139,9 +217,13 @@
 
             $("button[lay-event="+eventName+"]").addClass("layui-btn-normal");
         }
-        //头工具栏事件
-        table.on('toolbar(test)', function(obj){
 
+        function fireInTheLand(obj,params){
+            if(params){
+                currentParams = params;
+            }else{
+                currentParams = null;
+            }
             switch(obj.event){
                 case 'getRunningTask':
 
@@ -152,6 +234,7 @@
                         page:true,
                         done: function(res, curr, count){
                             changeBtnStyle("getRunningTask");
+                            currentState="getRunningTask";
                         }
                     });
 
@@ -170,6 +253,7 @@
                         page:true,
                         done: function(res, curr, count){
                             changeBtnStyle("getFinishedTask");
+                            currentState="getFinishedTask";
                         }
                     })
                     break;
@@ -182,20 +266,24 @@
                         page:true,
                         done: function(res, curr, count){
                             changeBtnStyle("getAllTask");
+                            currentState="getAllTask";
                         }
                     })
                     break;
                 case 'searchAll':
-                    window.parent.Base.openSearch({name:"duban"});
+                    window.parent.Base.openSearch({mode:"cengban",state: currentState});
                     break;
 
             };
+        }
+
+        table.on('toolbar(test)', function(obj){
+            fireInTheLand(obj);
+
         });
 
         //监听行工具事件
         table.on('tool(test)', function(obj){
-
-            //console.log(obj)
             var evt = obj.event;
             var func = window.parent.Base[evt];
             if(func){

@@ -2,12 +2,10 @@
     lx.use(["jquery","element","table"],function(){
         var $ = lx.$,ele = lx.element,table=lx.table;
         var params = lx.eutil.getRequestParam();
-       var mock = lx.eutil.isMock();
+        var mock = lx.eutil.isMock();
 
-        var mode = params['mode']||"duban";
-        //头工具栏事件
-        var currentState="getRunningTask";
-        var currentParams=null;
+        var mode = params['mode']||"watcher";
+
         var baseUri = window.DB_DAO.getUrlByStateAndMode(mode,"RUNNING")
         var image_base_uri ="/seeyon/apps_res/duban/verdor/layui/images/";
         if(mock){
@@ -127,7 +125,7 @@
             // return res;
         }
 
-       var duban_table = table.render({
+        var duban_table = table.render({
             elem: '#test'
             ,url:baseUri
             ,toolbar: '#toolbarDemo'
@@ -214,6 +212,8 @@
 
             $("button[lay-event="+eventName+"]").addClass("layui-btn-normal");
         }
+        var currentState="getRunningTask";
+        var currentParams=null;
         function fireInTheLand(obj,params){
             if(params){
                 currentParams = params;
@@ -279,12 +279,10 @@
 
         //监听行工具事件
         table.on('tool(test)', function(obj){
-            var data = obj.data;
-            //console.log(obj)
-            if(obj.event === 'view'){
-                window.parent.Base.openView(obj.data.uuid,mode);
-            } else if(obj.event === 'modify'){
-                window.parent.Base.modifyView(obj.data.uuid);
+            var evt = obj.event;
+            var func = window.parent.Base[evt];
+            if(func){
+                func(obj.data.uuid,mode);
             }
         });
 

@@ -9,6 +9,7 @@ import com.seeyon.apps.duban.po.DubanScoreRecord;
 import com.seeyon.apps.duban.po.DubanTask;
 import com.seeyon.apps.duban.po.SlaveDubanTask;
 import com.seeyon.apps.duban.service.*;
+import com.seeyon.apps.duban.stat.FieldName2Field00xxUtils;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
@@ -77,8 +78,8 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             System.out.println("not data :" + sql);
                             return;
                         }
-                        String taskId = (String) data.get("field0002");
-                        Object taskStatus = data.get("field0029");
+                        String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务ID")); //任务ID "field0002"
+                        Object taskStatus = data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务状态"));//任务状态 "field00029"
 
                         //主表的相关信息
                         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
@@ -102,7 +103,12 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                                 record.setWeight(task.getMainWeight());
                             } else {
                                 SlaveDubanTask sdt = getSlaveTaskByTaskAndMember(task, member);
-                                record.setWeight(sdt.getWeight());
+                                if (sdt == null) {
+                                    record.setWeight(task.getMainWeight());
+                                }else{
+                                    record.setWeight(sdt.getWeight());
+                                }
+
                             }
                             DBAgent.save(record);
 
@@ -110,22 +116,22 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         //end of 打分记录
                         //主要逻辑
                         //1、看下任务量的分数有没有被算出来
-                        Double renwuliang = CommonUtils.getDouble(data.get("field0030"));
+                        Double renwuliang = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量")));//任务量 field0030
                         if (renwuliang == null || renwuliang.intValue() <= 0) {
                             //计算
                             Double rwScore = calculateSocre(dibiao, task, member);
                             record.setKeGuanScore(decimalFormat.format(rwScore));
-                            updateStringFieldByTableAndId("field0030", record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
+                            updateStringFieldByTableAndId(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量"), record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
                         }
 
-                        Double dafen = CommonUtils.getDouble(data.get("field0028"));
+                        Double dafen = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "汇报分")));//汇报分 field0028
                         if (dafen != null) {
                             record.setZhuGuanScore(decimalFormat.format(dafen));
                         } else {
                             record.setZhuGuanScore("0");
                         }
                         record.setExtVal(String.valueOf(taskStatus));
-                        if("DB_FEEDBACK".equals(templateCode)){
+                        if ("DB_FEEDBACK".equals(templateCode)) {
 
                             record.setZhuGuanScore("-999");
 
@@ -159,14 +165,15 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     System.out.println("找不到数据:" + sql);
                     return;
                 }
-                String taskId = (String) data.get("field0002");
-                Object field0001 = data.get("field0001");
-                Object field0014 = data.get("field0014");
+                String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务ID"));//任务ID field0002
+                Object field0001 = data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "申请办结"));//申请办结 field0001
+                Object field0014 = data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "完成率"));//完成率 field0014
+                Object fieldStatus = data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务状态"));//完成率 field0029
                 if (taskId == null) {
                     System.out.println("数据有问题:" + data);
                     return;
                 }
-                String cont = (String) data.get("field0015");
+                String cont = (String) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "汇报内容"));//汇报内容 field0015
                 if (CommonUtils.isEmpty(cont)) {
                     cont = "";
                 } else {
@@ -189,7 +196,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 /**
                  * field0013 进度
                  */
-                String memo = (String) dibiao.get("field0093");
+                String memo = (String) dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "汇报信息"));//汇报信息 field0093
                 if (CommonUtils.isEmpty(memo)) {
                     memo = cont;
                 } else {
@@ -199,16 +206,21 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                 //先看是不是承办
                 //field0017 承办bumen
-                Object cb = dibiao.get("field0017");
+                Object cb = dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "承办部门名称")); //承办部门名称 field0017
                 String andSetSQL = "";
                 if (cb != null && String.valueOf(cb).equals(String.valueOf(deptId))) {
-                    //field0021 承办部门进度
-                    //field0022 完成时间
+                    //field0021 主办完成率
+                    //field0022 主办办结日期
                     //field0018 权重
-                    andSetSQL += ",field0021=" + field0014;
+                    //field0020 主办任务状态
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办完成率") + "=" + field0014;
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务状态") + "='" + CommonUtils.getEnumShowValue(fieldStatus)+"'";//直接存”低风险等枚举值“
                     if ("1".equals(String.valueOf(field0001))) {
-                        andSetSQL += ",field0022='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
-                        andSetSQL += ",field0020='已完成'";
+                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
+                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='已完成'";
+                    }
+                    else{
+                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='进行中'";
                     }
 
                 } else {
@@ -238,27 +250,31 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                                 andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'");
                                 String statusField = "field00" + (27 + 7 * (index - 1));
                                 andSetSQL += ("," + statusField + "='已完成'");
-                                calculateDone(taskId);
+//                                calculateDone(taskId);
+                            }
+                            else{
+                                String statusField = "field00" + (27 + 7 * (index - 1));
+                                andSetSQL += ("," + statusField + "='进行中'");
                             }
                         }
 
                     }
                 }
 
-
-                String updateSQL = "update " + ftd.getFormTable().getName() + " set field0093='" + memo + "'" + andSetSQL + " where id=" + dibiao.get("id");
+                //汇报信息 field0093
+                String updateSQL = "update " + ftd.getFormTable().getName() + " set " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "汇报信息") + "='" + memo + "'" + andSetSQL + " where id=" + dibiao.get("id");
                 System.out.println(updateSQL);
                 calculateDone(taskId);
                 DataBaseUtils.executeUpdate(updateSQL);
                 caculateAllProcess(taskId);
             }
-        }, 1, TimeUnit.SECONDS);
+        }, 4, TimeUnit.SECONDS);
 
 
     }
 
     private static String sortByTime(String count) {
-        if(CommonUtils.isEmpty(count)){
+        if (CommonUtils.isEmpty(count)) {
             return "";
         }
         String[] vals = count.split("\n");
@@ -272,12 +288,12 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         }
         Collections.sort(list, new Comparator<String>() {
             public int compare(String o1, String o2) {
-                try{
-                    String time1 =  o1.split("\\(")[1].split("\\)")[0];
-                    String time2 =  o2.split("\\(")[1].split("\\)")[0];
+                try {
+                    String time1 = o1.split("\\(")[1].split("\\)")[0];
+                    String time2 = o2.split("\\(")[1].split("\\)")[0];
                     return time2.compareTo(time1);
 
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return o2.compareTo(o1);
@@ -286,7 +302,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             }
         });
 
-        return CommonUtils.join(list,"\n\n\n");
+        return CommonUtils.join(list, "\n\n\n");
     }
 
     private void caculateAllProcess(final String taskId) {
@@ -332,8 +348,9 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                 }
 
-
-                String sql = "update " + ftd.getFormTable().getName() + " set field0013=" + p.intValue() + " where field0001='" + taskId + "'";
+                // 完成进度 field0013,任务ID field0001
+                String sql = "update " + ftd.getFormTable().getName() + " set " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "完成进度")
+                        + "=" + p.intValue() + " where " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
 
                 DataBaseUtils.executeUpdate(sql);
 
@@ -358,18 +375,19 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
 
                 Map data = DataBaseUtils.querySingleDataBySQL(sql);
-                String taskId = (String) data.get("field0001");
+                String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务ID"));//任务IDfield0001
                 Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
                 DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
-                Object cb = dibiao.get("field0017");
+                Object cb = dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "承办部门名称"));//承办部门名称 field0017
                 String andSetSQL = "";
                 if (cb != null && String.valueOf(cb).equals(String.valueOf(member.getOrgDepartmentId()))) {
-                    //field0021 承办部门进度
-                    //field0022 完成时间
+                    //field0020 主办任务状态
+                    //field0021 主办完成率
+                    //field0022 主办办结日期
                     //field0018 权重
-                    andSetSQL += ",field0021=100";
-                    andSetSQL += ",field0022='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
-                    andSetSQL += ",field0020='已完成'";
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办完成率") + "=100";
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='已完成'";
                 } else {
                     //看是不是协办
                     //field0023-field0092
@@ -398,11 +416,12 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                     }
                 }
-                String updateSQL = "update " + ftd.getFormTable().getName() + " set finishedflag=1" + andSetSQL + " where field0001='" + taskId + "'";
+                String updateSQL = "update " + ftd.getFormTable().getName() + " set finishedflag=1" + andSetSQL + " where "
+                        + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
                 System.out.println(updateSQL);
                 DataBaseUtils.executeUpdate(updateSQL);
                 calculateDone(taskId);
-
+                caculateAllProcess(taskId);
 
             }
         }, 1, TimeUnit.SECONDS);
@@ -424,10 +443,13 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 String sql = "select * from " + tableName + " where id = " + colSummary.getFormRecordid();
                 Map data = DataBaseUtils.querySingleDataBySQL(sql);
                 //field0014
-                String taskId = (String) data.get("field0001");
-                Date date = (Date) data.get("field0014");
+                String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_DELAY_APPLY, "任务ID")); //任务ID field0001
+                Date date = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_DELAY_APPLY, "延期后办结日期"));//延期后办结日期 field0014
                 if (date != null) {
-                    String updateSQL = "update " + ftd.getFormTable().getName() + " set field0007='" + CommonUtils.formatDate(date) + "' where field0001='" + taskId + "'";
+                    //field0007 办理时限
+                    String updateSQL = "update " + ftd.getFormTable().getName() +
+                            " set " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "办理时限") + "='" + CommonUtils.formatDate(date) +
+                            "' where " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
                     System.out.println(updateSQL);
                     DataBaseUtils.executeUpdate(updateSQL);
 
@@ -458,37 +480,45 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     System.out.println("not data :" + sql);
                     return;
                 }
-                String taskId = (String) data.get("field0001");
+                String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务ID"));//任务ID
                 //field0001 taskId0000000000000000000000000000000000000
                 //这里也计算一下分数
                 //field0028 任务量
-                //field0026 汇报
-                //field0027 完成分
-                Double rws = CommonUtils.getDouble(data.get("field0028"));
-                Double wancheng = CommonUtils.getDouble(data.get("field0027"));
+                //field0026 汇报分
+                //field0027 任务完成分
+                Double rws = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务量")));//任务量 "field0028"
+                Double wancheng = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务完成分")));//任务完成分 27
                 if (rws == null || rws.intValue() <= 0) {
                     List<DubanScoreRecord> dsrList = DBAgent.find("from DubanScoreRecord where taskId='" + taskId + "' and memberId=" + member.getId());
                     if (!CollectionUtils.isEmpty(dsrList)) {
                         double kg = 0;
                         double zg = 0;
+                        int kgSize = 0;
+                        int zgSize = 0;
                         for (DubanScoreRecord dsr : dsrList) {
-                            if("-999".equals(dsr.getZhuGuanScore())){
-                                continue;
-                            }
+
                             Double ss = CommonUtils.getDouble(dsr.getKeGuanScore());
                             if (ss != null) {
                                 kg += ss;
+                                kgSize++;
+                            }
+                            if ("-999".equals(dsr.getZhuGuanScore())) {
+                                continue;
                             }
                             Double dd = CommonUtils.getDouble(dsr.getZhuGuanScore());
                             if (dd != null) {
                                 zg += dd;
+                                zgSize++;
                             }
+
 
                         }
                         double size = 1d * dsrList.size();
-                        String kgUpdateval = kg == 0 ? "0" : decimalFormat.format(kg / size);
-                        String zgUpdateval = zg == 0 ? "0" : decimalFormat.format(zg / size);
-                        String sql2 = "update " + tableFtd.getFormTable().getName() + " set field0028=" + kgUpdateval + ",field0026=" + zgUpdateval + " where id=" + colSummary.getFormRecordid();
+                        String kgUpdateval = kgSize == 0 ? "0" : decimalFormat.format(kg / kgSize);
+                        String zgUpdateval = zgSize == 0 ? "0" : decimalFormat.format(zg / zgSize);
+                        String sql2 = "update " + tableFtd.getFormTable().getName() +
+                                " set " + FieldName2Field00xxUtils.getfield00xx(templateCode, "任务量") + "=" + kgUpdateval +
+                                "," + FieldName2Field00xxUtils.getfield00xx(templateCode, "汇报分") + "=" + zgUpdateval + " where id=" + colSummary.getFormRecordid();
                         DataBaseUtils.executeUpdate(sql2);
 
                     }
@@ -544,9 +574,6 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         Double rw = 0d, hb = 0d, wc = 0d, total = 0d;
         Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
         for (DubanScoreRecord dsr : dsrList) {
-            if("-999".equals(dsr.getZhuGuanScore())){
-                continue;
-            }
             List<DubanScoreRecord> dsrs = deptDsr.get(dsr.getDepartmentId());
             if (dsrs == null) {
                 dsrs = new ArrayList<DubanScoreRecord>();
@@ -556,40 +583,70 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
         }
         for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDsr.entrySet()) {
-
-
             List<DubanScoreRecord> eList = entry.getValue();
-
-            double size = 1d * eList.size();
             double rws = 0d, hbs = 0d, wcs = 0d;
+            double kgSize = 0d;
+            double zhuguanSize = 0d;
+            double wanchengSize = 0d;
             for (DubanScoreRecord dsr : eList) {
-                if("-999".equals(dsr.getZhuGuanScore())){
-                    continue;
-                }
-                Double wcf = CommonUtils.getDouble(dsr.getScore());
                 Double rwf = CommonUtils.getDouble(dsr.getKeGuanScore());
-                Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
-                if (wcf != null) {
-                    wcs += wcf;
-                }
                 if (rwf != null) {
                     rws += rwf;
+                    kgSize++;
                 }
+                if ("-999".equals(dsr.getZhuGuanScore())) {
+                    continue;
+                }
+                Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
+                Double wcf = CommonUtils.getDouble(dsr.getScore());
                 if (hbf != null) {
                     hbs += hbf;
+                    zhuguanSize++;
+                }
+                if (wcf != null) {
+                    wcs += wcf;
+                    wanchengSize++;
                 }
             }
-            rw += (rws / size);
-            hb += (hbs / size);
-            wc += (wcs / size);
+            rw += (kgSize == 0d ? 0 : (rws / kgSize));
+            hb += (zhuguanSize == 0d ? 0d : hbs / zhuguanSize);
+            wc += (wanchengSize == 0 ? 0d : wcs / wanchengSize);
 
 
         }
-        total = (rw + hb + wc);
-        String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0143=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0145=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
-        DataBaseUtils.executeUpdate(sql2);
+        total = (rw * (hb / 100d) * (wc / 100d));
 
+        //String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0143=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0145=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
+        String sql2 = "update " + ftd.getFormTable().getName() + " set "
+                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务量") + "=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ","
+                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "汇报分") + "=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ","
+                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "最终得分") + "=" + (total == 0 ? 0 : decimalFormat.format(total)) + ","
+                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务完成分") + "=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where "
+                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
+        DataBaseUtils.executeUpdate(sql2);
     }
+
+//    //add by tianxufeng,获某表的某个field00xx
+//    private String getfield00xx(String formCode, String displayName) {
+//        if (formCode.equals(MappingCodeConstant.DUBAN_TASK))//底表
+//        {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_db();
+//            return fieldTools.getField00xx(displayName);
+//        } else if (formCode.equals(MappingCodeConstant.DUBAN_TASK_FEEDBACK_AUTO)//反馈表
+//                || formCode.equals(MappingCodeConstant.DUBAN_TASK_FEEDBACK)) {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_feedback();
+//            return fieldTools.getField00xx(displayName);
+//        } else if (formCode.equals(MappingCodeConstant.DUBAN_TASK_DELAY_APPLY))//延期
+//        {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_delay();
+//            return fieldTools.getField00xx(displayName);
+//        } else if (formCode.equals(MappingCodeConstant.DUBAN_DONE_APPLY))//办结
+//        {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_done();
+//            return fieldTools.getField00xx(displayName);
+//        }
+//        return "";
+//    }
 
     private SlaveDubanTask getSlaveTaskByTaskAndMember(DubanTask task, V3xOrgMember member) {
         List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
@@ -606,7 +663,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
     }
 
-    private boolean isCengban(V3xOrgMember member, Map dibiao) {
+    public boolean isCengban(V3xOrgMember member, Map dibiao) {
         Object cb = dibiao.get("field0017");
         if (cb != null && String.valueOf(cb).equals(String.valueOf(member.getOrgDepartmentId()))) {
             return true;

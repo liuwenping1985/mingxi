@@ -16,17 +16,14 @@ import com.seeyon.apps.duban.util.UIUtils;
 import com.seeyon.apps.duban.vo.CommonJSONResult;
 import com.seeyon.apps.duban.vo.DubanBaseInfo;
 import com.seeyon.apps.duban.vo.DubanStatData;
+import com.seeyon.apps.duban.vo.LineData;
 import com.seeyon.apps.duban.vo.form.FormTable;
 import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
-import com.seeyon.apps.form.manager.impl.FormManagerImpl;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.controller.BaseController;
 import com.seeyon.ctp.common.exceptions.BusinessException;
-import com.seeyon.ctp.form.bean.FormDataBean;
-import com.seeyon.ctp.form.modules.engin.base.formData.FormDataDAOImpl;
-import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManagerImpl;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
@@ -36,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
+import www.seeyon.com.utils.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -655,28 +653,42 @@ public class DubanTaskController extends BaseController {
         if (endDate != null) {
             end = CommonUtils.parseDate(endDate);
         }
+        String deptIds = request.getParameter("deptIds");
         StringBuilder sql = new StringBuilder("from DubanScoreRecord where 1=1 ");
         Map params = new HashMap();
         if (start != null) {
-            sql.append("and createDate>:createDate");
+            sql.append("and createDate>=:createDate");
             params.put("createDate", start);
         }
         if (end != null) {
-            sql.append("and createDate>:endDate");
+            sql.append(" and createDate<=:endDate");
             params.put("endDate", end);
         }
+        if (deptIds != null) {
+            String[] dids = deptIds.split(",");
+
+            List<Long> departmentIds = new ArrayList<Long>();
+            for (String did : dids) {
+                Long deptId = CommonUtils.getLong(did);
+                if (deptId != null) {
+                    departmentIds.add(deptId);
+                }
+            }
+            if (!CollectionUtils.isEmpty(departmentIds)) {
+                sql.append(" and departmentId in(:departmentIds)");
+                params.put("departmentIds", departmentIds);
+            }
 
 
+        }
         List<DubanScoreRecord> dsrList = DBAgent.find(sql.toString(), params);
         //
         List<DubanStatData> dataList = new ArrayList<DubanStatData>();
+        //以部门id将结果分组
         Map<Long, List<DubanScoreRecord>> deptDubanScoreRecordMap = new HashMap<Long, List<DubanScoreRecord>>();
         if (!CommonUtils.isEmpty(dsrList)) {
 
             for (DubanScoreRecord record : dsrList) {
-                if ("-999".equals(record.getZhuGuanScore())) {
-                    continue;
-                }
                 Long deptId = record.getDepartmentId();
                 List<DubanScoreRecord> rList = deptDubanScoreRecordMap.get(deptId);
                 if (rList == null) {
@@ -686,10 +698,11 @@ public class DubanTaskController extends BaseController {
                 rList.add(record);
             }
             String dateParams = JSON.toJSONString(params);
-            String sqlTask = "select * from ";
+
             for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDubanScoreRecordMap.entrySet()) {
                 //部门维度
                 Long deptId = entry.getKey();
+                List<LineData> lineDatas = new ArrayList<LineData>();
                 List<DubanScoreRecord> recordList = entry.getValue();
                 Map<String, List<DubanScoreRecord>> taskMaps = new HashMap<String, List<DubanScoreRecord>>();
                 for (DubanScoreRecord record : recordList) {
@@ -706,7 +719,7 @@ public class DubanTaskController extends BaseController {
                     Set summaryIdSet = new HashSet();
                     Double score = 0d;
                     Double keScore = 0d;
-
+                    //taskId为key
                     for (Map.Entry<String, List<DubanScoreRecord>> taskScoreRecordS : taskMaps.entrySet()) {
                         Double zhuguanScore = 0d;
                         Double wanchengScore = 0d;
@@ -716,34 +729,47 @@ public class DubanTaskController extends BaseController {
                         int wanchengSize = 0;
                         for (DubanScoreRecord record : taskScoreRecordS.getValue()) {
                             String ke = record.getKeGuanScore();
-
-                            String zhu = record.getZhuGuanScore();
                             if (!CommonUtils.isEmpty(ke)) {
                                 keguanScore += Double.parseDouble(ke);
                                 keSize++;
                             }
-                            if (!CommonUtils.isEmpty(zhu)) {
-                                zhuguanScore += Double.parseDouble(zhu);
-                                zhuSize++;
+                            String zhu = record.getZhuGuanScore();
+                            //去掉主动汇报的
+                            if (!"-999".equals(zhu)) {
+                                if (!CommonUtils.isEmpty(zhu)) {
+                                    zhuguanScore += Double.parseDouble(zhu);
+                                    zhuSize++;
+                                }
+                                String wan = record.getScore();
+                                if (!CommonUtils.isEmpty(wan)) {
+                                    wanchengScore += Double.parseDouble(wan);
+                                    wanchengSize++;
+                                }
                             }
-                            String wan = record.getScore();
-                            if (!CommonUtils.isEmpty(wan)) {
-                                wanchengScore += Double.parseDouble(wan);
-                                wanchengSize++;
-                            }
+
                         }
+                        LineData lineData = new LineData();
                         if (keSize > 0) {
                             keScore += (keguanScore / keSize);
+                            lineData.setKeGuanScore(String.valueOf((keguanScore / keSize)));
                         }
                         if (zhuSize > 0) {
                             zhuguanScore = zhuguanScore / zhuSize;
+                            lineData.setZhuguanScore(String.valueOf(zhuguanScore));
                         }
                         if (wanchengSize > 0) {
                             wanchengScore = wanchengScore / wanchengSize;
+                            lineData.setWanchengScore(String.valueOf(wanchengScore));
                         }
+                        if (keSize == 0) {
+                            keSize = 1;
+                        }
+                        lineData.setTaskId(taskScoreRecordS.getKey());
+                        lineDatas.add(lineData);
                         score += ((keguanScore / keSize) * (zhuguanScore / 100d) * (wanchengScore / 100d));
                     }
                     DubanStatData statData = new DubanStatData();
+                    statData.setLineDatas(lineDatas);
                     statData.setDateParams(dateParams);
                     statData.setTaskScore(String.valueOf(score));
                     statData.setDeptId(String.valueOf(deptId));
@@ -766,6 +792,11 @@ public class DubanTaskController extends BaseController {
                 }
 
             }
+        } else {
+            data.setItems(new ArrayList());
+            data.setCode("200");
+            UIUtils.responseJSON(data, response);
+            return null;
         }
         data.setItems(dataList);
         List<String> taskIdParams = new ArrayList<String>();
@@ -778,13 +809,15 @@ public class DubanTaskController extends BaseController {
             //String levelA = ConfigFileService.getPropertyByName("ctp.group.task_level.A.enum");
             Map<String, String> taskAMap = new HashMap<String, String>();
             Map<String, String> finishMap = new HashMap<String, String>();
+            Map<String, DubanTask> taskContainerMap = new HashMap<String, DubanTask>();
             for (DubanTask task : taskList) {
-                if ("A".equals(task.getTaskLevel())) {
+                if ("A".equals(task.getTaskLevel()) || String.valueOf(task.getTaskLevel()).startsWith("A")) {
                     taskAMap.put(task.getTaskId(), "1");
                 }
                 if ("100".equals(task.getMainProcess())) {
                     finishMap.put(task.getTaskId(), "1");
                 }
+                taskContainerMap.put(task.getTaskId(), task);
             }
             for (DubanStatData statData : dataList) {
                 String taskIds = statData.getTaskParams();
@@ -800,6 +833,22 @@ public class DubanTaskController extends BaseController {
                             f++;
                         }
                     }
+                }
+                List<LineData> lineDataList = statData.getLineDatas();
+                if (!CollectionUtils.isEmpty(lineDataList)) {
+                    for (LineData dots : lineDataList) {
+                        String tid = dots.getTaskId();
+                        DubanTask dtask = taskContainerMap.get(tid);
+                        if (dtask != null) {
+                            dots.setTaskLevelName(dtask.getTaskLevel());
+                            dots.setTaskSourceName(dtask.getTaskSource());
+                            dots.setAtype(taskAMap.containsKey(tid));
+                            dots.setFinished(finishMap.containsKey(tid));
+
+                        }
+                    }
+
+
                 }
                 statData.setTaskATypeCount(String.valueOf(a));
 
@@ -827,28 +876,47 @@ public class DubanTaskController extends BaseController {
             commonJSONResult.setStatus("0");
             List<Map> dataMapList = DataBaseUtils.queryDataListBySQL(sql);
             if (!CollectionUtils.isEmpty(dataMapList)) {
-                Map<String, String> idMaps = new HashMap<String, String>();
+                // Map<String, String> idMaps = new HashMap<String, String>();
+                Map<String, String> keyMaps = new HashMap<String, String>();
                 for (Map data : dataMapList) {
-                    idMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
+                    // idMaps.put(String.valueOf(data.get("form_recordid")), String.valueOf(data.get("id")));
+                    keyMaps.put(String.valueOf(data.get("id")), String.valueOf(data.get("form_recordid")));
                 }
-                String affairSql = "select member_id,object_id  from ctp_affair where state=3 and object_id in ("+CommonUtils.joinSet(idMaps.keySet(),",")+")";
-                String formmainSql = "select * from " + tableName + " where id in ("+CommonUtils.joinExtend(idMaps.values(),",")+")";
+                String affairSql = "select member_id,object_id from ctp_affair where state=3 and object_id in (" + CommonUtils.joinExtend(keyMaps.keySet(), ",") + ")";
                 List<Map> affairDataList = DataBaseUtils.queryDataListBySQL(affairSql);
-                if(!CommonUtils.isEmpty(affairDataList)){
-                    List<Map> formaminList = DataBaseUtils.queryDataListBySQL(formmainSql);
-                    if(!CommonUtils.isEmpty(formaminList)){
-//                        List<DubanTas>
-//                        DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class)
+                if (!CommonUtils.isEmpty(affairDataList)) {
+                    Map<String, String> approvingAffairsMap = new HashMap<String, String>();
 
+                    for (Map affairData : affairDataList) {
 
-                    }else{
-                        LOGGER.info("找不到数据:"+formmainSql);
+                        approvingAffairsMap.put(String.valueOf(affairData.get("object_id")), String.valueOf(affairData.get("member_id")));
+                    }
+                    Map<String, String> recordIdMap = new HashMap<String, String>();
+                    for (String key : approvingAffairsMap.keySet()) {
+                        String val = keyMaps.get(key);
+                        if (!StringUtil.isEmpty(val)) {
+                            recordIdMap.put(key, keyMaps.get(key));
+                        }
+                    }
+                    if (!CollectionUtils.isEmpty(recordIdMap)) {
+                        String formmainSql = "select * from " + tableName + " where id in (" + CommonUtils.joinExtend(recordIdMap.values(), ",") + ")";
+                        // List<Map> dataList = DataBaseUtils.queryDataListBySQL(formmainSql);
+                        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+                        List<DubanTask> taskList = dubanMainService.translateDubanTask(formmainSql, ftd);
+                        if (!CollectionUtils.isEmpty(taskList)) {
+                            for (DubanTask task : taskList) {
+                                task.setProcess("0");
+                                task.setMainDeptName("");
+                            }
+                        }
+                        UIUtils.responseJSON(taskList, response);
+                    } else {
+                        LOGGER.info("没有数据:" + affairSql);
                     }
 
-                }else{
-                    LOGGER.info("找不到数据:"+affairSql);
+                } else {
+                    LOGGER.info("找不到数据:" + affairSql);
                 }
-
             } else {
                 commonJSONResult.setItems(new ArrayList(0));
             }
@@ -860,31 +928,80 @@ public class DubanTaskController extends BaseController {
 
         }
 
-        UIUtils.responseJSON(commonJSONResult, response);
+        UIUtils.responseJSON(new ArrayList(), response);
+        return null;
+    }
+
+//    @NeedlessCheckLogin
+//    public ModelAndView dataStat(HttpServletRequest request, HttpServletResponse response) {
+//
+//        CommonJSONResult commonJSONResult = new CommonJSONResult();
+//        //0 成功 1失败
+//        commonJSONResult.setStatus("0");
+//        //成功无所谓，失败的话填失败的简单信息
+//        commonJSONResult.setMsg("success");
+//
+//        //如果返回的结果是列表就是返回list 里边装对象
+//        commonJSONResult.setItems(new ArrayList(0));
+//        //如果单个数据就setData，setItems和setData 一般情况下只设置一个
+//
+//        Map data = new HashMap();
+//        data.put("high", "10");
+//        data.put("low", "20");
+//        commonJSONResult.setData(data);
+//
+//        UIUtils.responseJSON(commonJSONResult, response);
+//
+//
+//        return null;
+//    }
+
+    @NeedlessCheckLogin
+    public ModelAndView getWatcherData(HttpServletRequest request, HttpServletResponse response) {
+        User user = getCurrentOrMockUser();
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+        String sql = "select * from " + ftd.getFormTable().getName() + " where (field0147 like '%" + user.getId() + "%' or field0147 like '%" + user.getName() + "%')";
+        String state = request.getParameter("state");
+        if ("RUNNING".equals(state)) {
+            sql += " and (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "!=100 or " + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + " is null)";
+        }
+        if ("DONE".equals(state)) {
+            sql += " and (" + MappingCodeConstant.FIELD_DUBAN_WANCHENGLV_SUPERVISOR + "=100)";
+        }
+        //field0013
+        List<DubanTask> taskList = dubanMainService.translateDubanTask(sql, ftd);
+        UIUtils.responseJSON(taskList, response);
+        //field0147
         return null;
     }
 
     @NeedlessCheckLogin
-    public ModelAndView dataStat(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView getDeptSimpleDataList(HttpServletRequest request, HttpServletResponse response) {
+        User user = getCurrentOrMockUser();
 
-        CommonJSONResult commonJSONResult = new CommonJSONResult();
-        //0 成功 1失败
-        commonJSONResult.setStatus("0");
-        //成功无所谓，失败的话填失败的简单信息
-        commonJSONResult.setMsg("success");
+        try {
+            List<V3xOrgDepartment> deptList = getOrgManager().getAllDepartments(user.getAccountId());
+            List<Map> simpleDeptList = new ArrayList<Map>();
+            for (V3xOrgDepartment dept : deptList) {
+                Map map = new HashMap();
 
-        //如果返回的结果是列表就是返回list 里边装对象
-        commonJSONResult.setItems(new ArrayList(0));
-        //如果单个数据就setData，setItems和setData 一般情况下只设置一个
+                String name = dept.getName();
+                String sid = String.valueOf(dept.getId());
+                Long sort = dept.getSortId();
+                map.put("title", name);
+                map.put("value", sid);
+                map.put("sort", sort);
+                simpleDeptList.add(map);
 
-        Map data = new HashMap();
-        data.put("high", "10");
-        data.put("low", "20");
-        commonJSONResult.setData(data);
+            }
+            UIUtils.responseJSON(simpleDeptList, response);
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            UIUtils.responseJSON(new ArrayList(), response);
+        }
 
-        UIUtils.responseJSON(commonJSONResult, response);
-
-
+        //  UIUtils.responseJSON(taskList, response);
+        //field0147
         return null;
     }
 

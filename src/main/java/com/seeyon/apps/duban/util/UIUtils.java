@@ -35,6 +35,7 @@ public class UIUtils {
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Token,Accept, Connection, User-Agent, Cookie");
         response.setHeader("Access-Control-Max-Age", "3628800");
     }
+
     public static void responseJSON(Object data, HttpServletResponse response) {
         processCrossOriginResponse(response);
         response.setContentType("application/json;charset=UTF-8");
