@@ -106,6 +106,12 @@
             window.open(DB_DAO.getUrlPrefix() + "/seeyon/form/formData.do?method=newUnFlowFormData&_isModalDialog=true&contentAllId=" + data_id + "&isNew=false&formTemplateId=1972863614895147358&formId=1483769518542572937&moduleType=37&viewId=-3684195024986683999&rightId=1614059012779886566");
 
         }
+        p_util.viewApproving = function (data_id) {
+
+            window.open(DB_DAO.getUrlPrefix() + "/seeyon/content/content.do?method=index&isFullPage=true&moduleId="+data_id+"&moduleType=37&rightId=-3684195024986683999.4243962320506864698&contentType=20&viewState=2");
+
+        }
+
         p_util.feedback = function (data_id, data_mode) {
             window.open(DB_DAO.getUrlPrefix() + "/seeyon/collaboration/collaboration.do?method=newColl&templateId=" + templateMap["DB_FEEDBACK"] + "&data_id=" + data_id + "&linkToType=" + data_mode);
         }

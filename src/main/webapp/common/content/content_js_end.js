@@ -310,7 +310,46 @@ $(document).ready(function () {
             if(idmap==null){
                 return;
             }
+            $.get("/seeyon/duban.do?method=getSimpleDataDubanTask&taskId="+data["field0001"],function(resData){
+                if(resData.status=="1"){
+                    var taskData = resData.data;
+                    var actoggles = $("input[name=acToggle]");
+                    $(actoggles).each(function(index,item){
+                        if(index<3){
+                            $(item).css("display","none");
+                        }
+                    });
+                    if (idmap["DB_FEEDBACK"] == templateId){
+                        var kgS =$("#field0030");
+                        kgS.val(taskData.kgScore);
+                        kgS.change();
+                        kgS.css("color","blue");
+                        kgS.attr("readonly","true");
+
+                        $("._autoBtn").css("display","none");
+
+                    }
+
+                    if(idmap["DB_DONE_APPLY"] == templateId){
+                       // console.log(taskData);//zgScore
+                        var kgS =$("#field0028");
+                        kgS.val(taskData.kgScore);
+                        kgS.change();
+                        kgS.css("color","blue");
+                        kgS.attr("readonly","true");
+                        var zgS =$("#field0026");
+                        zgS.val(taskData.zgScore);
+                        zgS.change();
+                        zgS.css("color","blue");
+                        zgS.attr("readonly","true");
+                        $("._autoBtn").css("display","none");
+
+                    }
+                }
+            });
             if (idmap["DB_FEEDBACK"] == templateId) {
+                //data["field0001"]
+
                 $("#field0002").val(data["field0001"]);
                 $("#field0002").change();
                 $("#field0002").css("color","blue");
