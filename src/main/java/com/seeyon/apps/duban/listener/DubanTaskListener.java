@@ -7,6 +7,7 @@ import com.seeyon.apps.duban.service.CommonServiceTrigger;
 import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.apps.duban.service.DubanMainService;
 import com.seeyon.apps.duban.service.DubanScoreManager;
+import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
@@ -16,6 +17,7 @@ import com.seeyon.ctp.form.modules.engin.base.formData.FormDataManager;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.annotation.ListenEvent;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.orm.hibernate3.support.CTPHibernateDaoSupport;
 
@@ -72,6 +74,7 @@ public class DubanTaskListener {
      */
     @ListenEvent(event = CollaborationFinishEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onFinish(CollaborationFinishEvent event) {
+        System.out.println("===onFinish====");
         Long summaryId = event.getSummaryId();
         Long affairId = event.getAffairId();
         Long memberId = null;
@@ -84,6 +87,7 @@ public class DubanTaskListener {
             colSummary = getColManager().getSummaryById(summaryId);
             memberId = colSummary.getStartMemberId();
             member = this.getOrgManager().getMemberById(memberId);
+
         } catch (BusinessException e) {
             e.printStackTrace();
         }
@@ -105,6 +109,17 @@ public class DubanTaskListener {
 
                 } else if ("DB_DELAY_APPLY".equals(val)) {
                     getDubanScoreManager().onDelayApplyFinish(val, colSummary, member);
+
+                }else if(ConfigFileService.getPropertyByName("duban.task.approving.table.code","DB_TASK_MAIN").equals(val)){
+                    //write rw score;
+                    String sql = "select field0001 from "+ConfigFileService.getPropertyByName("")+" where id="+colSummary.getFormRecordid();
+                    Map map = DataBaseUtils.querySingleDataBySQL(sql);
+                    Object taskId = map.get("field0001");
+                    if(taskId!=null&&!StringUtils.isEmpty(""+taskId)){
+                        getDubanScoreManager().calculateDone(String.valueOf(taskId));
+                    }
+
+
 
                 }
             } catch (Exception e) {
@@ -149,7 +164,7 @@ public class DubanTaskListener {
      */
     @ListenEvent(event = CollaborationStartEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onStart(CollaborationStartEvent event) {
-
+        System.out.println("===onStart====");
         System.out.println("触发任务分数计算:");
         Long summaryId = event.getSummaryId();
         if (CommonServiceTrigger.needProcess(summaryId)) {
@@ -169,9 +184,7 @@ public class DubanTaskListener {
             }
             String val = mainService.getFormTemplateCode(colSummary.getTempleteId());
             if ("DB_FEEDBACK".equals(val)||"DB_FEEDBACK_AUTO".equals(val)) {
-
                 getDubanScoreManager().caculateScoreWhenStartOrProcess(val, colSummary, member);
-
 
             }
 
@@ -231,7 +244,7 @@ public class DubanTaskListener {
      */
     @ListenEvent(event = CollaborationProcessEvent.class, async = true, mode = EventTriggerMode.afterCommit)
     public void onProcess(CollaborationProcessEvent event) {
-
+        System.out.println("===onProcess====");
         Long summaryId = event.getSummaryId();
         log("this way plz:" + summaryId);
         if (CommonServiceTrigger.needProcess(summaryId)) {

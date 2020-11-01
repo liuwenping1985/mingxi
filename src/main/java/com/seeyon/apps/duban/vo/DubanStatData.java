@@ -1,5 +1,7 @@
 package com.seeyon.apps.duban.vo;
 
+import java.util.List;
+
 public class DubanStatData {
 
 
@@ -13,6 +15,16 @@ public class DubanStatData {
     private String dateParams;
     private String taskParams;
     private String summaryParams;
+    //这里是部门的每个task的信息，每个LineData就是一个task简约信息
+    private List<LineData> lineDatas;
+
+    public List<LineData> getLineDatas() {
+        return lineDatas;
+    }
+
+    public void setLineDatas(List<LineData> lineDatas) {
+        this.lineDatas = lineDatas;
+    }
 
     public String getRenwuliang() {
         return renwuliang;

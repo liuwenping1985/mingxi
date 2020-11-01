@@ -78,7 +78,7 @@
 		<property
 				name="createDate"
 				column="create_date"
-				type="date"
+				type="java.util.Date"
 				not-null="false"
 		/>
 		<property
