@@ -20,7 +20,7 @@
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.30</slf4j.version>
         <jackson-databind.version>2.11.1</jackson-databind.version>
-        <!--        <activiti.version>7.1.0.M5</activiti.version>-->
+        <activiti.version>7.1.0.M5</activiti.version>
         <spring.data.releasetrain.version>Moore-SR6</spring.data.releasetrain.version>
     </properties>
     <!--<parent>-->
@@ -120,23 +120,23 @@
         </dependency>
 
         <!-- start of activiti 启动 -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.activiti.dependencies</groupId>-->
-        <!--            <artifactId>activiti-dependencies</artifactId>-->
-        <!--            <version>${activiti.version}</version>-->
-        <!--            <type>pom</type>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.activiti</groupId>-->
-        <!--            <artifactId>activiti-spring-boot-starter</artifactId>-->
-        <!--            <version>${activiti.version}</version>-->
-        <!--        </dependency>-->
-        <!--        &lt;!&ndash; Activiti生成流程图 &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.activiti</groupId>-->
-        <!--            <artifactId>activiti-image-generator</artifactId>-->
-        <!--            <version>${activiti.version}</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.activiti.dependencies</groupId>
+            <artifactId>activiti-dependencies</artifactId>
+            <version>${activiti.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring-boot-starter</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
+        <!-- Activiti生成流程图 -->
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-image-generator</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
         <!-- end of activiti  -->
         <!--  ali support -->
         <dependency>
