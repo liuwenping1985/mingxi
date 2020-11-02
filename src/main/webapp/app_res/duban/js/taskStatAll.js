@@ -129,6 +129,7 @@
                     left: 'left',
                     data: ['正在进行', '已经完成', '延期完成']
                 },
+                color:['#009688','#1E9FFF','#FF5722'],
                 series: [
                     {
                         name: '占有率',
@@ -150,8 +151,11 @@
                     }
                 ]
             };
-            echarts.init(document.getElementById('main')).setOption(option);
-
+            var chartOne = echarts.init(document.getElementById('main'));
+            chartOne.setOption(option);
+            chartOne.on('click', function (params) {
+                console.log(params);
+            });
 
             var option2 = {
                 title: {
@@ -168,6 +172,7 @@
                     left: 'right',
                     data: ['正常', '低风险', '有风险', '高风险']
                 },
+                color:['#009688','#393D49','#FFB800','#FF5722'],
                 series: [
                     {
                         name: '督办任务数量',
@@ -190,8 +195,11 @@
                     }
                 ]
             };
-            echarts.init(document.getElementById('main2')).setOption(option2);
-
+            var chartTwo = echarts.init(document.getElementById('main2'));
+            chartTwo.setOption(option2);
+            chartTwo.on('click', function (params) {
+                console.log(params);
+            });
         }
 
         window.onRecordClick = function (taskIds, deptId) {
@@ -282,7 +290,7 @@
                     if(!cur){
                         cur=0;
                     }
-                    ld.data[index]= (cur+parseFloat(val));
+                    ld.data[index]= (cur+parseInt(val));
                 });
 
             });
@@ -306,6 +314,7 @@
                     data: legends,
                     left: 'right'
                 },
+                color:['#FF5722','#FFB800','#393D49','#009688','lightgray'],
                 grid: {
                     left: '3%',
                     right: '4%',
@@ -323,7 +332,11 @@
             };
 
 
-            echarts.init(document.getElementById('main3')).setOption(option3);
+            var chartThree = echarts.init(document.getElementById('main3'));
+            chartThree.setOption(option3);
+            chartThree.on('click', function (params) {
+               console.log(params);
+            });
 
 
         }

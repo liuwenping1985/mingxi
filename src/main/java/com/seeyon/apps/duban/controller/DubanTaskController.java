@@ -367,8 +367,6 @@ public class DubanTaskController extends BaseController {
 
         CommonJSONResult cjr = new CommonJSONResult();
         try {
-
-
             FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
             User user = getCurrentOrMockUser();
             if (CommonUtils.isEmpty(opinion)) {
@@ -408,11 +406,11 @@ public class DubanTaskController extends BaseController {
                     ids.add(Long.valueOf(data.get("field00" + i).toString()));
                 }
             }
-
+            cjr.setStatus("0");
             SendMessageUtils.sendMessage(user.getId(), ids, deptName + "-" + user.getName() + "(" + dateStr + "):" + opinion.trim(), "");
         } catch (Exception e) {
             e.printStackTrace();
-            cjr.setStatus("0");
+            cjr.setStatus("1");
             cjr.setMsg(e.getMessage());
             cjr.setCode("ERROR");
         }
@@ -961,7 +959,20 @@ public class DubanTaskController extends BaseController {
     @NeedlessCheckLogin
     public ModelAndView getApprovingTaskList(HttpServletRequest request, HttpServletResponse response) {
         try {
-            UIUtils.responseJSON(getApprovingItemList(), response);
+            List<DubanTask> retList = new ArrayList<DubanTask>();
+            User user = getCurrentOrMockUser();
+            List<DubanTask>taskList = getApprovingItemList();
+            if(!CollectionUtils.isEmpty(taskList)){
+                for(DubanTask task:taskList){
+                   if(user.getName().equals(task.getSupervisor())){
+                       retList.add(task);
+                    }
+
+                }
+
+            }
+
+            UIUtils.responseJSON(retList, response);
         } catch (Exception e) {
 
             e.printStackTrace();

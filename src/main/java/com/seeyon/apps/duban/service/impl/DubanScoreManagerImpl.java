@@ -111,6 +111,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务ID")); //任务ID "field0002"
                         Object taskStatus = data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务状态"));//任务状态 "field00029"
 
+
                         //主表的相关信息
                         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
                         Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
@@ -129,6 +130,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             record.setSummaryId(colSummary.getId());
                             record.setDepartmentId(member.getOrgDepartmentId());
                             record.setCreateDate(new Date());
+
                             if (isCengban(member, dibiao)) {
                                 record.setWeight(task.getMainWeight());
                             } else {
@@ -152,6 +154,8 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             Double rwScore = calculateSocre(dibiao, task, member);
                             record.setKeGuanScore(decimalFormat.format(rwScore));
                             updateStringFieldByTableAndId(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量"), record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
+                        }else{
+                            record.setKeGuanScore(decimalFormat.format(renwuliang));//因为文平修改的前台有分了，所以要设置上。tianxufeng
                         }
 
                         Double dafen = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "汇报分")));//汇报分 field0028
@@ -199,6 +203,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 Object field0001 = data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "申请办结"));//申请办结 field0001
                 Object field0014 = data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "完成率"));//完成率 field0014
                 Object fieldStatus = data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务状态"));//完成率 field0029
+
                 if (taskId == null) {
                     System.out.println("数据有问题:" + data);
                     return;
@@ -245,8 +250,11 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     //field0020 主办任务状态
                     andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办完成率") + "=" + field0014;
                     andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务状态") + "='" + CommonUtils.getEnumShowValue(fieldStatus)+"'";//直接存”低风险等枚举值“
-                    if ("1".equals(String.valueOf(field0001))) {
-                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
+                    if ("1".equals(String.valueOf(field0001))) //直接是办结
+                    {
+                        Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "办结日期"));//办结日期 field0019
+                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "实际办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
+                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
                         andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='已完成'";
                     }
                     else{
@@ -276,8 +284,9 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             andSetSQL += ("," + processField + "=" + field0014);
                             //这里是否办结的选择---
                             if ("1".equals(String.valueOf(field0001))) {
+                                Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "办结日期"));//办结日期 field0019
                                 String finishDateField = "field00" + (29 + 7 * (index - 1));
-                                andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'");
+                                andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDateSimple(finishDate) + "'");
                                 String statusField = "field00" + (27 + 7 * (index - 1));
                                 andSetSQL += ("," + statusField + "='已完成'");
 //                                calculateDone(taskId);
@@ -406,6 +415,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                 Map data = DataBaseUtils.querySingleDataBySQL(sql);
                 String taskId = (String) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "任务ID"));//任务IDfield0001
+                Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "实际办结日期"));//field0014 add by tianxufeng
                 Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
                 DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
                 Object cb = dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "承办部门名称"));//承办部门名称 field0017
@@ -415,8 +425,11 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     //field0021 主办完成率
                     //field0022 主办办结日期
                     //field0018 权重
+
+                    //主办说办完了，就应该是完了，所以要填写实际办结日期 tianxufeng,而且要写表单填写的日期
                     andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办完成率") + "=100";
-                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'";
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "实际办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
                     andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='已完成'";
                 } else {
                     //看是不是协办
@@ -439,7 +452,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                             String processField = "field00" + (28 + 7 * (index - 1));
                             andSetSQL += ("," + processField + "=" + 100);
                             String finishDateField = "field00" + (29 + 7 * (index - 1));
-                            andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDate(colSummary.getFinishDate()) + "'");
+                            andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDateSimple(finishDate) + "'");
                             String statusField = "field00" + (27 + 7 * (index - 1));
                             andSetSQL += ("," + statusField + "='已完成'");
                         }
@@ -624,18 +637,20 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     rws += rwf;
                     kgSize++;
                 }
+                Double wcf = CommonUtils.getDouble(dsr.getScore());
+                if (wcf != null) {
+                    wcs += wcf;
+                    wanchengSize++;
+                }
+
+                //汇报分应该最后算，否则如果都是主动汇报，直接办结就没有完成分了。tianxufeng
                 if ("-999".equals(dsr.getZhuGuanScore())) {
                     continue;
                 }
                 Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
-                Double wcf = CommonUtils.getDouble(dsr.getScore());
                 if (hbf != null) {
                     hbs += hbf;
                     zhuguanSize++;
-                }
-                if (wcf != null) {
-                    wcs += wcf;
-                    wanchengSize++;
                 }
             }
             rw += (kgSize == 0d ? 0 : (rws / kgSize));

@@ -342,7 +342,14 @@ $(document).ready(function () {
                         zgS.change();
                         zgS.css("color","blue");
                         zgS.attr("readonly","true");
-                        $("._autoBtn").css("display","none");
+                        var size_ = $("._autoBtn").size()-3;
+                        $("._autoBtn").each(function(index,item){
+                            if(index==size_){
+                                return;
+                            }
+                            $(item).css("display","none")
+
+                        });
 
                     }
                 }
@@ -549,12 +556,16 @@ $(document).ready(function () {
                 var addEmpty = $("#addEmptyImg");
 
                 var index = 0;
-                for (var p = (slaves.length - 1); p >= 0; p--) {
+                for (var p =(slaves.length-1) ; p >=0; p--) { //倒序就可以，正序少一条
+                //for (var p =0 ; p <= (slaves.length-1); p++) {
 
-                    var objs_ = slaves[p];
+                    //var objs_ = slaves[p];
+                    //var objs_ = slaves[ p]改成 
+                    var objs_ = slaves[slaves.length - 1 - p];
 
                     if (p > 0) {
                         addEmpty.click();
+
                     }
                     if (idmap["DB_FEEDBACK"] == templateId) {
 
