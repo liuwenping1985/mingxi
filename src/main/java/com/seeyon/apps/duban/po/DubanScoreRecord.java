@@ -1,5 +1,6 @@
 package com.seeyon.apps.duban.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.seeyon.ctp.common.po.BasePO;
 
 import java.util.Date;
@@ -9,24 +10,29 @@ import java.util.Date;
  */
 public class DubanScoreRecord extends BasePO {
 
+    @JSONField(name="task_id")
     private String taskId;
 
     private String score;
-
+    @JSONField(name="kg_score")
     private String keGuanScore;
 
+    @JSONField(name="zg_score")
     private String zhuGuanScore;
-
+    @JSONField(name="member_id")
     private Long memberId;
-
+    @JSONField(name="department_id")
     private Long departmentId;
 
+    @JSONField(name="summary_id")
     private Long summaryId;
 
     private String weight;
 
+    @JSONField(name="ext_val")
     private String extVal;
 
+    @JSONField(name="create_date")
     private Date createDate;
 
     public Date getCreateDate() {

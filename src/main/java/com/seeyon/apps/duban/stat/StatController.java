@@ -246,7 +246,8 @@ public class StatController extends BaseController {
         List doingHighRiskList = new ArrayList();
         List garbageList = new ArrayList();
         for (DubanTask task : dubanTasks) {
-            if (task.getFinishDate() != null || task.getProcess().equals("100")) {
+            if (task.getFinishDate() != null && task.getProcess().equals("100"))//这个要所有的涉及到部门包括承办和配合都需要完成。
+            {
                 String field00xx = fieldName2Field00xxUtils.getField00xx("任务ID");
                 List delayApplyList = statMainService.getDelayAppByTaskId(" where "+field00xx+"='" + task.getTaskId() + "'");
                 if (!CommonUtils.isEmpty(delayApplyList)) {

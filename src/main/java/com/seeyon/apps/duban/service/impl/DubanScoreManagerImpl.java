@@ -17,10 +17,13 @@ import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.exceptions.InfrastructureException;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
+import org.apache.commons.lang.StringUtils;
+import org.lilystudio.smarty4j.statement.function.$else;
 import org.springframework.util.CollectionUtils;
 
 import java.text.DecimalFormat;
@@ -62,24 +65,53 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
         String sql = "select * from " + ftd.getFormTable().getName() + " where field0001='" + taskId + "'";
 
-        List<DubanTask> taskList = mainService.translateDubanTask(sql,ftd);
-        if(CollectionUtils.isEmpty(taskList)){
+        List<DubanTask> taskList = mainService.translateDubanTask(sql, ftd);
+        if (CollectionUtils.isEmpty(taskList)) {
             return null;
         }
         DubanTask dubanTask = taskList.get(0);
-        if(dubanTask.getKgScore()==null||0==dubanTask.getKgScore()){
-            Map dibiao = mainService.getOringinalDubanData(taskId);
-            User user = AppContext.getCurrentUser();
-            try {
-                V3xOrgMember member = this.getOrgManager().getMemberById(user.getId());
-                Double score = calculateSocre(dibiao,dubanTask,member);
-                dubanTask.setKgScore(score.intValue());
-            } catch (BusinessException e) {
-                e.printStackTrace();
-            }
-
-
+        //先算任务量
+        Map dibiao = mainService.getOringinalDubanData(taskId);
+        User user = AppContext.getCurrentUser();
+        try {
+            V3xOrgMember member = this.getOrgManager().getMemberById(user.getId());
+            V3xOrgDepartment dept = this.getOrgManager().getDepartmentById(member.getOrgDepartmentId());
+            Double score = calculateSocre(dibiao, dubanTask, dept.getName(), dept.getId());
+            dubanTask.setKgScore(score.intValue());
+        } catch (BusinessException e) {
+            e.printStackTrace();
         }
+        //再算汇报分
+        Map params = new HashMap();
+        params.put("taskId",dubanTask.getTaskId());
+        params.put("memberId",user.getId());
+        List<DubanScoreRecord> records = DBAgent.find("from DubanScoreRecord where taskId=:taskId and memberId=:memberId",params);
+        if(!CollectionUtils.isEmpty(records)){
+            double zgS = 0;
+            int size=0;
+            for(DubanScoreRecord rd:records){
+                if("-999".equals(rd.getZhuGuanScore())){
+                    continue;
+                }
+                Double sc = CommonUtils.getDouble(rd.getZhuGuanScore());
+                if(sc!=null){
+                    zgS+=sc;
+                    size++;
+                }
+
+            }
+            if(size>0){
+                Double zgScore = zgS/size;
+                dubanTask.setZgScore(zgScore.intValue());
+            }else{
+                dubanTask.setZgScore(0);
+            }
+        }else{
+            dubanTask.setZgScore(0);
+        }
+
+
+
         //calculateSocre
 
         return dubanTask;
@@ -137,7 +169,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                                 SlaveDubanTask sdt = getSlaveTaskByTaskAndMember(task, member);
                                 if (sdt == null) {
                                     record.setWeight(task.getMainWeight());
-                                }else{
+                                } else {
                                     record.setWeight(sdt.getWeight());
                                 }
 
@@ -148,15 +180,17 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         //end of 打分记录
                         //主要逻辑
                         //1、看下任务量的分数有没有被算出来
-                        Double renwuliang = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量")));//任务量 field0030
-                        if (renwuliang == null || renwuliang.intValue() <= 0) {
-                            //计算
-                            Double rwScore = calculateSocre(dibiao, task, member);
-                            record.setKeGuanScore(decimalFormat.format(rwScore));
-                            updateStringFieldByTableAndId(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量"), record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
-                        }else{
-                            record.setKeGuanScore(decimalFormat.format(renwuliang));//因为文平修改的前台有分了，所以要设置上。tianxufeng
-                        }
+//                        Double renwuliang = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量")));//任务量 field0030
+//                        if (renwuliang == null || renwuliang.intValue() <= 0) {
+//                            //计算工作量
+                        //tianxufeng 每次算最准确
+                        V3xOrgDepartment dept = getOrgManager().getDepartmentById(member.getOrgDepartmentId());
+                        Double rwScore = calculateSocre(dibiao, task, dept.getName(), dept.getId());
+                        record.setKeGuanScore(decimalFormat.format(rwScore));
+                        updateStringFieldByTableAndId(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "任务量"), record.getKeGuanScore(), tableFtd.getFormTable().getName(), colSummary.getFormRecordid());
+//                        }else{
+//                            record.setKeGuanScore(decimalFormat.format(renwuliang));//因为文平修改的前台有分了，所以要设置上。tianxufeng
+//                        }
 
                         Double dafen = CommonUtils.getDouble(data.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK_FEEDBACK, "汇报分")));//汇报分 field0028
                         if (dafen != null) {
@@ -249,17 +283,18 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                     //field0018 权重
                     //field0020 主办任务状态
                     andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办完成率") + "=" + field0014;
-                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务状态") + "='" + CommonUtils.getEnumShowValue(fieldStatus)+"'";//直接存”低风险等枚举值“
-                    if ("1".equals(String.valueOf(field0001))) //直接是办结
-                    {
-                        Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "办结日期"));//办结日期 field0019
-                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "实际办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
-                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
-                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='已完成'";
-                    }
-                    else{
-                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='进行中'";
-                    }
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务状态") + "='" + CommonUtils.getEnumShowValue(fieldStatus) + "'";//直接存”低风险等枚举值“
+//tianxufeng 汇报的时候办结取消掉了。
+//                    if ("1".equals(String.valueOf(field0001))) //直接是办结
+//                    {
+//                        Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "办结日期"));//办结日期 field0019
+//                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "实际办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
+//                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办办结日期") + "='" + CommonUtils.formatDateSimple(finishDate) + "'";
+//                        andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='已完成'";
+//                    }
+//                    else{
+                    andSetSQL += "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "主办任务状态") + "='进行中'";
+                    //}
 
                 } else {
                     //看是不是协办
@@ -283,18 +318,18 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                             andSetSQL += ("," + processField + "=" + field0014);
                             //这里是否办结的选择---
-                            if ("1".equals(String.valueOf(field0001))) {
-                                Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "办结日期"));//办结日期 field0019
-                                String finishDateField = "field00" + (29 + 7 * (index - 1));
-                                andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDateSimple(finishDate) + "'");
-                                String statusField = "field00" + (27 + 7 * (index - 1));
-                                andSetSQL += ("," + statusField + "='已完成'");
-//                                calculateDone(taskId);
-                            }
-                            else{
-                                String statusField = "field00" + (27 + 7 * (index - 1));
-                                andSetSQL += ("," + statusField + "='进行中'");
-                            }
+//                            if ("1".equals(String.valueOf(field0001))) {
+//                                Date finishDate = (Date) data.get(FieldName2Field00xxUtils.getfield00xx(templateCode, "办结日期"));//办结日期 field0019
+//                                String finishDateField = "field00" + (29 + 7 * (index - 1));
+//                                andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDateSimple(finishDate) + "'");
+//                                String statusField = "field00" + (27 + 7 * (index - 1));
+//                                andSetSQL += ("," + statusField + "='已完成'");
+////                                calculateDone(taskId);
+//                            }
+//                            else{
+                            String statusField = "field00" + (27 + 7 * (index - 1));
+                            andSetSQL += ("," + statusField + "='进行中'");
+                            //}
                         }
 
                     }
@@ -387,8 +422,14 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                 }
 
+                //add by tianxufeng 如果算出＜100%，说明有的配合或主办还没完成
+                String finishedflag = "1";
+                if (p.intValue() < 100) {
+                    finishedflag = "0";
+                }
+
                 // 完成进度 field0013,任务ID field0001
-                String sql = "update " + ftd.getFormTable().getName() + " set " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "完成进度")
+                String sql = "update " + ftd.getFormTable().getName() + " set finishedflag=" + finishedflag + "," + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "完成进度")
                         + "=" + p.intValue() + " where " + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
 
                 DataBaseUtils.executeUpdate(sql);
@@ -450,7 +491,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                         if (!CommonUtils.isEmpty(no)) {
                             Integer index = Integer.parseInt(no);
                             String processField = "field00" + (28 + 7 * (index - 1));
-                            andSetSQL += ("," + processField + "=" + 100);
+                            andSetSQL += ("," + processField + "=100");
                             String finishDateField = "field00" + (29 + 7 * (index - 1));
                             andSetSQL += ("," + finishDateField + "='" + CommonUtils.formatDateSimple(finishDate) + "'");
                             String statusField = "field00" + (27 + 7 * (index - 1));
@@ -459,6 +500,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
                     }
                 }
+                //现在设置的这个finishedflage暂时设置成1，后面如果算出来的完成进度不到100，就在设置成0  tianxufeng
                 String updateSQL = "update " + ftd.getFormTable().getName() + " set finishedflag=1" + andSetSQL + " where "
                         + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
                 System.out.println(updateSQL);
@@ -471,7 +513,23 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
 
     }
+    public void onApprovingFinish(final String formRecordId){
+        executorPoolService.schedule(new Runnable() {
+            public void run() {
+                String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_TASK_MAIN");
+                String sql = "select field0001 from "+tableName+" where id="+formRecordId;
+                System.out.println(sql);
+                Map map = DataBaseUtils.querySingleDataBySQL(sql);
+                Object taskId = map.get("field0001");
+                if(taskId!=null&&!StringUtils.isEmpty(""+taskId)){
+                    calculateDone(String.valueOf(taskId));
+                }
+            }
+        },6,TimeUnit.SECONDS);
 
+
+
+    }
     public void onDelayApplyFinish(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
 
         executorPoolService.schedule(new Runnable() {
@@ -575,18 +633,19 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
     }
 
-    private Double calculateSocre(Map dibiao, DubanTask task, V3xOrgMember member) {
+
+    private Double calculateSocre(Map dibiao, DubanTask task, String deptName, Long deptId) {
         //底表field0002 任务来源，field0003 任务分级
         String weight = "100";
         String xishu = "1";
         DataSetService dss = DataSetService.getInstance();
-        if (isCengban(member, dibiao)) {
+        if (isCengban(deptName, dibiao)) {
             //99999999
             weight = task.getMainWeight();
             xishu = dss.getDubanConfigItem("99999999").getItemValue();
         } else {
             //99999998
-            SlaveDubanTask sdt = getSlaveTaskByTaskAndMember(task, member);
+            SlaveDubanTask sdt = getSlaveTaskByTaskAndDeptId(task, deptId);
             if (sdt != null) {
                 weight = sdt.getWeight();
                 xishu = dss.getDubanConfigItem("99999998").getItemValue();
@@ -607,71 +666,139 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         return CommonUtils.getDouble(scoreMain) * (CommonUtils.getDouble(weight) / 100d) * CommonUtils.getDouble(levelMain) * CommonUtils.getDouble(xishu);
     }
 
-    private void calculateDone(String taskId) {
+    public void calculateDone(String taskId) {
+        try{
+            System.out.println("===calculateDone===start===");
+            String sql = "from DubanScoreRecord where taskId = '" + taskId + "'";
+            List<DubanScoreRecord> dsrList = new ArrayList<DubanScoreRecord>();
+            try {
+                dsrList = DBAgent.find(sql);
+            }catch(InfrastructureException e){
+                sql="select * from duban_score_record where task_id='"+taskId+"'";
+                List<Map> rtList = DataBaseUtils.queryDataListBySQL(sql);
+                if(!CollectionUtils.isEmpty(rtList)){
+                    if(dsrList==null){
+                        dsrList = new ArrayList<DubanScoreRecord>();
+                    }
+                    for(Map data:rtList){
+                        DubanScoreRecord rd = JSON.parseObject(JSON.toJSONString(data),DubanScoreRecord.class);
+                        dsrList.add(rd);
+                    }
 
-        String sql = "from DubanScoreRecord where taskId = '" + taskId + "'";
-        List<DubanScoreRecord> dsrList = DBAgent.find(sql);
-        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
-//        Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
-//        DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
-        Double rw = 0d, hb = 0d, wc = 0d, total = 0d;
-        Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
-        for (DubanScoreRecord dsr : dsrList) {
-            List<DubanScoreRecord> dsrs = deptDsr.get(dsr.getDepartmentId());
-            if (dsrs == null) {
-                dsrs = new ArrayList<DubanScoreRecord>();
-                deptDsr.put(dsr.getDepartmentId(), dsrs);
+                }
+
             }
-            dsrs.add(dsr);
-
-        }
-        for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDsr.entrySet()) {
-            List<DubanScoreRecord> eList = entry.getValue();
-            double rws = 0d, hbs = 0d, wcs = 0d;
-            double kgSize = 0d;
-            double zhuguanSize = 0d;
-            double wanchengSize = 0d;
-            for (DubanScoreRecord dsr : eList) {
-                Double rwf = CommonUtils.getDouble(dsr.getKeGuanScore());
-                if (rwf != null) {
-                    rws += rwf;
-                    kgSize++;
-                }
-                Double wcf = CommonUtils.getDouble(dsr.getScore());
-                if (wcf != null) {
-                    wcs += wcf;
-                    wanchengSize++;
-                }
-
-                //汇报分应该最后算，否则如果都是主动汇报，直接办结就没有完成分了。tianxufeng
-                if ("-999".equals(dsr.getZhuGuanScore())) {
-                    continue;
-                }
-                Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
-                if (hbf != null) {
-                    hbs += hbf;
-                    zhuguanSize++;
+            FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+            Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
+            DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
+            Double rw = 0d, hb = 0d, wc = 0d, total = 0d;
+            Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
+            if(!CollectionUtils.isEmpty(dsrList)){
+                for (DubanScoreRecord dsr : dsrList) {
+                    List<DubanScoreRecord> dsrs = deptDsr.get(dsr.getDepartmentId());
+                    if (dsrs == null) {
+                        dsrs = new ArrayList<DubanScoreRecord>();
+                        deptDsr.put(dsr.getDepartmentId(), dsrs);
+                    }
+                    dsrs.add(dsr);
                 }
             }
-            rw += (kgSize == 0d ? 0 : (rws / kgSize));
-            hb += (zhuguanSize == 0d ? 0d : hbs / zhuguanSize);
-            wc += (wanchengSize == 0 ? 0d : wcs / wanchengSize);
+
+            //先算任务分
+            String mainDeptName = task.getMainDeptName();//部门中文名
+            Object cbId = dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "承办部门名称"));
+            Double cbScore = calculateSocre(dibiao, task, mainDeptName, Long.valueOf(cbId != null ? String.valueOf(cbId) : "0"));
+            Map<String, Double> rwScoreMap = new HashMap<String, Double>();
+            rwScoreMap.put(mainDeptName, cbScore);
+            rw += cbScore;
+            //slave的是id
+            List<SlaveDubanTask> slaveDubanTasks = task.getSlaveDubanTaskList();
+            //todo
+            if (!CollectionUtils.isEmpty(slaveDubanTasks)) {
+                for (SlaveDubanTask slaveDubanTask : slaveDubanTasks) {
+                    //todo
+                    try {
+                        String sDeptName = slaveDubanTask.getDeptName();
+                        if (StringUtils.isEmpty(sDeptName)) {
+                            continue;
+                        }
+                        V3xOrgDepartment department = getOrgManager().getDepartmentById(Long.valueOf(slaveDubanTask.getDeptName()));
+                        Double xbScore = calculateSocre(dibiao, task, department.getName(), Long.valueOf(slaveDubanTask.getDeptName()));
+                        rwScoreMap.put(department.getName(), xbScore);
+                        rw += xbScore;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            // DubanTask task = mainService.translateDubanTask()
+            for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDsr.entrySet()) {
+                List<DubanScoreRecord> eList = entry.getValue();
+                double hbs = 0d, wcs = 0d;
+                double zhuguanSize = 0d;
+                double wanchengSize = 0d;
+                for (DubanScoreRecord dsr : eList) {
+                    Double wcf = CommonUtils.getDouble(dsr.getScore());
+                    if (wcf != null && wcf > 0) {
+                        wcs += wcf;
+                        wanchengSize++;
+                    }
+
+                    //汇报分应该最后算，否则如果都是主动汇报，直接办结就没有完成分了。tianxufeng
+                    if ("-999".equals(dsr.getZhuGuanScore())) {
+                        continue;
+                    }
+                    Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
+                    if (hbf != null && hbf > 0) {
+                        hbs += hbf;
+                        zhuguanSize++;
+                    }
+                }
+                //tianxufeng 客观分已经乘过权重了。 这里有问题，就1个部门汇报了，就把自己的任务量写进去了。
+                Long deptId = entry.getKey();
+                try {
+                    V3xOrgDepartment dept = getOrgManager().getDepartmentById(deptId);
+                    String deptName = dept.getName();
+                    Double rwScore = rwScoreMap.get(deptName);
+
+                    double hbAvg = zhuguanSize == 0d ? 0d : hbs / zhuguanSize;
+                    double wcAvg = wanchengSize == 0d ? 0d : wcs / wanchengSize;//完成分就打了一次，其实随便一个就行
+                    double hbFen_= (hbAvg * (rwScore / rw));
+                    double wcFen_= (wcAvg * (rwScore / rw));
+                    double yourlastFen_ = (rwScore * (hbAvg/100d) * (wcAvg / 100d));
+
+                    hb    += hbFen_;
+                    wc    += wcFen_;
+                    System.out.println("["+deptName+"]的最总得分="+yourlastFen_);
+                    total += yourlastFen_;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
 
+            System.out.println("任务的最终得分="+total);
+            // total = (rw * (hb / 100d) * (wc / 100d));
+//这个直接把任务量写进去了，如果有配合的存在，配合的如27分直接就写进去了，应该写总量。
+            //       所以要calculateSocre要有个只算任务的，直接写算出来的任务量
+            //String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0143=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0145=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
+            String sql2 = "update " + ftd.getFormTable().getName() + " set "
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务量") + "=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ","
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "汇报分") + "=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ","
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "最终得分") + "=" + (total == 0 ? 0 : decimalFormat.format(total)) + ","
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务完成分") + "=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where "
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
+            System.out.println("sql2=" + sql2);
+            DataBaseUtils.executeUpdate(sql2);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        total = (rw * (hb / 100d) * (wc / 100d));
 
-        //String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0143=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0145=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
-        String sql2 = "update " + ftd.getFormTable().getName() + " set "
-                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务量") + "=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ","
-                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "汇报分") + "=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ","
-                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "最终得分") + "=" + (total == 0 ? 0 : decimalFormat.format(total)) + ","
-                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务完成分") + "=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where "
-                + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
-        DataBaseUtils.executeUpdate(sql2);
     }
 
-//    //add by tianxufeng,获某表的某个field00xx
+    //    //add by tianxufeng,获某表的某个field00xx
 //    private String getfield00xx(String formCode, String displayName) {
 //        if (formCode.equals(MappingCodeConstant.DUBAN_TASK))//底表
 //        {
@@ -692,9 +819,28 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 //        }
 //        return "";
 //    }
+    private SlaveDubanTask getSlaveTaskByTaskAndDeptId(DubanTask task, Long deptId) {
+        List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+        if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
+            for (SlaveDubanTask stask : slaveDubanTaskList) {
+                if (stask.getDeptName() != null && stask.getDeptName().equals(("" + deptId))) {
+                    return stask;
+                }
+
+            }
+        }
+
+        return null;
+
+    }
 
     private SlaveDubanTask getSlaveTaskByTaskAndMember(DubanTask task, V3xOrgMember member) {
         List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+        try {
+            V3xOrgDepartment department = getOrgManager().getDepartmentById(member.getOrgDepartmentId());
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
         if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
             for (SlaveDubanTask stask : slaveDubanTaskList) {
                 if (stask.getDeptName() != null && stask.getDeptName().equals(("" + member.getOrgDepartmentId()))) {
@@ -705,6 +851,21 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
         }
 
         return null;
+
+    }
+
+    public boolean isCengban(String name, Map dibiao) {
+        Object cb = dibiao.get("field0017");
+        try {
+            V3xOrgDepartment department = this.getOrgManager().getDepartmentById(Long.valueOf(String.valueOf(cb)));
+            if (name != null && name.equals(String.valueOf(department.getName()))) {
+                return true;
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+
+        return false;
 
     }
 
@@ -737,7 +898,14 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 "博远售后服务-表单管理员(2020-07-31 16:34):第三次汇报\n" +
                 "博远售后服务-表单管理员(2020-07-31 16:31):第二次汇报";
 
-        System.out.println(sortByTime(lkey));
+        System.out.println(1 * 20 / 5 * 4);
+        DubanScoreRecord record = new DubanScoreRecord();
+        record.setKeGuanScore(""+100);
+        record.setTaskId("20201101002");
+        record.setWeight("90");
+        Map t = JSON.parseObject(JSON.toJSONString(record),HashMap.class);
+        System.out.println(t);
+        System.out.println(JSON.toJSONString(JSON.parseObject(JSON.toJSONString(t),DubanScoreRecord.class)));
 
 
     }

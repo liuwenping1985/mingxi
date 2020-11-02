@@ -10,6 +10,7 @@ import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.apps.duban.service.DubanMainService;
 import com.seeyon.apps.duban.service.DubanScoreManager;
 import com.seeyon.apps.duban.service.MappingService;
+import com.seeyon.apps.duban.service.impl.DubanScoreManagerImpl;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
 import com.seeyon.apps.duban.util.SendMessageUtils;
@@ -30,9 +31,9 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
 import com.seeyon.ctp.util.DBAgent;
 import com.seeyon.ctp.util.annotation.NeedlessCheckLogin;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import www.seeyon.com.utils.StringUtil;
 
@@ -81,6 +82,41 @@ public class DubanTaskController extends BaseController {
             user.setLoginTimestamp(System.currentTimeMillis());
         }
         return user;
+
+    }
+
+    public ModelAndView checkCanFinish(HttpServletRequest request, HttpServletResponse response) {
+        String recordId = request.getParameter("recordId");
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+        String sql = "select * from " + ftd.getFormTable().getName() + " where id='" + recordId + "'";
+        Map dibiao = DataBaseUtils.querySingleDataBySQL(sql);
+        DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
+        CommonJSONResult cjr = new CommonJSONResult();
+        cjr.setStatus("0");
+        cjr.setData("YES");
+        if (task != null) {
+            User user = AppContext.getCurrentUser();
+            try {
+                V3xOrgMember member = getOrgManager().getMemberById(user.getId());
+                if(getDubanScoreManager().isCengban(member,dibiao)){
+                    List<SlaveDubanTask> slaveDubanTasks = task.getSlaveDubanTaskList();
+                    for(SlaveDubanTask slaveDubanTask:slaveDubanTasks){
+                        if(!StringUtils.isEmpty(slaveDubanTask.getDeptName())){
+                            if(!"100".equals(slaveDubanTask.getProcess())){
+                                cjr.setData("NO");
+                            }
+                        }
+                    }
+
+                }
+            } catch (BusinessException e) {
+                cjr.setStatus("1");
+                e.printStackTrace();
+            }
+
+        }
+        UIUtils.responseJSON(cjr,response);
+        return null;
 
     }
 
@@ -961,15 +997,13 @@ public class DubanTaskController extends BaseController {
         try {
             List<DubanTask> retList = new ArrayList<DubanTask>();
             User user = getCurrentOrMockUser();
-            List<DubanTask>taskList = getApprovingItemList();
-            if(!CollectionUtils.isEmpty(taskList)){
-                for(DubanTask task:taskList){
-                   if(user.getName().equals(task.getSupervisor())){
-                       retList.add(task);
+            List<DubanTask> taskList = getApprovingItemList();
+            if (!CollectionUtils.isEmpty(taskList)) {
+                for (DubanTask task : taskList) {
+                    if (user.getName().equals(task.getSupervisor())) {
+                        retList.add(task);
                     }
-
                 }
-
             }
 
             UIUtils.responseJSON(retList, response);

@@ -663,7 +663,14 @@ public class DubanMainService {
         return DataBaseUtils.querySingleDataBySQL(sql);
 
     }
+    public Map getOringinalDubanDataById(String recordId) {
+        FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
 
+        String sql = "select * from " + ftd.getFormTable().getName() + " where id='" + recordId + "'";
+
+        return DataBaseUtils.querySingleDataBySQL(sql);
+
+    }
 
     public List<DubanTask> getAllDubanTask() {
         FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);

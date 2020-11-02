@@ -19,6 +19,7 @@
             window.open("/seeyon/duban.do?method=showDbps&sid="+sid+"&linkToType=duban");
 
         }
+        var image_base_uri ="/seeyon/apps_res/duban/verdor/layui/images/";
         function renderTable(data){
             var htmls = [];
             $(data).each(function(index,item){
@@ -30,20 +31,20 @@
                 if(item.mainWeight==""){
                     item.mainWeight="--";
                 }
-                if("正常推进"==item.taskLight){
-                    item.taskLight = "green";
-                }else if("低风险"==item.taskLight){
-                    item.taskLight = "blue";
-                }else if("有风险但可控"==item.taskLight){
-                    item.taskLight = "yellow";
-                }else if("风险不可控，不能按期完成"==item.taskLight){
-                    item.taskLight = "red";
-                }else{
-                    item.taskLight = "red";
+                if ("正常推进" == item.taskLight) {
+                    item.taskLight = image_base_uri+"green.jpeg";
+                } else if ("低风险" == item.taskLight) {
+                    item.taskLight = image_base_uri+"blue.png";
+                } else if ("有风险但可控" == item.taskLight) {
+                    item.taskLight = image_base_uri+"orange.png";
+                } else if ("风险不可控,不能按期完成" == item.taskLight) {
+                    item.taskLight =image_base_uri+ "red.jpeg";
+                } else {
+                    item.taskLight = image_base_uri+"green.jpeg";
                 }
 
                 htmls.push("<tr style='cursor:pointer' onclick='onclick_td(\""+item.uuid+"\")'>");
-                htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: '+item.taskLight+'" class="layui-icon layui-icon-circle-dot"></i></td>');
+                htmls.push('<td class="td_no_padding"><img width="24px" height="24px" src="' + item.taskLight + '"></td>');
                 htmls.push("<td class='td_no_padding'>"+item.name+"</td>");
                 htmls.push("<td class='td_no_padding'>"+item.taskSource+"</td>");
                 htmls.push("<td class='td_no_padding'>"+item.taskLevel+"</td>");

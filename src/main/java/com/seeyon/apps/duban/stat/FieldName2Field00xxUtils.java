@@ -1,6 +1,7 @@
 package com.seeyon.apps.duban.stat;
 
 import com.seeyon.apps.duban.mapping.MappingCodeConstant;
+import com.seeyon.apps.duban.service.ConfigFileService;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.form.bean.FormBean;
 import com.seeyon.ctp.form.service.FormCacheManager;
@@ -11,15 +12,28 @@ public class FieldName2Field00xxUtils {
 
     //select * from form_definition where id =1483769518542572937
     private FormCacheManager formCacheManager   = (FormCacheManager) AppContext.getBean("formCacheManager");
+//240
+//    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_db = new FieldName2Field00xxUtils(1483769518542572937l);
+////
+//    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_feedback = new FieldName2Field00xxUtils(4709913294826982605l);
+////
+//    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_delay = new FieldName2Field00xxUtils(-3395822722442967599l);
+////
+//   private static FieldName2Field00xxUtils fieldName2Field00xxUtils_done = new FieldName2Field00xxUtils(-1224511548636184352l);
 
-    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_db = new FieldName2Field00xxUtils(1483769518542572937l);
+    //136
+    static{
+        String val = ConfigFileService.getPropertyByName("ctp.duban.form_template_id");
 
-    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_feedback = new FieldName2Field00xxUtils(4709913294826982605l);
 
-    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_delay = new FieldName2Field00xxUtils(-3395822722442967599l);
+    }
+    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_db = new FieldName2Field00xxUtils(-4111705765025199465l);
 
-    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_done = new FieldName2Field00xxUtils(-1224511548636184352l);
+    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_feedback = new FieldName2Field00xxUtils(1805370248094303988l);
 
+    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_delay = new FieldName2Field00xxUtils(-1141992814986770759l);
+
+    private static FieldName2Field00xxUtils fieldName2Field00xxUtils_done = new FieldName2Field00xxUtils(4817287227661305003l);
 
     private long  formAppId;
 

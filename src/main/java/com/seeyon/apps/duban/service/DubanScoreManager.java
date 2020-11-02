@@ -8,7 +8,9 @@ import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import java.util.Map;
 
 public interface DubanScoreManager {
-
+    public void onApprovingFinish(String formRecordId);
+    void calculateDone(String taskId);
+    boolean isCengban(V3xOrgMember member,Map dibiao);
     DubanTask getKeGuanScoreByCurrentUser(String taskId);
 
     void caculateScoreWhenStartOrProcess(String templateCode, ColSummary colSummary, V3xOrgMember member);
