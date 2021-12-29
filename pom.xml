@@ -14,6 +14,64 @@
         <version>3.0.1</version>
         <scope>provided</scope>
     </dependency>
+        <!-- https://mvnrepository.com/artifact/org.icepdf.os/icepdf-core -->
+        <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>pdfbox</artifactId>-->
+            <!--<version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>fontbox</artifactId>-->
+            <!--<version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>pdfbox-tools</artifactId>-->
+            <!--<version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/jempbox &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>jempbox</artifactId>-->
+            <!--<version>1.8.16</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/preflight &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>preflight</artifactId>-->
+            <!--<version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/xmpbox &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>xmpbox</artifactId>-->
+            <!--<version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/jbig2-imageio &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>jbig2-imageio</artifactId>-->
+            <!--<version>3.0.3</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-app &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>pdfbox-app</artifactId>-->
+            <!--<version>2.0.23</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-parent &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.pdfbox</groupId>-->
+            <!--<artifactId>pdfbox-parent</artifactId>-->
+            <!--<version>2.0.23</version>-->
+            <!--<type>pom</type>-->
+        <!--</dependency>-->
+
+
         <!-- https://mvnrepository.com/artifact/javassist/javassist -->
         <!--<dependency>-->
             <!--<groupId>javassist</groupId>-->
