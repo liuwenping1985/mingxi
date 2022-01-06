@@ -8,100 +8,106 @@
     <artifactId>mingxi</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
-    <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.0.1</version>
-        <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.79</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.icepdf.os/icepdf-core -->
         <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>pdfbox</artifactId>-->
-            <!--<version>2.0.23</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>pdfbox</artifactId>-->
+        <!--<version>2.0.23</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>fontbox</artifactId>-->
-            <!--<version>2.0.23</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>fontbox</artifactId>-->
+        <!--<version>2.0.23</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>pdfbox-tools</artifactId>-->
-            <!--<version>2.0.23</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>pdfbox-tools</artifactId>-->
+        <!--<version>2.0.23</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/jempbox &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>jempbox</artifactId>-->
-            <!--<version>1.8.16</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>jempbox</artifactId>-->
+        <!--<version>1.8.16</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/preflight &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>preflight</artifactId>-->
-            <!--<version>2.0.23</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>preflight</artifactId>-->
+        <!--<version>2.0.23</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/xmpbox &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>xmpbox</artifactId>-->
-            <!--<version>2.0.23</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>xmpbox</artifactId>-->
+        <!--<version>2.0.23</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/jbig2-imageio &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>jbig2-imageio</artifactId>-->
-            <!--<version>3.0.3</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>jbig2-imageio</artifactId>-->
+        <!--<version>3.0.3</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-app &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>pdfbox-app</artifactId>-->
-            <!--<version>2.0.23</version>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>pdfbox-app</artifactId>-->
+        <!--<version>2.0.23</version>-->
         <!--</dependency>-->
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-parent &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.pdfbox</groupId>-->
-            <!--<artifactId>pdfbox-parent</artifactId>-->
-            <!--<version>2.0.23</version>-->
-            <!--<type>pom</type>-->
+        <!--<groupId>org.apache.pdfbox</groupId>-->
+        <!--<artifactId>pdfbox-parent</artifactId>-->
+        <!--<version>2.0.23</version>-->
+        <!--<type>pom</type>-->
         <!--</dependency>-->
 
 
         <!-- https://mvnrepository.com/artifact/javassist/javassist -->
         <!--<dependency>-->
-            <!--<groupId>javassist</groupId>-->
-            <!--<artifactId>javassist</artifactId>-->
-            <!--<version>3.12.0.GA</version>-->
+        <!--<groupId>javassist</groupId>-->
+        <!--<artifactId>javassist</artifactId>-->
+        <!--<version>3.12.0.GA</version>-->
         <!--</dependency>-->
     </dependencies>
     <build>
-    <resources>
-    <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-            <include>*</include>
-            <include>*/*</include>
-        </includes>
-        <filtering>true</filtering>
-    </resource>
-    <!--资源文件 -->
-    <resource>
-        <directory>src/main/java</directory>
-        <includes>
-            <include>**/*.xml</include>
-            <include>**/*.XML</include>
-            <include>**/*.json</include>
-            <include>**/*.properties</include>
-            <include>**/*.csv</include>
-            <include>**/*.data</include>
-            <include>**/*.sql</include>
-        </includes>
-    </resource>
-    </resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*</include>
+                    <include>*/*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <!--资源文件 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.XML</include>
+                    <include>**/*.json</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.csv</include>
+                    <include>**/*.data</include>
+                    <include>**/*.sql</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>
