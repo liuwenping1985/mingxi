@@ -243,7 +243,8 @@
             } else {
                 item.taskLight = "red";
             }
-            htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: ' + item.taskLight + '" class="layui-icon layui-icon-circle-dot"></i></td>');
+            // htmls.push('<td class="td_no_padding"><i style="font-size: 24px; color: ' + item.taskLight + '" class="layui-icon layui-icon-circle-dot"></i></td>');
+            htmls.push('<td class="td_no_padding"><img width="24px" height="24px" src="' + item.taskLight + '"></td>');
             htmls.push("<td style='cursor:pointer;width:140px' onclick=\"db_detail_click('" + item.uuid + "')\" class='td_no_padding'>" + item.name + "</td>");
             htmls.push("<td class='td_no_padding'>" + item.taskSource + "</td>");
             htmls.push("<td class='td_no_padding'>" + item.taskLevel + "</td>");

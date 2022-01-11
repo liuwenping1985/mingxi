@@ -10,10 +10,8 @@
 </head>
 <style>
 
+
     .td_no_padding {
-        text-overflow: ellipsis;
-        white-space: nowrap;/*不让文本换行*/
-        overflow: hidden;
         padding: 3px 3px;
     }
 </style>
@@ -36,7 +34,7 @@
             <th>分数</th>
             <th>最新汇报</th>
             <th>负责人</th>
-
+          
 
         </tr>
         </thead>

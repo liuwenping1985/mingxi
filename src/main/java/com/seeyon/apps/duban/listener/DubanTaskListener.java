@@ -112,7 +112,7 @@ public class DubanTaskListener {
 
                 }else if(ConfigFileService.getPropertyByName("duban.task.approving.table.code","DB_TASK_MAIN").equals(val)){
                     //write rw score;
-                    String sql = "select field0001 from "+ConfigFileService.getPropertyByName("")+" where id="+colSummary.getFormRecordid();
+                    String sql = "select field0001 from "+ConfigFileService.getPropertyByName("duban.task.approving.table.code")+" where id="+colSummary.getFormRecordid();
                     Map map = DataBaseUtils.querySingleDataBySQL(sql);
                     Object taskId = map.get("field0001");
                     if(taskId!=null&&!StringUtils.isEmpty(""+taskId)){
