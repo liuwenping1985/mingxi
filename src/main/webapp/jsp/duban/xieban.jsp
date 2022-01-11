@@ -23,9 +23,15 @@
 </script>
 
 <script type="text/html" id="barDemo">
+<<<<<<< HEAD
     <a class="layui-btn layui-btn-xs" lay-event="feedback">汇报</a>
     <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="finish">办结</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delay">延期</a>
+=======
+    <a class="layui-btn layui-btn-xs" lay-event="openView">查看</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="feedback">汇报</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="finish">办结</a>
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
 </script>
 <script type="text/html" id="switchTpl">
     <!-- 这里的 checked 的状态只是演示 -->

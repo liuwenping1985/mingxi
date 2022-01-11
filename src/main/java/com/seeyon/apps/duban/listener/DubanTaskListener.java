@@ -9,6 +9,7 @@ import com.seeyon.apps.duban.service.DubanMainService;
 import com.seeyon.apps.duban.service.DubanScoreManager;
 import com.seeyon.apps.duban.util.CommonUtils;
 import com.seeyon.apps.duban.util.DataBaseUtils;
+import com.seeyon.apps.duban.vo.form.FormTableDefinition;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.common.exceptions.InfrastructureException;
@@ -110,6 +111,7 @@ public class DubanTaskListener {
                 } else if ("DB_DELAY_APPLY".equals(val)) {
                     getDubanScoreManager().onDelayApplyFinish(val, colSummary, member);
 
+<<<<<<< HEAD
                 }else if(ConfigFileService.getPropertyByName("duban.task.approving.table.code","DB_TASK_MAIN").equals(val)){
                     //write rw score;
                     String sql = "select field0001 from "+ConfigFileService.getPropertyByName("duban.task.approving.table.code")+" where id="+colSummary.getFormRecordid();
@@ -121,6 +123,11 @@ public class DubanTaskListener {
 
 
 
+=======
+                }else if(("DB_TASK_MAIN").equals(val)){
+                    //write rw score;
+                    getDubanScoreManager().onApprovingFinish(String.valueOf(colSummary.getFormRecordid()));
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
                 }
             } catch (Exception e) {
                 e.printStackTrace();

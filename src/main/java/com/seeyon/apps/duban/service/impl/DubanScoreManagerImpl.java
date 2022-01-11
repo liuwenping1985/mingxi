@@ -17,6 +17,7 @@ import com.seeyon.apps.duban.wrapper.DataTransferStrategy;
 import com.seeyon.ctp.common.AppContext;
 import com.seeyon.ctp.common.authenticate.domain.User;
 import com.seeyon.ctp.common.exceptions.BusinessException;
+import com.seeyon.ctp.common.exceptions.InfrastructureException;
 import com.seeyon.ctp.organization.bo.V3xOrgDepartment;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 import com.seeyon.ctp.organization.manager.OrgManager;
@@ -512,7 +513,23 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
 
 
     }
+    public void onApprovingFinish(final String formRecordId){
+        executorPoolService.schedule(new Runnable() {
+            public void run() {
+                String tableName = ConfigFileService.getPropertyByName("ctp.table.DB_TASK_MAIN");
+                String sql = "select field0001 from "+tableName+" where id="+formRecordId;
+                System.out.println(sql);
+                Map map = DataBaseUtils.querySingleDataBySQL(sql);
+                Object taskId = map.get("field0001");
+                if(taskId!=null&&!StringUtils.isEmpty(""+taskId)){
+                    calculateDone(String.valueOf(taskId));
+                }
+            }
+        },6,TimeUnit.SECONDS);
 
+
+
+    }
     public void onDelayApplyFinish(final String templateCode, final ColSummary colSummary, final V3xOrgMember member) throws BusinessException {
 
         executorPoolService.schedule(new Runnable() {
@@ -651,6 +668,7 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
     }
 
     public void calculateDone(String taskId) {
+<<<<<<< HEAD
 
         String sql = "from DubanScoreRecord where taskId = '" + taskId + "'";
         List<DubanScoreRecord> dsrList = DBAgent.find(sql);
@@ -666,8 +684,137 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 deptDsr.put(dsr.getDepartmentId(), dsrs);
             }
             dsrs.add(dsr);
+=======
+        try{
+            System.out.println("===calculateDone===start===");
+            String sql = "from DubanScoreRecord where taskId = '" + taskId + "'";
+            List<DubanScoreRecord> dsrList = new ArrayList<DubanScoreRecord>();
+            try {
+                dsrList = DBAgent.find(sql);
+            }catch(InfrastructureException e){
+                sql="select * from duban_score_record where task_id='"+taskId+"'";
+                List<Map> rtList = DataBaseUtils.queryDataListBySQL(sql);
+                if(!CollectionUtils.isEmpty(rtList)){
+                    if(dsrList==null){
+                        dsrList = new ArrayList<DubanScoreRecord>();
+                    }
+                    for(Map data:rtList){
+                        DubanScoreRecord rd = JSON.parseObject(JSON.toJSONString(data),DubanScoreRecord.class);
+                        dsrList.add(rd);
+                    }
 
+                }
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
+
+            }
+            FormTableDefinition ftd = MappingService.getInstance().getFormTableDefinitionDByCode(MappingCodeConstant.DUBAN_TASK);
+            Map dibiao = DubanMainService.getInstance().getOringinalDubanData(taskId);
+            DubanTask task = DataTransferStrategy.filledFtdValueByObjectType(DubanTask.class, dibiao, ftd);
+            Double rw = 0d, hb = 0d, wc = 0d, total = 0d;
+            Map<Long, List<DubanScoreRecord>> deptDsr = new HashMap<Long, List<DubanScoreRecord>>();
+            if(!CollectionUtils.isEmpty(dsrList)){
+                for (DubanScoreRecord dsr : dsrList) {
+                    List<DubanScoreRecord> dsrs = deptDsr.get(dsr.getDepartmentId());
+                    if (dsrs == null) {
+                        dsrs = new ArrayList<DubanScoreRecord>();
+                        deptDsr.put(dsr.getDepartmentId(), dsrs);
+                    }
+                    dsrs.add(dsr);
+                }
+            }
+
+            //先算任务分
+            String mainDeptName = task.getMainDeptName();//部门中文名
+            Object cbId = dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "承办部门名称"));
+            Double cbScore = calculateSocre(dibiao, task, mainDeptName, Long.valueOf(cbId != null ? String.valueOf(cbId) : "0"));
+            Map<String, Double> rwScoreMap = new HashMap<String, Double>();
+            rwScoreMap.put(mainDeptName, cbScore);
+            rw += cbScore;
+            //slave的是id
+            List<SlaveDubanTask> slaveDubanTasks = task.getSlaveDubanTaskList();
+            //todo
+            if (!CollectionUtils.isEmpty(slaveDubanTasks)) {
+                for (SlaveDubanTask slaveDubanTask : slaveDubanTasks) {
+                    //todo
+                    try {
+                        String sDeptName = slaveDubanTask.getDeptName();
+                        if (StringUtils.isEmpty(sDeptName)) {
+                            continue;
+                        }
+                        V3xOrgDepartment department = getOrgManager().getDepartmentById(Long.valueOf(slaveDubanTask.getDeptName()));
+                        Double xbScore = calculateSocre(dibiao, task, department.getName(), Long.valueOf(slaveDubanTask.getDeptName()));
+                        rwScoreMap.put(department.getName(), xbScore);
+                        rw += xbScore;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            // DubanTask task = mainService.translateDubanTask()
+            for (Map.Entry<Long, List<DubanScoreRecord>> entry : deptDsr.entrySet()) {
+                List<DubanScoreRecord> eList = entry.getValue();
+                double hbs = 0d, wcs = 0d;
+                double zhuguanSize = 0d;
+                double wanchengSize = 0d;
+                for (DubanScoreRecord dsr : eList) {
+                    Double wcf = CommonUtils.getDouble(dsr.getScore());
+                    if (wcf != null && wcf > 0) {
+                        wcs += wcf;
+                        wanchengSize++;
+                    }
+
+                    //汇报分应该最后算，否则如果都是主动汇报，直接办结就没有完成分了。tianxufeng
+                    if ("-999".equals(dsr.getZhuGuanScore())) {
+                        continue;
+                    }
+                    Double hbf = CommonUtils.getDouble(dsr.getZhuGuanScore());
+                    if (hbf != null && hbf > 0) {
+                        hbs += hbf;
+                        zhuguanSize++;
+                    }
+                }
+                //tianxufeng 客观分已经乘过权重了。 这里有问题，就1个部门汇报了，就把自己的任务量写进去了。
+                Long deptId = entry.getKey();
+                try {
+                    V3xOrgDepartment dept = getOrgManager().getDepartmentById(deptId);
+                    String deptName = dept.getName();
+                    Double rwScore = rwScoreMap.get(deptName);
+
+                    double hbAvg = zhuguanSize == 0d ? 0d : hbs / zhuguanSize;
+                    double wcAvg = wanchengSize == 0d ? 0d : wcs / wanchengSize;//完成分就打了一次，其实随便一个就行
+                    double hbFen_= (hbAvg * (rwScore / rw));
+                    double wcFen_= (wcAvg * (rwScore / rw));
+                    double yourlastFen_ = (rwScore * (hbAvg/100d) * (wcAvg / 100d));
+
+                    hb    += hbFen_;
+                    wc    += wcFen_;
+                    System.out.println("["+deptName+"]的最总得分="+yourlastFen_);
+                    total += yourlastFen_;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            System.out.println("任务的最终得分="+total);
+            // total = (rw * (hb / 100d) * (wc / 100d));
+//这个直接把任务量写进去了，如果有配合的存在，配合的如27分直接就写进去了，应该写总量。
+            //       所以要calculateSocre要有个只算任务的，直接写算出来的任务量
+            //String sql2 = "update " + ftd.getFormTable().getName() + " set field0146=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ",field0144=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ",field0143=" + (total == 0 ? 0 : decimalFormat.format(total)) + ",field0145=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where field0001='" + taskId + "'";
+            String sql2 = "update " + ftd.getFormTable().getName() + " set "
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务量") + "=" + (rw == 0 ? 0 : decimalFormat.format(rw)) + ","
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "汇报分") + "=" + (hb == 0 ? 0 : decimalFormat.format(hb)) + ","
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "最终得分") + "=" + (total == 0 ? 0 : decimalFormat.format(total)) + ","
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务完成分") + "=" + (wc == 0 ? 0 : decimalFormat.format(wc)) + " where "
+                    + FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "任务ID") + "='" + taskId + "'";
+            System.out.println("sql2=" + sql2);
+            DataBaseUtils.executeUpdate(sql2);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+<<<<<<< HEAD
         //先算任务分
         String mainDeptName = task.getMainDeptName();//部门中文名
         Object cbId = dibiao.get(FieldName2Field00xxUtils.getfield00xx(MappingCodeConstant.DUBAN_TASK, "承办部门名称"));
@@ -786,6 +933,43 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
             }
         }
 
+=======
+
+    }
+
+    //    //add by tianxufeng,获某表的某个field00xx
+//    private String getfield00xx(String formCode, String displayName) {
+//        if (formCode.equals(MappingCodeConstant.DUBAN_TASK))//底表
+//        {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_db();
+//            return fieldTools.getField00xx(displayName);
+//        } else if (formCode.equals(MappingCodeConstant.DUBAN_TASK_FEEDBACK_AUTO)//反馈表
+//                || formCode.equals(MappingCodeConstant.DUBAN_TASK_FEEDBACK)) {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_feedback();
+//            return fieldTools.getField00xx(displayName);
+//        } else if (formCode.equals(MappingCodeConstant.DUBAN_TASK_DELAY_APPLY))//延期
+//        {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_delay();
+//            return fieldTools.getField00xx(displayName);
+//        } else if (formCode.equals(MappingCodeConstant.DUBAN_DONE_APPLY))//办结
+//        {
+//            FieldName2Field00xxUtils fieldTools = FieldName2Field00xxUtils.getInstance_done();
+//            return fieldTools.getField00xx(displayName);
+//        }
+//        return "";
+//    }
+    private SlaveDubanTask getSlaveTaskByTaskAndDeptId(DubanTask task, Long deptId) {
+        List<SlaveDubanTask> slaveDubanTaskList = task.getSlaveDubanTaskList();
+        if (!CommonUtils.isEmpty(slaveDubanTaskList)) {
+            for (SlaveDubanTask stask : slaveDubanTaskList) {
+                if (stask.getDeptName() != null && stask.getDeptName().equals(("" + deptId))) {
+                    return stask;
+                }
+
+            }
+        }
+
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
         return null;
 
     }
@@ -855,6 +1039,16 @@ public class DubanScoreManagerImpl implements DubanScoreManager {
                 "博远售后服务-表单管理员(2020-07-31 16:31):第二次汇报";
 
         System.out.println(1 * 20 / 5 * 4);
+<<<<<<< HEAD
+=======
+        DubanScoreRecord record = new DubanScoreRecord();
+        record.setKeGuanScore(""+100);
+        record.setTaskId("20201101002");
+        record.setWeight("90");
+        Map t = JSON.parseObject(JSON.toJSONString(record),HashMap.class);
+        System.out.println(t);
+        System.out.println(JSON.toJSONString(JSON.parseObject(JSON.toJSONString(t),DubanScoreRecord.class)));
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
 
 
     }

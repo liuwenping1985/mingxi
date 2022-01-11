@@ -6,9 +6,15 @@ import com.seeyon.ctp.common.exceptions.BusinessException;
 import com.seeyon.ctp.organization.bo.V3xOrgMember;
 
 import java.util.Map;
+<<<<<<< HEAD
 
 public interface DubanScoreManager {
 
+=======
+
+public interface DubanScoreManager {
+    public void onApprovingFinish(String formRecordId);
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
     void calculateDone(String taskId);
     boolean isCengban(V3xOrgMember member,Map dibiao);
     DubanTask getKeGuanScoreByCurrentUser(String taskId);

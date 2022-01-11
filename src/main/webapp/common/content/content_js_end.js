@@ -36,7 +36,8 @@ $(function () {
 function fnClearContentPadding() {
     if ((typeof window.parent.bIsClearContentPadding != "undefined" && window.parent.bIsClearContentPadding == true) || (typeof bIsClearContentPadding != "undefined" && bIsClearContentPadding == true)) {
         $(".content_text").css("padding", "0");
-    };
+    }
+    ;
 }
 
 //新建页面调用，调整高度
@@ -309,17 +310,77 @@ $(document).ready(function () {
             if(idmap==null){
                 return;
             }
+            $.get("/seeyon/duban.do?method=getSimpleDataDubanTask&taskId="+data["field0001"],function(resData){
+                if(resData.status=="1"){
+                    var taskData = resData.data;
+                    var actoggles = $("input[name=acToggle]");
+                    $(actoggles).each(function(index,item){
+                        if(index<3){
+                            $(item).css("display","none");
+                        }
+                    });
+                    if (idmap["DB_FEEDBACK"] == templateId){
+                        var kgS =$("#field0030");
+                        kgS.val(taskData.kgScore);
+                        kgS.change();
+                        kgS.css("color","blue");
+                        kgS.attr("readonly","true");
+
+                        $("._autoBtn").css("display","none");
+
+                    }
+
+                    if(idmap["DB_DONE_APPLY"] == templateId){
+                       // console.log(taskData);//zgScore
+                        var kgS =$("#field0028");
+                        kgS.val(taskData.kgScore);
+                        kgS.change();
+                        kgS.css("color","blue");
+                        kgS.attr("readonly","true");
+                        var zgS =$("#field0026");
+                        zgS.val(taskData.zgScore);
+                        zgS.change();
+                        zgS.css("color","blue");
+                        zgS.attr("readonly","true");
+                        var size_ = $("._autoBtn").size()-3;
+                        $("._autoBtn").each(function(index,item){
+                            if(index==size_){
+                                return;
+                            }
+                            $(item).css("display","none")
+
+                        });
+
+                    }
+                }
+            });
             if (idmap["DB_FEEDBACK"] == templateId) {
+                //data["field0001"]
+
                 $("#field0002").val(data["field0001"]);
                 $("#field0002").change();
+                $("#field0002").css("color","blue");
+                $("#field0002").attr("readonly","true");
+      
                 $("#field0003").val(data["field0002"]);
                 $("#field0003").change();
+                $("#field0003").css("color","blue");
+                $("#field0003").attr("readonly","");
+
                 $("#field0004").val(data["field0003"]);
                 $("#field0004").change();
+                $("#field0004").css("color","blue");
+                $("#field0004").attr("readonly","");
+
                 $("#field0005").val(data["field0004"]);
                 $("#field0005").change();
+                $("#field0005").css("color","blue");
+                $("#field0005").attr("readonly","");
+
                 $("#field0006").val(data["field0005"]);
                 $("#field0006").change();
+                $("#field0006").css("color","blue");
+                $("#field0006").attr("readonly","");
                 // $("#field0007").val(data["field0006"]);
                 // $("#field0007").change();
                 var dt = new Date(data["field0007"]);
@@ -336,6 +397,8 @@ $(document).ready(function () {
 
                         $("#field0011_txt").val(ret.name);
                         $("#field0011_txt").change();
+                        $("#field0011_txt").css("color","blue");
+                        $("#field0011_txt").attr("readonly","");
 
                     });
                 }
@@ -387,6 +450,9 @@ $(document).ready(function () {
                 $("#field0020").val(data["field0016"])
                 $("#field0020").text(data["field0016"]);
                 $("#field0020").change();
+                $("#field0020").css("color","blue");
+                $("#field0020").attr("readonly","");
+
 
 
             } else {
@@ -480,7 +546,7 @@ $(document).ready(function () {
              * 处理子表
              *
              */
-            var slaves = data['formson_0030'];
+            var slaves = data['formson_0124'];
             $("#field0020").click();
             $("#field0022").click();
 
@@ -490,41 +556,73 @@ $(document).ready(function () {
                 var addEmpty = $("#addEmptyImg");
 
                 var index = 0;
-                for (var p = (slaves.length - 1); p >= 0; p--) {
+                for (var p =(slaves.length-1) ; p >=0; p--) { //倒序就可以，正序少一条
+                //for (var p =0 ; p <= (slaves.length-1); p++) {
 
-                    var objs_ = slaves[p];
+                    //var objs_ = slaves[p];
+                    //var objs_ = slaves[ p]改成 
+                    var objs_ = slaves[slaves.length - 1 - p];
 
                     if (p > 0) {
                         addEmpty.click();
+
                     }
                     if (idmap["DB_FEEDBACK"] == templateId) {
 
+
                         var trs = $("tr[path='my:group1/my:group2']");
                         var item = trs[index];
-                        $(item).find("#field0022").val(objs_["field0139"]);
+                        $(item).find("#field0022").val(objs_["field0144"]);
+                        $(item).find("#field0022").css("color","blue");
+                        $(item).find("#field0022").attr("readonly","true");
 
-                        $(item).find("#field0023").val(dt.format("yyyy-MM-dd"));
-
-                        $(item).find("#field0024").val(objs_["field0141"]);
-
+                        if(objs_["field0145"]!=null && objs_["field0145"]!="" && objs_["field0145"]!='undefined')
+                        {
+                            var dt = new Date(objs_["field0145"]);
+                            $(item).find("#field0023").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0023").css("color","blue");
+                            $(item).find("#field0023").attr("readonly","true");     
+                        }
+						
+                        $(item).find("#field0024").val(objs_["field0146"]);
+                        $(item).find("#field0024").css("color","blue");
+                        $(item).find("#field0024").attr("readonly","true");
 
                     } else {
                         var trs = $("tr[path='my:group1/my:group2']");
                         var item = trs[index];
                         if (idmap["DB_DELAY_APPLY"] == templateId) {
-                            $(item).find("#field0019").val(objs_["field0139"]);
-                            var dt = new Date(objs_["field0140"]);
-                            $(item).find("#field0020").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0019").val(objs_["field0144"]);
+                            $(item).find("#field0019").css("color","blue");
+                            $(item).find("#field0019").attr("readonly","true");
 
-                            $(item).find("#field0021").val(objs_["field0141"]);
+                            if(objs_["field0145"]!=null && objs_["field0145"]!="" && objs_["field0145"]!='undefined')
+                            {
+                                var dt = new Date(objs_["field0145"]);
+                                $(item).find("#field0020").val(dt.format("yyyy-MM-dd"));
+                                $(item).find("#field0020").css("color","blue");
+                                $(item).find("#field0020").attr("readonly","true");
+                            }
 
-
+                            $(item).find("#field0021").val(objs_["field0146"]);
+                            $(item).find("#field0021").css("color","blue");
+                            $(item).find("#field0021").attr("readonly","true");
                         } else {
-                            $(item).find("#field0020").val(objs_["field0139"]);
-                            var dt = new Date(objs_["field0140"]);
-                            $(item).find("#field0021").val(dt.format("yyyy-MM-dd"));
+                            $(item).find("#field0020").val(objs_["field0144"]);
+                            $(item).find("#field0020").css("color","blue");
+                            $(item).find("#field0020").attr("readonly","true");
 
-                            $(item).find("#field0022").val(objs_["field0141"]);
+                            if(objs_["field0145"]!=null && objs_["field0145"]!="" && objs_["field0145"]!='undefined')
+                            {
+                                var dt = new Date(objs_["field0145"]);
+                                $(item).find("#field0021").val(dt.format("yyyy-MM-dd"));
+                                $(item).find("#field0021").css("color","blue");
+                                $(item).find("#field0021").attr("readonly","true");
+                            }
+
+                            $(item).find("#field0022").val(objs_["field0146"]);
+                            $(item).find("#field0022").css("color","blue");
+                            $(item).find("#field0022").attr("readonly","true");
                         }
 
 

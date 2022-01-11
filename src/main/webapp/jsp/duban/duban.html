@@ -1,1 +1,43 @@
-/seeyon/content/content.do?method=index&isFullPage=true&moduleId=6006856691204055558&moduleType=37&rightId=-7358326681974652894.634760108374510857|-5695649081455064417.-678199947012652287|4691278459417608212.4729432398069056994|-8589896943821304179.6079481201566305033|1772868952482005122.7434405613586957248|-8025070505852907711.8822098668542315262|-2099901832207187109.906517871566734426|4569029994082815411.6556388215328424719|-6194359099302984515.-4571615919362650815|-1840510641429921571.-958050165871522989|4905125698409613191.5494109670702924843|8654405196159535160.3862491316711538842|-6030440839836187926.-7160389505585493498&contentType=20&viewState=2&indexParam=0
+<!DOCTYPE html>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="../../app_res/duban/css/xad.css">
+    <link rel="stylesheet" href="../../app_res/duban/vendor/layui/css/layui.css">
+    <script type="text/javascript" src="../../app_res/duban/vendor/layui/layui.js"></script>
+</head>
+<body>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm xad_filter_btn layui-btn-normal" lay-event="getRunningTask" lay-data="duban">进行中</button>
+        <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getApprovingTask" lay-data="duban">审批(签收)中</button>
+        <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getFinishedTask" lay-data="duban">已完成</button>
+        <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getAllTask" lay-data="duban" >全部事项</button>
+        <button class="layui-btn layui-btn-sm" lay-event="searchAll"><i class="layui-icon">&#xe615;</i>查询</button>
+    </div>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="view">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="modify">修改</a>
+</script>
+<script type="text/html" id="barDemo2">
+    <a class="layui-btn layui-btn-xs" lay-event="pishi">批示</a>
+</script>
+<script type="text/html" id="barDemo3">
+    <a class="layui-btn layui-btn-xs" lay-event="viewApproving">查看</a>
+</script>
+<script type="text/html" id="switchTpl">
+    <!-- 这里的 checked 的状态只是演示 -->
+    <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
+</script>
+<script src="../../app_res/duban/vendor//layui/lx.js"></script>
+<script type="text/javascript" src="../../app_res/duban/js/dubanTask.js"></script>
+<script type="text/javascript" src="../../app_res/duban/js/DubanDao.js"></script>
+</body>
+
+
+</html>

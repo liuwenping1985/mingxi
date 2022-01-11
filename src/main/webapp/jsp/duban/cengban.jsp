@@ -18,7 +18,11 @@
         <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getFinishedTask" lay-data="duban">已完成</button>
         <button class="layui-btn layui-btn-sm xad_filter_btn " lay-event="getAllTask" lay-data="duban" >全部事项</button>
         <button class="layui-btn layui-btn-sm" lay-event="searchAll"><i class="layui-icon">&#xe615;</i>查询</button>
+<<<<<<< HEAD
        
+=======
+
+>>>>>>> 63ad5d083d5a37ffc7d3ef8c9ec5cd4624c76cc4
     </div>
 </script>
 
